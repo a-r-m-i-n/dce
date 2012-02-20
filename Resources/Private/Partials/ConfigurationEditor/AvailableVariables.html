@@ -1,0 +1,19 @@
+{namespace dce=Tx_Dce_ViewHelpers}
+<select class="availableVariables select" id="variables_{uniqueIdentifier}">
+	<option></option>
+	<optgroup label="{f:translate(key:'availableVariables')}" class="c-divider">
+		<f:for each="{availableFields}" as="field">
+			<option value="v:field.{field.variable}">{field.variable -> dce:format.wrapWithCurlyBraces(prepend:'field.')} - {field.title}</option>
+		</f:for>
+	</optgroup>
+	<optgroup label="{f:translate(key:'famousViewHelper')}" class="c-divider">
+		<f:for each="{famousViewHelpers}" as="viewhelperValue" key="viewhelperName">
+			<option value="f:{viewhelperValue}">f:{viewhelperName}</option>
+		</f:for>
+	</optgroup>
+	<optgroup label="{f:translate(key:'dceViewHelper')}" class="c-divider">
+		<f:for each="{dceViewHelpers}" as="dceViewhelperValue" key="dceViewhelperName">
+			<option value="f:{dceViewhelperValue}">dce:{dceViewhelperName}</option>
+		</f:for>
+	</optgroup>
+</select>

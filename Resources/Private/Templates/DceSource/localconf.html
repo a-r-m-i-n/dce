@@ -1,0 +1,15 @@
+{namespace dce=Tx_Dce_ViewHelpers}<?php
+<f:for each="{dceArray}" as="dce">
+Tx_Extbase_Utility_Extension::configurePlugin(
+	'dce',
+	'dceuid{dce.uid}',
+	array(
+		'Dce' => 'show',
+	),
+	array(
+		<f:if condition="{dce.cache_dce}"><f:then></f:then><f:else>'Dce' => 'show'</f:else></f:if>
+	),
+	Tx_Extbase_Utility_Extension::PLUGIN_TYPE_CONTENT_ELEMENT
+);
+</f:for>
+?>

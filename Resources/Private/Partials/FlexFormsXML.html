@@ -1,0 +1,33 @@
+{namespace dce=Tx_Dce_ViewHelpers}<dce:format.tiny>
+	<dce:format.addslashes>
+
+		<T3DataStructure>
+			<meta>
+				<langDisable>1</langDisable>
+			</meta>
+			<sheets>
+				<f:for each="{dce.tabs}" as="tab" iteration="iterator">
+					<sheet{iterator.index}>
+						<ROOT>
+							<TCEforms>
+								<sheetTitle>{tab.title}</sheetTitle>
+							</TCEforms>
+							<type>array</type>
+							<el>
+								<f:for each="{tab.fields}" as="field">
+									<settings.{field.variable}>
+										<TCEforms>
+											<label>{field.title}</label>
+											{field.configuration -> dce:format.raw()}
+										</TCEforms>
+									</settings.{field.variable}>
+								</f:for>
+							</el>
+						</ROOT>
+					</sheet{iterator.index}>
+				</f:for>
+			</sheets>
+		</T3DataStructure>
+
+	</dce:format.addslashes>
+</dce:format.tiny>

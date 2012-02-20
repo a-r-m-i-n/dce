@@ -1,0 +1,5 @@
+<config>
+	<type>input</type>
+	<size>30</size>
+	<eval>trim,required</eval>
+</config>

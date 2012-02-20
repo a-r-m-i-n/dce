@@ -1,0 +1,43 @@
+{namespace dce=Tx_Dce_ViewHelpers}
+<f:layout name="customTcaField" />
+
+<f:section name="main">
+	<style>
+		@import url("{f:uri.resource(path:'Libraries/codemirror/codemirror.css', extensionName:'dce')}");
+		.CodeMirror {
+			background: #fff;
+			border: 1px solid #c0c0c0;
+			font-size: 12px;
+			margin-bottom: 5px;
+		}
+
+		#dceConfigurationWizard select.select {
+			margin: 0 0 5px;
+		}
+	</style>
+
+	<div id="dceConfigurationWizard">
+		<f:if condition="{enableCodemirror}">
+			<f:if condition="{parameters.showTemplates}">
+				<f:then>
+					<f:render partial="ConfigurationEditor/AvailableTemplates" arguments="{uniqueIdentifier:uniqueIdentifier, availableTemplates:availableTemplates}"  />
+				</f:then>
+				<f:else>
+					<f:render partial="ConfigurationEditor/AvailableVariables" arguments="{uniqueIdentifier:uniqueIdentifier, availableFields:availableFields, famousViewHelpers:famousViewHelpers, dceViewHelpers:dceViewHelpers}"  />
+				</f:else>
+			</f:if>
+		</f:if>
+		<div>
+			<textarea id="codemirror_{uniqueIdentifier}" name={name} cols="80" rows="15" onchange="{onChangeFunc}" {onFocus}>{value}</textarea>
+		</div>
+	</div>
+
+	<f:if condition="{enableCodemirror}">
+		<script type="text/javascript">
+			parent.dce_editors = parent.dce_editors || [];
+			var	codearea = $('codemirror_{uniqueIdentifier}');
+			var codeMirrorMode = '{parameters.mode}';
+			<dce:include.resource path="Libraries/codemirror/init.js" extensionName="dce" />
+		</script>
+	</f:if>
+</f:section>

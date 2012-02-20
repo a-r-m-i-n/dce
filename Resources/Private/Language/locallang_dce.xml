@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>Language labels for backend module DCE belonging to extension 'dce'</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="mlang_tabs_tab">DCE</label>
+			<label index="mlang_labels_tabdescr"></label>
+			<label index="mlang_labels_tablabel">Dynamic Content Elements</label>
+		</languageKey>
+	</data>
+</T3locallang>

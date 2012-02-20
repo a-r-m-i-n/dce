@@ -1,0 +1,5 @@
+# cat=basic//01; type=boolean; label=Developer Mode: Clears the configuration cache after every change of DCE record
+DEVMODE = 0
+
+# cat=basic//02; type=boolean; label=Enable CodeMirror: If enabled the textareas for "field configuration" and "DCE inline template" are replaced by syntaxhighlighting code editor (CodeMirror)
+ENABLECODEMIRROR = 0
