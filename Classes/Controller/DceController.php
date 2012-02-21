@@ -25,7 +25,6 @@
 
 /**
  *
- *
  * @package dce
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  *
@@ -68,7 +67,7 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
     /**
      * action show
      *
-     * @return void
+     * @return string output of content element's settings
 	 *
 	 * @TODO refactor it!
      */
@@ -147,7 +146,7 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 					}
 				}
 
-				if ($objects) {
+				if (isset($objects)) {
 					$fields[$fieldVariable] = $objects;
 					unset($objects);
 				} else {

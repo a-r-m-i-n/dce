@@ -41,7 +41,7 @@ class tx_dce_dceFieldCustomLabel {
 	public function getLabel($parameter) {
 		$row = $parameter['row'];
 
-		if ($row['type'] == '0') {
+		if ($row['type'] == '0' && is_array($parameter['parent'])) {
 			// Element
 			$parameter['title'] = $row['title'] . ' <i style="font-weight: normal;">{field.' . $row['variable'] . '}</i>';
 		} else {

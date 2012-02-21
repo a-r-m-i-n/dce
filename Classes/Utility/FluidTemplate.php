@@ -84,6 +84,13 @@ class Tx_Dce_Utility_FluidTemplate {
 	protected function init() {
 		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
 			// If TYPO3 4.6.0 or greater
+			$GLOBALS['TYPO3_DB'] =  t3lib_div::makeInstance('t3lib_DB');
+			$GLOBALS['TYPO3_DB']->connectDB();
+
+				// add extbase_object to cacheConfigurations
+			$cacheConfigurations = array_merge($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'], array('extbase_object' => array()));
+			$GLOBALS['typo3CacheManager']->setCacheConfigurations($cacheConfigurations);
+
 			$this->fluidTemplate = t3lib_div::makeInstance('Tx_Fluid_View_StandaloneView');
 		} else {
 			$GLOBALS['TYPO3_DB'] =  t3lib_div::makeInstance('t3lib_DB');
