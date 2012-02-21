@@ -3,7 +3,7 @@
 ########################################################################
 # Extension Manager/Repository config file for ext "dce".
 #
-# Auto generated 21-02-2012 11:50
+# Auto generated 21-02-2012 11:56
 #
 # Manual updates:
 # Only the data in the array - everything else is removed by next
@@ -27,7 +27,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'modify_tables' => '',
 	'clearCacheOnLoad' => 0,
 	'lockType' => '',
-	'version' => '0.1.0',
+	'version' => '0.1.1',
 	'constraints' => array(
 		'depends' => array(
 			'typo3' => '4.5.0-0.0.0',
