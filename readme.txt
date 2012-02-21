@@ -1,8 +1,7 @@
 This is the very first beta version of the extension "DCE".
 
 If you found bugs or got some feature requests, write me a mail to: armin@v.ieweg.de
-or report it to forge.typo3.org
-
+or report it to http://forge.typo3.org/projects/extension-dce
 
 
 Quick start:
@@ -21,7 +20,7 @@ Have fun!
 
 Open tasks:
 -----------
-[ ] Write the documentation (which will be located in wiki of forge.typo3.org project)
+[ ] Write the documentation (which will be located in wiki of forge project)
 [ ] Add more configuration templates (located in EXT:dce/Resource/Public/CodeSnippets/ConfigurationTemplates/)
 [ ] Add a validator, which checks unique variable names for each DCE (not for pid or whole pagetree)
 [ ] Make some code improvements/refactorings
