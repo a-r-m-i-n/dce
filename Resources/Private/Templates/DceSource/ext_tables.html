@@ -12,7 +12,7 @@ $TCA['tt_content']['columns']['pi_flexform']['config']['ds'][',dce_dceuid{dce.ui
 $TCA['tt_content']['types']['dce_dceuid{dce.uid}']['showitem'] = 'CType;;4;button;1-1-1,pi_flexform; ;<f:if condition="{dce.show_access_tab}">,--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access, --palette--;LLL:EXT:cms/locallang_ttc.xml:palette.visibility;visibility, --palette--;LLL:EXT:cms/locallang_ttc.xml:palette.access;access</f:if>';
 <f:if condition="{dce.wizard_enable}">
 t3lib_extMgm::addPageTSConfig('
-	mod.wizards.newContentElement.wizardItems.common.elements.dce_dceuid{dce.uid} {
+	mod.wizards.newContentElement.wizardItems.{dce.wizard_category}.elements.dce_dceuid{dce.uid} {
 	    icon = <f:if condition="{hasCustomWizardIcon}"><f:then>../uploads/tx_dce/{dce.wizard_custom_icon}</f:then><f:else>gfx/c_wiz/{dce.wizard_icon}.gif</f:else></f:if>
 	    title = {dce.title}
 	    description = {dce.wizard_description}
@@ -20,12 +20,12 @@ t3lib_extMgm::addPageTSConfig('
 	        CType = dce_dceuid{dce.uid}
 	    }
 	}
-	    mod.wizards.newContentElement.wizardItems.common.show := addToList(dce_dceuid{dce.uid})
+	    mod.wizards.newContentElement.wizardItems.{dce.wizard_category}.show := addToList(dce_dceuid{dce.uid})
 ');
 </f:if>
 </f:for>
 
 // global definitions
-t3lib_extMgm::addPageTSConfig('mod.wizards.newContentElement.wizardItems.dce.header = Dynamic Content Elements');
+t3lib_extMgm::addPageTSConfig('mod.wizards.newContentElement.wizardItems.dce.header = LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce_long');
 
 ?>
