@@ -23,5 +23,4 @@ Open tasks:
 -----------
 [ ] Write the documentation (which will be located in wiki of forge.typo3.org project)
 [ ] Add more configuration templates (located in EXT:dce/Resource/Public/CodeSnippets/ConfigurationTemplates/)
-[ ] Add german translation to locallang files
 [ ] Make some code improvements/refactorings

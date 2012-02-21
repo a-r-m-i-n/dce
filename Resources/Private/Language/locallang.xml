@@ -11,11 +11,13 @@
 			<label index="availableVariables">Available variables</label>
 			<label index="famousViewHelper">Famous viewhelper</label>
 			<label index="dceViewHelper">DCE viewhelper</label>
-
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="generaltab">Allgemein</label>
 
+			<label index="availableVariables">Verfügbare Variablen</label>
+			<label index="famousViewHelper">Meist verwendete Viewhelper</label>
+			<label index="dceViewHelper">DCE Viewhelper</label>
 		</languageKey>
 	</data>
 </T3locallang>

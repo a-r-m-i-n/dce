@@ -41,8 +41,47 @@
 			<label index="tx_dce_domain_model_dcefield">DCE Field</label>
 			<label index="tx_dce_domain_model_dcefield.type">Type</label>
 			<label index="tx_dce_domain_model_dcefield.title">Title</label>
-			<label index="tx_dce_domain_model_dcefield.variable">Variable (unique key for usage in template)</label>
+			<label index="tx_dce_domain_model_dcefield.variable">Variable (unique key for usage in fluid template)</label>
 			<label index="tx_dce_domain_model_dcefield.configuration">Configuration</label>
+		</languageKey>
+		<languageKey index="de" type="array">
+			<label index="wizardIcon.default">Standard TYPO3-Icons</label>
+			<label index="wizardIcon.custom">Eigenes Icon</label>
+			<label index="wizardIcon.customIcon">Benutze eigenes Icon in Feld darunter</label>
+
+			<label index="typo3_default_categories">Standard TYPO3 Kategorien</label>
+			<label index="common_textImage2_title">Text &amp; Bild 2</label>
+			<label index="special_sitemap2_title">Sitemap 2</label>
+
+			<label index="tx_dce_domain_model_dce">DCE</label>
+			<label index="tx_dce_domain_model_dce_long">Dynamische Content-Elemente</label>
+			<label index="tx_dce_domain_model_dce.title">Titel</label>
+			<label index="tx_dce_domain_model_dce.fields">Felder</label>
+			<label index="tx_dce_domain_model_dce.wizard">Wizard</label>
+			<label index="tx_dce_domain_model_dce.wizardEnable">Zeige DCE in Wizard zum Anlegen neuer Content-Elemente</label>
+			<label index="tx_dce_domain_model_dce.wizardCategory">Wizard Kategorie</label>
+			<label index="tx_dce_domain_model_dce.wizardDescription">Wizard Beschreibung</label>
+			<label index="tx_dce_domain_model_dce.wizardIcon">Wizard Icon</label>
+			<label index="tx_dce_domain_model_dce.wizardCustomIcon">Wizard benutzerdefiniertes Icon (24x24 Pixel)</label>
+
+			<label index="tx_dce_domain_model_dce.template">Template</label>
+			<label index="tx_dce_domain_model_dce.templateType">Template-Typ</label>
+			<label index="tx_dce_domain_model_dce.templateType.file">Datei</label>
+			<label index="tx_dce_domain_model_dce.templateType.inline">Inline</label>
+			<label index="tx_dce_domain_model_dce.templateContent">Template-Inhalt (Fluid)</label>
+			<label index="tx_dce_domain_model_dce.templateFile">Template-Datei (Fluid)</label>
+			<label index="tx_dce_domain_model_dce.layoutRootPath">Fluid Layout Root-Verzeichnis</label>
+			<label index="tx_dce_domain_model_dce.partialRootPath">Fluid Partial Root-Verzeichnis</label>
+
+			<label index="tx_dce_domain_model_dce.miscellaneous">Sonstiges</label>
+			<label index="tx_dce_domain_model_dce.cacheDce">DCE Frontend Plugin Cache aktivieren</label>
+			<label index="tx_dce_domain_model_dce.showAccessTab">Zeige "Zugriff" Tab</label>
+
+			<label index="tx_dce_domain_model_dcefield">DCE Feld</label>
+			<label index="tx_dce_domain_model_dcefield.type">Typ</label>
+			<label index="tx_dce_domain_model_dcefield.title">Titel</label>
+			<label index="tx_dce_domain_model_dcefield.variable">Variable (eindeutiger Schlüssel, wird im Fluid-Template verwendet)</label>
+			<label index="tx_dce_domain_model_dcefield.configuration">Konfiguration</label>
 		</languageKey>
 	</data>
 </T3locallang>
