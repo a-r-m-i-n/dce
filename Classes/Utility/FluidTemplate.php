@@ -1,5 +1,4 @@
 <?php
-
 /***************************************************************
  *  Copyright notice
  *
@@ -23,7 +22,6 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-
 
 /**
  *
@@ -69,7 +67,7 @@ class Tx_Dce_Utility_FluidTemplate {
 	 */
 	protected function purgeTemporaryFiles() {
 		foreach($this->temporaryFiles as $temporaryFile) {
-			$a = t3lib_div::unlink_tempfile(PATH_site . 'typo3temp/' . $temporaryFile);
+			t3lib_div::unlink_tempfile(PATH_site . 'typo3temp/' . $temporaryFile);
 		}
 		$this->temporaryFiles = array();
 	}
@@ -78,8 +76,6 @@ class Tx_Dce_Utility_FluidTemplate {
 	 * Initializes the fluid template utility
 	 *
 	 * @return void
-	 *
-	 * @TODO: doesnt work with TYPO3 4.6 - some cache problems
 	 */
 	protected function init() {
 		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
@@ -188,6 +184,5 @@ class Tx_Dce_Utility_FluidTemplate {
 	public function setPartialRootPath($partialRootPath) {
 		$this->fluidTemplate->setPartialRootPath($partialRootPath);
 	}
-
 
 }
