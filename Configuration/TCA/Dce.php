@@ -9,7 +9,7 @@ $TCA['tx_dce_domain_model_dce'] = array(
 		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'hidden;;1,title,fields,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.template,template_type,template_content;;;fixed-font:enable-tab,template_file,template_layout_root_path,template_partial_root_path,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.wizard,wizard_enable,wizard_category,wizard_description,wizard_icon,wizard_custom_icon,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.miscellaneous,cache_dce,show_access_tab'),
+		'1' => array('showitem' => 'hidden;;1,title,fields,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.template,template_type,template_content;;;fixed-font:enable-tab,template_file,template_layout_root_path,template_partial_root_path,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.wizard,wizard_enable,wizard_category,wizard_description,wizard_icon,wizard_custom_icon,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.miscellaneous,cache_dce,show_lib_header,show_access_tab'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -279,6 +279,14 @@ $TCA['tx_dce_domain_model_dce'] = array(
 		'show_access_tab' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.showAccessTab',
+			'config' => array(
+				'type' => 'check',
+				'default' => '0',
+			),
+		),
+		'show_lib_header' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.showLibHeader',
 			'config' => array(
 				'type' => 'check',
 				'default' => '0',

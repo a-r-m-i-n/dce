@@ -19,6 +19,7 @@ CREATE TABLE tx_dce_domain_model_dce (
 	template_partial_root_path varchar(255) DEFAULT '' NOT NULL,
 	cache_dce varchar(255) DEFAULT '' NOT NULL,
 	show_access_tab varchar(255) DEFAULT '' NOT NULL,
+	show_lib_header varchar(255) DEFAULT '' NOT NULL,
 
     tstamp int(11) unsigned DEFAULT '0' NOT NULL,
     crdate int(11) unsigned DEFAULT '0' NOT NULL,
