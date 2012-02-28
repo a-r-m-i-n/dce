@@ -17,10 +17,7 @@ wizard integration you'll find the new element there, otherwise it is located in
 Have fun!
 
 
-
 Open tasks:
 -----------
-[ ] Write the documentation (which will be located in wiki of forge project)
-[ ] Add more configuration templates (located in EXT:dce/Resource/Public/CodeSnippets/ConfigurationTemplates/)
-[ ] Add a validator, which checks unique variable names for each DCE (not for pid or whole pagetree)
-[ ] Make some code improvements/refactorings
+See all open tasks here:
+http://forge.typo3.org/projects/extension-dce/issues
