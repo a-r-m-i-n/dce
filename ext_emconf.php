@@ -13,7 +13,7 @@
 $EM_CONF[$_EXTKEY] = array(
 	'title' => 'Dynamic Content Elements (DCE)',
 	'description' => 'Creates dynamic content elements. It is an alternative to flexible content elements (FCE) but without need of TemplaVoila (TV). Based on Extbase and Fluid.',
-	'category' => 'frontend',
+	'category' => 'Frontend',
 	'author' => 'Armin Ruediger Vieweg',
 	'author_email' => 'armin@v.ieweg.de',
 	'author_company' => '',
