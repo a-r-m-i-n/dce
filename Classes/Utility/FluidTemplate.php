@@ -37,7 +37,7 @@ class Tx_Dce_Utility_FluidTemplate {
 	const DEFAULT_DIRECOTRY_PARTIALS = 'EXT:dce/Resources/Private/Partials/';
 
 	/**
-	 * @var Tx_Fluid_View_TemplateView|Tx_Fluid_View_StandaloneView the fluid template object depending on TYPO3 version
+	 * @var Tx_Fluid_View_StandaloneView
 	 */
 	protected $fluidTemplate = NULL;
 
@@ -54,56 +54,21 @@ class Tx_Dce_Utility_FluidTemplate {
 	}
 
 	/**
-	 * Removes temporary created files
-	 */
-	public function __destruct() {
-		$this->purgeTemporaryFiles();
-	}
-
-	/**
-	 * Removes temporary files
-	 *
-	 * @return void
-	 */
-	protected function purgeTemporaryFiles() {
-		foreach($this->temporaryFiles as $temporaryFile) {
-			t3lib_div::unlink_tempfile(PATH_site . 'typo3temp/' . $temporaryFile);
-		}
-		$this->temporaryFiles = array();
-	}
-
-	/**
 	 * Initializes the fluid template utility
 	 *
 	 * @return void
 	 */
 	protected function init() {
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
-			// If TYPO3 4.6.0 or greater
-			$GLOBALS['TYPO3_DB'] =  t3lib_div::makeInstance('t3lib_DB');
-			$GLOBALS['TYPO3_DB']->connectDB();
+		$GLOBALS['TYPO3_DB'] =  t3lib_div::makeInstance('t3lib_DB');
+		$GLOBALS['TYPO3_DB']->connectDB();
 
+		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
+				// If TYPO3 4.6.0 or greater
 				// add extbase_object to cacheConfigurations
 			$cacheConfigurations = array_merge($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'], array('extbase_object' => array()));
 			$GLOBALS['typo3CacheManager']->setCacheConfigurations($cacheConfigurations);
-
-			$this->fluidTemplate = t3lib_div::makeInstance('Tx_Fluid_View_StandaloneView');
-		} else {
-			$GLOBALS['TYPO3_DB'] =  t3lib_div::makeInstance('t3lib_DB');
-			$GLOBALS['TYPO3_DB']->connectDB();
-
-			/** @var $request Tx_Extbase_MVC_Request */
-			$request = t3lib_div::makeInstance('Tx_Extbase_MVC_Request');
-			$request->setFormat('html');
-			$request->setControllerObjectName('Tx_Dce_Controller_Dce_Controller');
-
-			/** @var $controllerContext Tx_Extbase_MVC_Controller_ControllerContext */
-			$controllerContext = t3lib_div::makeInstance('Tx_Extbase_MVC_Controller_ControllerContext');
-			$controllerContext->setRequest($request);
-
-			$this->fluidTemplate = t3lib_div::makeInstance('Tx_Fluid_View_TemplateView');
-			$this->fluidTemplate->setControllerContext($controllerContext);
 		}
+		$this->fluidTemplate = t3lib_div::makeInstance('Tx_Fluid_View_StandaloneView');
 
 		$this->fluidTemplate->setLayoutRootPath(t3lib_div::getFileAbsFileName(self::DEFAULT_DIRECOTRY_LAYOUTS));
 		$this->fluidTemplate->setPartialRootPath(t3lib_div::getFileAbsFileName(self::DEFAULT_DIRECOTRY_PARTIALS));
@@ -117,11 +82,7 @@ class Tx_Dce_Utility_FluidTemplate {
 	 * @return string Rendered Template
 	 */
 	public function render($actionName = NULL) {
-		$output = $this->fluidTemplate->render($actionName);
-		if (get_class($this->fluidTemplate) === 'Tx_Fluid_View_TemplateView') {
-			$this->purgeTemporaryFiles();
-		}
-		return $output;
+		return $this->fluidTemplate->render($actionName);
 	}
 
 	/**
@@ -147,21 +108,12 @@ class Tx_Dce_Utility_FluidTemplate {
 
 	/**
 	 * Sets the Fluid template source
-	 * You can use setTemplatePathAndFilename() alternatively if you only want to specify the template path
 	 *
 	 * @param string $templateSource Fluid template source code
 	 * @return void
 	 */
 	public function setSource($templateSource) {
-		if (get_class($this->fluidTemplate) === 'Tx_Fluid_View_StandaloneView') {
-			$this->fluidTemplate->setTemplateSource($templateSource);
-		} else {
-			$temporaryFile = t3lib_div::tempnam('dce_temporary_fluid_source_');
-			$this->temporaryFiles[] = basename($temporaryFile);
-
-			t3lib_div::writeFile($temporaryFile, $templateSource);
-			$this->setTemplatePathAndFilename($temporaryFile);
-		}
+		$this->fluidTemplate->setTemplateSource($templateSource);
 	}
 
 	/**
