@@ -24,25 +24,27 @@
  ***************************************************************/
 
 /**
- * AddSlahes Viewhelper
+ * Addcslashes Viewhelper
  *
  * @copyright Copyright belongs to the respective authors
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
-class Tx_Dce_ViewHelpers_Format_AddslashesViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class Tx_Dce_ViewHelpers_Format_AddcslashesViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
 
 	/**
-	 * Add slashes to a given string using the php function "addslashes".
+	 * Add slashes to a given string using the php function "addcslashes".
 	 *
-	 * @param string $subject to add slashes to
+	 * @param string $subject To add slashes to
+	 * @param string $charlist A list of characters to be escaped
 	 *
 	 * @return string with slashes
+	 * @see http://www.php.net/manual/function.addcslashes.php
 	 */
-	public function render($subject = NULL) {
+	public function render($subject = NULL, $charlist = "'") {
 		if ($subject === NULL) {
 			$subject = $this->renderChildren();
 		}
-		return addslashes($subject);
+		return addcslashes($subject, $charlist);
 	}
 }
 ?>
