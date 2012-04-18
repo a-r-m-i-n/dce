@@ -31,27 +31,27 @@
  */
 class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionController {
 
-    /**
-     * dceRepository
-     *
-     * @var Tx_Dce_Domain_Repository_DceRepository
-     */
-    protected $dceRepository;
+	/**
+	 * dceRepository
+	 *
+	 * @var Tx_Dce_Domain_Repository_DceRepository
+	 */
+	protected $dceRepository;
 
 	/**
 	 * @var Tx_Dce_Domain_Repository_DceFieldRepository
 	 */
 	protected $dceFieldRepository;
 
-    /**
-     * injectDceRepository
-     *
-     * @param Tx_Dce_Domain_Repository_DceRepository $dceRepository
-     * @return void
-     */
-    public function injectDceRepository(Tx_Dce_Domain_Repository_DceRepository $dceRepository) {
-        $this->dceRepository = $dceRepository;
-    }
+	/**
+	 * injectDceRepository
+	 *
+	 * @param Tx_Dce_Domain_Repository_DceRepository $dceRepository
+	 * @return void
+	 */
+	public function injectDceRepository(Tx_Dce_Domain_Repository_DceRepository $dceRepository) {
+		$this->dceRepository = $dceRepository;
+	}
 
 	/**
 	 * Injects the dceFieldRepository
@@ -64,14 +64,16 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 		$this->dceFieldRepository = $repository;
 	}
 
-    /**
-     * action show
-     *
-     * @return string output of content element's settings
+	/**
+	 * action show
+	 *
+	 * @return string output of content element's settings
 	 *
 	 * @TODO refactor it!
-     */
-    public function showAction() {
+	 */
+	public function showAction() {
+		$contentObject = $this->configurationManager->getContentObject()->data;
+
 		$config = $this->configurationManager->getConfiguration(Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
 
 		/** @var $dce Tx_Dce_Domain_Model_Dce */
@@ -94,7 +96,7 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 
 		$fields = array();
 		// walk through the fields and validate/fill them
-		foreach($this->settings as $fieldVariable => $fieldValue) {
+		foreach ($this->settings as $fieldVariable => $fieldValue) {
 			$dceField = $this->dceFieldRepository->findOneByDceAndVariable($dce, $fieldVariable);
 			if ($dceField) {
 				$dceFieldConfiguration = t3lib_div::xml2array($dceField->getConfiguration());
@@ -102,8 +104,8 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 				if (in_array($dceFieldConfiguration['type'], array('group', 'inline'))
 						&&
 						(
-						($dceFieldConfiguration['type'] === 'select' && !empty($dceFieldConfiguration['foreign_table']))
-						 || ($dceFieldConfiguration['type'] === 'group' && !empty($dceFieldConfiguration['allowed']))
+								($dceFieldConfiguration['type'] === 'select' && !empty($dceFieldConfiguration['foreign_table']))
+										|| ($dceFieldConfiguration['type'] === 'group' && !empty($dceFieldConfiguration['allowed']))
 						)
 						&& $dceFieldConfiguration['dce_load_schema']
 				) {
@@ -131,13 +133,13 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 						$repository = $objectManager->get($repositoryName);
 
 						$objects = array();
-						foreach(t3lib_div::trimExplode(',', $fieldValue, TRUE) as $uid) {
+						foreach (t3lib_div::trimExplode(',', $fieldValue, TRUE) as $uid) {
 							$objects[] = $repository->findByUid($uid);
 						}
 					} else {
 						// No class found... load DB record and return assoc
 						$objects = array();
-						foreach(t3lib_div::trimExplode(',', $fieldValue, TRUE) as $uid) {
+						foreach (t3lib_div::trimExplode(',', $fieldValue, TRUE) as $uid) {
 							$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', $tablename, 'uid = ' . $uid);
 							while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
 								$objects[] = $row;
@@ -155,14 +157,15 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 			}
 		}
 
-
 		$fluidTemplate->assign('dce', $dce);
+		$fluidTemplate->assign('contentObject', $contentObject);
 		$fluidTemplate->assign('field', $fields);
 		$fluidTemplate->assign('fields', $fields);
 
 		$output = $fluidTemplate->render();
 		return $output;
-    }
+	}
 
 }
+
 ?>
