@@ -1,0 +1,11 @@
+<config>
+	<type>input</type>
+	<size>30</size>
+	<eval>trim,required</eval>
+</config>
+<displayCond>FIELD:settings.relatedField:=:1</displayCond>
+
+<!--
+	This is for the related field (insert below <config>):
+	<onChange>reload</onChange>
+-->

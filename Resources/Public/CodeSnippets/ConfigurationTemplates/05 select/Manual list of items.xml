@@ -1,0 +1,17 @@
+<config>
+	<type>select</type>
+	<items type='array'>
+		<numIndex index='0' type='array'>
+			<numIndex index='0'>Label A</numIndex>
+			<numIndex index='1'>0</numIndex>
+		</numIndex>
+		<numIndex index='1' type='array'>
+			<numIndex index='0'>Label B</numIndex>
+			<numIndex index='1'>1</numIndex>
+		</numIndex>
+	</items>
+	<size>1</size>
+	<minitems>1</minitems>
+	<maxitems>1</maxitems>
+</config>
+<!-- <onChange>reload</onChange> -->
