@@ -20,6 +20,7 @@ CREATE TABLE tx_dce_domain_model_dce (
 	cache_dce varchar(255) DEFAULT '' NOT NULL,
 	show_access_tab varchar(255) DEFAULT '' NOT NULL,
 	show_lib_header varchar(255) DEFAULT '' NOT NULL,
+	hide_default_ce_wrap varchar(255) DEFAULT '' NOT NULL,
 
     tstamp int(11) unsigned DEFAULT '0' NOT NULL,
     crdate int(11) unsigned DEFAULT '0' NOT NULL,
