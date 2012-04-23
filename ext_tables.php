@@ -42,6 +42,7 @@ $TCA['tx_dce_domain_model_dcefield'] = array(
         'title'    => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dcefield',
         'label' => 'title',
 		'label_userFunc' => 'tx_dce_dceFieldCustomLabel->getLabel',
+		'hideTable' => 1,
 		'adminOnly' => 1,
 		'rootLevel' => 1,
         'tstamp' => 'tstamp',
