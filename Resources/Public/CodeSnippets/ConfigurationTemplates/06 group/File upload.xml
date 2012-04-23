@@ -1,0 +1,10 @@
+<config>
+	<type>group</type>
+	<internal_type>file</internal_type>
+	<allowed>jpg,jpeg,png,gif</allowed>
+	<size>1</size>
+	<minitems>0</minitems>
+	<maxitems>1</maxitems>
+	<uploadfolder>uploads/pics</uploadfolder>
+	<show_thumbs>1</show_thumbs>
+</config>
