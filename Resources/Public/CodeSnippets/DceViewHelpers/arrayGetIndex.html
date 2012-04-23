@@ -1,0 +1,4 @@
+<!-- normally you can access array values with: {array.0} {array.1} etc.
+	 but if you want to make the index dynamically you need the following viewhelper:
+-->
+{array -> dce:arrayGetIndex(index:'{iteration.index}')}
