@@ -120,7 +120,7 @@ $TCA['tx_dce_domain_model_dcefield'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => 30,
-				'eval' => 'trim,required,alpha,tx_dce_formevals_lowerCamelCase'
+				'eval' => 'trim,required,alphanum,tx_dce_formevals_lowerCamelCase'
 			),
 		),
 		'configuration' => array(
