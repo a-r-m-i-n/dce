@@ -101,7 +101,7 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 			if ($dceField) {
 				$dceFieldConfiguration = t3lib_div::xml2array($dceField->getConfiguration());
 
-				if (in_array($dceFieldConfiguration['type'], array('group', 'inline'))
+				if (in_array($dceFieldConfiguration['type'], array('group', 'inline', 'select'))
 						&&
 						(
 								($dceFieldConfiguration['type'] === 'select' && !empty($dceFieldConfiguration['foreign_table']))
