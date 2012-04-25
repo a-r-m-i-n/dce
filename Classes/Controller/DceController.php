@@ -142,6 +142,8 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 						foreach (t3lib_div::trimExplode(',', $fieldValue, TRUE) as $uid) {
 							$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', $tablename, 'uid = ' . $uid);
 							while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+									// Add field with converted flexform_data (as array)
+								$row['pi_flexform_data'] = t3lib_div::xml2array($row['pi_flexform']);
 								$objects[] = $row;
 							}
 						}
