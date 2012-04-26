@@ -144,6 +144,10 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 							while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
 									// Add field with converted flexform_data (as array)
 								$row['pi_flexform_data'] = t3lib_div::xml2array($row['pi_flexform']);
+								if (strpos($row['CType'], 'dce_') === 0) {
+										// If the record stores a dce, get its fields
+									$row = $this->addDceFieldsToRecord($row);
+								}
 								$objects[] = $row;
 							}
 						}
@@ -166,6 +170,38 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 
 		$output = $fluidTemplate->render();
 		return $output;
+	}
+
+	/**
+	 * Detects fields
+	 *
+	 * @param array $record
+	 * @return array The record with DCE attributes
+	 */
+	protected function addDceFieldsToRecord(array $record) {
+		$flexformData = $record['pi_flexform_data'];
+		$this->temporaryDceProperties = array();
+		$this->getVDefValues($flexformData);
+		$record['dce'] = $this->temporaryDceProperties;
+		return $record;
+	}
+
+	/**
+	 * Flatten the given array and extract all vDEF values. Result is stored in $this->dceProperties.
+	 *
+	 * @param $array flexform data array
+	 * @param null|string $arrayKey
+	 *
+	 * @return void
+	 */
+	protected function getVDefValues($array, $arrayKey = NULL) {
+		foreach($array as $key => $value) {
+			if ($key === 'vDEF') {
+				$this->temporaryDceProperties[substr($arrayKey, 9)] = $value;
+			} elseif (is_array($value)) {
+				$this->getVDefValues($value, $key);
+			}
+		}
 	}
 
 }
