@@ -32,13 +32,14 @@
 class Tx_Dce_ViewHelpers_Uri_DamViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
 
 	/**
-	 * ...
+	 * Removes the path and filename of DAM media object, stored in a dce attribute. Per default it returns an array,
+	 * which can be changed to comma separated string.
 	 *
 	 * @param string $field Name of field in DCE
 	 * @param array $contentObject Content object data array, which is stored in {contentObject} in dce template.
 	 * @param boolean $returnArray If TRUE it returns an array with found media. If FALSE, returns them comma separated.
 	 *
-	 * @return string|array String or array with found media
+	 * @return array|string String or array with found media
 	 */
 	public function render($field, array $contentObject, $returnArray = FALSE) {
 		if (!t3lib_extMgm::isLoaded('dam')) {
@@ -56,7 +57,7 @@ class Tx_Dce_ViewHelpers_Uri_DamViewHelper extends Tx_Fluid_Core_ViewHelper_Abst
 			$field,
 			'tx_dam_mm_ref'
 		);
-		$media = $media['files'];
+		$media = array_values($media['files']);
 
 		if ($returnArray != FALSE) {
 				// returns string
