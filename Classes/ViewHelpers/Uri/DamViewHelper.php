@@ -59,9 +59,12 @@ class Tx_Dce_ViewHelpers_Uri_DamViewHelper extends Tx_Fluid_Core_ViewHelper_Abst
 		$media = $media['files'];
 
 		if ($returnArray != FALSE) {
-			$media = implode(',', $media);
+				// returns string
+			return implode(',', $media);
+		} else {
+				// returns array
+			return current($media);
 		}
-		return $media;
 	}
 }
 ?>
