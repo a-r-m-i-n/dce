@@ -11,13 +11,11 @@ Tx_Extbase_Utility_Extension::configurePlugin(
 	),
 	Tx_Extbase_Utility_Extension::PLUGIN_TYPE_CONTENT_ELEMENT
 );
-<f:if condition="{dce.show_lib_header}">
-	<f:then></f:then>
-	<f:else>
+
 t3lib_extMgm::addTypoScript('dce', 'setup', '
 # Hide lib.stdheader for DCE with uid {dce.uid}
 ' . 'tt_content.dce_dceuid{dce.uid}.10 >', 43);
-</f:else></f:if>
+
 <f:if condition="{dce.hide_default_ce_wrap}">
 	t3lib_extMgm::addTypoScript('dce', 'setup', '
 	# Hide default wrapping for content elements for DCE with uid {dce.uid}
