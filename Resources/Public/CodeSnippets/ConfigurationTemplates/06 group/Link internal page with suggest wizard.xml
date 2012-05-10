@@ -1,0 +1,19 @@
+<config>
+	<type>group</type>
+	<internal_type>db</internal_type>
+	<allowed>pages</allowed>
+	<size>2</size>
+	<minitems>1</minitems>
+	<maxitems>1</maxitems>
+	<show_thumbs>1</show_thumbs>
+	<wizards>
+		<_PADDING>1</_PADDING>
+		<_VERTICAL>1</_VERTICAL>
+		<suggest>
+			<type>suggest</type>
+			<default>
+				<searchWholePhrase>1</searchWholePhrase>
+			</default>
+		</suggest>
+	</wizards>
+</config>
