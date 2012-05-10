@@ -10,6 +10,10 @@ if ($extConfiguration['DEVMODE'] == '1') {
 		'EXT:' . $_EXTKEY . '/Classes/Hooks/tx_saveDce.php:tx_saveDce';
 }
 
+// Rendering hook of content elements in backend
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['tt_content_drawItem'][] =
+	'EXT:' . $_EXTKEY . '/Classes/Hooks/tx_renderDceContentElement.php:tx_renderDceContentElement';
+
 $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['t3lib/class.t3lib_tcemain.php']
 	= t3lib_extMgm::extPath($_EXTKEY).'Classes/Hooks/class.ux_t3lib_tcemain.php';
 

@@ -30,7 +30,6 @@
  *
  */
 class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionController {
-
 	/**
 	 * dceRepository
 	 *
@@ -68,12 +67,9 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 	 * action show
 	 *
 	 * @return string output of content element's settings
-	 *
-	 * @TODO refactor it!
 	 */
 	public function showAction() {
 		$contentObject = $this->configurationManager->getContentObject()->data;
-
 		$config = $this->configurationManager->getConfiguration(Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
 
 		/** @var $dce Tx_Dce_Domain_Model_Dce */
@@ -82,20 +78,68 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 			throw new UnexpectedValueException('No DCE found with CType "' . $config['pluginName'] . '".', 1328613288);
 		}
 
-		/** @var $fluidTemplate Tx_Fluid_View_StandaloneView */
-		$fluidTemplate = t3lib_div::makeInstance('Tx_Fluid_View_StandaloneView');
-		if ($dce->getTemplateType() === 'inline') {
-			$fluidTemplate->setTemplateSource($dce->getTemplateContent());
-		} else {
-			$fluidTemplate->setTemplatePathAndFilename($dce->getTemplateFile());
-		}
+		$fluidTemplate = $this->createFluidTemplate($dce);
+		$fields = $this->fillFields($dce);
 
-		$fluidTemplate->setLayoutRootPath(t3lib_div::getFileAbsFileName($dce->getTemplateLayoutRootPath()));
-		$fluidTemplate->setPartialRootPath(t3lib_div::getFileAbsFileName($dce->getTemplatePartialRootPath()));
+		$fluidTemplate->assign('dce', $dce);
+		$fluidTemplate->assign('contentObject', $contentObject);
+		$fluidTemplate->assign('field', $fields);
+		$fluidTemplate->assign('fields', $fields);
 
+		$output = $fluidTemplate->render();
+		return $output;
+	}
 
+	/**
+	 * action renderPreview
+	 *
+	 * @return string
+	 */
+	public function renderPreviewAction() {
+		$namespacePrepend = '{namespace dce=Tx_Dce_ViewHelpers}';
+
+		/** @var $dce Tx_Dce_Domain_Model_Dce */
+		$dce = $this->dceRepository->findByUid($this->settings['dceUid']);
+		$getPreviewMethod = 'get' . ucfirst($this->settings['previewType']) . 'Preview';
+		if (!$dce->$getPreviewMethod()) { return ''; }
+
+		$this->settings = $this->simulateContentElementSettings($this->settings['contentElementUid']);
+		$dce->setTemplateType('inline');
+		$dce->setTemplateContent($namespacePrepend . $dce->$getPreviewMethod());
+
+		$fluidTemplate = $this->createFluidTemplate($dce);
+		$fields = $this->fillFields($dce);
+
+		$fluidTemplate->assign('dce', $dce);
+		$fluidTemplate->assign('field', $fields);
+		$fluidTemplate->assign('fields', $fields);
+		return $fluidTemplate->render();
+	}
+
+	/**
+	 * @param integer $contentElementUid
+	 * @return array
+	 */
+	protected function simulateContentElementSettings($contentElementUid) {
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('pi_flexform', 'tt_content', 'uid = ' . $contentElementUid);
+		$flexform = t3lib_div::xml2array(current($GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)));
+
+		$this->temporaryDceProperties = array();
+		$this->getVDefValues($flexform);
+
+		return $this->temporaryDceProperties;
+	}
+
+	/**
+	 * Walk through the fields and validate/fill them
+	 *
+	 * @param Tx_Dce_Domain_Model_Dce $dce
+	 * @return array
+	 *
+	 * @TODO refactor it!
+	 */
+	protected function fillFields(Tx_Dce_Domain_Model_Dce $dce) {
 		$fields = array();
-		// walk through the fields and validate/fill them
 		foreach ($this->settings as $fieldVariable => $fieldValue) {
 			$dceField = $this->dceFieldRepository->findOneByDceAndVariable($dce, $fieldVariable);
 			if ($dceField) {
@@ -142,10 +186,10 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 						foreach (t3lib_div::trimExplode(',', $fieldValue, TRUE) as $uid) {
 							$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', $tablename, 'uid = ' . $uid);
 							while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
-									// Add field with converted flexform_data (as array)
+								// Add field with converted flexform_data (as array)
 								$row['pi_flexform_data'] = t3lib_div::xml2array($row['pi_flexform']);
 								if (strpos($row['CType'], 'dce_') === 0) {
-										// If the record stores a dce, get its fields
+									// If the record stores a dce, get its fields
 									$row = $this->addDceFieldsToRecord($row);
 								}
 								$objects[] = $row;
@@ -162,14 +206,26 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 				}
 			}
 		}
+		return $fields;
+	}
 
-		$fluidTemplate->assign('dce', $dce);
-		$fluidTemplate->assign('contentObject', $contentObject);
-		$fluidTemplate->assign('field', $fields);
-		$fluidTemplate->assign('fields', $fields);
-
-		$output = $fluidTemplate->render();
-		return $output;
+	/**
+	 * Creates a fluid template
+	 *
+	 * @param Tx_Dce_Domain_Model_Dce $dce
+	 * @return Tx_Fluid_View_StandaloneView
+	 */
+	protected function createFluidTemplate(Tx_Dce_Domain_Model_Dce $dce) {
+		/** @var $fluidTemplate Tx_Fluid_View_StandaloneView */
+		$fluidTemplate = t3lib_div::makeInstance('Tx_Fluid_View_StandaloneView');
+		if ($dce->getTemplateType() === 'inline') {
+			$fluidTemplate->setTemplateSource($dce->getTemplateContent());
+		} else {
+			$fluidTemplate->setTemplatePathAndFilename($dce->getTemplateFile());
+		}
+		$fluidTemplate->setLayoutRootPath(t3lib_div::getFileAbsFileName($dce->getTemplateLayoutRootPath()));
+		$fluidTemplate->setPartialRootPath(t3lib_div::getFileAbsFileName($dce->getTemplatePartialRootPath()));
+		return $fluidTemplate;
 	}
 
 	/**

@@ -11,6 +11,16 @@ if (!file_exists($pathDceExtTables)) {
 }
 require_once($pathDceExtTables);
 
+Tx_Extbase_Utility_Extension::registerModule(
+	$_EXTKEY,
+	'hide',
+	'Pi1',
+	'',
+	array(
+		'Dce' => 'renderPreview'
+	)
+);
+
 $TCA['tx_dce_domain_model_dce'] = array(
     'ctrl' => array(
         'title'    => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce',

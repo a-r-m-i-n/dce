@@ -37,8 +37,9 @@
 			<label index="tx_dce_domain_model_dce.miscellaneous">Miscellaneous</label>
 			<label index="tx_dce_domain_model_dce.cacheDce">Cache DCE frontend plugin</label>
 			<label index="tx_dce_domain_model_dce.showAccessTab">Show access tab</label>
-			<label index="tx_dce_domain_model_dce.showLibHeader">Show and use TYPO3 default header (lib.stdheader)</label>
 			<label index="tx_dce_domain_model_dce.hideDefaultCeWrap">Disables the "div.csc-default" wrapping</label>
+			<label index="tx_dce_domain_model_dce.headerPreview">Header preview template</label>
+			<label index="tx_dce_domain_model_dce.bodytextPreview">Bodytext preview template</label>
 
 			<label index="tx_dce_domain_model_dcefield">DCE Field</label>
 			<label index="tx_dce_domain_model_dcefield.type">Type</label>
@@ -78,8 +79,9 @@
 			<label index="tx_dce_domain_model_dce.miscellaneous">Sonstiges</label>
 			<label index="tx_dce_domain_model_dce.cacheDce">DCE Frontend Plugin Cache aktivieren</label>
 			<label index="tx_dce_domain_model_dce.showAccessTab">Zeige "Zugriff" Tab</label>
-			<label index="tx_dce_domain_model_dce.showLibHeader">Zeige und benutze TYPO3-Standard-Überschrift (lib.stdheader)</label>
 			<label index="tx_dce_domain_model_dce.hideDefaultCeWrap">Deaktiviere das "div.csc-default" Wrapping</label>
+			<label index="tx_dce_domain_model_dce.headerPreview">Überschriften-Vorschau-Template</label>
+			<label index="tx_dce_domain_model_dce.bodytextPreview">Inhaltstext-Vorschau-Template</label>
 
 			<label index="tx_dce_domain_model_dcefield">DCE Feld</label>
 			<label index="tx_dce_domain_model_dcefield.type">Typ</label>

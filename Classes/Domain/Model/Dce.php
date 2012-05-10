@@ -53,6 +53,12 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 	/** @var string */
 	protected $templatePartialRootPath = '';
 
+	/** @var string */
+	protected $headerPreview = '';
+
+	/** @var string */
+	protected $bodytextPreview = '';
+
 
 	/**
 	 * __construct
@@ -177,5 +183,34 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 	public function removeField(Tx_Dce_Domain_Model_DceField $fieldToRemove) {
 		$this->fields->detach($fieldToRemove);
 	}
+
+	/**
+	 * @return string
+	 */
+	public function getHeaderPreview() {
+		return $this->headerPreview;
+	}
+
+	/**
+	 * @param string $headerPreview
+	 */
+	public function setHeaderPreview($headerPreview) {
+		$this->headerPreview = $headerPreview;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getBodytextPreview() {
+		return $this->bodytextPreview;
+	}
+
+	/**
+	 * @param string $bodytextPreview
+	 */
+	public function setBodytextPreview($bodytextPreview) {
+		$this->bodytextPreview = $bodytextPreview;
+	}
+
 }
 ?>
