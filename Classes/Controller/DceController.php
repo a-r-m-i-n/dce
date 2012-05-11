@@ -67,6 +67,7 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 	 * action show
 	 *
 	 * @return string output of content element's settings
+	 * @throws UnexpectedValueException
 	 */
 	public function showAction() {
 		$contentObject = $this->configurationManager->getContentObject()->data;
