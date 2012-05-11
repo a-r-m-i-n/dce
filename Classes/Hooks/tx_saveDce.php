@@ -61,6 +61,7 @@ class tx_saveDce {
 				$fieldArray = $this->generateDcePreview($row['uid']);
 				$pObj->updateDB('tt_content', $row['uid'], $fieldArray);
 			}
+			echo ''; // prevent a bug in 4.5 which returns no output
 		}
 
 			// Clear cache if dce or dcefield has been created or updated
