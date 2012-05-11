@@ -48,12 +48,6 @@ class tx_saveDce {
 		$this->tcemain = $pObj;
 		$uid = $this->getUid($id, $status, $pObj);
 
-			// Clear cache if dce or dcefield has been created or updated
-		if (in_array($table, array('tx_dce_domain_model_dce', 'tx_dce_domain_model_dcefield'))
-				&& in_array($status, array('update', 'new'))) {
-			t3lib_extMgm::removeCacheFiles('temp_CACHED_dce');
-		}
-
 			// Updates header and bodytext of content element
 		if ($table === 'tt_content' && $this->isDceContentElement($pObj)) {
 			$fieldArray = array_merge($fieldArray, $this->generateDcePreview($uid));
@@ -67,6 +61,12 @@ class tx_saveDce {
 				$fieldArray = $this->generateDcePreview($row['uid']);
 				$pObj->updateDB('tt_content', $row['uid'], $fieldArray);
 			}
+		}
+
+			// Clear cache if dce or dcefield has been created or updated
+		if (in_array($table, array('tx_dce_domain_model_dce', 'tx_dce_domain_model_dcefield'))
+				&& in_array($status, array('update', 'new'))) {
+			t3lib_extMgm::removeCacheFiles('temp_CACHED_dce');
 		}
     }
 
