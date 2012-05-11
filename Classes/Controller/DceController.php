@@ -99,7 +99,7 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 		$namespacePrepend = '{namespace dce=Tx_Dce_ViewHelpers}';
 
 		/** @var $dce Tx_Dce_Domain_Model_Dce */
-		$dce = $this->dceRepository->findByUid($this->settings['dceUid']);
+		$dce = clone $this->dceRepository->findByUid($this->settings['dceUid']);
 		$getPreviewMethod = 'get' . ucfirst($this->settings['previewType']) . 'Preview';
 		if (!$dce->$getPreviewMethod()) { return ''; }
 
