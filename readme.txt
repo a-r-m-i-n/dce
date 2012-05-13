@@ -1,4 +1,4 @@
-This is the very first beta version of the extension "DCE".
+This is the beta version of the extension "DCE".
 
 If you found bugs or got some feature requests, write me a mail to: armin@v.ieweg.de
 or report it to http://forge.typo3.org/projects/extension-dce
