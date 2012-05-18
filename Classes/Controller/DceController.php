@@ -246,12 +246,12 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 	/**
 	 * Flatten the given array and extract all vDEF values. Result is stored in $this->dceProperties.
 	 *
-	 * @param $array flexform data array
+	 * @param array $array flexform data array
 	 * @param null|string $arrayKey
 	 *
 	 * @return void
 	 */
-	protected function getVDefValues($array, $arrayKey = NULL) {
+	protected function getVDefValues(array $array, $arrayKey = NULL) {
 		foreach($array as $key => $value) {
 			if ($key === 'vDEF') {
 				$this->temporaryDceProperties[substr($arrayKey, 9)] = $value;
