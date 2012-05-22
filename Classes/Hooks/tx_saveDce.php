@@ -45,11 +45,13 @@ class tx_saveDce {
 	 * @return void
 	 */
     public function processDatamap_afterDatabaseOperations($status, $table, $id, array $fieldArray, t3lib_TCEmain $pObj) {
+		/** @var $extConfiguration array */
+		$extConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dce']);
 		$this->tcemain = $pObj;
 		$uid = $this->getUid($id, $status, $pObj);
 
 			// Updates header and bodytext of content element
-		if ($table === 'tt_content' && $this->isDceContentElement($pObj) && TYPO3_MODE !== 'FE') {
+		if ($table === 'tt_content' && $this->isDceContentElement($pObj) && TYPO3_MODE !== 'FE' && $extConfiguration['DISABLEDPREVIEWAUTOUPDATE'] == 0) {
 			$fieldArray = array_merge($fieldArray, $this->generateDcePreview($uid));
 			$pObj->updateDB('tt_content', $uid, $fieldArray);
 		}
