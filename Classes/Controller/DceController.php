@@ -84,6 +84,7 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 
 		$fluidTemplate->assign('dce', $dce);
 		$fluidTemplate->assign('contentObject', $contentObject);
+
 		$fluidTemplate->assign('field', $fields);
 		$fluidTemplate->assign('fields', $fields);
 
@@ -98,6 +99,7 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 	 */
 	public function renderPreviewAction() {
 		$namespacePrepend = '{namespace dce=Tx_Dce_ViewHelpers}';
+		$contentObject = $this->getContentObject($this->settings['contentElementUid']);
 
 		/** @var $dce Tx_Dce_Domain_Model_Dce */
 		$dce = clone $this->dceRepository->findByUid($this->settings['dceUid']);
@@ -112,8 +114,11 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 		$fields = $this->fillFields($dce);
 
 		$fluidTemplate->assign('dce', $dce);
+		$fluidTemplate->assign('contentObject', $contentObject);
+
 		$fluidTemplate->assign('field', $fields);
 		$fluidTemplate->assign('fields', $fields);
+
 		return $fluidTemplate->render();
 	}
 
@@ -129,6 +134,16 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 		$this->getVDefValues($flexform);
 
 		return $this->temporaryDceProperties;
+	}
+
+	/**
+	 * Returns an array with properties of content element with given uid
+	 *
+	 * @param integer $uid of content element to get
+	 * @return array with all properties of given content element uid
+	 */
+	protected function getContentObject($uid) {
+		return $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('*', 'tt_content', 'uid=' . $uid);
 	}
 
 	/**
