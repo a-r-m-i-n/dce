@@ -2,4 +2,4 @@
 DISABLEAUTOCLEARCACHE = 0
 
 # cat=basic//02; type=boolean; label=Disable CodeMirror: If enabled the textareas for "field configuration" and "DCE inline template" are not replaced by syntaxhighlighting code editor (CodeMirror)
-DISABLECODEMIRROR = 1
+DISABLECODEMIRROR = 0
