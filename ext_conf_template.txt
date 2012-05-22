@@ -1,5 +1,5 @@
-# cat=basic//01; type=boolean; label=Developer Mode: Clears the configuration cache after every change of DCE record
-DEVMODE = 1
+# cat=basic//01; type=boolean; label=Disable automatic clear cache: If enabled, the dce cache will not get cleared automatically on changes
+DISABLEAUTOCLEARCACHE = 0
 
-# cat=basic//02; type=boolean; label=Enable CodeMirror: If enabled the textareas for "field configuration" and "DCE inline template" are replaced by syntaxhighlighting code editor (CodeMirror)
-ENABLECODEMIRROR = 1
+# cat=basic//02; type=boolean; label=Disable CodeMirror: If enabled the textareas for "field configuration" and "DCE inline template" are not replaced by syntaxhighlighting code editor (CodeMirror)
+DISABLECODEMIRROR = 1

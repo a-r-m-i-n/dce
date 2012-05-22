@@ -4,7 +4,7 @@ if (!defined('TYPO3_MODE')) {
 }
 
 $extConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$_EXTKEY]);
-if ($extConfiguration['DEVMODE'] == '1') {
+if ($extConfiguration['DISABLEAUTOCLEARCACHE'] == '0') {
 	// Save hook
 	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] =
 		'EXT:' . $_EXTKEY . '/Classes/Hooks/tx_saveDce.php:tx_saveDce';

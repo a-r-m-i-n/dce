@@ -59,7 +59,7 @@ class tx_dce_codemirrorField {
 
 		$fluidTemplate->assign('uniqueIdentifier', uniqid());
 		$fluidTemplate->assign('parameters', $this->parameter['fieldConf']['config']['parameters']);
-		$fluidTemplate->assign('enableCodemirror', $extConfiguration['ENABLECODEMIRROR']);
+		$fluidTemplate->assign('disableCodemirror', $extConfiguration['DISABLECODEMIRROR']);
 
 
 		if ($parameter['fieldConf']['config']['parameters']['mode'] === 'htmlmixed') {

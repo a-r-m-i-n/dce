@@ -17,27 +17,33 @@
 	</style>
 
 	<div id="dceConfigurationWizard">
-		<f:if condition="{enableCodemirror}">
-			<f:if condition="{parameters.showTemplates}">
-				<f:then>
-					<f:render partial="ConfigurationEditor/AvailableTemplates" arguments="{uniqueIdentifier:uniqueIdentifier, availableTemplates:availableTemplates}"  />
-				</f:then>
-				<f:else>
-					<f:render partial="ConfigurationEditor/AvailableVariables" arguments="{uniqueIdentifier:uniqueIdentifier, availableFields:availableFields, famousViewHelpers:famousViewHelpers, dceViewHelpers:dceViewHelpers}"  />
-				</f:else>
-			</f:if>
+		<f:if condition="{disableCodemirror}">
+			<f:then></f:then>
+			<f:else>
+				<f:if condition="{parameters.showTemplates}">
+					<f:then>
+						<f:render partial="ConfigurationEditor/AvailableTemplates" arguments="{uniqueIdentifier:uniqueIdentifier, availableTemplates:availableTemplates}"  />
+					</f:then>
+					<f:else>
+						<f:render partial="ConfigurationEditor/AvailableVariables" arguments="{uniqueIdentifier:uniqueIdentifier, availableFields:availableFields, famousViewHelpers:famousViewHelpers, dceViewHelpers:dceViewHelpers}"  />
+					</f:else>
+				</f:if>
+			</f:else>
 		</f:if>
 		<div>
 			<textarea id="codemirror_{uniqueIdentifier}" name={name} cols="80" rows="15" onchange="{onChangeFunc}" {onFocus}>{value}</textarea>
 		</div>
 	</div>
 
-	<f:if condition="{enableCodemirror}">
-		<script type="text/javascript">
-			parent.dce_editors = parent.dce_editors || [];
-			var	codearea = $('codemirror_{uniqueIdentifier}');
-			var codeMirrorMode = '{parameters.mode}';
-			<dce:include.resource path="Libraries/codemirror/init.js" extensionName="dce" />
-		</script>
+	<f:if condition="{disableCodemirror}">
+		<f:then></f:then>
+		<f:else>
+			<script type="text/javascript">
+				parent.dce_editors = parent.dce_editors || [];
+				var	codearea = $('codemirror_{uniqueIdentifier}');
+				var codeMirrorMode = '{parameters.mode}';
+				<dce:include.resource path="Libraries/codemirror/init.js" extensionName="dce" />
+			</script>
+		</f:else>
 	</f:if>
 </f:section>
