@@ -49,9 +49,16 @@ class tx_saveDce {
 		$uid = $this->getUid($id, $status, $pObj);
 
 			// Updates header and bodytext of content element
-		if ($table === 'tt_content' && $this->isDceContentElement($pObj)) {
+		if ($table === 'tt_content' && $this->isDceContentElement($pObj) && TYPO3_MODE !== 'FE') {
 			$fieldArray = array_merge($fieldArray, $this->generateDcePreview($uid));
 			$pObj->updateDB('tt_content', $uid, $fieldArray);
+		}
+		if (TYPO3_MODE === 'FE') {
+			// Preview texts can not created in frontend context
+			$pObj->updateDB('tt_content', $uid, array_merge($fieldArray, array(
+				'header' => Tx_Extbase_Utility_Localization::translate('contentElementCreatedByFrontendHeader', 'dce'),
+				'bodytext' => Tx_Extbase_Utility_Localization::translate('contentElementCreatedByFrontendBodytext', 'dce', array(t3lib_div::_GP('eID'))),
+			)));
 		}
 
 			// Update preview output of all content elements using this dce, if dce gets updated
