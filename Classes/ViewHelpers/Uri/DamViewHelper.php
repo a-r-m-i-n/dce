@@ -59,7 +59,7 @@ class Tx_Dce_ViewHelpers_Uri_DamViewHelper extends Tx_Fluid_Core_ViewHelper_Abst
 		);
 		$media = array_values($media['files']);
 
-		if ($returnArray != FALSE) {
+		if ($returnArray == FALSE) {
 				// returns string
 			return implode(',', $media);
 		} else {
