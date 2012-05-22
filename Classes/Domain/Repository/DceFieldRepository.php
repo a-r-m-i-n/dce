@@ -33,6 +33,19 @@
  */
 class Tx_Dce_Domain_Repository_DceFieldRepository extends Tx_Extbase_Persistence_Repository {
 	/**
+	  * Initializes the repository.
+	  *
+	  * @return void
+	  *
+	  * @see Tx_Extbase_Persistence_Repository::initializeObject()
+	  */
+	 public function initializeObject() {
+		 $querySettings = $this->objectManager->create('Tx_Extbase_Persistence_Typo3QuerySettings');
+		 $querySettings->setRespectStoragePage(FALSE);
+		 $this->setDefaultQuerySettings($querySettings);
+	 }
+
+	/**
 	 * @param $dce
 	 * @param $variable
 	 *
