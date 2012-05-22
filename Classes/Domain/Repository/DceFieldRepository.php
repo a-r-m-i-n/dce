@@ -46,12 +46,12 @@ class Tx_Dce_Domain_Repository_DceFieldRepository extends Tx_Extbase_Persistence
 	 }
 
 	/**
-	 * @param $dce
-	 * @param $variable
+	 * @param Tx_Dce_Domain_Model_Dce $dce
+	 * @param string $variable
 	 *
 	 * @return Tx_Dce_Domain_Model_DceField
 	 */
-	public function findOneByDceAndVariable($dce, $variable) {
+	public function findOneByDceAndVariable(Tx_Dce_Domain_Model_Dce $dce, $variable) {
 		$query = $this->createQuery();
 		$query->matching($query->logicalAnd(array(
 			$query->equals('variable', $variable),
