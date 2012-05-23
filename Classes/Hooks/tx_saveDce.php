@@ -33,6 +33,16 @@ class tx_saveDce {
 	/** @var t3lib_TCEmain */
 	protected $tcemain = NULL;
 
+	/** @var integer uid of current record */
+	protected $uid = 0;
+
+	/** @var array all properties of current record */
+	protected $fieldArray = array();
+
+	/** @var array extension settings */
+	protected $extConfiguration = array();
+
+
 	/**
 	 * Hook action
 	 *
@@ -45,50 +55,106 @@ class tx_saveDce {
 	 * @return void
 	 */
     public function processDatamap_afterDatabaseOperations($status, $table, $id, array $fieldArray, t3lib_TCEmain $pObj) {
-		/** @var $extConfiguration array */
-		$extConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dce']);
+		$this->extConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dce']);
 		$this->tcemain = $pObj;
-		$uid = $this->getUid($id, $status, $pObj);
+		$this->uid = $this->getUid($id, $status, $pObj);
+		$this->fieldArray = $fieldArray;
 
-			// Updates header and bodytext of content element
-		if ($table === 'tt_content' && $this->isDceContentElement($pObj) && TYPO3_MODE !== 'FE' && $extConfiguration['DISABLEDPREVIEWAUTOUPDATE'] == 0) {
-			$fieldArray = array_merge($fieldArray, $this->generateDcePreview($uid));
-			$pObj->updateDB('tt_content', $uid, $fieldArray);
-		}
-		if (TYPO3_MODE === 'FE') {
-			// Preview texts can not created in frontend context
-			$pObj->updateDB('tt_content', $uid, array_merge($fieldArray, array(
-				'header' => Tx_Extbase_Utility_Localization::translate('contentElementCreatedByFrontendHeader', 'dce'),
-				'bodytext' => Tx_Extbase_Utility_Localization::translate('contentElementCreatedByFrontendBodytext', 'dce', array(t3lib_div::_GP('eID'))),
-			)));
+		if ($table === 'tt_content' && $this->isDceContentElement($pObj)) {
+			$this->performPreviewAutoupdateOnContentElementSave();
 		}
 
-			// Update preview output of all content elements using this dce, if dce gets updated
 		if ($table === 'tx_dce_domain_model_dce' && $status === 'update') {
-			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid', 'tt_content', 'CType="dce_dceuid' . intval($uid). '"');
-			while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
-				$fieldArray = $this->generateDcePreview($row['uid']);
-				$pObj->updateDB('tt_content', $row['uid'], $fieldArray);
-			}
-			echo ''; // prevent a bug in 4.5 which returns no output
+			$this->performPreviewAutoupdateBatchOnDceChange();
 		}
 
 			// Clear cache if dce or dcefield has been created or updated
-		if (in_array($table, array('tx_dce_domain_model_dce', 'tx_dce_domain_model_dcefield'))
-				&& in_array($status, array('update', 'new'))) {
+		if (in_array($table, array('tx_dce_domain_model_dce', 'tx_dce_domain_model_dcefield')) && in_array($status, array('update', 'new'))) {
 			t3lib_extMgm::removeCacheFiles('temp_CACHED_dce');
 		}
     }
 
 	/**
-	 * @param integer $contentElementUid
+	 * On save on content element, which based on dce, its preview texts become updated. If change is made in
+	 * frontend context, they can not get rendered. Instead a message will appear, which informs the user in backend
+	 * about this circumstance.
 	 *
+	 * @return void
+	 *
+	 * @TODO Add link to notice, too - like in performPreviewAutoupdateBatchOnDceChange()
+	 */
+	protected function performPreviewAutoupdateOnContentElementSave() {
+		if (TYPO3_MODE === 'BE') {
+			$mergedFieldArray = array_merge($this->fieldArray, $this->generateDcePreview($this->uid));
+			$this->tcemain->updateDB('tt_content', $this->uid, $mergedFieldArray);
+		} else {
+			// Preview texts can not created in frontend context
+			$this->tcemain->updateDB('tt_content', $this->uid, array_merge($this->fieldArray, array(
+				'header' => Tx_Extbase_Utility_Localization::translate('contentElementCreatedByFrontendHeader', 'dce'),
+				'bodytext' => Tx_Extbase_Utility_Localization::translate('contentElementCreatedByFrontendBodytext', 'dce', array(t3lib_div::_GP('eID'))),
+			)));
+		}
+	}
+
+	/**
+	 * If this function has not been disabled in extension settings, it performs an update of all existing content
+	 * elements, which based on DCE. The preview texts will be updated. This could become delicate if is existing a
+	 * high amount of such elements.
+	 *
+	 * @return void
+	 */
+	protected function performPreviewAutoupdateBatchOnDceChange() {
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid', 'tt_content', 'CType="dce_dceuid' . $this->uid . '"');
+		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+			if ($this->extConfiguration['DISABLEDPREVIEWAUTOUPDATE'] == 0) {
+				$fieldArray = $this->generateDcePreview($row['uid']);
+			} else {
+				// if autoupdate of preview is disabled, show notice instead
+				$uid = $row['uid'];
+				$dceUid = $this->uid;
+
+				$postBody = 'ajaxID=Dce::updateContentElement&uid=' . $uid . '&dceUid=' . $dceUid;
+				$js = "var t=this, b=$(t).up('span'), h=$(b).previous('strong'); $(t).replace('<img src=\'/typo3conf/ext/dce/Resources/Public/Icons/ajax-loader.gif\' alt=\'\' /> ' + $(t).innerHTML); new Ajax.Request('/typo3/ajax.php',{postBody:'" . $postBody ."', onSuccess:function(r){ var j=r.responseText.evalJSON(); b.update(j.bodytext); $(h).update(j.header); }}); return false;";
+
+				$fieldArray = array(
+					'header' => Tx_Extbase_Utility_Localization::translate('autoupdateDisabledHeader', 'dce'),
+					'bodytext' => Tx_Extbase_Utility_Localization::translate('autoupdateDisabledBodytext', 'dce', array($js)),
+				);
+			}
+			$this->tcemain->updateDB('tt_content', $row['uid'], $fieldArray);
+		}
+		echo ''; // prevent a bug in 4.5 which returns no output
+	}
+
+
+	/**
+	 * Generates the preview texts (header and bodytext) of dce
+	 *
+	 * @param integer $uid uid of content element
+	 * @return array
+	 *
+	 * @TODO Reduce redundancy of extbase controller call
+	 */
+	protected function generateDcePreview($uid) {
+		$settings = array(
+			'contentElementUid' => $uid,
+			'dceUid' => $this->getDceUidByContentElementUid($uid),
+		);
+		return array(
+			'header' => $this->runExtbaseController('Dce', 'Dce', 'renderPreview', 'DceHide_DcePi1', array_merge($settings, array('previewType' => 'header'))),
+			'bodytext' => $this->runExtbaseController('Dce', 'Dce', 'renderPreview', 'DceHide_DcePi1', array_merge($settings, array('previewType' => 'bodytext'))),
+		);
+	}
+
+	/**
+	 * @param integer $contentElementUid
+	 * @param integer $dceUid
 	 * @return array
 	 */
-	protected function generateDcePreview($contentElementUid) {
+	public function ajaxGenerateDcePreview($contentElementUid, $dceUid) {
 		$settings = array(
 			'contentElementUid' => $contentElementUid,
-			'dceUid' => $this->getDceUidByContentElementUid($contentElementUid),
+			'dceUid' => $dceUid,
 		);
 		return array(
 			'header' => $this->runExtbaseController('Dce', 'Dce', 'renderPreview', 'DceHide_DcePi1', array_merge($settings, array('previewType' => 'header'))),
@@ -124,11 +190,10 @@ class tx_saveDce {
 	/**
 	 * Gets dce uid by content element uid
 	 *
-	 * @param integer $contentElementUid
 	 * @return integer
 	 */
-	protected function getDceUidByContentElementUid($contentElementUid) {
-		$cType = current($this->tcemain->recordInfo('tt_content', $contentElementUid, 'CType'));
+	protected function getDceUidByContentElementUid($uid) {
+		$cType = current($this->tcemain->recordInfo('tt_content', $uid, 'CType'));
 		return intval(substr($cType, strlen('dce_dceuid')));
 	}
 
