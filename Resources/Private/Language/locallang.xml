@@ -13,7 +13,7 @@
 			<label index="dceViewHelper">DCE viewhelper</label>
 
 			<label index="contentElementCreatedByFrontendHeader">*Created or updated by frontend*</label>
-			<label index="contentElementCreatedByFrontendBodytext"><![CDATA[If a content element based on DCE, has been created in frontend context, it is not possible to render this previewtexts, because in frontend extbase resources are not always available. <em>(eID: %s)</em>]]></label>
+			<label index="contentElementCreatedByFrontendBodytext"><![CDATA[If a content element based on DCE, has been created in frontend context, it is not possible to render this preview texts, because in frontend extbase resources are not always available. <em>(eID: %s)</em>]]></label>
 			<label index="autoupdateDisabledHeader">*The DCE base has been updated*</label>
 			<label index="autoupdateDisabledBodytext"><![CDATA[<a href="#" onclick="%s"><u><em>Click here</em></u></a> to update the preview texts, or save the content element manually.]]></label>
 		</languageKey>
