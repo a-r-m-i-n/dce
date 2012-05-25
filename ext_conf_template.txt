@@ -6,3 +6,6 @@ DISABLECODEMIRROR = 0
 
 # cat=basic//03; type=boolean; label=Disable preview autoupdate: If enabled the preview texts of existing content elements based on DCE, are not getting updated automatically. A link in preview text will be provided to update the texts with ajax.
 DISABLEDPREVIEWAUTOUPDATE = 0
+
+# cat=basic//04; type=boolean; label=Enable CodeMirror for preview: If enabled the textarea fields for preview bodytext will be replaced by CodeMirror editor, like dce field configuration or inline template.
+USECODEMIRRORFORPREVIEWFIELDS = 0
