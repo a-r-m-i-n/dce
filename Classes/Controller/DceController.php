@@ -131,7 +131,10 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 		$flexform = t3lib_div::xml2array(current($GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)));
 
 		$this->temporaryDceProperties = array();
-		$this->getVDefValues($flexform);
+		if(is_array($flexform)) {
+			$this->getVDefValues($flexform);
+		}
+
 
 		return $this->temporaryDceProperties;
 	}
@@ -253,8 +256,10 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 	protected function addDceFieldsToRecord(array $record) {
 		$flexformData = $record['pi_flexform_data'];
 		$this->temporaryDceProperties = array();
-		$this->getVDefValues($flexformData);
-		$record['dce'] = $this->temporaryDceProperties;
+		if (is_array($flexformData)) {
+			$this->getVDefValues($flexformData);
+			$record['dce'] = $this->temporaryDceProperties;
+		}
 		return $record;
 	}
 
