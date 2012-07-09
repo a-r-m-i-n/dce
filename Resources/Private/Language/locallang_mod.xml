@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+    <meta type="array">
+        <type>module</type>
+        <description>Language labels for the "DCE" BE Module</description>
+    </meta>
+    <data type="array">
+        <languageKey index="default" type="array">
+            <label index="mlang_tabs_tab">DCE</label>
+			<label index="mlang_labels_tablabel">DCE - Dynamic Content Elements</label>
+			<label index="mlang_labels_tabdescr">Module for faster access of DCE elements.</label>
+			<label index="createNewDce">Create new DCE</label>
+        </languageKey>
+
+        <languageKey index="de" type="array">
+			<label index="mlang_labels_tabdescr">Modul für schnelleren Zugriff auf DCE-Elemente.</label>
+			<label index="createNewDce">Erstelle neues DCE</label>
+        </languageKey>
+    </data>
+</T3locallang>

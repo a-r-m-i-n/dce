@@ -21,6 +21,24 @@ Tx_Extbase_Utility_Extension::registerModule(
 	)
 );
 
+$extConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dce']);
+if ($extConfiguration['ENABLEDCEMODULE'] == 1) {
+	Tx_Extbase_Utility_Extension::registerModule(
+		$_EXTKEY,
+		'tools',
+		'dceModule',
+		'',
+		array(
+			'DceModule' => 'index'
+		),
+		array(
+			'access' => 'user,group',
+			'icon'   => 'EXT:' . $_EXTKEY . '/ext_icon.gif',
+			'labels' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_mod.xml',
+		)
+	);
+}
+
 $TCA['tx_dce_domain_model_dce'] = array(
     'ctrl' => array(
         'title'    => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce',

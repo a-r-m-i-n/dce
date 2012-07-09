@@ -1,0 +1,34 @@
+{namespace dce=Tx_Dce_ViewHelpers}
+<f:be.container loadExtJs="false" loadPrototype="false" loadScriptaculous="false" enableClickMenu="false" pageTitle="Serviceportal Backend">
+	<div class="typo3-fullDoc">
+		<div id="typo3-docheader">
+			<div id="typo3-docheader-row1">
+				<div class="buttonsleft">
+					<f:render section="iconButtons" />
+				</div>
+				<div class="buttonsright">
+					<f:be.buttons.shortcut />
+				</div>
+			</div>
+			<div id="typo3-docheader-row2">
+				<div class="docheader-row2-left">
+					<f:be.buttons.csh />
+				</div>
+				<div class="docheader-row2-right">
+					<f:be.pagePath />
+					<f:be.pageInfo />
+				</div>
+			</div>
+		</div>
+		<div id="typo3-docbody">
+			<div id="typo3-inner-docbody">
+				<h4 class="uppercase">
+					<f:image src="{f:uri.resource(path:'Icons/ext_icon.gif')}" alt="{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang_mod.xml:mlang_labels_tablabel')}" />
+					<span><f:translate key="LLL:EXT:dce/Resources/Private/Language/locallang_mod.xml:mlang_labels_tablabel" /></span>
+				</h4>
+				<f:flashMessages renderMode="div" /><br />
+				<f:render section="content" />
+			</div>
+		</div>
+	</div>
+</f:be.container>
