@@ -1,21 +1,15 @@
 {namespace dce=Tx_Dce_ViewHelpers}
 <f:layout name="customTcaField" />
 
+<f:section name="head">
+	<dce:be.includeCssFile path="{f:uri.resource(path:'Libraries/codemirror/codemirror.css', extensionName:'dce')}" />
+	<dce:be.includeCssFile path="{f:uri.resource(path:'Libraries/codemirror/codemirror_custom.css', extensionName:'dce')}" />
+
+	<dce:be.includeJsFile path="{f:uri.resource(path:'Libraries/codemirror/codemirror_custom.min.js', extensionName:'dce')}" />
+	<dce:be.includeJsFile path="{f:uri.resource(path:'Libraries/codemirror/init.js', extensionName:'dce')}" />
+</f:section>
+
 <f:section name="main">
-	<style>
-		@import url("{f:uri.resource(path:'Libraries/codemirror/codemirror.css', extensionName:'dce')}");
-		.CodeMirror {
-			background: #fff;
-			border: 1px solid #c0c0c0;
-			font-size: 12px;
-			margin-bottom: 5px;
-		}
-
-		#dceConfigurationWizard select.select {
-			margin: 0 0 5px;
-		}
-	</style>
-
 	<div id="dceConfigurationWizard">
 		<f:if condition="{disableCodemirror}">
 			<f:then></f:then>
@@ -39,10 +33,7 @@
 		<f:then></f:then>
 		<f:else>
 			<script type="text/javascript">
-				parent.dce_editors = parent.dce_editors || [];
-				var	codearea = $('codemirror_{uniqueIdentifier}');
-				var codeMirrorMode = '{parameters.mode}';
-				<dce:include.resource path="Libraries/codemirror/init.js" extensionName="dce" />
+				initCodeMirrorEditor($('codemirror_{uniqueIdentifier}'));
 			</script>
 		</f:else>
 	</f:if>

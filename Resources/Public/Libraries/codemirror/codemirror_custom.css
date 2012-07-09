@@ -1,0 +1,18 @@
+.CodeMirror {
+	background: #fff;
+	border: 1px solid #c0c0c0;
+	font-size: 12px;
+	margin-bottom: 5px;
+	height: auto;
+}
+
+.CodeMirror-scroll {
+	height: auto;
+	overflow-y: hidden;
+	overflow-x: auto;
+	padding-bottom: 18px;
+}
+
+#dceConfigurationWizard select.select {
+	margin: 0 0 5px;
+}
