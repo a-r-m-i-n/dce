@@ -1,4 +1,4 @@
-var codemirrorEditors = [];
+var codemirrorEditors = codemirrorEditors || [];
 
 /**
  * Initializes the CodeMirror editor for given textarea.
