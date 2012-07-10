@@ -23,7 +23,15 @@ function initCodeMirrorEditor(textarea, mode) {
 
 		// Set width of codemirror to avoid frame scrollbars
 	var windowWidth = $$('#typo3-inner-docbody > h2')[0].getWidth();
-	editor.getWrapperElement().style.width = windowWidth - 40 + 'px';
+	var wrapper = editor.getWrapperElement();
+
+	var widthPuffer = 40;
+	var fieldEditor = (wrapper.match('div.t3-form-field-record-inline') ? wrapper : wrapper.up('div.t3-form-field-record-inline') !== undefined);
+	if (fieldEditor) {
+		widthPuffer += 65;
+	}
+
+	wrapper.style.width = windowWidth - widthPuffer + 'px';
 	codemirrorEditors.push(editor);
 
 	window.setTimeout(function(){
