@@ -47,9 +47,9 @@
 			<label index="tx_dce_domain_model_dcefield.variable">Variable (unique key for usage in fluid template)</label>
 			<label index="tx_dce_domain_model_dcefield.configuration">Configuration</label>
 
-			<label index="tx_dce_formeval_headline">Fieldinput invalidate</label>
-			<label index="tx_dce_formeval_noLeadingNumber">The field 'variable' may not start with numbers. Changed input from '%s' to '%s'.</label>
-			<label index="tx_dce_formeval_lowerCamelCase">The field 'variable' have to be formated as lowerCamelCase. Changed input from '%s' to '%s'.</label>
+			<label index="tx_dce_formeval_headline">Input '%s' not valid</label>
+			<label index="tx_dce_formeval_noLeadingNumber">The value may not start with numbers. Changed input from '%s' to '%s'.</label>
+			<label index="tx_dce_formeval_lowerCamelCase">The value have to be formated as lowerCamelCase. Changed input from '%s' to '%s'.</label>
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="wizardIcon.default">Standard TYPO3-Icons</label>
@@ -93,9 +93,9 @@
 			<label index="tx_dce_domain_model_dcefield.variable">Variable (eindeutiger Schlüssel, wird im Fluid-Template verwendet)</label>
 			<label index="tx_dce_domain_model_dcefield.configuration">Konfiguration</label>
 
-			<label index="tx_dce_formeval_headline">Feldeingabe invalide</label>
-			<label index="tx_dce_formeval_noLeadingNumber">Das Feld 'variable' darf nicht mit Nummern beginnen. Eingabe wurde von '%s' nach '%s' geändert.</label>
-			<label index="tx_dce_formeval_lowerCamelCase">Das Feld 'variable' muss nach lowerCamelCase formatiet sein. Eingabe wurde von '%s' nach '%s' geändert.</label>
+			<label index="tx_dce_formeval_headline">Eingabe '%s' ungültig</label>
+			<label index="tx_dce_formeval_noLeadingNumber">Der Wert darf nicht mit Nummern beginnen. Eingabe wurde von '%s' nach '%s' geändert.</label>
+			<label index="tx_dce_formeval_lowerCamelCase">Der Wert muss nach lowerCamelCase formatiet sein. Eingabe wurde von '%s' nach '%s' geändert.</label>
 		</languageKey>
 	</data>
 </T3locallang>

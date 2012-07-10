@@ -43,7 +43,7 @@ class tx_dce_formevals_noLeadingNumber extends tx_dce_abstract_formeval {
 		if ($matches[0] !== $matches [1]) {
 			$this->addFlashMessage(
 				$this->translate('tx_dce_formeval_noLeadingNumber', array($value, $matches[1])),
-				$this->translate('tx_dce_formeval_headline'),
+				$this->translate('tx_dce_formeval_headline', array($value)),
 				t3lib_FlashMessage::NOTICE
 			);
 		}

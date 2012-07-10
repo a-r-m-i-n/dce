@@ -45,7 +45,7 @@ class tx_dce_formevals_lowerCamelCase extends tx_dce_abstract_formeval {
 		if ($originalValue !== $value && !empty($value)) {
 			$this->addFlashMessage(
 				$this->translate('tx_dce_formeval_lowerCamelCase', array($originalValue, $value)),
-				$this->translate('tx_dce_formeval_headline'),
+				$this->translate('tx_dce_formeval_headline', array($value)),
 				t3lib_FlashMessage::NOTICE
 			);
 		}
