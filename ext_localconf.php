@@ -15,6 +15,9 @@ if ($extConfiguration['DISABLEDPREVIEWAUTOUPDATE'] == 1) {
 		= 'EXT:dce/Classes/Hooks/tx_update_contentelement.php:tx_update_contentelement->updateContentElement';
 }
 
+// User conditions
+include_once(t3lib_extMgm::extPath('dce') . 'Classes/UserConditions/user_dceOnCurrentPage.php');
+
 // Rendering hook of content elements in backend
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['tt_content_drawItem'][] =
 	'EXT:' . $_EXTKEY . '/Classes/Hooks/tx_renderDceContentElement.php:tx_renderDceContentElement';
