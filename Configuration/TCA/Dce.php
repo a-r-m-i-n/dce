@@ -80,7 +80,6 @@ $TCA['tx_dce_domain_model_dce'] = array(
 				'minitems' => 1,
 				'maxitems' => 999,
 				'appearance' => array(
-					'collapseAll' => 1,
 					'enabledControls' => array(
 						'hide' => false,
 						'dragdrop' => true,
