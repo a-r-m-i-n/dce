@@ -29,7 +29,10 @@ if (TYPO3_MODE === 'BE') {
 	require_once(t3lib_extMgm::extPath($_EXTKEY).'Classes/UserFunction/class.tx_dce_codemirrorField.php');
 	require_once(t3lib_extMgm::extPath($_EXTKEY) . 'Classes/UserFunction/class.tx_dce_dceFieldCustomLabel.php');
 }
+
+// Special tce validators (eval)
 $TYPO3_CONF_VARS['SC_OPTIONS']['tce']['formevals']['tx_dce_formevals_lowerCamelCase'] = 'EXT:dce/Classes/UserFunction/class.tx_dce_formevals_lowerCamelCase.php';
+$TYPO3_CONF_VARS['SC_OPTIONS']['tce']['formevals']['tx_dce_formevals_noLeadingNumber'] = 'EXT:dce/Classes/UserFunction/class.tx_dce_formevals_noLeadingNumber.php';
 
 $pathDceLocalconf = PATH_typo3conf . 'temp_CACHED_dce_ext_localconf.php';
 if (!file_exists($pathDceLocalconf)) {
