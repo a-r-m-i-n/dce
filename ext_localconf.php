@@ -31,6 +31,7 @@ if (TYPO3_MODE === 'BE') {
 }
 
 // Special tce validators (eval)
+include_once(t3lib_extMgm::extPath('dce') . 'Classes/UserFunction/class.tx_dce_abstract_formeval.php');
 $TYPO3_CONF_VARS['SC_OPTIONS']['tce']['formevals']['tx_dce_formevals_lowerCamelCase'] = 'EXT:dce/Classes/UserFunction/class.tx_dce_formevals_lowerCamelCase.php';
 $TYPO3_CONF_VARS['SC_OPTIONS']['tce']['formevals']['tx_dce_formevals_noLeadingNumber'] = 'EXT:dce/Classes/UserFunction/class.tx_dce_formevals_noLeadingNumber.php';
 

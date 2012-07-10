@@ -30,14 +30,7 @@
  * @package dce
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  */
-class tx_dce_formevals_lowerCamelCase {
-
-	/**
-	 * No JavaScript validation
-	 * @return void
-	 */
-	function returnFieldJS() {
-	}
+class tx_dce_formevals_lowerCamelCase extends tx_dce_abstract_formeval {
 
 	/**
 	 * PHP Validation to check lowerCamelCase
@@ -45,16 +38,17 @@ class tx_dce_formevals_lowerCamelCase {
 	 * @param string $value
 	 * @return mixed|string Updated string, which fits the requirements
 	 */
-	function evaluateFieldValue($value) {
-		$value = str_replace('-', '_', $value);
+	public function evaluateFieldValue($value) {
+		$originalValue = $value;
+		$value = t3lib_div::underscoredToLowerCamelCase(str_replace('-', '_', $value));
 
-		while (strpos($value, '_') !== FALSE) {
-			$position = strpos($value, '_') + 1;
-			$value = substr($value, 0, $position - 1) . strtoupper(substr($value, $position, 1)) . substr($value, $position + 1);
+		if ($originalValue !== $value && !empty($value)) {
+			$this->addFlashMessage(
+				$this->translate('tx_dce_formeval_lowerCamelCase', array($originalValue, $value)),
+				$this->translate('tx_dce_formeval_headline'),
+				t3lib_FlashMessage::NOTICE
+			);
 		}
-
-		$value = str_replace('_', '', $value);
-		$value{0} = strtolower($value{0});
 		return $value;
 	}
 }

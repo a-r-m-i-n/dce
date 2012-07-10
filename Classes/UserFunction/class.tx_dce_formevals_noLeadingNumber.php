@@ -30,14 +30,7 @@
  * @package dce
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  */
-class tx_dce_formevals_noLeadingNumber {
-
-	/**
-	 * No JavaScript validation
-	 * @return void
-	 */
-	function returnFieldJS() {
-	}
+class tx_dce_formevals_noLeadingNumber extends tx_dce_abstract_formeval {
 
 	/**
 	 * PHP Validation to disallow leading numbers
@@ -45,8 +38,15 @@ class tx_dce_formevals_noLeadingNumber {
 	 * @param string $value
 	 * @return mixed|string Updated string, which fits the requirements
 	 */
-	function evaluateFieldValue($value) {
+	public function evaluateFieldValue($value) {
 		preg_match('/^\d*(.*)/i', $value, $matches);
+		if ($matches[0] !== $matches [1]) {
+			$this->addFlashMessage(
+				$this->translate('tx_dce_formeval_noLeadingNumber', array($value, $matches[1])),
+				$this->translate('tx_dce_formeval_headline'),
+				t3lib_FlashMessage::NOTICE
+			);
+		}
 		return $matches[1];
 	}
 }
