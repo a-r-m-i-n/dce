@@ -40,7 +40,10 @@ class tx_dce_formevals_lowerCamelCase extends tx_dce_abstract_formeval {
 	 */
 	public function evaluateFieldValue($value) {
 		$originalValue = $value;
-		$value = t3lib_div::underscoredToLowerCamelCase(str_replace('-', '_', $value));
+		$value = str_replace('-', '_', $value);
+		if (strpos($value, '_') !== FALSE) {
+			$value = t3lib_div::underscoredToLowerCamelCase($value);
+		}
 
 		if ($originalValue !== $value && !empty($value)) {
 			$this->addFlashMessage(
