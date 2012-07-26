@@ -151,3 +151,4 @@ class tx_dce_codemirrorField {
 	}
 
 }
+?>
