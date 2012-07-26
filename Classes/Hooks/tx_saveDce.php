@@ -69,7 +69,10 @@ class tx_saveDce {
 		}
 
 			// Clear cache if dce or dcefield has been created or updated
-		if (in_array($table, array('tx_dce_domain_model_dce', 'tx_dce_domain_model_dcefield')) && in_array($status, array('update', 'new'))) {
+		if ($this->extConfiguration['DISABLEAUTOCLEARCACHE'] == 0
+				&& in_array($table, array('tx_dce_domain_model_dce', 'tx_dce_domain_model_dcefield'))
+				&& in_array($status, array('update', 'new'))
+		) {
 			t3lib_extMgm::removeCacheFiles('temp_CACHED_dce');
 		}
     }
