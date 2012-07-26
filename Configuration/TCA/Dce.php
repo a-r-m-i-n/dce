@@ -295,19 +295,28 @@ $TCA['tx_dce_domain_model_dce'] = array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.headerPreview',
 			'config' => array(
-				'type' => 'input',
-				'size' => 30,
-				'eval' => 'trim'
+				'type' => 'user',
+				'size' => '30',
+				'userFunc' => 'EXT:dce/Classes/UserFunction/class.tx_dce_codemirrorField.php:tx_dce_codemirrorField->getCodemirrorField',
+				'parameters' => array(
+					'mode' => 'htmlmixed',
+					'showTemplates' => FALSE,
+				),
+				'default' => '{field.yourVariable}',
 			),
 		),
 		'bodytext_preview' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.bodytextPreview',
 			'config' => array(
-				'type' => 'text',
-				'rows' => 5,
-				'cols' => 30,
-				'eval' => 'trim'
+				'type' => 'user',
+				'size' => '30',
+				'userFunc' => 'EXT:dce/Classes/UserFunction/class.tx_dce_codemirrorField.php:tx_dce_codemirrorField->getCodemirrorField',
+				'parameters' => array(
+					'mode' => 'htmlmixed',
+					'showTemplates' => FALSE,
+				),
+				'default' => '{field.yourVariable}',
 			),
 		),
 	),
