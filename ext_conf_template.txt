@@ -1,14 +1,11 @@
 # cat=basic//01; type=boolean; label=Enable DCE module: Enable or disable own module under admin tools for faster DCE access
 ENABLEDCEMODULE = 1
 
-# cat=basic//02; type=boolean; label=Disable automatic clear cache: If enabled, the dce cache will not get cleared automatically on changes
+# cat=basic//02; type=boolean; label=Disable automatic clear cache: If enabled, the dce cache will not get cleared automatically on changes of DCE
 DISABLEAUTOCLEARCACHE = 0
 
-# cat=basic//03; type=boolean; label=Disable CodeMirror: If enabled the textareas for "field configuration" and "DCE inline template" are not replaced by syntaxhighlighting code editor (CodeMirror)
+# cat=basic//03; type=boolean; label=Disable CodeMirror: If enabled the textareas for field configuration, DCE inline template and preview texts are not replaced by syntaxhighlighting code editor (CodeMirror)
 DISABLECODEMIRROR = 0
 
-# cat=basic//04; type=boolean; label=Disable preview autoupdate: If enabled the preview texts of existing content elements based on DCE, are not getting updated automatically. A link in preview text will be provided to update the texts with ajax.
+# cat=basic//04; type=boolean; label=Disable preview autoupdate: If enabled the preview texts of existing content elements based on DCE, are not getting updated automatically when the DCE changed. A link in preview text will be displayed to update the texts manually with ajax.
 DISABLEDPREVIEWAUTOUPDATE = 0
-
-# cat=basic//05; type=boolean; label=Enable CodeMirror for preview: If enabled the textarea fields for preview bodytext will be replaced by CodeMirror editor, like dce field configuration or inline template.
-USECODEMIRRORFORPREVIEWFIELDS = 0

@@ -312,28 +312,4 @@ $TCA['tx_dce_domain_model_dce'] = array(
 		),
 	),
 );
-
-$extConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dce']);
-if ($extConfiguration['USECODEMIRRORFORPREVIEWFIELDS'] == 1) {
-	$TCA['tx_dce_domain_model_dce']['columns']['header_preview']['config'] = array(
-		'type' => 'user',
-		'size' => '30',
-		'userFunc' => 'EXT:dce/Classes/UserFunction/class.tx_dce_codemirrorField.php:tx_dce_codemirrorField->getCodemirrorField',
-		'parameters' => array(
-			'mode' => 'htmlmixed',
-			'showTemplates' => FALSE,
-		),
-		'default' => '{field.yourVariable}',
-	);
-	$TCA['tx_dce_domain_model_dce']['columns']['bodytext_preview']['config'] = array(
-		'type' => 'user',
-		'size' => '30',
-		'userFunc' => 'EXT:dce/Classes/UserFunction/class.tx_dce_codemirrorField.php:tx_dce_codemirrorField->getCodemirrorField',
-		'parameters' => array(
-			'mode' => 'htmlmixed',
-			'showTemplates' => FALSE,
-		),
-		'default' => '{field.yourVariable}',
-	);
-}
 ?>
