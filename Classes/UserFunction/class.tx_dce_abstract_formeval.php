@@ -47,6 +47,7 @@ abstract class tx_dce_abstract_formeval {
 	 * @return mixed
 	 */
 	public function evaluateFieldValue($value) {
+		return $value;
 	}
 
 	/**
