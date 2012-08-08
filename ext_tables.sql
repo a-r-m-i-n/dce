@@ -22,6 +22,8 @@ CREATE TABLE tx_dce_domain_model_dce (
 	hide_default_ce_wrap varchar(255) DEFAULT '' NOT NULL,
 	header_preview text,
 	bodytext_preview text,
+	enable_detailpage tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	detailpage_template text,
 
     tstamp int(11) unsigned DEFAULT '0' NOT NULL,
     crdate int(11) unsigned DEFAULT '0' NOT NULL,

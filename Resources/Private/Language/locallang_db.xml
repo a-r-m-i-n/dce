@@ -34,6 +34,10 @@
 			<label index="tx_dce_domain_model_dce.layoutRootPath">Fluid layout root path</label>
 			<label index="tx_dce_domain_model_dce.partialRootPath">Fluid partial root path</label>
 
+			<label index="tx_dce_domain_model_dce.detailpage">Detail page</label>
+			<label index="tx_dce_domain_model_dce.enableDetailpage">Enable detail page</label>
+			<label index="tx_dce_domain_model_dce.detailpageTemplate">Detail page template</label>
+
 			<label index="tx_dce_domain_model_dce.miscellaneous">Miscellaneous</label>
 			<label index="tx_dce_domain_model_dce.cacheDce">Cache DCE frontend plugin</label>
 			<label index="tx_dce_domain_model_dce.showAccessTab">Show access tab</label>
@@ -79,6 +83,10 @@
 			<label index="tx_dce_domain_model_dce.templateFile">Template-Datei (Fluid)</label>
 			<label index="tx_dce_domain_model_dce.layoutRootPath">Fluid Layout Root-Verzeichnis</label>
 			<label index="tx_dce_domain_model_dce.partialRootPath">Fluid Partial Root-Verzeichnis</label>
+
+			<label index="tx_dce_domain_model_dce.detailpage">Detailseite</label>
+			<label index="tx_dce_domain_model_dce.enableDetailpage">Aktiviere Detailseite</label>
+			<label index="tx_dce_domain_model_dce.detailpageTemplate">Detailseiten-Template</label>
 
 			<label index="tx_dce_domain_model_dce.miscellaneous">Sonstiges</label>
 			<label index="tx_dce_domain_model_dce.cacheDce">DCE Frontend Plugin Cache aktivieren</label>

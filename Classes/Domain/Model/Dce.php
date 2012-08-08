@@ -59,6 +59,12 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 	/** @var string */
 	protected $bodytextPreview = '';
 
+	/** @var boolean */
+	protected $enableDetailpage = FALSE;
+
+	/** @var string */
+	protected $detailpageTemplate = '';
+
 
 	/**
 	 * __construct
@@ -210,6 +216,34 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 	 */
 	public function setBodytextPreview($bodytextPreview) {
 		$this->bodytextPreview = $bodytextPreview;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getEnableDetailpage() {
+		return $this->enableDetailpage;
+	}
+
+	/**
+	 * @param boolean $enableDetailpage
+	 */
+	public function setEnableDetailpage($enableDetailpage) {
+		$this->enableDetailpage = $enableDetailpage;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getDetailpageTemplate() {
+		return $this->detailpageTemplate;
+	}
+
+	/**
+	 * @param string $detailpageTemplate
+	 */
+	public function setDetailpageTemplate($detailpageTemplate) {
+		$this->detailpageTemplate = $detailpageTemplate;
 	}
 
 }

@@ -9,7 +9,7 @@ $TCA['tx_dce_domain_model_dce'] = array(
 		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'hidden;;1,title,fields,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.template,template_type,template_content;;;fixed-font:enable-tab,template_file,template_layout_root_path,template_partial_root_path,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.wizard,wizard_enable,wizard_category,wizard_description,wizard_icon,wizard_custom_icon,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.miscellaneous,cache_dce,header_preview,bodytext_preview,hide_default_ce_wrap,show_access_tab'),
+		'1' => array('showitem' => 'hidden;;1,title,fields,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.template,template_type,template_content;;;fixed-font:enable-tab,template_file,template_layout_root_path,template_partial_root_path,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.wizard,wizard_enable,wizard_category,wizard_description,wizard_icon,wizard_custom_icon,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.detailpage,enable_detailpage,detailpage_template,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.miscellaneous,cache_dce,header_preview,bodytext_preview,hide_default_ce_wrap,show_access_tab'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -319,6 +319,35 @@ $TCA['tx_dce_domain_model_dce'] = array(
 				'default' => '{field.yourVariable}',
 			),
 		),
+		'enable_detailpage' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.enableDetailpage',
+			'config' => array(
+				'type' => 'check',
+			),
+		),
+		'detailpage_template' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.detailpageTemplate',
+			'displayCond' => 'FIELD:enable_detailpage:IN:1',
+			'config' => array (
+				'type' => 'user',
+				'size' => '30',
+				'userFunc' => 'EXT:dce/Classes/UserFunction/class.tx_dce_codemirrorField.php:tx_dce_codemirrorField->getCodemirrorField',
+				'parameters' => array(
+					'mode' => 'htmlmixed',
+					'showTemplates' => FALSE,
+				),
+				'default' => '{namespace dce=Tx_Dce_ViewHelpers}
+<f:layout name="default" />
+
+<f:section name="main">
+	Your detailpage template goes here...
+</f:section>',
+			),
+		),
+
+
 	),
 );
 ?>

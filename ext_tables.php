@@ -60,7 +60,7 @@ $TCA['tx_dce_domain_model_dce'] = array(
             'endtime' => 'endtime',
         ),
         'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'Configuration/TCA/Dce.php',
-		'requestUpdate' => 'wizard_enable,template_type',
+		'requestUpdate' => 'wizard_enable,template_type,enable_detailpage',
         'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_dce_domain_model_dce.gif'
     ),
 );

@@ -30,9 +30,11 @@
  *
  */
 class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionController {
+	/** Fluid namespace for dce viewhelpers */
+	const DCE_NAMESPACE = '{namespace dce=Tx_Dce_ViewHelpers}';
+
 	/**
 	 * dceRepository
-	 *
 	 * @var Tx_Dce_Domain_Repository_DceRepository
 	 */
 	protected $dceRepository;
@@ -66,7 +68,7 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 	/**
 	 * action show
 	 *
-	 * @return string output of content element's settings
+	 * @return string output of dce in frontend
 	 * @throws UnexpectedValueException
 	 */
 	public function showAction() {
@@ -77,6 +79,12 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 		$dce = $this->dceRepository->findByUid(intval(substr($config['pluginName'], 6)));
 		if (get_class($dce) !== 'Tx_Dce_Domain_Model_Dce') {
 			throw new UnexpectedValueException('No DCE found with CType "' . $config['pluginName'] . '".', 1328613288);
+		}
+
+		if ($dce->getEnableDetailpage() && $contentObject['uid'] == intval(t3lib_div::_GP('detailDceUid'))) {
+			$dce = clone $dce;
+			$dce->setTemplateType('inline');
+			$dce->setTemplateContent($dce->getDetailpageTemplate());
 		}
 
 		$fluidTemplate = $this->createFluidTemplate($dce);
@@ -98,7 +106,6 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 	 * @return string
 	 */
 	public function renderPreviewAction() {
-		$namespacePrepend = '{namespace dce=Tx_Dce_ViewHelpers}';
 		$contentObject = $this->getContentObject($this->settings['contentElementUid']);
 
 		/** @var $dce Tx_Dce_Domain_Model_Dce */
@@ -108,7 +115,7 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 
 		$this->settings = $this->simulateContentElementSettings($this->settings['contentElementUid']);
 		$dce->setTemplateType('inline');
-		$dce->setTemplateContent($namespacePrepend . $dce->$getPreviewMethod());
+		$dce->setTemplateContent(self::DCE_NAMESPACE . $dce->$getPreviewMethod());
 
 		$fluidTemplate = $this->createFluidTemplate($dce);
 		$fields = $this->fillFields($dce);
