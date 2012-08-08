@@ -24,10 +24,11 @@
  ***************************************************************/
 
 /**
+ * DCE Module Controller
+ * Provides the backend DCE module, for faster and easier access to DCEs.
  *
  * @package dce
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
- *
  */
 class Tx_Dce_Controller_DceModuleController extends Tx_Extbase_MVC_Controller_ActionController {
 

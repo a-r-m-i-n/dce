@@ -24,6 +24,8 @@
  ***************************************************************/
 
 /**
+ * DCE Controller
+ * Handles the output of content element based on DCEs in frontend and also in backend.
  *
  * @package dce
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
@@ -157,7 +159,6 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 		if(is_array($flexform)) {
 			$this->getVDefValues($flexform);
 		}
-
 
 		return $this->temporaryDceProperties;
 	}
