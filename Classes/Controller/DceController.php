@@ -27,11 +27,24 @@
  *
  * @package dce
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
- *
  */
 class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionController {
-	/** Fluid namespace for dce viewhelpers */
-	const DCE_NAMESPACE = '{namespace dce=Tx_Dce_ViewHelpers}';
+	/** Identifier for default DCE templates */
+	const TEMPLATE_FIELD_DEFAULT = 0;
+	/** Identifier for header preview templates */
+	const TEMPLATE_FIELD_HEADERPREVIEW = 1;
+	/** Identifier for bodytext preview templates */
+	const TEMPLATE_FIELD_BODYTEXTPREVIEW = 2;
+	/** Identifier for detail page templates */
+	const TEMPLATE_FIELD_DETAILPAGE = 3;
+
+	/** @var array database field names of columns for different types of templates */
+	protected $templateFields = array(
+		self::TEMPLATE_FIELD_DEFAULT => array('type' => 'template_type', 'inline' => 'template_content', 'file' => 'template_file'),
+		self::TEMPLATE_FIELD_HEADERPREVIEW => array('type' => 'preview_template_type', 'inline' => 'header_preview', 'file' => 'header_preview_template_file'),
+		self::TEMPLATE_FIELD_BODYTEXTPREVIEW => array('type' => 'preview_template_type', 'inline' => 'bodytext_preview', 'file' => 'bodytext_preview_template_file'),
+		self::TEMPLATE_FIELD_DETAILPAGE => array('type' => 'detailpage_template_type', 'inline' => 'detailpage_template', 'file' => 'detailpage_template_file'),
+	);
 
 	/**
 	 * dceRepository
@@ -82,22 +95,13 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 		}
 
 		if ($dce->getEnableDetailpage() && $contentObject['uid'] == intval(t3lib_div::_GP('detailDceUid'))) {
-			$dce = clone $dce;
-			$dce->setTemplateType('inline');
-			$dce->setTemplateContent($dce->getDetailpageTemplate());
+			$fluidTemplate = $this->createFluidTemplate($dce, self::TEMPLATE_FIELD_DETAILPAGE);
+		} else {
+			$fluidTemplate = $this->createFluidTemplate($dce);
 		}
 
-		$fluidTemplate = $this->createFluidTemplate($dce);
-		$fields = $this->fillFields($dce);
-
-		$fluidTemplate->assign('dce', $dce);
-		$fluidTemplate->assign('contentObject', $contentObject);
-
-		$fluidTemplate->assign('field', $fields);
-		$fluidTemplate->assign('fields', $fields);
-
-		$output = $fluidTemplate->render();
-		return $output;
+		$this->assignVariablesToFluidTemplate($fluidTemplate, $dce, $contentObject);
+		return $fluidTemplate->render();
 	}
 
 	/**
@@ -110,14 +114,28 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 
 		/** @var $dce Tx_Dce_Domain_Model_Dce */
 		$dce = clone $this->dceRepository->findByUid($this->settings['dceUid']);
-		$getPreviewMethod = 'get' . ucfirst($this->settings['previewType']) . 'Preview';
-		if (!$dce->$getPreviewMethod()) { return ''; }
-
+		$previewType = $this->settings['previewType'];
 		$this->settings = $this->simulateContentElementSettings($this->settings['contentElementUid']);
-		$dce->setTemplateType('inline');
-		$dce->setTemplateContent(self::DCE_NAMESPACE . $dce->$getPreviewMethod());
 
-		$fluidTemplate = $this->createFluidTemplate($dce);
+		if ($previewType === 'header') {
+			$fluidTemplate = $this->createFluidTemplate($dce, self::TEMPLATE_FIELD_HEADERPREVIEW);
+		} else {
+			$fluidTemplate = $this->createFluidTemplate($dce, self::TEMPLATE_FIELD_BODYTEXTPREVIEW);
+		}
+
+		$this->assignVariablesToFluidTemplate($fluidTemplate, $dce, $contentObject);
+		return $fluidTemplate->render();
+	}
+
+	/**
+	 * Assigns the dce, its fields and the contentObject to given, refered fluidTemplate.
+	 *
+	 * @param Tx_Fluid_View_StandaloneView $fluidTemplate
+	 * @param Tx_Dce_Domain_Model_Dce $dce
+	 * @param array $contentObject
+	 * @return void
+	 */
+	protected function assignVariablesToFluidTemplate(Tx_Fluid_View_StandaloneView $fluidTemplate, Tx_Dce_Domain_Model_Dce $dce, array $contentObject) {
 		$fields = $this->fillFields($dce);
 
 		$fluidTemplate->assign('dce', $dce);
@@ -125,8 +143,6 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 
 		$fluidTemplate->assign('field', $fields);
 		$fluidTemplate->assign('fields', $fields);
-
-		return $fluidTemplate->render();
 	}
 
 	/**
@@ -239,16 +255,28 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 	 * Creates a fluid template
 	 *
 	 * @param Tx_Dce_Domain_Model_Dce $dce
+	 * @param integer $field
 	 * @return Tx_Fluid_View_StandaloneView
 	 */
-	protected function createFluidTemplate(Tx_Dce_Domain_Model_Dce $dce) {
+	protected function createFluidTemplate(Tx_Dce_Domain_Model_Dce $dce, $field = self::TEMPLATE_FIELD_DEFAULT) {
+		$templateFields = $this->templateFields[$field];
+		$typeGetter = 'get' . ucfirst(t3lib_div::underscoredToLowerCamelCase($templateFields['type']));
+
 		/** @var $fluidTemplate Tx_Fluid_View_StandaloneView */
 		$fluidTemplate = t3lib_div::makeInstance('Tx_Fluid_View_StandaloneView');
-		if ($dce->getTemplateType() === 'inline') {
-			$fluidTemplate->setTemplateSource($dce->getTemplateContent());
+		if ($dce->$typeGetter() === 'inline') {
+			$inlineTemplateGetter = 'get' . ucfirst(t3lib_div::underscoredToLowerCamelCase($templateFields['inline']));
+			$fluidTemplate->setTemplateSource($dce->$inlineTemplateGetter());
 		} else {
-			$fluidTemplate->setTemplatePathAndFilename($dce->getTemplateFile());
+			$fileTemplateGetter = 'get' . ucfirst(t3lib_div::underscoredToLowerCamelCase($templateFields['file']));
+			$filePath = PATH_site . $dce->$fileTemplateGetter();
+			if (!file_exists($filePath)) {
+				$fluidTemplate->setTemplateSource('');
+			} else {
+				$fluidTemplate->setTemplatePathAndFilename($filePath);
+			}
 		}
+
 		$fluidTemplate->setLayoutRootPath(t3lib_div::getFileAbsFileName($dce->getTemplateLayoutRootPath()));
 		$fluidTemplate->setPartialRootPath(t3lib_div::getFileAbsFileName($dce->getTemplatePartialRootPath()));
 		return $fluidTemplate;

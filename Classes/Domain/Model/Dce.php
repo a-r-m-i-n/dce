@@ -54,16 +54,31 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 	protected $templatePartialRootPath = '';
 
 	/** @var string */
+	protected $previewTemplateType = '';
+
+	/** @var string */
 	protected $headerPreview = '';
 
 	/** @var string */
+	protected $headerPreviewTemplateFile = '';
+
+	/** @var string */
 	protected $bodytextPreview = '';
+
+	/** @var string */
+	protected $bodytextPreviewTemplateFile = '';
 
 	/** @var boolean */
 	protected $enableDetailpage = FALSE;
 
 	/** @var string */
+	protected $detailpageTemplateType = '';
+
+	/** @var string */
 	protected $detailpageTemplate = '';
+
+	/** @var string */
+	protected $detailpageTemplateFile = '';
 
 
 	/**
@@ -193,6 +208,20 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 	/**
 	 * @return string
 	 */
+	public function getPreviewTemplateType() {
+		return $this->previewTemplateType;
+	}
+
+	/**
+	 * @param string $previewTemplateType
+	 */
+	public function setPreviewTemplateType($previewTemplateType) {
+		$this->previewTemplateType = $previewTemplateType;
+	}
+
+	/**
+	 * @return string
+	 */
 	public function getHeaderPreview() {
 		return $this->headerPreview;
 	}
@@ -207,6 +236,20 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 	/**
 	 * @return string
 	 */
+	public function getHeaderPreviewTemplateFile() {
+		return $this->headerPreviewTemplateFile;
+	}
+
+	/**
+	 * @param string $headerPreviewTemplateFile
+	 */
+	public function setHeaderPreviewTemplateFile($headerPreviewTemplateFile) {
+		$this->headerPreviewTemplateFile = $headerPreviewTemplateFile;
+	}
+
+	/**
+	 * @return string
+	 */
 	public function getBodytextPreview() {
 		return $this->bodytextPreview;
 	}
@@ -216,6 +259,20 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 	 */
 	public function setBodytextPreview($bodytextPreview) {
 		$this->bodytextPreview = $bodytextPreview;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getBodytextPreviewTemplateFile() {
+		return $this->bodytextPreviewTemplateFile;
+	}
+
+	/**
+	 * @param string $bodytextPreviewTemplateFile
+	 */
+	public function setBodytextPreviewTemplateFile($bodytextPreviewTemplateFile) {
+		$this->bodytextPreviewTemplateFile = $bodytextPreviewTemplateFile;
 	}
 
 	/**
@@ -235,6 +292,20 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 	/**
 	 * @return string
 	 */
+	public function getDetailpageTemplateType() {
+		return $this->detailpageTemplateType;
+	}
+
+	/**
+	 * @param string $detailpageTemplateType
+	 */
+	public function setDetailpageTemplateType($detailpageTemplateType) {
+		$this->detailpageTemplateType = $detailpageTemplateType;
+	}
+
+	/**
+	 * @return string
+	 */
 	public function getDetailpageTemplate() {
 		return $this->detailpageTemplate;
 	}
@@ -244,6 +315,20 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 	 */
 	public function setDetailpageTemplate($detailpageTemplate) {
 		$this->detailpageTemplate = $detailpageTemplate;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getDetailpageTemplateFile() {
+		return $this->detailpageTemplateFile;
+	}
+
+	/**
+	 * @param string $detailpageTemplateFile
+	 */
+	public function setDetailpageTemplateFile($detailpageTemplateFile) {
+		$this->detailpageTemplateFile = $detailpageTemplateFile;
 	}
 
 }

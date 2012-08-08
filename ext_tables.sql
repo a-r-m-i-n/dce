@@ -7,23 +7,32 @@ CREATE TABLE tx_dce_domain_model_dce (
 
 	title varchar(255) DEFAULT '' NOT NULL,
 	fields text,
+
 	wizard_enable varchar(255) DEFAULT '' NOT NULL,
 	wizard_category varchar(255) DEFAULT '' NOT NULL,
 	wizard_description text,
 	wizard_icon varchar(255) DEFAULT '' NOT NULL,
 	wizard_custom_icon varchar(255) DEFAULT '' NOT NULL,
+
 	template_type varchar(255) DEFAULT '' NOT NULL,
 	template_content text,
 	template_file varchar(255) DEFAULT '' NOT NULL,
-	template_layout_root_path varchar(255) DEFAULT '' NOT NULL,
-	template_partial_root_path varchar(255) DEFAULT '' NOT NULL,
+
 	cache_dce varchar(255) DEFAULT '' NOT NULL,
 	show_access_tab varchar(255) DEFAULT '' NOT NULL,
 	hide_default_ce_wrap varchar(255) DEFAULT '' NOT NULL,
+	preview_template_type varchar(255) DEFAULT '' NOT NULL,
 	header_preview text,
+	header_preview_template_file varchar(255) DEFAULT '' NOT NULL,
 	bodytext_preview text,
+	bodytext_preview_template_file varchar(255) DEFAULT '' NOT NULL,
+	template_layout_root_path varchar(255) DEFAULT '' NOT NULL,
+	template_partial_root_path varchar(255) DEFAULT '' NOT NULL,
+
 	enable_detailpage tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	detailpage_template_type varchar(255) DEFAULT '' NOT NULL,
 	detailpage_template text,
+	detailpage_template_file varchar(255) DEFAULT '' NOT NULL,
 
     tstamp int(11) unsigned DEFAULT '0' NOT NULL,
     crdate int(11) unsigned DEFAULT '0' NOT NULL,
