@@ -40,6 +40,7 @@ class Tx_Dce_ViewHelpers_Uri_DamViewHelper extends Tx_Fluid_Core_ViewHelper_Abst
 	 * @param boolean $returnArray If TRUE it returns an array with found media. If FALSE, returns them comma separated.
 	 *
 	 * @return array|string String or array with found media
+	 * @throws Exception
 	 */
 	public function render($field, array $contentObject, $returnArray = FALSE) {
 		if (!t3lib_extMgm::isLoaded('dam')) {
@@ -50,10 +51,11 @@ class Tx_Dce_ViewHelpers_Uri_DamViewHelper extends Tx_Fluid_Core_ViewHelper_Abst
 
 		/** @var $dam tx_dam_db */
 		$dam = t3lib_div::makeInstance('tx_dam_db');
+		$contentUid = (isset($contentObject['_LOCALIZED_UID'])) ? $contentObject['_LOCALIZED_UID'] : $contentObject['uid'];
 
 		$media = $dam->getReferencedFiles(
 			'tt_content',
-			intval($contentObject['uid']),
+			intval($contentUid),
 			$field,
 			'tx_dam_mm_ref'
 		);
