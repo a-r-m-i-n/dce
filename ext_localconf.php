@@ -9,7 +9,7 @@ $extConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$_
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] =
 	'EXT:' . $_EXTKEY . '/Classes/Hooks/tx_saveDce.php:tx_saveDce';
 
-if ($extConfiguration['DISABLEDPREVIEWAUTOUPDATE'] == 1) {
+if ($extConfiguration['disablePreviewAutoUpdate'] == 1) {
 	$GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['AJAX']['Dce::updateContentElement']
 		= 'EXT:dce/Classes/Hooks/tx_update_contentelement.php:tx_update_contentelement->updateContentElement';
 }

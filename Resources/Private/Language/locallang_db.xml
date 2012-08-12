@@ -17,6 +17,7 @@
 			<label index="tx_dce_domain_model_dce">DCE</label>
 			<label index="tx_dce_domain_model_dce_long">Dynamic Content Elements</label>
 			<label index="tx_dce_domain_model_dce.title">Title</label>
+			<label index="tx_dce_domain_model_dce.category">Category</label>
 			<label index="tx_dce_domain_model_dce.fields">Fields</label>
 			<label index="tx_dce_domain_model_dce.wizard">Wizard</label>
 			<label index="tx_dce_domain_model_dce.wizardEnable">Show DCE in content element Wizard</label>
@@ -72,6 +73,7 @@
 			<label index="tx_dce_domain_model_dce">DCE</label>
 			<label index="tx_dce_domain_model_dce_long">Dynamische Content-Elemente</label>
 			<label index="tx_dce_domain_model_dce.title">Titel</label>
+			<label index="tx_dce_domain_model_dce.category">Kategorie</label>
 			<label index="tx_dce_domain_model_dce.fields">Felder</label>
 			<label index="tx_dce_domain_model_dce.wizard">Wizard</label>
 			<label index="tx_dce_domain_model_dce.wizardEnable">Zeige DCE in Wizard zum Anlegen neuer Content-Elemente</label>

@@ -22,7 +22,7 @@ Tx_Extbase_Utility_Extension::registerModule(
 );
 
 $extConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dce']);
-if ($extConfiguration['ENABLEDCEMODULE'] == 1) {
+if ($extConfiguration['enableDceModule'] == 1) {
 	Tx_Extbase_Utility_Extension::registerModule(
 		$_EXTKEY,
 		'tools',

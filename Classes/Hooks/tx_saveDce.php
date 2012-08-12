@@ -69,7 +69,7 @@ class tx_saveDce {
 		}
 
 			// Clear cache if dce or dcefield has been created or updated
-		if ($this->extConfiguration['DISABLEAUTOCLEARCACHE'] == 0
+		if ($this->extConfiguration['disableAutoClearCache'] == 0
 				&& in_array($table, array('tx_dce_domain_model_dce', 'tx_dce_domain_model_dcefield'))
 				&& in_array($status, array('update', 'new'))
 		) {
@@ -109,7 +109,7 @@ class tx_saveDce {
 	protected function performPreviewAutoupdateBatchOnDceChange() {
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid', 'tt_content', 'CType="dce_dceuid' . $this->uid . '"');
 		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
-			if ($this->extConfiguration['DISABLEDPREVIEWAUTOUPDATE'] == 0) {
+			if ($this->extConfiguration['disablePreviewAutoUpdate'] == 0) {
 				$fieldArray = $this->generateDcePreview($row['uid']);
 			} else {
 				// if autoupdate of preview is disabled, show notice instead
