@@ -72,6 +72,9 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 	protected $enableDetailpage = FALSE;
 
 	/** @var string */
+	protected $detailpageIdentifier = '';
+
+	/** @var string */
 	protected $detailpageTemplateType = '';
 
 	/** @var string */
@@ -287,6 +290,20 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 	 */
 	public function setEnableDetailpage($enableDetailpage) {
 		$this->enableDetailpage = $enableDetailpage;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getDetailpageIdentifier() {
+		return $this->detailpageIdentifier;
+	}
+
+	/**
+	 * @param string $detailpageIdentifier
+	 */
+	public function setDetailpageIdentifier($detailpageIdentifier) {
+		$this->detailpageIdentifier = $detailpageIdentifier;
 	}
 
 	/**

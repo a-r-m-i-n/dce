@@ -9,7 +9,7 @@ $TCA['tx_dce_domain_model_dce'] = array(
 		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'hidden;;1,title,fields,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.template,template_type,template_content;;;fixed-font:enable-tab,template_file,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.wizard,wizard_enable,wizard_category,wizard_description,wizard_icon,wizard_custom_icon,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.detailpage,enable_detailpage,detailpage_template_type,detailpage_template,detailpage_template_file,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.miscellaneous,cache_dce,preview_template_type,header_preview,header_preview_template_file,bodytext_preview,bodytext_preview_template_file,hide_default_ce_wrap,show_access_tab,template_layout_root_path,template_partial_root_path'),
+		'1' => array('showitem' => 'hidden;;1,title,fields,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.template,template_type,template_content;;;fixed-font:enable-tab,template_file,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.wizard,wizard_enable,wizard_category,wizard_description,wizard_icon,wizard_custom_icon,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.detailpage,enable_detailpage,detailpage_identifier,detailpage_template_type,detailpage_template,detailpage_template_file,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.miscellaneous,cache_dce,preview_template_type,header_preview,header_preview_template_file,bodytext_preview,bodytext_preview_template_file,hide_default_ce_wrap,show_access_tab,template_layout_root_path,template_partial_root_path'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -67,7 +67,7 @@ $TCA['tx_dce_domain_model_dce'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => 30,
-				'eval' => 'trim,required'
+				'eval' => 'trim,required',
 			),
 		),
 		'fields' => array(
@@ -389,6 +389,16 @@ $TCA['tx_dce_domain_model_dce'] = array(
 			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.enableDetailpage',
 			'config' => array(
 				'type' => 'check',
+			),
+		),
+		'detailpage_identifier' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.detailpageIdentifier',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim',
+				'default' => 'detailDceUid',
 			),
 		),
 		'detailpage_template_type' => array(

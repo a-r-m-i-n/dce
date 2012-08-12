@@ -96,7 +96,7 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 			throw new UnexpectedValueException('No DCE found with CType "' . $config['pluginName'] . '".', 1328613288);
 		}
 
-		if ($dce->getEnableDetailpage() && $contentObject['uid'] == intval(t3lib_div::_GP('detailDceUid'))) {
+		if ($dce->getEnableDetailpage() && intval($contentObject['uid']) === intval(t3lib_div::_GP($dce->getDetailpageIdentifier()))) {
 			$fluidTemplate = $this->createFluidTemplate($dce, self::TEMPLATE_FIELD_DETAILPAGE);
 		} else {
 			$fluidTemplate = $this->createFluidTemplate($dce);

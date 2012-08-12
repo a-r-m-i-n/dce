@@ -36,7 +36,8 @@
 
 			<label index="tx_dce_domain_model_dce.detailpage">Detail page</label>
 			<label index="tx_dce_domain_model_dce.enableDetailpage">Enable detail page</label>
-			<label index="tx_dce_domain_model_dce.detailpageTemplate">Detail page template</label>
+			<label index="tx_dce_domain_model_dce.detailpageIdentifier">Detail page identifier (get parameter)</label>
+			<label index="tx_dce_domain_model_dce.detailpageTemplate">Detail page template (fluid)</label>
 			<label index="tx_dce_domain_model_dce.detailpageTemplateFile">Detail page template file (fluid)</label>
 
 			<label index="tx_dce_domain_model_dce.miscellaneous">Miscellaneous</label>
@@ -44,8 +45,8 @@
 			<label index="tx_dce_domain_model_dce.showAccessTab">Enable access tab in backend</label>
 			<label index="tx_dce_domain_model_dce.hideDefaultCeWrap">Disables the "div.csc-default" wrapping</label>
 			<label index="tx_dce_domain_model_dce.previewTemplateType">Preview texts template type</label>
-			<label index="tx_dce_domain_model_dce.headerPreview">Header preview template</label>
-			<label index="tx_dce_domain_model_dce.bodytextPreview">Bodytext preview template</label>
+			<label index="tx_dce_domain_model_dce.headerPreview">Header preview template (fluid)</label>
+			<label index="tx_dce_domain_model_dce.bodytextPreview">Bodytext preview template (fluid)</label>
 			<label index="tx_dce_domain_model_dce.headerPreviewTemplateFile">Header preview template file (fluid)</label>
 			<label index="tx_dce_domain_model_dce.bodytextPreviewTemplateFile">Bodytext preview template file (fluid)</label>
 
@@ -89,15 +90,19 @@
 			<label index="tx_dce_domain_model_dce.partialRootPath">Fluid Partial Root-Verzeichnis</label>
 
 			<label index="tx_dce_domain_model_dce.detailpage">Detailseite</label>
+			<label index="tx_dce_domain_model_dce.detailpageIdentifier">Detailseiten-Identifikator (GET parameter)</label>
 			<label index="tx_dce_domain_model_dce.enableDetailpage">Aktiviere Detailseite</label>
-			<label index="tx_dce_domain_model_dce.detailpageTemplate">Detailseiten-Template</label>
+			<label index="tx_dce_domain_model_dce.detailpageTemplate">Detailseiten-Template (Fluid)</label>
+			<label index="tx_dce_domain_model_dce.detailpageTemplateFile">Detailseiten-Template-Datei (Fluid)</label>
 
 			<label index="tx_dce_domain_model_dce.miscellaneous">Sonstiges</label>
 			<label index="tx_dce_domain_model_dce.cacheDce">DCE Frontend Plugin Cache aktivieren</label>
 			<label index="tx_dce_domain_model_dce.showAccessTab">Aktiviere "Zugriff" Tab im Backend</label>
 			<label index="tx_dce_domain_model_dce.hideDefaultCeWrap">Deaktiviere das "div.csc-default" Wrapping</label>
-			<label index="tx_dce_domain_model_dce.headerPreview">Überschriften-Vorschau-Template</label>
-			<label index="tx_dce_domain_model_dce.bodytextPreview">Inhaltstext-Vorschau-Template</label>
+			<label index="tx_dce_domain_model_dce.headerPreview">Überschriften-Vorschau-Template (Fluid)</label>
+			<label index="tx_dce_domain_model_dce.bodytextPreview">Inhaltstext-Vorschau-Template (Fluid)</label>
+			<label index="tx_dce_domain_model_dce.headerPreviewTemplateFile">Überschriften-Vorschau-Template-Datei (Fluid)</label>
+			<label index="tx_dce_domain_model_dce.bodytextPreviewTemplateFile">Inhaltstext-Vorschau-Template-Datei (Fluid)</label>
 
 			<label index="tx_dce_domain_model_dcefield">DCE Feld</label>
 			<label index="tx_dce_domain_model_dcefield.type">Typ</label>

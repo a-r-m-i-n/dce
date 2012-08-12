@@ -30,6 +30,7 @@ CREATE TABLE tx_dce_domain_model_dce (
 	template_partial_root_path varchar(255) DEFAULT '' NOT NULL,
 
 	enable_detailpage tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	detailpage_identifier varchar(255) DEFAULT '' NOT NULL,
 	detailpage_template_type varchar(255) DEFAULT '' NOT NULL,
 	detailpage_template text,
 	detailpage_template_file varchar(255) DEFAULT '' NOT NULL,
