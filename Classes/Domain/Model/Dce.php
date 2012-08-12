@@ -32,6 +32,23 @@
  *
  */
 class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
+	/** Identifier for default DCE templates */
+	const TEMPLATE_FIELD_DEFAULT = 0;
+	/** Identifier for header preview templates */
+	const TEMPLATE_FIELD_HEADERPREVIEW = 1;
+	/** Identifier for bodytext preview templates */
+	const TEMPLATE_FIELD_BODYTEXTPREVIEW = 2;
+	/** Identifier for detail page templates */
+	const TEMPLATE_FIELD_DETAILPAGE = 3;
+
+	/** @var array database field names of columns for different types of templates */
+	protected $templateFields = array(
+		self::TEMPLATE_FIELD_DEFAULT => array('type' => 'template_type', 'inline' => 'template_content', 'file' => 'template_file'),
+		self::TEMPLATE_FIELD_HEADERPREVIEW => array('type' => 'preview_template_type', 'inline' => 'header_preview', 'file' => 'header_preview_template_file'),
+		self::TEMPLATE_FIELD_BODYTEXTPREVIEW => array('type' => 'preview_template_type', 'inline' => 'bodytext_preview', 'file' => 'bodytext_preview_template_file'),
+		self::TEMPLATE_FIELD_DETAILPAGE => array('type' => 'detailpage_template_type', 'inline' => 'detailpage_template', 'file' => 'detailpage_template_file'),
+	);
+
 	/** @var string */
 	protected $title = '';
 
@@ -82,6 +99,9 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 
 	/** @var string */
 	protected $detailpageTemplateFile = '';
+
+	/** @var array */
+	protected $_contentObject = array();
 
 
 	/**
@@ -346,6 +366,145 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 	 */
 	public function setDetailpageTemplateFile($detailpageTemplateFile) {
 		$this->detailpageTemplateFile = $detailpageTemplateFile;
+	}
+
+	/**
+	 * Checks a attached fields for given variable and returns the single field if found. If not found, returns NULL.
+	 *
+	 * @param string $variable
+	 * @return null|Tx_Dce_Domain_Model_DceField
+	 */
+	public function getFieldByVariable($variable) {
+		/** @var $field Tx_Dce_Domain_Model_DceField */
+		foreach($this->getFields() as $field) {
+			if ($field->getVariable() === $variable) {
+				return $field;
+			}
+		}
+		return NULL;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getContentObject() {
+		return $this->_contentObject;
+	}
+
+	/**
+	 * @param array $contentObject
+	 */
+	public function setContentObject($contentObject) {
+		$this->_contentObject = $contentObject;
+	}
+
+	/**
+	 * Renders the default DCE output
+	 * @return string rendered output
+	 */
+	public function render() {
+		return $this->renderFluidTemplate();
+	}
+
+	/**
+	 * Renders the DCE detail page output
+	 * @return string rendered output
+	 */
+	public function renderDetailpage() {
+		return $this->renderFluidTemplate(self::TEMPLATE_FIELD_DETAILPAGE);
+	}
+
+	/**
+	 * Renders the HeaderPreview output
+	 * @return string rendered output
+	 */
+	public function renderHeaderPreview() {
+		return $this->renderFluidTemplate(self::TEMPLATE_FIELD_HEADERPREVIEW);
+	}
+
+	/**
+	 * Renders the BodytextPreview output
+	 * @return string rendered output
+	 */
+	public function renderBodytextPreview() {
+		return $this->renderFluidTemplate(self::TEMPLATE_FIELD_BODYTEXTPREVIEW);
+	}
+
+	/**
+	 * Creates a fluid template
+	 *
+	 * @param integer $templateType
+	 * @return Tx_Fluid_View_StandaloneView
+	 */
+	protected function renderFluidTemplate($templateType = self::TEMPLATE_FIELD_DEFAULT) {
+		$templateFields = $this->templateFields[$templateType];
+		$typeGetter = 'get' . ucfirst(t3lib_div::underscoredToLowerCamelCase($templateFields['type']));
+
+		/** @var $fluidTemplate Tx_Fluid_View_StandaloneView */
+		$fluidTemplate = t3lib_div::makeInstance('Tx_Fluid_View_StandaloneView');
+		if ($this->$typeGetter() === 'inline') {
+			$inlineTemplateGetter = 'get' . ucfirst(t3lib_div::underscoredToLowerCamelCase($templateFields['inline']));
+			$fluidTemplate->setTemplateSource($this->$inlineTemplateGetter());
+		} else {
+			$fileTemplateGetter = 'get' . ucfirst(t3lib_div::underscoredToLowerCamelCase($templateFields['file']));
+			$filePath = PATH_site . $this->$fileTemplateGetter();
+			if (!file_exists($filePath)) {
+				$fluidTemplate->setTemplateSource('');
+			} else {
+				$fluidTemplate->setTemplatePathAndFilename($filePath);
+			}
+		}
+		$fluidTemplate->setLayoutRootPath(t3lib_div::getFileAbsFileName($this->getTemplateLayoutRootPath()));
+		$fluidTemplate->setPartialRootPath(t3lib_div::getFileAbsFileName($this->getTemplatePartialRootPath()));
+
+		$fluidTemplate->assign('dce', $this);
+		$fluidTemplate->assign('contentObject', $this->getContentObject());
+
+		$fields = $this->getFieldsAsArray();
+		$fluidTemplate->assign('field', $fields);
+		$fluidTemplate->assign('fields', $fields);
+
+		return $fluidTemplate->render();
+	}
+
+	/**
+	 * Returns fields of DCE. Key is variable, value is the value of the field.
+	 *
+	 * @return array
+	 */
+	protected function getFieldsAsArray() {
+		$fields = array();
+		/** @var $field Tx_Dce_Domain_Model_DceField */
+		foreach($this->getFields() as $field) {
+			$fields[$field->getVariable()] = $field->getValue();
+		}
+		return $fields;
+	}
+
+	/**
+	 * Magic PHP method.
+	 * Checks if called and not existing method begins with "get". If yes, extract the part behind the get.
+	 * If a method in $this exists which matches this part, it will be called. Otherwise it will be searched in
+	 * $this->fields for the part. If the field exist its value will returned.
+	 *
+	 * @param string $name
+	 * @param array $arguments
+	 *
+	 * @return mixed
+	 */
+	public function __call($name, array $arguments) {
+		if (substr($name, 0, 3) === 'get' && strlen($name) > 3) {
+			$variable = lcfirst(substr($name, 3));
+			if (method_exists($this, $variable)) {
+				return $this->$variable();
+			}
+
+			$field = $this->getFieldByVariable($variable);
+			if (get_class($field) === 'Tx_Dce_Domain_Model_DceField') {
+				return $field->getValue();
+			}
+		}
+		return;
 	}
 
 }

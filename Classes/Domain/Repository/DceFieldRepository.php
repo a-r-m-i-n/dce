@@ -26,52 +26,12 @@
 
 
 /**
+ * DCE field repository
  *
  * @package dce
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  *
  */
 class Tx_Dce_Domain_Repository_DceFieldRepository extends Tx_Extbase_Persistence_Repository {
-	/**
-	  * Initializes the repository.
-	  *
-	  * @return void
-	  *
-	  * @see Tx_Extbase_Persistence_Repository::initializeObject()
-	  */
-	 public function initializeObject() {
-		 $querySettings = $this->objectManager->create('Tx_Extbase_Persistence_Typo3QuerySettings');
-		 $querySettings->setRespectStoragePage(FALSE);
-		 $this->setDefaultQuerySettings($querySettings);
-	 }
-
-	/**
-	 * @param Tx_Dce_Domain_Model_Dce $dce
-	 * @param string $variable
-	 *
-	 * @return Tx_Dce_Domain_Model_DceField
-	 */
-	public function findOneByDceAndVariable(Tx_Dce_Domain_Model_Dce $dce, $variable) {
-		$query = $this->createQuery();
-		$query->matching($query->logicalAnd(array(
-			$query->equals('variable', $variable),
-			$query->equals('type', Tx_Dce_Domain_Model_DceField::TYPE_ELEMENT)
-		)));
-
-		$result = $query->execute();
-
-		if ($result->count() > 1) {
-			/** @var $field Tx_Dce_Domain_Model_DceField */
-			foreach ($result as $field) {
-				/** @var $dceField Tx_Dce_Domain_Model_DceField */
-				foreach($dce->getFields() as $dceField) {
-					if ($field->getUid() === $dceField->getUid()) {
-						return $field;
-					}
-				}
-			}
-		}
-		return $result->getFirst();
-	}
 }
 ?>

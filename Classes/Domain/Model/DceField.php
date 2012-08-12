@@ -31,7 +31,9 @@
  *
  */
 class Tx_Dce_Domain_Model_DceField extends Tx_Extbase_DomainObject_AbstractEntity {
+	/** Field Type: Element */
 	const TYPE_ELEMENT = 0;
+	/** Field Type: Tab */
 	const TYPE_TAB = 1;
 
 	/** @var integer */
@@ -45,6 +47,9 @@ class Tx_Dce_Domain_Model_DceField extends Tx_Extbase_DomainObject_AbstractEntit
 
 	/** @var string */
 	protected $configuration = '';
+
+	/** @var string */
+	protected $_value = '';
 
 
 	/**
@@ -109,6 +114,20 @@ class Tx_Dce_Domain_Model_DceField extends Tx_Extbase_DomainObject_AbstractEntit
 	 */
 	public function setConfiguration($configuration) {
 		$this->configuration = $configuration;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getValue() {
+		return $this->_value;
+	}
+
+	/**
+	 * @param string $value
+	 */
+	public function setValue($value) {
+		$this->_value = $value;
 	}
 
 }
