@@ -44,10 +44,11 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 	 */
 	public function findAndBuildOneByUid($uid, $fieldList, $contentObject) {
 		/** @var $dce Tx_Dce_Domain_Model_Dce */
-		$dce = clone $this->findByUid($uid);
+		$dce = $this->findByUid($uid);
 		if (get_class($dce) !== 'Tx_Dce_Domain_Model_Dce') {
 			throw new UnexpectedValueException('No DCE found with uid "' . $uid . '".', 1328613288);
 		}
+		$dce = clone $dce;
 
 		$this->fillFields($dce, $fieldList);
 		$dce->setContentObject($contentObject);
