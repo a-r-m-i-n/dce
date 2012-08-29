@@ -49,6 +49,7 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 			throw new UnexpectedValueException('No DCE found with uid "' . $uid . '".', 1328613288);
 		}
 		$dce = clone $dce;
+		$this->cloneFields($dce);
 
 		$this->fillFields($dce, $fieldList);
 		$dce->setContentObject($contentObject);
@@ -57,16 +58,29 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 	}
 
 	/**
+	 * Clones the fields of a dce separately, because cloning the dce just refers the fields
+	 * @param Tx_Dce_Domain_Model_Dce $dce
+	 * @return void
+	 */
+	protected function cloneFields($dce) {
+		/** @var $clonedFields Tx_Extbase_Persistence_ObjectStorage */
+		$clonedFields = t3lib_div::makeInstance('Tx_Extbase_Persistence_ObjectStorage');
+		foreach($dce->getFields() as $field) {
+			$clonedFields->attach(clone $field);
+			$dce->setFields($clonedFields);
+		}
+	}
+
+	/**
 	 * Walk through the fields and validate/fill them
 	 *
 	 * @param Tx_Dce_Domain_Model_Dce $dce
 	 * @param array $fieldList Field list. Key must contain field variable, value its value.
-	 * @return array
+	 * @return void
 	 *
-	 * @TODO refactor it!
+	 * @TODO refactor me!
 	 */
 	protected function fillFields(Tx_Dce_Domain_Model_Dce $dce, array $fieldList) {
-		$fields = array();
 		foreach ($fieldList as $fieldVariable => $fieldValue) {
 			$dceField = $dce->getFieldByVariable($fieldVariable);
 
@@ -133,16 +147,13 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 				}
 
 				if (isset($objects)) {
-					$fields[$fieldVariable] = $objects;
 					$dceField->setValue($objects);
 					unset($objects);
 				} else {
-					$fields[$fieldVariable] = $fieldValue;
 					$dceField->setValue($fieldValue);
 				}
 			}
 		}
-		return $fields;
 	}
 
 	/**
