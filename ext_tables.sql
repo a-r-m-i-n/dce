@@ -29,6 +29,7 @@ CREATE TABLE tx_dce_domain_model_dce (
 	bodytext_preview_template_file varchar(255) DEFAULT '' NOT NULL,
 	template_layout_root_path varchar(255) DEFAULT '' NOT NULL,
 	template_partial_root_path varchar(255) DEFAULT '' NOT NULL,
+	palette_fields text,
 
 	enable_detailpage tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	detailpage_identifier varchar(255) DEFAULT '' NOT NULL,

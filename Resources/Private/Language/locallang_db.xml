@@ -50,6 +50,7 @@
 			<label index="tx_dce_domain_model_dce.bodytextPreview">Bodytext preview template (fluid)</label>
 			<label index="tx_dce_domain_model_dce.headerPreviewTemplateFile">Header preview template file (fluid)</label>
 			<label index="tx_dce_domain_model_dce.bodytextPreviewTemplateFile">Bodytext preview template file (fluid)</label>
+			<label index="tx_dce_domain_model_dce.paletteFields">DCE palette fields</label>
 
 			<label index="tx_dce_domain_model_dcefield">DCE Field</label>
 			<label index="tx_dce_domain_model_dcefield.type">Type</label>
