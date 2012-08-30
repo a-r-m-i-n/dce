@@ -275,7 +275,7 @@ $TCA['tx_dce_domain_model_dce'] = array(
 		'header_preview' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.headerPreview',
-			'displayCond' => 'FIELD:preview_template_type:IN:inline',
+			'displayCond' => 'FIELD:preview_template_type:!IN:file',
 			'config' => array(
 				'type' => 'user',
 				'size' => '30',
@@ -286,6 +286,7 @@ $TCA['tx_dce_domain_model_dce'] = array(
 				),
 				'default' => '
 {namespace dce=Tx_Dce_ViewHelpers}
+{fields -> dce:arrayGetIndex()}
 ',
 			),
 		),
@@ -316,7 +317,7 @@ $TCA['tx_dce_domain_model_dce'] = array(
 		'bodytext_preview' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.bodytextPreview',
-			'displayCond' => 'FIELD:preview_template_type:IN:inline',
+			'displayCond' => 'FIELD:preview_template_type:!IN:file',
 			'config' => array(
 				'type' => 'user',
 				'size' => '30',
@@ -327,6 +328,13 @@ $TCA['tx_dce_domain_model_dce'] = array(
 				),
 				'default' => '
 {namespace dce=Tx_Dce_ViewHelpers}
+<ul>
+	<f:for each="{fields}" as="singleField" key="variableName" iteration="iterator">
+		<f:if condition="{iterator.isFirst} == 0">
+			<li title="{singleField}">{variableName}: <f:format.crop maxCharacters="50">{singleField}</f:format.crop></li>
+		</f:if>
+	</f:for>
+</ul>
 ',
 			),
 		),
@@ -429,7 +437,7 @@ $TCA['tx_dce_domain_model_dce'] = array(
 		'detailpage_template' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.detailpageTemplate',
-			'displayCond' => 'FIELD:detailpage_template_type:IN:inline',
+			'displayCond' => 'FIELD:detailpage_template_type:!IN:file',
 			'config' => array (
 				'type' => 'user',
 				'size' => '30',

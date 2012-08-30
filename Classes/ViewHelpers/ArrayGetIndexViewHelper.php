@@ -24,7 +24,7 @@
 ***************************************************************/
 
 /**
- * Returns the given index of an array
+ * Returns the given index of an array.
  *
  * @copyright Copyright belongs to the respective authors
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
@@ -32,7 +32,8 @@
 class Tx_Dce_ViewHelpers_ArrayGetIndexViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
 
 	/**
-	 * Returns the value of the given index in the given array
+	 * Returns the value of the given index in the given array. To make sure the indexes are numeric the
+	 * array will be converted. Named array keys will be overwritten by ascending index numbers (starting with 0).
 	 *
 	 * @param array $subject The array to get the value of
 	 * @param integer|string $index Index of array. May be integer or string. Default is  zero (0).
@@ -43,6 +44,7 @@ class Tx_Dce_ViewHelpers_ArrayGetIndexViewHelper extends Tx_Fluid_Core_ViewHelpe
 		if ($subject === NULL) {
 			$subject = $this->renderChildren();
 		}
+		$subject = array_values($subject);
 		return $subject[$index];
 	}
 }
