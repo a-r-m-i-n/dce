@@ -493,11 +493,7 @@ $TCA['tx_dce_domain_model_dce'] = array(
 			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.dcePreview',
 			'config' => array(
 				'type' => 'user',
-				'size' => '30',
 				'userFunc' => 'EXT:dce/Classes/UserFunction/class.tx_dce_dcePreviewField.php:tx_dce_dcePreviewField->getPreview',
-				'parameters' => array(
-					'what' => 'ever',
-				),
 			),
 		),
 	),

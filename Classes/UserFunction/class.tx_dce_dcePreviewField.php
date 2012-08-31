@@ -34,24 +34,17 @@ class tx_dce_dcePreviewField {
 	const DCE_PREVIEW_PID = -5;
 
 	/**
-	 * @var array Field parameters
-	 */
-	protected $parameter = array();
-
-	/**
-	 * @param $parameter
+	 * @param array $parameter unused
 	 * @param t3lib_TCEforms $fObj
 	 * @return string
 	 */
 	function getPreview($parameter, t3lib_TCEforms $fObj) {
-		$this->parameter = $parameter;
-
 		/** @var $fluidTemplate Tx_Dce_Utility_FluidTemplate */
 		$fluidTemplate = t3lib_div::makeInstance('Tx_Dce_Utility_FluidTemplate');
 
 		$fluidTemplate->setLayoutRootPath(t3lib_div::getFileAbsFileName('EXT:dce/Resources/Private/Layouts/'));
 		$fluidTemplate->setPartialRootPath(t3lib_div::getFileAbsFileName('EXT:dce/Resources/Private/Partials/'));
-		$fluidTemplate->setTemplatePathAndFilename(t3lib_div::getFileAbsFileName('EXT:dce/Resources/Private/Templates/DceUserFields/Preview.html'));
+		$fluidTemplate->setTemplatePathAndFilename(t3lib_div::getFileAbsFileName('EXT:dce/Resources/Private/Templates/DceUserFields/DcePreview.html'));
 
 		$dceUid = $this->getDceUid($fObj);
 		$fluidTemplate->assign('dceUid', $dceUid);
