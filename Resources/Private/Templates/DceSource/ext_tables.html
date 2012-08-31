@@ -1,4 +1,10 @@
 {namespace dce=Tx_Dce_ViewHelpers}<?php
+
+$TCA['tt_content']['columns']['CType']['config']['items'][] = array(
+	0 => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce_long',
+	1 => '--div--'
+);
+
 <f:for each="{dceArray}" as="dce">
 ///////////////////////////////////////////////////// uid:{dce.uid} ///
 Tx_Extbase_Utility_Extension::registerPlugin(
@@ -31,6 +37,11 @@ t3lib_extMgm::addPageTSConfig('
 </f:for>
 
 // global definitions
+$TCA['tt_content']['columns']['CType']['config']['items'][] = array(
+	0 => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.miscellaneous',
+	1 => '--div--'
+);
+
 t3lib_extMgm::addPageTSConfig('mod.wizards.newContentElement.wizardItems.dce.header = LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce_long');
 
 ?>
