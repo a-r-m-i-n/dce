@@ -66,6 +66,7 @@ class tx_saveDce {
 
 		if ($table === 'tx_dce_domain_model_dce' && $status === 'update') {
 			$this->performPreviewAutoupdateBatchOnDceChange();
+			Tx_Dce_Controller_DceModuleController::removePreviewRecords();
 		}
 
 			// Clear cache if dce or dcefield has been created or updated

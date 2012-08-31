@@ -1,0 +1,8 @@
+#dcePreviewIframe {
+	height: 600px;
+	border: 1px solid #aaa;
+}
+
+body#typo3-mod-php {
+	height: auto;
+}

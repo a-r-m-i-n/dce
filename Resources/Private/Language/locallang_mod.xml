@@ -10,11 +10,16 @@
 			<label index="mlang_labels_tablabel">DCE - Dynamic Content Elements</label>
 			<label index="mlang_labels_tabdescr">Module for faster access of DCE elements.</label>
 			<label index="createNewDce">Create new DCE</label>
+
+			<label index="previewOverHeadline">DCE preview</label>
+			<label index="previewOverText">The preview tt_content record has been removed.</label>
         </languageKey>
 
         <languageKey index="de" type="array">
 			<label index="mlang_labels_tabdescr">Modul für schnelleren Zugriff auf DCE-Elemente.</label>
 			<label index="createNewDce">Erstelle neues DCE</label>
+			<label index="previewOverHeadline">DCE Vorschau</label>
+			<label index="previewOverText">The Vorschau-Eintrag in tt_content wurde wieder entfernt.</label>
         </languageKey>
     </data>
 </T3locallang>

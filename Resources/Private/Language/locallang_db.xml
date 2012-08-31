@@ -52,6 +52,9 @@
 			<label index="tx_dce_domain_model_dce.bodytextPreviewTemplateFile">Bodytext preview template file (fluid)</label>
 			<label index="tx_dce_domain_model_dce.paletteFields">DCE palette fields</label>
 
+			<label index="tx_dce_domain_model_dce.preview">Preview</label>
+			<label index="tx_dce_domain_model_dce.dcePreview">Backend preview of this DCE</label>
+
 			<label index="tx_dce_domain_model_dcefield">DCE Field</label>
 			<label index="tx_dce_domain_model_dcefield.type">Type</label>
 			<label index="tx_dce_domain_model_dcefield.title">Title</label>
@@ -106,6 +109,9 @@
 			<label index="tx_dce_domain_model_dce.bodytextPreview">Inhaltstext-Vorschau-Template (Fluid)</label>
 			<label index="tx_dce_domain_model_dce.headerPreviewTemplateFile">Überschriften-Vorschau-Template-Datei (Fluid)</label>
 			<label index="tx_dce_domain_model_dce.bodytextPreviewTemplateFile">Inhaltstext-Vorschau-Template-Datei (Fluid)</label>
+
+			<label index="tx_dce_domain_model_dce.preview">Vorschau</label>
+			<label index="tx_dce_domain_model_dce.dcePreview">Backend Vorschau von diesem DCE</label>
 
 			<label index="tx_dce_domain_model_dcefield">DCE Feld</label>
 			<label index="tx_dce_domain_model_dcefield.type">Typ</label>

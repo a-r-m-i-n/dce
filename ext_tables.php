@@ -29,7 +29,7 @@ if ($extConfiguration['enableDceModule'] == 1) {
 		'dceModule',
 		'',
 		array(
-			'DceModule' => 'index'
+			'DceModule' => 'index,dcePreviewReturnPage'
 		),
 		array(
 			'access' => 'user,group',

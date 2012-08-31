@@ -1,0 +1,20 @@
+{namespace dce=Tx_Dce_ViewHelpers}
+<f:layout name="customTcaField" />
+
+<f:section name="head">
+	<dce:be.includeCssFile path="{f:uri.resource(path:'CSS/dcePreview.css', extensionName:'dce')}" />
+	<dce:be.includeJsFile path="{f:uri.resource(path:'JavaScript/renderDcePreview.js', extensionName:'dce')}" />
+</f:section>
+
+<f:section name="main">
+	<div id="dcePreview">
+		<f:if condition="{dceUid} > 0">
+			<f:then>
+				<div id="dcePreviewIframePlaceholder" data-src="/typo3/alt_doc.php?returnUrl=%2Ftypo3%2Fmod.php%3FM%3Dtools_DceDcemodule%26tx_dce_tools_dcedcemodule%255Baction%255D%3DdcePreviewReturnPage%26tx_dce_tools_dcedcemodule%255Bcontroller%255D%3DDceModule&edit[tt_content][{previewItemUid},]=edit"></div>
+			</f:then>
+			<f:else>
+				Please save first!
+			</f:else>
+		</f:if>
+	</div>
+</f:section>
