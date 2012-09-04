@@ -126,7 +126,14 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 						// No class found... load DB record and return assoc
 						$objects = array();
 						foreach (t3lib_div::trimExplode(',', $fieldValue, TRUE) as $uid) {
-							$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', $tablename, 'uid = ' . $uid);
+							$enableFields = '';
+							if (!$dceFieldConfiguration['dce_ignore_enablefields']) {
+								/** @var $cObj tslib_cObj */
+								$cObj = t3lib_div::makeInstance('tslib_cObj');
+								$enableFields = $cObj->enableFields($tablename);
+							}
+
+							$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', $tablename, 'uid = ' . $uid . $enableFields);
 							while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
 								// Add field with converted flexform_data (as array)
 								$row['pi_flexform_data'] = t3lib_div::xml2array($row['pi_flexform']);
