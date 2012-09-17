@@ -35,14 +35,18 @@
 class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repository {
 
 	/**
+	 * Finds and build a DCE. The given uid loads the DCE structure and the fieldList triggers the fillFields which
+	 * gives the dce its contents and values.
+	 *
 	 * @param integer $uid
 	 * @param array $fieldList
 	 * @param array $contentObject
-	 *
 	 * @return Tx_Dce_Domain_Model_Dce
 	 * @throws UnexpectedValueException
 	 */
 	public function findAndBuildOneByUid($uid, $fieldList, $contentObject) {
+		$this->disableRespectOfEnableFields();
+
 		/** @var $dce Tx_Dce_Domain_Model_Dce */
 		$dce = $this->findByUid($uid);
 		if (get_class($dce) !== 'Tx_Dce_Domain_Model_Dce') {
@@ -69,6 +73,17 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 			$clonedFields->attach(clone $field);
 			$dce->setFields($clonedFields);
 		}
+	}
+
+	/**
+	 * Disable the respect of enable fields in defaultQuerySettings
+	 * @return void
+	 */
+	protected function disableRespectOfEnableFields() {
+		/** @var $querySettings Tx_Extbase_Persistence_Typo3QuerySettings */
+		$querySettings = $this->objectManager->create('Tx_Extbase_Persistence_Typo3QuerySettings');
+		$querySettings->setRespectEnableFields(FALSE);
+		$this->setDefaultQuerySettings($querySettings);
 	}
 
 	/**
