@@ -24,7 +24,7 @@
 ***************************************************************/
 
 /**
- * Generatares "temp_CACHED_dce_ext_localconf.php" and "temp_CACHED_dce_ext_tables.php" located in /typo3conf/
+ * Generates "temp_CACHED_dce_ext_localconf.php" and "temp_CACHED_dce_ext_tables.php" located in /typo3conf/
  * which contains the whole DCE configurations used by TYPO3.
  *
  * @copyright Copyright belongs to the respective authors
