@@ -96,7 +96,7 @@
 			<label index="tx_dce_domain_model_dce.partialRootPath">Fluid Partial Root-Verzeichnis</label>
 
 			<label index="tx_dce_domain_model_dce.detailpage">Detailseite</label>
-			<label index="tx_dce_domain_model_dce.detailpageIdentifier">Detailseiten-Identifikator (GET parameter)</label>
+			<label index="tx_dce_domain_model_dce.detailpageIdentifier">Detailseiten-Identifikator (GET-Parameter)</label>
 			<label index="tx_dce_domain_model_dce.enableDetailpage">Aktiviere Detailseite</label>
 			<label index="tx_dce_domain_model_dce.detailpageTemplate">Detailseiten-Template (Fluid)</label>
 			<label index="tx_dce_domain_model_dce.detailpageTemplateFile">Detailseiten-Template-Datei (Fluid)</label>
