@@ -9,6 +9,3 @@ disableCodemirror = 0
 
 # cat=basic/enable/04; type=boolean; label=LLL:EXT:dce/Resources/Private/Language/locallang_be.xml:extmng.disablePreviewAutoUpdate
 disablePreviewAutoUpdate = 0
-
-# cat=basic/enable/05; type=input; label=LLL:EXT:dce/Resources/Private/Language/locallang_be.xml:extmng.dceCategories
-dceCategories = General,Special,Miscellaneous

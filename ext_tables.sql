@@ -6,7 +6,6 @@ CREATE TABLE tx_dce_domain_model_dce (
     pid int(11) DEFAULT '0' NOT NULL,
 
 	title varchar(255) DEFAULT '' NOT NULL,
-	category varchar(255) DEFAULT '' NOT NULL,
 	fields text,
 
 	wizard_enable varchar(255) DEFAULT '' NOT NULL,
