@@ -98,7 +98,7 @@ class Tx_Dce_Cache {
 		$res = $TYPO3_DB->exec_SELECTquery(
 			'*',
 			'tx_dce_domain_model_dce',
-			'hidden=0 AND deleted=0 AND pid=0',
+			'deleted=0 AND pid=0',
 			'',
 			'sorting asc'
 		);
@@ -110,7 +110,7 @@ class Tx_Dce_Cache {
 				'tx_dce_domain_model_dce',
 				'tx_dce_dce_dcefield_mm',
 				'tx_dce_domain_model_dcefield',
-				' AND tx_dce_domain_model_dce.uid = ' . $row['uid'] . ' AND tx_dce_domain_model_dcefield.hidden = 0 AND tx_dce_domain_model_dcefield.deleted = 0',
+				' AND tx_dce_domain_model_dce.uid = ' . $row['uid'] . ' AND tx_dce_domain_model_dcefield.deleted = 0',
 				'',
 				'tx_dce_dce_dcefield_mm.sorting asc'
 			);

@@ -6,6 +6,7 @@ $TCA['tt_content']['columns']['CType']['config']['items'][] = array(
 );
 
 <f:for each="{dceArray}" as="dce">
+<f:if condition="{dce.hidden} == 0">
 ///////////////////////////////////////////////////// uid:{dce.uid} ///
 Tx_Extbase_Utility_Extension::registerPlugin(
 	'dce',
@@ -33,6 +34,7 @@ t3lib_extMgm::addPageTSConfig('
 	}
 	    mod.wizards.newContentElement.wizardItems.{dce.wizard_category}.show := addToList(dce_dceuid{dce.uid})
 ');
+</f:if>
 </f:if>
 </f:for>
 
