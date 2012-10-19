@@ -110,6 +110,7 @@
 			<label index="tx_dce_domain_model_dce.bodytextPreview">Inhaltstext-Vorschau-Template (Fluid)</label>
 			<label index="tx_dce_domain_model_dce.headerPreviewTemplateFile">Überschriften-Vorschau-Template-Datei (Fluid)</label>
 			<label index="tx_dce_domain_model_dce.bodytextPreviewTemplateFile">Inhaltstext-Vorschau-Template-Datei (Fluid)</label>
+			<label index="tx_dce_domain_model_dce.paletteFields">DCE Paletten-Felder</label>
 
 			<label index="tx_dce_domain_model_dce.preview">Vorschau</label>
 			<label index="tx_dce_domain_model_dce.dcePreview">Backend Vorschau von diesem DCE</label>
