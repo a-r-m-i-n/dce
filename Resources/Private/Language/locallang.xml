@@ -26,7 +26,7 @@
 			<label index="famousViewHelper">Meist verwendete Viewhelper</label>
 			<label index="dceViewHelper">DCE Viewhelper</label>
 
-			<label index="quickDcePopup">Öffnet die Einstellungen des DCE, auf welches diese DCE-Instanz basiert, in einem Popup.</label>
+			<label index="quickDcePopup">Öffnet die Einstellungen des DCE, auf welches diese DCE-Instanz basiert in einem Popup.</label>
 		</languageKey>
 	</data>
 </T3locallang>
