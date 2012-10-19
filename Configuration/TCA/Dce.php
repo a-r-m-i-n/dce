@@ -405,7 +405,8 @@ $TCA['tx_dce_domain_model_dce'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => 30,
-				'eval' => 'trim',
+				'eval' => 'trim,is_in',
+				'is_in' => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890_-',
 				'default' => 'detailDceUid',
 			),
 		),
