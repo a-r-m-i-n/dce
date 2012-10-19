@@ -29,6 +29,9 @@ if (TYPO3_MODE === 'BE') {
 	require_once(t3lib_extMgm::extPath($_EXTKEY) . 'Classes/UserFunction/class.tx_dce_dceFieldCustomLabel.php');
 }
 
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['typo3/template.php']['docHeaderButtonsHook'][] =
+	'EXT:' . $_EXTKEY . '/Classes/Hooks/tx_docHeaderButtonsHook.php:tx_docHeaderButtonsHook->addQuickDcePopupButton';
+
 // Special tce validators (eval)
 include_once(t3lib_extMgm::extPath('dce') . 'Classes/UserFunction/class.tx_dce_abstract_formeval.php');
 $TYPO3_CONF_VARS['SC_OPTIONS']['tce']['formevals']['tx_dce_formevals_lowerCamelCase'] = 'EXT:dce/Classes/UserFunction/class.tx_dce_formevals_lowerCamelCase.php';

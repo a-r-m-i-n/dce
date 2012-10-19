@@ -223,8 +223,9 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 	 *
 	 * @param string $CType
 	 * @return integer|boolean
+	 * @static
 	 */
-	public function extractUidFromCType($CType) {
+	static public function extractUidFromCType($CType) {
 		if (strpos($CType, 'dceuid') === 0) {
 			return intval(substr($CType, 6));
 		}

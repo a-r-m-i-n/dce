@@ -12,6 +12,8 @@
 			<label index="famousViewHelper">Famous viewhelper</label>
 			<label index="dceViewHelper">DCE viewhelper</label>
 
+			<label index="quickDcePopup">Opens the settings of the DCE which this DCE instance based on, in a popup</label>
+
 			<label index="contentElementCreatedByFrontendHeader">*Created or updated by frontend*</label>
 			<label index="contentElementCreatedByFrontendBodytext"><![CDATA[<!-- Please update! -->If a content element based on DCE, has been created in frontend context, it is not possible to render this preview texts, because in frontend extbase resources are not always available. <em>(eID: %s)</em>]]></label>
 			<label index="autoupdateDisabledHeader">*The DCE base has been updated*</label>
@@ -23,6 +25,8 @@
 			<label index="availableVariables">Verfügbare Variablen</label>
 			<label index="famousViewHelper">Meist verwendete Viewhelper</label>
 			<label index="dceViewHelper">DCE Viewhelper</label>
+
+			<label index="quickDcePopup">Öffnet die Einstellungen des DCE, auf welches diese DCE-Instanz basiert, in einem Popup.</label>
 		</languageKey>
 	</data>
 </T3locallang>
