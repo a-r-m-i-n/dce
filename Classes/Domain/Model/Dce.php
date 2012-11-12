@@ -460,6 +460,11 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 		$fluidTemplate->assign('dce', $this);
 		$fluidTemplate->assign('contentObject', $this->getContentObject());
 
+		if (TYPO3_MODE === 'FE' && isset($GLOBALS['TSFE'])) {
+			$fluidTemplate->assign('TSFE', $GLOBALS['TSFE']);
+			$fluidTemplate->assign('page', $GLOBALS['TSFE']->page);
+		}
+
 		$fields = $this->getFieldsAsArray();
 		$fluidTemplate->assign('field', $fields);
 		$fluidTemplate->assign('fields', $fields);
