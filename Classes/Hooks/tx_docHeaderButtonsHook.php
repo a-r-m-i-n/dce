@@ -41,6 +41,9 @@ class tx_docHeaderButtonsHook {
 	public function addQuickDcePopupButton(array &$params) {
 		$editGetParam = t3lib_div::_GP('edit');
 		$editGetParam = $editGetParam['tt_content'];
+		if (!is_array($editGetParam)) {
+			return;
+		}
 		$uidWithComma = current(array_keys($editGetParam));
 
 		if ($editGetParam[$uidWithComma] === 'edit') {
@@ -50,6 +53,7 @@ class tx_docHeaderButtonsHook {
 			$tceMain = t3lib_div::makeInstance('t3lib_TCEmain');
 			$contentRecord = $tceMain->recordInfo('tt_content', $uid, 'CType');
 			$CType = current($contentRecord);
+			$this->requireDceRepository();
 			$dceUid = Tx_Dce_Domain_Repository_DceRepository::extractUidFromCType($CType);
 
 			if ($dceUid !== FALSE) {
@@ -66,6 +70,14 @@ class tx_docHeaderButtonsHook {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Includes the dce repository for TYPO3 4.5
+	 * @return void
+	 */
+	protected function requireDceRepository() {
+		require_once(t3lib_extMgm::extPath('dce') . 'Classes/Domain/Repository/DceRepository.php');
 	}
 
 }
