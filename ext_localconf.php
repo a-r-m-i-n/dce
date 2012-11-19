@@ -22,7 +22,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php'][
 	'EXT:' . $_EXTKEY . '/Classes/Hooks/tx_renderDceContentElement.php:tx_renderDceContentElement';
 
 $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['t3lib/class.t3lib_tcemain.php']
-	= t3lib_extMgm::extPath($_EXTKEY).'Classes/Hooks/class.ux_t3lib_tcemain.php';
+	= t3lib_extMgm::extPath($_EXTKEY).'Classes/XClasses/class.ux_t3lib_tcemain.php';
 
 if (TYPO3_MODE === 'BE') {
 	require_once(t3lib_extMgm::extPath($_EXTKEY).'Classes/UserFunction/class.tx_dce_codemirrorField.php');
