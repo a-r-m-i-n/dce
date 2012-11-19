@@ -31,7 +31,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'constraints' => array(
 		'depends' => array(
 			'php' => '5.3.0-0.0.0',
-			'typo3' => '4.5.0-0.0.0',
+			'typo3' => '4.5.0-4.7.99',
 			'extbase' => '1.3.0-0.0.0',
 			'fluid' => '1.3.0-0.0.0',
 		),
