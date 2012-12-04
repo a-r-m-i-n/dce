@@ -1,6 +1,7 @@
 <?php
 $extensionPath = t3lib_extMgm::extPath('dce');
 return array(
+	'tx_dce_controller_dcemodulecontroller' => $extensionPath . 'Classes/Controller/DceModuleController.php',
 	'tx_dce_cache' => $extensionPath . 'Classes/Cache.php',
 	'tx_dce_utility_fluidtemplate' => $extensionPath . 'Classes/Utility/FluidTemplate.php',
 	'tx_dce_viewhelpers_format_rawviewhelper' => $extensionPath . 'Classes/ViewHelpers/Format/RawViewHelper.php',
