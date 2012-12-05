@@ -192,7 +192,7 @@ $TCA['tx_dce_domain_model_dce'] = array(
 					'showTemplates' => FALSE,
 				),
 				'default' => '{namespace dce=Tx_Dce_ViewHelpers}
-<f:layout name="default" />
+<f:layout name="Default" />
 
 <f:section name="main">
 	Your template goes here...
@@ -434,7 +434,7 @@ $TCA['tx_dce_domain_model_dce'] = array(
 					'showTemplates' => FALSE,
 				),
 				'default' => '{namespace dce=Tx_Dce_ViewHelpers}
-<f:layout name="default" />
+<f:layout name="Default" />
 
 <f:section name="main">
 	Your detailpage template goes here...
