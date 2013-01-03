@@ -39,15 +39,40 @@ class tx_dce_dceFieldCustomLabel {
 	 * @return void
 	 */
 	public function getLabel($parameter) {
+//		t3lib_utility_Debug::debug($parameter);
+
+		$a = '{field.';
+		if(isset($parameter['parent'])) {
+			$parentRow = $this->getDceFieldRecordByUid($parameter['parent']['uid']);
+			if ($parentRow['type'] == '2') {
+				$a = '{field.' . $parentRow['variable'] . '.<span style="color: blue;">n.</span>';
+			}
+		}
+
+
+
 		$row = $parameter['row'];
 
-		if ($row['type'] == '0' && is_array($parameter['parent'])) {
+		if ($row['type'] == '2' || $row['type'] == '0' && is_array($parameter['parent'])) {
 			// Element
-			$parameter['title'] = $row['title'] . ' <i style="font-weight: normal;">{field.' . $row['variable'] . '}</i>';
+			$parameter['title'] = $row['title'] . ' <i style="font-weight: normal;">' . $a . $row['variable'] . '}</i>';
 		} else {
 			// Tab
 			$parameter['title'] = $row['title'];
 		}
+	}
+
+
+	/**
+	 * @param integer $uid
+	 * @return array
+	 */
+	protected function getDceFieldRecordByUid($uid) {
+		return $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow(
+			'*',
+			'tx_dce_domain_model_dcefield',
+			'uid=' . intval($uid)
+		);
 	}
 }
 ?>

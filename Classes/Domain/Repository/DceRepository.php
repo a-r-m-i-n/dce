@@ -71,7 +71,7 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 		$clonedFields = t3lib_div::makeInstance('Tx_Extbase_Persistence_ObjectStorage');
 		/** @var $field Tx_Dce_Domain_Model_DceField */
 		foreach($dce->getFields() as $field) {
-			if ($field->getType() === Tx_Dce_Domain_Model_DceField::TYPE_ELEMENT) {
+			if ($field->getType() === Tx_Dce_Domain_Model_DceField::TYPE_ELEMENT || $field->getType() === Tx_Dce_Domain_Model_DceField::TYPE_SECTION) {
 				$clonedFields->attach(clone $field);
 				$dce->setFields($clonedFields);
 			}
@@ -175,7 +175,14 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 					$dceField->setValue($objects);
 					unset($objects);
 				} else {
-					$dceField->setValue($fieldValue);
+					if (!is_array($fieldValue)) {
+						$dceField->setValue($fieldValue);
+					} else {
+						$value = $this->getSectionFieldValues($fieldValue, 'container_' .$fieldVariable);
+						if (isset($value)) {
+							$dceField->setValue($value);
+						}
+					}
 				}
 			}
 		}
@@ -216,6 +223,27 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 				$this->getVDefValues($value, $caller, $key);
 			}
 		}
+	}
+
+	/**
+	 *
+	 * @param array $array
+	 * @param string $searchString
+	 * @return array
+	 */
+	protected function getSectionFieldValues(array $array, $searchString) {
+		$sectionFieldValues = array();
+
+		if (array_key_exists($searchString, $array)) {
+			$sectionFieldValues = $array[$searchString];
+		} else {
+			foreach($array as $fff) {
+				if (is_array($fff) && !empty($fff)) {
+					$sectionFieldValues = self::getSectionFieldValues($fff, $searchString);
+				}
+			}
+		}
+		return $sectionFieldValues;
 	}
 
 	/**

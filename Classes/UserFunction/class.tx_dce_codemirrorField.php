@@ -83,7 +83,7 @@ class tx_dce_codemirrorField {
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'*',
 			'tx_dce_domain_model_dcefield',
-			'hidden=0 AND deleted=0 AND pid=0 AND type=0 AND uid IN (' . $this->parameter['row']['fields'] . ')',
+			'hidden=0 AND deleted=0 AND pid=0 AND (type=0 OR type=2) AND uid IN (' . $this->parameter['row']['fields'] . ')',
 			'',
 			'variable asc'
 		);

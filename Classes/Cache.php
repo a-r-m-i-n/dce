@@ -114,19 +114,36 @@ class Tx_Dce_Cache {
 				'',
 				'tx_dce_dce_dcefield_mm.sorting asc'
 			);
-
 			$tabs = array(0 => array('title' => Tx_Extbase_Utility_Localization::translate('generaltab', 'dce'), 'fields' => array()));
 			$i = 0;
 			while ($row2 = $TYPO3_DB->sql_fetch_assoc($res2)) {
-				if($row2['type'] === '1') {
+				if ($row2['type'] === '1') {
 					// Create new Tab
 					$i++;
 					$tabs[$i] = array();
 					$tabs[$i]['title'] = $row2['title'];
 					$tabs[$i]['fields'] = array();
 					continue;
+				} else if($row2['type'] === '2'){
+					$res3 = $TYPO3_DB->exec_SELECTquery(
+						'*',
+						'tx_dce_domain_model_dcefield as a,tx_dce_dcefield_sectionfields_mm,tx_dce_domain_model_dcefield as b',
+						 'a.uid=tx_dce_dcefield_sectionfields_mm.uid_local AND b.uid=tx_dce_dcefield_sectionfields_mm.uid_foreign AND a.uid = ' . $row2['uid'] . ' AND b.deleted = 0',
+						'',
+						'tx_dce_dcefield_sectionfields_mm.sorting asc');
+					$sectionFields = array();
+					while ($row3 = $TYPO3_DB->sql_fetch_assoc($res3)) {
+						if($row3['type'] === '0'){
+							// add fields of section to fields
+							$sectionFields[] = $row3;
+						}
+					}
+					$row2['sectionFields'] = $sectionFields;
+					$tabs[$i]['fields'][] = $row2;
+				} else {
+					// usual element
+					$tabs[$i]['fields'][] = $row2;
 				}
-				$tabs[$i]['fields'][] = $row2;
 			}
 			if (count($tabs[0]['fields']) === 0) {
 				unset($tabs[0]);

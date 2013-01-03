@@ -15,12 +15,48 @@
 							<type>array</type>
 							<el>
 								<f:for each="{tab.fields}" as="field">
-									<settings.{field.variable}>
-										<TCEforms>
-											<label>{field.title}</label>
-											{field.configuration -> dce:format.raw()}
-										</TCEforms>
-									</settings.{field.variable}>
+									<f:if condition="{field.type} == 2">
+										<f:then>
+											<settings.{field.variable}>
+												<TCEforms>
+													<label>{field.title}</label>
+													<tx_templavoila>
+															<title>{field.title}</title>
+													</tx_templavoila>
+												</TCEforms>
+												<section>1</section>
+												<type>array</type>
+												<el>
+													<container_{field.variable}>
+													  <type>array</type>
+													  <label>{field.title}</label>
+														<tx_templavoila>
+															<title>{field.title}</title>
+														</tx_templavoila>
+													  <el>
+														  +++<f:count>{field.sectionFields}</f:count>
+														<f:for each="{field.sectionFields}" as="sectionField">
+															<{sectionField.variable}>
+																	<TCEforms>
+																			<label>{sectionField.title}</label>
+																			{sectionField.configuration -> dce:format.raw()}
+																	</TCEforms>
+															</{sectionField.variable}>
+														</f:for>
+													  </el>
+													</container_{field.variable}>
+												</el>
+											</settings.{field.variable}>
+										</f:then>
+										<f:else>
+											<settings.{field.variable}>
+													<TCEforms>
+															<label>{field.title}</label>
+															{field.configuration -> dce:format.raw()}
+													</TCEforms>
+											</settings.{field.variable}>
+										</f:else>
+									</f:if>
 								</f:for>
 							</el>
 						</ROOT>

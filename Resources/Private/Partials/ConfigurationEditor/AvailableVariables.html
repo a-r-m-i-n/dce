@@ -3,7 +3,7 @@
 	<option></option>
 	<optgroup label="{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang.xml:availableVariables')}" class="c-divider">
 		<f:for each="{availableFields}" as="field">
-			<option value="v:field.{field.variable}">{field.variable -> dce:format.wrapWithCurlyBraces(prepend:'field.')} - {field.title}</option>
+			<option value="v:field.{field.variable}">{field.variable -> dce:format.wrapWithCurlyBraces(prepend:'field.')} - {field.title}{f:if(condition:'{field.type} == 2', then:' ({f:translate(key:\'LLL:EXT:dce/Resources/Private/Language/locallang.xml:useForViewhelper\')})')}</option>
 		</f:for>
 	</optgroup>
 	<optgroup label="{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang.xml:availableBaseVariables')}" class="c-divider">

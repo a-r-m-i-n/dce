@@ -74,3 +74,19 @@ function initCodeMirrorEditor(textarea, mode) {
 		};
 	});
 }
+
+/**
+ * Removes type selectbox of dce section field
+ * @param textarea
+ * @return void
+ */
+function disableSectionFieldType(textarea) {
+	var parentTable = $(textarea).up('table');
+	var selectBox = $(parentTable).down('select[name^="data[tx_dce_domain_model_dcefield]"][name$="[type]"]');
+	if ($(selectBox).up('.t3-form-field-record-inline', 1)) {
+		var parentTableRow = $(selectBox).up('tr');
+		var labelTableRow = $(parentTableRow).previous('tr');
+		parentTableRow.remove();
+		labelTableRow.remove();
+	}
+}

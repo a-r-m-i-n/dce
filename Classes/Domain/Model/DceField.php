@@ -35,6 +35,8 @@ class Tx_Dce_Domain_Model_DceField extends Tx_Extbase_DomainObject_AbstractEntit
 	const TYPE_ELEMENT = 0;
 	/** Field Type: Tab */
 	const TYPE_TAB = 1;
+	/** Field Type: Section */
+	const TYPE_SECTION = 2;
 
 	/** @var integer */
 	protected $type;
@@ -51,13 +53,23 @@ class Tx_Dce_Domain_Model_DceField extends Tx_Extbase_DomainObject_AbstractEntit
 	/** @var string */
 	protected $_value = '';
 
+	/** @var Tx_Extbase_Persistence_ObjectStorage<Tx_Dce_Domain_Model_DceField> */
+	protected $sectionFields = NULL;
+
 
 	/**
-	 * __construct
-	 *
-	 * @return void
+	 * Constructor
 	 */
 	public function __construct() {
+		$this->initStorageObjects();
+	}
+
+	/**
+	 * Initializes all Tx_Extbase_Persistence_ObjectStorage properties.
+	 * @return void
+	 */
+	protected function initStorageObjects() {
+		$this->sectionFields = new Tx_Extbase_Persistence_ObjectStorage();
 	}
 
 	/**
@@ -128,6 +140,34 @@ class Tx_Dce_Domain_Model_DceField extends Tx_Extbase_DomainObject_AbstractEntit
 	 */
 	public function setValue($value) {
 		$this->_value = $value;
+	}
+
+	/**
+	 * @return Tx_Extbase_Persistence_ObjectStorage
+	 */
+	public function getSectionFields() {
+		return $this->sectionFields;
+	}
+
+	/**
+	 * @param Tx_Extbase_Persistence_ObjectStorage $sectionFields
+	 */
+	public function setSectionFields(Tx_Extbase_Persistence_ObjectStorage $sectionFields) {
+		$this->sectionFields = $sectionFields;
+	}
+
+	/**
+	 * @param Tx_Dce_Domain_Model_DceField $sectionField
+	 */
+	public function addSectionField(Tx_Dce_Domain_Model_DceField $sectionField) {
+		$this->sectionFields->attach($sectionField);
+	}
+
+	/**
+	 * @param Tx_Dce_Domain_Model_DceField $sectionField
+	 */
+	public function removeSectionField(Tx_Dce_Domain_Model_DceField $sectionField) {
+		$this->sectionFields->detach($sectionField);
 	}
 
 }

@@ -59,6 +59,7 @@ $TCA['tx_dce_domain_model_dce'] = array(
             'starttime' => 'starttime',
             'endtime' => 'endtime',
         ),
+		'copyAfterDuplFields' => 'fields',
         'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'Configuration/TCA/Dce.php',
 		'requestUpdate' => 'wizard_enable,template_type,preview_template_type,detailpage_template_type',
         'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/ext_icon.gif'
@@ -88,10 +89,12 @@ $TCA['tx_dce_domain_model_dcefield'] = array(
         ),
 		'requestUpdate' => 'type',
         'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'Configuration/TCA/DceField.php',
+		'type' => 'type',
 		'typeicon_column' => 'type',
 		'typeicons' => array(
 			'0' => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_dce_domain_model_dcefield_element.gif',
 			'1' => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_dce_domain_model_dcefield_tab.gif',
+			'2' => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_dce_domain_model_dcefield_section.gif',
 		),
     ),
 );

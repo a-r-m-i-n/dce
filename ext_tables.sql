@@ -77,6 +77,7 @@ CREATE TABLE tx_dce_domain_model_dcefield (
 	variable varchar(255) DEFAULT '' NOT NULL,
 	type varchar(255) DEFAULT '' NOT NULL,
 	configuration text,
+	section_fields text,
 
     tstamp int(11) unsigned DEFAULT '0' NOT NULL,
     crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -111,6 +112,19 @@ CREATE TABLE tx_dce_domain_model_dcefield (
 # Table structure for table 'tx_dce_dce_dcefield_mm'
 #
 CREATE TABLE tx_dce_dce_dcefield_mm (
+	uid_local int(11) unsigned DEFAULT '0' NOT NULL,
+	uid_foreign int(11) unsigned DEFAULT '0' NOT NULL,
+	sorting int(11) unsigned DEFAULT '0' NOT NULL,
+	sorting_foreign int(11) unsigned DEFAULT '0' NOT NULL,
+
+	KEY uid_local (uid_local),
+	KEY uid_foreign (uid_foreign)
+);
+
+#
+# Table structure for table 'tx_dce_dcefield_sectionfields_mm'
+#
+CREATE TABLE tx_dce_dcefield_sectionfields_mm (
 	uid_local int(11) unsigned DEFAULT '0' NOT NULL,
 	uid_foreign int(11) unsigned DEFAULT '0' NOT NULL,
 	sorting int(11) unsigned DEFAULT '0' NOT NULL,
