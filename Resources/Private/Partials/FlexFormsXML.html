@@ -29,20 +29,20 @@
 												<el>
 													<container_{field.variable}>
 													  <type>array</type>
-													  <label>{field.title}</label>
+													  <label>{field.section_fields_tag}</label>
 														<tx_templavoila>
-															<title>{field.title}</title>
+															<title>{field.section_fields_tag}</title>
 														</tx_templavoila>
-													  <el>
-														<f:for each="{field.sectionFields}" as="sectionField">
-															<{sectionField.variable}>
+														<el>
+															<f:for each="{field.sectionFields}" as="sectionField">
+																<{sectionField.variable}>
 																	<TCEforms>
-																			<label>{sectionField.title}</label>
-																			{sectionField.configuration -> dce:format.raw()}
+																		<label>{sectionField.title}</label>
+																		{sectionField.configuration -> dce:format.raw()}
 																	</TCEforms>
-															</{sectionField.variable}>
-														</f:for>
-													  </el>
+																</{sectionField.variable}>
+															</f:for>
+														</el>
 													</container_{field.variable}>
 												</el>
 											</settings.{field.variable}>

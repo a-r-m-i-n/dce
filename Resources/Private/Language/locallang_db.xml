@@ -55,8 +55,6 @@
 			<label index="tx_dce_domain_model_dce.preview">Preview</label>
 			<label index="tx_dce_domain_model_dce.dcePreview">Backend preview of this DCE</label>
 
-			<label index="tx_dce_domain_model_dce.section_fields">Section fields</label>
-
 			<label index="tx_dce_domain_model_dcefield">DCE Field</label>
 			<label index="tx_dce_domain_model_dcefield.type">Type</label>
 			<label index="tx_dce_domain_model_dcefield.type.element">Element</label>
@@ -65,6 +63,8 @@
 			<label index="tx_dce_domain_model_dcefield.title">Title</label>
 			<label index="tx_dce_domain_model_dcefield.variable">Variable (unique key for usage in fluid template)</label>
 			<label index="tx_dce_domain_model_dcefield.configuration">Configuration</label>
+			<label index="tx_dce_domain_model_dcefield.section_fields">Section fields</label>
+			<label index="tx_dce_domain_model_dcefield.section_fields_tag">Section fields tag (singular)</label>
 
 			<label index="tx_dce_formeval_headline">Input '%s' not valid</label>
 			<label index="tx_dce_formeval_noLeadingNumber">The value may not start with numbers. Changed input from '%s' to '%s'.</label>
@@ -120,8 +120,6 @@
 			<label index="tx_dce_domain_model_dce.preview">Vorschau</label>
 			<label index="tx_dce_domain_model_dce.dcePreview">Backend Vorschau von diesem DCE</label>
 
-			<label index="tx_dce_domain_model_dce.section_fields">Sektionsfelder</label>
-
 			<label index="tx_dce_domain_model_dcefield">DCE Feld</label>
 			<label index="tx_dce_domain_model_dcefield.type">Typ</label>
 			<label index="tx_dce_domain_model_dcefield.type.element">Element</label>
@@ -130,6 +128,8 @@
 			<label index="tx_dce_domain_model_dcefield.title">Titel</label>
 			<label index="tx_dce_domain_model_dcefield.variable">Variable (eindeutiger Schlüssel, wird im Fluid-Template verwendet)</label>
 			<label index="tx_dce_domain_model_dcefield.configuration">Konfiguration</label>
+			<label index="tx_dce_domain_model_dcefield.section_fields">Sektionsfelder</label>
+			<label index="tx_dce_domain_model_dcefield.section_fields_tag">Sektionsfelder Bezeichnung (Einzahl)</label>
 
 			<label index="tx_dce_formeval_headline">Eingabe '%s' ungültig</label>
 			<label index="tx_dce_formeval_noLeadingNumber">Der Wert darf nicht mit Nummern beginnen. Eingabe wurde von '%s' nach '%s' geändert.</label>

@@ -11,7 +11,7 @@ $TCA['tx_dce_domain_model_dcefield'] = array(
 	'types' => array(
 		'0' => array('showitem' => 'type,title,variable,configuration;;;fixed-font:enable-tab,--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,hidden;;1'),
 		'1' => array('showitem' => 'type,title,--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,hidden;;1'),
-		'2' => array('showitem' => 'type,title,variable,section_fields,--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,hidden;;1'),
+		'2' => array('showitem' => 'type,title,section_fields_tag,variable,section_fields,LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dcefield.additionalConfiguration,--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,hidden;;1'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -141,7 +141,7 @@ $TCA['tx_dce_domain_model_dcefield'] = array(
 		),
 		'section_fields' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.section_fields',
+			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dcefield.section_fields',
 			'config' => array(
 				'type' => 'inline',
 				'foreign_table' => 'tx_dce_domain_model_dcefield',
@@ -155,6 +155,15 @@ $TCA['tx_dce_domain_model_dcefield'] = array(
 						'sort' => true,
 					),
 				),
+			),
+		),
+		'section_fields_tag' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dcefield.section_fields_tag',
+			'config' => array(
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim,required'
 			),
 		),
 	),

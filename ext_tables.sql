@@ -78,6 +78,7 @@ CREATE TABLE tx_dce_domain_model_dcefield (
 	type varchar(255) DEFAULT '' NOT NULL,
 	configuration text,
 	section_fields text,
+	section_fields_tag varchar(255) DEFAULT '' NOT NULL,
 
     tstamp int(11) unsigned DEFAULT '0' NOT NULL,
     crdate int(11) unsigned DEFAULT '0' NOT NULL,
