@@ -233,14 +233,9 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 	 */
 	protected function getSectionFieldValues(array $array, $searchString) {
 		$sectionFieldValues = array();
-
-		if (array_key_exists($searchString, $array)) {
-			$sectionFieldValues = $array[$searchString];
-		} else {
-			foreach($array as $fff) {
-				if (is_array($fff) && !empty($fff)) {
-					$sectionFieldValues = self::getSectionFieldValues($fff, $searchString);
-				}
+		foreach($array as $value) {
+			if (isset($value[$searchString])) {
+				$sectionFieldValues[] = $value[$searchString];
 			}
 		}
 		return $sectionFieldValues;
