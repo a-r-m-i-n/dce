@@ -61,13 +61,14 @@ class tx_docHeaderButtonsHook {
 				$beUserAuth = t3lib_div::makeInstance('t3lib_beUserAuth');
 				$beUserAuth->start();
 
+				$buttonCode = '';
 				if ($beUserAuth->isAdmin()) {
 					$linkToDce = 'alt_doc.php?&returnUrl=close.html&edit[tx_dce_domain_model_dce][' . $dceUid . ']=edit';
 					$pathToImage = t3lib_extMgm::extRelPath('dce') . 'Resources/Public/Icons/docheader_icon.png';
 					$titleTag = Tx_Extbase_Utility_Localization::translate('quickDcePopup', 'Dce');
 					$buttonCode = '<div class="buttongroup"><a href="#" onclick="window.open(\'' . $linkToDce . '\', \'editDcePopup\', \'height=600,width=820,status=0,menubar=0,scrollbars=1\')"><img src="' . $pathToImage . '" alt="" title="' . $titleTag . '" /></a></div>';
-					$params['markers']['BUTTONLIST_LEFT'] .= $buttonCode;
 				}
+				$params['markers']['BUTTONLIST_LEFT'] .= $buttonCode . $this->getCustomStylesheet();
 			}
 		}
 	}
@@ -80,5 +81,15 @@ class tx_docHeaderButtonsHook {
 		require_once(t3lib_extMgm::extPath('dce') . 'Classes/Domain/Repository/DceRepository.php');
 	}
 
+
+	/**
+	 * Adds stylesheet when editing dce instance. Not nice solved, but it works.
+	 * @return string
+	 */
+	protected function getCustomStylesheet() {
+		$file = t3lib_extMgm::extPath('dce') . 'Resources/Public/CSS/dceInstance.css';
+		$content = file_get_contents($file);
+		return '<style type="text/css">' . $content . '</style>';
+	}
 }
 ?>

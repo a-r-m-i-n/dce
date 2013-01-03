@@ -18,8 +18,8 @@
 									<f:if condition="{field.type} == 2">
 										<f:then>
 											<settings.{field.variable}>
+												<title>{field.title}</title>
 												<TCEforms>
-													<label>{field.title}</label>
 													<tx_templavoila>
 															<title>{field.title}</title>
 													</tx_templavoila>
@@ -29,7 +29,7 @@
 												<el>
 													<container_{field.variable}>
 													  <type>array</type>
-													  <label>{field.section_fields_tag}</label>
+													  <title>{field.section_fields_tag}</title>
 														<tx_templavoila>
 															<title>{field.section_fields_tag}</title>
 														</tx_templavoila>
