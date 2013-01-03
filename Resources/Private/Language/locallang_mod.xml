@@ -14,6 +14,10 @@
 			<label index="previewOverHeadline">DCE preview</label>
 			<label index="previewOverText">The preview tt_content record has been removed.</label>
 			<label index="previewSaveFirst">Please save the new DCE. After initial save the preview will be available. To update the preview, don't forgett to save when you have made changes on the DCE fields.</label>
+
+			<label index="goToListView">Go to list view</label>
+			<label index="donate">Donate</label>
+			<label index="donateText">If you like the dce extension, feel free to donate some funds to support further development.</label>
         </languageKey>
 
         <languageKey index="de" type="array">
@@ -22,6 +26,10 @@
 			<label index="previewOverHeadline">DCE Vorschau</label>
 			<label index="previewOverText">The Vorschau-Eintrag in tt_content wurde wieder entfernt.</label>
 			<label index="previewSaveFirst">Bitte das erst das DCE speichern. Nach einem initialem Speichern ist die Vorschau verfügbar. Um die Vorschau zu aktualisieren, nicht vergessen nach Änderungen an den DCE-Feldern zu speichern.</label>
+
+			<label index="goToListView">Gehe zur Listenansicht</label>
+			<label index="donate">Spenden</label>
+			<label index="donateText">Wenn Ihnen die DCE Extension gefällt, fühlen Sie sich frei etwas zu Spenden und so die weitere Entwicklung zu unterstützen.</label>
         </languageKey>
     </data>
 </T3locallang>
