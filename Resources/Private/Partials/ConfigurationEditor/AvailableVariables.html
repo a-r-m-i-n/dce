@@ -4,6 +4,11 @@
 	<optgroup label="{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang.xml:availableVariables')}" class="c-divider">
 		<f:for each="{availableFields}" as="field">
 			<option value="v:field.{field.variable}">{field.variable -> dce:format.wrapWithCurlyBraces(prepend:'field.')} - {field.title}{f:if(condition:'{field.type} == 2', then:' ({f:translate(key:\'LLL:EXT:dce/Resources/Private/Language/locallang.xml:useForViewhelper\')})')}</option>
+			<f:if condition="{field.hasSectionFields}">
+				<f:for each="{field.sectionFields}" as="sectionField">
+					<option value="f:.{sectionField.variable}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.{sectionField.variable} - {sectionField.title}</option>
+				</f:for>
+			</f:if>
 		</f:for>
 	</optgroup>
 	<optgroup label="{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang.xml:availableBaseVariables')}" class="c-divider">

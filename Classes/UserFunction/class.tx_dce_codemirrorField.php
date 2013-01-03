@@ -89,6 +89,25 @@ class tx_dce_codemirrorField {
 		);
 
 		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+			if ($row['type'] === '2') {
+				$res2 = $GLOBALS['TYPO3_DB']->sql_query('
+					SELECT title, variable
+
+					FROM tx_dce_domain_model_dcefield
+					JOIN tx_dce_dcefield_sectionfields_mm
+					ON uid = uid_foreign
+
+					WHERE deleted = 0  AND uid_local = 52
+					ORDER BY sorting asc
+				');
+
+				$sectionFields = array();
+				while ($row2 = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res2)) {
+					$sectionFields[] = $row2;
+				}
+				$row['hasSectionFields'] = TRUE;
+				$row['sectionFields'] = $sectionFields;
+			}
 			$fields[] = $row;
 		}
 		return $fields;
