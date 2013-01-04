@@ -26,7 +26,7 @@
 /**
  * Gets the current version of DCE as integer
  *
- * @copyright  2012 Copyright belongs to the respective authors
+ * @copyright  2012-2013 Copyright belongs to the respective authors
  * @license    http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  * @see t3lib_utility_VersionNumber::convertVersionNumberToInteger
  */

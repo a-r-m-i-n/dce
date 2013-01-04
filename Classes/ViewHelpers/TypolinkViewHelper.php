@@ -27,7 +27,7 @@
  * This view helper handles parameter strings using typolink function of TYPO3.
  * It creates the whole <a>-Tag.
  *
- * @copyright  2012 Copyright belongs to the respective authors
+ * @copyright  2012-2013 Copyright belongs to the respective authors
  * @license    http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
 class Tx_Dce_ViewHelpers_TypolinkViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
