@@ -15,3 +15,8 @@
 .buttons .clear {
 	clear: left;
 }
+
+.versioncheck {
+	float: right;
+	padding-right: 10px;
+}

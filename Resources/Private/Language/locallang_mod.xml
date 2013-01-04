@@ -29,7 +29,7 @@
 
 			<label index="goToListView">Gehe zur Listenansicht</label>
 			<label index="donate">Spenden</label>
-			<label index="donateText">Wenn Ihnen die DCE Extension gefällt, fühlen Sie sich frei etwas zu Spenden und so die weitere Entwicklung zu unterstützen.</label>
+			<label index="donateText">Wenn Ihnen die DCE Extension gefällt, können Sie die weitere Entwicklung der Extension mit einer Spende unterstützen.</label>
         </languageKey>
     </data>
 </T3locallang>
