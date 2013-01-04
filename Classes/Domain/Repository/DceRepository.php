@@ -205,6 +205,10 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 			}
 		}
 
+		if (isset($objects) && $dceFieldConfiguration['dce_get_first']) {
+			$objects = current($objects);
+		}
+
 		if ($isSectionField === FALSE) {
 			if (isset($objects)) {
 				$dceField->setValue($objects);
