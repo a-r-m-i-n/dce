@@ -369,7 +369,7 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 	}
 
 	/**
-	 * Checks a attached fields for given variable and returns the single field if found. If not found, returns NULL.
+	 * Checks attached fields for given variable and returns the single field if found. If not found, returns NULL.
 	 *
 	 * @param string $variable
 	 * @return null|Tx_Dce_Domain_Model_DceField
@@ -481,7 +481,18 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 		$fields = array();
 		/** @var $field Tx_Dce_Domain_Model_DceField */
 		foreach($this->getFields() as $field) {
-			$fields[$field->getVariable()] = $field->getValue();
+			if ($field->getSectionFields()) {
+				/**	@var $sectionField Tx_Dce_Domain_Model_DceField */
+				foreach($field->getSectionFields() as $sectionField) {
+					$sectionFieldValues = $sectionField->getValue();
+					foreach ($sectionFieldValues as $i => $value) {
+						$fields[$field->getVariable()][$i][$sectionField->getVariable()] = $value;
+					}
+				}
+			}
+			else {
+				$fields[$field->getVariable()] = $field->getValue();
+			}
 		}
 		return $fields;
 	}

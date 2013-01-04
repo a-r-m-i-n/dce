@@ -170,5 +170,20 @@ class Tx_Dce_Domain_Model_DceField extends Tx_Extbase_DomainObject_AbstractEntit
 		$this->sectionFields->detach($sectionField);
 	}
 
+	/**
+	 * Checks attached sectionFields for given variable and returns the single field if found. If not found, returns NULL.
+	 *
+	 * @param string $variable
+	 * @return null|Tx_Dce_Domain_Model_DceField
+	 */
+	public function getSectionFieldByVariable($variable) {
+		/** @var $sectionField Tx_Dce_Domain_Model_DceField */
+		foreach($this->getSectionFields() as $sectionField) {
+			if($sectionField->getVariable() === $variable) {
+				return $sectionField;
+			}
+		}
+		return NULL;
+	}
 }
 ?>

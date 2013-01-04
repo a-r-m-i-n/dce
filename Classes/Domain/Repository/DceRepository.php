@@ -55,7 +55,7 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 		$dce = clone $dce;
 		$this->cloneFields($dce);
 
-		$this->fillFields($dce, $fieldList);
+		$this->processFillingFields($dce, $fieldList);
 		$dce->setContentObject($contentObject);
 
 		return $dce;
@@ -71,7 +71,15 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 		$clonedFields = t3lib_div::makeInstance('Tx_Extbase_Persistence_ObjectStorage');
 		/** @var $field Tx_Dce_Domain_Model_DceField */
 		foreach($dce->getFields() as $field) {
-			if ($field->getType() === Tx_Dce_Domain_Model_DceField::TYPE_ELEMENT || $field->getType() === Tx_Dce_Domain_Model_DceField::TYPE_SECTION) {
+			if ($field->getType() === Tx_Dce_Domain_Model_DceField::TYPE_ELEMENT || Tx_Dce_Domain_Model_DceField::TYPE_SECTION) {
+				if ($field->getSectionFields()) {
+					/** @var $clonedFields Tx_Extbase_Persistence_ObjectStorage */
+					$clonedSectionFields = t3lib_div::makeInstance('Tx_Extbase_Persistence_ObjectStorage');
+					foreach($field->getSectionFields() as $sectionField) {
+						$clonedSectionFields->attach(clone $sectionField);
+						$field->setSectionFields($clonedSectionFields);
+					}
+				}
 				$clonedFields->attach(clone $field);
 				$dce->setFields($clonedFields);
 			}
@@ -90,101 +98,131 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 	}
 
 	/**
-	 * Walk through the fields and validate/fill them
+	 * Walk through the fields and section fields to fill them
 	 *
 	 * @param Tx_Dce_Domain_Model_Dce $dce
 	 * @param array $fieldList Field list. Key must contain field variable, value its value.
 	 * @return void
-	 *
-	 * @TODO refactor me!
 	 */
-	protected function fillFields(Tx_Dce_Domain_Model_Dce $dce, array $fieldList) {
+	protected function processFillingFields(Tx_Dce_Domain_Model_Dce $dce, array $fieldList) {
 		foreach ($fieldList as $fieldVariable => $fieldValue) {
 			$dceField = $dce->getFieldByVariable($fieldVariable);
-
 			if ($dceField) {
-				$dceFieldConfiguration = t3lib_div::xml2array($dceField->getConfiguration());
-
-				if (in_array($dceFieldConfiguration['type'], array('group', 'inline', 'select'))
-						&&
-						(
-								($dceFieldConfiguration['type'] === 'select' && !empty($dceFieldConfiguration['foreign_table']))
-										|| ($dceFieldConfiguration['type'] === 'group' && !empty($dceFieldConfiguration['allowed']))
-						)
-						&& $dceFieldConfiguration['dce_load_schema']
-				) {
-
-					if ($dceFieldConfiguration['type'] === 'group') {
-						$classname = $dceFieldConfiguration['allowed'];
-					} else {
-						$classname = $dceFieldConfiguration['foreign_table'];
-					}
-					$tablename = $classname;
-
-					while (strpos($classname, '_') !== FALSE) {
-						$position = strpos($classname, '_') + 1;
-						$classname = substr($classname, 0, $position - 1) . '-' . strtoupper(substr($classname, $position, 1)) . substr($classname, $position + 1);
-					}
-
-					$classname = str_replace('-', '_', $classname);
-					$classname{0} = strtoupper($classname{0});
-					$repositoryName = str_replace('_Model_', '_Repository_', $classname) . 'Repository'; // !
-
-					if (class_exists($classname) && class_exists($repositoryName)) {
-						// Extbase object found
-						$objectManager = new Tx_Extbase_Object_ObjectManager();
-						/** @var $repository Tx_Extbase_Persistence_Repository */
-						$repository = $objectManager->get($repositoryName);
-
-						$objects = array();
-						foreach (t3lib_div::trimExplode(',', $fieldValue, TRUE) as $uid) {
-							$objects[] = $repository->findByUid($uid);
-						}
-					} else {
-						// No class found... load DB record and return assoc
-						$objects = array();
-						foreach (t3lib_div::trimExplode(',', $fieldValue, TRUE) as $uid) {
-							$enableFields = '';
-							if (!$dceFieldConfiguration['dce_ignore_enablefields']) {
-								/** @var $cObj tslib_cObj */
-								$cObj = t3lib_div::makeInstance('tslib_cObj');
-								$enableFields = $cObj->enableFields($tablename);
-							}
-
-							$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', $tablename, 'uid = ' . $uid . $enableFields);
-							while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
-								// Add field with converted flexform_data (as array)
-								$row['pi_flexform_data'] = t3lib_div::xml2array($row['pi_flexform']);
-
-								$dceUid = $this->extractUidFromCType($row['CType']);
-								if ($dceUid !== FALSE) {
-									$objects[] = $this->findAndBuildOneByUid(
-										$dceUid,
-										$this->getDceFieldsByRecord($row),
-										$row
-									);
-								} else {
-									$objects[] = $row;
-								}
-							}
+				if (is_array($fieldValue)) {
+					foreach($fieldValue as $sectionFieldValues) {
+						$sectionFieldValues = current($sectionFieldValues);
+						foreach($sectionFieldValues as $sectionFieldVariable => $sectionFieldValue) {
+							$sectionField = $dceField->getSectionFieldByVariable($sectionFieldVariable);
+							$this->fillFields($sectionField, $sectionFieldValue, TRUE);
 						}
 					}
-				}
-
-				if (isset($objects)) {
-					$dceField->setValue($objects);
-					unset($objects);
 				} else {
-					if (!is_array($fieldValue)) {
-						$dceField->setValue($fieldValue);
-					} else {
-						$value = $this->getSectionFieldValues($fieldValue, 'container_' .$fieldVariable);
-						if (isset($value)) {
-							$dceField->setValue($value);
+					$this->fillFields($dceField, $fieldValue);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Fills the value of given field. If field has special properties some objects or database operations will be do,
+	 * if not just the given $fieldValue will be add to $dceField->_value. Value of sectionFields will be filled
+	 * differently.
+	 *
+	 * @param Tx_Dce_Domain_Model_DceField $dceField
+	 * @param string $fieldValue
+	 * @param boolean $isSectionField
+	 *
+	 * @return void
+	 */
+	protected function fillFields(Tx_Dce_Domain_Model_DceField $dceField, $fieldValue, $isSectionField = FALSE) {
+		$xmlWrapping = uniqid('xml');
+		$dceFieldConfiguration = t3lib_div::xml2array('<' . $xmlWrapping . '>' . $dceField->getConfiguration() . '</' . $xmlWrapping . '>');
+		$dceFieldConfiguration = $dceFieldConfiguration['config'];
+
+		if (in_array($dceFieldConfiguration['type'], array('group', 'inline', 'select'))
+				&&
+				(
+						($dceFieldConfiguration['type'] === 'select' && !empty($dceFieldConfiguration['foreign_table']))
+								|| ($dceFieldConfiguration['type'] === 'group' && !empty($dceFieldConfiguration['allowed']))
+				)
+				&& $dceFieldConfiguration['dce_load_schema']
+		) {
+			$objects = array();
+
+			if ($dceFieldConfiguration['type'] === 'group') {
+				$classname = $dceFieldConfiguration['allowed'];
+			} else {
+				$classname = $dceFieldConfiguration['foreign_table'];
+			}
+			$tablename = $classname;
+
+			while (strpos($classname, '_') !== FALSE) {
+				$position = strpos($classname, '_') + 1;
+				$classname = substr($classname, 0, $position - 1) . '-' . strtoupper(substr($classname, $position, 1)) . substr($classname, $position + 1);
+			}
+
+			$classname = str_replace('-', '_', $classname);
+			$classname{0} = strtoupper($classname{0});
+			$repositoryName = str_replace('_Model_', '_Repository_', $classname) . 'Repository'; // !
+
+			if (class_exists($classname) && class_exists($repositoryName)) {
+				// Extbase object found
+				$objectManager = new Tx_Extbase_Object_ObjectManager();
+				/** @var $repository Tx_Extbase_Persistence_Repository */
+				$repository = $objectManager->get($repositoryName);
+
+				foreach (t3lib_div::trimExplode(',', $fieldValue, TRUE) as $uid) {
+					$objects[] = $repository->findByUid($uid);
+				}
+			} else {
+				// No class found... load DB record and return assoc
+				foreach (t3lib_div::trimExplode(',', $fieldValue, TRUE) as $uid) {
+					$enableFields = '';
+
+					if (!$dceFieldConfiguration['dce_ignore_enablefields']) {
+						/** @var $cObj tslib_cObj */
+						$cObj = t3lib_div::makeInstance('tslib_cObj');
+						$enableFields = $cObj->enableFields($tablename);
+					}
+
+					$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', $tablename, 'uid = ' . $uid . $enableFields);
+					while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+						// Add field with converted flexform_data (as array)
+						$row['pi_flexform_data'] = t3lib_div::xml2array($row['pi_flexform']);
+
+						$dceUid = $this->extractUidFromCType($row['CType']);
+						if ($dceUid !== FALSE) {
+							$objects[] = $this->findAndBuildOneByUid(
+								$dceUid,
+								$this->getDceFieldsByRecord($row),
+								$row
+							);
+						} else {
+							$objects[] = $row;
 						}
 					}
 				}
 			}
+		}
+
+		if ($isSectionField === FALSE) {
+			if (isset($objects)) {
+				$dceField->setValue($objects);
+			} else {
+				$dceField->setValue($fieldValue);
+			}
+		} else {
+			$sectionFieldValues = $dceField->getValue();
+			if (!is_array($sectionFieldValues)) {
+				$sectionFieldValues = array();
+			}
+
+			if (isset($objects)) {
+				$sectionFieldValues[] = $objects;
+			} else {
+				$sectionFieldValues[] = $fieldValue;
+			}
+			$dceField->setValue($sectionFieldValues);
 		}
 	}
 
