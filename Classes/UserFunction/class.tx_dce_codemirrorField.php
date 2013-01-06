@@ -110,7 +110,6 @@ class tx_dce_codemirrorField {
 			}
 			$fields[] = $row;
 		}
-		t3lib_utility_Debug::debug($fields);
 		return $fields;
 	}
 
