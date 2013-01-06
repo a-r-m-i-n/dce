@@ -485,8 +485,10 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 				/**	@var $sectionField Tx_Dce_Domain_Model_DceField */
 				foreach($field->getSectionFields() as $sectionField) {
 					$sectionFieldValues = $sectionField->getValue();
-					foreach ($sectionFieldValues as $i => $value) {
-						$fields[$field->getVariable()][$i][$sectionField->getVariable()] = $value;
+					if (is_array($sectionFieldValues)) {
+						foreach ($sectionFieldValues as $i => $value) {
+							$fields[$field->getVariable()][$i][$sectionField->getVariable()] = $value;
+						}
 					}
 				}
 			}

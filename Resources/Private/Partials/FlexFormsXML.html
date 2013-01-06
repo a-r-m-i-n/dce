@@ -1,6 +1,5 @@
 {namespace dce=Tx_Dce_ViewHelpers}<dce:format.tiny>
 	<dce:format.addcslashes>
-
 		<T3DataStructure>
 			<meta>
 				<langDisable>1</langDisable>
@@ -19,17 +18,15 @@
 										<f:then>
 											<settings.{field.variable}>
 												<title>{field.title}</title>
-												<TCEforms>
-													<tx_templavoila>
-															<title>{field.title}</title>
-													</tx_templavoila>
-												</TCEforms>
+												<tx_templavoila>
+													<title>{field.title}</title>
+												</tx_templavoila>
 												<section>1</section>
 												<type>array</type>
 												<el>
 													<container_{field.variable}>
-													  <type>array</type>
-													  <title>{field.section_fields_tag}</title>
+														<type>array</type>
+														<title>{field.section_fields_tag}</title>
 														<tx_templavoila>
 															<title>{field.section_fields_tag}</title>
 														</tx_templavoila>
@@ -63,6 +60,5 @@
 				</f:for>
 			</sheets>
 		</T3DataStructure>
-
 	</dce:format.addcslashes>
 </dce:format.tiny>
