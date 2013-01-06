@@ -100,7 +100,6 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 	/**
 	 * @param integer $contentElementUid
 	 * @return array
-	 * @TODO This function does not work with section fields!
 	 */
 	protected function simulateContentElementSettings($contentElementUid) {
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('pi_flexform', 'tt_content', 'uid = ' . $contentElementUid);
@@ -110,7 +109,6 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 		if(is_array($flexform)) {
 			$this->dceRepository->getVDefValues($flexform, $this);
 		}
-
 		return $this->temporaryDceProperties;
 	}
 

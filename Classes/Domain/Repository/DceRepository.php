@@ -261,6 +261,20 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 		foreach($array as $key => $value) {
 			if ($key === 'vDEF') {
 				$caller->temporaryDceProperties[substr($arrayKey, 9)] = $value;
+			}
+			elseif (is_array($value) && array_key_exists('el', $value)) {
+				$propertyName = substr($key, 9);
+				$values = array();
+				$i = 1;
+				foreach(current($value) as $entry) {
+					$entry = $entry['container_' . $propertyName]['el'];
+
+					foreach($entry as $key => $gnarf) {
+						$entry[$key] = $gnarf['vDEF'];
+					}
+					$values[$i++] = array('container_' . $propertyName => $entry);
+				}
+				$caller->temporaryDceProperties[$propertyName] = $values;
 			} elseif (is_array($value)) {
 				$this->getVDefValues($value, $caller, $key);
 			}
