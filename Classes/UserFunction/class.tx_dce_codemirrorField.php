@@ -97,7 +97,7 @@ class tx_dce_codemirrorField {
 					JOIN tx_dce_dcefield_sectionfields_mm
 					ON uid = uid_foreign
 
-					WHERE deleted = 0  AND uid_local = 52
+					WHERE deleted = 0  AND uid_local = ' . $row['uid'] . '
 					ORDER BY sorting asc
 				');
 
@@ -110,6 +110,7 @@ class tx_dce_codemirrorField {
 			}
 			$fields[] = $row;
 		}
+		t3lib_utility_Debug::debug($fields);
 		return $fields;
 	}
 
