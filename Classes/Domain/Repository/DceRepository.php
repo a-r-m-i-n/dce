@@ -268,22 +268,6 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 	}
 
 	/**
-	 *
-	 * @param array $array
-	 * @param string $searchString
-	 * @return array
-	 */
-	protected function getSectionFieldValues(array $array, $searchString) {
-		$sectionFieldValues = array();
-		foreach($array as $value) {
-			if (isset($value[$searchString])) {
-				$sectionFieldValues[] = $value[$searchString];
-			}
-		}
-		return $sectionFieldValues;
-	}
-
-	/**
 	 * Extracts and returns the uid from given DCE CType. Returns FALSE if CType is not a DCE one.
 	 *
 	 * @param string $CType
