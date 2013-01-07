@@ -76,7 +76,10 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 					/** @var $clonedFields Tx_Extbase_Persistence_ObjectStorage */
 					$clonedSectionFields = t3lib_div::makeInstance('Tx_Extbase_Persistence_ObjectStorage');
 					foreach($field->getSectionFields() as $sectionField) {
-						$clonedSectionFields->attach(clone $sectionField);
+						/** @var $clonedSectionField Tx_Dce_Domain_Model_DceField */
+						$clonedSectionField = clone $sectionField;
+						$clonedSectionField->setValue(NULL);
+						$clonedSectionFields->attach($clonedSectionField);
 						$field->setSectionFields($clonedSectionFields);
 					}
 				}
@@ -269,8 +272,8 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 				foreach(current($value) as $entry) {
 					$entry = $entry['container_' . $propertyName]['el'];
 
-					foreach($entry as $key => $gnarf) {
-						$entry[$key] = $gnarf['vDEF'];
+					foreach($entry as $k => $v) {
+						$entry[$k] = $v['vDEF'];
 					}
 					$values[$i++] = array('container_' . $propertyName => $entry);
 				}

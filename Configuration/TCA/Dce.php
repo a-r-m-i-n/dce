@@ -313,14 +313,7 @@ $TCA['tx_dce_domain_model_dce'] = array(
 					'showTemplates' => FALSE,
 				),
 				'default' => '
-{namespace dce=Tx_Dce_ViewHelpers}
-<ul>
-	<f:for each="{fields}" as="singleField" key="variableName" iteration="iterator">
-		<f:if condition="{iterator.isFirst} == 0">
-			<li title="{singleField}">{variableName}: <f:format.crop maxCharacters="50">{singleField}</f:format.crop></li>
-		</f:if>
-	</f:for>
-</ul>
+<f:render partial="BodytextPreview/ShowAllFieldsButFirst" arguments="{fields:fields}" />
 ',
 			),
 		),

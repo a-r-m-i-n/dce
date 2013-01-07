@@ -1,0 +1,26 @@
+{namespace dce=Tx_Dce_ViewHelpers}
+<ul>
+	<f:for each="{fields}" as="singleField" key="variableName" iteration="iterator">
+		<f:if condition="{iterator.isFirst} == 0">
+			<f:if condition="{singleField -> dce:isArray()}">
+				<f:then>
+					<b>{variableName -> dce:format.ucfirst()}:</b>
+					<ul>
+						<f:for each="{singleField}" as="entry">
+							<li style="margin-bottom: 5px;">
+								<ul>
+									<f:for each="{entry}" key="property" as="value">
+										<li style="padding-left: 10px;">{property -> dce:format.ucfirst()}: <f:format.crop maxCharacters="50">{value}</f:format.crop></li>
+									</f:for>
+								</ul>
+							</li>
+						</f:for>
+					</ul>
+				</f:then>
+				<f:else>
+					<li title="{singleField}">{variableName -> dce:format.ucfirst()}: <f:format.crop maxCharacters="50">{singleField}</f:format.crop></li>
+				</f:else>
+			</f:if>
+		</f:if>
+	</f:for>
+</ul>
