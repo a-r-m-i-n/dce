@@ -83,7 +83,7 @@ function initCodeMirrorEditor(textarea, mode) {
 function disableSectionFieldType(textarea) {
 	var parentTable = $(textarea).up('table');
 	var selectBox = $(parentTable).down('select[name^="data[tx_dce_domain_model_dcefield]"][name$="[type]"]');
-	if ($(selectBox).up('.t3-form-field-record-inline', 1)) {
+	if (selectBox && $(selectBox).up('.t3-form-field-record-inline', 1)) {
 		var parentTableRow = $(selectBox).up('tr').hide();
 		var labelTableRow = $(parentTableRow).previous('tr').hide();
 	}
