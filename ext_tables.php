@@ -3,13 +3,13 @@ if (!defined('TYPO3_MODE')) {
     die ('Access denied.');
 }
 
-$pathDceExtTables = PATH_typo3conf . 'temp_CACHED_dce_ext_tables.php';
-if (!file_exists($pathDceExtTables)) {
+$GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceExtTablesPath'] = PATH_typo3conf . 'temp_CACHED_dce_ext_tables.php';
+if (!file_exists($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceExtTablesPath'])) {
 	/** @var $dceCache Tx_Dce_Cache */
 	$dceCache = t3lib_div::makeInstance('Tx_Dce_Cache');
-	$dceCache->createExtTables($pathDceExtTables);
+	$dceCache->createExtTables($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceExtTablesPath']);
 }
-require_once($pathDceExtTables);
+require_once($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceExtTablesPath']);
 
 Tx_Extbase_Utility_Extension::registerModule(
 	$_EXTKEY,

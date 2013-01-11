@@ -10,8 +10,8 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['proc
 	'EXT:' . $_EXTKEY . '/Classes/Hooks/tx_saveDce.php:tx_saveDce';
 
 if ($extConfiguration['disablePreviewAutoUpdate'] == 1) {
-	$GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['AJAX']['Dce::updateContentElement']
-		= 'EXT:dce/Classes/Hooks/tx_update_contentelement.php:tx_update_contentelement->updateContentElement';
+	$GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['AJAX']['Dce::updateContentElement'] =
+		'EXT:dce/Classes/Hooks/tx_update_contentelement.php:tx_update_contentelement->updateContentElement';
 }
 
 // User conditions
@@ -19,10 +19,11 @@ include_once(t3lib_extMgm::extPath('dce') . 'Classes/UserConditions/user_dceOnCu
 
 // Rendering hook of content elements in backend
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['tt_content_drawItem'][] =
-	'EXT:' . $_EXTKEY . '/Classes/Hooks/tx_renderDceContentElement.php:tx_renderDceContentElement';
+	'EXT:dce/Classes/Hooks/tx_renderDceContentElement.php:tx_renderDceContentElement';
 
-$GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['t3lib/class.t3lib_tcemain.php']
-	= t3lib_extMgm::extPath($_EXTKEY).'Classes/XClasses/class.ux_t3lib_tcemain.php';
+// Clear cache hook
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc'][] =
+	'EXT:dce/Classes/Hooks/tx_clearCache.php:tx_clearCache->clearDceCache';
 
 if (TYPO3_MODE === 'BE') {
 	require_once(t3lib_extMgm::extPath($_EXTKEY).'Classes/UserFunction/class.tx_dce_codemirrorField.php');
@@ -30,18 +31,18 @@ if (TYPO3_MODE === 'BE') {
 }
 
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['typo3/template.php']['docHeaderButtonsHook'][] =
-	'EXT:' . $_EXTKEY . '/Classes/Hooks/tx_docHeaderButtonsHook.php:tx_docHeaderButtonsHook->addQuickDcePopupButton';
+	'EXT:dce/Classes/Hooks/tx_docHeaderButtonsHook.php:tx_docHeaderButtonsHook->addQuickDcePopupButton';
 
 // Special tce validators (eval)
 include_once(t3lib_extMgm::extPath('dce') . 'Classes/UserFunction/class.tx_dce_abstract_formeval.php');
 $TYPO3_CONF_VARS['SC_OPTIONS']['tce']['formevals']['tx_dce_formevals_lowerCamelCase'] = 'EXT:dce/Classes/UserFunction/class.tx_dce_formevals_lowerCamelCase.php';
 $TYPO3_CONF_VARS['SC_OPTIONS']['tce']['formevals']['tx_dce_formevals_noLeadingNumber'] = 'EXT:dce/Classes/UserFunction/class.tx_dce_formevals_noLeadingNumber.php';
 
-$pathDceLocalconf = PATH_typo3conf . 'temp_CACHED_dce_ext_localconf.php';
-if (!file_exists($pathDceLocalconf)) {
+$GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceLocalconfPath'] = PATH_typo3conf . 'temp_CACHED_dce_ext_localconf.php';
+if (!file_exists($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceLocalconfPath'])) {
 	/** @var $dceCache Tx_Dce_Cache */
 	$dceCache = t3lib_div::makeInstance('Tx_Dce_Cache');
-	$dceCache->createLocalconf($pathDceLocalconf);
+	$dceCache->createLocalconf($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceLocalconfPath']);
 }
-require_once($pathDceLocalconf);
+require_once($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceLocalconfPath']);
 ?>
