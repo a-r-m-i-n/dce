@@ -85,6 +85,7 @@ $TCA['tx_dce_domain_model_dce'] = array(
 						'dragdrop' => true,
 						'sort' => true,
 					),
+					'levelLinksPosition' => 'both',
 				),
 			),
 		),
