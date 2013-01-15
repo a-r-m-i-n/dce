@@ -2,6 +2,7 @@ plugin.tx_dce.persistence.storagePid = 0
 
 # Disable ce wrapping (for dce)
 tt_content.stdWrap.innerWrap.cObject.default.stdWrap.if {
+	value := addToList(dce_dceuid0)
 	isInList.field = CType
 	negate = 1
 }
