@@ -59,6 +59,9 @@ class Tx_Dce_Utility_FluidTemplate {
 	 * @return void
 	 */
 	protected function init() {
+		if (t3lib_extMgm::isLoaded('dbal')) {
+			$this->assureDbalCompatibility();
+		}
 		$GLOBALS['TYPO3_DB'] =  t3lib_div::makeInstance('t3lib_DB');
 		$GLOBALS['TYPO3_DB']->connectDB();
 
@@ -135,6 +138,25 @@ class Tx_Dce_Utility_FluidTemplate {
 	 */
 	public function setPartialRootPath($partialRootPath) {
 		$this->fluidTemplate->setPartialRootPath($partialRootPath);
+	}
+
+	/**
+	 * Checks installation order of dbal and dce, and throws exception if dce has been loaded first. Otherwise the
+	 * cache settings from dbal will be loaded to typo3CacheManager's cache configurations.
+	 *
+	 * @throws Exception
+	 * @return void
+	 */
+	protected function assureDbalCompatibility() {
+		if (!isset($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['dbal'])) {
+			if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6000000) {
+				$localConfigurationFile = 'LocalConfiguration.php';
+			} else {
+				$localConfigurationFile = 'localconf.php';
+			}
+			throw new Exception('When using dbal it is necessary to install the dce extension after dbal. Currently dce is loaded first. Please excuse the inconvenience to change the order manually in "' . $localConfigurationFile .  '" in typo3conf directory.', 1358518250);
+		}
+		$GLOBALS['typo3CacheManager']->setCacheConfigurations($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']);
 	}
 
 }
