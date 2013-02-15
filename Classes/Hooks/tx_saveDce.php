@@ -60,8 +60,6 @@ class tx_saveDce {
 		$this->uid = $this->getUid($id, $status, $pObj);
 		$this->fieldArray = $fieldArray;
 
-		$GLOBALS['TSFE']->sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
-
 		if ($table === 'tt_content' && $this->isDceContentElement($pObj)) {
 			$this->performPreviewAutoupdateOnContentElementSave();
 		}
