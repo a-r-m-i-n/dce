@@ -116,7 +116,9 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 						$sectionFieldValues = current($sectionFieldValues);
 						foreach($sectionFieldValues as $sectionFieldVariable => $sectionFieldValue) {
 							$sectionField = $dceField->getSectionFieldByVariable($sectionFieldVariable);
-							$this->fillFields($sectionField, $sectionFieldValue, TRUE);
+							if ($sectionField instanceof Tx_Dce_Domain_Model_DceField) {
+								$this->fillFields($sectionField, $sectionFieldValue, TRUE);
+							}
 						}
 					}
 				} else {
