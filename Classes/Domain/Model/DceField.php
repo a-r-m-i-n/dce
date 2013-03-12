@@ -185,5 +185,31 @@ class Tx_Dce_Domain_Model_DceField extends Tx_Extbase_DomainObject_AbstractEntit
 		}
 		return NULL;
 	}
+
+	/**
+	 * Checks if the field is of type element
+	 * @return boolean
+	 */
+	public function isElement() {
+		return ($this->getType() === self::TYPE_ELEMENT);
+	}
+
+
+	/**
+	 * Checks if the field is of type section
+	 * @return boolean
+	 */
+	public function isSection() {
+		return ($this->getType() === self::TYPE_SECTION);
+	}
+
+
+	/**
+	 * Checks if the field is of type tab
+	 * @return boolean
+	 */
+	public function isTab() {
+		return ($this->getType() === self::TYPE_TAB);
+	}
 }
 ?>

@@ -495,6 +495,9 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 		$fields = array();
 		/** @var $field Tx_Dce_Domain_Model_DceField */
 		foreach($this->getFields() as $field) {
+			if ($field->isTab()) {
+				continue;
+			}
 			if ($field->getSectionFields()) {
 				/**	@var $sectionField Tx_Dce_Domain_Model_DceField */
 				foreach($field->getSectionFields() as $sectionField) {
