@@ -3,7 +3,16 @@
 	<option></option>
 	<optgroup label="{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang.xml:availableVariables')}" class="c-divider">
 		<f:for each="{availableFields}" as="field">
-			<option value="v:field.{field.variable}">{field.variable -> dce:format.wrapWithCurlyBraces(prepend:'field.')} - {field.title}{f:if(condition:'{field.type} == 2', then:' ({f:translate(key:\'LLL:EXT:dce/Resources/Private/Language/locallang.xml:useForViewhelper\')})')}</option>
+			<f:if condition="{field.type} == 2">
+				<f:then>
+					<option value='f:<dce:format.stripslashes subject="\<f:for each=\"{field." />{field.variable}<dce:format.stripslashes subject="\}\" as=\" " performTrim="1" />{field.section_fields_tag -> dce:format.strtolower()}<dce:format.stripslashes subject="\">" /><f:for each="{field.sectionFields}" as="sectionField">
+	{sectionField.title}: <dce:format.stripslashes subject="\{" />{field.section_fields_tag -> dce:format.strtolower()}.{sectionField.variable}<dce:format.stripslashes subject="\}" /><br /></f:for>
+<dce:format.stripslashes subject="<\/f:for>" />'>{field.variable -> dce:format.wrapWithCurlyBraces(prepend:'field.')} - {field.title} ({f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang.xml:useForViewhelper')})</option>
+				</f:then>
+				<f:else>
+					<option value="v:field.{field.variable}">{field.variable -> dce:format.wrapWithCurlyBraces(prepend:'field.')} - {field.title}</option>
+				</f:else>
+			</f:if>
 			<f:if condition="{field.hasSectionFields}">
 				<f:for each="{field.sectionFields}" as="sectionField">
 					<option value="f:.{sectionField.variable}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.{sectionField.variable} - {sectionField.title}</option>
