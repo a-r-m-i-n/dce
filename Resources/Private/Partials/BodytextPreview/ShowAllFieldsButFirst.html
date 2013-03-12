@@ -10,7 +10,7 @@
 							<li style="margin-bottom: 5px;">
 								<ul>
 									<f:for each="{entry}" key="property" as="value">
-										<li style="padding-left: 10px;">{property -> dce:format.ucfirst()}: <f:format.crop maxCharacters="50">{value}</f:format.crop></li>
+										<li style="padding-left: 10px;">{property -> dce:format.ucfirst()}: {value}</li>
 									</f:for>
 								</ul>
 							</li>
@@ -18,7 +18,7 @@
 					</ul>
 				</f:then>
 				<f:else>
-					<li title="{singleField}">{variableName -> dce:format.ucfirst()}: <f:format.crop maxCharacters="50">{singleField}</f:format.crop></li>
+					<li title="{singleField}">{variableName -> dce:format.ucfirst()}: {singleField}</li>
 				</f:else>
 			</f:if>
 		</f:if>
