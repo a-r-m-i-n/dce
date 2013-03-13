@@ -148,7 +148,7 @@ class Tx_Dce_Utility_FluidTemplate {
 	 * @return void
 	 */
 	protected function assureDbalCompatibility() {
-		if (!isset($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['dbal'])) {
+		if ($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['t3lib/class.t3lib_db.php'] === NULL) {
 			if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6000000) {
 				$localConfigurationFile = 'LocalConfiguration.php';
 			} else {
