@@ -185,6 +185,9 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 					$enableFields = '';
 
 					if (!$dceFieldConfiguration['dce_ignore_enablefields']) {
+						if (!$GLOBALS['TSFE']->sys_page instanceof t3lib_pageSelect) {
+							$GLOBALS['TSFE']->sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
+						}
 						/** @var $cObj tslib_cObj */
 						$cObj = t3lib_div::makeInstance('tslib_cObj');
 						$enableFields = $cObj->enableFields($tablename);
