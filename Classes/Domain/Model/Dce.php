@@ -461,7 +461,7 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 			$fluidTemplate->setTemplateSource($this->$inlineTemplateGetter());
 		} else {
 			$fileTemplateGetter = 'get' . ucfirst(t3lib_div::underscoredToLowerCamelCase($templateFields['file']));
-			$filePath = Tx_Dce_Utility_File::getAbsoluteFilePath($this->$fileTemplateGetter());
+			$filePath = Tx_Dce_Utility_File::getFilePath($this->$fileTemplateGetter());
 			if (!file_exists($filePath)) {
 				$fluidTemplate->setTemplateSource('');
 			} else {
@@ -469,8 +469,8 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 			}
 		}
 
-		$fluidTemplate->setLayoutRootPath(Tx_Dce_Utility_File::getAbsoluteFilePath($this->getTemplateLayoutRootPath()));
-		$fluidTemplate->setPartialRootPath(Tx_Dce_Utility_File::getAbsoluteFilePath($this->getTemplatePartialRootPath()));
+		$fluidTemplate->setLayoutRootPath(Tx_Dce_Utility_File::getFilePath($this->getTemplateLayoutRootPath()));
+		$fluidTemplate->setPartialRootPath(Tx_Dce_Utility_File::getFilePath($this->getTemplatePartialRootPath()));
 
 		$fluidTemplate->assign('dce', $this);
 		$fluidTemplate->assign('contentObject', $this->getContentObject());

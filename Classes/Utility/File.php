@@ -24,7 +24,7 @@
  ***************************************************************/
 
 /**
- *
+ * Utility class for file handling (especially FAL support in TYPO3 6.0)
  * @package dce
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  *
@@ -32,13 +32,14 @@
 class Tx_Dce_Utility_File {
 
 	/**
-	 * Converts given file path to absolute file path.
-	 * If FAL reference is given (eg. "file:123") it will be interpret to real existing, absolute file path.
+	 * Converts given file path to absolute or relative file path.
+	 * If FAL reference is given (eg. "file:123") it will be interpret to real existing file path.
 	 *
 	 * @param string $file Filename (eg. "fileadmin/file.html") or FAL reference (eg. "file:123")
-	 * @return string Absolute file path
+	 * @param boolean $absolute If TRUE the given file path will be converted to absolute path.
+	 * @return string File path (absolute or relative)
 	 */
-	static public function getAbsoluteFilePath($file) {
+	static public function getFilePath($file, $absolute = TRUE) {
 		$filePath = $file;
 		if (t3lib_div::isFirstPartOfStr($file, 'file:')
 				&& t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6000000) {
@@ -48,7 +49,11 @@ class Tx_Dce_Utility_File {
 			$fileOrFolder = $resourceFactory->retrieveFileOrFolderObject($combinedIdentifier);
 			$filePath = $fileOrFolder->getPublicUrl();
 		}
-		return t3lib_div::getFileAbsFileName($filePath);
+
+		if ($absolute === TRUE) {
+			return t3lib_div::getFileAbsFileName($filePath);
+		}
+		return $filePath;
 	}
 
 }
