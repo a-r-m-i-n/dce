@@ -164,7 +164,7 @@ $TCA['tx_dce_domain_model_dce'] = array(
 				'size' => 2,
 				'minitems' => 0,
 				'maxitems' => 1,
-				'allowed' => 'GIF,PNG',
+				'allowed' => 'gif,png',
 				'disallowed' => '',
 			),
 		),
