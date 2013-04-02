@@ -461,15 +461,16 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 			$fluidTemplate->setTemplateSource($this->$inlineTemplateGetter());
 		} else {
 			$fileTemplateGetter = 'get' . ucfirst(t3lib_div::underscoredToLowerCamelCase($templateFields['file']));
-			$filePath = PATH_site . $this->$fileTemplateGetter();
+			$filePath = Tx_Dce_Utility_File::getAbsoluteFilePath($this->$fileTemplateGetter());
 			if (!file_exists($filePath)) {
 				$fluidTemplate->setTemplateSource('');
 			} else {
 				$fluidTemplate->setTemplatePathAndFilename($filePath);
 			}
 		}
-		$fluidTemplate->setLayoutRootPath(t3lib_div::getFileAbsFileName($this->getTemplateLayoutRootPath()));
-		$fluidTemplate->setPartialRootPath(t3lib_div::getFileAbsFileName($this->getTemplatePartialRootPath()));
+
+		$fluidTemplate->setLayoutRootPath(Tx_Dce_Utility_File::getAbsoluteFilePath($this->getTemplateLayoutRootPath()));
+		$fluidTemplate->setPartialRootPath(Tx_Dce_Utility_File::getAbsoluteFilePath($this->getTemplatePartialRootPath()));
 
 		$fluidTemplate->assign('dce', $this);
 		$fluidTemplate->assign('contentObject', $this->getContentObject());
@@ -480,8 +481,8 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 			if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 6000000) {
 				$fluidTemplate->assign('tsSetup', Tx_Extbase_Utility_TypoScript::convertTypoScriptArrayToPlainArray($GLOBALS['TSFE']->tmpl->setup));
 			} else {
-				$deineMudda = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Service\TypoScriptService');
-				$fluidTemplate->assign('tsSetup', $deineMudda->convertTypoScriptArrayToPlainArray($GLOBALS['TSFE']->tmpl->setup));
+				$typoScriptService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Service\TypoScriptService');
+				$fluidTemplate->assign('tsSetup', $typoScriptService->convertTypoScriptArrayToPlainArray($GLOBALS['TSFE']->tmpl->setup));
 			}
 		}
 
