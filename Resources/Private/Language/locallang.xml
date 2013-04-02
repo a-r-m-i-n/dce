@@ -21,6 +21,8 @@
 			<label index="tsfeObjectNode">{TSFE}</label>
 			<label index="pageObject">Properties of current page</label>
 			<label index="pageObjectNode">{page}</label>
+			<label index="tsSetupObject">TypoScript setup of current page</label>
+			<label index="tsSetupObjectNode">{tsSetup}</label>
 
 			<label index="quickDcePopup">Opens the settings of the DCE which this DCE instance based on, in a popup</label>
 
@@ -41,6 +43,7 @@
 			<label index="contentObject">Content Objekt (DCE-Instanz)</label>
 			<label index="tsfeObject">TSFE Objekt (tslib_fe)</label>
 			<label index="pageObject">Eigenschaften der aktuellen Seite</label>
+			<label index="tsSetupObject">TypoScript-Setup der aktuellen Seite</label>
 
 			<label index="quickDcePopup">Öffnet die Einstellungen des DCE, auf welches diese DCE-Instanz basiert in einem Popup.</label>
 		</languageKey>
