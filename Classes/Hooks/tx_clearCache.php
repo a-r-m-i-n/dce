@@ -39,8 +39,12 @@ class tx_clearCache {
 	public function clearDceCache($params) {
 		if ($params['cacheCmd'] === 'all' || $params['cacheCmd'] === 'temp_cached') {
 			if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6000000) {
-				unlink($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceLocalconfPath']);
-				unlink($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceExtTablesPath']);
+				if (file_exists($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceLocalconfPath'])) {
+					unlink($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceLocalconfPath']);
+				}
+				if (file_exists($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceExtTablesPath'])) {
+					unlink($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceExtTablesPath']);
+				}
 			} else {
 				t3lib_extMgm::removeCacheFiles('temp_CACHED_dce');
 			}
