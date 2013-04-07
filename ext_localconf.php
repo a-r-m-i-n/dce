@@ -13,7 +13,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/impexp/class.tx_impexp.php']['bef
 	'EXT:' . $_EXTKEY . '/Classes/Hooks/tx_dce_impexp.php:tx_dce_impexp->before_setRelation';
 
 $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['AJAX']['Dce::updateContentElement'] =
-	'EXT:dce/Classes/Hooks/tx_update_contentelement.php:tx_update_contentelement->updateContentElement';
+	'EXT:' . $_EXTKEY . '/Classes/Hooks/tx_update_contentelement.php:tx_update_contentelement->updateContentElement';
 
 // User conditions
 include_once(t3lib_extMgm::extPath('dce') . 'Classes/UserConditions/user_dceOnCurrentPage.php');
