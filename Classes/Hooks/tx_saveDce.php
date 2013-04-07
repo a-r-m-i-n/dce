@@ -114,7 +114,7 @@ class tx_saveDce {
 	protected function performPreviewAutoupdateBatchOnDceChange() {
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid', 'tt_content', 'CType="dce_dceuid' . $this->uid . '"');
 		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
-			if ($this->extConfiguration['disablePreviewAutoUpdate'] == 0) {
+			if ($this->extConfiguration['disablePreviewAutoUpdate'] == 0 && !$GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceImportInProgress']) {
 				$fieldArray = $this->generateDcePreview($row['uid']);
 			} else {
 				// if autoupdate of preview is disabled, show notice instead
@@ -128,6 +128,7 @@ class tx_saveDce {
 					'header' => Tx_Extbase_Utility_Localization::translate('autoupdateDisabledHeader', 'dce'),
 					'bodytext' => Tx_Extbase_Utility_Localization::translate('autoupdateDisabledBodytext', 'dce', array($js)),
 				);
+				unset($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceImportInProgress']);
 			}
 			$this->tcemain->updateDB('tt_content', $row['uid'], $fieldArray);
 		}

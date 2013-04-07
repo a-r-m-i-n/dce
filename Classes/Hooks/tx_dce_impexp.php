@@ -30,9 +30,11 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
 class tx_dce_impexp {
-
 	/**
+	 * Update tt_content dce record on import. Also sets global for import in progress indicator used in tx_saveDce.
+	 *
 	 * @param array $params
+	 * @return void
 	 */
 	public function before_setRelation(array $params) {
 		/** @var $data array */
@@ -50,7 +52,10 @@ class tx_dce_impexp {
 				}
 			}
 		}
-	}
 
+		if (array_key_exists('tx_dce_domain_model_dce', $data)) {
+			$GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceImportInProgress'] = TRUE;
+		}
+	}
 }
 ?>
