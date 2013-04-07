@@ -57,11 +57,15 @@ class tx_saveDce {
     public function processDatamap_afterDatabaseOperations($status, $table, $id, array $fieldArray, t3lib_TCEmain $pObj) {
 		$this->extConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dce']);
 		$this->tcemain = $pObj;
-		$this->uid = $this->getUid($id, $status, $pObj);
 		$this->fieldArray = $fieldArray;
+		$this->uid = $this->getUid($id, $status, $pObj);
 
 		if ($table === 'tt_content' && $this->isDceContentElement($pObj)) {
-			$this->performPreviewAutoupdateOnContentElementSave();
+			$dceFieldIsEmpty = $this->dceRelationFieldIsEmpty();
+			if (!$dceFieldIsEmpty) {
+				t3lib_utility_Debug::debug('render template', 'render template');
+				$this->performPreviewAutoupdateOnContentElementSave();
+			}
 		}
 
 		if ($table === 'tx_dce_domain_model_dce' && $status === 'update') {
@@ -233,6 +237,15 @@ class tx_saveDce {
 			}
 		}
 		return intval($uid);
+	}
+
+	/**
+	 * Checks if dce relation (field tx_dce_dce) is empty.
+	 * @return boolean Returns TRUE if dce relation field is empty. Otherwise returns FALSE.
+	 */
+	protected function dceRelationFieldIsEmpty() {
+		$row = $this->tcemain->recordInfo('tt_content', $this->uid, 'tx_dce_dce');
+		return empty($row['tx_dce_dce']);
 	}
 }
 ?>

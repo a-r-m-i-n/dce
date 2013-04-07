@@ -98,4 +98,22 @@ $TCA['tx_dce_domain_model_dcefield'] = array(
 		),
     ),
 );
+
+
+$ttContentColumns = array(
+	'tx_dce_dce' => array(
+		'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tt_content.tx_dce_dce',
+		'config' => array(
+			'type' => 'select',
+			'foreign_table' => 'tx_dce_domain_model_dce',
+			'items' => array(
+				array('', ''),
+			),
+			'minitems' => 0,
+			'maxitems' => 1,
+		),
+	),
+);
+t3lib_div::loadTCA('tt_content');
+t3lib_extMgm::addTCAcolumns('tt_content', $ttContentColumns, 1);
 ?>

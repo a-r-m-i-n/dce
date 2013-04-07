@@ -77,8 +77,8 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 	 * @return string
 	 */
 	public function renderPreviewAction() {
+		$uid = intval($this->settings['dceUid']);
 		$contentObject = $this->getContentObject($this->settings['contentElementUid']);
-		$uid = $this->settings['dceUid'];
 		$previewType = $this->settings['previewType'];
 
 		$this->settings = $this->simulateContentElementSettings($this->settings['contentElementUid']);

@@ -69,6 +69,8 @@
 			<label index="tx_dce_formeval_headline">Input '%s' not valid</label>
 			<label index="tx_dce_formeval_noLeadingNumber">The value may not start with numbers. Changed input from '%s' to '%s'.</label>
 			<label index="tx_dce_formeval_lowerCamelCase">The value have to be formated as lowerCamelCase. Changed input from '%s' to '%s'.</label>
+
+			<label index="tt_content.tx_dce_dce">DCE</label>
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="wizardIcon.default">Standard TYPO3-Icons</label>

@@ -309,5 +309,20 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 		}
 		return FALSE;
 	}
+
+	/**
+	 * Converts a given dce uid to a dce CType.
+	 *
+	 * @param integer $uid
+	 * @return string|boolean Returns converted CType. If given uid is invalid, returns FALSE
+	 * @static
+	 */
+	static public function convertUidToCType($uid) {
+		$uid = intval($uid);
+		if ($uid === 0) {
+			return FALSE;
+		}
+		return 'dce_dceuid' . $uid;
+	}
 }
 ?>
