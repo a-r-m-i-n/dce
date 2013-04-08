@@ -147,7 +147,8 @@ class Tx_Dce_Domain_Model_DceField extends Tx_Extbase_DomainObject_AbstractEntit
 	 * @return boolean Returns TRUE when section fields existing, otherwise returns FALSE
 	 */
 	public function hasSectionFields() {
-		return $this->getSectionFields()->count() > 0;
+		$sectionFields = $this->getSectionFields();
+		return isset($sectionFields) && $sectionFields->count() > 0;
 	}
 
 	/**

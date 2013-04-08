@@ -61,9 +61,8 @@ class tx_saveDce {
 		$this->uid = $this->getUid($id, $status, $pObj);
 
 		if ($table === 'tt_content' && $this->isDceContentElement($pObj)) {
-			$dceFieldIsEmpty = $this->dceRelationFieldIsEmpty();
-			if (!$dceFieldIsEmpty) {
-				t3lib_utility_Debug::debug('render template', 'render template');
+			$this->checkAndUpdateDceRelationField();
+			if (!isset($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceImportInProgress'])) {
 				$this->performPreviewAutoupdateOnContentElementSave();
 			}
 		}
@@ -241,12 +240,16 @@ class tx_saveDce {
 	}
 
 	/**
-	 * Checks if dce relation (field tx_dce_dce) is empty.
-	 * @return boolean Returns TRUE if dce relation field is empty. Otherwise returns FALSE.
+	 * Checks if dce relation (field tx_dce_dce) is empty. If it is empty, it will be filled by CType.
+	 * @return void
 	 */
-	protected function dceRelationFieldIsEmpty() {
-		$row = $this->tcemain->recordInfo('tt_content', $this->uid, 'tx_dce_dce');
-		return empty($row['tx_dce_dce']);
+	protected function checkAndUpdateDceRelationField() {
+		$row = $this->tcemain->recordInfo('tt_content', $this->uid, 'CType,tx_dce_dce');
+		if(empty($row['tx_dce_dce'])) {
+			$this->tcemain->updateDB('tt_content', $this->uid, array(
+				'tx_dce_dce' => Tx_Dce_Domain_Repository_DceRepository::extractUidFromCType($row['CType'])
+			));
+		}
 	}
 }
 ?>

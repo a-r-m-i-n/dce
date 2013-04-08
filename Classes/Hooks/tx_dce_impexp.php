@@ -48,12 +48,21 @@ class tx_dce_impexp {
 			foreach($data['tt_content'] as $ttContentUid => $ttContentUpdatedFields) {
 				if (array_key_exists('tx_dce_dce', $ttContentUpdatedFields)) {
 					$dceUid = intval(substr($ttContentUpdatedFields['tx_dce_dce'], strlen('tx_dce_domain_model_dce_')));
-					$TCEmain->updateDB('tt_content', $ttContentUid, array('CType' => Tx_Dce_Domain_Repository_DceRepository::convertUidToCType($dceUid), 'tx_dce_dce' => $dceUid));
+					$TCEmain->updateDB('tt_content', $ttContentUid, array(
+						'CType' => Tx_Dce_Domain_Repository_DceRepository::convertUidToCType($dceUid),
+						'tx_dce_dce' => $dceUid
+					));
 				}
 			}
 		}
+	}
 
-		if (array_key_exists('tx_dce_domain_model_dce', $data)) {
+	/**
+	 * Sets a global before import of dce starts
+	 * @param array $params
+	 */
+	public function before_writeRecordsRecords(array $params) {
+		if (array_key_exists('tx_dce_domain_model_dce', $params['data'])) {
 			$GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceImportInProgress'] = TRUE;
 		}
 	}
