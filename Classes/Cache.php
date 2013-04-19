@@ -114,7 +114,13 @@ class Tx_Dce_Cache {
 				'',
 				'tx_dce_dce_dcefield_mm.sorting asc'
 			);
-			$tabs = array(0 => array('title' => Tx_Extbase_Utility_Localization::translate('LLL:EXT:dce/Resources/Private/Language/locallang.xml:generaltab', 'dce'), 'fields' => array()));
+
+			if (TYPO3_MODE === 'FE') {
+				$generalTabLabel = Tx_Extbase_Utility_Localization::translate('generaltab', 'dce');
+			} else {
+				$generalTabLabel = Tx_Extbase_Utility_Localization::translate('LLL:EXT:dce/Resources/Private/Language/locallang.xml:generaltab', 'dce');
+			}
+			$tabs = array(0 => array('title' => $generalTabLabel, 'fields' => array()));
 			$i = 0;
 			while ($row2 = $TYPO3_DB->sql_fetch_assoc($res2)) {
 				if ($row2['type'] === '1') {
