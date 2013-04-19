@@ -57,12 +57,8 @@ class tx_docHeaderButtonsHook {
 			$dceUid = Tx_Dce_Domain_Repository_DceRepository::extractUidFromCType($CType);
 
 			if ($dceUid !== FALSE) {
-				/** @var $beUserAuth t3lib_beUserAuth */
-				$beUserAuth = t3lib_div::makeInstance('t3lib_beUserAuth');
-				$beUserAuth->start();
-
 				$buttonCode = '';
-				if ($beUserAuth->isAdmin()) {
+				if ($GLOBALS['BE_USER']->isAdmin()) {
 					$linkToDce = 'alt_doc.php?&returnUrl=close.html&edit[tx_dce_domain_model_dce][' . $dceUid . ']=edit';
 					$pathToImage = t3lib_extMgm::extRelPath('dce') . 'Resources/Public/Icons/docheader_icon.png';
 					$titleTag = Tx_Extbase_Utility_Localization::translate('quickDcePopup', 'Dce');
