@@ -9,5 +9,6 @@ return array(
 	'tx_dce_viewhelpers_format_addcslashesviewhelper' => $extensionPath . 'Classes/ViewHelpers/Format/AddcslashesViewHelper.php',
 	'tx_dce_viewhelpers_format_wrapwithcurlybracesviewhelper' => $extensionPath . 'Classes/ViewHelpers/Format/WrapWithCurlyBracesViewHelper.php',
 	'tx_dce_viewhelpers_include_resourceviewhelper' => $extensionPath . 'Classes/ViewHelpers/Include/ResourceViewHelper.php',
+	'tx_dce_domain_repository_dcerepository' => $extensionPath . 'Classes/Domain/Repository/DceRepository.php',
 );
 ?>
