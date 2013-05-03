@@ -7,13 +7,13 @@
 	<data type="array">
 		<languageKey index="default" type="array">
 			<label index="extmng.enableDceModule">Enable DCE module: Enable or disable own module under admin tools for faster and more comfortable DCE access.</label>
-			<label index="extmng.disableAutoClearCache">Disable automatic clear cache: If enabled, the TYPO3 configuration cache will not get cleared automatically on changes of DCE. (not recommended)</label>
+			<label index="extmng.disableAutoClearCache">Disable automatic clear cache: If enabled, the TYPO3 cache (all) will not get cleared automatically on changes of DCE. (not recommended)</label>
 			<label index="extmng.disableCodemirror">Disable CodeMirror: If enabled, the textareas for field configuration and all DCE inline templates are not replaced by syntaxhighlighting code editor (CodeMirror).</label>
 			<label index="extmng.disablePreviewAutoUpdate">Disable preview autoupdate: If enabled the preview texts of existing content elements based on DCE, are not getting updated automatically when the DCE changed. A link in preview text will be displayed to update the texts manually with ajax. (not recommended, only on problems)</label>
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="extmng.enableDceModule">Aktiviere DCE Modul: Aktiviert oder deaktiviert eigenes Modules unterhalb von Admin-Tools um schneller und komfortabler auf DCEs zugreifen zu können.</label>
-			<label index="extmng.disableAutoClearCache">Deaktivere automatische Cache-Leerung: Wenn aktiviert, wird der TYPO3-Konfigurations-Cache nicht automatisch geleert, sobald Änderungen an DCEs gemacht wurden. (nicht empfohlen)</label>
+			<label index="extmng.disableAutoClearCache">Deaktivere automatische Cache-Leerung: Wenn aktiviert, wird der TYPO3-Cache (alles) nicht automatisch geleert, sobald Änderungen an DCEs gemacht wurden. (nicht empfohlen)</label>
 			<label index="extmng.disableCodemirror">Deaktivere CodeMirror: Wenn aktiviert, werden die Textarea-Felder für die Feld-Konfiguration und allen DCE-Inline-Templates nicht durch einen Syntaxhighlighting Code Editor (CodeMirror) ersetzt.</label>
 			<label index="extmng.disablePreviewAutoUpdate">Deaktiviere Vorschau Auto-Update: Wenn aktiviert, werden die Vorschautexte von existierenden Content-Elementen, welche auf DCEs basieren, nicht automatisch aktualisiert. Stattdessen wird ein Link im Vorschautext erscheinen, welcher beim Klicken die Vorschau für das jeweilige Element über AJAX aktualisiert. (nicht empfohlen, nur bei Problemen)</label>
 		</languageKey>

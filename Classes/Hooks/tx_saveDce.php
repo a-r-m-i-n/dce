@@ -77,7 +77,7 @@ class tx_saveDce {
 				&& in_array($table, array('tx_dce_domain_model_dce', 'tx_dce_domain_model_dcefield'))
 				&& in_array($status, array('update', 'new'))
 		) {
-			$pObj->clear_cacheCmd('temp_cached');
+			$pObj->clear_cacheCmd('all');
 		}
     }
 
