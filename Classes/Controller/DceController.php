@@ -39,6 +39,12 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 	protected $dceRepository;
 
 	/**
+	 * typoScriptUtility
+	 * @var Tx_Dce_Utility_TypoScript
+	 */
+	protected $typoScriptUtility;
+
+	/**
 	 * injectDceRepository
 	 *
 	 * @param Tx_Dce_Domain_Repository_DceRepository $dceRepository
@@ -46,6 +52,25 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 	 */
 	public function injectDceRepository(Tx_Dce_Domain_Repository_DceRepository $dceRepository) {
 		$this->dceRepository = $dceRepository;
+	}
+
+	/**
+	 * injectTypoScriptUtility
+	 *
+	 * @param Tx_Dce_Utility_TypoScript $typoScriptUtility
+	 * @return void
+	 */
+	public function injectTypoScriptUtility(Tx_Dce_Utility_TypoScript $typoScriptUtility) {
+		$this->typoScriptUtility = $typoScriptUtility;
+	}
+
+	/**
+	 * Initialize Action
+	 *
+	 * @return void
+	 */
+	public function initializeAction() {
+		$this->settings = $this->typoScriptUtility->renderConfigurationArray($this->settings);
 	}
 
 	/**
