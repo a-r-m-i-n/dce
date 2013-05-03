@@ -71,7 +71,8 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 		$clonedFields = t3lib_div::makeInstance('Tx_Extbase_Persistence_ObjectStorage');
 		/** @var $field Tx_Dce_Domain_Model_DceField */
 		foreach($dce->getFields() as $field) {
-			if ($field->getType() === Tx_Dce_Domain_Model_DceField::TYPE_ELEMENT || Tx_Dce_Domain_Model_DceField::TYPE_SECTION) {
+			$field = clone $field;
+			if ($field->getType() === Tx_Dce_Domain_Model_DceField::TYPE_ELEMENT || $field->getType() ===  Tx_Dce_Domain_Model_DceField::TYPE_SECTION) {
 				if ($field->getSectionFields()) {
 					/** @var $clonedFields Tx_Extbase_Persistence_ObjectStorage */
 					$clonedSectionFields = t3lib_div::makeInstance('Tx_Extbase_Persistence_ObjectStorage');
@@ -83,7 +84,7 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 						$field->setSectionFields($clonedSectionFields);
 					}
 				}
-				$clonedFields->attach(clone $field);
+				$clonedFields->attach($field);
 				$dce->setFields($clonedFields);
 			}
 		}
