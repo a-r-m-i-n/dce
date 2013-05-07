@@ -93,7 +93,12 @@ class Tx_Dce_Cache {
 	protected function getDce() {
 		/** @var $TYPO3_DB t3lib_DB */
 		$TYPO3_DB = t3lib_div::makeInstance('t3lib_DB');
-		$TYPO3_DB->connectDB();
+		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6001000) {
+			$databaseSettings = $GLOBALS['TYPO3_CONF_VARS']['DB'];
+			$TYPO3_DB->connectDB($databaseSettings['host'], $databaseSettings['username'], $databaseSettings['password'], $databaseSettings['database']);
+		} else {
+			$TYPO3_DB->connectDB();
+		}
 
 		$res = $TYPO3_DB->exec_SELECTquery(
 			'*',
