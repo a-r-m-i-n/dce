@@ -71,9 +71,6 @@ class Tx_Dce_Utility_FluidTemplate {
 			$GLOBALS['TYPO3_DB']->connectDB();
 		}
 
-
-
-
 		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
 				// If TYPO3 4.6.0 or greater
 				// add extbase_object to cacheConfigurations
