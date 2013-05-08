@@ -141,7 +141,7 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 	 * @return void
 	 */
 	protected function fillFields(Tx_Dce_Domain_Model_DceField $dceField, $fieldValue, $isSectionField = FALSE) {
-		$xmlWrapping = uniqid('xml');
+		$xmlWrapping = 'xml' . $dceField->getVariable();
 		$dceFieldConfiguration = t3lib_div::xml2array('<' . $xmlWrapping . '>' . $dceField->getConfiguration() . '</' . $xmlWrapping . '>');
 		$dceFieldConfiguration = $dceFieldConfiguration['config'];
 
