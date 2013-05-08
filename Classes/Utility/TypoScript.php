@@ -105,7 +105,7 @@ class Tx_Dce_Utility_TypoScript {
 		);
 		$typoscript = $typoscript['plugin.'][$extkey . '.']['settings.'];
 		foreach($settings as $key => $setting) {
-			if ($setting === '' && array_key_exists($key, $typoscript)) {
+			if ($setting === '' && is_array($typoscript) && array_key_exists($key, $typoscript)) {
 				$settings[$key] = $typoscript[$key];
 			}
 		}
