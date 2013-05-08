@@ -118,12 +118,14 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 						foreach($sectionFieldValues as $sectionFieldVariable => $sectionFieldValue) {
 							$sectionField = $dceField->getSectionFieldByVariable($sectionFieldVariable);
 							if ($sectionField instanceof Tx_Dce_Domain_Model_DceField) {
-								$this->fillFields($sectionField, $sectionFieldValue, TRUE);
+								$xmlIdentifier = $dce->getUid() . '-' . $dceField->getVariable() . '-' . $sectionField->getVariable();
+								$this->fillFields($sectionField, $sectionFieldValue, TRUE, $xmlIdentifier);
 							}
 						}
 					}
 				} else {
-					$this->fillFields($dceField, $fieldValue);
+					$xmlIdentifier = $dce->getUid() . '-' . $dceField->getVariable();
+					$this->fillFields($dceField, $fieldValue, FALSE, $xmlIdentifier);
 				}
 			}
 		}
@@ -137,11 +139,12 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 	 * @param Tx_Dce_Domain_Model_DceField $dceField
 	 * @param string $fieldValue
 	 * @param boolean $isSectionField
+	 * @param string $xmlIdentifier
 	 *
 	 * @return void
 	 */
-	protected function fillFields(Tx_Dce_Domain_Model_DceField $dceField, $fieldValue, $isSectionField = FALSE) {
-		$xmlWrapping = 'xml' . $dceField->getVariable();
+	protected function fillFields(Tx_Dce_Domain_Model_DceField $dceField, $fieldValue, $isSectionField = FALSE, $xmlIdentifier) {
+		$xmlWrapping = 'xml-' . $xmlIdentifier;
 		$dceFieldConfiguration = t3lib_div::xml2array('<' . $xmlWrapping . '>' . $dceField->getConfiguration() . '</' . $xmlWrapping . '>');
 		$dceFieldConfiguration = $dceFieldConfiguration['config'];
 
