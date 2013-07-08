@@ -38,7 +38,7 @@ class tx_dce_dceFieldCustomLabel {
 	 *
 	 * @return void
 	 */
-	public function getLabel($parameter) {
+	public function getLabel(&$parameter) {
 		$prepend = '{field.';
 		if(isset($parameter['parent'])) {
 			$parentRow = $this->getDceFieldRecordByUid($parameter['parent']['uid']);
