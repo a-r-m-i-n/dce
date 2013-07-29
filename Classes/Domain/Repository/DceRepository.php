@@ -199,6 +199,14 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 
 					$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', $tablename, 'uid = ' . $uid . $enableFields);
 					while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+						if ($dceFieldConfiguration['dce_enable_autotranslation']) {
+							if ($tablename === 'pages') {
+								$row = $GLOBALS['TSFE']->sys_page->getPageOverlay($row);
+							} else {
+								$row = $GLOBALS['TSFE']->sys_page->getRecordOverlay($tablename, $row, $GLOBALS['TSFE']->sys_language_uid, $GLOBALS['TSFE']->tmpl->setup['config.']['sys_language_overlay']);
+							}
+						}
+
 						// Add field with converted flexform_data (as array)
 						$row['pi_flexform_data'] = t3lib_div::xml2array($row['pi_flexform']);
 

@@ -10,4 +10,6 @@
 	<!-- This enables the access on properties/attributes of given table/object
 		 example: {field.yourvariable.title} -->
 	<dce_load_schema>1</dce_load_schema>
+	<!-- If enabled, will automatically translate pages or records if translation exists. -->
+	<dce_enable_autotranslation>1</dce_enable_autotranslation>
 </config>
