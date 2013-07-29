@@ -56,6 +56,7 @@ class Tx_Dce_Cache {
 		$string = $this->fluidTemplateUtility->render();
 
 		file_put_contents($pathDceLocalconf, $string);
+		t3lib_div::fixPermissions($pathDceLocalconf);
     }
 
 	/**
@@ -71,6 +72,7 @@ class Tx_Dce_Cache {
 		$string = $this->fluidTemplateUtility->render();
 
 		file_put_contents($pathDceExtTables, $string);
+		t3lib_div::fixPermissions($pathDceExtTables);
 	}
 
 	/**
