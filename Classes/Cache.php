@@ -52,7 +52,8 @@ class Tx_Dce_Cache {
 	 */
     public function createLocalconf($pathDceLocalconf) {
 		$this->fluidTemplateUtility->setTemplatePathAndFilename(t3lib_extMgm::extPath('dce') . 'Resources/Private/Templates/DceSource/localconf.html');
-		$this->fluidTemplateUtility->assign('dceArray', $this->getDce());
+		$dce = $this->getDce();
+		$this->fluidTemplateUtility->assign('dceArray', $dce);
 		$string = $this->fluidTemplateUtility->render();
 
 		file_put_contents($pathDceLocalconf, $string);
@@ -98,6 +99,7 @@ class Tx_Dce_Cache {
 		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6001000) {
 			$databaseSettings = $GLOBALS['TYPO3_CONF_VARS']['DB'];
 			$TYPO3_DB->connectDB($databaseSettings['host'], $databaseSettings['username'], $databaseSettings['password'], $databaseSettings['database']);
+			$TYPO3_DB->sql_query('SET NAMES utf8');
 		} else {
 			$TYPO3_DB->connectDB();
 		}
