@@ -52,8 +52,7 @@ class Tx_Dce_Cache {
 	 */
     public function createLocalconf($pathDceLocalconf) {
 		$this->fluidTemplateUtility->setTemplatePathAndFilename(t3lib_extMgm::extPath('dce') . 'Resources/Private/Templates/DceSource/localconf.html');
-		$dce = $this->getDce();
-		$this->fluidTemplateUtility->assign('dceArray', $dce);
+		$this->fluidTemplateUtility->assign('dceArray', $this->getDce());
 		$string = $this->fluidTemplateUtility->render();
 
 		file_put_contents($pathDceLocalconf, $string);
