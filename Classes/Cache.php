@@ -93,15 +93,10 @@ class Tx_Dce_Cache {
 	 * @return array with DCE -> containing tabs -> containing fields
 	 */
 	protected function getDce() {
+
+		// fetch the existing DB connection, or initialize it
 		/** @var $TYPO3_DB t3lib_DB */
-		$TYPO3_DB = t3lib_div::makeInstance('t3lib_DB');
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6001000) {
-			$databaseSettings = $GLOBALS['TYPO3_CONF_VARS']['DB'];
-			$TYPO3_DB->connectDB($databaseSettings['host'], $databaseSettings['username'], $databaseSettings['password'], $databaseSettings['database']);
-			$TYPO3_DB->sql_query('SET NAMES utf8');
-		} else {
-			$TYPO3_DB->connectDB();
-		}
+		$TYPO3_DB = Tx_Dce_Utility_DatabaseUtility::getDatabaseConnection();
 
 		$res = $TYPO3_DB->exec_SELECTquery(
 			'*',

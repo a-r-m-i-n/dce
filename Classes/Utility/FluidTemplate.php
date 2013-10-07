@@ -63,13 +63,10 @@ class Tx_Dce_Utility_FluidTemplate {
 			$this->assureDbalCompatibility();
 		}
 
-		$GLOBALS['TYPO3_DB'] = t3lib_div::makeInstance('t3lib_DB');
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6001000) {
-			$databaseSettings = $GLOBALS['TYPO3_CONF_VARS']['DB'];
-			$GLOBALS['TYPO3_DB']->connectDB($databaseSettings['host'], $databaseSettings['username'], $databaseSettings['password'], $databaseSettings['database']);
-		} else {
-			$GLOBALS['TYPO3_DB']->connectDB();
-		}
+		// fetch the existing DB connection, or initialize it
+		// needs to be done for Fluid / Cache Manager functionality
+		/** @var $TYPO3_DB t3lib_DB */
+		$TYPO3_DB = Tx_Dce_Utility_DatabaseUtility::getDatabaseConnection();
 
 		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
 				// If TYPO3 4.6.0 or greater
