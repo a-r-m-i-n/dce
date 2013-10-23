@@ -11,4 +11,5 @@
 		<elementBrowserAllowed>gif,jpg,jpeg,tif,tiff,bmp,pcx,tga,png,pdf,ai</elementBrowserAllowed>
 	</appearance>
 	<dce_load_schema>1</dce_load_schema>
+	<dce_get_fal_objects>1</dce_get_fal_objects>
 </config>
