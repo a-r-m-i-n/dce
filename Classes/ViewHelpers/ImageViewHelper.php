@@ -47,8 +47,12 @@ class Tx_Dce_ViewHelpers_ImageViewHelper extends Tx_Fluid_ViewHelpers_ImageViewH
 	public function render($src, $width = NULL, $height = NULL, $minWidth = NULL, $minHeight = NULL, $maxWidth = NULL, $maxHeight = NULL) {
 		$imageTag = parent::render($src, $width, $height, $minWidth, $minHeight, $maxWidth, $maxHeight);
 		if (TYPO3_MODE === 'BE') {
-				// Make image src absolute
-			$imageTag = preg_replace('/(.*?src=")..(.*?)/i', '$1$2', $imageTag);
+				// Make image src absolute (and respect sub folder, if existing)
+			$subPart = '/';
+			if (isset($_SERVER['DOCUMENT_ROOT'])) {
+				$subPart = substr(PATH_site, strlen($_SERVER['DOCUMENT_ROOT']));
+			}
+			$imageTag = preg_replace('/(.*?src=")..\/(.*?)/i', '$1' . $subPart . '$2', $imageTag);
 		}
 		return $imageTag;
 	}

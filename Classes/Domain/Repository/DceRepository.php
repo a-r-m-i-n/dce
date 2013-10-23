@@ -172,6 +172,11 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 
 			$classname = str_replace('-', '_', $classname);
 			$classname{0} = strtoupper($classname{0});
+
+			if ($dceFieldConfiguration['dce_get_fal_objects'] && strtolower($classname) === 'sys_file' && t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6001000) {
+				$classname = 'TYPO3\\CMS\\Core\\Resource\\File';
+			}
+
 			$repositoryName = str_replace('_Model_', '_Repository_', $classname) . 'Repository'; // !
 
 			if (class_exists($classname) && class_exists($repositoryName)) {
@@ -286,14 +291,16 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 				$propertyName = substr($key, 9);
 				$values = array();
 				$i = 1;
-				foreach (current($value) as $entry) {
-					if (is_array($entry)) {
-						$entry = $entry['container_' . $propertyName]['el'];
+				if (is_array(current($value))) {
+					foreach (current($value) as $entry) {
 						if (is_array($entry)) {
-							foreach($entry as $k => $v) {
-								$entry[$k] = $v['vDEF'];
+							$entry = $entry['container_' . $propertyName]['el'];
+							if (is_array($entry)) {
+								foreach($entry as $k => $v) {
+									$entry[$k] = $v['vDEF'];
+								}
+								$values[$i++] = array('container_' . $propertyName => $entry);
 							}
-							$values[$i++] = array('container_' . $propertyName => $entry);
 						}
 					}
 				}
