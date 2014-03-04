@@ -80,35 +80,39 @@ class tx_dce_codemirrorField {
 	 */
 	protected function getAvailableFields() {
 		$fields = array();
-		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'*',
-			'tx_dce_domain_model_dcefield',
-			'hidden=0 AND deleted=0 AND pid=0 AND (type=0 OR type=2) AND uid IN (' . $this->parameter['row']['fields'] . ')',
-			'',
-			'variable asc'
-		);
 
-		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
-			if ($row['type'] === '2') {
-				$res2 = $GLOBALS['TYPO3_DB']->sql_query('
-					SELECT title, variable
+		$rowFields = $this->parameter['row']['fields'];
+		if (!empty($rowFields)) {
+			$rows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+				'*',
+				'tx_dce_domain_model_dcefield',
+				'hidden=0 AND deleted=0 AND pid=0 AND (type=0 OR type=2) AND uid IN (' . $rowFields . ')',
+				'',
+				'variable asc'
+			);
 
-					FROM tx_dce_domain_model_dcefield
-					JOIN tx_dce_dcefield_sectionfields_mm
-					ON uid = uid_foreign
+			foreach ($rows as $row) {
+				if ($row['type'] === '2') {
+					$res2 = $GLOBALS['TYPO3_DB']->sql_query('
+						SELECT title, variable
 
-					WHERE deleted = 0  AND uid_local = ' . $row['uid'] . '
-					ORDER BY sorting asc
-				');
+						FROM tx_dce_domain_model_dcefield
+						JOIN tx_dce_dcefield_sectionfields_mm
+						ON uid = uid_foreign
 
-				$sectionFields = array();
-				while ($row2 = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res2)) {
-					$sectionFields[] = $row2;
+						WHERE deleted = 0  AND uid_local = ' . $row['uid'] . '
+						ORDER BY sorting asc
+					');
+
+					$sectionFields = array();
+					while ($row2 = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res2)) {
+						$sectionFields[] = $row2;
+					}
+					$row['hasSectionFields'] = TRUE;
+					$row['sectionFields'] = $sectionFields;
 				}
-				$row['hasSectionFields'] = TRUE;
-				$row['sectionFields'] = $sectionFields;
+				$fields[] = $row;
 			}
-			$fields[] = $row;
 		}
 		return $fields;
 	}
