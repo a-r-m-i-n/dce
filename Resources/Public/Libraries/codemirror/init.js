@@ -21,8 +21,6 @@ function initCodeMirrorEditor(textarea, mode) {
 		}
 	);
 
-		// Set width of codemirror to avoid frame scrollbars
-	var windowWidth = $$('#typo3-inner-docbody > h2')[0].getWidth();
 	var wrapper = editor.getWrapperElement();
 
 	var widthPuffer = 40;
@@ -31,7 +29,13 @@ function initCodeMirrorEditor(textarea, mode) {
 		widthPuffer += 65;
 	}
 
-	wrapper.style.width = windowWidth - widthPuffer + 'px';
+	var t3version = parseInt($$('#dceConfigurationWizard')[0].className.replace(/t3version\-(\d*)/gi, '$1'));
+	if (t3version < 6002000) {
+			// Set width of codemirror to avoid frame scrollbars
+		var windowWidth = $$('#typo3-inner-docbody > h2')[0].getWidth();
+		wrapper.style.width = windowWidth - widthPuffer + 'px';
+	}
+
 	codemirrorEditors.push(editor);
 
 	window.setTimeout(function(){

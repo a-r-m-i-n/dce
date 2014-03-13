@@ -6,6 +6,10 @@
 	height: auto;
 }
 
+.CodeMirror pre {
+	overflow: visible;
+}
+
 .CodeMirror-scroll {
 	height: auto;
 	overflow-y: hidden;
