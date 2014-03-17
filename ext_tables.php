@@ -13,31 +13,19 @@ require_once($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceExtTablesPath']);
 
 Tx_Extbase_Utility_Extension::registerModule(
 	$_EXTKEY,
-	'hide',
-	'Pi1',
+	'tools',
+	'dceModule',
 	'',
 	array(
+		'DceModule' => 'index,dcePreviewReturnPage',
 		'Dce' => 'renderPreview'
+	),
+	array(
+		'access' => 'user,group',
+		'icon'   => 'EXT:' . $_EXTKEY . '/ext_icon.gif',
+		'labels' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_mod.xml',
 	)
 );
-
-$extConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dce']);
-if ($extConfiguration['enableDceModule'] == 1) {
-	Tx_Extbase_Utility_Extension::registerModule(
-		$_EXTKEY,
-		'tools',
-		'dceModule',
-		'',
-		array(
-			'DceModule' => 'index,dcePreviewReturnPage'
-		),
-		array(
-			'access' => 'user,group',
-			'icon'   => 'EXT:' . $_EXTKEY . '/ext_icon.gif',
-			'labels' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_mod.xml',
-		)
-	);
-}
 
 $TCA['tx_dce_domain_model_dce'] = array(
     'ctrl' => array(

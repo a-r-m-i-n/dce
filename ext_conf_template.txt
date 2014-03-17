@@ -1,11 +1,8 @@
-# cat=basic/enable/01; type=boolean; label=LLL:EXT:dce/Resources/Private/Language/locallang_be.xml:extmng.enableDceModule
-enableDceModule = 1
-
-# cat=basic/enable/02; type=boolean; label=LLL:EXT:dce/Resources/Private/Language/locallang_be.xml:extmng.disableAutoClearCache
+# cat=general/disable; type=boolean; label=Disable automatic clear cache: If enabled, the TYPO3 cache (all) will not get cleared automatically on changes of DCE. (not recommended)
 disableAutoClearCache = 0
 
-# cat=basic/enable/03; type=boolean; label=LLL:EXT:dce/Resources/Private/Language/locallang_be.xml:extmng.disableCodemirror
+# cat=general/disable; type=boolean; label=Disable CodeMirror: If enabled, the textareas for field configuration and all DCE inline templates are not replaced by syntaxhighlighting code editor (CodeMirror)
 disableCodemirror = 0
 
-# cat=basic/enable/04; type=boolean; label=LLL:EXT:dce/Resources/Private/Language/locallang_be.xml:extmng.disablePreviewAutoUpdate
+# cat=general/disable; type=boolean; label=Disable preview autoupdate: If enabled the preview texts of existing content elements based on DCE, are not getting updated automatically when the DCE changed. A link in preview text will be displayed to update the texts manually with ajax. (not recommended, only on problems)
 disablePreviewAutoUpdate = 0

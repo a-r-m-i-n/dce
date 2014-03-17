@@ -1,14 +1,16 @@
 {namespace dce=Tx_Dce_ViewHelpers}
-<ul>
+<ul class="bodytextAttributes">
 	<f:if condition="{fields -> dce:isArray()}">
 		<f:for each="{fields}" as="singleField" key="variableName" iteration="iterator">
 			<f:if condition="{iterator.isFirst} == 0">
-					<f:then>
-						<b>{variableName -> dce:format.ucfirst()}:</b>
-						<ul>
-							<f:for each="{singleField}" as="entry">
-								<li style="margin-bottom: 5px;">
-									<ul>
+				<li class="field">
+					<b>{variableName -> dce:format.ucfirst()}:</b>
+
+					<f:if condition="{singleField -> dce:isArray()}">
+						<f:then>
+							<div class="sectionFields">
+								<f:for each="{singleField}" as="entry">
+									<ul class="section">
 										<f:if condition="{entry -> dce:isArray()}">
 											<f:then>
 												<f:for each="{entry}" key="property" as="value">
@@ -20,13 +22,14 @@
 											</f:else>
 										</f:if>
 									</ul>
-								</li>
-							</f:for>
-						</ul>
-					</f:then>
-					<f:else>
-						<li title="{singleField}">{variableName -> dce:format.ucfirst()}: {singleField}</li>
-					</f:else>
+								</f:for>
+							</div>
+						</f:then>
+						<f:else>
+							<span class="simpleValue">{singleField}</span>
+						</f:else>
+					</f:if>
+				</li>
 			</f:if>
 		</f:for>
 	</f:if>

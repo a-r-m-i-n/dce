@@ -151,8 +151,8 @@ class tx_saveDce {
 			'dceUid' => $this->getDceUidByContentElementUid($uid),
 		);
 		return array(
-			'header' => $this->runExtbaseController('Dce', 'Dce', 'renderPreview', 'DceHide_DcePi1', array_merge($settings, array('previewType' => 'header'))),
-			'bodytext' => $this->runExtbaseController('Dce', 'Dce', 'renderPreview', 'DceHide_DcePi1', array_merge($settings, array('previewType' => 'bodytext'))),
+			'header' => $this->runExtbaseController('Dce', 'Dce', 'renderPreview', 'tools_DceDcemodule', array_merge($settings, array('previewType' => 'header'))),
+			'bodytext' => $this->runExtbaseController('Dce', 'Dce', 'renderPreview', 'tools_DceDcemodule', array_merge($settings, array('previewType' => 'bodytext'))),
 		);
 	}
 
@@ -167,8 +167,8 @@ class tx_saveDce {
 			'dceUid' => $dceUid,
 		);
 		return array(
-			'header' => $this->runExtbaseController('Dce', 'Dce', 'renderPreview', 'DceHide_DcePi1', array_merge($settings, array('previewType' => 'header'))),
-			'bodytext' => $this->runExtbaseController('Dce', 'Dce', 'renderPreview', 'DceHide_DcePi1', array_merge($settings, array('previewType' => 'bodytext'))),
+			'header' => $this->runExtbaseController('Dce', 'Dce', 'renderPreview', 'tools_DceDcemodule', array_merge($settings, array('previewType' => 'header'))),
+			'bodytext' => $this->runExtbaseController('Dce', 'Dce', 'renderPreview', 'tools_DceDcemodule', array_merge($settings, array('previewType' => 'bodytext'))),
 		);
 	}
 
@@ -194,6 +194,10 @@ class tx_saveDce {
 			'action' => $action,
 			'settings' => $settings,
 		);
+
+		$_POST['tx_dce_tools_dcedcemodule']['controller'] = $controller;
+		$_POST['tx_dce_tools_dcedcemodule']['action'] = $action;
+
 		return $bootstrap->run('', $configuration);
 	}
 
