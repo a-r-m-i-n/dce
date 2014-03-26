@@ -97,7 +97,11 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 	protected function disableRespectOfEnableFields() {
 		/** @var $querySettings Tx_Extbase_Persistence_Typo3QuerySettings */
 		$querySettings = $this->objectManager->create('Tx_Extbase_Persistence_Typo3QuerySettings');
-		$querySettings->setRespectEnableFields(FALSE);
+		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6000000) {
+			$querySettings->setIgnoreEnableFields(TRUE)->setIncludeDeleted(TRUE);
+		} else {
+			$querySettings->setRespectEnableFields(FALSE);
+		}
 		$this->setDefaultQuerySettings($querySettings);
 	}
 
