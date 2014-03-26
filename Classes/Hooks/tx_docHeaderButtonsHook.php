@@ -40,8 +40,8 @@ class tx_docHeaderButtonsHook {
 	 */
 	public function addQuickDcePopupButton(array &$params) {
 		$editGetParam = t3lib_div::_GP('edit');
-		$editGetParam = $editGetParam['tt_content'];
-		if (!is_array($editGetParam)) {
+		$editGetParam = isset($editGetParam['tt_content']) ? $editGetParam['tt_content'] : NULL;
+		if ($editGetParam === NULL) {
 			return;
 		}
 		$uidWithComma = current(array_keys($editGetParam));
