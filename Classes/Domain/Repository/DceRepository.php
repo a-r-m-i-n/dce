@@ -150,94 +150,16 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 	protected function fillFields(Tx_Dce_Domain_Model_DceField $dceField, $fieldValue, $isSectionField = FALSE, $xmlIdentifier) {
 		$xmlWrapping = 'xml-' . $xmlIdentifier;
 		$dceFieldConfiguration = t3lib_div::xml2array('<' . $xmlWrapping . '>' . $dceField->getConfiguration() . '</' . $xmlWrapping . '>');
-		$dceFieldConfiguration = $dceFieldConfiguration['config'];
 
-		if (in_array($dceFieldConfiguration['type'], array('group', 'inline', 'select'))
-				&&
-				(
-						($dceFieldConfiguration['type'] === 'select' && !empty($dceFieldConfiguration['foreign_table']))
-								|| ($dceFieldConfiguration['type'] === 'group' && !empty($dceFieldConfiguration['allowed']))
-				)
-				&& $dceFieldConfiguration['dce_load_schema']
-		) {
-			$objects = array();
-
-			if ($dceFieldConfiguration['type'] === 'group') {
-				$classname = $dceFieldConfiguration['allowed'];
-			} else {
-				$classname = $dceFieldConfiguration['foreign_table'];
+		if (is_array($dceFieldConfiguration)) {
+			$dceFieldConfiguration = $dceFieldConfiguration['config'];
+			if ($dceFieldConfiguration['dce_load_schema'] && $this->hasRelatedObjects($dceFieldConfiguration)) {
+				$objects = $this->createObjectsByFieldConfiguration($fieldValue, $dceFieldConfiguration);
 			}
-			$tablename = $classname;
-
-			while (strpos($classname, '_') !== FALSE) {
-				$position = strpos($classname, '_') + 1;
-				$classname = substr($classname, 0, $position - 1) . '-' . strtoupper(substr($classname, $position, 1)) . substr($classname, $position + 1);
-			}
-
-			$classname = str_replace('-', '_', $classname);
-			$classname{0} = strtoupper($classname{0});
-
-			if ($dceFieldConfiguration['dce_get_fal_objects'] && strtolower($classname) === 'sys_file' && t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6001000) {
-				$classname = 'TYPO3\\CMS\\Core\\Resource\\File';
-			}
-
-			$repositoryName = str_replace('_Model_', '_Repository_', $classname) . 'Repository'; // !
-
-			if (class_exists($classname) && class_exists($repositoryName)) {
-				// Extbase object found
-				$objectManager = new Tx_Extbase_Object_ObjectManager();
-				/** @var $repository Tx_Extbase_Persistence_Repository */
-				$repository = $objectManager->get($repositoryName);
-
-				foreach (t3lib_div::trimExplode(',', $fieldValue, TRUE) as $uid) {
-					$objects[] = $repository->findByUid($uid);
-				}
-			} else {
-				// No class found... load DB record and return assoc
-				foreach (t3lib_div::trimExplode(',', $fieldValue, TRUE) as $uid) {
-					$enableFields = '';
-
-					if (!$dceFieldConfiguration['dce_ignore_enablefields']) {
-						if (!$GLOBALS['TSFE']->sys_page instanceof t3lib_pageSelect) {
-							$GLOBALS['TSFE']->sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
-						}
-						/** @var $cObj tslib_cObj */
-						$cObj = t3lib_div::makeInstance('tslib_cObj');
-						$enableFields = $cObj->enableFields($tablename);
-					}
-
-					$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', $tablename, 'uid = ' . $uid . $enableFields);
-					while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
-						if ($dceFieldConfiguration['dce_enable_autotranslation']) {
-							if ($tablename === 'pages') {
-								$row = $GLOBALS['TSFE']->sys_page->getPageOverlay($row);
-							} else {
-								$row = $GLOBALS['TSFE']->sys_page->getRecordOverlay($tablename, $row, $GLOBALS['TSFE']->sys_language_uid, $GLOBALS['TSFE']->tmpl->setup['config.']['sys_language_overlay']);
-							}
-						}
-
-						// Add field with converted flexform_data (as array)
-						$row['pi_flexform_data'] = t3lib_div::xml2array($row['pi_flexform']);
-
-						$dceUid = $this->extractUidFromCType($row['CType']);
-						if ($dceUid !== FALSE) {
-							$objects[] = $this->findAndBuildOneByUid(
-								$dceUid,
-								$this->getDceFieldsByRecord($row),
-								$row
-							);
-						} else {
-							$objects[] = $row;
-						}
-					}
-				}
+			if (isset($objects) && $dceFieldConfiguration['dce_get_first']) {
+				$objects = current($objects);
 			}
 		}
-
-		if (isset($objects) && $dceFieldConfiguration['dce_get_first']) {
-			$objects = current($objects);
-		}
-
 		if ($isSectionField === FALSE) {
 			if (isset($objects)) {
 				$dceField->setValue($objects);
@@ -346,6 +268,100 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 			return FALSE;
 		}
 		return 'dce_dceuid' . $uid;
+	}
+
+	/**
+	 * Checks if given field configuration allows to load sub items (assoc array or objects)
+	 *
+	 * @param array $fieldConfiguration
+	 * @return boolean
+	 */
+	protected function hasRelatedObjects(array $fieldConfiguration) {
+		return  in_array($fieldConfiguration['type'], array('group', 'inline', 'select'))
+			&& (($fieldConfiguration['type'] === 'select' && !empty($fieldConfiguration['foreign_table'])) || ($fieldConfiguration['type'] === 'group' && !empty($fieldConfiguration['allowed'])));
+	}
+
+	/**
+	 * Creates array of assoc array or objects, depending on given field configuration
+	 *
+	 * @param string $fieldValue Comma separated list of uids
+	 * @param array $dceFieldConfiguration
+	 * @return array
+	 */
+	protected function createObjectsByFieldConfiguration($fieldValue, array $dceFieldConfiguration)	{
+		$objects = array();
+
+		if ($dceFieldConfiguration['type'] === 'group') {
+			$classname = $dceFieldConfiguration['allowed'];
+		} else {
+			$classname = $dceFieldConfiguration['foreign_table'];
+		}
+		$tablename = $classname;
+
+		while (strpos($classname, '_') !== FALSE) {
+			$position = strpos($classname, '_') + 1;
+			$classname = substr($classname, 0, $position - 1) . '-' . strtoupper(substr($classname, $position, 1)) . substr($classname, $position + 1);
+		}
+
+		$classname = str_replace('-', '_', $classname);
+		$classname{0} = strtoupper($classname{0});
+
+		if ($dceFieldConfiguration['dce_get_fal_objects'] && strtolower($classname) === 'sys_file' && t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6001000) {
+			$classname = 'TYPO3\\CMS\\Core\\Resource\\File';
+		}
+
+		$repositoryName = str_replace('_Model_', '_Repository_', $classname) . 'Repository'; // !
+		if (class_exists($classname) && class_exists($repositoryName)) {
+				// Extbase object found
+			$objectManager = new Tx_Extbase_Object_ObjectManager();
+			/** @var $repository Tx_Extbase_Persistence_Repository */
+			$repository = $objectManager->get($repositoryName);
+
+			foreach (t3lib_div::trimExplode(',', $fieldValue, TRUE) as $uid) {
+				$objects[] = $repository->findByUid($uid);
+			}
+			return $objects;
+		} else {
+				// No class found... load DB record and return assoc
+			foreach (t3lib_div::trimExplode(',', $fieldValue, TRUE) as $uid) {
+				$enableFields = '';
+
+				if (!$dceFieldConfiguration['dce_ignore_enablefields']) {
+					if (!$GLOBALS['TSFE']->sys_page instanceof t3lib_pageSelect) {
+						$GLOBALS['TSFE']->sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
+					}
+					/** @var $cObj tslib_cObj */
+					$cObj = t3lib_div::makeInstance('tslib_cObj');
+					$enableFields = $cObj->enableFields($tablename);
+				}
+
+				$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', $tablename, 'uid = ' . $uid . $enableFields);
+				while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+					if ($dceFieldConfiguration['dce_enable_autotranslation']) {
+						if ($tablename === 'pages') {
+							$row = $GLOBALS['TSFE']->sys_page->getPageOverlay($row);
+						} else {
+							$row = $GLOBALS['TSFE']->sys_page->getRecordOverlay($tablename, $row, $GLOBALS['TSFE']->sys_language_uid, $GLOBALS['TSFE']->tmpl->setup['config.']['sys_language_overlay']);
+						}
+					}
+
+						// Add field with converted flexform_data (as array)
+					$row['pi_flexform_data'] = t3lib_div::xml2array($row['pi_flexform']);
+
+					$dceUid = $this->extractUidFromCType($row['CType']);
+					if ($dceUid !== FALSE) {
+						$objects[] = $this->findAndBuildOneByUid(
+							$dceUid,
+							$this->getDceFieldsByRecord($row),
+							$row
+						);
+					} else {
+						$objects[] = $row;
+					}
+				}
+			}
+			return $objects;
+		}
 	}
 }
 ?>
