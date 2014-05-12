@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2012-2013 Armin Rüdiger Vieweg <armin@v.ieweg.de>
+*  (c) 2012-2014 Armin Rüdiger Vieweg <armin@v.ieweg.de>
 *
 *  All rights reserved
 *
@@ -26,7 +26,7 @@
 /**
  * Gets the current version of DCE as integer
  *
- * @copyright  2012-2013 Copyright belongs to the respective authors
+ * @copyright  2012-2014 Copyright belongs to the respective authors
  * @license    http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  * @see t3lib_utility_VersionNumber::convertVersionNumberToInteger
  */
