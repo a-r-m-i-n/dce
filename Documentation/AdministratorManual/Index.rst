@@ -116,7 +116,6 @@ Also new with 0.5 is the so called detail view. That is an alternative display o
 .. figure:: ../Images/AdministratorManual/renderingSequence.png
 	:alt: DCE rendering sequence
 
-TODO: Replace image with the english version of the sequence diagram
 
 Caching
 ^^^^^^^

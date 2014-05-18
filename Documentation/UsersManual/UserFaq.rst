@@ -55,9 +55,37 @@ You can access the fields of a section by iterating over the section elements:
 
 **How to translate fields in the BE?**
 
-The translation of fields in the backend is planned for version 2.0 of the extension.
+Instead of writing down the absolute title of the field, you may also add a path to a locallang file and a key inside of this file.
 
-`Backend module: Translatable fields <http://forge.typo3.org/issues/58540>`_
+Example:
+
+::
+
+	LLL:fileadmin/templates/locallang.xml:myCoolTranslatedField
+
+
+The locallang.xml file content:
+
+::
+
+	<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+	<T3locallang>
+		<meta type="array">
+			<type>module</type>
+			<description>Language labels for the DCEs in backend</description>
+		</meta>
+		<data type="array">
+			<languageKey index="default" type="array">
+				<label index="myCoolTranslatedField">My cool translated field</label>
+			</languageKey>
+			<languageKey index="de" type="array">
+				<label index="myCoolTranslatedField">Mein cooles, übersetztes Feld</label>
+			</languageKey>
+		</data>
+	</T3locallang>
+
+
+A more comfortable way to translate fields in the backend is planned for version 2.0 of the extension. (`Backend module: Translatable fields <http://forge.typo3.org/issues/58540>`_)
 
 
 **How to render the content of an RTE field?**
@@ -125,4 +153,8 @@ The link to changeover to the detail page looks like this:
 Where detailUid is the value of the field "Detail page identifier (get parameter)" you have set on the "Detail page" tab.
 
 
+**How to add content elements to my DCE**
 
+If you are looking for a way to create columns and put content elements in these columns right in page modules - this is not supported by DCE. For this case I recommend the `grid elements extension <http://typo3.org/extensions/repository/view/gridelements>`_.
+
+But if you create a group or select field you may define the tt_content table and add existing content elements. This is not much comfortable but very flexible, because you may also add any other table of any extension installed. And with the *dce_load_schema* flag you'll receive an assosiative array of requested row, or if the table is from an extbase extension you'll get a model of the requested table.

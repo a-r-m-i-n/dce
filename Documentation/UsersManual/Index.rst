@@ -472,7 +472,7 @@ Open tasks:
 -----------
 See all open tasks `here`_ in the forge bug tracker.
 
-.. _here: http://forge.typo3.org/projects/extension-dce/issues
+.. _here: http://forge.typo3.org/projects/extension-dce/issues?query_id=524
 
 Donate:
 -------
