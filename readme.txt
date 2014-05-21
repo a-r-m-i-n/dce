@@ -3,6 +3,8 @@ This is the beta version of the extension "DCE".
 If you found bugs or got some feature requests, write me a mail to: armin@v.ieweg.de
 or report it to http://forge.typo3.org/projects/extension-dce
 
+You may also get in touch via Twitter: @ArminVieweg
+
 
 Quick start:
 ------------
@@ -28,7 +30,7 @@ and writing the manual takes very much time. Thanks for your patience.
 Open tasks:
 -----------
 See all open tasks here:
-http://forge.typo3.org/projects/extension-dce/issues
+http://forge.typo3.org/projects/extension-dce/issues?query_id=524
 
 
 Donate:
