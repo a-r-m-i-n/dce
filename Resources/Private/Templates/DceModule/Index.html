@@ -19,13 +19,7 @@
 	</div>
 	<div class="buttons">
 		<div class="button">
-			<form method="get" action="mod.php">
-				<input type="hidden" name="M" value="web_list" />
-				<input type="hidden" name="id" value="0" />
-				<input type="hidden" name="table" value="tx_dce_domain_model_dce" />
-				<input type="hidden" name="imagemode" value="1" />
-				<input type="submit" value="{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang_mod.xml:goToListView')}" />
-			</form>
+			<input type="button" value="{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang_mod.xml:goToListView')}" onclick="location.href = '{f:uri.page(additionalParams:'{M:\'web_list\', id:\'0\', table:\'tx_dce_domain_model_dce\', imagemode:\'1\'}')}';" />
 		</div>
 
 		<div class="button">
