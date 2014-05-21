@@ -151,13 +151,12 @@ class Tx_Dce_Utility_FluidTemplate {
 	 * @return void
 	 */
 	protected function assureDbalCompatibility() {
-		if ($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['t3lib/class.t3lib_db.php'] === NULL) {
-			if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6000000) {
-				$localConfigurationFile = 'LocalConfiguration.php';
-			} else {
-				$localConfigurationFile = 'localconf.php';
-			}
-			throw new Exception('When using dbal it is necessary to install the dce extension after dbal. Currently dce is loaded first. Please excuse the inconvenience to change the order manually in "' . $localConfigurationFile .  '" in typo3conf directory.', 1358518250);
+		if ((t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6000000
+				&& $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Core\\Database\\DatabaseConnection'] === NULL) ||
+			(t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 6000000
+				&& $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['t3lib/class.t3lib_db.php'] === NULL)
+		) {
+			throw new Exception('When using dbal it is necessary to install the dce extension after dbal. Currently dce is loaded first.', 1358518250);
 		}
 		$GLOBALS['typo3CacheManager']->setCacheConfigurations($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']);
 	}
