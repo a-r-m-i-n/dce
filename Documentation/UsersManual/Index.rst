@@ -135,7 +135,7 @@ In the fields section you can add a number of different fields that this DCE sho
 **Tab:** This is a tab register. All fields that are defined below this tab are shown in BE on a tab page.
 **Section:** With a selection you collect elements to groups which belongs together.
 
-Common to all types is the title field, where you define a speaking label for the editor. For the type *Tab* ther are no more options to define.
+Common to all types is the *title* field, where you define a speaking label for the editor. For the type *Tab* there are no more options to define.
 
 Element
 +++++++
@@ -151,6 +151,60 @@ Following cases can be checked by validators and corrected on demand:
 * The field must be correspond to the lowerCamelCase convention (tx_dce_formevals_lowerCamelCase)
 
 The configuration for the fields is stored in Flexform (XML) format. Look for TCEforms in the Flexforms section of the :ref:`T3DataStructure <t3api:t3ds>` documentation to get detailed information for the definition of the field configuration. To make it a bit easier there is a select box with some of the most used possible input field types. If you select one entry the corresponding Flexform XML code is inserted in the configuration input field.
+
+For fields of the types group, select or inline, there are additional configuration attributes available. These attributes are boolean values, that are activated with a value of 1.
+
+**dce_load_schema**
+
+::
+
+	<dce_load_schema>1</dce_load_schema>
+
+When adding a group field and link it with News (by Georg Ringer), than the field contains a comma delimited list with uid's of the selected news. That is not very useful in Fluid templates. But if this attribute is activated than the used table is inspected. If an Extbase model and repository exists for this table, than the repository is instantiated and a *findByUid()* is called for every uid. The complete Extbase models are than taken over to the Fluid template. If the table is not part of an Extbase extension than the corresponding record is loaded from the database and handed over as an associated array.
+
+This function works only with one table, if you configure more tables it dos not work. The `issue 47541`_ covers this behavior in forge.
+
+.. _issue 47541: http://forge.typo3.org/issues/47541
+
+Using the table tt_content and adding content elements which are based on an other DCE, automatically the corresponding DCE will be loaded and filled. In the template of the second DCE the template of the inserted DCE can be called and rendered.
+
+::
+
+	<f:for each="{field.otherDces}" as="othersDce">
+		{otherDce.render}
+	</f:for>
+
+It is also possible to access directly the value of single fields:
+
+::
+
+	{otherDce.fieldname}
+
+
+**dce_get_fal_objects**
+
+::
+
+	<dce_get_fal_objects>1</dce_get_fal_objects>
+
+If you have defined a FAL field and this attribute is activated, the value is directly replaced with a TYPO3\CMS\Core\Resource\File object from the repository. Than it is needless to use the FAL ViewHelper in the Fluid template.
+
+**dce_ignore_enablefields**
+
+::
+
+	<dce_ignore_enablefields>1</dce_ignore_enablefields>
+
+Setting this attribute ignores the enablefields of the requested table. All enablefields like deleted, hidden, starttime, endtime were than ignored. This can be used for outputting hidden records.
+
+**dce_enable_autotranslation**
+
+::
+
+	<dce_enable_autotranslation>1</dce_enable_autotranslation>
+
+If you load a page via group field than always this page is loaded, regardless of the language that is just used. Using this attribute shows the translated page if it exists ($GLOBALS['TSFE']->sys_page->getPageOverlay()). That also works with other records, not only with records of the pages table, than getRecordOverlay() will be used.
+
 
 TODO: Describe all included field configurations.
 
@@ -462,6 +516,23 @@ Because of the temporary database entry without write access, not all functions 
 
 .. figure:: ../Images/UsersManual/newDceEmptyPreview.png
 	:alt: Create new DCE, preview tab
+
+User conditions
+^^^^^^^^^^^^^^^
+
+User conditions can be used in the TypoScript setup.
+
+user_dceOnCurrentPage
+"""""""""""""""""""""
+
+This user condition checks if the current page contains a DCE (instance).
+Usage in TypoScript:
+
+::
+
+	[userFunc = user_dceOnCurrentPage(42)]
+
+The 42 is a sample for the UID of a DCE type.
 
 FAQ
 ---
