@@ -171,8 +171,10 @@ Using the table tt_content and adding content elements which are based on an oth
 ::
 
 	<f:for each="{field.otherDces}" as="othersDce">
-		{otherDce.render}
+		{otherDce.render -> f:format.raw()}
 	</f:for>
+
+You need to use the raw viewhelper of fluid, because otherwise the rendered html will be escaped. If you use the f:format.html() viewhelper the curly braces get escaped and variables will not be interpreted anymore.
 
 It is also possible to access directly the value of single fields:
 
