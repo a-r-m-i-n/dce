@@ -57,7 +57,7 @@ The following validators are applied on the variable field:
 
 The configuration for the fields is stored in Flexform (XML) format. Look for TCEforms in the Flexforms section of the :ref:`T3DataStructure <t3api:t3ds>` documentation to get detailed information for the definition of the field configuration. To make it a bit easier there is a select box with some of the most used possible input field types. If you select one entry the corresponding Flexform XML code is inserted in the configuration input field.
 
-For fields of the types group, select or inline, there are additional configuration attributes available. These attributes are boolean values, that are activated with a value of 1.
+For fields of the types *group*, *select* or *inline*, there are additional configuration attributes available. These attributes are boolean values, that are activated with a value of 1.
 
 **dce_load_schema**
 
@@ -119,6 +119,11 @@ Section
 
 For the type *Section* you have to define a variable name which is to be used in the fluid template. Variable names have to be written in **lowerCamelCase** and the variable names must be unique inside a single DCE.
 The *Section fields tag (singular)* contains the name of a single entry. For example: The section contains employees, so this field should be labeled with "Employee". For editors who create a content element based on this DCE a link will appear like "Add new Employee".
+
+.. image:: ../Images/UsersManual/sectionDceElement.png
+	:alt: Define a section in the DCE
+.. image:: ../Images/UsersManual/sectionDceContent.png
+	:alt: Display of the section when adding a DCE content element
 
 For a section you can define as many fields you like. The section fields can contain fields of the types element, tab or section. You can create very complex BE input forms with the combination of the three field types.
 
