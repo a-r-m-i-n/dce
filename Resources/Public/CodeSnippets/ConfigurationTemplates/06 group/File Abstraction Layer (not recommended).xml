@@ -1,3 +1,4 @@
+<!-- This field configuration would work, but using an inline field for FAL instead is recommended! -->
 <config>
 	<type>group</type>
 	<internal_type>db</internal_type>

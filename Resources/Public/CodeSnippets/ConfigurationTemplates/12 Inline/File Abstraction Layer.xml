@@ -35,8 +35,8 @@
 		<enabledControls>
 			<info>0</info>
 			<new>0</new>
-			<dragdrop>1</dragdrop>
-			<sort>0</sort>
+			<dragdrop>0</dragdrop>
+			<sort>1</sort>
 			<hide>1</hide>
 			<delete>1</delete>
 			<localize>1</localize>
