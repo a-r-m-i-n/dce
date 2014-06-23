@@ -46,7 +46,7 @@ Schema loading
 
 + Special handling for group, select and inline fields
 + Convert comma separated lists of uids to ready to use arrays
-+ Uses extbase models (instead of associated arrays)  if requested table has one configured
++ Uses extbase models (instead of associated arrays, if requested table has one configured)
 
 Sections
 """"""""

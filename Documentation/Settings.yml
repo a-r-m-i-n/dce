@@ -2,16 +2,17 @@
 # Place Sphinx specific build information here.
 # Settings given here will replace the settings of 'conf.py'.
 
+
 ---
 conf.py:
-  copyright: 2014
+  copyright: 2012-2014
   project: Dynamic Content Elements (DCE)
   version: 0.9
   release: 0.9.3
   latex_documents:
   - - Index
     - dce.tex
-    - Dynamic Content Elements (DCE)
+    - 'Dynamic Content Elements (DCE)'
     - Armin Ruediger Vieweg
     - manual
   latex_elements:

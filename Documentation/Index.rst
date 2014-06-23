@@ -5,7 +5,6 @@
 
 .. include:: Includes.txt
 
-
 .. _start:
 
 =============================================================
@@ -31,7 +30,7 @@ Dynamic Content Elements (DCE)
 		contentelements,FCE
 
 	:Copyright:
-		2014
+		2012-2014
 
 	:Author:
 		Armin Ruediger Vieweg
@@ -58,5 +57,7 @@ Dynamic Content Elements (DCE)
 	:glob:
 
 	Introduction/Index
+	Tutorial/Index
 	UsersManual/Index
+	UserFaq/Index
 	AdministratorManual/Index

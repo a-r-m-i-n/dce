@@ -27,7 +27,7 @@ Configure Extension dce
 
 Successive all options are listed that can be configured for the DCE extension in the extension manager.
 
-.. figure:: ../Images/AdministratorManual/extensionConfiguration.png
+.. image:: ../Images/AdministratorManual/extensionConfiguration.png
 	:alt: DCE Extension configuration
 
 Disable automatic clear cache
@@ -46,13 +46,13 @@ Disable preview autoupdate
 
 If enabled the preview texts of existing content elements based on DCE, are not getting updated automatically when the DCE changed. A link in preview text will be displayed to update the texts manually with ajax. This is not recommended, use it only when having problems.
 
-DCE Popup Link in DCE-Instanz
------------------------------
+DCE Popup Link in DCE instance (content element)
+------------------------------------------------
 
 Since version 0.5 a new button is shown in the upper area when editing a DCE instance.
 
-.. figure:: ../Images/AdministratorManual/popupLinkButton.png
-	:alt: DCE Popup Link in DCE-Instanz
+.. image:: ../Images/AdministratorManual/popupLinkButton.png
+	:alt: DCE Popup Link in DCE instance (content element).
 
 This button (the rightmost in the image above) is only visible for administrators. Pressing this button opens a popup to edit the DCE directly. If the popup is closed with the TYPO3 own buttons the DCE instance is updated and shows directly the changes. That also mean that all changes made to the DCE instance that were not saved are lost.
 
@@ -71,7 +71,7 @@ The following class diagram shows the two DCE classes (in orange):
 
 and other classes that are directly involved, in a simple representation. Extbase classes are shown in gray and purple for PHP own interfaces.
 
-.. figure:: ../Images/AdministratorManual/classDiagram.png
+.. image:: ../Images/AdministratorManual/classDiagram.png
 	:alt: Class diagram
 
 Database structure
@@ -87,7 +87,7 @@ The first two tables corresponds with the domain models of the class diagram. Th
 
 The 3rd "mm" table is used as a connector between DCEs and DCE fields. Here uid_local is the uid of the DCE and uid_foreign is the uid of the DCE field. This is also a standard of Extbase.
 
-.. figure:: ../Images/AdministratorManual/databaseStructure.png
+.. image:: ../Images/AdministratorManual/databaseStructure.png
 	:alt: Database structure
 
 DCE rendering sequence
@@ -113,7 +113,7 @@ When the complete DCE is assembled it will be rendered in the showAction of the 
 
 Also new with 0.5 is the so called detail view. That is an alternative display of a template dependent on a given GET parameter that can also be defined in the DCE configuration.
 
-.. figure:: ../Images/AdministratorManual/renderingSequence.png
+.. image:: ../Images/AdministratorManual/renderingSequence.png
 	:alt: DCE rendering sequence
 
 
