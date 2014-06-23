@@ -57,7 +57,12 @@ class tx_saveDce {
     public function processDatamap_afterDatabaseOperations($status, $table, $id, array $fieldArray, t3lib_TCEmain $pObj) {
 		$this->extConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dce']);
 		$this->tcemain = $pObj;
-		$this->fieldArray = $fieldArray;
+		$this->fieldArray = array();
+        foreach ($fieldArray as $key => $value) {
+			if (!empty($key)) {
+				$this->fieldArray[$key] = $value;
+			}
+        }
 		$this->uid = $this->getUid($id, $status, $pObj);
 
 		if ($table === 'tt_content' && $this->isDceContentElement($pObj)) {
