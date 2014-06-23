@@ -61,3 +61,4 @@ Dynamic Content Elements (DCE)
 	UsersManual/Index
 	UserFaq/Index
 	AdministratorManual/Index
+	AdditionalInformations/Index

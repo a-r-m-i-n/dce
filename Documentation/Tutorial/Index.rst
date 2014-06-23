@@ -32,22 +32,22 @@ When you have initially created the DCE, enter "Gallery element" for the title.
 
 Now create a new field, choose the type *Element* and enter "Galleryname" as title. You have to enter the variable name in lowerCamelCase. Name it "galleryName". For the configuration choose the option "Simple input field" from the select list box, this fills the text box below the select box with the configuration for an input field.
 
-.. image:: ../Images/UsersManual/fieldGalleryName.png
+.. image:: ../Images/Tutorial/fieldGalleryName.png
 	:alt: Definition of field GalleryName
 
 Add another new field, choose the type *Element* and enter "Description" as title and "description" as variable name. As configuration select "Full RTE" from the list box.
 
-.. image:: ../Images/UsersManual/fieldDescription.png
+.. image:: ../Images/Tutorial/fieldDescription.png
 	:alt: Definition of field Description
 
 Next create a new field with title "Pictures" and variable name "pictures". As configuration you have to select "File Abstraction Layer" of the type "Inline". In line 8 of the configuration you see the marker *<!-- Name of variable! -->*. Replace thisVariableName with the variable name of this field ("pictures").
 
-.. image:: ../Images/UsersManual/fieldPictures.png
+.. image:: ../Images/Tutorial/fieldPictures.png
 	:alt: Definition of field Pictures
 
 Save the changes. This is necessary for the next steps.
 
-.. image:: ../Images/UsersManual/newDceGalleryElement.png
+.. image:: ../Images/Tutorial/newDceGalleryElement.png
 	:alt: New DCE Gallery Element
 
 Now go to the template tab, you will see a default template in the "Template content (fluid)" text box.

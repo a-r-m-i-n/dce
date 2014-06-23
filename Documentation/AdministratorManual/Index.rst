@@ -8,7 +8,7 @@
 
 .. _admin-manual:
 
-Administrator Manual
+Administrator manual
 ====================
 
 Installation
