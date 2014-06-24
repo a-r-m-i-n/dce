@@ -121,6 +121,23 @@ If you choose "Type:inline File Absraction Layer" as element for FAL images it i
 
 This outputs all images.
 
+How to migrate old image fields to new FAL fields?
+--------------------------------------------------
+
+Well, this is a problem, which is not solved yet. Of course you can change the field configuration to inline FAL, but the already stored data/images are not compatible with FAL.
+
+If you do this, you will get this exception: ``#1300096564: uid of file has to be numeric.``
+
+The old way of image handling was that the name of the file is stored inside of the field. The new FAL way is an uid of the equivalent FAL record. There is no conversion tool existing AFAIK.
+Furthermore these filenames are inside of an FlexformXML, so the steps of a conversion would be:
+
+1. Identify DCEs using old images (by DCE configuration)
+2. Get tt_content records and convert FlexformXML to array
+3. Get the old filename and find FAL record
+4. Replace filename with uid of FAL record
+5. Save the tt_content record and update the field configuration
+
+If you want to support such migration tool, just get in touch with me (armin (at) v.ieweg.de).
 
 How to create a dynamic content like an accordion?
 --------------------------------------------------
