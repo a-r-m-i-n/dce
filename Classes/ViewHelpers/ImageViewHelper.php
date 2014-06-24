@@ -41,11 +41,12 @@ class Tx_Dce_ViewHelpers_ImageViewHelper extends Tx_Fluid_ViewHelpers_ImageViewH
 	 * @param integer $minHeight minimum height of the image
 	 * @param integer $maxWidth maximum width of the image
 	 * @param integer $maxHeight maximum height of the image
+	 * @param boolean $treatIdAsReference given src argument is a sys_file_reference record
 	 *
 	 * @return string rendered tag.
 	 */
-	public function render($src, $width = NULL, $height = NULL, $minWidth = NULL, $minHeight = NULL, $maxWidth = NULL, $maxHeight = NULL) {
-		$imageTag = parent::render($src, $width, $height, $minWidth, $minHeight, $maxWidth, $maxHeight);
+	public function render($src, $width = NULL, $height = NULL, $minWidth = NULL, $minHeight = NULL, $maxWidth = NULL, $maxHeight = NULL, $treatIdAsReference = NULL) {
+		$imageTag = parent::render($src, $width, $height, $minWidth, $minHeight, $maxWidth, $maxHeight, $treatIdAsReference);
 		if (TYPO3_MODE === 'BE') {
 				// Make image src absolute (and respect sub folder, if existing)
 			$subPart = '/';

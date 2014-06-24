@@ -116,10 +116,10 @@ If you choose "Type:inline File Absraction Layer" as element for FAL images it i
 ::
 
 	<f:for each="{dce:fal(field:'rightImage', contentObject:contentObject)}" as="fileReference">
-		<f:image src="{fileReference.uid}" alt="" treatIdAsReference="1" />
+		<dce:image src="{fileReference.uid}" alt="" treatIdAsReference="1" />
 	</f:for>
 
-This outputs all images.
+This outputs all images. It is important to use the dce:image viewhelper, because the original one has problems with the image path in backend context.
 
 How to migrate old image fields to new FAL fields?
 --------------------------------------------------
