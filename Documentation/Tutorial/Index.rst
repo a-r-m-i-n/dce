@@ -15,6 +15,10 @@ At the beginning we will show you a short example, followed by a complete descri
 
 We will create a content element with a title, a description and a list of images with a normal view showing the title and the first image and a detail view with the title, the description and the complete list of images.
 
+.. tip::
+
+   jweiland.net has created `two video tutorials <http://jweiland.net/typo3-hosting/service/video-anleitungen/typo3-extensions/dce.html>`_ in German for new users of DCE extension.
+
 
 Create a DCE
 ------------
