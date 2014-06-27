@@ -16,7 +16,7 @@ Tx_Extbase_Utility_Extension::registerPlugin(
 
 $TCA['tt_content']['types']['list']['subtypes_addlist']['dce_dceuid{dce.uid}'] = 'pi_flexform';
 $TCA['tt_content']['columns']['pi_flexform']['config']['ds'][',dce_dceuid{dce.uid}'] = '<f:render partial="FlexFormsXML" arguments="{dce:dce}"></f:render>';
-$TCA['tt_content']['types']['dce_dceuid{dce.uid}']['showitem'] = 'CType;;dce_palette_{dce.uid};button;1-1-1,pi_flexform; ;<f:if condition="{dce.show_access_tab}">,--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access, --palette--;LLL:EXT:cms/locallang_ttc.xml:palette.visibility;visibility, --palette--;LLL:EXT:cms/locallang_ttc.xml:palette.access;access</f:if>,--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.extended';
+$TCA['tt_content']['types']['dce_dceuid{dce.uid}']['showitem'] = 'CType;;dce_palette_{dce.uid};button;1-1-1,pi_flexform; ;<f:if condition="{dce.show_access_tab}">,--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access, --palette--;LLL:EXT:cms/locallang_ttc.xml:palette.visibility;visibility, --palette--;LLL:EXT:cms/locallang_ttc.xml:palette.access;access</f:if>,--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.extended<f:if condition="{dce:be.extensionIsInstalled(key:'gridelements')}">,tx_gridelements_container,tx_gridelements_columns</f:if>';
 <f:if condition="{dce.palette_fields}">
 	<f:then>$TCA['tt_content']['palettes']['dce_palette_{dce.uid}']['showitem'] = '{dce.palette_fields}';</f:then>
 	<f:else>$TCA['tt_content']['palettes']['dce_palette_{dce.uid}'] = $TCA['tt_content']['palettes'][4]; //default</f:else>
