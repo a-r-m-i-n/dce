@@ -445,10 +445,10 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 	}
 
 	/**
-	 * Creates a fluid template
+	 * Creates and renders fluid template
 	 *
 	 * @param integer $templateType
-	 * @return Tx_Fluid_View_StandaloneView
+	 * @return string Rendered and trimmed template
 	 */
 	protected function renderFluidTemplate($templateType = self::TEMPLATE_FIELD_DEFAULT) {
 		$templateFields = $this->templateFields[$templateType];
@@ -458,14 +458,15 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 		$fluidTemplate = t3lib_div::makeInstance('Tx_Fluid_View_StandaloneView');
 		if ($this->$typeGetter() === 'inline') {
 			$inlineTemplateGetter = 'get' . ucfirst(t3lib_div::underscoredToLowerCamelCase($templateFields['inline']));
-			$fluidTemplate->setTemplateSource($this->$inlineTemplateGetter());
+			$fluidTemplate->setTemplateSource($this->$inlineTemplateGetter() . ' ');
 		} else {
 			$fileTemplateGetter = 'get' . ucfirst(t3lib_div::underscoredToLowerCamelCase($templateFields['file']));
 			$filePath = Tx_Dce_Utility_File::getFilePath($this->$fileTemplateGetter());
 			if (!file_exists($filePath)) {
 				$fluidTemplate->setTemplateSource('');
 			} else {
-				$fluidTemplate->setTemplatePathAndFilename($filePath);
+				$templateContent = file_get_contents($filePath);
+				$fluidTemplate->setTemplateSource($templateContent . ' ');
 			}
 		}
 
@@ -490,7 +491,7 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 		$fluidTemplate->assign('field', $fields);
 		$fluidTemplate->assign('fields', $fields);
 
-		return $fluidTemplate->render();
+		return trim($fluidTemplate->render());
 	}
 
 	/**
