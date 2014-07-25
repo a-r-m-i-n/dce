@@ -185,3 +185,13 @@ How to add content elements to my DCE
 If you are looking for a way to create columns and put content elements in these columns right in page modules - this is not supported by DCE. For this case I recommend the `grid elements extension <http://typo3.org/extensions/repository/view/gridelements>`_.
 
 But if you create a group or select field you may define the tt_content table and add existing content elements. This is not much comfortable but very flexible, because you may also add any other table of any extension installed. And with the *dce_load_schema* flag you'll receive an assosiative array of requested row, or if the table is from an extbase extension you'll get a model of the requested table.
+
+
+How to change the long title in content wizard for DCE group
+------------------------------------------------------------
+
+If you enable DCEs to be visible in content wizard, they can be grouped in a new group, introduced by DCE, called "Dynamic Content Elements". This is in some cases to much text. If you want to rename this group just use this code in PageTS:
+
+::
+
+	mod.wizards.newContentElement.wizardItems.dce.header = Whatever you want
