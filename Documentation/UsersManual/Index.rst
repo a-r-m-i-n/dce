@@ -448,10 +448,11 @@ Using the inline template type you have to insert the template code in the same 
 Miscellaneous
 -------------
 
-This tab contains all settings that are too less for an own tab.
+This tab contains all settings which are difficult to put in a category.
 
-.. image:: ../Images/UsersManual/newDceEmptyMisc1.png
+.. image:: ../Images/UsersManual/newDceEmptyMisc1b.png
 	:alt: Create new DCE, miscellaneous tab
+
 
 .. image:: ../Images/UsersManual/newDceEmptyMisc2.png
 	:alt: Create new DCE, miscellaneous tab
@@ -500,6 +501,11 @@ Enable access tab in backend
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 If this option is activated the tab with the access rights is shown in the backend. Here you can define detailed, when the DCE is to be shown and who is allowed to see the DCE.
+
+Enable categories tab in backend
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If this option is activated the tab with category picker is shown in the backend. This option just works since TYPO3 6.0, because the category API has been introduced in this version. In lower TYPO3 versions the checkbox is not available.
 
 DCE palette fields
 ^^^^^^^^^^^^^^^^^^

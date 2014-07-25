@@ -44,6 +44,7 @@
 			<label index="tx_dce_domain_model_dce.miscellaneous">Miscellaneous</label>
 			<label index="tx_dce_domain_model_dce.cacheDce">Cache DCE frontend plugin</label>
 			<label index="tx_dce_domain_model_dce.showAccessTab">Enable access tab in backend</label>
+			<label index="tx_dce_domain_model_dce.showCategoryTab">Enable categories tab in backend</label>
 			<label index="tx_dce_domain_model_dce.hideDefaultCeWrap">Disables the "div.csc-default" wrapping</label>
 			<label index="tx_dce_domain_model_dce.previewTemplateType">Preview texts template type</label>
 			<label index="tx_dce_domain_model_dce.headerPreview">Header preview template (fluid)</label>
@@ -111,6 +112,7 @@
 			<label index="tx_dce_domain_model_dce.miscellaneous">Sonstiges</label>
 			<label index="tx_dce_domain_model_dce.cacheDce">DCE Frontend Plugin Cache aktivieren</label>
 			<label index="tx_dce_domain_model_dce.showAccessTab">Aktiviere "Zugriff" Tab im Backend</label>
+			<label index="tx_dce_domain_model_dce.showCategoryTab">Aktiviere "Kategorien" Tab im Backend</label>
 			<label index="tx_dce_domain_model_dce.hideDefaultCeWrap">Deaktiviere das "div.csc-default" Wrapping</label>
 			<label index="tx_dce_domain_model_dce.previewTemplateType">Vorschau-Template-Typ</label>
 			<label index="tx_dce_domain_model_dce.headerPreview">Überschriften-Vorschau-Template (Fluid)</label>
