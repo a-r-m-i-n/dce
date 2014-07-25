@@ -48,4 +48,3 @@ class Tx_Dce_ViewHelpers_TypolinkViewHelper extends Tx_Fluid_Core_ViewHelper_Abs
 		return $cObj->getTypoLink($subject, $parameter);
 	}
 }
-?>

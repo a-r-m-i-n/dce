@@ -24,11 +24,11 @@
  ***************************************************************/
 
 /**
- *
+ * Model for DCE fields. Contains configuration of fields and fetched values.
+ * These fields are part of the DCE model.
  *
  * @package dce
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
- *
  */
 class Tx_Dce_Domain_Model_DceField extends Tx_Extbase_DomainObject_AbstractEntity {
 	/** Field Type: Element */
@@ -66,6 +66,7 @@ class Tx_Dce_Domain_Model_DceField extends Tx_Extbase_DomainObject_AbstractEntit
 
 	/**
 	 * Initializes all Tx_Extbase_Persistence_ObjectStorage properties.
+	 *
 	 * @return void
 	 */
 	protected function initStorageObjects() {
@@ -81,6 +82,7 @@ class Tx_Dce_Domain_Model_DceField extends Tx_Extbase_DomainObject_AbstractEntit
 
 	/**
 	 * @param integer $type
+	 * @return void
 	 */
 	public function setType($type) {
 		$this->type = $type;
@@ -95,6 +97,7 @@ class Tx_Dce_Domain_Model_DceField extends Tx_Extbase_DomainObject_AbstractEntit
 
 	/**
 	 * @param string $title
+	 * @return void
 	 */
 	public function setTitle($title) {
 		$this->title = $title;
@@ -109,6 +112,7 @@ class Tx_Dce_Domain_Model_DceField extends Tx_Extbase_DomainObject_AbstractEntit
 
 	/**
 	 * @param string $variable
+	 * @return void
 	 */
 	public function setVariable($variable) {
 		$this->variable = $variable;
@@ -123,6 +127,7 @@ class Tx_Dce_Domain_Model_DceField extends Tx_Extbase_DomainObject_AbstractEntit
 
 	/**
 	 * @param string $configuration
+	 * @return void
 	 */
 	public function setConfiguration($configuration) {
 		$this->configuration = $configuration;
@@ -137,6 +142,7 @@ class Tx_Dce_Domain_Model_DceField extends Tx_Extbase_DomainObject_AbstractEntit
 
 	/**
 	 * @param string $value
+	 * @return void
 	 */
 	public function setValue($value) {
 		$this->_value = $value;
@@ -144,6 +150,7 @@ class Tx_Dce_Domain_Model_DceField extends Tx_Extbase_DomainObject_AbstractEntit
 
 	/**
 	 * Checks if section field count is greater than zero
+	 *
 	 * @return boolean Returns TRUE when section fields existing, otherwise returns FALSE
 	 */
 	public function hasSectionFields() {
@@ -160,20 +167,27 @@ class Tx_Dce_Domain_Model_DceField extends Tx_Extbase_DomainObject_AbstractEntit
 
 	/**
 	 * @param Tx_Extbase_Persistence_ObjectStorage $sectionFields
+	 * @return void
 	 */
 	public function setSectionFields(Tx_Extbase_Persistence_ObjectStorage $sectionFields) {
 		$this->sectionFields = $sectionFields;
 	}
 
 	/**
+	 * Adds a section field
+	 *
 	 * @param Tx_Dce_Domain_Model_DceField $sectionField
+	 * @return void
 	 */
 	public function addSectionField(Tx_Dce_Domain_Model_DceField $sectionField) {
 		$this->sectionFields->attach($sectionField);
 	}
 
 	/**
+	 * Removes a section field
+	 *
 	 * @param Tx_Dce_Domain_Model_DceField $sectionField
+	 * @return void
 	 */
 	public function removeSectionField(Tx_Dce_Domain_Model_DceField $sectionField) {
 		$this->sectionFields->detach($sectionField);
@@ -197,6 +211,7 @@ class Tx_Dce_Domain_Model_DceField extends Tx_Extbase_DomainObject_AbstractEntit
 
 	/**
 	 * Checks if the field is of type element
+	 *
 	 * @return boolean
 	 */
 	public function isElement() {
@@ -206,6 +221,7 @@ class Tx_Dce_Domain_Model_DceField extends Tx_Extbase_DomainObject_AbstractEntit
 
 	/**
 	 * Checks if the field is of type section
+	 *
 	 * @return boolean
 	 */
 	public function isSection() {
@@ -215,10 +231,10 @@ class Tx_Dce_Domain_Model_DceField extends Tx_Extbase_DomainObject_AbstractEntit
 
 	/**
 	 * Checks if the field is of type tab
+	 *
 	 * @return boolean
 	 */
 	public function isTab() {
 		return ($this->getType() === self::TYPE_TAB);
 	}
 }
-?>

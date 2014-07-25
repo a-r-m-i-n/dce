@@ -1,5 +1,4 @@
 <?php
-
 /***************************************************************
  *  Copyright notice
  *
@@ -86,4 +85,3 @@ abstract class tx_dce_abstract_formeval {
 		return Tx_Extbase_Utility_Localization::translate('LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:' . $key, 'Dce', $arguments);
 	}
 }
-?>

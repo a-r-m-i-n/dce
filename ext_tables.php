@@ -87,7 +87,6 @@ $TCA['tx_dce_domain_model_dcefield'] = array(
     ),
 );
 
-
 $ttContentColumns = array(
 	'tx_dce_dce' => array(
 		'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tt_content.tx_dce_dce',
@@ -104,4 +103,3 @@ $ttContentColumns = array(
 );
 t3lib_div::loadTCA('tt_content');
 t3lib_extMgm::addTCAcolumns('tt_content', $ttContentColumns, 1);
-?>

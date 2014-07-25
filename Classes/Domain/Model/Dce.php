@@ -1,5 +1,4 @@
 <?php
-
 /***************************************************************
  *  Copyright notice
  *
@@ -24,12 +23,12 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-
 /**
+ * Model for DCEs. This model contains all necessary informations
+ * to render the content element in frontend.
  *
  * @package dce
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
- *
  */
 class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 	/** Identifier for default DCE templates */
@@ -105,9 +104,7 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 
 
 	/**
-	 * __construct
-	 *
-	 * @return void
+	 * Constructor
 	 */
 	public function __construct() {
 		$this->initStorageObjects();
@@ -131,16 +128,10 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 
 	/**
 	 * @param string $title
+	 * @return void
 	 */
 	public function setTitle($title) {
 		$this->title = $title;
-	}
-
-	/**
-	 * @param string $templateContent
-	 */
-	public function setTemplateContent($templateContent) {
-		$this->templateContent = $templateContent;
 	}
 
 	/**
@@ -151,10 +142,11 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 	}
 
 	/**
-	 * @param string $templateFile
+	 * @param string $templateContent
+	 * @return void
 	 */
-	public function setTemplateFile($templateFile) {
-		$this->templateFile = $templateFile;
+	public function setTemplateContent($templateContent) {
+		$this->templateContent = $templateContent;
 	}
 
 	/**
@@ -165,10 +157,11 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 	}
 
 	/**
-	 * @param string $templateType
+	 * @param string $templateFile
+	 * @return void
 	 */
-	public function setTemplateType($templateType) {
-		$this->templateType = $templateType;
+	public function setTemplateFile($templateFile) {
+		$this->templateFile = $templateFile;
 	}
 
 	/**
@@ -176,6 +169,14 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 	 */
 	public function getTemplateType() {
 		return $this->templateType;
+	}
+
+	/**
+	 * @param string $templateType
+	 * @return void
+	 */
+	public function setTemplateType($templateType) {
+		$this->templateType = $templateType;
 	}
 
 	/**
@@ -187,6 +188,7 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 
 	/**
 	 * @param string $templateLayoutRootPath
+	 * @return void
 	 */
 	public function setTemplateLayoutRootPath($templateLayoutRootPath) {
 		$this->templateLayoutRootPath = $templateLayoutRootPath;
@@ -201,6 +203,7 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 
 	/**
 	 * @param string $templatePartialRootPath
+	 * @return void
 	 */
 	public function setTemplatePartialRootPath($templatePartialRootPath) {
 		$this->templatePartialRootPath = $templatePartialRootPath;
@@ -208,6 +211,7 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 
 	/**
 	 * Gets objectStorage with fields
+	 *
 	 * @return Tx_Extbase_Persistence_ObjectStorage
 	 */
 	public function getFields() {
@@ -216,7 +220,9 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 
 	/**
 	 * Sets objectStorage with fields
+	 *
 	 * @param Tx_Extbase_Persistence_ObjectStorage $fields
+	 * @return void
 	 */
 	public function setFields($fields) {
 		$this->fields = $fields;
@@ -251,6 +257,7 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 
 	/**
 	 * @param string $previewTemplateType
+	 * @return void
 	 */
 	public function setPreviewTemplateType($previewTemplateType) {
 		$this->previewTemplateType = $previewTemplateType;
@@ -265,6 +272,7 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 
 	/**
 	 * @param string $headerPreview
+	 * @return void
 	 */
 	public function setHeaderPreview($headerPreview) {
 		$this->headerPreview = $headerPreview;
@@ -279,6 +287,7 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 
 	/**
 	 * @param string $headerPreviewTemplateFile
+	 * @return void
 	 */
 	public function setHeaderPreviewTemplateFile($headerPreviewTemplateFile) {
 		$this->headerPreviewTemplateFile = $headerPreviewTemplateFile;
@@ -293,6 +302,7 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 
 	/**
 	 * @param string $bodytextPreview
+	 * @return void
 	 */
 	public function setBodytextPreview($bodytextPreview) {
 		$this->bodytextPreview = $bodytextPreview;
@@ -307,6 +317,7 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 
 	/**
 	 * @param string $bodytextPreviewTemplateFile
+	 * @return void
 	 */
 	public function setBodytextPreviewTemplateFile($bodytextPreviewTemplateFile) {
 		$this->bodytextPreviewTemplateFile = $bodytextPreviewTemplateFile;
@@ -321,6 +332,7 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 
 	/**
 	 * @param boolean $enableDetailpage
+	 * @return void
 	 */
 	public function setEnableDetailpage($enableDetailpage) {
 		$this->enableDetailpage = $enableDetailpage;
@@ -335,6 +347,7 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 
 	/**
 	 * @param string $detailpageIdentifier
+	 * @return void
 	 */
 	public function setDetailpageIdentifier($detailpageIdentifier) {
 		$this->detailpageIdentifier = $detailpageIdentifier;
@@ -349,6 +362,7 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 
 	/**
 	 * @param string $detailpageTemplateType
+	 * @return void
 	 */
 	public function setDetailpageTemplateType($detailpageTemplateType) {
 		$this->detailpageTemplateType = $detailpageTemplateType;
@@ -363,6 +377,7 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 
 	/**
 	 * @param string $detailpageTemplate
+	 * @return void
 	 */
 	public function setDetailpageTemplate($detailpageTemplate) {
 		$this->detailpageTemplate = $detailpageTemplate;
@@ -377,13 +392,15 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 
 	/**
 	 * @param string $detailpageTemplateFile
+	 * @return void
 	 */
 	public function setDetailpageTemplateFile($detailpageTemplateFile) {
 		$this->detailpageTemplateFile = $detailpageTemplateFile;
 	}
 
 	/**
-	 * Checks attached fields for given variable and returns the single field if found. If not found, returns NULL.
+	 * Checks attached fields for given variable and returns the single field if found.
+	 * If not found, returns NULL.
 	 *
 	 * @param string $variable
 	 * @return null|Tx_Dce_Domain_Model_DceField
@@ -407,6 +424,7 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 
 	/**
 	 * @param array $contentObject
+	 * @return void
 	 */
 	public function setContentObject($contentObject) {
 		$this->_contentObject = $contentObject;
@@ -414,6 +432,7 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 
 	/**
 	 * Renders the default DCE output
+	 *
 	 * @return string rendered output
 	 */
 	public function render() {
@@ -422,6 +441,7 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 
 	/**
 	 * Renders the DCE detail page output
+	 *
 	 * @return string rendered output
 	 */
 	public function renderDetailpage() {
@@ -430,6 +450,7 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 
 	/**
 	 * Renders the HeaderPreview output
+	 *
 	 * @return string rendered output
 	 */
 	public function renderHeaderPreview() {
@@ -438,6 +459,7 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 
 	/**
 	 * Renders the BodytextPreview output
+	 *
 	 * @return string rendered output
 	 */
 	public function renderBodytextPreview() {
@@ -497,7 +519,7 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 	/**
 	 * Returns fields of DCE. Key is variable, value is the value of the field.
 	 *
-	 * @return array
+	 * @return array Fields of DCE
 	 */
 	protected function getFieldsAsArray() {
 		$fields = array();
@@ -547,8 +569,6 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 				return $field->getValue();
 			}
 		}
-		return;
+		return NULL;
 	}
-
 }
-?>

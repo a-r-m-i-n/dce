@@ -47,4 +47,3 @@ class tx_update_contentelement {
 		echo json_encode($updatedPreviewFields);
 	}
 }
-?>

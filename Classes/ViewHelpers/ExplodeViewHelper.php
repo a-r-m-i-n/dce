@@ -53,5 +53,3 @@ class Tx_Dce_ViewHelpers_ExplodeViewHelper extends Tx_Fluid_Core_ViewHelper_Abst
 		return t3lib_div::trimExplode($delimiter, $subject, $removeEmpty);
 	}
 }
-
-?>

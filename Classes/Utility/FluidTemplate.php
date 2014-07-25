@@ -27,7 +27,6 @@
  *
  * @package dce
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
- *
  */
 class Tx_Dce_Utility_FluidTemplate {
 	/** @var string	 */
@@ -160,5 +159,4 @@ class Tx_Dce_Utility_FluidTemplate {
 		}
 		$GLOBALS['typo3CacheManager']->setCacheConfigurations($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']);
 	}
-
 }

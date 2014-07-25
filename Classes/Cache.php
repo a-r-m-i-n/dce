@@ -165,4 +165,3 @@ class Tx_Dce_Cache {
 		return $dce;
 	}
 }
-?>

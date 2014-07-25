@@ -1,5 +1,4 @@
 <?php
-
 /***************************************************************
  *  Copyright notice
  *
@@ -24,14 +23,11 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-
 /**
  * DCE field repository
  *
  * @package dce
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
- *
  */
 class Tx_Dce_Domain_Repository_DceFieldRepository extends Tx_Extbase_Persistence_Repository {
 }
-?>

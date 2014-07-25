@@ -44,5 +44,3 @@ class Tx_Dce_ViewHelpers_IsArrayViewHelper extends Tx_Fluid_Core_ViewHelper_Abst
 		return is_array($subject);
 	}
 }
-
-?>

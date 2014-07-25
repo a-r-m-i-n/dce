@@ -24,16 +24,13 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-
 /**
  * DCE repository
  *
  * @package dce
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
- *
  */
 class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repository {
-
 	/**
 	 * Finds and build a DCE. The given uid loads the DCE structure and the fieldList triggers the fillFields which
 	 * gives the dce its contents and values.
@@ -63,6 +60,7 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 
 	/**
 	 * Clones the fields of a dce separately, because cloning the dce just refers the fields
+	 *
 	 * @param Tx_Dce_Domain_Model_Dce $dce
 	 * @return void
 	 */
@@ -92,6 +90,7 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 
 	/**
 	 * Disable the respect of enable fields in defaultQuerySettings
+	 *
 	 * @return void
 	 */
 	protected function disableRespectOfEnableFields() {
@@ -144,7 +143,6 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 	 * @param string $fieldValue
 	 * @param boolean $isSectionField
 	 * @param string $xmlIdentifier
-	 *
 	 * @return void
 	 */
 	protected function fillFields(Tx_Dce_Domain_Model_DceField $dceField, $fieldValue, $isSectionField = FALSE, $xmlIdentifier) {
@@ -364,4 +362,3 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 		}
 	}
 }
-?>

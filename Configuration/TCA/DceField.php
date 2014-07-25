@@ -169,4 +169,3 @@ $TCA['tx_dce_domain_model_dcefield'] = array(
 		),
 	),
 );
-?>

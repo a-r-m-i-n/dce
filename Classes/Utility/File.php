@@ -31,7 +31,6 @@
  *
  */
 class Tx_Dce_Utility_File {
-
 	/**
 	 * Converts given file path to absolute or relative file path.
 	 * If FAL reference is given (eg. "file:123") it will be interpret to real existing file path.
@@ -56,5 +55,4 @@ class Tx_Dce_Utility_File {
 		}
 		return $filePath;
 	}
-
 }

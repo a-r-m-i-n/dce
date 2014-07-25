@@ -34,10 +34,10 @@ class Tx_Dce_Controller_DceModuleController extends Tx_Extbase_MVC_Controller_Ac
 
 	/**
 	 * Index Action
+	 *
 	 * @return void
 	 */
 	public function indexAction() {
-
 	}
 
 	/**
@@ -51,6 +51,7 @@ class Tx_Dce_Controller_DceModuleController extends Tx_Extbase_MVC_Controller_Ac
 
 	/**
 	 * Removes all dce preview records
+	 *
 	 * @static
 	 * @return void
 	 */
@@ -58,7 +59,4 @@ class Tx_Dce_Controller_DceModuleController extends Tx_Extbase_MVC_Controller_Ac
 		require_once(t3lib_extMgm::extPath('dce') . 'Classes/UserFunction/class.tx_dce_dcePreviewField.php');
 		$GLOBALS['TYPO3_DB']->exec_DELETEquery('tt_content', 'pid = ' . tx_dce_dcePreviewField::DCE_PREVIEW_PID . ' AND CType LIKE "dce_dceuid%"');
 	}
-
 }
-
-?>

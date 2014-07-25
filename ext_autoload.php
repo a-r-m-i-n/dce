@@ -21,4 +21,3 @@ if (intval($typo3Version{0}) === 6) {
 }
 
 return $autoloadClasses;
-?>

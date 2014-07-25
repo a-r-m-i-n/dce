@@ -50,4 +50,3 @@ if (!file_exists($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceLocalconfPath'])
 	$dceCache->createLocalconf($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceLocalconfPath']);
 }
 require_once($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceLocalconfPath']);
-?>

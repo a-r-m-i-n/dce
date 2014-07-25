@@ -67,4 +67,3 @@ class tx_dce_impexp {
 		}
 	}
 }
-?>

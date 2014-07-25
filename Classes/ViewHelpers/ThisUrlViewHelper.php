@@ -56,4 +56,3 @@ class Tx_Dce_ViewHelpers_ThisUrlViewHelper extends Tx_Fluid_Core_ViewHelper_Abst
 		return $url;
 	}
 }
-?>

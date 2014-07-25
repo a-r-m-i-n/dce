@@ -48,5 +48,3 @@ class Tx_Dce_ViewHelpers_ArrayGetIndexViewHelper extends Tx_Fluid_Core_ViewHelpe
 		return $subject[$index];
 	}
 }
-
-?>

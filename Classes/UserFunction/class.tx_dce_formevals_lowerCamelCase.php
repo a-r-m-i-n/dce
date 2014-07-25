@@ -1,5 +1,4 @@
 <?php
-
 /***************************************************************
  *  Copyright notice
  *
@@ -55,4 +54,3 @@ class tx_dce_formevals_lowerCamelCase extends tx_dce_abstract_formeval {
 		return $value;
 	}
 }
-?>

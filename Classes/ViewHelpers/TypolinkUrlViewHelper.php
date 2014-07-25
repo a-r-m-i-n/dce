@@ -32,7 +32,7 @@
  */
 class Tx_Dce_ViewHelpers_TypolinkUrlViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
 	/**
-	 * Create a typolink.
+	 * Create a typolink and returns just the URL
 	 *
 	 * @param string $parameter Parameter string, which can be handled by typolink functionality
 	 * @return string url
@@ -43,4 +43,3 @@ class Tx_Dce_ViewHelpers_TypolinkUrlViewHelper extends Tx_Fluid_Core_ViewHelper_
 		return $cObj->getTypoLink_URL($parameter);
 	}
 }
-?>

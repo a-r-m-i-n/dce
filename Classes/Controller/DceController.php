@@ -33,19 +33,21 @@
 class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionController {
 
 	/**
-	 * dceRepository
+	 * DCE Repository
+	 *
 	 * @var Tx_Dce_Domain_Repository_DceRepository
 	 */
 	protected $dceRepository;
 
 	/**
-	 * typoScriptUtility
+	 * TypoScript Utility
+	 *
 	 * @var Tx_Dce_Utility_TypoScript
 	 */
 	protected $typoScriptUtility;
 
 	/**
-	 * injectDceRepository
+	 * Inject DCE Repository
 	 *
 	 * @param Tx_Dce_Domain_Repository_DceRepository $dceRepository
 	 * @return void
@@ -55,7 +57,7 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 	}
 
 	/**
-	 * injectTypoScriptUtility
+	 * Inject TypoScript Utility
 	 *
 	 * @param Tx_Dce_Utility_TypoScript $typoScriptUtility
 	 * @return void
@@ -74,7 +76,7 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 	}
 
 	/**
-	 * action show
+	 * Show Action which get called if a DCE get rendered in frontend
 	 *
 	 * @return string output of dce in frontend
 	 */
@@ -97,7 +99,7 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 	}
 
 	/**
-	 * action renderPreview
+	 * Render preview action
 	 *
 	 * @return string
 	 */
@@ -123,6 +125,8 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 	}
 
 	/**
+	 * Simulates content element settings, which is necessary in backend context
+	 *
 	 * @param integer $contentElementUid
 	 * @return array
 	 */
@@ -146,7 +150,4 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 	protected function getContentObject($uid) {
 		return $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('*', 'tt_content', 'uid=' . $uid);
 	}
-
 }
-
-?>

@@ -46,4 +46,3 @@ class Tx_Dce_ViewHelpers_FalViewHelper extends Tx_Fluid_Core_ViewHelper_Abstract
 		return $fileRepository->findByRelation('tt_content', $field, $contentObject['uid']);
 	}
 }
-?>

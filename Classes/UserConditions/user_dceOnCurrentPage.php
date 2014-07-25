@@ -38,7 +38,5 @@ function user_dceOnCurrentPage($dceUid) {
 
 	$dceUid = intval($dceUid);
 	$currentPageUid = $GLOBALS['TSFE']->id;
-
 	return ($GLOBALS['TYPO3_DB']->exec_SELECTcountRows('uid', 'tt_content', 'pid=' . $currentPageUid . ' AND CType="dce_dceuid' . $dceUid . '"') > 0);
 }
-?>

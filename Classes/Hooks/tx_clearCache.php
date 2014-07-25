@@ -51,4 +51,3 @@ class tx_clearCache {
 		}
 	}
 }
-?>

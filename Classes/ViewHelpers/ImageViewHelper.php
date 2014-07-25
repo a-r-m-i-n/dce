@@ -58,4 +58,3 @@ class Tx_Dce_ViewHelpers_ImageViewHelper extends Tx_Fluid_ViewHelpers_ImageViewH
 		return $imageTag;
 	}
 }
-?>

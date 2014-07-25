@@ -88,4 +88,3 @@ class tx_docHeaderButtonsHook {
 		return '<style type="text/css">' . $content . '</style>';
 	}
 }
-?>

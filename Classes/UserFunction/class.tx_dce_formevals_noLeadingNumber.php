@@ -1,5 +1,4 @@
 <?php
-
 /***************************************************************
  *  Copyright notice
  *
@@ -50,4 +49,3 @@ class tx_dce_formevals_noLeadingNumber extends tx_dce_abstract_formeval {
 		return $matches[1];
 	}
 }
-?>

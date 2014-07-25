@@ -80,4 +80,3 @@ if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >=
 		}
 	}
 }
-?>

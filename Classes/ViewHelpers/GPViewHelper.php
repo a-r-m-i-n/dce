@@ -46,5 +46,3 @@ class Tx_Dce_ViewHelpers_GPViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractV
 		return t3lib_div::_GP($subject);
 	}
 }
-
-?>
