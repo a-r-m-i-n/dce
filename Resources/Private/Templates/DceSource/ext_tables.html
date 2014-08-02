@@ -27,7 +27,7 @@ t3lib_extMgm::addPageTSConfig('
 	mod.wizards.newContentElement.wizardItems.{dce.wizard_category}.elements.dce_dceuid{dce.uid} {
 	    icon = <f:if condition="{dce.hasCustomWizardIcon}"><f:then>../uploads/tx_dce/{dce.wizard_custom_icon}</f:then><f:else>gfx/c_wiz/{dce.wizard_icon}.gif</f:else></f:if>
 	    title = {dce.title}
-	    description = {dce.wizard_description}
+	    description = {dce.wizard_description -> dce:format.raw()}
 	    tt_content_defValues {
 	        CType = dce_dceuid{dce.uid}
 	    }
