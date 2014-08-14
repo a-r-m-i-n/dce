@@ -72,6 +72,9 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 	 * @return void
 	 */
 	public function initializeAction() {
+		if ($this->settings === NULL) {
+			$this->settings = array();
+		}
 		$this->settings = $this->typoScriptUtility->renderConfigurationArray($this->settings);
 	}
 
