@@ -26,6 +26,40 @@ How to get the first image of a FAL image list?
 The loop run through the complete FAL image list, but only the first element is issued.
 
 
+
+Am I also able to use file collections?
+---------------------------------------
+
+Since version 0.11.x of DCE you are. Just add a group field, set allowed tablename to "sys_file_collection" and add the **dce_load_schema** option.
+
+Example field configuration:
+
+::
+
+    <config>
+        <type>group</type>
+        <internal_type>db</internal_type>
+        <allowed>sys_file_collection</allowed>
+        <size>5</size>
+        <minitems>0</minitems>
+        <maxitems>999</maxitems>
+        <show_thumbs>1</show_thumbs>
+        <dce_load_schema>1</dce_load_schema>
+    </config>
+
+Your fluid template know gets an array of FileCollection models. Here is an example how to output several images from the FileCollection:
+
+::
+
+    <f:for each="{fields.collections}" as="collection">
+        <f:for each="{collection.items}" as="item">
+            <f:image src="{item.uid}" maxWidth="250" treatIdAsReference="1" alt="" title="" />
+        </f:for>
+    </f:for>
+
+File collections are available since TYPO3 6.0.
+
+
 How to readout an image in a Fluid template and give it a click enlarge function?
 ---------------------------------------------------------------------------------
 

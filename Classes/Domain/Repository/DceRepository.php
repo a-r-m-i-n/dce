@@ -303,12 +303,20 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 
 		$classname = str_replace('-', '_', $classname);
 		$classname{0} = strtoupper($classname{0});
+        $specialClass = NULL;
 
 		if ($dceFieldConfiguration['dce_get_fal_objects'] && strtolower($classname) === 'sys_file' && t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6001000) {
 			$classname = 'TYPO3\\CMS\\Core\\Resource\\File';
 		}
 
-		$repositoryName = str_replace('_Model_', '_Repository_', $classname) . 'Repository'; // !
+        $repositoryName = str_replace('_Model_', '_Repository_', $classname) . 'Repository'; // !
+
+        if (strtolower($classname) === 'sys_file_collection' && t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6000000) {
+            $specialClass = 'FileCollection';
+            $classname = 'TYPO3\\CMS\\Core\\Resource\\Collection\\AbstractFileCollection';
+            $repositoryName = 'TYPO3\\CMS\\Core\\Resource\\FileCollectionRepository';
+        }
+
 		if (class_exists($classname) && class_exists($repositoryName)) {
 				// Extbase object found
 			$objectManager = new Tx_Extbase_Object_ObjectManager();
@@ -316,7 +324,11 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 			$repository = $objectManager->get($repositoryName);
 
 			foreach (t3lib_div::trimExplode(',', $fieldValue, TRUE) as $uid) {
-				$objects[] = $repository->findByUid($uid);
+                $object = $repository->findByUid($uid);
+                if ($specialClass === 'FileCollection') {
+                    $object->loadContents();
+                }
+				$objects[] = $object;
 			}
 			return $objects;
 		} else {
