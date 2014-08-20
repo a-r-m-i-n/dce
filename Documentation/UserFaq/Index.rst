@@ -47,15 +47,17 @@ Example field configuration:
         <dce_load_schema>1</dce_load_schema>
     </config>
 
-Your fluid template know gets an array of FileCollection models. Here is an example how to output several images from the FileCollection:
+Your fluid template gets an array of FileCollection models, now. Here is an example how to output several images from the FileCollection:
 
 ::
 
     <f:for each="{fields.collections}" as="collection">
         <f:for each="{collection.items}" as="item">
-            <f:image src="{item.uid}" maxWidth="250" treatIdAsReference="1" alt="" title="" />
+            <f:image src="{item.uid}" maxWidth="250" treatIdAsReference="{f:if(condition:'{item.originalFile}', then: '1', else: '0')}" alt="" />
         </f:for>
     </f:for>
+
+The if condition in the treatIdAsReference is recommended because FileCollections returns different types of objects depending of the type of the collection. Folder based collections returns the file directly, static based collections a file reference. With this condition both cases are covered.
 
 File collections are available since TYPO3 6.0.
 
