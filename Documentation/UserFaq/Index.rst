@@ -191,9 +191,9 @@ The template tab looks like this:
 	<f:layout name="accordionLayout" />
 
 	<f:section name="sectionName">
-	<f:for each="{field.sectionName}" as="section">
-		<div class="flag">{section.yourField}</div>
-	</f:for>
+        <f:for each="{field.sectionName}" as="section">
+            <div class="flag">{section.yourField}</div>
+        </f:for>
 	</f:section>
 
 The accordionLayout file contains this:
