@@ -98,7 +98,7 @@ class Tx_Dce_Utility_TypoScript {
 	 * @return array enhanced settings
 	 */
 	protected function enhanceSettingsWithTypoScript(array $settings) {
-		$extkey = 'tx_pwteaser';
+		$extkey = 'tx_dce';
 		$typoscript = $this->configurationManager->getConfiguration(
 			Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT
 		);
