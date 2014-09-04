@@ -167,7 +167,7 @@ $TCA['tx_dce_domain_model_dce'] = array(
 					array('LLL:EXT:cms/layout/locallang_db_new_content_el.xml:forms_login_title', 'login_form', 'c_wiz/login_form.gif'),
 					array('LLL:EXT:cms/layout/locallang_db_new_content_el.xml:common_imagesOnly_title', 'images_only', 'c_wiz/images_only.gif'),
 					array('LLL:EXT:cms/layout/locallang_db_new_content_el.xml:special_filelinks_title', 'filelinks', 'c_wiz/filelinks.gif'),
-					array('LLL:EXT:cms/layout/locallang_db_new_content_el.xml:special_divider_title', 'LLL:EXT:cms/layout/locallang_db_new_content_el.xml:special_divider_title', 'c_wiz/div.gif'),
+					array('LLL:EXT:cms/layout/locallang_db_new_content_el.xml:special_divider_title', 'div', 'c_wiz/div.gif'),
 					array('LLL:EXT:cms/layout/locallang_db_new_content_el.xml:plugins_general_title', 'user_defined', 'c_wiz/user_defined.gif'),
 					array('LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:wizardIcon.custom', '--div--'),
 					array('LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:wizardIcon.customIcon', 'custom'),
