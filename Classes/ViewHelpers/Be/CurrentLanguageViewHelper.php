@@ -48,4 +48,3 @@ class Tx_Dce_ViewHelpers_Be_CurrentLanguageViewHelper extends Tx_Fluid_ViewHelpe
 		return 'default';
 	}
 }
-?>

@@ -61,4 +61,3 @@ class Tx_Dce_ViewHelpers_Be_TableListViewHelper extends Tx_Fluid_ViewHelpers_Be_
 		return parent::render($tableName, $fieldList, $storagePid, $levels, $filter, $recordsPerPage, $sortField, $sortDescending, $readOnly, $enableClickMenu, $clickTitleMode, $alternateBackgroundColors);
 	}
 }
-?>

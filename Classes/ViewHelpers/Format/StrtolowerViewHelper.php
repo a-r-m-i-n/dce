@@ -44,4 +44,3 @@ class Tx_Dce_ViewHelpers_Format_StrtolowerViewHelper extends Tx_Fluid_Core_ViewH
 		return strtolower($subject);
 	}
 }
-?>

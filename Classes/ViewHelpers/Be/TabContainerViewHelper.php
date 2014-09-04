@@ -84,4 +84,3 @@ class Tx_Dce_ViewHelpers_Be_TabContainerViewHelper extends Tx_Fluid_Core_ViewHel
 		return t3lib_TCEforms::getDynTabMenu($tabs, uniqid());
 	}
 }
-?>

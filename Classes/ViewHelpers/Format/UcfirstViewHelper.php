@@ -46,4 +46,3 @@ class Tx_Dce_ViewHelpers_Format_UcfirstViewHelper extends Tx_Fluid_Core_ViewHelp
 		return ucfirst($subject);
 	}
 }
-?>

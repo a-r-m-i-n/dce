@@ -200,7 +200,7 @@ The accordionLayout file contains this:
 
 ::
 
-	<div class="accordion"><f:render section="rowSection" /></div>
+	<div class="accordion"><f:render section="sectionName" /></div>
 
 
 How to link to the detail page?

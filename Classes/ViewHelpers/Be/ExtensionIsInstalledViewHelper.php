@@ -42,4 +42,3 @@ class Tx_Dce_ViewHelpers_Be_ExtensionIsInstalledViewHelper extends Tx_Fluid_View
 		return t3lib_extMgm::isLoaded($key);
 	}
 }
-?>
