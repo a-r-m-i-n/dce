@@ -41,8 +41,22 @@ class Tx_Dce_ViewHelpers_FalViewHelper extends Tx_Fluid_Core_ViewHelper_Abstract
 	 * @return array|string String or array with found media
 	 */
 	public function render($field, array $contentObject) {
+		$contentObjectUid = intval($contentObject['uid']);
+
+		/** @var t3lib_DB $typo3Database */
+		$typo3Database = Tx_Dce_Utility_DatabaseUtility::getDatabaseConnection();
+		$rows = $typo3Database->exec_SELECTgetRows(
+			'uid',
+			'sys_file_reference',
+			'tablenames = "tt_content" AND uid_foreign = ' . $contentObjectUid . ' AND fieldname = "' . $field . '"'
+		);
+
 		/** @var \TYPO3\CMS\Core\Resource\FileRepository $fileRepository */
 		$fileRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\FileRepository');
-		return $fileRepository->findByRelation('tt_content', $field, $contentObject['uid']);
+		$result = array();
+		foreach ($rows as $referenceUid) {
+			$result[] = $fileRepository->findFileReferenceByUid(intval($referenceUid['uid']));
+		}
+		return $result;
 	}
 }
