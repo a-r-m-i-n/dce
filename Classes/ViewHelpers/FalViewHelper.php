@@ -48,7 +48,7 @@ class Tx_Dce_ViewHelpers_FalViewHelper extends Tx_Fluid_Core_ViewHelper_Abstract
 		$rows = $typo3Database->exec_SELECTgetRows(
 			'uid',
 			'sys_file_reference',
-			'tablenames = "tt_content" AND uid_foreign = ' . $contentObjectUid . ' AND fieldname = "' . $field . '"'
+			'tablenames = "tt_content" AND uid_foreign = ' . $contentObjectUid . ' AND fieldname = "' . $field . '" AND deleted = 0 AND hidden = 0'
 		);
 
 		/** @var \TYPO3\CMS\Core\Resource\FileRepository $fileRepository */
