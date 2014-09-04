@@ -30,6 +30,16 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php'][
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc'][] =
 	'EXT:dce/Classes/Hooks/tx_clearCache.php:tx_clearCache->clearDceCache';
 
+// Access check
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['typo3/alt_doc.php']['makeEditForm_accessCheck'][] =
+    'EXT:dce/Classes/Hooks/tx_accessCheck.php:tx_accessCheck->checkAccess';
+
+// DataPreprocessor XClass
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Backend\\Form\\DataPreprocessor'] = array(
+    'className' => 'ArminVieweg\\Dce\\XClass\\DataPreprocessor',
+);
+
+
 if (TYPO3_MODE === 'BE') {
 	require_once(t3lib_extMgm::extPath($_EXTKEY).'Classes/UserFunction/class.tx_dce_codemirrorField.php');
 	require_once(t3lib_extMgm::extPath($_EXTKEY) . 'Classes/UserFunction/class.tx_dce_dceFieldCustomLabel.php');

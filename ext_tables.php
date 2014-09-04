@@ -50,7 +50,12 @@ $TCA['tx_dce_domain_model_dce'] = array(
 		'copyAfterDuplFields' => 'fields',
         'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'Configuration/TCA/Dce.php',
 		'requestUpdate' => 'wizard_enable,template_type,preview_template_type,detailpage_template_type',
-        'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/ext_icon.gif'
+		'type' => 'type',
+		'typeicon_column' => 'type',
+		'typeicons' => array(
+			'0' => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_dce_domain_model_dce_databased.gif',
+			'1' => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_dce_domain_model_dce_filebased.gif',
+		),
     ),
 );
 

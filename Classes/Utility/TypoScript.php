@@ -61,6 +61,36 @@ class Tx_Dce_Utility_TypoScript {
 	}
 
 	/**
+	 * Converts given TypoScript string to array
+	 *
+	 * @param string $typoScriptString Typoscript text piece
+	 * @param boolean $returnPlainArray If TRUE a plain array will be returned.
+	 * @return array
+	 */
+	public function parseTypoScriptString($typoScriptString, $returnPlainArray = FALSE) {
+		/** @var t3lib_TSparser $typoScriptParser */
+		$typoScriptParser = t3lib_div::makeInstance('t3lib_TSparser');
+		$typoScriptParser->parse($typoScriptString);
+		if ($returnPlainArray === FALSE) {
+			return $typoScriptParser->setup;
+		}
+		return $this->convertTypoScriptArrayToPlainArray($typoScriptParser->setup);
+	}
+
+	/**
+	 * Converts given typoScriptArray to plain array
+	 *
+	 * @param array $typoScriptArray
+	 * @return array plain array
+	 */
+	public function convertTypoScriptArrayToPlainArray($typoScriptArray) {
+		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 6000000) {
+			return Tx_Extbase_Utility_TypoScript::convertTypoScriptArrayToPlainArray($typoScriptArray);
+		}
+		return \TYPO3\CMS\Extbase\Service\TypoScriptService::convertTypoScriptArrayToPlainArray($typoScriptArray);
+	}
+
+	/**
 	 * Renders a given typoscript configuration and returns the whole array with
 	 * calculated values.
 	 *

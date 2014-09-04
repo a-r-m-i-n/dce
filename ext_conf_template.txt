@@ -1,3 +1,6 @@
+# cat=general/paths; type=input; label=Paths of filebased DCEs: Comma separated list of paths to filebased DCEs
+filebasedDcePaths = fileadmin/templates/dce/,fileadmin/templates/dce2/
+
 # cat=general/disable; type=boolean; label=Disable automatic clear cache: If enabled, the TYPO3 cache (all) will not get cleared automatically on changes of DCE. (not recommended)
 disableAutoClearCache = 0
 

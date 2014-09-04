@@ -16,6 +16,10 @@
 
 			<label index="tx_dce_domain_model_dce">DCE</label>
 			<label index="tx_dce_domain_model_dce_long">Dynamic Content Elements</label>
+			<label index="tx_dce_domain_model_dce.type">Type</label>
+			<label index="tx_dce_domain_model_dce.type.databased">Database based</label>
+			<label index="tx_dce_domain_model_dce.type.filebased">File based</label>
+			<label index="tx_dce_domain_model_dce.identifier">Identifier</label>
 			<label index="tx_dce_domain_model_dce.title">Title</label>
 			<label index="tx_dce_domain_model_dce.category">Category</label>
 			<label index="tx_dce_domain_model_dce.fields">Fields</label>
@@ -84,6 +88,10 @@
 
 			<label index="tx_dce_domain_model_dce">DCE</label>
 			<label index="tx_dce_domain_model_dce_long">Dynamische Content-Elemente</label>
+            <label index="tx_dce_domain_model_dce.type">Typ</label>
+			<label index="tx_dce_domain_model_dce.type.databased">Datenbankbasiert</label>
+			<label index="tx_dce_domain_model_dce.type.filebased">Dateibasiert</label>
+            <label index="tx_dce_domain_model_dce.identifier">Identifikator</label>
 			<label index="tx_dce_domain_model_dce.title">Titel</label>
 			<label index="tx_dce_domain_model_dce.category">Kategorie</label>
 			<label index="tx_dce_domain_model_dce.fields">Felder</label>
