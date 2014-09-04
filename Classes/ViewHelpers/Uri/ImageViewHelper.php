@@ -42,11 +42,16 @@ class Tx_Dce_ViewHelpers_Uri_ImageViewHelper extends Tx_Fluid_ViewHelpers_Uri_Im
 	 * @param integer $minHeight minimum height of the image
 	 * @param integer $maxWidth maximum width of the image
 	 * @param integer $maxHeight maximum height of the image
+	 * @param \TYPO3\CMS\Core\Resource\FileInterface|\TYPO3\CMS\Extbase\Domain\Model\AbstractFileFolder $image
 	 *
 	 * @return string rendered tag.
 	 */
-	public function render($src, $width = NULL, $height = NULL, $minWidth = NULL, $minHeight = NULL, $maxWidth = NULL, $maxHeight = NULL) {
-		$imageUri = parent::render($src, $width, $height, $minWidth, $minHeight, $maxWidth, $maxHeight);
+	public function render($src, $width = NULL, $height = NULL, $minWidth = NULL, $minHeight = NULL, $maxWidth = NULL, $maxHeight = NULL, $image = NULL) {
+		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 6000000) {
+			$imageUri = parent::render($src, $width, $height, $minWidth, $minHeight, $maxWidth, $maxHeight);
+		} else {
+			$imageUri = parent::render($src, $image, $width, $height, $minWidth, $minHeight, $maxWidth, $maxHeight);
+		}
 		if (TYPO3_MODE === 'BE' && strpos($imageUri, '../') === 0) {
 				// Make image uri absolute
 				$imageUri = substr($imageUri, 2);
