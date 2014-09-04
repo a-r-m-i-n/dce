@@ -47,4 +47,3 @@ class Tx_Dce_ViewHelpers_Format_WrapWithCurlyBracesViewHelper extends Tx_Fluid_C
 		return '{' . $prepend . $subject . $append . '}';
 	}
 }
-?>

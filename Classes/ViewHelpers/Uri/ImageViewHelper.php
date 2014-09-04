@@ -59,4 +59,3 @@ class Tx_Dce_ViewHelpers_Uri_ImageViewHelper extends Tx_Fluid_ViewHelpers_Uri_Im
 		return $imageUri;
 	}
 }
-?>

@@ -41,4 +41,3 @@ class Tx_Dce_ViewHelpers_Be_CurrentDceVersionViewHelper extends Tx_Fluid_ViewHel
 		return t3lib_utility_VersionNumber::convertVersionNumberToInteger(t3lib_extMgm::getExtensionVersion('dce'));
 	}
 }
-?>

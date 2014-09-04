@@ -69,4 +69,3 @@ class Tx_Dce_ViewHelpers_Be_TabViewHelper extends Tx_Fluid_Core_ViewHelper_Abstr
 		return $result;
 	}
 }
-?>

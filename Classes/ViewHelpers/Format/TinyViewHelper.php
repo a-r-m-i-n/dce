@@ -45,4 +45,3 @@ class Tx_Dce_ViewHelpers_Format_TinyViewHelper extends Tx_Fluid_Core_ViewHelper_
 		return str_replace(array("\r", "\n", "\t"), '', $subject);
 	}
 }
-?>
