@@ -47,4 +47,3 @@ class Tx_Dce_ViewHelpers_Format_AddcslashesViewHelper extends Tx_Fluid_Core_View
 		return addcslashes($subject, $charlist);
 	}
 }
-?>

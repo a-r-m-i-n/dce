@@ -65,4 +65,3 @@ class Tx_Dce_ViewHelpers_Format_RawViewHelper extends Tx_Fluid_Core_ViewHelper_A
 	}
 
 }
-?>

@@ -41,4 +41,3 @@ class Tx_Dce_ViewHelpers_Be_CurrentTypo3VersionViewHelper extends Tx_Fluid_ViewH
 		return t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version);
 	}
 }
-?>

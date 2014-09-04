@@ -50,4 +50,3 @@ class Tx_Dce_ViewHelpers_Format_StripslashesViewHelper extends Tx_Fluid_Core_Vie
 		return stripslashes($subject);
 	}
 }
-?>

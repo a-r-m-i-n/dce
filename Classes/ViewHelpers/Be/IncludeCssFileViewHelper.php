@@ -43,4 +43,3 @@ class Tx_Dce_ViewHelpers_Be_IncludeCssFileViewHelper extends Tx_Fluid_ViewHelper
 		$pageRenderer->addCssFile($path);
 	}
 }
-?>
