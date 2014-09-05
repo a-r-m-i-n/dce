@@ -78,6 +78,46 @@ class Tx_Dce_Utility_TypoScript {
 	}
 
 	/**
+	 * Converts given array to TypoScript
+	 *
+	 * @param array $typoScriptArray The array to convert to string
+	 * @param string $addKey Prefix given values with given key (eg. lib.whatever = {...})
+	 * @param integer $tab Internal
+	 * @param boolean $init Internal
+	 * @return string TypoScript
+	 */
+	public function convertArrayToTypoScript(array $typoScriptArray, $addKey = '', $tab = 0, $init = TRUE) {
+		$typoScript = '';
+		if ($addKey !== '') {
+			$typoScript .= str_repeat("\t", ($tab === 0) ? $tab : $tab - 1) . $addKey . " {\n";
+			if ($init === TRUE) {
+				$tab++;
+			}
+		}
+		$tab++;
+		foreach($typoScriptArray as $key => $value) {
+			if (!is_array($value)) {
+				if (strpos($value, "\n") === FALSE) {
+					$typoScript .= str_repeat("\t", ($tab === 0) ? $tab : $tab - 1) . "$key = $value\n";
+				} else {
+					$typoScript .= str_repeat("\t", ($tab === 0) ? $tab : $tab - 1) . "$key (\n$value\n" . str_repeat("\t", ($tab === 0) ? $tab : $tab - 1) . ")\n";
+				}
+
+			} else {
+				$typoScript .= $this->convertArrayToTypoScript($value, $key, $tab, FALSE);
+			}
+		}
+		if ($addKey !== '') {
+			$tab--;
+			$typoScript .= str_repeat("\t", ($tab === 0) ? $tab : $tab - 1) . '}';
+			if ($init !== TRUE) {
+				$typoScript .= "\n";
+			}
+		}
+		return $typoScript;
+	}
+
+	/**
 	 * Converts given typoScriptArray to plain array
 	 *
 	 * @param array $typoScriptArray

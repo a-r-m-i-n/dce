@@ -25,41 +25,42 @@ class DataPreprocessor extends \TYPO3\CMS\Backend\Form\DataPreprocessor {
 
 
 	public function getStaticDce($identifier = '') {
-		$paths = \t3lib_div::trimExplode(',', static::$extConfiguration['filebasedDcePaths'], TRUE);
-		foreach ($paths as $path) {
-			$dceFolderPath = PATH_site . $path . $identifier . DIRECTORY_SEPARATOR;
-			if (is_dir($dceFolderPath) && file_exists($dceFolderPath . 'Dce.ts')) {
-				$dceConfiguration = file_get_contents($dceFolderPath . 'Dce.ts');
-				$configurationArray = static::$typoscriptUtility->parseTypoScriptString($dceConfiguration, TRUE);
+		$path = static::$extConfiguration['filebasedDcePaths'];
+		if (substr($path, -1) !== DIRECTORY_SEPARATOR) {
+			$path .= DIRECTORY_SEPARATOR;
+		}
+		$dceFolderPath = PATH_site . $path . $identifier . DIRECTORY_SEPARATOR;
+		if (is_dir($dceFolderPath) && file_exists($dceFolderPath . 'Dce.ts')) {
+			$dceConfiguration = file_get_contents($dceFolderPath . 'Dce.ts');
+			$configurationArray = static::$typoscriptUtility->parseTypoScriptString($dceConfiguration, TRUE);
 
-				$frontendTemplateFile = $dceFolderPath . 'Frontend.html';
-				if (file_exists($frontendTemplateFile)) {
-					$configurationArray['tx_dce']['static'][$identifier]['template_content'] = file_get_contents($frontendTemplateFile);
-				}
-
-				$backendHeaderTemplateFile = $dceFolderPath . 'BackendHeader.html';
-				if (file_exists($backendHeaderTemplateFile)) {
-					$configurationArray['tx_dce']['static'][$identifier]['header_preview'] = file_get_contents($backendHeaderTemplateFile);
-				}
-
-				$backendBodytextTemplateFile = $dceFolderPath . 'BackendBodytext.html';
-				if (file_exists($backendBodytextTemplateFile)) {
-					$configurationArray['tx_dce']['static'][$identifier]['bodytext_preview'] = file_get_contents($backendBodytextTemplateFile);
-				}
-
-				$backendBodytextTemplateFile = $dceFolderPath . 'Detailpage.html';
-				if (file_exists($backendBodytextTemplateFile)) {
-					$configurationArray['tx_dce']['static'][$identifier]['detailpage_template'] = file_get_contents($backendBodytextTemplateFile);
-				}
-
-
-				$configurationArray['tx_dce']['static'][$identifier]['template_type'] = 'inline';
-				$configurationArray['tx_dce']['static'][$identifier]['preview_template_type'] = 'inline';
-				$configurationArray['tx_dce']['static'][$identifier]['detailpage_template_type'] = 'inline';
-
-
-				return $configurationArray['tx_dce']['static'][$identifier];
+			$frontendTemplateFile = $dceFolderPath . 'Frontend.html';
+			if (file_exists($frontendTemplateFile)) {
+				$configurationArray['tx_dce']['static'][$identifier]['template_content'] = file_get_contents($frontendTemplateFile);
 			}
+
+			$backendHeaderTemplateFile = $dceFolderPath . 'BackendHeader.html';
+			if (file_exists($backendHeaderTemplateFile)) {
+				$configurationArray['tx_dce']['static'][$identifier]['header_preview'] = file_get_contents($backendHeaderTemplateFile);
+			}
+
+			$backendBodytextTemplateFile = $dceFolderPath . 'BackendBodytext.html';
+			if (file_exists($backendBodytextTemplateFile)) {
+				$configurationArray['tx_dce']['static'][$identifier]['bodytext_preview'] = file_get_contents($backendBodytextTemplateFile);
+			}
+
+			$backendBodytextTemplateFile = $dceFolderPath . 'Detailpage.html';
+			if (file_exists($backendBodytextTemplateFile)) {
+				$configurationArray['tx_dce']['static'][$identifier]['detailpage_template'] = file_get_contents($backendBodytextTemplateFile);
+			}
+
+
+			$configurationArray['tx_dce']['static'][$identifier]['template_type'] = 'inline';
+			$configurationArray['tx_dce']['static'][$identifier]['preview_template_type'] = 'inline';
+			$configurationArray['tx_dce']['static'][$identifier]['detailpage_template_type'] = 'inline';
+
+
+			return $configurationArray['tx_dce']['static'][$identifier];
 		}
 	}
 
@@ -69,7 +70,7 @@ class DataPreprocessor extends \TYPO3\CMS\Backend\Form\DataPreprocessor {
 				// DCE record
 			static::$staticDceConfiguration = array_merge($this->getStaticDce($idList), array('uid' => $idList, 'type' => 1));
 			$this->renderRecord($table, $idList, 0, static::$staticDceConfiguration);
-		} else if ($table === 'tx_dce_domain_model_dcefield' && strpos($idList, 'dce_field_') === 0 && static::$staticDceConfiguration !== NULL) {
+		} else if ($table === 'tx_dce_domain_model_dcefield' && !is_numeric($idList) && static::$staticDceConfiguration !== NULL) {
 			if (isset(static::$staticDceConfiguration['fields'][$idList])) {
 					// Normal fields
 				$row = static::$staticDceConfiguration['fields'][$idList];
@@ -84,7 +85,7 @@ class DataPreprocessor extends \TYPO3\CMS\Backend\Form\DataPreprocessor {
 				}
 			}
 
-			$row = array_merge($row, array('uid' => $idList));
+			$row = array_merge($row, array('uid' => $idList, 'variable' => $idList));
 			$this->renderRecord($table, $idList, 0, $row);
 		} else {
 			parent::fetchRecord($table, $idList, $operation);

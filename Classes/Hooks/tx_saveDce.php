@@ -43,6 +43,72 @@ class tx_saveDce {
 	protected $extConfiguration = array();
 
 
+	public function processDatamap_beforeStart(\TYPO3\CMS\Core\DataHandling\DataHandler $cObj) {
+		if (array_key_exists('tx_dce_domain_model_dce', $cObj->datamap)) {
+			$this->extConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dce']);
+			$datamap = $cObj->datamap;
+
+			$path = $this->extConfiguration['filebasedDcePaths'];
+			if (substr($path, -1) !== DIRECTORY_SEPARATOR) {
+				$path .= DIRECTORY_SEPARATOR;
+			}
+			$dceIdentifier = reset(array_keys($datamap['tx_dce_domain_model_dce']));
+			$dceFolderPath = PATH_site . $path . $dceIdentifier . DIRECTORY_SEPARATOR;
+
+			if (!file_exists($dceFolderPath) && !is_dir($dceFolderPath)) {
+				mkdir($dceFolderPath, 0777, TRUE); // TODO: Load folder rights from typo3 conf
+			}
+
+			\TYPO3\CMS\Core\Utility\DebugUtility::debug($dceIdentifier, 'Debug');
+
+
+
+			$dceSettings = reset($datamap['tx_dce_domain_model_dce']);
+			$fields = array();
+			foreach (t3lib_div::trimExplode(',', $dceSettings['fields'], TRUE) as $fieldId) {
+				$fieldSettings = $datamap['tx_dce_domain_model_dcefield'][$fieldId];
+
+				if (intval($fieldSettings['type']) === 2) {
+					$sectionFields = array();
+					foreach (t3lib_div::trimExplode(',', $fieldSettings['section_fields'], TRUE) as $sectionFieldId) {
+						$sectionFields[$sectionFieldId] = $datamap['tx_dce_domain_model_dcefield'][$sectionFieldId];
+					}
+					$fieldSettings['section_fields'] = $sectionFields;
+				}
+
+				$fields[$fieldId] = $fieldSettings;
+			}
+			$dceSettings['fields'] = $fields;
+
+
+
+
+
+
+
+
+			/** @var Tx_Dce_Utility_TypoScript $typoScriptUtility */
+			$typoScriptUtility = t3lib_div::makeInstance('Tx_Dce_Utility_TypoScript');
+			$dceTypoScript = $typoScriptUtility->convertArrayToTypoScript($dceSettings, 'tx_dce.static.' . $dceIdentifier);
+
+
+
+			file_put_contents($dceFolderPath . 'Dce.ts', $dceTypoScript);
+
+			$cObj->datamap = array();
+		}
+	}
+
+//	public function processDatamap_preProcessFieldArray(&$incomingFieldArray, $table, &$id, $cObj) {
+//		if (in_array($table, array('tx_dce_domain_model_dce', 'tx_dce_domain_model_dcefield'))) {
+
+//			\TYPO3\CMS\Core\Utility\DebugUtility::debug($incomingFieldArray, $table . ' - ' . $id);
+
+//			$incomingFieldArray = array();
+//			$id = 0;
+//		}
+//	}
+
 	/**
 	 * Hook action
 	 *
