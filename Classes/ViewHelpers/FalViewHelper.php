@@ -43,12 +43,19 @@ class Tx_Dce_ViewHelpers_FalViewHelper extends Tx_Fluid_Core_ViewHelper_Abstract
 	public function render($field, array $contentObject) {
 		$contentObjectUid = intval($contentObject['uid']);
 
-		/** @var t3lib_DB $typo3Database */
-		$typo3Database = Tx_Dce_Utility_DatabaseUtility::getDatabaseConnection();
-		$rows = $typo3Database->exec_SELECTgetRows(
+		$pageSelect = t3lib_div::makeInstance('t3lib_pageSelect');
+		$tableName = 'tt_content';
+		$rows = Tx_Dce_Utility_DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
 			'uid',
 			'sys_file_reference',
-			'tablenames = "tt_content" AND uid_foreign = ' . $contentObjectUid . ' AND fieldname = "' . $field . '"'
+			'tablenames=' . Tx_Dce_Utility_DatabaseUtility::getDatabaseConnection()->fullQuoteStr($tableName, 'sys_file_reference') .
+				' AND uid_foreign=' . $contentObjectUid .
+				' AND fieldname=' . Tx_Dce_Utility_DatabaseUtility::getDatabaseConnection()->fullQuoteStr($field, 'sys_file_reference')
+				. $pageSelect->enableFields('sys_file_reference', $pageSelect->showHiddenRecords),
+			'',
+			'sorting_foreign',
+			'',
+			'uid'
 		);
 
 		/** @var \TYPO3\CMS\Core\Resource\FileRepository $fileRepository */
