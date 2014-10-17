@@ -14,9 +14,11 @@
 <f:section name="content">
 	<dce:be.includeCssFile path="{f:uri.resource(path:'CSS/dceModule.css', extensionName: 'dce')}" />
 
-	<div class="versioncheck">
-		<a href="http://dce.v.ieweg.de/versioncheck/update" target="_blank"><img src="http://dce.v.ieweg.de/versioncheck?t3={dce:be.currentTypo3Version()}&amp;dce={dce:be.currentDceVersion()}&amp;l={dce:be.currentLanguage()}" alt="" /></a>
-	</div>
+    <f:if condition="{enableUpdateCheck}">
+        <div class="versioncheck">
+            <a href="http://dce.v.ieweg.de/versioncheck/update" target="_blank"><img src="http://dce.v.ieweg.de/versioncheck?t3={dce:be.currentTypo3Version()}&amp;dce={dce:be.currentDceVersion()}&amp;l={dce:be.currentLanguage()}" alt="" /></a>
+        </div>
+    </f:if>
 	<div class="buttons">
 		<div class="button">
 			<input type="button" value="{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang_mod.xml:goToListView')}" onclick="location.href = '{f:uri.page(additionalParams:'{M:\'web_list\', id:\'0\', table:\'tx_dce_domain_model_dce\', imagemode:\'1\'}')}';" />

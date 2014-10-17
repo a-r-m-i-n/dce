@@ -6,3 +6,6 @@ disableCodemirror = 0
 
 # cat=general/disable; type=boolean; label=Disable preview autoupdate: If enabled the preview texts of existing content elements based on DCE, are not getting updated automatically when the DCE changed. A link in preview text will be displayed to update the texts manually with ajax. (not recommended, only on problems)
 disablePreviewAutoUpdate = 0
+
+# cat=general/disable; type=boolean; label=Disable update check: The backend module contains a check if there are new DCE versions available. This options disables the check.
+disableUpdateCheck = 0
