@@ -11,7 +11,7 @@
 Privacy Policy
 ====================
 
-The backend module of DCE contains an image which is located on my server. It shows the user if there
+The backend module of DCE may contain an image which is located on my server. It shows the user if there
 is a new DCE version available.
 
 It passes:
@@ -27,12 +27,10 @@ I'm going to publish some interesting graphs based on these data on the `Faceboo
 
 .. _Facebook page: https://www.facebook.com/TYPO3.DCE.Extension
 
+**Since version 0.11.5 this option is disabled by default!**
 
-Disable the update check
-------------------------
 
-In the extension settings of DCE you are able to disable the check of new versions of DCE.
+Enable the update check
+-----------------------
 
-Then no image will be loaded and no data will be passed. In `this forge ticket`_ you'll see the changed code and ensure that no data will be passed anymore, if the option is set.
-
-.. _this forge ticket: https://forge.typo3.org/issues/62302
+In the extension settings of DCE you are able to enable the check of new versions of DCE. Then the image will be embedded and the mentioned data will be passed.
