@@ -38,6 +38,10 @@ class Tx_Dce_Controller_DceModuleController extends Tx_Extbase_MVC_Controller_Ac
 	 * @return void
 	 */
 	public function indexAction() {
+		$extConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dce']);
+		$disableUpdateCheck = (boolean) $extConfiguration['disableUpdateCheck'];
+
+		$this->view->assign('enableUpdateCheck', !$disableUpdateCheck);
 	}
 
 	/**

@@ -27,7 +27,7 @@ Configure Extension dce
 
 Successive all options are listed that can be configured for the DCE extension in the extension manager.
 
-.. image:: ../Images/AdministratorManual/extensionConfiguration.png
+.. image:: ../Images/AdministratorManual/extensionConfiguration2.png
 	:alt: DCE Extension configuration
 
 Disable automatic clear cache
@@ -45,6 +45,14 @@ Disable preview autoupdate
 """"""""""""""""""""""""""
 
 If enabled the preview texts of existing content elements based on DCE, are not getting updated automatically when the DCE changed. A link in preview text will be displayed to update the texts manually with ajax. This is not recommended, use it only when having problems.
+
+
+Disable update check
+""""""""""""""""""""
+
+The backend module contains a check if there are new DCE versions available. This options disables the check. See also :doc:`/PrivacyPolicy/Index`.
+
+
 
 DCE Popup Link in DCE instance (content element)
 ------------------------------------------------
