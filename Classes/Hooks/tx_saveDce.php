@@ -46,26 +46,55 @@ class tx_saveDce {
 	public function processDatamap_beforeStart(\TYPO3\CMS\Core\DataHandling\DataHandler $cObj) {
 		if (array_key_exists('tx_dce_domain_model_dce', $cObj->datamap)) {
 			$this->extConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dce']);
+
 			$datamap = $cObj->datamap;
+			$test = $cObj->cmdmap;
+			\TYPO3\CMS\Core\Utility\DebugUtility::debug($test, 'Test');
 
 			$path = $this->extConfiguration['filebasedDcePaths'];
 			if (substr($path, -1) !== DIRECTORY_SEPARATOR) {
 				$path .= DIRECTORY_SEPARATOR;
 			}
 			$dceIdentifier = reset(array_keys($datamap['tx_dce_domain_model_dce']));
-			$dceFolderPath = PATH_site . $path . $dceIdentifier . DIRECTORY_SEPARATOR;
+			$newValues = reset($datamap['tx_dce_domain_model_dce']);
+			$newIdentifier = $newValues['identifier'];
+			$dceFolderPath = PATH_site . $path . $newIdentifier . DIRECTORY_SEPARATOR;
 
-			if (!file_exists($dceFolderPath) && !is_dir($dceFolderPath)) {
-				mkdir($dceFolderPath, 0777, TRUE); // TODO: Load folder rights from typo3 conf
+			/** @var \ArminVieweg\Dce\Utility\StaticDce $staticDceUtility */
+			$staticDceUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('ArminVieweg\Dce\Utility\StaticDce');
+			$oldValues = $staticDceUtility->getStaticDce($dceIdentifier);
+
+
+			if (!empty($oldValues)) {
+				$oldIdentifier = $oldValues['identifier'];
 			}
 
-			\TYPO3\CMS\Core\Utility\DebugUtility::debug($dceIdentifier, 'Debug');
 
 
+			\TYPO3\CMS\Core\Utility\DebugUtility::debug(array(
+				$oldIdentifier, $newIdentifier
+			), 'Debug');
 
-			$dceSettings = reset($datamap['tx_dce_domain_model_dce']);
+			$renamed = FALSE;
+			if (isset($oldIdentifier) && $oldIdentifier !== $newIdentifier) {
+				// Rename
+				rename(PATH_site . $path . $oldIdentifier . DIRECTORY_SEPARATOR, $dceFolderPath);
+				$renamed = TRUE;
+			} else {
+				// Create
+				if (!file_exists($dceFolderPath) && !is_dir($dceFolderPath)) {
+					mkdir($dceFolderPath, 0777, TRUE);
+					\TYPO3\CMS\Core\Utility\GeneralUtility::fixPermissions($dceFolderPath);
+				}
+			}
+
+			unset($newValues['identifier']);
+
+//			\TYPO3\CMS\Core\Utility\DebugUtility::debug($newValues, 'New');
+//			\TYPO3\CMS\Core\Utility\DebugUtility::debug($oldValues, 'Old');
+
 			$fields = array();
-			foreach (t3lib_div::trimExplode(',', $dceSettings['fields'], TRUE) as $fieldId) {
+			foreach (t3lib_div::trimExplode(',', $newValues['fields'], TRUE) as $fieldId) {
 				$fieldSettings = $datamap['tx_dce_domain_model_dcefield'][$fieldId];
 
 				if (intval($fieldSettings['type']) === 2) {
@@ -78,7 +107,7 @@ class tx_saveDce {
 
 				$fields[$fieldId] = $fieldSettings;
 			}
-			$dceSettings['fields'] = $fields;
+			$newValues['fields'] = $fields;
 
 
 
@@ -89,13 +118,21 @@ class tx_saveDce {
 
 			/** @var Tx_Dce_Utility_TypoScript $typoScriptUtility */
 			$typoScriptUtility = t3lib_div::makeInstance('Tx_Dce_Utility_TypoScript');
-			$dceTypoScript = $typoScriptUtility->convertArrayToTypoScript($dceSettings, 'tx_dce.static.' . $dceIdentifier);
+			$dceTypoScript = $typoScriptUtility->convertArrayToTypoScript($newValues, 'tx_dce.static.' . $newIdentifier);
 
 
 
 			file_put_contents($dceFolderPath . 'Dce.ts', $dceTypoScript);
 
 			$cObj->datamap = array();
+
+			$saveOnly = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('_savedok_x') && \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('_savedok_y');
+			if ($saveOnly === TRUE && $renamed === TRUE) {
+				header('Location: alt_doc.php?edit[tx_dce_domain_model_dce][' . $newIdentifier . ']=edit&returnUrl=' . urlencode(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('returnUrl')));
+				die;
+			}
+
+
 		}
 	}
 
