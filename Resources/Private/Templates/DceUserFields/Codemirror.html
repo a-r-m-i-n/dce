@@ -5,7 +5,6 @@
 	<dce:be.includeCssFile path="{f:uri.resource(path:'Libraries/codemirror/codemirror.css', extensionName:'dce')}" />
 	<dce:be.includeCssFile path="{f:uri.resource(path:'Libraries/codemirror/codemirror_custom.css', extensionName:'dce')}" />
 
-	<dce:be.includeJsFile path="{f:uri.resource(path:'Libraries/codemirror/codemirror_custom.min.js', extensionName:'dce')}" />
 	<dce:be.includeJsFile path="{f:uri.resource(path:'Libraries/codemirror/init.js', extensionName:'dce')}" />
 </f:section>
 
@@ -33,7 +32,7 @@
 		<f:then></f:then>
 		<f:else>
 			<script type="text/javascript">
-				initCodeMirrorEditor($('codemirror_{uniqueIdentifier}'));
+				initCodeMirrorEditor($('codemirror_{uniqueIdentifier}'), '{parameters.mode}');
 			</script>
 		</f:else>
 	</f:if>

@@ -50,7 +50,7 @@ class tx_dce_codemirrorField {
 
 		$fluidTemplate->setLayoutRootPath(t3lib_div::getFileAbsFileName('EXT:dce/Resources/Private/Layouts/'));
 		$fluidTemplate->setPartialRootPath(t3lib_div::getFileAbsFileName('EXT:dce/Resources/Private/Partials/'));
-		$fluidTemplate->setTemplatePathAndFilename(t3lib_div::getFileAbsFileName('EXT:dce/Resources/Private/Templates/DceUserFields/Coldmirror.html'));
+		$fluidTemplate->setTemplatePathAndFilename(t3lib_div::getFileAbsFileName('EXT:dce/Resources/Private/Templates/DceUserFields/Codemirror.html'));
 
 		$fluidTemplate->assign('name', $this->parameter['itemFormElName']);
 		$fluidTemplate->assign('value', $this->parameter['itemFormElValue']);
