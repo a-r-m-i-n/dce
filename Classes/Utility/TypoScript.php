@@ -100,6 +100,14 @@ class Tx_Dce_Utility_TypoScript {
 				if (strpos($value, "\n") === FALSE) {
 					$typoScript .= str_repeat("\t", ($tab === 0) ? $tab : $tab - 1) . "$key = $value\n";
 				} else {
+					if ($key === 'configuration') {
+						$valueLines = explode("\n", $value);
+						$indentedValueLines = array();
+						foreach ($valueLines as $valueLine) {
+							$indentedValueLines[] = str_repeat("\t", $tab) . $valueLine;
+						}
+						$value = implode("\n", $indentedValueLines);
+					}
 					$typoScript .= str_repeat("\t", ($tab === 0) ? $tab : $tab - 1) . "$key (\n$value\n" . str_repeat("\t", ($tab === 0) ? $tab : $tab - 1) . ")\n";
 				}
 

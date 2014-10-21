@@ -48,8 +48,6 @@ class tx_saveDce {
 			$this->extConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dce']);
 
 			$datamap = $cObj->datamap;
-			$test = $cObj->cmdmap;
-			\TYPO3\CMS\Core\Utility\DebugUtility::debug($test, 'Test');
 
 			$path = $this->extConfiguration['filebasedDcePaths'];
 			if (substr($path, -1) !== DIRECTORY_SEPARATOR) {
@@ -70,16 +68,17 @@ class tx_saveDce {
 			}
 
 
-
-			\TYPO3\CMS\Core\Utility\DebugUtility::debug(array(
-				$oldIdentifier, $newIdentifier
-			), 'Debug');
-
 			$renamed = FALSE;
 			if (isset($oldIdentifier) && $oldIdentifier !== $newIdentifier) {
-				// Rename
-				rename(PATH_site . $path . $oldIdentifier . DIRECTORY_SEPARATOR, $dceFolderPath);
-				$renamed = TRUE;
+				if (file_exists($dceFolderPath)) {
+					\ArminVieweg\Dce\Utility\FlashMessage::add('Another DCE with name "' . $newIdentifier . '" already exists.', 'Renaming failed', \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR);
+					$newIdentifier = $oldIdentifier;
+					$dceFolderPath = PATH_site . $path . $newIdentifier . DIRECTORY_SEPARATOR;
+				} else {
+						// Rename
+					rename(PATH_site . $path . $oldIdentifier . DIRECTORY_SEPARATOR, $dceFolderPath);
+					$renamed = TRUE;
+				}
 			} else {
 				// Create
 				if (!file_exists($dceFolderPath) && !is_dir($dceFolderPath)) {
@@ -90,9 +89,6 @@ class tx_saveDce {
 
 			unset($newValues['identifier']);
 
-//			\TYPO3\CMS\Core\Utility\DebugUtility::debug($newValues, 'New');
-//			\TYPO3\CMS\Core\Utility\DebugUtility::debug($oldValues, 'Old');
-
 			$fields = array();
 			foreach (t3lib_div::trimExplode(',', $newValues['fields'], TRUE) as $fieldId) {
 				$fieldSettings = $datamap['tx_dce_domain_model_dcefield'][$fieldId];
@@ -100,27 +96,46 @@ class tx_saveDce {
 				if (intval($fieldSettings['type']) === 2) {
 					$sectionFields = array();
 					foreach (t3lib_div::trimExplode(',', $fieldSettings['section_fields'], TRUE) as $sectionFieldId) {
-						$sectionFields[$sectionFieldId] = $datamap['tx_dce_domain_model_dcefield'][$sectionFieldId];
+						$sectionFieldVariable = $datamap['tx_dce_domain_model_dcefield'][$sectionFieldId]['variable'];
+						if ($sectionFieldId !== $sectionFieldVariable) {
+							$sectionFields[$sectionFieldVariable] = $datamap['tx_dce_domain_model_dcefield'][$sectionFieldId];
+						} else {
+							$sectionFields[$sectionFieldId] = $datamap['tx_dce_domain_model_dcefield'][$sectionFieldId];
+						}
 					}
 					$fieldSettings['section_fields'] = $sectionFields;
 				}
 
-				$fields[$fieldId] = $fieldSettings;
+				if ($fieldId !== $fieldSettings['variable']) {
+					$fields[$fieldSettings['variable']] = $fieldSettings;
+				} else {
+					$fields[$fieldId] = $fieldSettings;
+				}
 			}
+
+
 			$newValues['fields'] = $fields;
 
+			file_put_contents($dceFolderPath . 'Frontend.html', $newValues['template_content']);
+			file_put_contents($dceFolderPath . 'BackendHeader.html', $newValues['header_preview']);
+			file_put_contents($dceFolderPath . 'BackendBodytext.html', $newValues['bodytext_preview']);
+			file_put_contents($dceFolderPath . 'Detailpage.html', $newValues['detailpage_template']);
 
+			\TYPO3\CMS\Core\Utility\GeneralUtility::fixPermissions($dceFolderPath, TRUE);
 
-
-
-
+			unset($newValues['type']);
+			unset($newValues['template_type']);
+			unset($newValues['template_content']);
+			unset($newValues['detailpage_template_type']);
+			unset($newValues['detailpage_template']);
+			unset($newValues['preview_template_type']);
+			unset($newValues['header_preview']);
+			unset($newValues['bodytext_preview']);
 
 
 			/** @var Tx_Dce_Utility_TypoScript $typoScriptUtility */
 			$typoScriptUtility = t3lib_div::makeInstance('Tx_Dce_Utility_TypoScript');
-			$dceTypoScript = $typoScriptUtility->convertArrayToTypoScript($newValues, 'tx_dce.static.' . $newIdentifier);
-
-
+			$dceTypoScript = $typoScriptUtility->convertArrayToTypoScript($newValues, 'tx_dce.static');
 
 			file_put_contents($dceFolderPath . 'Dce.ts', $dceTypoScript);
 
@@ -128,11 +143,9 @@ class tx_saveDce {
 
 			$saveOnly = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('_savedok_x') && \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('_savedok_y');
 			if ($saveOnly === TRUE && $renamed === TRUE) {
+				ob_clean();
 				header('Location: alt_doc.php?edit[tx_dce_domain_model_dce][' . $newIdentifier . ']=edit&returnUrl=' . urlencode(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('returnUrl')));
-				die;
 			}
-
-
 		}
 	}
 

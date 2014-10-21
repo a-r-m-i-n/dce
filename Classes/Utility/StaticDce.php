@@ -59,37 +59,39 @@ class StaticDce {
 			$path .= DIRECTORY_SEPARATOR;
 		}
 		$dceFolderPath = PATH_site . $path . $identifier . DIRECTORY_SEPARATOR;
+
 		if (is_dir($dceFolderPath) && file_exists($dceFolderPath . 'Dce.ts')) {
 			$dceConfiguration = file_get_contents($dceFolderPath . 'Dce.ts');
 			$configurationArray = static::$typoscriptUtility->parseTypoScriptString($dceConfiguration, TRUE);
 
 			$frontendTemplateFile = $dceFolderPath . 'Frontend.html';
 			if (file_exists($frontendTemplateFile)) {
-				$configurationArray['tx_dce']['static'][$identifier]['template_content'] = file_get_contents($frontendTemplateFile);
+				$configurationArray['tx_dce']['static']['template_content'] = file_get_contents($frontendTemplateFile);
 			}
 
 			$backendHeaderTemplateFile = $dceFolderPath . 'BackendHeader.html';
 			if (file_exists($backendHeaderTemplateFile)) {
-				$configurationArray['tx_dce']['static'][$identifier]['header_preview'] = file_get_contents($backendHeaderTemplateFile);
+				$configurationArray['tx_dce']['static']['header_preview'] = file_get_contents($backendHeaderTemplateFile);
 			}
 
 			$backendBodytextTemplateFile = $dceFolderPath . 'BackendBodytext.html';
 			if (file_exists($backendBodytextTemplateFile)) {
-				$configurationArray['tx_dce']['static'][$identifier]['bodytext_preview'] = file_get_contents($backendBodytextTemplateFile);
+				$configurationArray['tx_dce']['static']['bodytext_preview'] = file_get_contents($backendBodytextTemplateFile);
 			}
 
 			$backendBodytextTemplateFile = $dceFolderPath . 'Detailpage.html';
 			if (file_exists($backendBodytextTemplateFile)) {
-				$configurationArray['tx_dce']['static'][$identifier]['detailpage_template'] = file_get_contents($backendBodytextTemplateFile);
+				$configurationArray['tx_dce']['static']['detailpage_template'] = file_get_contents($backendBodytextTemplateFile);
 			}
 
-			$configurationArray['tx_dce']['static'][$identifier]['identifier'] = $identifier;
-			$configurationArray['tx_dce']['static'][$identifier]['template_type'] = 'inline';
-			$configurationArray['tx_dce']['static'][$identifier]['preview_template_type'] = 'inline';
-			$configurationArray['tx_dce']['static'][$identifier]['detailpage_template_type'] = 'inline';
+			$configurationArray['tx_dce']['static']['identifier'] = $identifier;
+			$configurationArray['tx_dce']['static']['pid'] = '0';
+			$configurationArray['tx_dce']['static']['type'] = '1';
+			$configurationArray['tx_dce']['static']['template_type'] = 'inline';
+			$configurationArray['tx_dce']['static']['preview_template_type'] = 'inline';
+			$configurationArray['tx_dce']['static']['detailpage_template_type'] = 'inline';
 
-
-			return $configurationArray['tx_dce']['static'][$identifier];
+			return $configurationArray['tx_dce']['static'];
 		}
 	}
 

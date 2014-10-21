@@ -26,6 +26,8 @@ class DataPreprocessor extends \TYPO3\CMS\Backend\Form\DataPreprocessor {
 			$staticDceValues = static::$staticDceUtility->getStaticDce($idList);
 			static::$staticDceConfiguration = array_merge($staticDceValues, array('uid' => $idList, 'type' => 1));
 			$this->renderRecord($table, $idList, 0, static::$staticDceConfiguration);
+			header('X-XSS-Protection: 0');
+			//\TYPO3\CMS\Core\Utility\DebugUtility::debug($idList, 'DCE');
 		} else if ($table === 'tx_dce_domain_model_dcefield' && !is_numeric($idList) && static::$staticDceConfiguration !== NULL) {
 			if (isset(static::$staticDceConfiguration['fields'][$idList])) {
 					// Normal fields
@@ -41,11 +43,35 @@ class DataPreprocessor extends \TYPO3\CMS\Backend\Form\DataPreprocessor {
 				}
 			}
 
-			$row = array_merge($row, array('uid' => $idList, 'variable' => $idList));
+			$row = $this->resetIndention(array_merge($row, array('uid' => $idList, 'variable' => $idList)));
 			$this->renderRecord($table, $idList, 0, $row);
 		} else {
 			parent::fetchRecord($table, $idList, $operation);
 		}
+	}
+
+	/**
+	 * Resets indention of given row's configuration
+	 *
+	 * @param array $row
+	 * @return array
+	 */
+	protected function resetIndention($row) {
+		if (isset($row['configuration'])) {
+			$smallestDifference = 1000;
+			foreach (explode("\n", $row['configuration']) as $configurationLine) {
+				$difference = strlen($configurationLine) - strlen(ltrim($configurationLine, "\t"));
+				if ($difference > 0 && $difference < $smallestDifference) {
+					$smallestDifference = $difference;
+				}
+			}
+			$lines = array();
+			foreach (explode("\n", $row['configuration']) as $configurationLine) {
+				$lines[] = substr($configurationLine, $smallestDifference);
+			}
+			$row['configuration'] = trim(implode("\n", $lines), "\n");
+		}
+		return $row;
 	}
 
 	public function renderRecord_inlineProc($data, $fieldConfig, $TSconfig, $table, $row, $field) {
