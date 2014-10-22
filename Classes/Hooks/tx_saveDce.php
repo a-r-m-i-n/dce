@@ -46,14 +46,17 @@ class tx_saveDce {
 	public function processDatamap_beforeStart(\TYPO3\CMS\Core\DataHandling\DataHandler $cObj) {
 		if (array_key_exists('tx_dce_domain_model_dce', $cObj->datamap)) {
 			$this->extConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dce']);
-
 			$datamap = $cObj->datamap;
+
+			$dceIdentifier = reset(array_keys($datamap['tx_dce_domain_model_dce']));
+			if (is_numeric($dceIdentifier)) {
+				return;
+			}
 
 			$path = $this->extConfiguration['filebasedDcePaths'];
 			if (substr($path, -1) !== DIRECTORY_SEPARATOR) {
 				$path .= DIRECTORY_SEPARATOR;
 			}
-			$dceIdentifier = reset(array_keys($datamap['tx_dce_domain_model_dce']));
 			$newValues = reset($datamap['tx_dce_domain_model_dce']);
 			$newIdentifier = $newValues['identifier'];
 			$dceFolderPath = PATH_site . $path . $newIdentifier . DIRECTORY_SEPARATOR;
