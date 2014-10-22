@@ -9,8 +9,8 @@ $TCA['tx_dce_domain_model_dce'] = array(
 		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden',
 	),
 	'types' => array(
-		'0' => array('showitem' => 'hidden;;1,type,title,fields,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.template,template_type,template_content;;;fixed-font:enable-tab,template_file,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.wizard,wizard_enable,wizard_category,wizard_description,wizard_icon,wizard_custom_icon,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.detailpage,enable_detailpage,detailpage_identifier,detailpage_template_type,detailpage_template,detailpage_template_file,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.miscellaneous,cache_dce,preview_template_type,header_preview,header_preview_template_file,bodytext_preview,bodytext_preview_template_file,hide_default_ce_wrap,show_access_tab,show_category_tab,palette_fields,template_layout_root_path,template_partial_root_path,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.preview,dce_preview'),
-		'1' => array('showitem' => 'hidden;;1,type,identifier,title,fields,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.template,template_content;;;fixed-font:enable-tab,template_file,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.wizard,wizard_enable,wizard_category,wizard_description,wizard_icon,wizard_custom_icon,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.detailpage,enable_detailpage,detailpage_identifier,detailpage_template,detailpage_template_file,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.miscellaneous,cache_dce,header_preview,header_preview_template_file,bodytext_preview,bodytext_preview_template_file,hide_default_ce_wrap,show_access_tab,show_category_tab,palette_fields,template_layout_root_path,template_partial_root_path'),
+		'0' => array('showitem' => 'hidden;;1,type,title,fields,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.template,template_type,template_content;;;fixed-font:enable-tab,template_file,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.backendTemplate,preview_template_type,header_preview,header_preview_template_file,bodytext_preview,bodytext_preview_template_file,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.wizard,wizard_enable,wizard_category,wizard_description,wizard_icon,wizard_custom_icon,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.detailpage,enable_detailpage,detailpage_identifier,detailpage_template_type,detailpage_template,detailpage_template_file,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.miscellaneous,cache_dce,hide_default_ce_wrap,show_access_tab,show_category_tab,palette_fields,template_layout_root_path,template_partial_root_path,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.preview,dce_preview'),
+		'1' => array('showitem' => 'hidden;;1,type,identifier,title,fields,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.template,template_content;;;fixed-font:enable-tab,template_file,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.backendTemplate,preview_template_type,header_preview,header_preview_template_file,bodytext_preview,bodytext_preview_template_file,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.wizard,wizard_enable,wizard_category,wizard_description,wizard_icon,wizard_custom_icon,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.detailpage,enable_detailpage,detailpage_identifier,detailpage_template,detailpage_template_file,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.miscellaneous,cache_dce,hide_default_ce_wrap,show_access_tab,show_category_tab,palette_fields,template_layout_root_path,template_partial_root_path'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -71,6 +71,7 @@ $TCA['tx_dce_domain_model_dce'] = array(
 					array('LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.type.databased', 0),
 					array('LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.type.filebased', 1),
 				),
+				'readOnly' => TRUE,
 			),
 		),
 		'identifier' => array(
@@ -426,6 +427,7 @@ $TCA['tx_dce_domain_model_dce'] = array(
 		'detailpage_identifier' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.detailpageIdentifier',
+			'displayCond' => 'FIELD:enable_detailpage:=:1',
 			'config' => array(
 				'type' => 'input',
 				'size' => 30,
@@ -437,6 +439,7 @@ $TCA['tx_dce_domain_model_dce'] = array(
 		'detailpage_template_type' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.templateType',
+			'displayCond' => 'FIELD:enable_detailpage:=:1',
 			'config' => array(
 				'type' => 'select',
 				'items' => array(
@@ -448,7 +451,8 @@ $TCA['tx_dce_domain_model_dce'] = array(
 		'detailpage_template' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.detailpageTemplate',
-			'displayCond' => 'FIELD:detailpage_template_type:!IN:file',
+//			'displayCond' => 'FIELD:detailpage_template_type:!IN:file',
+			'displayCond' => array('AND' => array('FIELD:enable_detailpage:=:1', 'FIELD:detailpage_template_type:!IN:file')),
 			'config' => array (
 				'type' => 'user',
 				'size' => '30',
@@ -468,7 +472,8 @@ $TCA['tx_dce_domain_model_dce'] = array(
 		'detailpage_template_file' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.detailpageTemplateFile',
-			'displayCond' => 'FIELD:detailpage_template_type:IN:file',
+//			'displayCond' => 'FIELD:detailpage_template_type:IN:file',
+			'displayCond' => array('AND' => array('FIELD:enable_detailpage:=:1', 'FIELD:detailpage_template_type:IN:file')),
 			'config' => array(
 				'type' => 'input',
 				'eval' => 'trim',

@@ -49,7 +49,7 @@ $TCA['tx_dce_domain_model_dce'] = array(
         ),
 		'copyAfterDuplFields' => 'fields',
         'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'Configuration/TCA/Dce.php',
-		'requestUpdate' => 'wizard_enable,template_type,preview_template_type,detailpage_template_type',
+		'requestUpdate' => 'wizard_enable,template_type,preview_template_type,detailpage_template_type,enable_detailpage',
 		'type' => 'type',
 		'typeicon_column' => 'type',
 		'typeicons' => array(
