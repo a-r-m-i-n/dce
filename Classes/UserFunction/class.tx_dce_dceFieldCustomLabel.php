@@ -51,7 +51,11 @@ class tx_dce_dceFieldCustomLabel {
 			}
 		} else {
 			// Section child field
-			$parentFieldRow = $this->getDceFieldRecordByUid($parameter['parent']['uid']);
+			if (is_numeric($parameter['parent']['uid'])) {
+				$parentFieldRow = $this->getDceFieldRecordByUid($parameter['parent']['uid']);
+			} else {
+				$parentFieldRow = array('variable' => $parameter['parent']['uid']);
+			}
 			$parameter['title'] = $parameter['row']['title'] . ' <i style="font-weight: normal">{field.' . $parentFieldRow['variable'] . '.<span style="color: blue;">n.</span>' . $parameter['row']['variable'] . '}</i>';
 		}
 	}
