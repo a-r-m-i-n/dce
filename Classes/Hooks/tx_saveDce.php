@@ -49,7 +49,7 @@ class tx_saveDce {
 			$datamap = $cObj->datamap;
 
 			$dceIdentifier = reset(array_keys($datamap['tx_dce_domain_model_dce']));
-			if (is_numeric($dceIdentifier)) {
+			if (is_numeric($dceIdentifier) || strpos($dceIdentifier, 'NEW') === 0) {
 				return;
 			}
 

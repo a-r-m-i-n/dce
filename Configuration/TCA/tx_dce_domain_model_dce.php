@@ -3,14 +3,59 @@ if (!defined ('TYPO3_MODE')) {
 	die ('Access denied.');
 }
 
-$TCA['tx_dce_domain_model_dce'] = array(
-	'ctrl' => $TCA['tx_dce_domain_model_dce']['ctrl'],
+$ll = 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:';
+$extensionPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('dce');
+
+return array(
+	'ctrl' => array(
+		'title'    => $ll . 'tx_dce_domain_model_dce',
+		'label' => 'title',
+		'adminOnly' => 1,
+		'rootLevel' => 1,
+		'tstamp' => 'tstamp',
+		'crdate' => 'crdate',
+		'cruser_id' => 'cruser_id',
+		'dividers2tabs' => TRUE,
+		'versioningWS' => 2,
+		'versioning_followPages' => TRUE,
+		'origUid' => 't3_origuid',
+		'delete' => 'deleted',
+		'sortby' => 'sorting',
+		'enablecolumns' => array(
+			'disabled' => 'hidden',
+			'starttime' => 'starttime',
+			'endtime' => 'endtime',
+		),
+		'copyAfterDuplFields' => 'fields',
+		'requestUpdate' => 'wizard_enable,template_type,preview_template_type,detailpage_template_type,enable_detailpage',
+		'type' => 'type',
+		'typeicon_column' => 'type',
+		'typeicons' => array(
+			'0' => $extensionPath . 'Resources/Public/Icons/tx_dce_domain_model_dce_databased.gif',
+			'1' => $extensionPath . 'Resources/Public/Icons/tx_dce_domain_model_dce_filebased.gif',
+		),
+	),
 	'interface' => array(
 		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden',
 	),
 	'types' => array(
-		'0' => array('showitem' => 'hidden;;1,type,title,fields,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.template,template_type,template_content;;;fixed-font:enable-tab,template_file,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.backendTemplate,preview_template_type,header_preview,header_preview_template_file,bodytext_preview,bodytext_preview_template_file,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.wizard,wizard_enable,wizard_category,wizard_description,wizard_icon,wizard_custom_icon,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.detailpage,enable_detailpage,detailpage_identifier,detailpage_template_type,detailpage_template,detailpage_template_file,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.miscellaneous,cache_dce,hide_default_ce_wrap,show_access_tab,show_category_tab,palette_fields,template_layout_root_path,template_partial_root_path,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.preview,dce_preview'),
-		'1' => array('showitem' => 'hidden;;1,type,identifier,title,fields,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.template,template_content;;;fixed-font:enable-tab,template_file,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.backendTemplate,preview_template_type,header_preview,header_preview_template_file,bodytext_preview,bodytext_preview_template_file,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.wizard,wizard_enable,wizard_category,wizard_description,wizard_icon,wizard_custom_icon,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.detailpage,enable_detailpage,detailpage_identifier,detailpage_template,detailpage_template_file,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.miscellaneous,cache_dce,hide_default_ce_wrap,show_access_tab,show_category_tab,palette_fields,template_layout_root_path,template_partial_root_path'),
+			// Database DCE
+		'0' => array(
+			'showitem' => 'hidden;;1,type,title,fields,
+			--div--;' . $ll . 'tx_dce_domain_model_dce.template,template_type,template_content;;;fixed-font:enable-tab,template_file,
+			--div--;' . $ll . 'tx_dce_domain_model_dce.backendTemplate,preview_template_type,header_preview,header_preview_template_file,bodytext_preview,bodytext_preview_template_file,
+			--div--;' . $ll . 'tx_dce_domain_model_dce.wizard,wizard_enable,wizard_category,wizard_description,wizard_icon,wizard_custom_icon,
+			--div--;' . $ll . 'tx_dce_domain_model_dce.detailpage,enable_detailpage,detailpage_identifier,detailpage_template_type,detailpage_template,detailpage_template_file,
+			--div--;' . $ll . 'tx_dce_domain_model_dce.miscellaneous,cache_dce,hide_default_ce_wrap,show_access_tab,show_category_tab,palette_fields,template_layout_root_path,template_partial_root_path,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.preview,dce_preview'
+		),
+			// Filebased DCE
+		'1' => array(
+			'showitem' => 'hidden;;1,type,identifier,title,fields,
+			--div--;' . $ll . 'tx_dce_domain_model_dce.template,template_content;;;fixed-font:enable-tab,template_file,
+			--div--;' . $ll . 'tx_dce_domain_model_dce.backendTemplate,preview_template_type,header_preview,header_preview_template_file,bodytext_preview,bodytext_preview_template_file,
+			--div--;' . $ll . 'tx_dce_domain_model_dce.wizard,wizard_enable,wizard_category,wizard_description,wizard_icon,wizard_custom_icon,
+			--div--;' . $ll . 'tx_dce_domain_model_dce.detailpage,enable_detailpage,detailpage_identifier,detailpage_template,detailpage_template_file,
+			--div--;' . $ll . 'tx_dce_domain_model_dce.miscellaneous,cache_dce,hide_default_ce_wrap,show_access_tab,show_category_tab,palette_fields,template_layout_root_path,template_partial_root_path'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -64,19 +109,19 @@ $TCA['tx_dce_domain_model_dce'] = array(
 		),
 		'type' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.type',
+			'label' => $ll . 'tx_dce_domain_model_dce.type',
 			'config' => array(
 				'type' => 'select',
 				'items' => array(
-					array('LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.type.databased', 0),
-					array('LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.type.filebased', 1),
+					array($ll . 'tx_dce_domain_model_dce.type.databased', 0),
+					array($ll . 'tx_dce_domain_model_dce.type.filebased', 1),
 				),
 				'readOnly' => TRUE,
 			),
 		),
 		'identifier' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.identifier',
+			'label' => $ll . 'tx_dce_domain_model_dce.identifier',
 			'config' => array(
 				'type' => 'input',
 				'size' => 30,
@@ -86,7 +131,7 @@ $TCA['tx_dce_domain_model_dce'] = array(
 		),
 		'title' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.title',
+			'label' => $ll . 'tx_dce_domain_model_dce.title',
 			'config' => array(
 				'type' => 'input',
 				'size' => 30,
@@ -95,7 +140,7 @@ $TCA['tx_dce_domain_model_dce'] = array(
 		),
 		'fields' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.fields',
+			'label' => $ll . 'tx_dce_domain_model_dce.fields',
 			'config' => array(
 				'type' => 'inline',
 				'foreign_table' => 'tx_dce_domain_model_dcefield',
@@ -114,21 +159,21 @@ $TCA['tx_dce_domain_model_dce'] = array(
 		),
 		'wizard_enable' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.wizardEnable',
+			'label' => $ll . 'tx_dce_domain_model_dce.wizardEnable',
 			'config' => array(
 				'type' => 'check',
 			),
 		),
 		'wizard_category' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.wizardCategory',
+			'label' => $ll . 'tx_dce_domain_model_dce.wizardCategory',
 			'displayCond' => 'FIELD:wizard_enable:REQ:true',
 			'config' => array(
 				'type' => 'select',
 				'items' => array(
-					array('LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce', '--div--'),
-					array('LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce_long', 'dce'),
-					array('LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:typo3_default_categories', '--div--'),
+					array($ll . 'tx_dce_domain_model_dce', '--div--'),
+					array($ll . 'tx_dce_domain_model_dce_long', 'dce'),
+					array($ll . 'typo3_default_categories', '--div--'),
 					array('LLL:EXT:cms/layout/locallang_db_new_content_el.xml:common', 'common'),
 					array('LLL:EXT:cms/layout/locallang_db_new_content_el.xml:special', 'special'),
 					array('LLL:EXT:cms/layout/locallang_db_new_content_el.xml:forms', 'forms'),
@@ -138,7 +183,7 @@ $TCA['tx_dce_domain_model_dce'] = array(
 		),
 		'wizard_description' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.wizardDescription',
+			'label' => $ll . 'tx_dce_domain_model_dce.wizardDescription',
 			'displayCond' => 'FIELD:wizard_enable:REQ:true',
 			'config' => array(
 				'type' => 'input',
@@ -148,20 +193,20 @@ $TCA['tx_dce_domain_model_dce'] = array(
 		),
 		'wizard_icon' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.wizardIcon',
+			'label' => $ll . 'tx_dce_domain_model_dce.wizardIcon',
 			'displayCond' => 'FIELD:wizard_enable:REQ:true',
 			'config' => array(
 				'type' => 'select',
 				'items' => array(
-					array('LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:wizardIcon.default', '--div--'),
+					array($ll . 'wizardIcon.default', '--div--'),
 					array('LLL:EXT:cms/layout/locallang_db_new_content_el.xml:common_regularText_title', 'regular_text', 'c_wiz/regular_text.gif'),
 					array('LLL:EXT:cms/layout/locallang_db_new_content_el.xml:special_plainHTML_title', 'html', 'c_wiz/html.gif'),
 					array('LLL:EXT:cms/layout/locallang_db_new_content_el.xml:common_bulletList_title', 'bullet_list', 'c_wiz/bullet_list.gif'),
 					array('LLL:EXT:cms/layout/locallang_db_new_content_el.xml:common_textImage_title', 'text_image_right', 'c_wiz/text_image_right.gif'),
-					array('LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:common_textImage2_title', 'text_image_below', 'c_wiz/text_image_below.gif'),
+					array($ll . 'common_textImage2_title', 'text_image_below', 'c_wiz/text_image_below.gif'),
 					array('LLL:EXT:cms/layout/locallang_db_new_content_el.xml:common_table_title', 'table', 'c_wiz/table.gif'),
 					array('LLL:EXT:cms/layout/locallang_db_new_content_el.xml:special_sitemap_title', 'sitemap', 'c_wiz/sitemap.gif'),
-					array('LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:special_sitemap2_title', 'sitemap2', 'c_wiz/sitemap2.gif'),
+					array($ll . 'special_sitemap2_title', 'sitemap2', 'c_wiz/sitemap2.gif'),
 					array('LLL:EXT:cms/layout/locallang_db_new_content_el.xml:forms_search_title', 'searchform', 'c_wiz/searchform.gif'),
 					array('LLL:EXT:cms/layout/locallang_db_new_content_el.xml:special_multimedia_title', 'multimedia', 'c_wiz/multimedia.gif'),
 					array('LLL:EXT:cms/layout/locallang_db_new_content_el.xml:forms_mail_title', 'mailform', 'c_wiz/mailform.gif'),
@@ -170,14 +215,14 @@ $TCA['tx_dce_domain_model_dce'] = array(
 					array('LLL:EXT:cms/layout/locallang_db_new_content_el.xml:special_filelinks_title', 'filelinks', 'c_wiz/filelinks.gif'),
 					array('LLL:EXT:cms/layout/locallang_db_new_content_el.xml:special_divider_title', 'div', 'c_wiz/div.gif'),
 					array('LLL:EXT:cms/layout/locallang_db_new_content_el.xml:plugins_general_title', 'user_defined', 'c_wiz/user_defined.gif'),
-					array('LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:wizardIcon.custom', '--div--'),
-					array('LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:wizardIcon.customIcon', 'custom'),
+					array($ll . 'wizardIcon.custom', '--div--'),
+					array($ll . 'wizardIcon.customIcon', 'custom'),
 				),
 			),
 		),
 		'wizard_custom_icon' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.wizardCustomIcon',
+			'label' => $ll . 'tx_dce_domain_model_dce.wizardCustomIcon',
 			'displayCond' => 'FIELD:wizard_enable:REQ:true',
 			'config' => array(
 				'type' => 'group',
@@ -194,18 +239,18 @@ $TCA['tx_dce_domain_model_dce'] = array(
 
 		'template_type' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.templateType',
+			'label' => $ll . 'tx_dce_domain_model_dce.templateType',
 			'config' => array(
 				'type' => 'select',
 				'items' => array(
-					array('LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.templateType.inline', 'inline'),
-					array('LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.templateType.file', 'file'),
+					array($ll . 'tx_dce_domain_model_dce.templateType.inline', 'inline'),
+					array($ll . 'tx_dce_domain_model_dce.templateType.file', 'file'),
 				),
 			),
 		),
 		'template_content' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.templateContent',
+			'label' => $ll . 'tx_dce_domain_model_dce.templateContent',
 			'displayCond' => 'FIELD:template_type:!IN:file',
 			'config' => array (
 				'type' => 'user',
@@ -225,7 +270,7 @@ $TCA['tx_dce_domain_model_dce'] = array(
 		),
 		'template_file' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.templateFile',
+			'label' => $ll . 'tx_dce_domain_model_dce.templateFile',
 			'displayCond' => 'FIELD:template_type:IN:file',
 			'config' => array(
 				'type' => 'input',
@@ -249,7 +294,7 @@ $TCA['tx_dce_domain_model_dce'] = array(
 		),
 		'cache_dce' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.cacheDce',
+			'label' => $ll . 'tx_dce_domain_model_dce.cacheDce',
 			'config' => array(
 				'type' => 'check',
 				'default' => '1',
@@ -257,7 +302,7 @@ $TCA['tx_dce_domain_model_dce'] = array(
 		),
 		'show_access_tab' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.showAccessTab',
+			'label' => $ll . 'tx_dce_domain_model_dce.showAccessTab',
 			'config' => array(
 				'type' => 'check',
 				'default' => '0',
@@ -265,7 +310,7 @@ $TCA['tx_dce_domain_model_dce'] = array(
 		),
 		'show_category_tab' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.showCategoryTab',
+			'label' => $ll . 'tx_dce_domain_model_dce.showCategoryTab',
 			'config' => array(
 				'type' => 'check',
 				'default' => '0',
@@ -273,7 +318,7 @@ $TCA['tx_dce_domain_model_dce'] = array(
 		),
 		'hide_default_ce_wrap' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.hideDefaultCeWrap',
+			'label' => $ll . 'tx_dce_domain_model_dce.hideDefaultCeWrap',
 			'config' => array(
 				'type' => 'check',
 				'default' => '0',
@@ -281,18 +326,18 @@ $TCA['tx_dce_domain_model_dce'] = array(
 		),
 		'preview_template_type' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.previewTemplateType',
+			'label' => $ll . 'tx_dce_domain_model_dce.previewTemplateType',
 			'config' => array(
 				'type' => 'select',
 				'items' => array(
-					array('LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.templateType.inline', 'inline'),
-					array('LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.templateType.file', 'file'),
+					array($ll . 'tx_dce_domain_model_dce.templateType.inline', 'inline'),
+					array($ll . 'tx_dce_domain_model_dce.templateType.file', 'file'),
 				),
 			),
 		),
 		'header_preview' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.headerPreview',
+			'label' => $ll . 'tx_dce_domain_model_dce.headerPreview',
 			'displayCond' => 'FIELD:preview_template_type:!IN:file',
 			'config' => array(
 				'type' => 'user',
@@ -310,7 +355,7 @@ $TCA['tx_dce_domain_model_dce'] = array(
 		),
 		'header_preview_template_file' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.headerPreviewTemplateFile',
+			'label' => $ll . 'tx_dce_domain_model_dce.headerPreviewTemplateFile',
 			'displayCond' => 'FIELD:preview_template_type:IN:file',
 			'config' => array(
 				'type' => 'input',
@@ -334,7 +379,7 @@ $TCA['tx_dce_domain_model_dce'] = array(
 		),
 		'bodytext_preview' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.bodytextPreview',
+			'label' => $ll . 'tx_dce_domain_model_dce.bodytextPreview',
 			'displayCond' => 'FIELD:preview_template_type:!IN:file',
 			'config' => array(
 				'type' => 'user',
@@ -351,7 +396,7 @@ $TCA['tx_dce_domain_model_dce'] = array(
 		),
 		'bodytext_preview_template_file' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.bodytextPreviewTemplateFile',
+			'label' => $ll . 'tx_dce_domain_model_dce.bodytextPreviewTemplateFile',
 			'displayCond' => 'FIELD:preview_template_type:IN:file',
 			'config' => array(
 				'type' => 'input',
@@ -375,7 +420,7 @@ $TCA['tx_dce_domain_model_dce'] = array(
 		),
 		'template_layout_root_path' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.layoutRootPath',
+			'label' => $ll . 'tx_dce_domain_model_dce.layoutRootPath',
 			'config' => array(
 				'type' => 'input',
 				'eval' => 'trim,required',
@@ -397,7 +442,7 @@ $TCA['tx_dce_domain_model_dce'] = array(
 		),
 		'template_partial_root_path' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.partialRootPath',
+			'label' => $ll . 'tx_dce_domain_model_dce.partialRootPath',
 			'config' => array(
 				'type' => 'input',
 				'eval' => 'trim,required',
@@ -419,14 +464,14 @@ $TCA['tx_dce_domain_model_dce'] = array(
 		),
 		'enable_detailpage' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.enableDetailpage',
+			'label' => $ll . 'tx_dce_domain_model_dce.enableDetailpage',
 			'config' => array(
 				'type' => 'check',
 			),
 		),
 		'detailpage_identifier' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.detailpageIdentifier',
+			'label' => $ll . 'tx_dce_domain_model_dce.detailpageIdentifier',
 			'displayCond' => 'FIELD:enable_detailpage:=:1',
 			'config' => array(
 				'type' => 'input',
@@ -438,20 +483,19 @@ $TCA['tx_dce_domain_model_dce'] = array(
 		),
 		'detailpage_template_type' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.templateType',
+			'label' => $ll . 'tx_dce_domain_model_dce.templateType',
 			'displayCond' => 'FIELD:enable_detailpage:=:1',
 			'config' => array(
 				'type' => 'select',
 				'items' => array(
-					array('LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.templateType.inline', 'inline'),
-					array('LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.templateType.file', 'file'),
+					array($ll . 'tx_dce_domain_model_dce.templateType.inline', 'inline'),
+					array($ll . 'tx_dce_domain_model_dce.templateType.file', 'file'),
 				),
 			),
 		),
 		'detailpage_template' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.detailpageTemplate',
-//			'displayCond' => 'FIELD:detailpage_template_type:!IN:file',
+			'label' => $ll . 'tx_dce_domain_model_dce.detailpageTemplate',
 			'displayCond' => array('AND' => array('FIELD:enable_detailpage:=:1', 'FIELD:detailpage_template_type:!IN:file')),
 			'config' => array (
 				'type' => 'user',
@@ -471,8 +515,7 @@ $TCA['tx_dce_domain_model_dce'] = array(
 		),
 		'detailpage_template_file' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.detailpageTemplateFile',
-//			'displayCond' => 'FIELD:detailpage_template_type:IN:file',
+			'label' => $ll . 'tx_dce_domain_model_dce.detailpageTemplateFile',
 			'displayCond' => array('AND' => array('FIELD:enable_detailpage:=:1', 'FIELD:detailpage_template_type:IN:file')),
 			'config' => array(
 				'type' => 'input',
@@ -496,7 +539,7 @@ $TCA['tx_dce_domain_model_dce'] = array(
 		),
 		'palette_fields' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.paletteFields',
+			'label' => $ll . 'tx_dce_domain_model_dce.paletteFields',
 			'config' => array(
 				'type' => 'input',
 				'eval' => 'trim,is_in',
@@ -506,7 +549,7 @@ $TCA['tx_dce_domain_model_dce'] = array(
 		),
 		'dce_preview' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.dcePreview',
+			'label' => $ll . 'tx_dce_domain_model_dce.dcePreview',
 			'config' => array(
 				'type' => 'user',
 				'userFunc' => 'EXT:dce/Classes/UserFunction/class.tx_dce_dcePreviewField.php:tx_dce_dcePreviewField->getPreview',
@@ -514,7 +557,3 @@ $TCA['tx_dce_domain_model_dce'] = array(
 		),
 	),
 );
-
-if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 6000000) {
-	unset($TCA['tx_dce_domain_model_dce']['columns']['show_category_tab']);
-}
