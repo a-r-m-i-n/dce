@@ -5,7 +5,7 @@
 	<foreign_sortby>sorting_foreign</foreign_sortby>
 	<foreign_table_field>tablenames</foreign_table_field>
 	<foreign_match_fields>
-		<fieldname>thisVariableName</fieldname> <!-- Name of variable! -->
+		<fieldname>fal</fieldname> <!-- Name of variable! -->
 	</foreign_match_fields>
 	<foreign_label>uid_local</foreign_label>
 	<foreign_selector>uid_local</foreign_selector>
@@ -25,15 +25,16 @@
 		<useSortable>1</useSortable>
 		<headerThumbnail>
 			<field>uid_local</field>
-			<width>64</width>
-			<height>64</height>
+			<width>45c</width>
+			<height>45</height>
 		</headerThumbnail>
 
-		<showPossibleLocalizationRecords>1</showPossibleLocalizationRecords>
-		<showRemovedLocalizationRecords>1</showRemovedLocalizationRecords>
-		<showSynchronizationLink>1</showSynchronizationLink>
+		<showPossibleLocalizationRecords>0</showPossibleLocalizationRecords>
+		<showRemovedLocalizationRecords>0</showRemovedLocalizationRecords>
+		<showSynchronizationLink>0</showSynchronizationLink>
+		<useSortable>1</useSortable>
 		<enabledControls>
-			<info>0</info>
+			<info>1</info>
 			<new>0</new>
 			<dragdrop>0</dragdrop>
 			<sort>1</sort>
