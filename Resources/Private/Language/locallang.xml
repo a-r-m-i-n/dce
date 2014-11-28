@@ -2,7 +2,7 @@
 <T3locallang>
 	<meta type="array">
 		<type>module</type>
-		<description>Language labels for the Dynamic Content Elements extension in the FRONTEND</description>
+		<description>Language labels for the Dynamic Content Elements extension in the frontend and backend</description>
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
@@ -29,7 +29,7 @@
 			<label index="contentElementCreatedByFrontendHeader">*Created or updated by frontend*</label>
 			<label index="contentElementCreatedByFrontendBodytext"><![CDATA[<!-- Please update! -->If a content element based on DCE, has been created in frontend context, it is not possible to render this preview texts, because in frontend extbase resources are not always available. <em>(eID: %s)</em>]]></label>
 			<label index="autoupdateDisabledHeader">*The DCE base has been updated*</label>
-			<label index="autoupdateDisabledBodytext"><![CDATA[<!-- Please update! --><a href="#" onclick="%s"><u><em>Click here</em></u></a> to update the preview texts, or save the content element manually.]]></label>
+			<label index="autoupdateDisabledBodytext"><![CDATA[<!-- Please update! --><a href="#" onclick="%s"><u><em>Click here</em></u></a> to update the preview texts, or open and save the content element manually.]]></label>
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="generaltab">Allgemein</label>
@@ -46,6 +46,11 @@
 			<label index="tsSetupObject">TypoScript-Setup der aktuellen Seite</label>
 
 			<label index="quickDcePopup">Öffnet die Einstellungen des DCE, auf welches diese DCE-Instanz basiert in einem Popup.</label>
+
+			<label index="contentElementCreatedByFrontendHeader">*Erstellt oder aktualisiert durch das Frontend*</label>
+			<label index="contentElementCreatedByFrontendBodytext"><![CDATA[<!-- Bitte aktualisieren! -->Wenn ein Inhaltselement, basierend auf DCE, im Frontend Kontext erstellt oder geändert wurde, ist es nicht möglich die Vorschau-Templates zu rendern. <em>(eID: %s)</em>]]></label>
+			<label index="autoupdateDisabledHeader">*Dieses DCE wurde aktualisiert*</label>
+			<label index="autoupdateDisabledBodytext"><![CDATA[<!-- Bitte aktualisieren! --><a href="#" onclick="%s"><u><em>Hier klicken</em></u></a> um die Vorschautexte für dieses Inhaltselement zu aktualisieren. Alternativ kann das Element manuell geöffnet und gespeichert werden.]]></label>
 		</languageKey>
 	</data>
 </T3locallang>
