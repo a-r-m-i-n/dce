@@ -45,15 +45,25 @@ class tx_dce_dceFieldCustomLabel {
 		if (!$this->isSectionChildField($parameter)) {
 			if (!$this->isSectionField($parameter)) {
 					// Standard field
-				$parameter['title'] = $parameter['row']['title'] . ' <i style="font-weight: normal">{field.' . $parameter['row']['variable'] . '}</i>';
+				$parameter['title'] = $GLOBALS['LANG']->sL($parameter['row']['title']) . ' <i style="font-weight: normal">{field.' . $parameter['row']['variable'] . '}</i>';
 			} else {
-				$parameter['title'] = $parameter['row']['title'] . ' <i style="font-weight: normal">{field.' . $parameter['row']['variable'] . '.<span style="color: blue;">n</span>}</i>';
+				$parameter['title'] = $GLOBALS['LANG']->sL($parameter['row']['title']) . ' <i style="font-weight: normal">{field.' . $parameter['row']['variable'] . '.<span style="color: blue;">n</span>}</i>';
 			}
 		} else {
 			// Section child field
 			$parentFieldRow = $this->getDceFieldRecordByUid($parameter['parent']['uid']);
-			$parameter['title'] = $parameter['row']['title'] . ' <i style="font-weight: normal">{field.' . $parentFieldRow['variable'] . '.<span style="color: blue;">n.</span>' . $parameter['row']['variable'] . '}</i>';
+			$parameter['title'] = $GLOBALS['LANG']->sL($parameter['row']['title']) . ' <i style="font-weight: normal">{field.' . $parentFieldRow['variable'] . '.<span style="color: blue;">n.</span>' . $parameter['row']['variable'] . '}</i>';
 		}
+	}
+
+	/**
+	 * Translates title of DCEs itself
+	 *
+	 * @param array $parameter
+	 * @return void
+	 */
+	public function getLabelDce(&$parameter) {
+		$parameter['title'] = $GLOBALS['LANG']->sL($parameter['row']['title']);
 	}
 
 	/**
