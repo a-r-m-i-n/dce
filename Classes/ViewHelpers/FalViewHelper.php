@@ -42,6 +42,9 @@ class Tx_Dce_ViewHelpers_FalViewHelper extends Tx_Fluid_Core_ViewHelper_Abstract
 	 */
 	public function render($field, array $contentObject) {
 		$contentObjectUid = intval($contentObject['uid']);
+		if(array_key_exists('_LOCALIZED_UID', $contentObject)) {
+			$contentObjectUid = intval($contentObject['_LOCALIZED_UID']);
+		}
 
 		$pageSelect = t3lib_div::makeInstance('t3lib_pageSelect');
 		$tableName = 'tt_content';
