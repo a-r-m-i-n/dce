@@ -173,16 +173,16 @@ class tx_saveDce {
 	 *
 	 * @return void
 	 */
-    public function processDatamap_afterDatabaseOperations($status, $table, $id, array $fieldArray, t3lib_TCEmain $pObj) {
+	public function processDatamap_afterDatabaseOperations($status, $table, $id, array $fieldArray, t3lib_TCEmain $pObj) {
 		$this->extConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dce']);
 		$this->tcemain = $pObj;
 		$this->fieldArray = array();
-        foreach ($fieldArray as $key => $value) {
+		foreach ($fieldArray as $key => $value) {
 			if (!empty($key)) {
 				$this->fieldArray[$key] = $value;
 			}
-        }
-		$this->uid = $this->getUid($id, $status, $pObj);
+		}
+		$this->uid = $this->getUid($id, $table, $status, $pObj);
 
 		if ($table === 'tt_content' && $this->isDceContentElement($pObj)) {
 			$this->checkAndUpdateDceRelationField();
@@ -200,12 +200,12 @@ class tx_saveDce {
 
 			// Clear cache if dce or dcefield has been created or updated
 		if ($this->extConfiguration['disableAutoClearCache'] == 0
-				&& in_array($table, array('tx_dce_domain_model_dce', 'tx_dce_domain_model_dcefield'))
-				&& in_array($status, array('update', 'new'))
+			&& in_array($table, array('tx_dce_domain_model_dce', 'tx_dce_domain_model_dcefield'))
+			&& in_array($status, array('update', 'new'))
 		) {
 			$pObj->clear_cacheCmd('all');
 		}
-    }
+	}
 
 	/**
 	 * On save on content element, which based on dce, its preview texts become updated. If change is made in
@@ -355,7 +355,7 @@ class tx_saveDce {
 	 *
 	 * @return integer
 	 */
-	protected function getUid($id, $status, $pObj) {
+	protected function getUid($id, $table, $status, $pObj) {
 		$uid = $id;
 		if ($status === 'new') {
 			if (!$pObj->substNEWwithIDs[$id]) {
@@ -364,6 +364,9 @@ class tx_saveDce {
 			} else {
 				//afterDatabaseOperations
 				$uid = $pObj->substNEWwithIDs[$id];
+				if (isset($pObj->autoVersionIdMap[$table][$uid])) {
+					$uid = $pObj->autoVersionIdMap[$table][$uid];
+				}
 			}
 		}
 		return intval($uid);

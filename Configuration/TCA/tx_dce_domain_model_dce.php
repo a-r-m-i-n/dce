@@ -273,23 +273,12 @@ return array(
 			'label' => $ll . 'tx_dce_domain_model_dce.templateFile',
 			'displayCond' => 'FIELD:template_type:IN:file',
 			'config' => array(
-				'type' => 'input',
-				'eval' => 'trim',
-				'wizards' => array(
-					'_PADDING' => 2,
-					0 => array(
-						'title' => 'Link',
-						'type' => 'popup',
-						'icon' => 'i/pages.gif',
-						'script' => 'browse_links.php?mode=wizard',
-						'params' => array(
-							'blindLinkOptions' => 'page,url,mail,spec,folder',
-							'allowedExtensions' => 'htm,html,tmp,tmpl',
-						),
-						'JSopenParams' => 'height=400,width=500,status=0,menubar=0,scrollbars=1',
-					),
-				),
-
+				'type' => 'group',
+				'internal_type' => 'file_reference',
+				'allowed' => 'html,htm',
+				'size' => 1,
+				'maxitems' => 1,
+				'minitems' => 0,
 			),
 		),
 		'cache_dce' => array(
@@ -358,23 +347,12 @@ return array(
 			'label' => $ll . 'tx_dce_domain_model_dce.headerPreviewTemplateFile',
 			'displayCond' => 'FIELD:preview_template_type:IN:file',
 			'config' => array(
-				'type' => 'input',
-				'eval' => 'trim',
-				'wizards' => array(
-					'_PADDING' => 2,
-					0 => array(
-						'title' => 'Link',
-						'type' => 'popup',
-						'icon' => 'i/pages.gif',
-						'script' => 'browse_links.php?mode=wizard',
-						'params' => array(
-							'blindLinkOptions' => 'page,url,mail,spec,folder',
-							'allowedExtensions' => 'htm,html,tmp,tmpl',
-						),
-						'JSopenParams' => 'height=400,width=500,status=0,menubar=0,scrollbars=1',
-					),
-				),
-
+				'type' => 'group',
+				'internal_type' => 'file_reference',
+				'allowed' => 'html,htm',
+				'size' => 1,
+				'maxitems' => 1,
+				'minitems' => 0,
 			),
 		),
 		'bodytext_preview' => array(
@@ -399,23 +377,12 @@ return array(
 			'label' => $ll . 'tx_dce_domain_model_dce.bodytextPreviewTemplateFile',
 			'displayCond' => 'FIELD:preview_template_type:IN:file',
 			'config' => array(
-				'type' => 'input',
-				'eval' => 'trim',
-				'wizards' => array(
-					'_PADDING' => 2,
-					0 => array(
-						'title' => 'Link',
-						'type' => 'popup',
-						'icon' => 'i/pages.gif',
-						'script' => 'browse_links.php?mode=wizard',
-						'params' => array(
-							'blindLinkOptions' => 'page,url,mail,spec,folder',
-							'allowedExtensions' => 'htm,html,tmp,tmpl',
-						),
-						'JSopenParams' => 'height=400,width=500,status=0,menubar=0,scrollbars=1',
-					),
-				),
-
+				'type' => 'group',
+				'internal_type' => 'file_reference',
+				'allowed' => 'html,htm',
+				'size' => 1,
+				'maxitems' => 1,
+				'minitems' => 0,
 			),
 		),
 		'template_layout_root_path' => array(
@@ -518,23 +485,12 @@ return array(
 			'label' => $ll . 'tx_dce_domain_model_dce.detailpageTemplateFile',
 			'displayCond' => array('AND' => array('FIELD:enable_detailpage:=:1', 'FIELD:detailpage_template_type:IN:file')),
 			'config' => array(
-				'type' => 'input',
-				'eval' => 'trim',
-				'wizards' => array(
-					'_PADDING' => 2,
-					0 => array(
-						'title' => 'Link',
-						'type' => 'popup',
-						'icon' => 'i/pages.gif',
-						'script' => 'browse_links.php?mode=wizard',
-						'params' => array(
-							'blindLinkOptions' => 'page,url,mail,spec,folder',
-							'allowedExtensions' => 'htm,html,tmp,tmpl',
-						),
-						'JSopenParams' => 'height=400,width=500,status=0,menubar=0,scrollbars=1',
-					),
-				),
-
+				'type' => 'group',
+				'internal_type' => 'file_reference',
+				'allowed' => 'html,htm',
+				'size' => 1,
+				'maxitems' => 1,
+				'minitems' => 0,
 			),
 		),
 		'palette_fields' => array(
