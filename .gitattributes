@@ -1,18 +1,18 @@
-*.php text eol=lf
-*.js text eol=lf
-*.json text eol=lf
-*.rst text eol=lf
-*.yml text eol=lf
-*.txt text eol=lf
-*.sql text eol=lf
-*.html text eol=lf
-*.htm text eol=lf
-*.css text eol=lf
-*.ts text eol=lf
-*.xml text eol=lf
-
+# Autodetect text files
+* text=auto
+ 
+# Force the following filetypes to have unix eols, so Windows does not break them
+*.* text eol=lf
+ 
+# Force images/fonts to be handled as binaries
 *.jpg binary
 *.jpeg binary
 *.gif binary
 *.png binary
-*.ico binary
+*.t3x binary
+*.t3d binary
+*.exe binary
+*.data binary
+*.ttf binary
+*.eof binary
+*.eot binary
