@@ -42,21 +42,6 @@
 
 	<dce:be.tableList tableName="tx_dce_domain_model_dce" storagePid="0" clickTitleMode="edit" fieldList="{0:'uid', 1:'tstamp', 2:'crdate'}" />
 
-
-    <hr>
-
-
-
-    <a href="{f:render(partial:'Module/OpenStaticDce', arguments:'{identifier:\'abc1\'}')}">abc1</a>|
-    <a href="{f:render(partial:'Module/OpenStaticDce', arguments:'{identifier:\'dce_abc2\'}')}">dce_abc2</a>|
-    <a href="{f:render(partial:'Module/OpenStaticDce', arguments:'{identifier:\'abc3_abc3\'}')}">abc3_abc3</a>|
-    <a href="{f:render(partial:'Module/OpenStaticDce', arguments:'{identifier:\'roflkopter\'}')}">roflkopter</a>
-
-
-	<f:debug>{dces}</f:debug>
-
-	<hr>
-
 	<ul>
 		<f:for each="{dces}" as="dce">
 			<li>
@@ -77,7 +62,4 @@
 			</li>
 		</f:for>
 	</ul>
-
-
-
 </f:section>
