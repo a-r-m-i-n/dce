@@ -1,5 +1,5 @@
 <?php
-namespace ArminVieweg\Dce\XClass;
+namespace DceTeam\Dce\XClass;
 
 /**
  * Class DataPreprocessor
@@ -17,7 +17,7 @@ class DataPreprocessor extends \TYPO3\CMS\Backend\Form\DataPreprocessor {
 	 * Constructor
 	 */
 	public function __construct() {
-		static::$staticDceUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('ArminVieweg\Dce\Utility\StaticDce');
+		static::$staticDceUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DceTeam\Dce\Utility\StaticDce');
 	}
 
 	public function fetchRecord($table, $idList, $operation) {

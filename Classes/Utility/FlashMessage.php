@@ -1,5 +1,5 @@
 <?php
-namespace ArminVieweg\Dce\Utility;
+namespace DceTeam\Dce\Utility;
 
 /***************************************************************
  *  Copyright notice

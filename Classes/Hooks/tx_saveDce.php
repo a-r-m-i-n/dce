@@ -61,7 +61,7 @@ class tx_saveDce {
 			$newIdentifier = $newValues['identifier'];
 			$dceFolderPath = PATH_site . $path . $newIdentifier . DIRECTORY_SEPARATOR;
 
-			/** @var \ArminVieweg\Dce\Utility\StaticDce $staticDceUtility */
+			/** @var \DceTeam\Dce\Utility\StaticDce $staticDceUtility */
 			$staticDceUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DceTeam\Dce\Utility\StaticDce');
 
 			$realDceIdentifier = substr($dceIdentifier, 4);
@@ -75,7 +75,7 @@ class tx_saveDce {
 			$renamed = FALSE;
 			if (isset($oldIdentifier) && $oldIdentifier !== $newIdentifier) {
 				if (file_exists($dceFolderPath)) {
-					\ArminVieweg\Dce\Utility\FlashMessage::add('Another static DCE with name "' . $newIdentifier . '" already exists.', 'Renaming failed', \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR);
+					\DceTeam\Dce\Utility\FlashMessage::add('Another static DCE with name "' . $newIdentifier . '" already exists.', 'Renaming failed', \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR);
 					$newIdentifier = $oldIdentifier;
 					$dceFolderPath = PATH_site . $path . $newIdentifier . DIRECTORY_SEPARATOR;
 				} else {

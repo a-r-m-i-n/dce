@@ -38,7 +38,7 @@ $boot = function($extensionKey) {
 
 		// DataPreprocessor XClass
 	$GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Backend\\Form\\DataPreprocessor'] = array(
-		'className' => 'ArminVieweg\\Dce\\XClass\\DataPreprocessor',
+		'className' => 'DceTeam\Dce\XClass\DataPreprocessor',
 	);
 
 
