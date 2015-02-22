@@ -1,4 +1,5 @@
 <?php
+namespace DceTeam\Dce\ViewHelpers\Be;
 /***************************************************************
 *  Copyright notice
 *
@@ -30,7 +31,7 @@
  * @license    http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  * @see t3lib_utility_VersionNumber::convertVersionNumberToInteger
  */
-class Tx_Dce_ViewHelpers_Be_CurrentTypo3VersionViewHelper extends Tx_Fluid_ViewHelpers_Be_AbstractBackendViewHelper {
+class CurrentTypo3VersionViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper {
 
 	/**
 	 * Returns the current version of TYPO3 as integer
@@ -38,6 +39,6 @@ class Tx_Dce_ViewHelpers_Be_CurrentTypo3VersionViewHelper extends Tx_Fluid_ViewH
 	 * @return integer Current TYPO3 version
 	 */
 	public function render() {
-		return t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version);
+		return \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
 	}
 }

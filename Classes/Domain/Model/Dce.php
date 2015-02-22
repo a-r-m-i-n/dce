@@ -1,4 +1,5 @@
 <?php
+namespace DceTeam\Dce\Domain\Model ;
 /***************************************************************
  *  Copyright notice
  *
@@ -30,7 +31,9 @@
  * @package dce
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  */
-class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
+
+
+class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/** Identifier for default DCE templates */
 	const TEMPLATE_FIELD_DEFAULT = 0;
 	/** Identifier for header preview templates */
@@ -51,7 +54,7 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 	/** @var string */
 	protected $title = '';
 
-	/** @var Tx_Extbase_Persistence_ObjectStorage<Tx_Dce_Domain_Model_DceField> */
+	/** @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\DceTeam\Dce\Domain\Model\DceField> */
 	protected $fields = NULL;
 
 	/** @var string */
@@ -111,12 +114,12 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 	}
 
 	/**
-	 * Initializes all Tx_Extbase_Persistence_ObjectStorage properties.
+	 * Initializes all \TYPO3\CMS\Extbase\Persistence\ObjectStorage properties.
 	 *
 	 * @return void
 	 */
 	protected function initStorageObjects() {
-		$this->fields = new Tx_Extbase_Persistence_ObjectStorage();
+		$this->fields = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
 	}
 
 	/**
@@ -212,7 +215,7 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 	/**
 	 * Gets objectStorage with fields
 	 *
-	 * @return Tx_Extbase_Persistence_ObjectStorage
+	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
 	 */
 	public function getFields() {
 		return $this->fields;
@@ -221,7 +224,7 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 	/**
 	 * Sets objectStorage with fields
 	 *
-	 * @param Tx_Extbase_Persistence_ObjectStorage $fields
+	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $fields
 	 * @return void
 	 */
 	public function setFields($fields) {
@@ -231,20 +234,20 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 	/**
 	 * Adds a field
 	 *
-	 * @param Tx_Dce_Domain_Model_DceField $field The field to be added
+	 * @param \DceTeam\Dce\Domain\Model\DceField $field The field to be added
 	 * @return void
 	 */
-	public function addField(Tx_Dce_Domain_Model_DceField $field) {
+	public function addField(\DceTeam\Dce\Domain\Model\DceField $field) {
 		$this->fields->attach($field);
 	}
 
 	/**
 	 * Removes a field
 	 *
-	 * @param Tx_Dce_Domain_Model_DceField $fieldToRemove The field to be removed
+	 * @param \DceTeam\Dce\Domain\Model\DceField $fieldToRemove The field to be removed
 	 * @return void
 	 */
-	public function removeField(Tx_Dce_Domain_Model_DceField $fieldToRemove) {
+	public function removeField(\DceTeam\Dce\Domain\Model\DceField $fieldToRemove) {
 		$this->fields->detach($fieldToRemove);
 	}
 
@@ -403,10 +406,10 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 	 * If not found, returns NULL.
 	 *
 	 * @param string $variable
-	 * @return null|Tx_Dce_Domain_Model_DceField
+	 * @return null|\DceTeam\Dce\Domain\Model
 	 */
 	public function getFieldByVariable($variable) {
-		/** @var $field Tx_Dce_Domain_Model_DceField */
+		/** @var $field \DceTeam\Dce\Domain\Model */
 		foreach($this->getFields() as $field) {
 			if ($field->getVariable() === $variable) {
 				return $field;
@@ -474,16 +477,16 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 	 */
 	protected function renderFluidTemplate($templateType = self::TEMPLATE_FIELD_DEFAULT) {
 		$templateFields = $this->templateFields[$templateType];
-		$typeGetter = 'get' . ucfirst(t3lib_div::underscoredToLowerCamelCase($templateFields['type']));
+		$typeGetter = 'get' . ucfirst(\TYPO3\CMS\Core\Utility\GeneralUtility::underscoredToLowerCamelCase($templateFields['type']));
 
-		/** @var $fluidTemplate Tx_Fluid_View_StandaloneView */
-		$fluidTemplate = t3lib_div::makeInstance('Tx_Fluid_View_StandaloneView');
+		/** @var $fluidTemplate \TYPO3\CMS\Fluid\View\StandaloneView */
+		$fluidTemplate = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\TYPO3\CMS\Fluid\View\StandaloneView');
 		if ($this->$typeGetter() === 'inline') {
-			$inlineTemplateGetter = 'get' . ucfirst(t3lib_div::underscoredToLowerCamelCase($templateFields['inline']));
+			$inlineTemplateGetter = 'get' . ucfirst(\TYPO3\CMS\Core\Utility\GeneralUtility::underscoredToLowerCamelCase($templateFields['inline']));
 			$fluidTemplate->setTemplateSource($this->$inlineTemplateGetter() . ' ');
 		} else {
-			$fileTemplateGetter = 'get' . ucfirst(t3lib_div::underscoredToLowerCamelCase($templateFields['file']));
-			$filePath = Tx_Dce_Utility_File::getFilePath($this->$fileTemplateGetter());
+			$fileTemplateGetter = 'get' . ucfirst(\TYPO3\CMS\Core\Utility\GeneralUtility::underscoredToLowerCamelCase($templateFields['file']));
+			$filePath = \DceTeam\Dce\Utility\File::getFilePath($this->$fileTemplateGetter());
 			if (!file_exists($filePath)) {
 				$fluidTemplate->setTemplateSource('');
 			} else {
@@ -492,8 +495,8 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 			}
 		}
 
-		$fluidTemplate->setLayoutRootPath(Tx_Dce_Utility_File::getFilePath($this->getTemplateLayoutRootPath()));
-		$fluidTemplate->setPartialRootPath(Tx_Dce_Utility_File::getFilePath($this->getTemplatePartialRootPath()));
+		$fluidTemplate->setLayoutRootPath(\DceTeam\Dce\Utility\File::getFilePath($this->getTemplateLayoutRootPath()));
+		$fluidTemplate->setPartialRootPath( \DceTeam\Dce\Utility\File::getFilePath($this->getTemplatePartialRootPath()));
 
 		$fluidTemplate->assign('dce', $this);
 		$fluidTemplate->assign('contentObject', $this->getContentObject());
@@ -501,8 +504,8 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 		if (TYPO3_MODE === 'FE' && isset($GLOBALS['TSFE'])) {
 			$fluidTemplate->assign('TSFE', $GLOBALS['TSFE']);
 			$fluidTemplate->assign('page', $GLOBALS['TSFE']->page);
-			if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 6000000) {
-				$fluidTemplate->assign('tsSetup', Tx_Extbase_Utility_TypoScript::convertTypoScriptArrayToPlainArray($GLOBALS['TSFE']->tmpl->setup));
+			if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 6000000) {
+				$fluidTemplate->assign('tsSetup', \DceTeam\Dce\Utility\TypoScript::convertTypoScriptArrayToPlainArray($GLOBALS['TSFE']->tmpl->setup));
 			} else {
 				$typoScriptService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Service\TypoScriptService');
 				$fluidTemplate->assign('tsSetup', $typoScriptService->convertTypoScriptArrayToPlainArray($GLOBALS['TSFE']->tmpl->setup));
@@ -523,13 +526,13 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 	 */
 	protected function getFieldsAsArray() {
 		$fields = array();
-		/** @var $field Tx_Dce_Domain_Model_DceField */
+		/** @var $field \DceTeam\Dce\Domain\Model\DceField */
 		foreach($this->getFields() as $field) {
 			if ($field->isTab()) {
 				continue;
 			}
 			if ($field->hasSectionFields()) {
-				/**	@var $sectionField Tx_Dce_Domain_Model_DceField */
+				/**	@var $sectionField \DceTeam\Dce\Domain\Model\DceField  */
 				foreach($field->getSectionFields() as $sectionField) {
 					$sectionFieldValues = $sectionField->getValue();
 					if (is_array($sectionFieldValues)) {
@@ -565,7 +568,7 @@ class Tx_Dce_Domain_Model_Dce extends Tx_Extbase_DomainObject_AbstractEntity {
 			}
 
 			$field = $this->getFieldByVariable($variable);
-			if (get_class($field) === 'Tx_Dce_Domain_Model_DceField') {
+			if (get_class($field) === '\DceTeam\Dce\Domain\Model\DceField') {
 				return $field->getValue();
 			}
 		}

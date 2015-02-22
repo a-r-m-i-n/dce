@@ -1,4 +1,5 @@
 <?php
+namespace DceTeam\Dce\ViewHelpers;
 /***************************************************************
 *  Copyright notice
 *
@@ -29,7 +30,7 @@
  * @copyright Copyright belongs to the respective authors
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
-class Tx_Dce_ViewHelpers_ArrayGetIndexViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class ArrayGetIndexViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
 	 * Returns the value of the given index in the given array. To make sure the indexes are numeric the

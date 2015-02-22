@@ -1,5 +1,6 @@
 <?php
-/***************************************************************
+namespace DceTeam\Dce\ViewHelpers;
+	/***************************************************************
 *  Copyright notice
 *
 *  (c) 2012-2014 Armin Ruediger Vieweg <armin@v.ieweg.de>
@@ -29,7 +30,7 @@
  * @copyright Copyright belongs to the respective authors
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
-class Tx_Dce_ViewHelpers_FalViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class FalViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
 	 * Gets FileReference objects (FAL)
@@ -43,14 +44,14 @@ class Tx_Dce_ViewHelpers_FalViewHelper extends Tx_Fluid_Core_ViewHelper_Abstract
 	public function render($field, array $contentObject) {
 		$contentObjectUid = intval($contentObject['uid']);
 
-		$pageSelect = t3lib_div::makeInstance('t3lib_pageSelect');
+		$pageSelect = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('t3lib_pageSelect');
 		$tableName = 'tt_content';
-		$rows = Tx_Dce_Utility_DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
+		$rows = \DceTeam\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
 			'uid',
 			'sys_file_reference',
-			'tablenames=' . Tx_Dce_Utility_DatabaseUtility::getDatabaseConnection()->fullQuoteStr($tableName, 'sys_file_reference') .
+			'tablenames=' . \DceTeam\Dce\Utility\DatabaseUtility::getDatabaseConnection()->fullQuoteStr($tableName, 'sys_file_reference') .
 				' AND uid_foreign=' . $contentObjectUid .
-				' AND fieldname=' . Tx_Dce_Utility_DatabaseUtility::getDatabaseConnection()->fullQuoteStr($field, 'sys_file_reference')
+				' AND fieldname=' . \DceTeam\Dce\Utility\DatabaseUtility::getDatabaseConnection()->fullQuoteStr($field, 'sys_file_reference')
 				. $pageSelect->enableFields('sys_file_reference', $pageSelect->showHiddenRecords),
 			'',
 			'sorting_foreign',

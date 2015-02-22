@@ -1,23 +1,24 @@
-{namespace dce=Tx_Dce_ViewHelpers}<?php
+{namespace dce=DceTeam\Dce\Viewhelpers}<?php
 <f:for each="{dceArray}" as="dce">
-Tx_Extbase_Utility_Extension::configurePlugin(
-	'dce',
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+	'DceTeam.dce',
 	'dceuid{dce.uid}',
 	array(
 		'Dce' => 'show',
 	),
 	array(
-		<f:if condition="{dce.cache_dce}"><f:then></f:then><f:else>'Dce' => 'show'</f:else></f:if>
+		<f:if condition="{dce.cache_dce}"><f:then></f:then>
+            <f:else>'Dce' => 'show'</f:else></f:if>
 	),
-	Tx_Extbase_Utility_Extension::PLUGIN_TYPE_CONTENT_ELEMENT
+    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
 );
 
-t3lib_extMgm::addTypoScript('dce', 'setup', '
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript('dce', 'setup', '
 # Hide lib.stdheader for DCE with uid {dce.uid}
 ' . 'tt_content.dce_dceuid{dce.uid}.10 >', 43);
 
 <f:if condition="{dce.hide_default_ce_wrap}">
-	t3lib_extMgm::addTypoScript('dce', 'setup', '
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript('dce', 'setup', '
 	# Hide default wrapping for content elements for DCE with uid {dce.uid}
 	' . 'tt_content.stdWrap.innerWrap.cObject.default.stdWrap.if.value := addToList(dce_dceuid{dce.uid})', 43);
 </f:if>

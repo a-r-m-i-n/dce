@@ -1,5 +1,5 @@
 <?php
-
+namespace DceTeam\Dce\Domain\Repository;
 /***************************************************************
  *  Copyright notice
  *
@@ -30,7 +30,7 @@
  * @package dce
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  */
-class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repository {
+class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 
 	/**
 	 *
@@ -81,17 +81,17 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 	 * @return void
 	 */
 	protected function cloneFields($dce) {
-		/** @var $clonedFields Tx_Extbase_Persistence_ObjectStorage */
-		$clonedFields = t3lib_div::makeInstance('Tx_Extbase_Persistence_ObjectStorage');
-		/** @var $field Tx_Dce_Domain_Model_DceField */
+		/** @var $clonedFields \TYPO3\CMS\Extbase\Persistence\ObjectStorage */
+		$clonedFields = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\TYPO3\CMS\Extbase\Persistence\ObjectStorage');
+		/** @var $field \DceTeam\Dce\Domain\Model\DceField */
 		foreach($dce->getFields() as $field) {
 			$field = clone $field;
-			if ($field->getType() === Tx_Dce_Domain_Model_DceField::TYPE_ELEMENT || $field->getType() ===  Tx_Dce_Domain_Model_DceField::TYPE_SECTION) {
+			if ($field->getType() === \DceTeam\Dce\Domain\Model\DceField::TYPE_ELEMENT || $field->getType() ===  \DceTeam\Dce\Domain\Model\DceField::TYPE_SECTION) {
 				if ($field->getSectionFields()) {
-					/** @var $clonedFields Tx_Extbase_Persistence_ObjectStorage */
-					$clonedSectionFields = t3lib_div::makeInstance('Tx_Extbase_Persistence_ObjectStorage');
+					/** @var $clonedFields \TYPO3\CMS\Extbase\Persistence\ObjectStorage */
+					$clonedSectionFields = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\TYPO3\CMS\Extbase\Persistence\ObjectStorage');
 					foreach($field->getSectionFields() as $sectionField) {
-						/** @var $clonedSectionField Tx_Dce_Domain_Model_DceField */
+						/** @var $clonedSectionField \DceTeam\Dce\Domain\Model\DceField */
 						$clonedSectionField = clone $sectionField;
 						$clonedSectionField->setValue(NULL);
 						$clonedSectionFields->attach($clonedSectionField);
@@ -110,9 +110,9 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 	 * @return void
 	 */
 	protected function disableRespectOfEnableFields() {
-		/** @var $querySettings Tx_Extbase_Persistence_Typo3QuerySettings */
-		$querySettings = $this->objectManager->create('Tx_Extbase_Persistence_Typo3QuerySettings');
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6002000) {
+		/** @var $querySettings \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings */
+		$querySettings = $this->objectManager->create('\TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings');
+		if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 6002000) {
 			$querySettings->setIgnoreEnableFields(TRUE)->setIncludeDeleted(TRUE);
 		} else {
 			$querySettings->setRespectEnableFields(FALSE);
@@ -123,11 +123,11 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 	/**
 	 * Walk through the fields and section fields to fill them
 	 *
-	 * @param Tx_Dce_Domain_Model_Dce $dce
+	 * @param \DceTeam\Dce\Domain\Model $dce
 	 * @param array $fieldList Field list. Key must contain field variable, value its value.
 	 * @return void
 	 */
-	protected function processFillingFields(Tx_Dce_Domain_Model_Dce $dce, array $fieldList) {
+	protected function processFillingFields( \DceTeam\Dce\Domain\Model $dce, array $fieldList) {
 		foreach ($fieldList as $fieldVariable => $fieldValue) {
 			$dceField = $dce->getFieldByVariable($fieldVariable);
 			if ($dceField) {
@@ -136,7 +136,7 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 						$sectionFieldValues = current($sectionFieldValues);
 						foreach($sectionFieldValues as $sectionFieldVariable => $sectionFieldValue) {
 							$sectionField = $dceField->getSectionFieldByVariable($sectionFieldVariable);
-							if ($sectionField instanceof Tx_Dce_Domain_Model_DceField) {
+							if ($sectionField instanceof \DceTeam\Dce\Domain\Model) {
 								$xmlIdentifier = $dce->getUid() . '-' . $dceField->getVariable() . '-' . $sectionField->getVariable();
 								$this->fillFields($sectionField, $sectionFieldValue, TRUE, $xmlIdentifier);
 							}
@@ -155,15 +155,15 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 	 * if not just the given $fieldValue will be add to $dceField->_value. Value of sectionFields will be filled
 	 * differently.
 	 *
-	 * @param Tx_Dce_Domain_Model_DceField $dceField
+	 * @param \DceTeam\Dce\Domain\Model\DceField $dceField
 	 * @param string $fieldValue
 	 * @param boolean $isSectionField
 	 * @param string $xmlIdentifier
 	 * @return void
 	 */
-	protected function fillFields(Tx_Dce_Domain_Model_DceField $dceField, $fieldValue, $isSectionField = FALSE, $xmlIdentifier) {
+	protected function fillFields(\DceTeam\Dce\Domain\Model\DceField $dceField, $fieldValue, $isSectionField = FALSE, $xmlIdentifier) {
 		$xmlWrapping = 'xml-' . $xmlIdentifier;
-		$dceFieldConfiguration = t3lib_div::xml2array('<' . $xmlWrapping . '>' . $dceField->getConfiguration() . '</' . $xmlWrapping . '>');
+		$dceFieldConfiguration = \TYPO3\CMS\Core\Utility\GeneralUtility::xml2array('<' . $xmlWrapping . '>' . $dceField->getConfiguration() . '</' . $xmlWrapping . '>');
 
 		if (is_array($dceFieldConfiguration)) {
 			$dceFieldConfiguration = $dceFieldConfiguration['config'];
@@ -321,13 +321,13 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 		$classname{0} = strtoupper($classname{0});
         $specialClass = NULL;
 
-		if ($dceFieldConfiguration['dce_get_fal_objects'] && strtolower($classname) === 'sys_file' && t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6001000) {
+		if ($dceFieldConfiguration['dce_get_fal_objects'] && strtolower($classname) === 'sys_file' && \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 6001000) {
 			$classname = 'TYPO3\\CMS\\Core\\Resource\\File';
 		}
 
         $repositoryName = str_replace('_Model_', '_Repository_', $classname) . 'Repository'; // !
 
-        if (strtolower($classname) === 'sys_file_collection' && t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6000000) {
+        if (strtolower($classname) === 'sys_file_collection' && \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 6000000) {
             $specialClass = 'FileCollection';
             $classname = 'TYPO3\\CMS\\Core\\Resource\\Collection\\AbstractFileCollection';
             $repositoryName = 'TYPO3\\CMS\\Core\\Resource\\FileCollectionRepository';
@@ -335,11 +335,11 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 
 		if (class_exists($classname) && class_exists($repositoryName)) {
 				// Extbase object found
-			$objectManager = new Tx_Extbase_Object_ObjectManager();
-			/** @var $repository Tx_Extbase_Persistence_Repository */
+			$objectManager = new \TYPO3\CMS\Extbase\Object\ObjectManager();
+			/** @var $repository \TYPO3\CMS\Extbase\Persistence\Repository */
 			$repository = $objectManager->get($repositoryName);
 
-			foreach (t3lib_div::trimExplode(',', $fieldValue, TRUE) as $uid) {
+			foreach (\TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $fieldValue, TRUE) as $uid) {
                 $object = $repository->findByUid($uid);
                 if ($specialClass === 'FileCollection') {
                     $object->loadContents();
@@ -349,15 +349,15 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 			return $objects;
 		} else {
 				// No class found... load DB record and return assoc
-			foreach (t3lib_div::trimExplode(',', $fieldValue, TRUE) as $uid) {
+			foreach (\TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $fieldValue, TRUE) as $uid) {
 				$enableFields = '';
 
 				if (!$dceFieldConfiguration['dce_ignore_enablefields']) {
 					if (!$GLOBALS['TSFE']->sys_page instanceof t3lib_pageSelect) {
-						$GLOBALS['TSFE']->sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
+						$GLOBALS['TSFE']->sys_page = \TYPO3\CMS\Core\Utility\GeneralUtility ::makeInstance('t3lib_pageSelect');
 					}
 					/** @var $cObj tslib_cObj */
-					$cObj = t3lib_div::makeInstance('tslib_cObj');
+					$cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tslib_cObj');
 					$enableFields = $cObj->enableFields($tablename);
 				}
 
@@ -372,7 +372,7 @@ class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repo
 					}
 
 						// Add field with converted flexform_data (as array)
-					$row['pi_flexform_data'] = t3lib_div::xml2array($row['pi_flexform']);
+					$row['pi_flexform_data'] = \TYPO3\CMS\Core\Utility\GeneralUtility::xml2array($row['pi_flexform']);
 
 					$dceUid = $this->extractUidFromCType($row['CType']);
 					if ($dceUid !== FALSE) {

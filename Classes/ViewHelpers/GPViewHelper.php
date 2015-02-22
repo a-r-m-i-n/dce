@@ -1,5 +1,6 @@
 <?php
-/***************************************************************
+namespace DceTeam\Dce\ViewHelpers;
+	/***************************************************************
 *  Copyright notice
 *
 *  (c) 2012-2014 Armin Ruediger Vieweg <armin@v.ieweg.de>
@@ -24,13 +25,13 @@
 ***************************************************************/
 
 /**
- * GP viewhelper which returns get or post variables using _GP method of t3lib_div.
+ * GP viewhelper which returns get or post variables using _GP method of \TYPO3\CMS\Core\Utility\GeneralUtility.
  * Never use this viewhelper for direct output!! This would provoke XSS (Cross site scripting).
  *
  * @copyright Copyright belongs to the respective authors
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
-class Tx_Dce_ViewHelpers_GPViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class GPViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelperr {
 
 	/**
 	 * Returns get or post variable by given subject
@@ -43,6 +44,6 @@ class Tx_Dce_ViewHelpers_GPViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractV
 			$subject = $this->renderChildren();
 		}
 
-		return t3lib_div::_GP($subject);
+		return \TYPO3\CMS\Core\Utility\GeneralUtility::_GP($subject);
 	}
 }

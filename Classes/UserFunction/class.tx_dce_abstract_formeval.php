@@ -29,6 +29,7 @@
  * @package dce
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  */
+
 abstract class tx_dce_abstract_formeval {
 
 	/**
@@ -59,19 +60,19 @@ abstract class tx_dce_abstract_formeval {
 	 * @return void
 	 * @throws InvalidArgumentException
 	 */
-	protected function addFlashMessage($message, $title = '', $severity = t3lib_FlashMessage::OK) {
+	protected function addFlashMessage($message, $title = '', $severity = \TYPO3\CMS\Core\Messaging\FlashMessage::OK) {
 		if (!is_string($message)) {
 			throw new InvalidArgumentException('The flash message must be string, ' . gettype($message) . ' given.', 1243258395);
 		}
 
-		$flashMessage = t3lib_div::makeInstance(
+		$flashMessage = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
 			't3lib_FlashMessage',
 			$message,
 			$title,
 			$severity,
 			TRUE
 		);
-		t3lib_FlashMessageQueue::addMessage($flashMessage);
+		\TYPO3\CMS\Core\Messaging\FlashMessageQueue::addMessage($flashMessage);
 	}
 
 	/**
@@ -82,6 +83,6 @@ abstract class tx_dce_abstract_formeval {
 	 * @return string Translated text
 	 */
 	protected function translate($key, array $arguments = array()) {
-		return Tx_Extbase_Utility_Localization::translate('LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:' . $key, 'Dce', $arguments);
+		return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:' . $key, 'Dce', $arguments);
 	}
 }

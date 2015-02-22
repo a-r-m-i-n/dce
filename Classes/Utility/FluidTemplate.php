@@ -1,4 +1,5 @@
 <?php
+namespace DceTeam\Dce\Utility;
 /***************************************************************
  *  Copyright notice
  *
@@ -28,15 +29,18 @@
  * @package dce
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  */
-class Tx_Dce_Utility_FluidTemplate {
+
+
+
+class FluidTemplate {
 	/** @var string	 */
-	const DEFAULT_DIRECOTRY_LAYOUTS = 'EXT:dce/Resources/Private/Layouts/';
+	const DEFAULT_DIRECTORY_LAYOUTS = 'EXT:dce/Resources/Private/Layouts/';
 
 	/** @var string	 */
-	const DEFAULT_DIRECOTRY_PARTIALS = 'EXT:dce/Resources/Private/Partials/';
+	const DEFAULT_DIRECTORY_PARTIALS = 'EXT:dce/Resources/Private/Partials/';
 
 	/**
-	 * @var Tx_Fluid_View_StandaloneView
+	 * @var \TYPO3\CMS\Fluid\View\StandaloneView
 	 */
 	protected $fluidTemplate = NULL;
 
@@ -58,25 +62,26 @@ class Tx_Dce_Utility_FluidTemplate {
 	 * @return void
 	 */
 	protected function init() {
-		if (t3lib_extMgm::isLoaded('dbal')) {
+		if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('dbal')) {
 			$this->assureDbalCompatibility();
 		}
 
 		// fetch the existing DB connection, or initialize it
 		// needs to be done for Fluid / Cache Manager functionality
 		/** @var $TYPO3_DB t3lib_DB */
-		$TYPO3_DB = Tx_Dce_Utility_DatabaseUtility::getDatabaseConnection();
+		$TYPO3_DB = \DceTeam\Dce\Utility\DatabaseUtility::getDatabaseConnection();
 
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
+		if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
 				// If TYPO3 4.6.0 or greater
 				// add extbase_object to cacheConfigurations
 			$cacheConfigurations = array_merge($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'], array('extbase_object' => array()));
 			$GLOBALS['typo3CacheManager']->setCacheConfigurations($cacheConfigurations);
 		}
-		$this->fluidTemplate = t3lib_div::makeInstance('Tx_Fluid_View_StandaloneView');
 
-		$this->fluidTemplate->setLayoutRootPath(t3lib_div::getFileAbsFileName(self::DEFAULT_DIRECOTRY_LAYOUTS));
-		$this->fluidTemplate->setPartialRootPath(t3lib_div::getFileAbsFileName(self::DEFAULT_DIRECOTRY_PARTIALS));
+		$this->fluidTemplate = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\TYPO3\CMS\Fluid\View\StandaloneView');
+
+		$this->fluidTemplate->setLayoutRootPath(\TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName(self::DEFAULT_DIRECTORY_LAYOUTS));
+		$this->fluidTemplate->setPartialRootPath(\TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName(self::DEFAULT_DIRECTORY_PARTIALS));
 	}
 
 	/**
@@ -95,7 +100,7 @@ class Tx_Dce_Utility_FluidTemplate {
 	 *
 	 * @param string $key The key of a view variable to set
 	 * @param mixed $value The value of the view variable
-	 * @return Tx_Fluid_View_AbstractTemplateView the instance of this view to allow chaining
+	 * @return \TYPO3\CMS\Fluid\View\AbstractTemplateView the instance of this view to allow chaining
 	 */
 	public function assign($key, $value) {
 		return $this->fluidTemplate->assign($key, $value);
@@ -150,9 +155,9 @@ class Tx_Dce_Utility_FluidTemplate {
 	 * @return void
 	 */
 	protected function assureDbalCompatibility() {
-		if ((t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6000000
+		if ((\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 6000000
 				&& $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Core\\Database\\DatabaseConnection'] === NULL) ||
-			(t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 6000000
+			(\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 6000000
 				&& $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['t3lib/class.t3lib_db.php'] === NULL)
 		) {
 			throw new Exception('When using dbal it is necessary to install the dce extension after dbal. Currently dce is loaded first.', 1358518250);

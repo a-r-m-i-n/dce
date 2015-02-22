@@ -1,4 +1,5 @@
 <?php
+namespace DceTeam\Dce\Controller;
 /***************************************************************
  *  Copyright notice
  *
@@ -30,7 +31,10 @@
  * @package dce
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  */
-class Tx_Dce_Controller_DceModuleController extends Tx_Extbase_MVC_Controller_ActionController {
+
+
+
+class DceModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 
 	/**
 	 * @var Tx_Dce_Domain_Repository_DceRepository
@@ -69,7 +73,7 @@ class Tx_Dce_Controller_DceModuleController extends Tx_Extbase_MVC_Controller_Ac
 	 * @return void
 	 */
 	static public function removePreviewRecords() {
-		require_once(t3lib_extMgm::extPath('dce') . 'Classes/UserFunction/class.tx_dce_dcePreviewField.php');
-		$GLOBALS['TYPO3_DB']->exec_DELETEquery('tt_content', 'pid = ' . tx_dce_dcePreviewField::DCE_PREVIEW_PID . ' AND CType LIKE "dce_dceuid%"');
+		require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dce') . 'Classes/UserFunction/class.tx_dce_dcePreviewField.php');
+		$GLOBALS['TYPO3_DB']->exec_DELETEquery('tt_content', 'pid = ' . \tx_dce_dcePreviewField::DCE_PREVIEW_PID . ' AND CType LIKE "dce_dceuid%"');
 	}
 }

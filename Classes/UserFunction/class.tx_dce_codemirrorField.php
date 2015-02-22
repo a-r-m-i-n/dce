@@ -45,12 +45,12 @@ class tx_dce_codemirrorField {
 
 		$this->parameter = $parameter;
 
-		/** @var $fluidTemplate Tx_Dce_Utility_FluidTemplate */
-		$fluidTemplate = t3lib_div::makeInstance('Tx_Dce_Utility_FluidTemplate');
+		/** @var $fluidTemplate \DceTeam\Dce\Utility\FluidTemplate */
+		$fluidTemplate = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\DceTeam\Dce\Utility\FluidTemplate');
 
-		$fluidTemplate->setLayoutRootPath(t3lib_div::getFileAbsFileName('EXT:dce/Resources/Private/Layouts/'));
-		$fluidTemplate->setPartialRootPath(t3lib_div::getFileAbsFileName('EXT:dce/Resources/Private/Partials/'));
-		$fluidTemplate->setTemplatePathAndFilename(t3lib_div::getFileAbsFileName('EXT:dce/Resources/Private/Templates/DceUserFields/Codemirror.html'));
+		$fluidTemplate->setLayoutRootPath(\TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dce/Resources/Private/Layouts/'));
+		$fluidTemplate->setPartialRootPath(\TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dce/Resources/Private/Partials/'));
+		$fluidTemplate->setTemplatePathAndFilename(\TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dce/Resources/Private/Templates/DceUserFields/Coldmirror.html'));
 
 		$fluidTemplate->assign('name', $this->parameter['itemFormElName']);
 		$fluidTemplate->assign('value', $this->parameter['itemFormElValue']);
@@ -127,14 +127,14 @@ class tx_dce_codemirrorField {
 	 * @return array
 	 */
 	protected function getAvailableTemplates() {
-		$path = t3lib_extMgm::extPath('dce') . 'Resources/Public/CodeSnippets/ConfigurationTemplates/';
+		$path = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dce') . 'Resources/Public/CodeSnippets/ConfigurationTemplates/';
 
-		$templates = t3lib_div::get_dirs($path);
+		$templates = \TYPO3\CMS\Core\Utility\GeneralUtility::get_dirs($path);
 		$templates = array_flip($templates);
 
 		foreach($templates as $key => $unused) {
 			$files = array();
-			foreach(t3lib_div::getFilesInDir($path . $key) as $file) {
+			foreach(\TYPO3\CMS\Core\Utility\GeneralUtility::getFilesInDir($path . $key) as $file) {
 				$filename = preg_replace('/(.*)\.xml/i', '$1', $file);
 				$files[$filename] = file_get_contents($path . $key . '/' . $file);
 			}
@@ -150,14 +150,14 @@ class tx_dce_codemirrorField {
 	 * @return array
 	 */
 	protected function getFamousViewHelpers() {
-		return $this->getViewhelpers(t3lib_extMgm::extPath('dce') . 'Resources/Public/CodeSnippets/FamousViewHelpers/');
+		return $this->getViewhelpers(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dce') . 'Resources/Public/CodeSnippets/FamousViewHelpers/');
 	}
 
 	/**
 	 * @return array
 	 */
 	protected function getDceViewHelpers() {
-		return $this->getViewhelpers(t3lib_extMgm::extPath('dce') . 'Resources/Public/CodeSnippets/DceViewHelpers/');
+		return $this->getViewhelpers(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dce') . 'Resources/Public/CodeSnippets/DceViewHelpers/');
 	}
 
 	/**
@@ -165,7 +165,7 @@ class tx_dce_codemirrorField {
 	 * @return array
 	 */
 	protected function getViewhelpers($path) {
-		$files = t3lib_div::getFilesInDir($path);
+		$files = \TYPO3\CMS\Core\Utility\GeneralUtility::getFilesInDir($path);
 
 		$viewhelpers = array();
 		foreach($files as $file) {

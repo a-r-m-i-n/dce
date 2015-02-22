@@ -30,7 +30,10 @@
  * @package dce
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  */
-class Tx_Dce_Domain_Model_DceField extends Tx_Extbase_DomainObject_AbstractEntity {
+
+namespace \DceTeam\Dce\Domain\Model;
+
+class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/** Field Type: Element */
 	const TYPE_ELEMENT = 0;
 	/** Field Type: Tab */
@@ -53,7 +56,7 @@ class Tx_Dce_Domain_Model_DceField extends Tx_Extbase_DomainObject_AbstractEntit
 	/** @var string */
 	protected $_value = '';
 
-	/** @var Tx_Extbase_Persistence_ObjectStorage<Tx_Dce_Domain_Model_DceField> */
+	/** @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage <Tx_Dce_Domain_Model_DceField> */
 	protected $sectionFields = NULL;
 
 
