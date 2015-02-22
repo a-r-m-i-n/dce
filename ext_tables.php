@@ -5,14 +5,14 @@ if (!defined('TYPO3_MODE')) {
 
 $GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceExtTablesPath'] = PATH_typo3conf . 'temp_CACHED_dce_ext_tables.php';
 if (!file_exists($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceExtTablesPath'])) {
-	/** @var $dceCache Tx_Dce_Cache */
-	$dceCache = t3lib_div::makeInstance('Tx_Dce_Cache');
+	/** @var $dceCache \DceTeam\Dce\Cache */
+	$dceCache = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DceTeam\Dce\Cache');
 	$dceCache->createExtTables($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceExtTablesPath']);
 }
 require_once($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceExtTablesPath']);
 
-Tx_Extbase_Utility_Extension::registerModule(
-	$_EXTKEY,
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
+	'DceTeam.' . $_EXTKEY,
 	'tools',
 	'dceModule',
 	'',
@@ -49,9 +49,9 @@ $TCA['tx_dce_domain_model_dce'] = array(
             'endtime' => 'endtime',
         ),
 		'copyAfterDuplFields' => 'fields',
-        'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'Configuration/TCA/Dce.php',
+        'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/Dce.php',
 		'requestUpdate' => 'wizard_enable,template_type,preview_template_type,detailpage_template_type',
-        'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/ext_icon.gif'
+        'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/ext_icon.gif'
     ),
 );
 
@@ -77,13 +77,13 @@ $TCA['tx_dce_domain_model_dcefield'] = array(
             'endtime' => 'endtime',
         ),
 		'requestUpdate' => 'type',
-        'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'Configuration/TCA/DceField.php',
+        'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/DceField.php',
 		'type' => 'type',
 		'typeicon_column' => 'type',
 		'typeicons' => array(
-			'0' => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_dce_domain_model_dcefield_element.gif',
-			'1' => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_dce_domain_model_dcefield_tab.gif',
-			'2' => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_dce_domain_model_dcefield_section.gif',
+			'0' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_dce_domain_model_dcefield_element.gif',
+			'1' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_dce_domain_model_dcefield_tab.gif',
+			'2' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/tx_dce_domain_model_dcefield_section.gif',
 		),
     ),
 );
@@ -102,5 +102,5 @@ $ttContentColumns = array(
 		),
 	),
 );
-t3lib_div::loadTCA('tt_content');
-t3lib_extMgm::addTCAcolumns('tt_content', $ttContentColumns, 1);
+\TYPO3\CMS\Core\Utility\GeneralUtility::loadTCA('tt_content');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('tt_content', $ttContentColumns, 1);

@@ -1,4 +1,4 @@
-{namespace dce=Tx_Dce_ViewHelpers}<?php
+{namespace dce=DceTeam\Dce\Viewhelpers}<?php
 
 $TCA['tt_content']['columns']['CType']['config']['items'][] = array(
 	0 => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce_long',
@@ -8,8 +8,8 @@ $TCA['tt_content']['columns']['CType']['config']['items'][] = array(
 <f:for each="{dceArray}" as="dce">
 <f:if condition="{dce.hidden} == 0">
 ///////////////////////////////////////////////////// uid:{dce.uid} ///
-Tx_Extbase_Utility_Extension::registerPlugin(
-	'dce',
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
+	'DceTeam.dce',
 	'dceuid{dce.uid}',
 	'{dce.title}'
 );
@@ -23,11 +23,11 @@ $TCA['tt_content']['types']['dce_dceuid{dce.uid}']['showitem'] = 'CType;;dce_pal
 </f:if>
 
 <f:if condition="{dce.wizard_enable}">
-t3lib_extMgm::addPageTSConfig('
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('
 	mod.wizards.newContentElement.wizardItems.{dce.wizard_category}.elements.dce_dceuid{dce.uid} {
 	    icon = <f:if condition="{dce.hasCustomWizardIcon}"><f:then>../uploads/tx_dce/{dce.wizard_custom_icon}</f:then><f:else>gfx/c_wiz/{dce.wizard_icon}.gif</f:else></f:if>
 	    title = {dce.title}
-	    description = {dce.wizard_description -> dce:format.raw()}
+	    description = {dce.wizard_description -> f:format.raw()}
 	    tt_content_defValues {
 	        CType = dce_dceuid{dce.uid}
 	    }
@@ -44,6 +44,4 @@ $TCA['tt_content']['columns']['CType']['config']['items'][] = array(
 	1 => '--div--'
 );
 
-t3lib_extMgm::addPageTSConfig('mod.wizards.newContentElement.wizardItems.dce.header = LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce_long');
-
-?>
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('mod.wizards.newContentElement.wizardItems.dce.header = LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce_long');

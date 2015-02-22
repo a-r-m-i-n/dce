@@ -1,5 +1,6 @@
 <?php
-/***************************************************************
+namespace DceTeam\Dce\ViewHelpers;
+	/***************************************************************
 *  Copyright notice
 *
 *  (c) 2012-2014 Armin Rüdiger Vieweg <armin@v.ieweg.de>
@@ -30,7 +31,7 @@
  * @copyright  2012-2014 Copyright belongs to the respective authors
  * @license    http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
-class Tx_Dce_ViewHelpers_TypolinkUrlViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class TypolinkUrlViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 	/**
 	 * Create a typolink and returns just the URL
 	 *
@@ -38,8 +39,8 @@ class Tx_Dce_ViewHelpers_TypolinkUrlViewHelper extends Tx_Fluid_Core_ViewHelper_
 	 * @return string url
 	 */
 	public function render($parameter) {
-		/** @var $cObj tslib_cObj */
-		$cObj = t3lib_div::makeInstance('tslib_cObj');
+		/** @var $cObj \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer */
+		$cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
 		return $cObj->getTypoLink_URL($parameter);
 	}
 }

@@ -1,4 +1,5 @@
 <?php
+namespace DceTeam\Dce;
 /***************************************************************
 *  Copyright notice
 *
@@ -30,9 +31,9 @@
  * @copyright Copyright belongs to the respective authors
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
-class Tx_Dce_Cache {
+class Cache {
 	/**
-	 * @var Tx_Dce_Utility_FluidTemplate
+	 * @var \DceTeam\Dce\Utility\FluidTemplate
 	 */
 	protected $fluidTemplateUtility;
 
@@ -40,7 +41,7 @@ class Tx_Dce_Cache {
 	 * Constructor
 	 */
 	public function __construct() {
-		$this->fluidTemplateUtility = t3lib_div::makeInstance('Tx_Dce_Utility_FluidTemplate');
+		$this->fluidTemplateUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DceTeam\Dce\Utility\FluidTemplate');
 	}
 
 	/**
@@ -51,12 +52,12 @@ class Tx_Dce_Cache {
 	 * @return void
 	 */
     public function createLocalconf($pathDceLocalconf) {
-		$this->fluidTemplateUtility->setTemplatePathAndFilename(t3lib_extMgm::extPath('dce') . 'Resources/Private/Templates/DceSource/localconf.html');
+		$this->fluidTemplateUtility->setTemplatePathAndFilename(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dce') . 'Resources/Private/Templates/DceSource/localconf.html');
 		$this->fluidTemplateUtility->assign('dceArray', $this->getDce());
 		$string = $this->fluidTemplateUtility->render();
 
 		file_put_contents($pathDceLocalconf, $string);
-		t3lib_div::fixPermissions($pathDceLocalconf);
+		\TYPO3\CMS\Core\Utility\GeneralUtility::fixPermissions($pathDceLocalconf);
     }
 
 	/**
@@ -67,12 +68,12 @@ class Tx_Dce_Cache {
 	 * @return void
 	 */
 	public function createExtTables($pathDceExtTables) {
-		$this->fluidTemplateUtility->setTemplatePathAndFilename(t3lib_extMgm::extPath('dce') . 'Resources/Private/Templates/DceSource/ext_tables.html');
+		$this->fluidTemplateUtility->setTemplatePathAndFilename(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dce') . 'Resources/Private/Templates/DceSource/ext_tables.html');
 		$this->fluidTemplateUtility->assign('dceArray', $this->getDce());
 		$string = $this->fluidTemplateUtility->render();
 
 		file_put_contents($pathDceExtTables, $string);
-		t3lib_div::fixPermissions($pathDceExtTables);
+		\TYPO3\CMS\Core\Utility\GeneralUtility::fixPermissions($pathDceExtTables);
 	}
 
 	/**
@@ -95,8 +96,8 @@ class Tx_Dce_Cache {
 	protected function getDce() {
 
 		// fetch the existing DB connection, or initialize it
-		/** @var $TYPO3_DB t3lib_DB */
-		$TYPO3_DB = Tx_Dce_Utility_DatabaseUtility::getDatabaseConnection();
+		/** @var $TYPO3_DB \TYPO3\CMS\Dbal\Database\DatabaseConnection */
+		$TYPO3_DB = \DceTeam\Dce\Utility\DatabaseUtility::getDatabaseConnection();
 
 		$res = $TYPO3_DB->exec_SELECTquery(
 			'*',
@@ -119,9 +120,9 @@ class Tx_Dce_Cache {
 			);
 
 			if (TYPO3_MODE === 'FE') {
-				$generalTabLabel = Tx_Extbase_Utility_Localization::translate('generaltab', 'dce');
+				$generalTabLabel = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('generaltab', 'dce');
 			} else {
-				$generalTabLabel = Tx_Extbase_Utility_Localization::translate('LLL:EXT:dce/Resources/Private/Language/locallang.xml:generaltab', 'dce');
+				$generalTabLabel = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dce/Resources/Private/Language/locallang.xml:generaltab', 'dce');
 			}
 			$tabs = array(0 => array('title' => $generalTabLabel, 'fields' => array()));
 			$i = 0;

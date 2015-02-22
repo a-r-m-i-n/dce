@@ -1,4 +1,5 @@
 <?php
+namespace DceTeam\Dce\ViewHelpers\Be;
 /***************************************************************
  *  Copyright notice
  *
@@ -34,11 +35,11 @@
  * @copyright  2011 Copyright belongs to the respective authors
  * @license    http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
-class Tx_Dce_ViewHelpers_Be_TabContainerViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper implements Tx_Fluid_Core_ViewHelper_Facets_ChildNodeAccessInterface {
+class TabContainerViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper implements  \TYPO3\CMS\Fluid\Core\ViewHelper\Facets\ChildNodeAccessInterface {
 	/**
 	 * All child nodes within this viewHelper
 	 *
-	 * @var array<Tx_Fluid_Core_Parser_SyntaxTree_AbstractNode>
+	 * @var array<\TYPO3\CMS\Fluid\Core\Parser\SyntaxTree\AbstractNode>
 	 */
 	protected $childNodes = array();
 
@@ -61,14 +62,14 @@ class Tx_Dce_ViewHelpers_Be_TabContainerViewHelper extends Tx_Fluid_Core_ViewHel
 	protected function getTabsDataArray() {
 		$tabs = array();
 		foreach ($this->childNodes as $childNode) {
-			if ($childNode instanceof Tx_Fluid_Core_Parser_SyntaxTree_ViewHelperNode
-				&& $childNode->getViewHelperClassName() === 'Tx_Dce_ViewHelpers_Be_TabViewHelper'
+			if ($childNode instanceof \TYPO3\CMS\Fluid\Core\Parser\SyntaxTree\ViewHelperNode
+				&& $childNode->getViewHelperClassName() === 'DceTeam\Dce\ViewHelpers\Be\TabViewHelper'
 			) {
 				$tab = array();
 				$tab['content'] = $childNode->evaluate($this->getRenderingContext());
 				$tab['label'] = $this->getRenderingContext()
 					->getViewHelperVariableContainer()
-					->get('Tx_Dce_ViewHelpers_Be_TabViewHelper', 'title');
+					->get('DceTeam\Dce\ViewHelpers\Be\TabViewHelper', 'title');
 				$tabs[] = $tab;
 			}
 		}
@@ -81,6 +82,6 @@ class Tx_Dce_ViewHelpers_Be_TabContainerViewHelper extends Tx_Fluid_Core_ViewHel
 	 */
 	public function render() {
 		$tabs = $this->getTabsDataArray();
-		return t3lib_TCEforms::getDynTabMenu($tabs, uniqid());
+		return \TYPO3\CMS\Backend\Form\FormEngine::getDynTabMenu($tabs, uniqid());
 	}
 }

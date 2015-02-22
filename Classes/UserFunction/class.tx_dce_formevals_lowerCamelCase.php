@@ -29,6 +29,8 @@
  * @package dce
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  */
+
+
 class tx_dce_formevals_lowerCamelCase extends tx_dce_abstract_formeval {
 
 	/**
@@ -41,14 +43,14 @@ class tx_dce_formevals_lowerCamelCase extends tx_dce_abstract_formeval {
 		$originalValue = $value;
 		$value = str_replace('-', '_', $value);
 		if (strpos($value, '_') !== FALSE) {
-			$value = t3lib_div::underscoredToLowerCamelCase($value);
+			$value = \TYPO3\CMS\Core\Utility\GeneralUtility::underscoredToLowerCamelCase($value);
 		}
 
 		if ($originalValue !== $value && !empty($value)) {
 			$this->addFlashMessage(
 				$this->translate('tx_dce_formeval_lowerCamelCase', array($originalValue, $value)),
 				$this->translate('tx_dce_formeval_headline', array($value)),
-				t3lib_FlashMessage::NOTICE
+				\TYPO3\CMS\Core\Messaging\FlashMessage::NOTICE
 			);
 		}
 		return $value;

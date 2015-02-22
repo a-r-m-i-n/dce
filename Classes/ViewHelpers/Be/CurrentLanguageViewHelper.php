@@ -1,4 +1,5 @@
 <?php
+namespace DceTeam\Dce\ViewHelpers\Be;
 /***************************************************************
 *  Copyright notice
 *
@@ -28,9 +29,9 @@
  *
  * @copyright  2012-2014 Copyright belongs to the respective authors
  * @license    http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
- * @see t3lib_utility_VersionNumber::convertVersionNumberToInteger
+ * @see \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger
  */
-class Tx_Dce_ViewHelpers_Be_CurrentLanguageViewHelper extends Tx_Fluid_ViewHelpers_Be_AbstractBackendViewHelper {
+class CurrentLanguageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper  {
 
 	/**
 	 * Returns the current language key

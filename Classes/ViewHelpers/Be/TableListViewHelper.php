@@ -1,4 +1,5 @@
 <?php
+namespace DceTeam\Dce\ViewHelpers\Be;
 /***************************************************************
  *  Copyright notice
  *
@@ -23,15 +24,15 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 6002000) {
+if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 6002000) {
 	require_once (PATH_typo3 . 'class.db_list.inc');
 	require_once (PATH_typo3 . 'class.db_list_extra.inc');
 }
 
 /**
- * Class Tx_Dce_ViewHelpers_Be_TableListViewHelper
+ * Class \TYPO3\CMS\Fluid\ViewHelpers\Be\TableListViewHelper
  */
-class Tx_Dce_ViewHelpers_Be_TableListViewHelper extends Tx_Fluid_ViewHelpers_Be_TableListViewHelper {
+class TableListViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\TableListViewHelper {
 
 	/**
 	 * Renders a record list as known from the TYPO3 list module

@@ -1,4 +1,5 @@
 <?php
+namespace DceTeam\Dce\ViewHelpers\Be;
 /***************************************************************
 *  Copyright notice
 *
@@ -30,7 +31,7 @@
  * @license    http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  * @see t3lib_utility_VersionNumber::convertVersionNumberToInteger
  */
-class Tx_Dce_ViewHelpers_Be_ExtensionIsInstalledViewHelper extends Tx_Fluid_ViewHelpers_Be_AbstractBackendViewHelper {
+class ExtensionIsInstalledViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper {
 
 	/**
 	 * Returns TRUE if given extension is installed. Otherwise returns FALSE.
@@ -39,6 +40,6 @@ class Tx_Dce_ViewHelpers_Be_ExtensionIsInstalledViewHelper extends Tx_Fluid_View
 	 * @return boolean
 	 */
 	public function render($key) {
-		return t3lib_extMgm::isLoaded($key);
+		return \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($key);
 	}
 }

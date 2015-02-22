@@ -279,10 +279,6 @@ Add slashes to a given string using the php function "addcslashes". Available op
 
 	<dce:format.addcslashes>{field.myVariable}</dce:format.addcslashes>
 
-**dce:format.raw**
-
-Outputs given value as it is, without strip of html tags, etc. Deprecated since TYPO3 4.7. Use ```f:format.raw()``` instead.
-
 **dce:format.tiny**
 
 Removes tabs and line breaks. Example:

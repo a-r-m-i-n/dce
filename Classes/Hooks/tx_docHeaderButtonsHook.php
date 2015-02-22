@@ -39,7 +39,7 @@ class tx_docHeaderButtonsHook {
 	 * @return void
 	 */
 	public function addQuickDcePopupButton(array &$params) {
-		$editGetParam = t3lib_div::_GP('edit');
+		$editGetParam = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('edit');
 		$editGetParam = isset($editGetParam['tt_content']) ? $editGetParam['tt_content'] : NULL;
 		if ($editGetParam === NULL || !is_array($editGetParam)) {
 			return;
@@ -50,18 +50,18 @@ class tx_docHeaderButtonsHook {
 			$uid = intval($uidWithComma);
 
 			/** @var $tceMain t3lib_TCEmain */
-			$tceMain = t3lib_div::makeInstance('t3lib_TCEmain');
+			$tceMain = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('t3lib_TCEmain');
 			$contentRecord = $tceMain->recordInfo('tt_content', $uid, 'CType');
 			$CType = current($contentRecord);
 			$this->requireDceRepository();
-			$dceUid = Tx_Dce_Domain_Repository_DceRepository::extractUidFromCType($CType);
+			$dceUid = \DceTeam\Dce\Domain\Repository\DceRepository::extractUidFromCType($CType);
 
 			if ($dceUid !== FALSE) {
 				$buttonCode = '';
 				if ($GLOBALS['BE_USER']->isAdmin()) {
 					$linkToDce = 'alt_doc.php?&returnUrl=close.html&edit[tx_dce_domain_model_dce][' . $dceUid . ']=edit';
-					$pathToImage = t3lib_extMgm::extRelPath('dce') . 'Resources/Public/Icons/docheader_icon.png';
-					$titleTag = Tx_Extbase_Utility_Localization::translate('quickDcePopup', 'Dce');
+					$pathToImage = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('dce') . 'Resources/Public/Icons/docheader_icon.png';
+					$titleTag = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('quickDcePopup', 'Dce');
 					$buttonCode = '<div class="buttongroup"><a href="#" onclick="window.open(\'' . $linkToDce . '\', \'editDcePopup\', \'height=600,width=820,status=0,menubar=0,scrollbars=1\')"><img src="' . $pathToImage . '" alt="" title="' . $titleTag . '" /></a></div>';
 				}
 				$params['markers']['BUTTONLIST_LEFT'] .= $buttonCode . $this->getCustomStylesheet();
@@ -74,7 +74,7 @@ class tx_docHeaderButtonsHook {
 	 * @return void
 	 */
 	protected function requireDceRepository() {
-		require_once(t3lib_extMgm::extPath('dce') . 'Classes/Domain/Repository/DceRepository.php');
+		require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dce') . 'Classes/Domain/Repository/DceRepository.php');
 	}
 
 
@@ -83,7 +83,7 @@ class tx_docHeaderButtonsHook {
 	 * @return string
 	 */
 	protected function getCustomStylesheet() {
-		$file = t3lib_extMgm::extPath('dce') . 'Resources/Public/CSS/dceInstance.css';
+		$file = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dce') . 'Resources/Public/CSS/dceInstance.css';
 		$content = file_get_contents($file);
 		return '<style type="text/css">' . $content . '</style>';
 	}

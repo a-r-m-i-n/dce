@@ -1,4 +1,5 @@
 <?php
+namespace DceTeam\Dce\Utility;
 /***************************************************************
  *  Copyright notice
  *
@@ -33,22 +34,25 @@
  * @package dce
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  */
-class Tx_Dce_Utility_DatabaseUtility {
+
+
+
+class DatabaseUtility {
 
 	/**
 	 * Returns a valid DatabaseConnection object that is connected and ready to be
 	 * used static
-	 * @return t3lib_DB
+	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
 	 */
 	public static function getDatabaseConnection() {
 		if (!$GLOBALS['TYPO3_DB']) {
 			// for 6.1+, only initialize the global DB object
-			if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6001000) {
+			if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 6001000) {
 				\TYPO3\CMS\Core\Core\Bootstrap::getInstance()->initializeTypo3DbGlobal();
 			} else {
 				// 6.0 and below: create and connect (no implicit connection available)
-				/** @var $TYPO3_DB t3lib_DB */
-				$GLOBALS['TYPO3_DB'] = t3lib_div::makeInstance('t3lib_DB');
+				/** @var $TYPO3_DB \TYPO3\CMS\Dbal\Database\DatabaseConnection */
+				$GLOBALS['TYPO3_DB'] = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\TYPO3\CMS\Dbal\Database\DatabaseConnection');
 				$GLOBALS['TYPO3_DB']->connectDB();
 			}
 		}

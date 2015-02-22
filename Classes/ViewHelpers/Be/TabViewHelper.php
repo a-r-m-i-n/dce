@@ -1,4 +1,5 @@
 <?php
+namespace DceTeam\Dce\ViewHelpers\Be;
 /***************************************************************
  *  Copyright notice
  *
@@ -38,19 +39,19 @@
  * @copyright  2011 Copyright belongs to the respective authors
  * @license    http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
-class Tx_Dce_ViewHelpers_Be_TabViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class TabViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper  {
 	/**
-	 * @var Tx_Fluid_Core_Rendering_RenderingContext
+	 * @var \TYPO3\CMS\Fluid\Core\Rendering\RenderingContext
 	 */
 	protected $renderingContext;
 
 	/**
 	 * Sets the rendering context which needs to be passed on to child nodes.
 	 *
-	 * @param Tx_Fluid_Core_Rendering_RenderingContext $renderingContext the rendering context to use
+	 * @param \TYPO3\CMS\Fluid\Core\Rendering\RenderingContext $renderingContext the rendering context to use
 	 * @return void
 	 */
-	public function setRenderingContext(Tx_Fluid_Core_Rendering_RenderingContext $renderingContext) {
+	public function setRenderingContext(\TYPO3\CMS\Fluid\Core\Rendering\RenderingContext $renderingContext) {
 		parent::setRenderingContext($renderingContext);
 		$this->renderingContext = $renderingContext;
 	}
@@ -65,7 +66,7 @@ class Tx_Dce_ViewHelpers_Be_TabViewHelper extends Tx_Fluid_Core_ViewHelper_Abstr
 	public function render($title) {
 		$result = $this->renderChildren();
 		$this->renderingContext->getViewHelperVariableContainer()
-			->addOrUpdate('Tx_Dce_ViewHelpers_Be_TabViewHelper', 'title', $title);
+			->addOrUpdate('DceTeam\Dce\Viewhelpers\Be\TabViewHelper', 'title', $title);
 		return $result;
 	}
 }

@@ -1,4 +1,5 @@
 <?php
+namespace DceTeam\Dce\Utility;
 /***************************************************************
  *  Copyright notice
  *
@@ -30,7 +31,9 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  *
  */
-class Tx_Dce_Utility_File {
+
+
+class File {
 	/**
 	 * Converts given file path to absolute or relative file path.
 	 * If FAL reference is given (eg. "file:123") it will be interpret to real existing file path.
@@ -41,8 +44,8 @@ class Tx_Dce_Utility_File {
 	 */
 	static public function getFilePath($file, $absolute = TRUE) {
 		$filePath = $file;
-		if (t3lib_div::isFirstPartOfStr($file, 'file:')
-				&& t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6000000) {
+		if (\TYPO3\CMS\Core\Utility\GeneralUtility::isFirstPartOfStr($file, 'file:')
+				&& \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 6000000) {
 			$combinedIdentifier = substr($file, 5);
 			$resourceFactory = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance();
 
@@ -51,7 +54,7 @@ class Tx_Dce_Utility_File {
 		}
 
 		if ($absolute === TRUE) {
-			return t3lib_div::getFileAbsFileName($filePath);
+			return \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($filePath);
 		}
 		return $filePath;
 	}

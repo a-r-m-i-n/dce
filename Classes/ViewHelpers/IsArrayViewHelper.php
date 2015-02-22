@@ -1,5 +1,6 @@
 <?php
-/***************************************************************
+namespace DceTeam\Dce\ViewHelpers;
+	/***************************************************************
 *  Copyright notice
 *
 *  (c) 2012-2014 Armin Ruediger Vieweg <armin@v.ieweg.de>
@@ -29,7 +30,7 @@
  * @copyright Copyright belongs to the respective authors
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
-class Tx_Dce_ViewHelpers_IsArrayViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class IsArrayViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
 	 * Checks if the given subject is an array

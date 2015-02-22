@@ -1,4 +1,5 @@
 <?php
+namespace DceTeam\Dce\ViewHelpers\Format;
 /***************************************************************
  *  Copyright notice
  *
@@ -29,7 +30,7 @@
  * @copyright Copyright belongs to the respective authors
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
-class Tx_Dce_ViewHelpers_Format_WrapWithCurlyBracesViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class WrapWithCurlyBracesViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
 	 * Returns the given string with encircling curly braces

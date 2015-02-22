@@ -1,4 +1,5 @@
 <?php
+namespace DceTeam\Dce\ViewHelpers\Uri;
 /***************************************************************
 *  Copyright notice
 *
@@ -29,7 +30,7 @@
  * @copyright Copyright belongs to the respective authors
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
-class Tx_Dce_ViewHelpers_Uri_ImageViewHelper extends Tx_Fluid_ViewHelpers_Uri_ImageViewHelper {
+class ImageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Uri\ImageViewHelper {
 
 	/**
 	 * Resizes a given image (if required) and renders the respective img tag
@@ -47,7 +48,7 @@ class Tx_Dce_ViewHelpers_Uri_ImageViewHelper extends Tx_Fluid_ViewHelpers_Uri_Im
 	 * @return string rendered tag.
 	 */
 	public function render($src, $width = NULL, $height = NULL, $minWidth = NULL, $minHeight = NULL, $maxWidth = NULL, $maxHeight = NULL, $image = NULL) {
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 6000000) {
+		if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 6000000) {
 			$imageUri = parent::render($src, $width, $height, $minWidth, $minHeight, $maxWidth, $maxHeight);
 		} else {
 			$imageUri = parent::render($src, $image, $width, $height, $minWidth, $minHeight, $maxWidth, $maxHeight);

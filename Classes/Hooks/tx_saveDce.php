@@ -50,11 +50,11 @@ class tx_saveDce {
 	 * @param $table
 	 * @param $id
 	 * @param array $fieldArray
-	 * @param t3lib_TCEmain $pObj
+	 * @param \TYPO3\CMS\Core\DataHandling\DataHandler$pObj
 	 *
 	 * @return void
 	 */
-	public function processDatamap_afterDatabaseOperations($status, $table, $id, array $fieldArray, t3lib_TCEmain $pObj) {
+	public function processDatamap_afterDatabaseOperations($status, $table, $id, array $fieldArray, \TYPO3\CMS\Core\DataHandling\DataHandler $pObj) {
 		$this->extConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dce']);
 		$this->tcemain = $pObj;
 		$this->fieldArray = array();
@@ -75,7 +75,7 @@ class tx_saveDce {
 		if ($table === 'tx_dce_domain_model_dce' && $status === 'update') {
 			if (!isset($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceImportInProgress'])) {
 				$this->performPreviewAutoupdateBatchOnDceChange();
-				Tx_Dce_Controller_DceModuleController::removePreviewRecords();
+				\DceTeam\Dce\Controller\DceModuleController::removePreviewRecords();
 			}
 		}
 
@@ -104,8 +104,8 @@ class tx_saveDce {
 		} else {
 			// Preview texts can not created in frontend context
 			$this->tcemain->updateDB('tt_content', $this->uid, array_merge($this->fieldArray, array(
-				'header' => Tx_Extbase_Utility_Localization::translate('contentElementCreatedByFrontendHeader', 'dce'),
-				'bodytext' => Tx_Extbase_Utility_Localization::translate('contentElementCreatedByFrontendBodytext', 'dce', array(t3lib_div::_GP('eID'))),
+				'header' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('contentElementCreatedByFrontendHeader', 'dce'),
+				'bodytext' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('contentElementCreatedByFrontendBodytext', 'dce', array(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('eID'))),
 			)));
 		}
 	}
@@ -131,8 +131,8 @@ class tx_saveDce {
 				$js = "var t=this, b=$(t).up('span'), h=$(b).previous('strong'); $(t).replace('<img src=\'../../../../typo3conf/ext/dce/Resources/Public/Icons/ajax-loader.gif\' alt=\'\' /> ' + $(t).innerHTML); new Ajax.Request('../../../ajax.php',{postBody:'" . $postBody ."', onSuccess:function(r){ var j=r.responseText.evalJSON(); b.update(j.bodytext); $(h).update(j.header); }}); return false;";
 
 				$fieldArray = array(
-					'header' => Tx_Extbase_Utility_Localization::translate('autoupdateDisabledHeader', 'dce'),
-					'bodytext' => Tx_Extbase_Utility_Localization::translate('autoupdateDisabledBodytext', 'dce', array($js)),
+					'header' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('autoupdateDisabledHeader', 'dce'),
+					'bodytext' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('autoupdateDisabledBodytext', 'dce', array($js)),
 				);
 				unset($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceImportInProgress']);
 			}
@@ -156,8 +156,8 @@ class tx_saveDce {
 			'dceUid' => $this->getDceUidByContentElementUid($uid),
 		);
 		return array(
-			'header' => $this->runExtbaseController('Dce', 'Dce', 'renderPreview', 'tools_DceDcemodule', array_merge($settings, array('previewType' => 'header'))),
-			'bodytext' => $this->runExtbaseController('Dce', 'Dce', 'renderPreview', 'tools_DceDcemodule', array_merge($settings, array('previewType' => 'bodytext'))),
+			'header' => $this->runExtbaseController('DceTeam.Dce', 'Dce', 'renderPreview', 'tools_DceDcemodule', array_merge($settings, array('previewType' => 'header'))),
+			'bodytext' => $this->runExtbaseController('DceTeam.Dce', 'Dce', 'renderPreview', 'tools_DceDcemodule', array_merge($settings, array('previewType' => 'bodytext'))),
 		);
 	}
 
@@ -172,8 +172,8 @@ class tx_saveDce {
 			'dceUid' => $dceUid,
 		);
 		return array(
-			'header' => $this->runExtbaseController('Dce', 'Dce', 'renderPreview', 'tools_DceDcemodule', array_merge($settings, array('previewType' => 'header'))),
-			'bodytext' => $this->runExtbaseController('Dce', 'Dce', 'renderPreview', 'tools_DceDcemodule', array_merge($settings, array('previewType' => 'bodytext'))),
+			'header' => $this->runExtbaseController('DceTeam.Dce', 'Dce', 'renderPreview', 'tools_DceDcemodule', array_merge($settings, array('previewType' => 'header'))),
+			'bodytext' => $this->runExtbaseController('DceTeam.Dce', 'Dce', 'renderPreview', 'tools_DceDcemodule', array_merge($settings, array('previewType' => 'bodytext'))),
 		);
 	}
 
@@ -189,8 +189,8 @@ class tx_saveDce {
 	 * @return string output of controller's action
 	 */
 	protected function runExtbaseController($extensionName, $controller, $action = 'index', $pluginName = 'Pi1', $settings = array()) {
-		$bootstrap = new Tx_Extbase_Core_Bootstrap();
-		$bootstrap->cObj = t3lib_div::makeInstance('tslib_cObj');
+		$bootstrap = new \TYPO3\CMS\Extbase\Core\Bootstrap();
+		$bootstrap->cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tslib_cObj');
 
 		$configuration = array(
 			'pluginName' => $pluginName,
@@ -222,7 +222,7 @@ class tx_saveDce {
 	 * @param t3lib_TCEmain $pObj
 	 * @return boolean
 	 */
-	protected function isDceContentElement(t3lib_TCEmain $pObj) {
+	protected function isDceContentElement(\TYPO3\CMS\Core\DataHandling\DataHandler $pObj) {
 		$datamap = reset(reset($pObj->datamap));
 		return (strpos($datamap['CType'], 'dce_dceuid') !== FALSE);
 	}
@@ -261,7 +261,7 @@ class tx_saveDce {
 		$row = $this->tcemain->recordInfo('tt_content', $this->uid, 'CType,tx_dce_dce');
 		if(empty($row['tx_dce_dce'])) {
 			$this->tcemain->updateDB('tt_content', $this->uid, array(
-				'tx_dce_dce' => Tx_Dce_Domain_Repository_DceRepository::extractUidFromCType($row['CType'])
+				'tx_dce_dce' => \DceTeam\Dce\Domain\Repository\DceRepository::extractUidFromCType($row['CType'])
 			));
 		}
 	}

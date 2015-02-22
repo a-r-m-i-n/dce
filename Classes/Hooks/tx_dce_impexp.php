@@ -49,7 +49,7 @@ class tx_dce_impexp {
 				if (array_key_exists('tx_dce_dce', $ttContentUpdatedFields)) {
 					$dceUid = intval(substr($ttContentUpdatedFields['tx_dce_dce'], strlen('tx_dce_domain_model_dce_')));
 					$TCEmain->updateDB('tt_content', $ttContentUid, array(
-						'CType' => Tx_Dce_Domain_Repository_DceRepository::convertUidToCType($dceUid),
+						'CType' => \DceTeam\Dce\Domain\Repository\DceRepository::convertUidToCType($dceUid),
 						'tx_dce_dce' => $dceUid
 					));
 				}

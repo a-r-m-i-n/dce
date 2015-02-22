@@ -1,4 +1,5 @@
 <?php
+namespace DceTeam\Dce\Controller;
 /***************************************************************
  *  Copyright notice
  *
@@ -30,39 +31,41 @@
  * @package dce
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  */
-class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionController {
+
+
+class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 
 	/**
 	 * DCE Repository
 	 *
-	 * @var Tx_Dce_Domain_Repository_DceRepository
+	 * @var \DceTeam\Dce\Domain\Repository\DceRepository
 	 */
 	protected $dceRepository;
 
 	/**
 	 * TypoScript Utility
 	 *
-	 * @var Tx_Dce_Utility_TypoScript
+	 * @var \DceTeam\Dce\Utility\TypoScript
 	 */
 	protected $typoScriptUtility;
 
 	/**
 	 * Inject DCE Repository
 	 *
-	 * @param Tx_Dce_Domain_Repository_DceRepository $dceRepository
+	 * @param \DceTeam\Dce\Domain\Repository\DceRepository $dceRepository
 	 * @return void
 	 */
-	public function injectDceRepository(Tx_Dce_Domain_Repository_DceRepository $dceRepository) {
+	public function injectDceRepository(\DceTeam\Dce\Domain\Repository\DceRepository $dceRepository) {
 		$this->dceRepository = $dceRepository;
 	}
 
 	/**
 	 * Inject TypoScript Utility
 	 *
-	 * @param Tx_Dce_Utility_TypoScript $typoScriptUtility
+	 * @param \DceTeam\Dce\Utility\TypoScript $typoScriptUtility
 	 * @return void
 	 */
-	public function injectTypoScriptUtility(Tx_Dce_Utility_TypoScript $typoScriptUtility) {
+	public function injectTypoScriptUtility(\DceTeam\Dce\Utility\TypoScript $typoScriptUtility) {
 		$this->typoScriptUtility = $typoScriptUtility;
 	}
 
@@ -85,16 +88,16 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 	 */
 	public function showAction() {
 		$contentObject = $this->configurationManager->getContentObject()->data;
-		$config = $this->configurationManager->getConfiguration(Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
+		$config = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
 
-		/** @var $dce Tx_Dce_Domain_Model_Dce */
+		/** @var $dce \DceTeam\Dce\Domain\Model\Dce */
 		$dce = $this->dceRepository->findAndBuildOneByUid(
 			$this->dceRepository->extractUidFromCType($config['pluginName']),
 			$this->settings,
 			$contentObject
 		);
 
-		if ($dce->getEnableDetailpage() && intval($contentObject['uid']) === intval(t3lib_div::_GP($dce->getDetailpageIdentifier()))) {
+		if ($dce->getEnableDetailpage() && intval($contentObject['uid']) === intval(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP($dce->getDetailpageIdentifier()))) {
 			return $dce->renderDetailpage();
 		} else {
 			return $dce->render();
@@ -113,7 +116,7 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 
 		$this->settings = $this->simulateContentElementSettings($this->settings['contentElementUid']);
 
-		/** @var $dce Tx_Dce_Domain_Model_Dce */
+		/** @var $dce \DceTeam\Dce\Domain\Model\Dce */
 		$dce = clone $this->dceRepository->findAndBuildOneByUid(
 			$uid,
 			$this->settings,
@@ -135,7 +138,7 @@ class Tx_Dce_Controller_DceController extends Tx_Extbase_MVC_Controller_ActionCo
 	 */
 	protected function simulateContentElementSettings($contentElementUid) {
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('pi_flexform', 'tt_content', 'uid = ' . $contentElementUid);
-		$flexform = t3lib_div::xml2array(current($GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)));
+		$flexform = \TYPO3\CMS\Core\Utility\GeneralUtility::xml2array(current($GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)));
 
 		$this->temporaryDceProperties = array();
 		if(is_array($flexform)) {

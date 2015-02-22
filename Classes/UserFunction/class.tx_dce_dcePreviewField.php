@@ -34,16 +34,16 @@ class tx_dce_dcePreviewField {
 
 	/**
 	 * @param array $parameter unused
-	 * @param t3lib_TCEforms $fObj
+	 * @param \TYPO3\CMS\Backend\Form\FormEngine $fObj
 	 * @return string
 	 */
-	function getPreview($parameter, t3lib_TCEforms $fObj) {
-		/** @var $fluidTemplate Tx_Dce_Utility_FluidTemplate */
-		$fluidTemplate = t3lib_div::makeInstance('Tx_Dce_Utility_FluidTemplate');
+	function getPreview($parameter, \TYPO3\CMS\Backend\Form\FormEngine $fObj) {
+		/** @var $fluidTemplate \DceTeam\Dce\Utility\FluidTemplate */
+		$fluidTemplate = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DceTeam\Dce\Utility\FluidTemplate');
 
-		$fluidTemplate->setLayoutRootPath(t3lib_div::getFileAbsFileName('EXT:dce/Resources/Private/Layouts/'));
-		$fluidTemplate->setPartialRootPath(t3lib_div::getFileAbsFileName('EXT:dce/Resources/Private/Partials/'));
-		$fluidTemplate->setTemplatePathAndFilename(t3lib_div::getFileAbsFileName('EXT:dce/Resources/Private/Templates/DceUserFields/DcePreview.html'));
+		$fluidTemplate->setLayoutRootPath(\TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dce/Resources/Private/Layouts/'));
+		$fluidTemplate->setPartialRootPath(\TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dce/Resources/Private/Partials/'));
+		$fluidTemplate->setTemplatePathAndFilename(\TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dce/Resources/Private/Templates/DceUserFields/DcePreview.html'));
 
 		$dceUid = $this->getDceUid($fObj);
 		$fluidTemplate->assign('dceUid', $dceUid);
@@ -72,10 +72,10 @@ class tx_dce_dcePreviewField {
 	}
 
 	/**
-	 * @param t3lib_TCEforms $fObj
+	 * @param \TYPO3\CMS\Backend\Form\FormEngine $fObj
 	 * @return integer
 	 */
-	protected function getDceUid(t3lib_TCEforms $fObj) {
+	protected function getDceUid(\TYPO3\CMS\Backend\Form\FormEngine $fObj) {
 		$dceRecord = current($fObj->cachedTSconfig);
 		return intval($dceRecord['_THIS_UID']);
 	}
