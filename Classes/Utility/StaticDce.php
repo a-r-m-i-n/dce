@@ -38,7 +38,7 @@ class StaticDce {
 	static protected $extConfiguration = array();
 
 	/**
-	 * @var \Tx_Dce_Utility_TypoScript
+	 * @var \DceTeam\Dce\Utility\TypoScript
 	 */
 	static protected $typoscriptUtility = NULL;
 
@@ -48,7 +48,7 @@ class StaticDce {
 	 */
 	public function __construct() {
 		static::$extConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dce']);
-		static::$typoscriptUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_Dce_Utility_TypoScript');
+		static::$typoscriptUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DceTeam\Dce\Utility\TypoScript');
 	}
 
 

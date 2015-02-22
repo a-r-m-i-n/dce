@@ -1,0 +1,44 @@
+{namespace dce=DceTeam\Dce\Viewhelpers}
+<f:layout name="CustomTcaField" />
+
+<f:section name="head">
+	<dce:be.includeCssFile path="{f:uri.resource(path:'Libraries/codemirror/codemirror.css', extensionName:'dce')}" />
+	<dce:be.includeCssFile path="{f:uri.resource(path:'Libraries/codemirror/codemirror_custom.css', extensionName:'dce')}" />
+
+	<dce:be.includeJsFile path="{f:uri.resource(path:'Libraries/codemirror/codemirror_custom.min.js', extensionName:'dce')}" />
+	<dce:be.includeJsFile path="{f:uri.resource(path:'Libraries/codemirror/init.js', extensionName:'dce')}" />
+</f:section>
+
+<f:section name="main">
+	<div id="dceConfigurationWizard" class="t3version-{dce:be.currentTypo3Version()}">
+		<f:if condition="{disableCodemirror}">
+			<f:then></f:then>
+			<f:else>
+				<f:if condition="{parameters.showTemplates}">
+					<f:then>
+						<f:render partial="ConfigurationEditor/AvailableTemplates" arguments="{uniqueIdentifier:uniqueIdentifier, availableTemplates:availableTemplates}"  />
+					</f:then>
+					<f:else>
+						<f:render partial="ConfigurationEditor/AvailableVariables" arguments="{uniqueIdentifier:uniqueIdentifier, availableFields:availableFields, famousViewHelpers:famousViewHelpers, dceViewHelpers:dceViewHelpers}"  />
+					</f:else>
+				</f:if>
+			</f:else>
+		</f:if>
+		<div>
+			<textarea id="codemirror_{uniqueIdentifier}" name={name} cols="80" rows="15" onchange="{onChangeFunc}" {onFocus}>{value}</textarea>
+		</div>
+	</div>
+
+	<f:if condition="{disableCodemirror}">
+		<f:then></f:then>
+		<f:else>
+			<script type="text/javascript">
+				initCodeMirrorEditor($('codemirror_{uniqueIdentifier}'));
+			</script>
+		</f:else>
+	</f:if>
+
+	<script type="text/javascript">
+		disableSectionFieldType($('codemirror_{uniqueIdentifier}'));
+	</script>
+</f:section>

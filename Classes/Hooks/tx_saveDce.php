@@ -30,7 +30,7 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
 class tx_saveDce {
-	/** @var t3lib_TCEmain */
+	/** @var \TYPO3\CMS\Core\DataHandling\DataHandler */
 	protected $tcemain = NULL;
 
 	/** @var integer uid of current record */
@@ -137,8 +137,8 @@ class tx_saveDce {
 			unset($newValues['bodytext_preview']);
 
 
-			/** @var Tx_Dce_Utility_TypoScript $typoScriptUtility */
-			$typoScriptUtility = t3lib_div::makeInstance('Tx_Dce_Utility_TypoScript');
+			/** @var \DceTeam\Dce\Utility\TypoScript $typoScriptUtility */
+			$typoScriptUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\DceTeam\Dce\Utility\TypoScript');
 			$dceTypoScript = $typoScriptUtility->convertArrayToTypoScript($newValues, 'tx_dce.static');
 
 			file_put_contents($dceFolderPath . 'Dce.ts', $dceTypoScript);
@@ -300,8 +300,8 @@ class tx_saveDce {
 			'dceUid' => $this->getDceUidByContentElementUid($uid),
 		);
 		return array(
-			'header' => $this->runExtbaseController('DceTeam.Dce', 'Dce', 'renderPreview', 'tools_DceDcemodule', array_merge($settings, array('previewType' => 'header'))),
-			'bodytext' => $this->runExtbaseController('DceTeam.Dce', 'Dce', 'renderPreview', 'tools_DceDcemodule', array_merge($settings, array('previewType' => 'bodytext'))),
+			'header' => $this->runExtbaseController('DceTeam', 'Dce', 'Dce', 'renderPreview', 'tools_DceDcemodule', array_merge($settings, array('previewType' => 'header'))),
+			'bodytext' => $this->runExtbaseController('DceTeam', 'Dce', 'Dce', 'renderPreview', 'tools_DceDcemodule', array_merge($settings, array('previewType' => 'bodytext'))),
 		);
 	}
 
@@ -316,14 +316,15 @@ class tx_saveDce {
 			'dceUid' => $dceUid,
 		);
 		return array(
-			'header' => $this->runExtbaseController('DceTeam.Dce', 'Dce', 'renderPreview', 'tools_DceDcemodule', array_merge($settings, array('previewType' => 'header'))),
-			'bodytext' => $this->runExtbaseController('DceTeam.Dce', 'Dce', 'renderPreview', 'tools_DceDcemodule', array_merge($settings, array('previewType' => 'bodytext'))),
+			'header' => $this->runExtbaseController('DceTeam', 'Dce', 'renderPreview', 'tools_DceDcemodule', array_merge($settings, array('previewType' => 'header'))),
+			'bodytext' => $this->runExtbaseController('DceTeam', 'Dce', 'renderPreview', 'tools_DceDcemodule', array_merge($settings, array('previewType' => 'bodytext'))),
 		);
 	}
 
 	/**
 	 * Initializes and runs an extbase controller
 	 *
+	 * @param string $vendorName Name of vendor
 	 * @param string $extensionName Name of extension, in UpperCamelCase
 	 * @param string $controller Name of controller, in UpperCamelCase
 	 * @param string $action Optional name of action, in lowerCamelCase (without 'Action' suffix). Default is 'index'.
@@ -332,16 +333,17 @@ class tx_saveDce {
 	 *
 	 * @return string output of controller's action
 	 */
-	protected function runExtbaseController($extensionName, $controller, $action = 'index', $pluginName = 'Pi1', $settings = array()) {
+	protected function runExtbaseController($vendorName, $extensionName, $controller, $action = 'index', $pluginName = 'Pi1', $settings = array()) {
 		$bootstrap = new \TYPO3\CMS\Extbase\Core\Bootstrap();
 		$bootstrap->cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tslib_cObj');
 
 		$configuration = array(
-			'pluginName' => $pluginName,
+			'vendorName' => $vendorName,
 			'extensionName' => $extensionName,
 			'controller' => $controller,
 			'action' => $action,
-			'settings' => $settings,
+			'pluginName' => $pluginName,
+			'settings' => $settings
 		);
 
 		$_POST['tx_dce_tools_dcedcemodule']['controller'] = $controller;
