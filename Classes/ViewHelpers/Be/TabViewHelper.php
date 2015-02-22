@@ -66,7 +66,7 @@ class TabViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper 
 	public function render($title) {
 		$result = $this->renderChildren();
 		$this->renderingContext->getViewHelperVariableContainer()
-			->addOrUpdate('DceTeam\Dce\Viewhelpers\Be\TabViewHelper', 'title', $title);
+			->addOrUpdate('DceTeam\Dce\ViewHelpers\Be\TabViewHelper', 'title', $title);
 		return $result;
 	}
 }
