@@ -1,4 +1,6 @@
 <?php
+
+namespace DceTeam\Dce\Domain\Model;
 /***************************************************************
  *  Copyright notice
  *
@@ -31,7 +33,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  */
 
-namespace \DceTeam\Dce\Domain\Model;
 
 class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/** Field Type: Element */

@@ -57,8 +57,8 @@ $boot = function($extensionKey) {
 
 	$GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceLocalconfPath'] = PATH_typo3conf . 'temp_CACHED_dce_ext_localconf.php';
 	if (!file_exists($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceLocalconfPath'])) {
-		/** @var $dceCache Tx_Dce_Cache */
-		$dceCache = t3lib_div::makeInstance('Tx_Dce_Cache');
+		/** @var $dceCache \DceTeam\Dce\Cache */
+		$dceCache = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DceTeam\Dce\Cache');
 		$dceCache->createLocalconf($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceLocalconfPath']);
 	}
 	require_once($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceLocalconfPath']);

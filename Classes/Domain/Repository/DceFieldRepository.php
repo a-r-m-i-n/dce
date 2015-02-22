@@ -1,4 +1,5 @@
 <?php
+namespace DceTeam\Dce\Domain\Repository;
 /***************************************************************
  *  Copyright notice
  *
@@ -30,7 +31,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  */
 
-namespace DceTeam\Dce\Domain\Repository;
 
 class DceFieldRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 }

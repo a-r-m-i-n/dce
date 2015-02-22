@@ -37,7 +37,7 @@ namespace DceTeam\Dce\Controller;
 class DceModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 
 	/**
-	 * @var Tx_Dce_Domain_Repository_DceRepository
+	 * @var \DceTeam\Dce\Domain\Repository\DceRepository
 	 * @inject
 	 */
 	protected $dceRepository;

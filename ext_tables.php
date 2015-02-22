@@ -6,14 +6,14 @@ if (!defined('TYPO3_MODE')) {
 $boot = function($extensionKey) {
 	$GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceExtTablesPath'] = PATH_typo3conf . 'temp_CACHED_dce_ext_tables.php';
 	if (!file_exists($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceExtTablesPath'])) {
-		/** @var $dceCache Tx_Dce_Cache */
-		$dceCache = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_Dce_Cache');
+		/** @var $dceCache \DceTeam\Dce\Cache */
+		$dceCache = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\DceTeam\Dce\Cache');
 		$dceCache->createExtTables($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceExtTablesPath']);
 	}
 	require_once($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceExtTablesPath']);
 
 	\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
-		$extensionKey,
+		'DceTeam.'.$extensionKey,
 		'tools',
 		'dceModule',
 		'',

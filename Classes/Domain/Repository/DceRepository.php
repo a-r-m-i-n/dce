@@ -38,7 +38,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * @return array
 	 */
 	public function findAllAndStatics($includeHidden = FALSE) {
-		/** @var DceTeam\Dce\Utility\StaticDce $staticDceUtility */
+		/** @var \DceTeam\Dce\Utility\StaticDce $staticDceUtility */
 		$staticDceUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DceTeam\Dce\Utility\StaticDce');
 
 		$databaseDces = $this->findAll()->toArray();
@@ -54,15 +54,15 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * @param integer $uid
 	 * @param array $fieldList
 	 * @param array $contentObject
-	 * @return Tx_Dce_Domain_Model_Dce
+	 * @return \DceTeam\Dce\Domain\Model\Dce
 	 * @throws UnexpectedValueException
 	 */
 	public function findAndBuildOneByUid($uid, $fieldList, $contentObject) {
 		$this->disableRespectOfEnableFields();
 
-		/** @var $dce Tx_Dce_Domain_Model_Dce */
+		/** @var $dce \DceTeam\Dce\Domain\Model\Dce */
 		$dce = $this->findByUid($uid);
-		if (get_class($dce) !== 'Tx_Dce_Domain_Model_Dce') {
+		if (get_class($dce) !== 'DceTeam\Dce\Domain\Model\Dce') {
 			throw new UnexpectedValueException('No DCE found with uid "' . $uid . '".', 1328613288);
 		}
 		$dce = clone $dce;
@@ -77,7 +77,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	/**
 	 * Clones the fields of a dce separately, because cloning the dce just refers the fields
 	 *
-	 * @param Tx_Dce_Domain_Model_Dce $dce
+	 * @param \DceTeam\Dce\Domain\Model\Dce $dce
 	 * @return void
 	 */
 	protected function cloneFields($dce) {
@@ -123,11 +123,11 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	/**
 	 * Walk through the fields and section fields to fill them
 	 *
-	 * @param \DceTeam\Dce\Domain\Model $dce
+	 * @param \DceTeam\Dce\Domain\Model\Dce $dce
 	 * @param array $fieldList Field list. Key must contain field variable, value its value.
 	 * @return void
 	 */
-	protected function processFillingFields( \DceTeam\Dce\Domain\Model $dce, array $fieldList) {
+	protected function processFillingFields(\DceTeam\Dce\Domain\Model\Dce $dce, array $fieldList) {
 		foreach ($fieldList as $fieldVariable => $fieldValue) {
 			$dceField = $dce->getFieldByVariable($fieldVariable);
 			if ($dceField) {
@@ -136,7 +136,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 						$sectionFieldValues = current($sectionFieldValues);
 						foreach($sectionFieldValues as $sectionFieldVariable => $sectionFieldValue) {
 							$sectionField = $dceField->getSectionFieldByVariable($sectionFieldVariable);
-							if ($sectionField instanceof \DceTeam\Dce\Domain\Model) {
+							if ($sectionField instanceof \DceTeam\Dce\Domain\Model\Dce) {
 								$xmlIdentifier = $dce->getUid() . '-' . $dceField->getVariable() . '-' . $sectionField->getVariable();
 								$this->fillFields($sectionField, $sectionFieldValue, TRUE, $xmlIdentifier);
 							}
