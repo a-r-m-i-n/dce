@@ -1,5 +1,5 @@
 <?php
-namespace ArminVieweg\Dce\Utility;
+namespace DceTeam\Dce\Utility;
 
 /***************************************************************
  *  Copyright notice
@@ -54,7 +54,7 @@ class StaticDce {
 
 
 	public function getStaticDce($identifier = '') {
-		$path = static::$extConfiguration['filebasedDcePaths'];
+		$path = static::$extConfiguration['filebasedDcePath'];
 		if (substr($path, -1) !== DIRECTORY_SEPARATOR) {
 			$path .= DIRECTORY_SEPARATOR;
 		}
@@ -93,6 +93,26 @@ class StaticDce {
 
 			return $configurationArray['tx_dce']['static'];
 		}
+	}
+
+	/**
+	 * Returns static DCEs
+	 *
+	 * @return array
+	 * @TODO: Other extensions must be able to extend this list
+	 */
+	public function getAll() {
+		$staticDces = array();
+		$path = PATH_site . self::$extConfiguration['filebasedDcePath'];
+		foreach(scandir($path) as $folder) {
+			if ($folder === '.' || $folder === '..') {
+				continue;
+			}
+			if (is_dir($path . DIRECTORY_SEPARATOR . $folder)) {
+				$staticDces[$folder] = $this->getStaticDce($folder);
+			}
+		}
+		return $staticDces;
 	}
 
 }

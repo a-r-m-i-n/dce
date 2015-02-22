@@ -31,6 +31,22 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  */
 class Tx_Dce_Domain_Repository_DceRepository extends Tx_Extbase_Persistence_Repository {
+
+	/**
+	 *
+	 * @param bool $includeHidden
+	 * @return array
+	 */
+	public function findAllAndStatics($includeHidden = FALSE) {
+		/** @var DceTeam\Dce\Utility\StaticDce $staticDceUtility */
+		$staticDceUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DceTeam\Dce\Utility\StaticDce');
+
+		$databaseDces = $this->findAll()->toArray();
+		$staticDces = $staticDceUtility->getAll();
+
+		return array_merge($databaseDces, $staticDces);
+	}
+
 	/**
 	 * Finds and build a DCE. The given uid loads the DCE structure and the fieldList triggers the fillFields which
 	 * gives the dce its contents and values.

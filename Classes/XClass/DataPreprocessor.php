@@ -9,7 +9,7 @@ class DataPreprocessor extends \TYPO3\CMS\Backend\Form\DataPreprocessor {
 	static protected $lastField = NULL;
 
 	/**
-	 * @var \ArminVieweg\Dce\Utility\StaticDce
+	 * @var \DceTeam\Dce\Utility\StaticDce
 	 */
 	static protected $staticDceUtility = NULL;
 
@@ -21,13 +21,13 @@ class DataPreprocessor extends \TYPO3\CMS\Backend\Form\DataPreprocessor {
 	}
 
 	public function fetchRecord($table, $idList, $operation) {
-		if ($table === 'tx_dce_domain_model_dce' && strpos($idList, 'dce_') === 0) {
+		if ($table === 'tx_dce_domain_model_dce' && !is_numeric($idList)) {
 				// DCE record
-			$staticDceValues = static::$staticDceUtility->getStaticDce($idList);
+			$realIdentifier = substr($idList, 4);
+			$staticDceValues = static::$staticDceUtility->getStaticDce($realIdentifier);
 			static::$staticDceConfiguration = array_merge($staticDceValues, array('uid' => $idList, 'type' => 1));
 			$this->renderRecord($table, $idList, 0, static::$staticDceConfiguration);
 			header('X-XSS-Protection: 0');
-			//\TYPO3\CMS\Core\Utility\DebugUtility::debug($idList, 'DCE');
 		} else if ($table === 'tx_dce_domain_model_dcefield' && !is_numeric($idList) && static::$staticDceConfiguration !== NULL) {
 			if (isset(static::$staticDceConfiguration['fields'][$idList])) {
 					// Normal fields
@@ -42,7 +42,6 @@ class DataPreprocessor extends \TYPO3\CMS\Backend\Form\DataPreprocessor {
 					}
 				}
 			}
-
 			$row = $this->resetIndention(array_merge($row, array('uid' => $idList, 'variable' => $idList)));
 			$this->renderRecord($table, $idList, 0, $row);
 		} else {

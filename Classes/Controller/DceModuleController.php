@@ -33,6 +33,13 @@
 class Tx_Dce_Controller_DceModuleController extends Tx_Extbase_MVC_Controller_ActionController {
 
 	/**
+	 * @var Tx_Dce_Domain_Repository_DceRepository
+	 * @inject
+	 */
+	protected $dceRepository;
+
+
+	/**
 	 * Index Action
 	 *
 	 * @return void
@@ -41,6 +48,8 @@ class Tx_Dce_Controller_DceModuleController extends Tx_Extbase_MVC_Controller_Ac
 		$extConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dce']);
 		$enableUpdateCheck = (boolean) $extConfiguration['enableUpdateCheck'];
 
+
+		$this->view->assign('dces', $this->dceRepository->findAllAndStatics());
 		$this->view->assign('enableUpdateCheck', $enableUpdateCheck);
 	}
 

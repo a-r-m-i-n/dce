@@ -53,7 +53,7 @@ class tx_saveDce {
 				return;
 			}
 
-			$path = $this->extConfiguration['filebasedDcePaths'];
+			$path = $this->extConfiguration['filebasedDcePath'];
 			if (substr($path, -1) !== DIRECTORY_SEPARATOR) {
 				$path .= DIRECTORY_SEPARATOR;
 			}
@@ -62,19 +62,20 @@ class tx_saveDce {
 			$dceFolderPath = PATH_site . $path . $newIdentifier . DIRECTORY_SEPARATOR;
 
 			/** @var \ArminVieweg\Dce\Utility\StaticDce $staticDceUtility */
-			$staticDceUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('ArminVieweg\Dce\Utility\StaticDce');
-			$oldValues = $staticDceUtility->getStaticDce($dceIdentifier);
+			$staticDceUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DceTeam\Dce\Utility\StaticDce');
+
+			$realDceIdentifier = substr($dceIdentifier, 4);
+			$oldValues = $staticDceUtility->getStaticDce($realDceIdentifier);
 
 
 			if (!empty($oldValues)) {
 				$oldIdentifier = $oldValues['identifier'];
 			}
 
-
 			$renamed = FALSE;
 			if (isset($oldIdentifier) && $oldIdentifier !== $newIdentifier) {
 				if (file_exists($dceFolderPath)) {
-					\ArminVieweg\Dce\Utility\FlashMessage::add('Another DCE with name "' . $newIdentifier . '" already exists.', 'Renaming failed', \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR);
+					\ArminVieweg\Dce\Utility\FlashMessage::add('Another static DCE with name "' . $newIdentifier . '" already exists.', 'Renaming failed', \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR);
 					$newIdentifier = $oldIdentifier;
 					$dceFolderPath = PATH_site . $path . $newIdentifier . DIRECTORY_SEPARATOR;
 				} else {
@@ -110,7 +111,7 @@ class tx_saveDce {
 				}
 
 				if ($fieldId !== $fieldSettings['variable']) {
-					$fields[$fieldSettings['variable']] = $fieldSettings;
+					$fields[$this->getVariableNameFromFieldSettings($fieldSettings)] = $fieldSettings;
 				} else {
 					$fields[$fieldId] = $fieldSettings;
 				}
@@ -147,9 +148,33 @@ class tx_saveDce {
 			$saveOnly = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('_savedok_x') && \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('_savedok_y');
 			if ($saveOnly === TRUE && $renamed === TRUE) {
 				ob_clean();
-				header('Location: alt_doc.php?edit[tx_dce_domain_model_dce][' . $newIdentifier . ']=edit&returnUrl=' . urlencode(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('returnUrl')));
+				header('Location: alt_doc.php?edit[tx_dce_domain_model_dce][dce_' . $newIdentifier . ']=edit&returnUrl=' . urlencode(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('returnUrl')));
+				die;
 			}
 		}
+	}
+
+	/**
+	 * If variable in given fieldSettings is set, it will be returned.
+	 * Otherwise a new variableName will be returned, based on the type of the field.
+	 *
+	 * @param array $fieldSettings
+	 * @return string
+	 */
+	protected function getVariableNameFromFieldSettings(array $fieldSettings) {
+		if (!isset($fieldSettings['variable']) || empty($fieldSettings['variable'])) {
+			switch ($fieldSettings['type']) {
+				case 0:
+					return uniqid('field_');
+
+				case 1:
+					return uniqid('tab_');
+
+				case 2:
+					return uniqid('section_');
+			}
+		}
+		return $fieldSettings['variable'];
 	}
 
 //	public function processDatamap_preProcessFieldArray(&$incomingFieldArray, $table, &$id, $cObj) {
