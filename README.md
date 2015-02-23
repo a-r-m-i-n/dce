@@ -72,10 +72,3 @@ To connect to VM via SSH, just use the shipped key:
 
 * Username: **root**
 * Path to key: **puphpet/files/dot/ssh/id_rsa**
-
-
-#### xdebug ####
-
-The VM has xdebug on board. Just add a new server entry like this and start listener.
-
-![Xdebug setup in PhpStorm](https://bitbucket.org/repo/geoap7/images/3497141946-2015-02-23_2358.png)
