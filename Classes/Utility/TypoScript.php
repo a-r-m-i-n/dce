@@ -71,8 +71,8 @@ class TypoScript {
 	 * @return array
 	 */
 	public function parseTypoScriptString($typoScriptString, $returnPlainArray = FALSE) {
-		/** @var t3lib_TSparser $typoScriptParser */
-		$typoScriptParser = t3lib_div::makeInstance('t3lib_TSparser');
+		/** @var \TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser $typoScriptParser */
+		$typoScriptParser = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser');
 		$typoScriptParser->parse($typoScriptString);
 		if ($returnPlainArray === FALSE) {
 			return $typoScriptParser->setup;
@@ -135,8 +135,8 @@ class TypoScript {
 	 * @return array plain array
 	 */
 	public function convertTypoScriptArrayToPlainArray($typoScriptArray) {
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 6000000) {
-			return Tx_Extbase_Utility_TypoScript::convertTypoScriptArrayToPlainArray($typoScriptArray);
+		if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 6000000) {
+			return \TYPO3\CMS\Extbase\Service\TypoScriptService::convertTypoScriptArrayToPlainArray($typoScriptArray);
 		}
 		return \TYPO3\CMS\Extbase\Service\TypoScriptService::convertTypoScriptArrayToPlainArray($typoScriptArray);
 	}
