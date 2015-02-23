@@ -1,8 +1,10 @@
 {namespace dce=DceTeam\Dce\ViewHelpers}<?php
 <f:for each="{dceArray}" as="dce">
+<f:if condition="{dce.hidden} == 0">
+///////////////////////////////////////////////////// {f:if(condition:"{dce.uid}", then:"uid: {dce.uid}", else:"identifier: {dce.identifier}")} ///
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
 	'DceTeam.dce',
-	'dceuid{dce.uid}',
+	'{f:if(condition:"{dce.uid}", then:"dceuid{dce.uid}", else:"dce_{dce.identifier}")}',
 	array(
 		'Dce' => 'show',
 	),
@@ -15,11 +17,12 @@
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript('dce', 'setup', '
 # Hide lib.stdheader for DCE with uid {dce.uid}
-' . 'tt_content.dce_dceuid{dce.uid}.10 >', 43);
+' . 'tt_content.dce_{f:if(condition:"{dce.uid}", then:"dceuid{dce.uid}", else:"{dce.identifier}")}.10 >', 43);
 
 <f:if condition="{dce.hide_default_ce_wrap}">
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript('dce', 'setup', '
-	# Hide default wrapping for content elements for DCE with uid {dce.uid}
-	' . 'tt_content.stdWrap.innerWrap.cObject.default.stdWrap.if.value := addToList(dce_dceuid{dce.uid})', 43);
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript('dce', 'setup', '
+# Hide default wrapping for content elements for DCE with uid {dce.uid}
+' . 'tt_content.stdWrap.innerWrap.cObject.default.stdWrap.if.value := addToList(dce_{f:if(condition:"{dce.uid}", then:"dceuid{dce.uid}", else:"{dce.identifier}")})', 43);
+</f:if>
 </f:if>
 </f:for>

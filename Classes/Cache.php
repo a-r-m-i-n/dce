@@ -53,7 +53,12 @@ class Cache {
 	 */
     public function createLocalconf($pathDceLocalconf) {
 		$this->fluidTemplateUtility->setTemplatePathAndFilename(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dce') . 'Resources/Private/Templates/DceSource/localconf.html');
-		$this->fluidTemplateUtility->assign('dceArray', $this->getDce());
+
+		/** @var \DceTeam\Dce\Utility\StaticDce $staticDceUtility */
+		$staticDceUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DceTeam\Dce\Utility\StaticDce');
+
+		$dces = array_merge($this->getDatabaseDce(), $staticDceUtility->getAll());
+		$this->fluidTemplateUtility->assign('dceArray', $dces);
 		$string = $this->fluidTemplateUtility->render();
 
 		file_put_contents($pathDceLocalconf, $string);
@@ -69,7 +74,12 @@ class Cache {
 	 */
 	public function createExtTables($pathDceExtTables) {
 		$this->fluidTemplateUtility->setTemplatePathAndFilename(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dce') . 'Resources/Private/Templates/DceSource/ext_tables.html');
-		$this->fluidTemplateUtility->assign('dceArray', $this->getDce());
+
+		/** @var \DceTeam\Dce\Utility\StaticDce $staticDceUtility */
+		$staticDceUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DceTeam\Dce\Utility\StaticDce');
+
+		$dces = array_merge($this->getDatabaseDce(), $staticDceUtility->getAll(TRUE));
+		$this->fluidTemplateUtility->assign('dceArray', $dces);
 		$string = $this->fluidTemplateUtility->render();
 
 		file_put_contents($pathDceExtTables, $string);
@@ -93,7 +103,7 @@ class Cache {
 	 *
 	 * @return array with DCE -> containing tabs -> containing fields
 	 */
-	protected function getDce() {
+	protected function getDatabaseDce() {
 
 		// fetch the existing DB connection, or initialize it
 		/** @var $TYPO3_DB \TYPO3\CMS\Dbal\Database\DatabaseConnection */

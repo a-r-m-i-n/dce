@@ -51,9 +51,37 @@ class StaticDce {
 		static::$typoscriptUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DceTeam\Dce\Utility\TypoScript');
 	}
 
+	/**
+	 * @param array $configurationArray
+	 * @return array
+	 */
+	protected function addTabsAndNestFieldsInIt(array $configurationArray) {
+		if (TYPO3_MODE === 'FE') {
+			$generalTabLabel = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('generaltab', 'dce');
+		} else {
+			$generalTabLabel = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dce/Resources/Private/Language/locallang.xml:generaltab', 'dce');
+		}
+		$tabs = array(0 => array('title' => $generalTabLabel, 'fields' => array()));
+		$i = 0;
+		foreach ($configurationArray['tx_dce']['static']['fields'] as $variable => $field) {
+			if ($field['type'] === '1') {
+				$tabs[++$i] = array(
+					'title' => $field['title'],
+					'fields' => array()
+				);
+				continue;
+			}
+			$tabs[$i]['fields'][$variable] = $field;
+		}
+		if (empty($tabs[0]['fields'])) {
+			unset($tabs[0]);
+		}
+		$configurationArray['tx_dce']['static']['tabs'] = $tabs;
+		return $configurationArray;
+	}
 
 
-	public function getStaticDce($identifier = '') {
+	public function getStaticDce($identifier = '', $nestFieldsInTabs = FALSE) {
 		$path = static::$extConfiguration['filebasedDcePath'];
 		if (substr($path, -1) !== DIRECTORY_SEPARATOR) {
 			$path .= DIRECTORY_SEPARATOR;
@@ -63,6 +91,9 @@ class StaticDce {
 		if (is_dir($dceFolderPath) && file_exists($dceFolderPath . 'Dce.ts')) {
 			$dceConfiguration = file_get_contents($dceFolderPath . 'Dce.ts');
 			$configurationArray = static::$typoscriptUtility->parseTypoScriptString($dceConfiguration, TRUE);
+			if ($nestFieldsInTabs) {
+				$configurationArray = $this->addTabsAndNestFieldsInIt($configurationArray);
+			}
 
 			$frontendTemplateFile = $dceFolderPath . 'Frontend.html';
 			if (file_exists($frontendTemplateFile)) {
@@ -90,6 +121,7 @@ class StaticDce {
 			$configurationArray['tx_dce']['static']['template_type'] = 'inline';
 			$configurationArray['tx_dce']['static']['preview_template_type'] = 'inline';
 			$configurationArray['tx_dce']['static']['detailpage_template_type'] = 'inline';
+			$configurationArray['tx_dce']['static']['hasCustomWizardIcon'] = $configurationArray['tx_dce']['static']['wizard_icon'] === 'custom';
 
 			return $configurationArray['tx_dce']['static'];
 		}
@@ -98,10 +130,11 @@ class StaticDce {
 	/**
 	 * Returns static DCEs
 	 *
+	 * @param $nestFieldsInTabs
 	 * @return array
 	 * @TODO: Other extensions must be able to extend this list
 	 */
-	public function getAll() {
+	public function getAll($nestFieldsInTabs = FALSE) {
 		if (empty(self::$extConfiguration['filebasedDcePath']) || !is_dir(PATH_site . self::$extConfiguration['filebasedDcePath'])) {
 			return array();
 		}
@@ -113,7 +146,7 @@ class StaticDce {
 				continue;
 			}
 			if (is_dir($path . DIRECTORY_SEPARATOR . $folder)) {
-				$staticDces[$folder] = $this->getStaticDce($folder);
+				$staticDces[$folder] = $this->getStaticDce($folder, $nestFieldsInTabs);
 			}
 		}
 		return $staticDces;

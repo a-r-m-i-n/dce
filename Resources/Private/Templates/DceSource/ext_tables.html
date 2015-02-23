@@ -7,16 +7,16 @@ $GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'][] = array(
 
 <f:for each="{dceArray}" as="dce">
 <f:if condition="{dce.hidden} == 0">
-///////////////////////////////////////////////////// uid:{dce.uid} ///
+	///////////////////////////////////////////////////// {f:if(condition:"{dce.uid}", then:"uid: {dce.uid}", else:"identifier: {dce.identifier}")} ///
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
 	'DceTeam.dce',
-	'dceuid{dce.uid}',
+	'{f:if(condition:"{dce.uid}", then:"dceuid{dce.uid}", else:"dce_{dce.identifier}")}',
 	'{dce.title}'
 );
 
-$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['dce_dceuid{dce.uid}'] = 'pi_flexform';
-$GLOBALS['TCA']['tt_content']['columns']['pi_flexform']['config']['ds'][',dce_dceuid{dce.uid}'] = '<f:render partial="FlexFormsXML" arguments="{dce:dce}"></f:render>';
-$GLOBALS['TCA']['tt_content']['types']['dce_dceuid{dce.uid}']['showitem'] = 'CType;;dce_palette_{dce.uid};button;1-1-1,pi_flexform; ;<f:if condition="{dce.show_access_tab}">,--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access, --palette--;LLL:EXT:cms/locallang_ttc.xml:palette.visibility;visibility, --palette--;LLL:EXT:cms/locallang_ttc.xml:palette.access;access</f:if><f:if condition="{dce:be.currentTypo3Version()} >= 6000000"><f:if condition="{dce.show_category_tab}">,--div--;LLL:EXT:lang/locallang_tca.xlf:sys_category.tabs.category,categories</f:if></f:if>,--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.extended<f:if condition="{dce:be.extensionIsInstalled(key:'gridelements')}">,tx_gridelements_container,tx_gridelements_columns</f:if>';
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['dce_{f:if(condition:"{dce.uid}", then:"dceuid{dce.uid}", else:"dce_{dce.identifier}")}'] = 'pi_flexform';
+$GLOBALS['TCA']['tt_content']['columns']['pi_flexform']['config']['ds'][',dce_{f:if(condition:"{dce.uid}", then:"dceuid{dce.uid}", else:"dce_{dce.identifier}")}'] = '<f:render partial="FlexFormsXML" arguments="{dce:dce}"></f:render>';
+$GLOBALS['TCA']['tt_content']['types']['dce_{f:if(condition:"{dce.uid}", then:"dceuid{dce.uid}", else:"dce_{dce.identifier}")}']['showitem'] = 'CType;;dce_palette_{dce.uid};button;1-1-1,pi_flexform; ;<f:if condition="{dce.show_access_tab}">,--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access, --palette--;LLL:EXT:cms/locallang_ttc.xml:palette.visibility;visibility, --palette--;LLL:EXT:cms/locallang_ttc.xml:palette.access;access</f:if><f:if condition="{dce:be.currentTypo3Version()} >= 6000000"><f:if condition="{dce.show_category_tab}">,--div--;LLL:EXT:lang/locallang_tca.xlf:sys_category.tabs.category,categories</f:if></f:if>,--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.extended<f:if condition="{dce:be.extensionIsInstalled(key:'gridelements')}">,tx_gridelements_container,tx_gridelements_columns</f:if>';
 <f:if condition="{dce.palette_fields}">
 	<f:then>$GLOBALS['TCA']['tt_content']['palettes']['dce_palette_{dce.uid}']['showitem'] = '{dce.palette_fields}';</f:then>
 	<f:else>$GLOBALS['TCA']['tt_content']['palettes']['dce_palette_{dce.uid}'] = $GLOBALS['TCA']['tt_content']['palettes'][4]; //default</f:else>
@@ -24,15 +24,15 @@ $GLOBALS['TCA']['tt_content']['types']['dce_dceuid{dce.uid}']['showitem'] = 'CTy
 
 <f:if condition="{dce.wizard_enable}">
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('
-	mod.wizards.newContentElement.wizardItems.{dce.wizard_category}.elements.dce_dceuid{dce.uid} {
+	mod.wizards.newContentElement.wizardItems.{dce.wizard_category}.elements.dce_{f:if(condition:"{dce.uid}", then:"dceuid{dce.uid}", else:"dce_{dce.identifier}")} {
 	    icon = <f:if condition="{dce.hasCustomWizardIcon}"><f:then>../uploads/tx_dce/{dce.wizard_custom_icon}</f:then><f:else>gfx/c_wiz/{dce.wizard_icon}.gif</f:else></f:if>
 	    title = {dce.title}
 	    description = {dce.wizard_description -> f:format.raw()}
 	    tt_content_defValues {
-	        CType = dce_dceuid{dce.uid}
+	        CType = dce_{f:if(condition:"{dce.uid}", then:"dceuid{dce.uid}", else:"dce_{dce.identifier}")}
 	    }
 	}
-	    mod.wizards.newContentElement.wizardItems.{dce.wizard_category}.show := addToList(dce_dceuid{dce.uid})
+	    mod.wizards.newContentElement.wizardItems.{dce.wizard_category}.show := addToList(dce_{f:if(condition:"{dce.uid}", then:"dceuid{dce.uid}", else:"dce_{dce.identifier}")})
 ');
 </f:if>
 </f:if>
