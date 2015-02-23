@@ -48,6 +48,11 @@ This VM contains TYPO3 6.2.x and the latest published stable of TYPO3. On each v
 
 The project root will be synced automatically with 62 and master branch. You don't need to set up any deployment stuff in your IDE.
 
+Besides the DCE extension also the following extensions are installed, which help you during development:
+
+* t3deploy
+* t3adminer
+
 
 ### Credentials ###
 
@@ -67,4 +72,3 @@ To connect to VM via SSH, just use the shipped key:
 
 * Username: **root**
 * Path to key: **puphpet/files/dot/ssh/id_rsa**
-
