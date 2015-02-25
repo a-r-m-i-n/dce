@@ -31,8 +31,6 @@ namespace DceTeam\Dce\Utility;
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  *
  */
-
-
 class File {
 	/**
 	 * Converts given file path to absolute or relative file path.
