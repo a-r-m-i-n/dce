@@ -65,7 +65,7 @@ class tx_saveDce {
 			$staticDceUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DceTeam\Dce\Utility\StaticDce');
 
 			$realDceIdentifier = substr($dceIdentifier, 4);
-			$oldValues = $staticDceUtility->getStaticDce($realDceIdentifier);
+			$oldValues = $staticDceUtility->getStaticDceData($realDceIdentifier);
 
 
 			if (!empty($oldValues)) {

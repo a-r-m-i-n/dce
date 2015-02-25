@@ -40,10 +40,12 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	public function findAllAndStatics($includeHidden = FALSE) {
 		/** @var \DceTeam\Dce\Utility\StaticDce $staticDceUtility */
 		$staticDceUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DceTeam\Dce\Utility\StaticDce');
-
-		$databaseDces = $this->findAll()->toArray();
 		$staticDces = $staticDceUtility->getAll();
 
+		if ($includeHidden) {
+			$this->defaultQuerySettings->setIgnoreEnableFields(TRUE);
+		}
+		$databaseDces = $this->findAll()->toArray();
 		return array_merge($databaseDces, $staticDces);
 	}
 
@@ -60,10 +62,19 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	public function findAndBuildOneByUid($uid, $fieldList, $contentObject) {
 		$this->disableRespectOfEnableFields();
 
-		/** @var $dce \DceTeam\Dce\Domain\Model\Dce */
-		$dce = $this->findByUid($uid);
+		if (is_numeric($uid)) {
+			/** @var $dce \DceTeam\Dce\Domain\Model\Dce */
+			$dce = $this->findByUid($uid);
+		} else {
+			/** @var \DceTeam\Dce\Utility\StaticDce $staticDceUtility */
+			$staticDceUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DceTeam\Dce\Utility\StaticDce');
+			$dce = $staticDceUtility->getStaticDceModel($uid);
+		}
 		if (get_class($dce) !== 'DceTeam\Dce\Domain\Model\Dce') {
-			throw new UnexpectedValueException('No DCE found with uid "' . $uid . '".', 1328613288);
+			if (is_int($uid)) {
+				throw new \UnexpectedValueException('No DCE found with uid "' . $uid . '".', 1328613288);
+			}
+			throw new \UnexpectedValueException('No static DCE found with identifier "' . $uid . '".', 1328613289);
 		}
 		$dce = clone $dce;
 		$this->cloneFields($dce);
@@ -136,7 +147,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 						$sectionFieldValues = current($sectionFieldValues);
 						foreach($sectionFieldValues as $sectionFieldVariable => $sectionFieldValue) {
 							$sectionField = $dceField->getSectionFieldByVariable($sectionFieldVariable);
-							if ($sectionField instanceof \DceTeam\Dce\Domain\Model\Dce) {
+							if ($sectionField instanceof \DceTeam\Dce\Domain\Model\DceField) {
 								$xmlIdentifier = $dce->getUid() . '-' . $dceField->getVariable() . '-' . $sectionField->getVariable();
 								$this->fillFields($sectionField, $sectionFieldValue, TRUE, $xmlIdentifier);
 							}
@@ -255,16 +266,18 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * Extracts and returns the uid from given DCE CType. Returns FALSE if CType is not a DCE one.
 	 *
 	 * @param string $CType
-	 * @return integer|boolean
+	 * @return integer|string|bool
 	 * @static
 	 */
 	static public function extractUidFromCType($CType) {
 		if (strpos($CType, 'dceuid') === 0) {
 			return intval(substr($CType, 6));
 		}
-
 		if (strpos($CType, 'dce_dceuid') === 0) {
 			return intval(substr($CType, 10));
+		}
+		if (strpos($CType, 'dce_') === 0) {
+			return substr($CType, 4);
 		}
 		return FALSE;
 	}

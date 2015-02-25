@@ -158,7 +158,7 @@ class Cache {
 							$sectionFields[] = $row3;
 						}
 					}
-					$row2['sectionFields'] = $sectionFields;
+					$row2['section_fields'] = $sectionFields;
 					$tabs[$i]['fields'][] = $row2;
 				} else {
 					// usual element

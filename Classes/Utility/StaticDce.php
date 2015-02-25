@@ -24,6 +24,7 @@ namespace DceTeam\Dce\Utility;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Utility for StaticDce
@@ -48,7 +49,7 @@ class StaticDce {
 	 */
 	public function __construct() {
 		static::$extConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dce']);
-		static::$typoscriptUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DceTeam\Dce\Utility\TypoScript');
+		static::$typoscriptUtility = GeneralUtility::makeInstance('DceTeam\Dce\Utility\TypoScript');
 	}
 
 	/**
@@ -81,7 +82,7 @@ class StaticDce {
 	}
 
 
-	public function getStaticDce($identifier = '', $nestFieldsInTabs = FALSE) {
+	public function getStaticDceData($identifier = '', $nestFieldsInTabs = FALSE) {
 		$path = static::$extConfiguration['filebasedDcePath'];
 		if (substr($path, -1) !== DIRECTORY_SEPARATOR) {
 			$path .= DIRECTORY_SEPARATOR;
@@ -128,6 +129,55 @@ class StaticDce {
 	}
 
 	/**
+	 * @param string $identifier
+	 * @return \DceTeam\Dce\Domain\Model\Dce
+	 */
+	public function getStaticDceModel($identifier) {
+		$data = $this->getStaticDceData($identifier);
+
+		/** @var \DceTeam\Dce\Domain\Model\Dce $dce */
+		$dce = GeneralUtility::makeInstance('DceTeam\Dce\Domain\Model\Dce');
+
+		foreach ($data as $attribute => $value) {
+			if ($attribute === 'fields') {
+				continue;
+			}
+			$this->setAttribute($dce, $attribute, $value);
+		}
+
+		foreach ($data['fields'] as $variable => $fieldData) {
+			/** @var \DceTeam\Dce\Domain\Model\DceField $dceField */
+			$dceField = GeneralUtility::makeInstance('DceTeam\Dce\Domain\Model\DceField');
+			foreach ($fieldData as $attribute => $value) {
+				if ($attribute === 'type' && $value === '2') {
+					// Section field
+					/** @var \DceTeam\Dce\Domain\Model\DceField $sectionField */
+					$sectionField = GeneralUtility::makeInstance('DceTeam\Dce\Domain\Model\DceField');
+					foreach ($fieldData['section_fields'] as $sectionFieldVariable => $sectionFieldData) {
+						foreach ($sectionFieldData as $attribute2 => $value2) {
+							$this->setAttribute($sectionField, $attribute2, $value2);
+						}
+					}
+					$dceField->addSectionField($sectionField);
+				}
+
+				$this->setAttribute($dceField, $attribute, $value);
+			}
+			$dce->addField($dceField);
+		}
+		return $dce;
+	}
+
+	protected function setAttribute(\TYPO3\CMS\Extbase\DomainObject\DomainObjectInterface $domainObject, $attribute, $value) {
+		if ($attribute !== 'fields' && $attribute !== 'section_fields') {
+			$setter = 'set' . GeneralUtility::underscoredToUpperCamelCase($attribute);
+			if (method_exists($domainObject, $setter)) {
+				$domainObject->$setter($value);
+			}
+		}
+	}
+
+	/**
 	 * Returns static DCEs
 	 *
 	 * @param $nestFieldsInTabs
@@ -146,7 +196,7 @@ class StaticDce {
 				continue;
 			}
 			if (is_dir($path . DIRECTORY_SEPARATOR . $folder)) {
-				$staticDces[$folder] = $this->getStaticDce($folder, $nestFieldsInTabs);
+				$staticDces[$folder] = $this->getStaticDceData($folder, $nestFieldsInTabs);
 			}
 		}
 		return $staticDces;

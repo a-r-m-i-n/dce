@@ -406,10 +406,10 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * If not found, returns NULL.
 	 *
 	 * @param string $variable
-	 * @return null|\DceTeam\Dce\Domain\Model
+	 * @return null|DceField
 	 */
 	public function getFieldByVariable($variable) {
-		/** @var $field \DceTeam\Dce\Domain\Model */
+		/** @var $field DceField */
 		foreach($this->getFields() as $field) {
 			if ($field->getVariable() === $variable) {
 				return $field;

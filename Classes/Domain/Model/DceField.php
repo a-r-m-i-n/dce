@@ -57,7 +57,7 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/** @var string */
 	protected $_value = '';
 
-	/** @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage <Tx_Dce_Domain_Model_DceField> */
+	/** @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<DceField> */
 	protected $sectionFields = NULL;
 
 
@@ -69,19 +69,19 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * Initializes all Tx_Extbase_Persistence_ObjectStorage properties.
+	 * Initializes all ObjectStorage properties
 	 *
 	 * @return void
 	 */
 	protected function initStorageObjects() {
-		$this->sectionFields = new Tx_Extbase_Persistence_ObjectStorage();
+		$this->sectionFields = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
 	}
 
 	/**
 	 * @return integer
 	 */
 	public function getType() {
-		return $this->type;
+		return (int) $this->type;
 	}
 
 	/**
@@ -163,37 +163,37 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * @return Tx_Extbase_Persistence_ObjectStorage
+	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
 	 */
 	public function getSectionFields() {
 		return $this->sectionFields;
 	}
 
 	/**
-	 * @param Tx_Extbase_Persistence_ObjectStorage $sectionFields
+	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $sectionFields
 	 * @return void
 	 */
-	public function setSectionFields(Tx_Extbase_Persistence_ObjectStorage $sectionFields) {
+	public function setSectionFields(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $sectionFields) {
 		$this->sectionFields = $sectionFields;
 	}
 
 	/**
 	 * Adds a section field
 	 *
-	 * @param Tx_Dce_Domain_Model_DceField $sectionField
+	 * @param DceField $sectionField
 	 * @return void
 	 */
-	public function addSectionField(Tx_Dce_Domain_Model_DceField $sectionField) {
+	public function addSectionField(DceField $sectionField) {
 		$this->sectionFields->attach($sectionField);
 	}
 
 	/**
 	 * Removes a section field
 	 *
-	 * @param Tx_Dce_Domain_Model_DceField $sectionField
+	 * @param DceField $sectionField
 	 * @return void
 	 */
-	public function removeSectionField(Tx_Dce_Domain_Model_DceField $sectionField) {
+	public function removeSectionField(DceField $sectionField) {
 		$this->sectionFields->detach($sectionField);
 	}
 
@@ -201,10 +201,10 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * Checks attached sectionFields for given variable and returns the single field if found. If not found, returns NULL.
 	 *
 	 * @param string $variable
-	 * @return null|Tx_Dce_Domain_Model_DceField
+	 * @return null|DceField
 	 */
 	public function getSectionFieldByVariable($variable) {
-		/** @var $sectionField Tx_Dce_Domain_Model_DceField */
+		/** @var $sectionField DceField */
 		foreach($this->getSectionFields() as $sectionField) {
 			if($sectionField->getVariable() === $variable) {
 				return $sectionField;

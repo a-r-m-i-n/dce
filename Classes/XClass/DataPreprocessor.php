@@ -24,7 +24,7 @@ class DataPreprocessor extends \TYPO3\CMS\Backend\Form\DataPreprocessor {
 		if ($table === 'tx_dce_domain_model_dce' && !is_numeric($idList)) {
 				// DCE record
 			$realIdentifier = substr($idList, 4);
-			$staticDceValues = static::$staticDceUtility->getStaticDce($realIdentifier);
+			$staticDceValues = static::$staticDceUtility->getStaticDceData($realIdentifier);
 			static::$staticDceConfiguration = array_merge($staticDceValues, array('uid' => $idList, 'type' => 1));
 			$this->renderRecord($table, $idList, 0, static::$staticDceConfiguration);
 			header('X-XSS-Protection: 0');
