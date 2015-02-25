@@ -3,7 +3,7 @@ namespace DceTeam\Dce\ViewHelpers\Format;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2012-2014 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
  *
  *  All rights reserved
  *

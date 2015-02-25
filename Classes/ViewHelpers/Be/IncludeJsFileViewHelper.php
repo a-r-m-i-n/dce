@@ -3,7 +3,7 @@ namespace DceTeam\Dce\ViewHelpers\Be;
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2012-2014 Armin Rüdiger Vieweg <armin@v.ieweg.de>
+*  (c) 2012-2015 Armin Rüdiger Vieweg <armin@v.ieweg.de>
 *
 *  All rights reserved
 *
@@ -27,7 +27,7 @@ namespace DceTeam\Dce\ViewHelpers\Be;
 /**
  * This view helper adds js file to pagerenderer
  *
- * @copyright  2012-2014 Copyright belongs to the respective authors
+ * @copyright  2012-2015 Copyright belongs to the respective authors
  * @license    http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
 class IncludeJsFileViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper {

@@ -3,7 +3,7 @@ namespace DceTeam\Dce\ViewHelpers\Be;
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2012-2014 Armin Rüdiger Vieweg <armin@v.ieweg.de>
+*  (c) 2012-2015 Armin Rüdiger Vieweg <armin@v.ieweg.de>
 *
 *  All rights reserved
 *
@@ -27,7 +27,7 @@ namespace DceTeam\Dce\ViewHelpers\Be;
 /**
  * Gets the current language key as string
  *
- * @copyright  2012-2014 Copyright belongs to the respective authors
+ * @copyright  2012-2015 Copyright belongs to the respective authors
  * @license    http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  * @see \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger
  */

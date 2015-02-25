@@ -3,7 +3,7 @@ namespace DceTeam\Dce\ViewHelpers;
 	/***************************************************************
 *  Copyright notice
 *
-*  (c) 2012-2014 Armin Rüdiger Vieweg <armin@v.ieweg.de>
+*  (c) 2012-2015 Armin Rüdiger Vieweg <armin@v.ieweg.de>
 *
 *  All rights reserved
 *
@@ -28,7 +28,7 @@ namespace DceTeam\Dce\ViewHelpers;
  * This view helper handles parameter strings using typolink function of TYPO3.
  * It creates the whole <a>-Tag.
  *
- * @copyright  2012-2014 Copyright belongs to the respective authors
+ * @copyright  2012-2015 Copyright belongs to the respective authors
  * @license    http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
 class TypolinkViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
