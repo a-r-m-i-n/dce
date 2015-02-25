@@ -25,7 +25,7 @@ namespace DceTeam\Dce\ViewHelpers\Be;
 ***************************************************************/
 
 /**
- * Gets the current version of TYPO3 as integer
+ * Gets the current version of TYPO3 as int
  *
  * @copyright  2012-2014 Copyright belongs to the respective authors
  * @license    http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
@@ -34,9 +34,9 @@ namespace DceTeam\Dce\ViewHelpers\Be;
 class CurrentTypo3VersionViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper {
 
 	/**
-	 * Returns the current version of TYPO3 as integer
+	 * Returns the current version of TYPO3 as int
 	 *
-	 * @return integer Current TYPO3 version
+	 * @return int Current TYPO3 version
 	 */
 	public function render() {
 		return \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);

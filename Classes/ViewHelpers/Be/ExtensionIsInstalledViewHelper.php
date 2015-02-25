@@ -25,7 +25,7 @@ namespace DceTeam\Dce\ViewHelpers\Be;
 ***************************************************************/
 
 /**
- * Gets the current version of DCE as integer
+ * Gets the current version of DCE as int
  *
  * @copyright  2012-2014 Copyright belongs to the respective authors
  * @license    http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later

@@ -37,7 +37,7 @@ class ArrayGetIndexViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractV
 	 * array will be converted. Named array keys will be overwritten by ascending index numbers (starting with 0).
 	 *
 	 * @param array $subject The array to get the value of
-	 * @param integer|string $index Index of array. May be integer or string. Default is  zero (0).
+	 * @param int|string $index Index of array. May be int or string. Default is  zero (0).
 	 *
 	 * @return mixed The value of the given array index
 	 */

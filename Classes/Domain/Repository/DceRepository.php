@@ -53,7 +53,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * Finds and build a DCE. The given uid loads the DCE structure and the fieldList triggers the fillFields which
 	 * gives the dce its contents and values.
 	 *
-	 * @param integer $uid
+	 * @param int $uid
 	 * @param array $fieldList
 	 * @param array $contentObject
 	 * @return \DceTeam\Dce\Domain\Model\Dce
@@ -266,7 +266,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * Extracts and returns the uid from given DCE CType. Returns FALSE if CType is not a DCE one.
 	 *
 	 * @param string $CType
-	 * @return integer|string|bool
+	 * @return int|string|bool
 	 * @static
 	 */
 	static public function extractUidFromCType($CType) {
@@ -285,7 +285,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	/**
 	 * Converts a given dce uid to a dce CType.
 	 *
-	 * @param integer $uid
+	 * @param int $uid
 	 * @return string|bool Returns converted CType. If given uid is invalid, returns FALSE
 	 * @static
 	 */

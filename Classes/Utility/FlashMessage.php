@@ -42,7 +42,7 @@ class FlashMessage {
 	/**
 	 * @param string $message
 	 * @param string $title optional
-	 * @param integer $severity
+	 * @param int $severity
 	 * @throws \TYPO3\CMS\Core\Exception
 	 */
 	static public function add($message, $title = '', $severity = \TYPO3\CMS\Core\Messaging\FlashMessage::WARNING) {

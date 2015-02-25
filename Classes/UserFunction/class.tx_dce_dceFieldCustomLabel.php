@@ -95,7 +95,7 @@ class tx_dce_dceFieldCustomLabel {
 	/**
 	 * Get row of dce field of given uid
 	 *
-	 * @param integer $uid
+	 * @param int $uid
 	 * @return array dce field row
 	 */
 	protected function getDceFieldRecordByUid($uid) {

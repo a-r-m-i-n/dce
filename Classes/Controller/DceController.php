@@ -133,7 +133,7 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 	/**
 	 * Simulates content element settings, which is necessary in backend context
 	 *
-	 * @param integer $contentElementUid
+	 * @param int $contentElementUid
 	 * @return array
 	 */
 	protected function simulateContentElementSettings($contentElementUid) {
@@ -150,7 +150,7 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 	/**
 	 * Returns an array with properties of content element with given uid
 	 *
-	 * @param integer $uid of content element to get
+	 * @param int $uid of content element to get
 	 * @return array with all properties of given content element uid
 	 */
 	protected function getContentObject($uid) {

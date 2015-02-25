@@ -34,9 +34,9 @@ namespace DceTeam\Dce\ViewHelpers\Be;
 class CurrentDceVersionViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper {
 
 	/**
-	 * Returns the current version of DCE as integer
+	 * Returns the current version of DCE as int
 	 *
-	 * @return integer Current DCE version
+	 * @return int Current DCE version
 	 */
 	public function render() {
 		return \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger( \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getExtensionVersion('dce'));

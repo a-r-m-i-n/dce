@@ -33,7 +33,7 @@ class tx_saveDce {
 	/** @var \TYPO3\CMS\Core\DataHandling\DataHandler */
 	protected $tcemain = NULL;
 
-	/** @var integer uid of current record */
+	/** @var int uid of current record */
 	protected $uid = 0;
 
 	/** @var array all properties of current record */
@@ -289,7 +289,7 @@ class tx_saveDce {
 	/**
 	 * Generates the preview texts (header and bodytext) of dce
 	 *
-	 * @param integer $uid uid of content element
+	 * @param int $uid uid of content element
 	 * @return array
 	 *
 	 * @TODO Reduce redundancy of extbase controller call
@@ -306,8 +306,8 @@ class tx_saveDce {
 	}
 
 	/**
-	 * @param integer $contentElementUid
-	 * @param integer $dceUid
+	 * @param int $contentElementUid
+	 * @param int $dceUid
 	 * @return array
 	 */
 	public function ajaxGenerateDcePreview($contentElementUid, $dceUid) {
@@ -355,7 +355,7 @@ class tx_saveDce {
 	/**
 	 * Gets dce uid by content element uid
 	 *
-	 * @return integer
+	 * @return int
 	 */
 	protected function getDceUidByContentElementUid($uid) {
 		$cType = current($this->tcemain->recordInfo('tt_content', $uid, 'CType'));
@@ -380,7 +380,7 @@ class tx_saveDce {
 	 * @param $status
 	 * @param $pObj
 	 *
-	 * @return integer
+	 * @return int
 	 */
 	protected function getUid($id, $table, $status, $pObj) {
 		$uid = $id;

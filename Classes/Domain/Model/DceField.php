@@ -42,7 +42,7 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/** Field Type: Section */
 	const TYPE_SECTION = 2;
 
-	/** @var integer */
+	/** @var int */
 	protected $type;
 
 	/** @var string */
@@ -78,14 +78,14 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * @return integer
+	 * @return int
 	 */
 	public function getType() {
 		return (int) $this->type;
 	}
 
 	/**
-	 * @param integer $type
+	 * @param int $type
 	 * @return void
 	 */
 	public function setType($type) {

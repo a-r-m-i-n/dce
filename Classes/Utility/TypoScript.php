@@ -85,7 +85,7 @@ class TypoScript {
 	 *
 	 * @param array $typoScriptArray The array to convert to string
 	 * @param string $addKey Prefix given values with given key (eg. lib.whatever = {...})
-	 * @param integer $tab Internal
+	 * @param int $tab Internal
 	 * @param bool $init Internal
 	 * @return string TypoScript
 	 */

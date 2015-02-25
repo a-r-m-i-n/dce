@@ -57,8 +57,8 @@ class tx_dce_dcePreviewField {
 	/**
 	 * Creates a new content item as instance of DCE with given uid, for preview purposes.
 	 *
-	 * @param integer $dceUid
-	 * @return integer uid of created item
+	 * @param int $dceUid
+	 * @return int uid of created item
 	 */
 	protected function createDceInstancePreviewItem($dceUid) {
 		$GLOBALS['TYPO3_DB']->exec_INSERTquery('tt_content', array(
@@ -73,7 +73,7 @@ class tx_dce_dcePreviewField {
 
 	/**
 	 * @param \TYPO3\CMS\Backend\Form\FormEngine $fObj
-	 * @return integer
+	 * @return int
 	 */
 	protected function getDceUid(\TYPO3\CMS\Backend\Form\FormEngine $fObj) {
 		$dceRecord = current($fObj->cachedTSconfig);

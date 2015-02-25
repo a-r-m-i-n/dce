@@ -28,7 +28,7 @@
  * Usage in typoscript: [userFunc = user_dceOnCurrentPage(42)]
  * 42 is a sample for the UID of DCE type.
  *
- * @param integer Uid of DCE type to check for
+ * @param int Uid of DCE type to check for
  * @return bool Returns TRUE if the current page contains a DCE (instance). Otherwise returns FALSE.
  */
 function user_dceOnCurrentPage($dceUid) {

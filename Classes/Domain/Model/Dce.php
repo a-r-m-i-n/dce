@@ -472,7 +472,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Creates and renders fluid template
 	 *
-	 * @param integer $templateType
+	 * @param int $templateType
 	 * @return string Rendered and trimmed template
 	 */
 	protected function renderFluidTemplate($templateType = self::TEMPLATE_FIELD_DEFAULT) {

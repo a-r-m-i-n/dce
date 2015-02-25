@@ -55,7 +55,7 @@ abstract class tx_dce_abstract_formeval {
 	 *
 	 * @param string $message
 	 * @param string $title optional message title
-	 * @param integer $severity optional severity code. One of the t3lib_FlashMessage constants
+	 * @param int $severity optional severity code. One of the t3lib_FlashMessage constants
 	 *
 	 * @return void
 	 * @throws InvalidArgumentException
