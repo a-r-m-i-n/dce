@@ -31,9 +31,6 @@ namespace DceTeam\Dce\Controller;
  * @package dce
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  */
-
-
-
 class DceModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 
 	/**

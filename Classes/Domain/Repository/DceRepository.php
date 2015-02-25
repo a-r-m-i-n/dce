@@ -33,6 +33,7 @@ namespace DceTeam\Dce\Domain\Repository;
 class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 
 	/**
+	 * Returns database DCEs and static DCEs as merged array
 	 *
 	 * @param bool $includeHidden
 	 * @return array
@@ -57,7 +58,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * @param array $fieldList
 	 * @param array $contentObject
 	 * @return \DceTeam\Dce\Domain\Model\Dce
-	 * @throws UnexpectedValueException
+	 * @throws \UnexpectedValueException
 	 */
 	public function findAndBuildOneByUid($uid, $fieldList, $contentObject) {
 		$this->disableRespectOfEnableFields();
@@ -81,7 +82,6 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 
 		$this->processFillingFields($dce, $fieldList);
 		$dce->setContentObject($contentObject);
-
 		return $dce;
 	}
 
@@ -227,7 +227,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 *
 	 * @param array $array flexform data array
 	 * @param Object $caller
-	 * @param null|string $arrayKey
+	 * @param NULL|string $arrayKey
 	 * @return void
 	 */
 	public function getVDefValues(array $array, $caller = NULL, $arrayKey = NULL) {
@@ -319,34 +319,34 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 		$objects = array();
 
 		if ($dceFieldConfiguration['type'] === 'group') {
-			$classname = $dceFieldConfiguration['allowed'];
+			$className = $dceFieldConfiguration['allowed'];
 		} else {
-			$classname = $dceFieldConfiguration['foreign_table'];
+			$className = $dceFieldConfiguration['foreign_table'];
 		}
-		$tablename = $classname;
+		$tablename = $className;
 
-		while (strpos($classname, '_') !== FALSE) {
-			$position = strpos($classname, '_') + 1;
-			$classname = substr($classname, 0, $position - 1) . '-' . strtoupper(substr($classname, $position, 1)) . substr($classname, $position + 1);
+		while (strpos($className, '_') !== FALSE) {
+			$position = strpos($className, '_') + 1;
+			$className = substr($className, 0, $position - 1) . '-' . strtoupper(substr($className, $position, 1)) . substr($className, $position + 1);
 		}
 
-		$classname = str_replace('-', '_', $classname);
-		$classname{0} = strtoupper($classname{0});
+		$className = str_replace('-', '_', $className);
+		$className{0} = strtoupper($className{0});
         $specialClass = NULL;
 
-		if ($dceFieldConfiguration['dce_get_fal_objects'] && strtolower($classname) === 'sys_file' && \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 6001000) {
-			$classname = 'TYPO3\\CMS\\Core\\Resource\\File';
+		if ($dceFieldConfiguration['dce_get_fal_objects'] && strtolower($className) === 'sys_file' && \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 6001000) {
+			$className = 'TYPO3\\CMS\\Core\\Resource\\File';
 		}
 
-        $repositoryName = str_replace('_Model_', '_Repository_', $classname) . 'Repository'; // !
+        $repositoryName = str_replace('_Model_', '_Repository_', $className) . 'Repository'; // !
 
-        if (strtolower($classname) === 'sys_file_collection' && \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 6000000) {
+        if (strtolower($className) === 'sys_file_collection' && \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 6000000) {
             $specialClass = 'FileCollection';
-            $classname = 'TYPO3\\CMS\\Core\\Resource\\Collection\\AbstractFileCollection';
+            $className = 'TYPO3\\CMS\\Core\\Resource\\Collection\\AbstractFileCollection';
             $repositoryName = 'TYPO3\\CMS\\Core\\Resource\\FileCollectionRepository';
         }
 
-		if (class_exists($classname) && class_exists($repositoryName)) {
+		if (class_exists($className) && class_exists($repositoryName)) {
 				// Extbase object found
 			$objectManager = new \TYPO3\CMS\Extbase\Object\ObjectManager();
 			/** @var $repository \TYPO3\CMS\Extbase\Persistence\Repository */

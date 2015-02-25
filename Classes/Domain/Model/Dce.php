@@ -31,8 +31,6 @@ namespace DceTeam\Dce\Domain\Model ;
  * @package dce
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  */
-
-
 class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/** Identifier for default DCE templates */
 	const TEMPLATE_FIELD_DEFAULT = 0;
@@ -215,7 +213,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Gets objectStorage with fields
 	 *
-	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<DceField>
 	 */
 	public function getFields() {
 		return $this->fields;
@@ -224,7 +222,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Sets objectStorage with fields
 	 *
-	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $fields
+	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<DceField> $fields
 	 * @return void
 	 */
 	public function setFields($fields) {
@@ -406,7 +404,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * If not found, returns NULL.
 	 *
 	 * @param string $variable
-	 * @return null|DceField
+	 * @return NULL|DceField
 	 */
 	public function getFieldByVariable($variable) {
 		/** @var $field DceField */
@@ -557,7 +555,6 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 *
 	 * @param string $name
 	 * @param array $arguments
-	 *
 	 * @return mixed
 	 */
 	public function __call($name, array $arguments) {

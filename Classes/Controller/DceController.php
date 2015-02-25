@@ -31,14 +31,13 @@ namespace DceTeam\Dce\Controller;
  * @package dce
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  */
-
-
 class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 
 	/**
 	 * DCE Repository
 	 *
 	 * @var \DceTeam\Dce\Domain\Repository\DceRepository
+	 * @inject
 	 */
 	protected $dceRepository;
 
@@ -46,28 +45,10 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 	 * TypoScript Utility
 	 *
 	 * @var \DceTeam\Dce\Utility\TypoScript
+	 * @inject
 	 */
 	protected $typoScriptUtility;
 
-	/**
-	 * Inject DCE Repository
-	 *
-	 * @param \DceTeam\Dce\Domain\Repository\DceRepository $dceRepository
-	 * @return void
-	 */
-	public function injectDceRepository(\DceTeam\Dce\Domain\Repository\DceRepository $dceRepository) {
-		$this->dceRepository = $dceRepository;
-	}
-
-	/**
-	 * Inject TypoScript Utility
-	 *
-	 * @param \DceTeam\Dce\Utility\TypoScript $typoScriptUtility
-	 * @return void
-	 */
-	public function injectTypoScriptUtility(\DceTeam\Dce\Utility\TypoScript $typoScriptUtility) {
-		$this->typoScriptUtility = $typoScriptUtility;
-	}
 
 	/**
 	 * Initialize Action

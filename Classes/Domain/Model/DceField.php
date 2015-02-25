@@ -1,5 +1,4 @@
 <?php
-
 namespace DceTeam\Dce\Domain\Model;
 /***************************************************************
  *  Copyright notice
@@ -32,8 +31,6 @@ namespace DceTeam\Dce\Domain\Model;
  * @package dce
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  */
-
-
 class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/** Field Type: Element */
 	const TYPE_ELEMENT = 0;
@@ -201,7 +198,7 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 * Checks attached sectionFields for given variable and returns the single field if found. If not found, returns NULL.
 	 *
 	 * @param string $variable
-	 * @return null|DceField
+	 * @return NULL|DceField
 	 */
 	public function getSectionFieldByVariable($variable) {
 		/** @var $sectionField DceField */
