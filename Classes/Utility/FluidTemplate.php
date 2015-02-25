@@ -29,9 +29,6 @@ namespace DceTeam\Dce\Utility;
  * @package dce
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  */
-
-
-
 class FluidTemplate {
 	/** @var string	 */
 	const DEFAULT_DIRECTORY_LAYOUTS = 'EXT:dce/Resources/Private/Layouts/';
@@ -66,20 +63,13 @@ class FluidTemplate {
 			$this->assureDbalCompatibility();
 		}
 
-		// fetch the existing DB connection, or initialize it
-		// needs to be done for Fluid / Cache Manager functionality
-		/** @var $TYPO3_DB t3lib_DB */
-		$TYPO3_DB = \DceTeam\Dce\Utility\DatabaseUtility::getDatabaseConnection();
+		\DceTeam\Dce\Utility\DatabaseUtility::getDatabaseConnection(); // TODO: Necessary?
 
-		if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
-				// If TYPO3 4.6.0 or greater
-				// add extbase_object to cacheConfigurations
-			$cacheConfigurations = array_merge($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'], array('extbase_object' => array()));
-			$GLOBALS['typo3CacheManager']->setCacheConfigurations($cacheConfigurations);
-		}
+		// Add extbase_object to cacheConfigurations
+		$cacheConfigurations = array_merge($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'], array('extbase_object' => array()));
+		$GLOBALS['typo3CacheManager']->setCacheConfigurations($cacheConfigurations);
 
-		$this->fluidTemplate = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\TYPO3\CMS\Fluid\View\StandaloneView');
-
+		$this->fluidTemplate = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Fluid\View\StandaloneView');
 		$this->fluidTemplate->setLayoutRootPath(\TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName(self::DEFAULT_DIRECTORY_LAYOUTS));
 		$this->fluidTemplate->setPartialRootPath(\TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName(self::DEFAULT_DIRECTORY_PARTIALS));
 	}
@@ -151,16 +141,12 @@ class FluidTemplate {
 	 * Checks installation order of dbal and dce, and throws exception if dce has been loaded first. Otherwise the
 	 * cache settings from dbal will be loaded to typo3CacheManager's cache configurations.
 	 *
-	 * @throws Exception
+	 * @throws \Exception
 	 * @return void
 	 */
 	protected function assureDbalCompatibility() {
-		if ((\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 6000000
-				&& $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Core\\Database\\DatabaseConnection'] === NULL) ||
-			(\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 6000000
-				&& $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['t3lib/class.t3lib_db.php'] === NULL)
-		) {
-			throw new Exception('When using dbal it is necessary to install the dce extension after dbal. Currently dce is loaded first.', 1358518250);
+		if ($GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\CMS\Core\Database\DatabaseConnection'] === NULL) {
+			throw new \Exception('When using dbal it is necessary to install the dce extension after dbal. Currently dce is loaded first.', 1358518250);
 		}
 		$GLOBALS['typo3CacheManager']->setCacheConfigurations($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']);
 	}

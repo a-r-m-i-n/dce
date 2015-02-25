@@ -34,7 +34,6 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Uri\ImageViewHelper {
 
 	/**
 	 * Resizes a given image (if required) and renders the respective img tag
-	 * @see http://typo3.org/documentation/document-library/references/doc_core_tsref/4.2.0/view/1/5/#id4164427
 	 *
 	 * @param string $src
 	 * @param string $width width of the image. This can be a numeric value representing the fixed width of the image in pixels. But you can also perform simple calculations by adding "m" or "c" to the value. See imgResource.width for possible options.
@@ -44,15 +43,10 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Uri\ImageViewHelper {
 	 * @param int $maxWidth maximum width of the image
 	 * @param int $maxHeight maximum height of the image
 	 * @param \TYPO3\CMS\Core\Resource\FileInterface|\TYPO3\CMS\Extbase\Domain\Model\AbstractFileFolder $image
-	 *
 	 * @return string rendered tag.
 	 */
 	public function render($src, $width = NULL, $height = NULL, $minWidth = NULL, $minHeight = NULL, $maxWidth = NULL, $maxHeight = NULL, $image = NULL) {
-		if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 6000000) {
-			$imageUri = parent::render($src, $width, $height, $minWidth, $minHeight, $maxWidth, $maxHeight);
-		} else {
-			$imageUri = parent::render($src, $image, $width, $height, $minWidth, $minHeight, $maxWidth, $maxHeight);
-		}
+		$imageUri = parent::render($src, $image, $width, $height, $minWidth, $minHeight, $maxWidth, $maxHeight);
 		if (TYPO3_MODE === 'BE' && strpos($imageUri, '../') === 0) {
 				// Make image uri absolute
 				$imageUri = substr($imageUri, 2);

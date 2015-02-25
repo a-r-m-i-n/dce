@@ -123,11 +123,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	protected function disableRespectOfEnableFields() {
 		/** @var $querySettings \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings */
 		$querySettings = $this->objectManager->create('\TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings');
-		if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 6002000) {
-			$querySettings->setIgnoreEnableFields(TRUE)->setIncludeDeleted(TRUE);
-		} else {
-			$querySettings->setRespectEnableFields(FALSE);
-		}
+		$querySettings->setIgnoreEnableFields(TRUE)->setIncludeDeleted(TRUE);
 		$this->setDefaultQuerySettings($querySettings);
 	}
 
@@ -334,16 +330,16 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 		$className{0} = strtoupper($className{0});
         $specialClass = NULL;
 
-		if ($dceFieldConfiguration['dce_get_fal_objects'] && strtolower($className) === 'sys_file' && \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 6001000) {
-			$className = 'TYPO3\\CMS\\Core\\Resource\\File';
+		if ($dceFieldConfiguration['dce_get_fal_objects'] && strtolower($className) === 'sys_file') {
+			$className = 'TYPO3\CMS\Core\Resource\File';
 		}
 
         $repositoryName = str_replace('_Model_', '_Repository_', $className) . 'Repository'; // !
 
-        if (strtolower($className) === 'sys_file_collection' && \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 6000000) {
+        if (strtolower($className) === 'sys_file_collection') {
             $specialClass = 'FileCollection';
-            $className = 'TYPO3\\CMS\\Core\\Resource\\Collection\\AbstractFileCollection';
-            $repositoryName = 'TYPO3\\CMS\\Core\\Resource\\FileCollectionRepository';
+            $className = 'TYPO3\CMS\Core\Resource\Collection\AbstractFileCollection';
+            $repositoryName = 'TYPO3\CMS\Core\Resource\FileCollectionRepository';
         }
 
 		if (class_exists($className) && class_exists($repositoryName)) {

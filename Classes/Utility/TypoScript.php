@@ -135,10 +135,9 @@ class TypoScript {
 	 * @return array plain array
 	 */
 	public function convertTypoScriptArrayToPlainArray($typoScriptArray) {
-		if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 6000000) {
-			return \TYPO3\CMS\Extbase\Service\TypoScriptService::convertTypoScriptArrayToPlainArray($typoScriptArray);
-		}
-		return \TYPO3\CMS\Extbase\Service\TypoScriptService::convertTypoScriptArrayToPlainArray($typoScriptArray);
+		/** @var \TYPO3\CMS\Extbase\Service\TypoScriptService $typoScriptService */
+		$typoScriptService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Service\TypoScriptService');
+		return $typoScriptService->convertTypoScriptArrayToPlainArray($typoScriptArray);
 	}
 
 	/**

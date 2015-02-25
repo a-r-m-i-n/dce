@@ -1,5 +1,5 @@
 <?php
-$extensionPath = t3lib_extMgm::extPath('dce');
+$extensionPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dce');
 /**
 $autoloadClasses = array(
 	'tx_dce_controller_dcemodulecontroller' => $extensionPath . 'Classes/Controller/DceModuleController.php',

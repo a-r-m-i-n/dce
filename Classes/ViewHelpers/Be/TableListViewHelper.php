@@ -24,13 +24,11 @@ namespace DceTeam\Dce\ViewHelpers\Be;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 6002000) {
-	require_once (PATH_typo3 . 'class.db_list.inc');
-	require_once (PATH_typo3 . 'class.db_list_extra.inc');
-}
-
 /**
  * Class \TYPO3\CMS\Fluid\ViewHelpers\Be\TableListViewHelper
+ *
+ * @package dce
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  */
 class TableListViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\TableListViewHelper {
 
@@ -55,7 +53,7 @@ class TableListViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\TableListViewH
 	 */
 	public function render($tableName, array $fieldList = array(), $storagePid = NULL, $levels = 0, $filter = '', $recordsPerPage = 0, $sortField = '', $sortDescending = FALSE, $readOnly = FALSE, $enableClickMenu = TRUE, $clickTitleMode = NULL, $alternateBackgroundColors = FALSE) {
 		if (!is_object($GLOBALS['SOBE'])) {
-			$GLOBALS['SOBE'] = new stdClass();
+			$GLOBALS['SOBE'] = new \stdClass();
 		}
 		$this->getDocInstance();
 

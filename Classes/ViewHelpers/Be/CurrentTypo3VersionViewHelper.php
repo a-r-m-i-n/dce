@@ -25,16 +25,16 @@ namespace DceTeam\Dce\ViewHelpers\Be;
 ***************************************************************/
 
 /**
- * Gets the current version of TYPO3 as int
+ * Get the current version of TYPO3 as integer
  *
- * @copyright  2012-2015 Copyright belongs to the respective authors
- * @license    http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
- * @see t3lib_utility_VersionNumber::convertVersionNumberToInteger
+ * @package dce
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
+ * @TODO: Necessary?
  */
 class CurrentTypo3VersionViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper {
 
 	/**
-	 * Returns the current version of TYPO3 as int
+	 * Returns the current version of TYPO3 as integer
 	 *
 	 * @return int Current TYPO3 version
 	 */

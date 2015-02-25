@@ -443,7 +443,3 @@ $TCA['tx_dce_domain_model_dce'] = array(
 		),
 	),
 );
-
-if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 6000000) {
-	unset($TCA['tx_dce_domain_model_dce']['columns']['show_category_tab']);
-}

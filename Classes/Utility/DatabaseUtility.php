@@ -26,17 +26,12 @@ namespace DceTeam\Dce\Utility;
 
 /**
  * Utility class for handling Database Connection
- * for several TYPO3 versions
  * This is needed as the TYPO3 Connection handling is different in 6.1+
- * and the DCE extensions needs to connect to the DB at
- * startup time (ext_localconf.php)
+ * and the DCE extensions needs to connect to the DB at startup time (ext_localconf.php)
  *
  * @package dce
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  */
-
-
-
 class DatabaseUtility {
 
 	/**
@@ -46,15 +41,7 @@ class DatabaseUtility {
 	 */
 	public static function getDatabaseConnection() {
 		if (!$GLOBALS['TYPO3_DB']) {
-			// for 6.1+, only initialize the global DB object
-			if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 6001000) {
-				\TYPO3\CMS\Core\Core\Bootstrap::getInstance()->initializeTypo3DbGlobal();
-			} else {
-				// 6.0 and below: create and connect (no implicit connection available)
-				/** @var $TYPO3_DB \TYPO3\CMS\Dbal\Database\DatabaseConnection */
-				$GLOBALS['TYPO3_DB'] = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\TYPO3\CMS\Dbal\Database\DatabaseConnection');
-				$GLOBALS['TYPO3_DB']->connectDB();
-			}
+			\TYPO3\CMS\Core\Core\Bootstrap::getInstance()->initializeTypo3DbGlobal();
 		}
 		return $GLOBALS['TYPO3_DB'];
 	}

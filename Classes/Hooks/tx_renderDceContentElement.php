@@ -23,60 +23,27 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 6002000) {
-	require_once(PATH_typo3 . 'sysext/cms/layout/interfaces/interface.tx_cms_layout_tt_content_drawitemhook.php');
-}
-
-if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6000000) {
+/**
+ * Render DCE Content Element Hook
+ *
+ * @copyright Copyright belongs to the respective authors
+ * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
+ */
+class tx_renderDceContentElement implements \TYPO3\CMS\Backend\View\PageLayoutViewDrawItemHookInterface  {
 	/**
-	 * Render DCE Content Element Hook
-	 * for < TYPO3 6.0
+	 * Disable rendering restrictions for dce content elements
 	 *
-	 * @copyright Copyright belongs to the respective authors
-	 * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
+	 * @param \TYPO3\CMS\Backend\View\PageLayoutView $parentObject
+	 * @param $drawItem
+	 * @param $headerContent
+	 * @param $itemContent
+	 * @param array $row#
+	 * @return void
 	 */
-	class tx_renderDceContentElement implements \TYPO3\CMS\Backend\View\PageLayoutViewDrawItemHookInterface  {
-		/**
-		 * Disable rendering restrictions for dce content elements
-		 *
-		 * @param \TYPO3\CMS\Backend\View\PageLayoutView $parentObject
-		 * @param $drawItem
-		 * @param $headerContent
-		 * @param $itemContent
-		 * @param array $row#
-		 * @return void
-		 */
-		public function preProcess(\TYPO3\CMS\Backend\View\PageLayoutView &$parentObject, &$drawItem, &$headerContent, &$itemContent, array &$row) {
-			if (strpos($row['CType'], 'dce_dceuid') !== FALSE) {
-				$drawItem = FALSE;
-				$itemContent .= $parentObject->linkEditContent($row['bodytext'], $row) . '<br />';
-			}
-		}
-	}
-} else {
-	/**
-	 * Render DCE Content Element Hook
-	 * for < TYPO3 6.0
-	 *
-	 * @copyright Copyright belongs to the respective authors
-	 * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
-	 */
-	class tx_renderDceContentElement implements tx_cms_layout_tt_content_drawItemHook  {
-		/**
-		 * Disable rendering restrictions for dce content elements
-		 *
-		 * @param tx_cms_layout $parentObject
-		 * @param $drawItem
-		 * @param $headerContent
-		 * @param $itemContent
-		 * @param array $row#
-		 * @return void
-		 */
-		public function preProcess(tx_cms_layout &$parentObject, &$drawItem, &$headerContent, &$itemContent, array &$row) {
-			if (strpos($row['CType'], 'dce_dceuid') !== FALSE) {
-				$drawItem = FALSE;
-				$itemContent .= $parentObject->linkEditContent($row['bodytext'], $row) . '<br />';
-			}
+	public function preProcess(\TYPO3\CMS\Backend\View\PageLayoutView &$parentObject, &$drawItem, &$headerContent, &$itemContent, array &$row) {
+		if (strpos($row['CType'], 'dce_dceuid') !== FALSE) {
+			$drawItem = FALSE;
+			$itemContent .= $parentObject->linkEditContent($row['bodytext'], $row) . '<br />';
 		}
 	}
 }

@@ -502,12 +502,9 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		if (TYPO3_MODE === 'FE' && isset($GLOBALS['TSFE'])) {
 			$fluidTemplate->assign('TSFE', $GLOBALS['TSFE']);
 			$fluidTemplate->assign('page', $GLOBALS['TSFE']->page);
-			if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 6000000) {
-				$fluidTemplate->assign('tsSetup', \DceTeam\Dce\Utility\TypoScript::convertTypoScriptArrayToPlainArray($GLOBALS['TSFE']->tmpl->setup));
-			} else {
-				$typoScriptService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Service\TypoScriptService');
-				$fluidTemplate->assign('tsSetup', $typoScriptService->convertTypoScriptArrayToPlainArray($GLOBALS['TSFE']->tmpl->setup));
-			}
+
+			$typoScriptService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Service\TypoScriptService');
+			$fluidTemplate->assign('tsSetup', $typoScriptService->convertTypoScriptArrayToPlainArray($GLOBALS['TSFE']->tmpl->setup));
 		}
 
 		$fields = $this->getFieldsAsArray();

@@ -33,20 +33,17 @@ class tx_clearCache {
 
 	/**
 	 * Clears the dce cache files
+	 *
 	 * @param $params
 	 * @return void
 	 */
 	public function clearDceCache($params) {
 		if ($params['cacheCmd'] === 'all' || $params['cacheCmd'] === 'temp_cached') {
-			if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 6000000) {
-				if (file_exists($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceLocalconfPath'])) {
-					unlink($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceLocalconfPath']);
-				}
-				if (file_exists($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceExtTablesPath'])) {
-					unlink($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceExtTablesPath']);
-				}
-			} else {
-				\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::removeCacheFiles('temp_CACHED_dce');
+			if (file_exists($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceLocalconfPath'])) {
+				unlink($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceLocalconfPath']);
+			}
+			if (file_exists($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceExtTablesPath'])) {
+				unlink($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceExtTablesPath']);
 			}
 		}
 	}

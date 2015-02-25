@@ -44,8 +44,7 @@ class File {
 	 */
 	static public function getFilePath($file, $absolute = TRUE) {
 		$filePath = $file;
-		if (\TYPO3\CMS\Core\Utility\GeneralUtility::isFirstPartOfStr($file, 'file:')
-				&& \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 6000000) {
+		if (\TYPO3\CMS\Core\Utility\GeneralUtility::isFirstPartOfStr($file, 'file:')) {
 			$combinedIdentifier = substr($file, 5);
 			$resourceFactory = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance();
 
