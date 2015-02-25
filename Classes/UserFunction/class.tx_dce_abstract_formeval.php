@@ -22,6 +22,7 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Abstract class for DCE form validators
@@ -65,14 +66,18 @@ abstract class tx_dce_abstract_formeval {
 			throw new InvalidArgumentException('The flash message must be string, ' . gettype($message) . ' given.', 1243258395);
 		}
 
-		$flashMessage = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-			't3lib_FlashMessage',
+		/** @var \TYPO3\CMS\Core\Messaging\FlashMessage $flashMessage */
+		$flashMessage = GeneralUtility::makeInstance(
+			'TYPO3\CMS\Core\Messaging\FlashMessage',
 			$message,
 			$title,
 			$severity,
 			TRUE
 		);
-		\TYPO3\CMS\Core\Messaging\FlashMessageQueue::addMessage($flashMessage);
+
+		/** @var \TYPO3\CMS\Core\Messaging\FlashMessageQueue $flashMessageQueue */
+		$flashMessageQueue = GeneralUtility::makeInstance('TYPO3\CMS\Core\Messaging\FlashMessageQueue');
+		$flashMessageQueue->enqueue($flashMessage);
 	}
 
 	/**

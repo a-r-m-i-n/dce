@@ -49,13 +49,13 @@ class FlashMessage {
 		if (static::$flashMessageQueue === NULL) {
 
 			/** @var $flashMessageService \TYPO3\CMS\Core\Messaging\FlashMessageService */
-			$flashMessageService = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Messaging\\FlashMessageService');
+			$flashMessageService = GeneralUtility::makeInstance('TYPO3\CMS\Core\Messaging\FlashMessageService');
 			/** @var $defaultFlashMessageQueue \TYPO3\CMS\Core\Messaging\FlashMessageQueue */
 			static::$flashMessageQueue = $flashMessageService->getMessageQueueByIdentifier();
 		}
 
 		/** @var \TYPO3\CMS\Core\Messaging\FlashMessage $flashMessage */
-		$flashMessage = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Messaging\\FlashMessage', htmlspecialchars($message), $title, $severity, TRUE);
+		$flashMessage = GeneralUtility::makeInstance('TYPO3\CMS\Core\Messaging\FlashMessage', htmlspecialchars($message), $title, $severity, TRUE);
 		static::$flashMessageQueue->enqueue($flashMessage);
 	}
 
