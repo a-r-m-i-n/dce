@@ -61,7 +61,7 @@ class ext_update  {
 	}
 
 	/**
-	 * @return boolean Always returns true
+	 * @return bool Always returns true
 	 */
 	public function access() {
 		return true;

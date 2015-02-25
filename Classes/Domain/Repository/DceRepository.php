@@ -168,7 +168,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 *
 	 * @param \DceTeam\Dce\Domain\Model\DceField $dceField
 	 * @param string $fieldValue
-	 * @param boolean $isSectionField
+	 * @param bool $isSectionField
 	 * @param string $xmlIdentifier
 	 * @return void
 	 */
@@ -286,7 +286,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * Converts a given dce uid to a dce CType.
 	 *
 	 * @param integer $uid
-	 * @return string|boolean Returns converted CType. If given uid is invalid, returns FALSE
+	 * @return string|bool Returns converted CType. If given uid is invalid, returns FALSE
 	 * @static
 	 */
 	static public function convertUidToCType($uid) {
@@ -301,7 +301,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * Checks if given field configuration allows to load sub items (assoc array or objects)
 	 *
 	 * @param array $fieldConfiguration
-	 * @return boolean
+	 * @return bool
 	 */
 	protected function hasRelatedObjects(array $fieldConfiguration) {
 		return  in_array($fieldConfiguration['type'], array('group', 'inline', 'select'))

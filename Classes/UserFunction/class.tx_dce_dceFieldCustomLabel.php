@@ -75,7 +75,7 @@ class tx_dce_dceFieldCustomLabel {
 	 * child field of section
 	 *
 	 * @param array $parameter
-	 * @return boolean TRUE if given field parameters are child field of section
+	 * @return bool TRUE if given field parameters are child field of section
 	 */
 	protected function isSectionChildField($parameter) {
 		return $parameter['parent']['config']['MM'] === 'tx_dce_dcefield_sectionfields_mm';
@@ -86,7 +86,7 @@ class tx_dce_dceFieldCustomLabel {
 	 * section field.
 	 *
 	 * @param array $parameter
-	 * @return boolean
+	 * @return bool
 	 */
 	protected function isSectionField($parameter) {
 		return intval($parameter['row']['type']) === 2;

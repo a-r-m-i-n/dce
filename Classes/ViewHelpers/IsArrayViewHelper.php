@@ -36,7 +36,7 @@ class IsArrayViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHel
 	 * Checks if the given subject is an array
 	 *
 	 * @param mixed $subject to check if is array
-	 * @return boolean TRUE if given subject is an array, otherwise FALSE
+	 * @return bool TRUE if given subject is an array, otherwise FALSE
 	 */
 	public function render($subject = NULL) {
 		if ($subject === NULL) {

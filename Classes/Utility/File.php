@@ -39,7 +39,7 @@ class File {
 	 * If FAL reference is given (eg. "file:123") it will be interpret to real existing file path.
 	 *
 	 * @param string $file Filename (eg. "fileadmin/file.html") or FAL reference (eg. "file:123")
-	 * @param boolean $absolute If TRUE the given file path will be converted to absolute path.
+	 * @param bool $absolute If TRUE the given file path will be converted to absolute path.
 	 * @return string File path (absolute or relative)
 	 */
 	static public function getFilePath($file, $absolute = TRUE) {

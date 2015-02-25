@@ -366,7 +366,7 @@ class tx_saveDce {
 	 * Checks the CType of current content element and return TRUE if it is a dce. Otherwise return FALSE.
 	 *
 	 * @param t3lib_TCEmain $pObj
-	 * @return boolean
+	 * @return bool
 	 */
 	protected function isDceContentElement(\TYPO3\CMS\Core\DataHandling\DataHandler $pObj) {
 		$datamap = reset(reset($pObj->datamap));

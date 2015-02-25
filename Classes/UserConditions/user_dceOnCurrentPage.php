@@ -29,7 +29,7 @@
  * 42 is a sample for the UID of DCE type.
  *
  * @param integer Uid of DCE type to check for
- * @return boolean Returns TRUE if the current page contains a DCE (instance). Otherwise returns FALSE.
+ * @return bool Returns TRUE if the current page contains a DCE (instance). Otherwise returns FALSE.
  */
 function user_dceOnCurrentPage($dceUid) {
 	if (TYPO3_MODE !== 'FE') {

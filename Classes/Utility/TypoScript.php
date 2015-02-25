@@ -67,7 +67,7 @@ class TypoScript {
 	 * Converts given TypoScript string to array
 	 *
 	 * @param string $typoScriptString Typoscript text piece
-	 * @param boolean $returnPlainArray If TRUE a plain array will be returned.
+	 * @param bool $returnPlainArray If TRUE a plain array will be returned.
 	 * @return array
 	 */
 	public function parseTypoScriptString($typoScriptString, $returnPlainArray = FALSE) {
@@ -86,7 +86,7 @@ class TypoScript {
 	 * @param array $typoScriptArray The array to convert to string
 	 * @param string $addKey Prefix given values with given key (eg. lib.whatever = {...})
 	 * @param integer $tab Internal
-	 * @param boolean $init Internal
+	 * @param bool $init Internal
 	 * @return string TypoScript
 	 */
 	public function convertArrayToTypoScript(array $typoScriptArray, $addKey = '', $tab = 0, $init = TRUE) {

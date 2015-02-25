@@ -37,7 +37,7 @@ class Tx_Dce_ViewHelpers_Uri_DamViewHelper extends Tx_Fluid_Core_ViewHelper_Abst
 	 *
 	 * @param string $field Name of field in DCE
 	 * @param array $contentObject Content object data array, which is stored in {contentObject} in dce template.
-	 * @param boolean $returnArray If TRUE it returns an array with found media. If FALSE, returns them comma separated.
+	 * @param bool $returnArray If TRUE it returns an array with found media. If FALSE, returns them comma separated.
 	 *
 	 * @return array|string String or array with found media
 	 * @throws Exception

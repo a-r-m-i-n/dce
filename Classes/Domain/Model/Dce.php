@@ -87,7 +87,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/** @var string */
 	protected $bodytextPreviewTemplateFile = '';
 
-	/** @var boolean */
+	/** @var bool */
 	protected $enableDetailpage = FALSE;
 
 	/** @var string */
@@ -327,14 +327,14 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
 	public function getEnableDetailpage() {
 		return $this->enableDetailpage;
 	}
 
 	/**
-	 * @param boolean $enableDetailpage
+	 * @param bool $enableDetailpage
 	 * @return void
 	 */
 	public function setEnableDetailpage($enableDetailpage) {

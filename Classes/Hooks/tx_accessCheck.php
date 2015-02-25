@@ -37,7 +37,7 @@ class tx_accessCheck {
 	 * Returns TRUE if requested record is a static DCE
 	 *
 	 * @param array $params
-	 * @return boolean
+	 * @return bool
 	 */
 	public function checkAccess(array $params) {
 		if (is_numeric($params['uid'])) {

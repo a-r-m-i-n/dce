@@ -48,7 +48,7 @@ class Tx_Dce_ViewHelpers_Format_RawViewHelper extends Tx_Fluid_Core_ViewHelper_A
 
 	/**
 	 * Disable Fluid interceptors for this ViewHelper
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $escapingInterceptorEnabled = FALSE;
 

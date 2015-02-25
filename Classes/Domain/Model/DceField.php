@@ -155,7 +155,7 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Checks if section field count is greater than zero
 	 *
-	 * @return boolean Returns TRUE when section fields existing, otherwise returns FALSE
+	 * @return bool Returns TRUE when section fields existing, otherwise returns FALSE
 	 */
 	public function hasSectionFields() {
 		$sectionFields = $this->getSectionFields();
@@ -216,7 +216,7 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Checks if the field is of type element
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isElement() {
 		return ($this->getType() === self::TYPE_ELEMENT);
@@ -226,7 +226,7 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Checks if the field is of type section
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isSection() {
 		return ($this->getType() === self::TYPE_SECTION);
@@ -236,7 +236,7 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Checks if the field is of type tab
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isTab() {
 		return ($this->getType() === self::TYPE_TAB);

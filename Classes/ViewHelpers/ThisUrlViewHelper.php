@@ -34,9 +34,9 @@ class ThisUrlViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHel
 	/**
 	 * Returns the current url
 	 *
-	 * @param boolean $showHost If TRUE the hostname will be included
-	 * @param boolean $showRequestedUri If TRUE the requested uri will be included
-	 * @param boolean $urlencode If TRUE the whole result will be URI encoded
+	 * @param bool $showHost If TRUE the hostname will be included
+	 * @param bool $showRequestedUri If TRUE the requested uri will be included
+	 * @param bool $urlencode If TRUE the whole result will be URI encoded
 	 *
 	 * @return string url
 	 */
