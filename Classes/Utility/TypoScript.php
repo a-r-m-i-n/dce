@@ -96,10 +96,10 @@ class TypoScript {
 			}
 		}
 		$tab++;
-		foreach($typoScriptArray as $key => $value) {
+		foreach ($typoScriptArray as $key => $value) {
 			if (!is_array($value)) {
 				if (strpos($value, "\n") === FALSE) {
-					$typoScript .= str_repeat("\t", ($tab === 0) ? $tab : $tab - 1) . "$key = $value\n";
+					$typoScript .= str_repeat("\t", ($tab === 0) ? $tab : $tab - 1) . $key . ' = ' . $value . "\n";
 				} else {
 					if ($key === 'configuration') {
 						$valueLines = explode("\n", $value);
@@ -109,7 +109,7 @@ class TypoScript {
 						}
 						$value = implode("\n", $indentedValueLines);
 					}
-					$typoScript .= str_repeat("\t", ($tab === 0) ? $tab : $tab - 1) . "$key (\n$value\n" . str_repeat("\t", ($tab === 0) ? $tab : $tab - 1) . ")\n";
+					$typoScript .= str_repeat("\t", ($tab === 0) ? $tab : $tab - 1) . $key . " (\n" . $value . "\n" . str_repeat("\t", ($tab === 0) ? $tab : $tab - 1) . ")\n";
 				}
 
 			} else {
@@ -181,7 +181,7 @@ class TypoScript {
 			\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT
 		);
 		$typoscript = $typoscript['plugin.'][$extkey . '.']['settings.'];
-		foreach($settings as $key => $setting) {
+		foreach ($settings as $key => $setting) {
 			if ($setting === '' && is_array($typoscript) && array_key_exists($key, $typoscript)) {
 				$settings[$key] = $typoscript[$key];
 			}
@@ -194,9 +194,9 @@ class TypoScript {
 	 * transformation it can be rendered with cObjGetSingle.
 	 *
 	 * Example:
-	 * Before: $array['level1']['level2']['finalLevel'] = 'hello kitty'
-	 * After:  $array['level1.']['level2.']['finalLevel'] = 'hello kitty'
-	 *		   $array['level1'] = 'TEXT'
+	 * Before:	$array['level1']['level2']['finalLevel'] = 'hello kitty'
+	 * After:	$array['level1.']['level2.']['finalLevel'] = 'hello kitty'
+	 * 			$array['level1'] = 'TEXT'
 	 *
 	 * @param array $configuration settings array to make renderable
 	 * @return array the renderable settings

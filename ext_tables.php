@@ -1,6 +1,6 @@
 <?php
 if (!defined('TYPO3_MODE')) {
-    die ('Access denied.');
+	die ('Access denied.');
 }
 
 $boot = function($extensionKey) {
@@ -13,7 +13,7 @@ $boot = function($extensionKey) {
 	require_once($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceExtTablesPath']);
 
 	\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
-		'DceTeam.'.$extensionKey,
+		'DceTeam.' . $extensionKey,
 		'tools',
 		'dceModule',
 		'',

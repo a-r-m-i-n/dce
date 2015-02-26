@@ -22,12 +22,14 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
+ * Codemirror text area field
  *
  * @package dce
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
- *
  */
 class tx_dce_codemirrorField {
 	/**
@@ -46,11 +48,11 @@ class tx_dce_codemirrorField {
 		$this->parameter = $parameter;
 
 		/** @var $fluidTemplate \DceTeam\Dce\Utility\FluidTemplate */
-		$fluidTemplate = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\DceTeam\Dce\Utility\FluidTemplate');
+		$fluidTemplate = GeneralUtility::makeInstance('\DceTeam\Dce\Utility\FluidTemplate');
 
-		$fluidTemplate->setLayoutRootPath(\TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dce/Resources/Private/Layouts/'));
-		$fluidTemplate->setPartialRootPath(\TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dce/Resources/Private/Partials/'));
-		$fluidTemplate->setTemplatePathAndFilename(\TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dce/Resources/Private/Templates/DceUserFields/Coldmirror.html'));
+		$fluidTemplate->setLayoutRootPath(GeneralUtility::getFileAbsFileName('EXT:dce/Resources/Private/Layouts/'));
+		$fluidTemplate->setPartialRootPath(GeneralUtility::getFileAbsFileName('EXT:dce/Resources/Private/Partials/'));
+		$fluidTemplate->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName('EXT:dce/Resources/Private/Templates/DceUserFields/Coldmirror.html'));
 
 		$fluidTemplate->assign('name', $this->parameter['itemFormElName']);
 		$fluidTemplate->assign('value', $this->parameter['itemFormElValue']);
@@ -60,7 +62,6 @@ class tx_dce_codemirrorField {
 		$fluidTemplate->assign('uniqueIdentifier', uniqid());
 		$fluidTemplate->assign('parameters', $this->parameter['fieldConf']['config']['parameters']);
 		$fluidTemplate->assign('disableCodemirror', $extConfiguration['disableCodemirror']);
-
 
 		if ($parameter['fieldConf']['config']['parameters']['mode'] === 'htmlmixed') {
 			if ($this->parameter['row'] == 0) {
@@ -108,7 +109,7 @@ class tx_dce_codemirrorField {
 						');
 
 						$sectionFields = array();
-						while ($row2 = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res2)) {
+						while (($row2 = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res2))) {
 							$sectionFields[] = $row2;
 						}
 						$row['hasSectionFields'] = TRUE;
@@ -127,14 +128,14 @@ class tx_dce_codemirrorField {
 	 * @return array
 	 */
 	protected function getAvailableTemplates() {
-		$path = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dce') . 'Resources/Public/CodeSnippets/ConfigurationTemplates/';
+		$path = ExtensionManagementUtility::extPath('dce') . 'Resources/Public/CodeSnippets/ConfigurationTemplates/';
 
-		$templates = \TYPO3\CMS\Core\Utility\GeneralUtility::get_dirs($path);
+		$templates = GeneralUtility::get_dirs($path);
 		$templates = array_flip($templates);
 
-		foreach($templates as $key => $unused) {
+		foreach ($templates as $key => $_) {
 			$files = array();
-			foreach(\TYPO3\CMS\Core\Utility\GeneralUtility::getFilesInDir($path . $key) as $file) {
+			foreach (GeneralUtility::getFilesInDir($path . $key) as $file) {
 				$filename = preg_replace('/(.*)\.xml/i', '$1', $file);
 				$files[$filename] = file_get_contents($path . $key . '/' . $file);
 			}
@@ -150,14 +151,14 @@ class tx_dce_codemirrorField {
 	 * @return array
 	 */
 	protected function getFamousViewHelpers() {
-		return $this->getViewhelpers(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dce') . 'Resources/Public/CodeSnippets/FamousViewHelpers/');
+		return $this->getViewhelpers(ExtensionManagementUtility::extPath('dce') . 'Resources/Public/CodeSnippets/FamousViewHelpers/');
 	}
 
 	/**
 	 * @return array
 	 */
 	protected function getDceViewHelpers() {
-		return $this->getViewhelpers(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dce') . 'Resources/Public/CodeSnippets/DceViewHelpers/');
+		return $this->getViewhelpers(ExtensionManagementUtility::extPath('dce') . 'Resources/Public/CodeSnippets/DceViewHelpers/');
 	}
 
 	/**
@@ -165,10 +166,10 @@ class tx_dce_codemirrorField {
 	 * @return array
 	 */
 	protected function getViewhelpers($path) {
-		$files = \TYPO3\CMS\Core\Utility\GeneralUtility::getFilesInDir($path);
+		$files = GeneralUtility::getFilesInDir($path);
 
 		$viewhelpers = array();
-		foreach($files as $file) {
+		foreach ($files as $file) {
 			$name = preg_replace('/(.*)\.html/i', '$1', $file);
 			$value = file_get_contents($path . $file);
 			$viewhelpers[$name] = $value;

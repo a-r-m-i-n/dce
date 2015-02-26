@@ -46,7 +46,8 @@ return array(
 			--div--;' . $ll . 'tx_dce_domain_model_dce.backendTemplate,preview_template_type,header_preview,header_preview_template_file,bodytext_preview,bodytext_preview_template_file,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.wizard,wizard_enable,wizard_category,wizard_description,wizard_icon,wizard_custom_icon,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.detailpage,enable_detailpage,detailpage_identifier,detailpage_template_type,detailpage_template,detailpage_template_file,
-			--div--;' . $ll . 'tx_dce_domain_model_dce.miscellaneous,cache_dce,hide_default_ce_wrap,show_access_tab,show_category_tab,palette_fields,template_layout_root_path,template_partial_root_path,--div--;LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.preview,dce_preview'
+			--div--;' . $ll . 'tx_dce_domain_model_dce.miscellaneous,cache_dce,hide_default_ce_wrap,show_access_tab,show_category_tab,palette_fields,template_layout_root_path,template_partial_root_path,
+			--div--;' . $ll . 'tx_dce_domain_model_dce.preview,dce_preview'
 		),
 			// Filebased DCE
 		'1' => array(

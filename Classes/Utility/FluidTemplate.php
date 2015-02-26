@@ -25,6 +25,7 @@ namespace DceTeam\Dce\Utility;
  ***************************************************************/
 
 /**
+ * Fluid Template Utility
  *
  * @package dce
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
@@ -63,7 +64,8 @@ class FluidTemplate {
 			$this->assureDbalCompatibility();
 		}
 
-		\DceTeam\Dce\Utility\DatabaseUtility::getDatabaseConnection(); // TODO: Necessary?
+		// TODO: Necessary?
+		\DceTeam\Dce\Utility\DatabaseUtility::getDatabaseConnection();
 
 		// Add extbase_object to cacheConfigurations
 		$cacheConfigurations = array_merge($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'], array('extbase_object' => array()));

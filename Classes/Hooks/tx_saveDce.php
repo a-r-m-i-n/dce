@@ -31,7 +31,7 @@
  */
 class tx_saveDce {
 	/** @var \TYPO3\CMS\Core\DataHandling\DataHandler */
-	protected $tcemain = NULL;
+	protected $dataHandler = NULL;
 
 	/** @var int uid of current record */
 	protected $uid = 0;
@@ -43,6 +43,10 @@ class tx_saveDce {
 	protected $extConfiguration = array();
 
 
+	/**
+	 * @param \TYPO3\CMS\Core\DataHandling\DataHandler $cObj
+	 * @return void
+	 */
 	public function processDatamap_beforeStart(\TYPO3\CMS\Core\DataHandling\DataHandler $cObj) {
 		if (array_key_exists('tx_dce_domain_model_dce', $cObj->datamap)) {
 			$this->extConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dce']);
@@ -66,7 +70,6 @@ class tx_saveDce {
 
 			$realDceIdentifier = substr($dceIdentifier, 4);
 			$oldValues = $staticDceUtility->getStaticDceData($realDceIdentifier);
-
 
 			if (!empty($oldValues)) {
 				$oldIdentifier = $oldValues['identifier'];
@@ -117,7 +120,6 @@ class tx_saveDce {
 				}
 			}
 
-
 			$newValues['fields'] = $fields;
 
 			file_put_contents($dceFolderPath . 'Frontend.html', $newValues['template_content']);
@@ -135,7 +137,6 @@ class tx_saveDce {
 			unset($newValues['preview_template_type']);
 			unset($newValues['header_preview']);
 			unset($newValues['bodytext_preview']);
-
 
 			/** @var \DceTeam\Dce\Utility\TypoScript $typoScriptUtility */
 			$typoScriptUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\DceTeam\Dce\Utility\TypoScript');
@@ -164,6 +165,7 @@ class tx_saveDce {
 	protected function getVariableNameFromFieldSettings(array $fieldSettings) {
 		if (!isset($fieldSettings['variable']) || empty($fieldSettings['variable'])) {
 			switch ($fieldSettings['type']) {
+				default:
 				case 0:
 					return uniqid('field_');
 
@@ -176,16 +178,6 @@ class tx_saveDce {
 		}
 		return $fieldSettings['variable'];
 	}
-
-//	public function processDatamap_preProcessFieldArray(&$incomingFieldArray, $table, &$id, $cObj) {
-//		if (in_array($table, array('tx_dce_domain_model_dce', 'tx_dce_domain_model_dcefield'))) {
-
-//			\TYPO3\CMS\Core\Utility\DebugUtility::debug($incomingFieldArray, $table . ' - ' . $id);
-
-//			$incomingFieldArray = array();
-//			$id = 0;
-//		}
-//	}
 
 	/**
 	 * Hook action
@@ -200,7 +192,7 @@ class tx_saveDce {
 	 */
 	public function processDatamap_afterDatabaseOperations($status, $table, $id, array $fieldArray, \TYPO3\CMS\Core\DataHandling\DataHandler $pObj) {
 		$this->extConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dce']);
-		$this->tcemain = $pObj;
+		$this->dataHandler = $pObj;
 		$this->fieldArray = array();
 		foreach ($fieldArray as $key => $value) {
 			if (!empty($key)) {
@@ -244,10 +236,10 @@ class tx_saveDce {
 	protected function performPreviewAutoupdateOnContentElementSave() {
 		if (TYPO3_MODE === 'BE') {
 			$mergedFieldArray = array_merge($this->fieldArray, $this->generateDcePreview($this->uid));
-			$this->tcemain->updateDB('tt_content', $this->uid, $mergedFieldArray);
+			$this->dataHandler->updateDB('tt_content', $this->uid, $mergedFieldArray);
 		} else {
 			// Preview texts can not created in frontend context
-			$this->tcemain->updateDB('tt_content', $this->uid, array_merge($this->fieldArray, array(
+			$this->dataHandler->updateDB('tt_content', $this->uid, array_merge($this->fieldArray, array(
 				'header' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('contentElementCreatedByFrontendHeader', 'dce'),
 				'bodytext' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('contentElementCreatedByFrontendBodytext', 'dce', array(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('eID'))),
 			)));
@@ -263,7 +255,7 @@ class tx_saveDce {
 	 */
 	protected function performPreviewAutoupdateBatchOnDceChange() {
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid', 'tt_content', 'CType="dce_dceuid' . $this->uid . '"');
-		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+		while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
 			if ($this->extConfiguration['disablePreviewAutoUpdate'] == 0 && !$GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceImportInProgress']) {
 				$fieldArray = $this->generateDcePreview($row['uid']);
 			} else {
@@ -271,8 +263,9 @@ class tx_saveDce {
 				$uid = $row['uid'];
 				$dceUid = $this->uid;
 
+				// TODO: Remove this feature?
 				$postBody = 'ajaxID=Dce::updateContentElement&uid=' . $uid . '&dceUid=' . $dceUid;
-				$js = "var t=this, b=$(t).up('span'), h=$(b).previous('strong'); $(t).replace('<img src=\'../../../../typo3conf/ext/dce/Resources/Public/Icons/ajax-loader.gif\' alt=\'\' /> ' + $(t).innerHTML); new Ajax.Request('../../../ajax.php',{postBody:'" . $postBody ."', onSuccess:function(r){ var j=r.responseText.evalJSON(); b.update(j.bodytext); $(h).update(j.header); }}); return false;";
+				$js = "var t=this, b=$(t).up('span'), h=$(b).previous('strong'); $(t).replace('<img src=\'../../../../typo3conf/ext/dce/Resources/Public/Icons/ajax-loader.gif\' alt=\'\' /> ' + $(t).innerHTML); new Ajax.Request('../../../ajax.php',{postBody:'" . $postBody . "', onSuccess:function(r){ var j=r.responseText.evalJSON(); b.update(j.bodytext); $(h).update(j.header); }}); return false;";
 
 				$fieldArray = array(
 					'header' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('autoupdateDisabledHeader', 'dce'),
@@ -280,9 +273,8 @@ class tx_saveDce {
 				);
 				unset($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceImportInProgress']);
 			}
-			$this->tcemain->updateDB('tt_content', $row['uid'], $fieldArray);
+			$this->dataHandler->updateDB('tt_content', $row['uid'], $fieldArray);
 		}
-		echo ''; // prevent a bug in 4.5 which returns no output
 	}
 
 
@@ -332,6 +324,7 @@ class tx_saveDce {
 	 * @param array $settings Optional array of settings to use in controller and fluid template. Default is array().
 	 *
 	 * @return string output of controller's action
+	 * @TODO: Is there a better to call extbase?
 	 */
 	protected function runExtbaseController($vendorName, $extensionName, $controller, $action = 'index', $pluginName = 'Pi1', $settings = array()) {
 		$bootstrap = new \TYPO3\CMS\Extbase\Core\Bootstrap();
@@ -346,6 +339,7 @@ class tx_saveDce {
 			'settings' => $settings
 		);
 
+		// @TODO: Do we need that?
 		$_POST['tx_dce_tools_dcedcemodule']['controller'] = $controller;
 		$_POST['tx_dce_tools_dcedcemodule']['action'] = $action;
 
@@ -358,7 +352,7 @@ class tx_saveDce {
 	 * @return int
 	 */
 	protected function getDceUidByContentElementUid($uid) {
-		$cType = current($this->tcemain->recordInfo('tt_content', $uid, 'CType'));
+		$cType = current($this->dataHandler->recordInfo('tt_content', $uid, 'CType'));
 		return intval(substr($cType, strlen('dce_dceuid')));
 	}
 
@@ -404,9 +398,9 @@ class tx_saveDce {
 	 * @return void
 	 */
 	protected function checkAndUpdateDceRelationField() {
-		$row = $this->tcemain->recordInfo('tt_content', $this->uid, 'CType,tx_dce_dce');
-		if(empty($row['tx_dce_dce'])) {
-			$this->tcemain->updateDB('tt_content', $this->uid, array(
+		$row = $this->dataHandler->recordInfo('tt_content', $this->uid, 'CType,tx_dce_dce');
+		if (empty($row['tx_dce_dce'])) {
+			$this->dataHandler->updateDB('tt_content', $this->uid, array(
 				'tx_dce_dce' => \DceTeam\Dce\Domain\Repository\DceRepository::extractUidFromCType($row['CType'])
 			));
 		}

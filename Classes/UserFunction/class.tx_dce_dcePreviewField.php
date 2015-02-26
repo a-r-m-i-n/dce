@@ -24,6 +24,7 @@
  ***************************************************************/
 
 /**
+ * Preview of DCEs in backend
  *
  * @package dce
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
@@ -37,7 +38,7 @@ class tx_dce_dcePreviewField {
 	 * @param \TYPO3\CMS\Backend\Form\FormEngine $fObj
 	 * @return string
 	 */
-	function getPreview($parameter, \TYPO3\CMS\Backend\Form\FormEngine $fObj) {
+	public function getPreview($parameter, \TYPO3\CMS\Backend\Form\FormEngine $fObj) {
 		/** @var $fluidTemplate \DceTeam\Dce\Utility\FluidTemplate */
 		$fluidTemplate = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DceTeam\Dce\Utility\FluidTemplate');
 

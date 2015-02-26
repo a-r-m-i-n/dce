@@ -46,10 +46,21 @@ class ExplodeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHel
 			$subject = $this->renderChildren();
 		}
 
-		if ($delimiter == '\n') { $delimiter = "\n"; }
-		if ($delimiter == '\r') { $delimiter = "\r"; }
-		if ($delimiter == '\r\n') { $delimiter = "\r\n"; }
-		if ($delimiter == '\t') { $delimiter = "\t"; }
+		switch ($delimiter) {
+			default:
+			case '\n':
+				$delimiter = "\n";
+				break;
+			case '\r':
+				$delimiter = "\r";
+				break;
+			case '\r\n':
+				$delimiter = "\r\n";
+				break;
+			case '\t':
+				$delimiter = "\t";
+				break;
+		}
 
 		return \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode($delimiter, $subject, $removeEmpty);
 	}

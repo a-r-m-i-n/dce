@@ -43,11 +43,11 @@ class FlashMessage {
 	 * @param string $message
 	 * @param string $title optional
 	 * @param int $severity
+	 * @return void
 	 * @throws \TYPO3\CMS\Core\Exception
 	 */
 	static public function add($message, $title = '', $severity = \TYPO3\CMS\Core\Messaging\FlashMessage::WARNING) {
 		if (static::$flashMessageQueue === NULL) {
-
 			/** @var $flashMessageService \TYPO3\CMS\Core\Messaging\FlashMessageService */
 			$flashMessageService = GeneralUtility::makeInstance('TYPO3\CMS\Core\Messaging\FlashMessageService');
 			/** @var $defaultFlashMessageQueue \TYPO3\CMS\Core\Messaging\FlashMessageQueue */

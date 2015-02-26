@@ -80,9 +80,8 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 
 		if ($dce->getEnableDetailpage() && intval($contentObject['uid']) === intval(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP($dce->getDetailpageIdentifier()))) {
 			return $dce->renderDetailpage();
-		} else {
-			return $dce->render();
 		}
+		return $dce->render();
 	}
 
 	/**
@@ -106,9 +105,8 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 
 		if ($previewType === 'header') {
 			return $dce->renderHeaderPreview();
-		} else {
-			return $dce->renderBodytextPreview();
 		}
+		return $dce->renderBodytextPreview();
 	}
 
 	/**
@@ -122,8 +120,8 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 		$flexform = \TYPO3\CMS\Core\Utility\GeneralUtility::xml2array(current($GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)));
 
 		$this->temporaryDceProperties = array();
-		if(is_array($flexform)) {
-			$this->dceRepository->getVDefValues($flexform, $this);
+		if (is_array($flexform)) {
+			$this->dceRepository->getVdefValues($flexform, $this);
 		}
 		return $this->temporaryDceProperties;
 	}

@@ -81,7 +81,11 @@ class StaticDce {
 		return $configurationArray;
 	}
 
-
+	/**
+	 * @param string $identifier
+	 * @param bool $nestFieldsInTabs
+	 * @return array|bool FALSE in error case
+	 */
 	public function getStaticDceData($identifier = '', $nestFieldsInTabs = FALSE) {
 		$path = static::$extConfiguration['filebasedDcePath'];
 		if (substr($path, -1) !== DIRECTORY_SEPARATOR) {
@@ -126,6 +130,7 @@ class StaticDce {
 
 			return $configurationArray['tx_dce']['static'];
 		}
+		return FALSE;
 	}
 
 	/**
@@ -145,7 +150,7 @@ class StaticDce {
 			$this->setAttribute($dce, $attribute, $value);
 		}
 
-		foreach ($data['fields'] as $variable => $fieldData) {
+		foreach ($data['fields'] as $fieldData) {
 			/** @var \DceTeam\Dce\Domain\Model\DceField $dceField */
 			$dceField = GeneralUtility::makeInstance('DceTeam\Dce\Domain\Model\DceField');
 			foreach ($fieldData as $attribute => $value) {
@@ -153,7 +158,7 @@ class StaticDce {
 					// Section field
 					/** @var \DceTeam\Dce\Domain\Model\DceField $sectionField */
 					$sectionField = GeneralUtility::makeInstance('DceTeam\Dce\Domain\Model\DceField');
-					foreach ($fieldData['section_fields'] as $sectionFieldVariable => $sectionFieldData) {
+					foreach ($fieldData['section_fields'] as $sectionFieldData) {
 						foreach ($sectionFieldData as $attribute2 => $value2) {
 							$this->setAttribute($sectionField, $attribute2, $value2);
 						}
@@ -191,7 +196,7 @@ class StaticDce {
 
 		$staticDces = array();
 		$path = PATH_site . self::$extConfiguration['filebasedDcePath'];
-		foreach(scandir($path) as $folder) {
+		foreach (scandir($path) as $folder) {
 			if ($folder === '.' || $folder === '..') {
 				continue;
 			}

@@ -24,6 +24,7 @@
  ***************************************************************/
 
 /**
+ * Extends TCA label of fields with variable key
  *
  * @package dce
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
@@ -56,7 +57,8 @@ class tx_dce_dceFieldCustomLabel {
 			} else {
 				$parentFieldRow = array('variable' => $parameter['parent']['uid']);
 			}
-			$parameter['title'] = $parameter['row']['title'] . ' <i style="font-weight: normal">{field.' . $parentFieldRow['variable'] . '.<span style="color: blue;">n.</span>' . $parameter['row']['variable'] . '}</i>';
+			$parameter['title'] = $parameter['row']['title'] . ' <i style="font-weight: normal">{field.' . $parentFieldRow['variable'] .
+				'.<span style="color: blue;">n.</span>' . $parameter['row']['variable'] . '}</i>';
 		}
 	}
 

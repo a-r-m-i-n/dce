@@ -51,7 +51,7 @@ class Cache {
 	 *
 	 * @return void
 	 */
-    public function createLocalconf($pathDceLocalconf) {
+	public function createLocalconf($pathDceLocalconf) {
 		$this->fluidTemplateUtility->setTemplatePathAndFilename(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dce') . 'Resources/Private/Templates/DceSource/localconf.html');
 
 		/** @var \DceTeam\Dce\Utility\StaticDce $staticDceUtility */
@@ -63,7 +63,7 @@ class Cache {
 
 		file_put_contents($pathDceLocalconf, $string);
 		\TYPO3\CMS\Core\Utility\GeneralUtility::fixPermissions($pathDceLocalconf);
-    }
+	}
 
 	/**
 	 * Create ext_tables
@@ -92,14 +92,14 @@ class Cache {
 	 * DCE
 	 * 	|_ uid
 	 * 	|_ title
-	 *  |_ tabs <array>
+	 * 	|_ tabs <array>
 	 * 	|	|_ title
 	 * 	|	|_ fields <array>
-	 *  |    	  |_ uid
-	 * 	|		  |_ title
-	 * 	|		  |_ variable
-	 * 	|		  |_ configuration
-	 *	|_ ...
+	 * 	|		|_ uid
+	 * 	|		|_ title
+	 * 	|		|_ variable
+	 * 	|		|_ configuration
+	 * 	|_ ...
 	 *
 	 * @return array with DCE -> containing tabs -> containing fields
 	 */
@@ -118,7 +118,7 @@ class Cache {
 		);
 
 		$dce = array();
-		while ($row = $TYPO3_DB->sql_fetch_assoc($res)) {
+		while (($row = $TYPO3_DB->sql_fetch_assoc($res))) {
 			$res2 = $TYPO3_DB->exec_SELECT_mm_query(
 				'*',
 				'tx_dce_domain_model_dce',
@@ -136,7 +136,7 @@ class Cache {
 			}
 			$tabs = array(0 => array('title' => $generalTabLabel, 'fields' => array()));
 			$i = 0;
-			while ($row2 = $TYPO3_DB->sql_fetch_assoc($res2)) {
+			while (($row2 = $TYPO3_DB->sql_fetch_assoc($res2))) {
 				if ($row2['type'] === '1') {
 					// Create new Tab
 					$i++;
@@ -144,16 +144,16 @@ class Cache {
 					$tabs[$i]['title'] = $row2['title'];
 					$tabs[$i]['fields'] = array();
 					continue;
-				} else if($row2['type'] === '2'){
+				} else if ($row2['type'] === '2'){
 					$res3 = $TYPO3_DB->exec_SELECTquery(
 						'*',
 						'tx_dce_domain_model_dcefield as a,tx_dce_dcefield_sectionfields_mm,tx_dce_domain_model_dcefield as b',
-						 'a.uid=tx_dce_dcefield_sectionfields_mm.uid_local AND b.uid=tx_dce_dcefield_sectionfields_mm.uid_foreign AND a.uid = ' . $row2['uid'] . ' AND b.deleted = 0 AND b.hidden = 0',
+						'a.uid=tx_dce_dcefield_sectionfields_mm.uid_local AND b.uid=tx_dce_dcefield_sectionfields_mm.uid_foreign AND a.uid = ' . $row2['uid'] . ' AND b.deleted = 0 AND b.hidden = 0',
 						'',
 						'tx_dce_dcefield_sectionfields_mm.sorting asc');
 					$sectionFields = array();
-					while ($row3 = $TYPO3_DB->sql_fetch_assoc($res3)) {
-						if($row3['type'] === '0'){
+					while (($row3 = $TYPO3_DB->sql_fetch_assoc($res3))) {
+						if ($row3['type'] === '0'){
 							// add fields of section to fields
 							$sectionFields[] = $row3;
 						}

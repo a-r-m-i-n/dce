@@ -36,20 +36,20 @@ class tx_dce_impexp {
 	 * @param array $params
 	 * @return void
 	 */
-	public function before_setRelation(array $params) {
-		/** @var $data array */
+	public function beforeSetRelation(array $params) {
+		/** @var array $data */
 		$data = $params['data'];
 
-		/** @var $TCEmain t3lib_TCEmain */
-		$TCEmain = $params['tce'];
-		$TCEmain->start(array(), array());
+		/** @var \TYPO3\CMS\Core\DataHandling\DataHandler $tceMain */
+		$tceMain = $params['tce'];
+		$tceMain->start(array(), array());
 
 		if (array_key_exists('tt_content', $data)) {
 			foreach($data['tt_content'] as $ttContentUid => $ttContentUpdatedFields) {
 				if (array_key_exists('tx_dce_dce', $ttContentUpdatedFields)) {
 					$dceUid = intval(substr($ttContentUpdatedFields['tx_dce_dce'], strlen('tx_dce_domain_model_dce_')));
-					$TCEmain->updateDB('tt_content', $ttContentUid, array(
-						'CType' => \DceTeam\Dce\Domain\Repository\DceRepository::convertUidToCType($dceUid),
+					$tceMain->updateDB('tt_content', $ttContentUid, array(
+						'CType' => \DceTeam\Dce\Domain\Repository\DceRepository::convertUidToCtype($dceUid),
 						'tx_dce_dce' => $dceUid
 					));
 				}
@@ -59,9 +59,11 @@ class tx_dce_impexp {
 
 	/**
 	 * Sets a global before import of dce starts
+	 *
 	 * @param array $params
+	 * @return void
 	 */
-	public function before_writeRecordsRecords(array $params) {
+	public function beforeWriteRecordsRecords(array $params) {
 		if (array_key_exists('tx_dce_domain_model_dce', $params['data'])) {
 			$GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceImportInProgress'] = TRUE;
 		}

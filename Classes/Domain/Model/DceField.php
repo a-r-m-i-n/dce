@@ -202,8 +202,8 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function getSectionFieldByVariable($variable) {
 		/** @var $sectionField DceField */
-		foreach($this->getSectionFields() as $sectionField) {
-			if($sectionField->getVariable() === $variable) {
+		foreach ($this->getSectionFields() as $sectionField) {
+			if ($sectionField->getVariable() === $variable) {
 				return $sectionField;
 			}
 		}

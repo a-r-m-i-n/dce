@@ -23,6 +23,7 @@ namespace DceTeam\Dce\Domain\Repository;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * DCE repository
@@ -40,7 +41,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 */
 	public function findAllAndStatics($includeHidden = FALSE) {
 		/** @var \DceTeam\Dce\Utility\StaticDce $staticDceUtility */
-		$staticDceUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DceTeam\Dce\Utility\StaticDce');
+		$staticDceUtility = GeneralUtility::makeInstance('DceTeam\Dce\Utility\StaticDce');
 		$staticDces = $staticDceUtility->getAll();
 
 		if ($includeHidden) {
@@ -68,7 +69,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 			$dce = $this->findByUid($uid);
 		} else {
 			/** @var \DceTeam\Dce\Utility\StaticDce $staticDceUtility */
-			$staticDceUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DceTeam\Dce\Utility\StaticDce');
+			$staticDceUtility = GeneralUtility::makeInstance('DceTeam\Dce\Utility\StaticDce');
 			$dce = $staticDceUtility->getStaticDceModel($uid);
 		}
 		if (get_class($dce) !== 'DceTeam\Dce\Domain\Model\Dce') {
@@ -93,15 +94,15 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 */
 	protected function cloneFields($dce) {
 		/** @var $clonedFields \TYPO3\CMS\Extbase\Persistence\ObjectStorage */
-		$clonedFields = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\TYPO3\CMS\Extbase\Persistence\ObjectStorage');
+		$clonedFields = GeneralUtility::makeInstance('\TYPO3\CMS\Extbase\Persistence\ObjectStorage');
 		/** @var $field \DceTeam\Dce\Domain\Model\DceField */
-		foreach($dce->getFields() as $field) {
+		foreach ($dce->getFields() as $field) {
 			$field = clone $field;
 			if ($field->getType() === \DceTeam\Dce\Domain\Model\DceField::TYPE_ELEMENT || $field->getType() ===  \DceTeam\Dce\Domain\Model\DceField::TYPE_SECTION) {
 				if ($field->getSectionFields()) {
 					/** @var $clonedFields \TYPO3\CMS\Extbase\Persistence\ObjectStorage */
-					$clonedSectionFields = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\TYPO3\CMS\Extbase\Persistence\ObjectStorage');
-					foreach($field->getSectionFields() as $sectionField) {
+					$clonedSectionFields = GeneralUtility::makeInstance('\TYPO3\CMS\Extbase\Persistence\ObjectStorage');
+					foreach ($field->getSectionFields() as $sectionField) {
 						/** @var $clonedSectionField \DceTeam\Dce\Domain\Model\DceField */
 						$clonedSectionField = clone $sectionField;
 						$clonedSectionField->setValue(NULL);
@@ -139,9 +140,9 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 			$dceField = $dce->getFieldByVariable($fieldVariable);
 			if ($dceField) {
 				if (is_array($fieldValue)) {
-					foreach($fieldValue as $sectionFieldValues) {
+					foreach ($fieldValue as $sectionFieldValues) {
 						$sectionFieldValues = current($sectionFieldValues);
-						foreach($sectionFieldValues as $sectionFieldVariable => $sectionFieldValue) {
+						foreach ($sectionFieldValues as $sectionFieldVariable => $sectionFieldValue) {
 							$sectionField = $dceField->getSectionFieldByVariable($sectionFieldVariable);
 							if ($sectionField instanceof \DceTeam\Dce\Domain\Model\DceField) {
 								$xmlIdentifier = $dce->getUid() . '-' . $dceField->getVariable() . '-' . $sectionField->getVariable();
@@ -170,7 +171,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 */
 	protected function fillFields(\DceTeam\Dce\Domain\Model\DceField $dceField, $fieldValue, $isSectionField = FALSE, $xmlIdentifier) {
 		$xmlWrapping = 'xml-' . $xmlIdentifier;
-		$dceFieldConfiguration = \TYPO3\CMS\Core\Utility\GeneralUtility::xml2array('<' . $xmlWrapping . '>' . $dceField->getConfiguration() . '</' . $xmlWrapping . '>');
+		$dceFieldConfiguration = GeneralUtility::xml2array('<' . $xmlWrapping . '>' . $dceField->getConfiguration() . '</' . $xmlWrapping . '>');
 
 		if (is_array($dceFieldConfiguration)) {
 			$dceFieldConfiguration = $dceFieldConfiguration['config'];
@@ -212,7 +213,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 		$flexformData = $record['pi_flexform_data'];
 		$this->temporaryDceProperties = array();
 		if (is_array($flexformData)) {
-			$this->getVDefValues($flexformData);
+			$this->getVdefValues($flexformData);
 			return $this->temporaryDceProperties;
 		}
 		return array();
@@ -226,15 +227,14 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * @param NULL|string $arrayKey
 	 * @return void
 	 */
-	public function getVDefValues(array $array, $caller = NULL, $arrayKey = NULL) {
+	public function getVdefValues(array $array, $caller = NULL, $arrayKey = NULL) {
 		if ($caller === NULL) {
 			$caller = $this;
 		}
-		foreach($array as $key => $value) {
+		foreach ($array as $key => $value) {
 			if ($key === 'vDEF') {
 				$caller->temporaryDceProperties[substr($arrayKey, 9)] = $value;
-			}
-			elseif (is_array($value) && array_key_exists('el', $value)) {
+			} elseif (is_array($value) && array_key_exists('el', $value)) {
 				$propertyName = substr($key, 9);
 				$values = array();
 				$i = 1;
@@ -243,7 +243,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 						if (is_array($entry)) {
 							$entry = $entry['container_' . $propertyName]['el'];
 							if (is_array($entry)) {
-								foreach($entry as $k => $v) {
+								foreach ($entry as $k => $v) {
 									$entry[$k] = $v['vDEF'];
 								}
 								$values[$i++] = array('container_' . $propertyName => $entry);
@@ -253,7 +253,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 				}
 				$caller->temporaryDceProperties[$propertyName] = $values;
 			} elseif (is_array($value)) {
-				$this->getVDefValues($value, $caller, $key);
+				$this->getVdefValues($value, $caller, $key);
 			}
 		}
 	}
@@ -261,19 +261,19 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	/**
 	 * Extracts and returns the uid from given DCE CType. Returns FALSE if CType is not a DCE one.
 	 *
-	 * @param string $CType
+	 * @param string $cType
 	 * @return int|string|bool
 	 * @static
 	 */
-	static public function extractUidFromCType($CType) {
-		if (strpos($CType, 'dceuid') === 0) {
-			return intval(substr($CType, 6));
+	static public function extractUidFromCType($cType) {
+		if (strpos($cType, 'dceuid') === 0) {
+			return intval(substr($cType, 6));
 		}
-		if (strpos($CType, 'dce_dceuid') === 0) {
-			return intval(substr($CType, 10));
+		if (strpos($cType, 'dce_dceuid') === 0) {
+			return intval(substr($cType, 10));
 		}
-		if (strpos($CType, 'dce_') === 0) {
-			return substr($CType, 4);
+		if (strpos($cType, 'dce_') === 0) {
+			return substr($cType, 4);
 		}
 		return FALSE;
 	}
@@ -285,7 +285,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * @return string|bool Returns converted CType. If given uid is invalid, returns FALSE
 	 * @static
 	 */
-	static public function convertUidToCType($uid) {
+	static public function convertUidToCtype($uid) {
 		$uid = intval($uid);
 		if ($uid === 0) {
 			return FALSE;
@@ -311,7 +311,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * @param array $dceFieldConfiguration
 	 * @return array
 	 */
-	protected function createObjectsByFieldConfiguration($fieldValue, array $dceFieldConfiguration)	{
+	protected function createObjectsByFieldConfiguration($fieldValue, array $dceFieldConfiguration) {
 		$objects = array();
 
 		if ($dceFieldConfiguration['type'] === 'group') {
@@ -328,19 +328,19 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 
 		$className = str_replace('-', '_', $className);
 		$className{0} = strtoupper($className{0});
-        $specialClass = NULL;
+		$specialClass = NULL;
 
 		if ($dceFieldConfiguration['dce_get_fal_objects'] && strtolower($className) === 'sys_file') {
 			$className = 'TYPO3\CMS\Core\Resource\File';
 		}
 
-        $repositoryName = str_replace('_Model_', '_Repository_', $className) . 'Repository'; // !
+		$repositoryName = str_replace('_Model_', '_Repository_', $className) . 'Repository';
 
-        if (strtolower($className) === 'sys_file_collection') {
-            $specialClass = 'FileCollection';
-            $className = 'TYPO3\CMS\Core\Resource\Collection\AbstractFileCollection';
-            $repositoryName = 'TYPO3\CMS\Core\Resource\FileCollectionRepository';
-        }
+		if (strtolower($className) === 'sys_file_collection') {
+			$specialClass = 'FileCollection';
+			$className = 'TYPO3\CMS\Core\Resource\Collection\AbstractFileCollection';
+			$repositoryName = 'TYPO3\CMS\Core\Resource\FileCollectionRepository';
+		}
 
 		if (class_exists($className) && class_exists($repositoryName)) {
 				// Extbase object found
@@ -348,54 +348,53 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 			/** @var $repository \TYPO3\CMS\Extbase\Persistence\Repository */
 			$repository = $objectManager->get($repositoryName);
 
-			foreach (\TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $fieldValue, TRUE) as $uid) {
-                $object = $repository->findByUid($uid);
-                if ($specialClass === 'FileCollection') {
-                    $object->loadContents();
-                }
+			foreach (GeneralUtility::trimExplode(',', $fieldValue, TRUE) as $uid) {
+				$object = $repository->findByUid($uid);
+				if ($specialClass === 'FileCollection') {
+					$object->loadContents();
+				}
 				$objects[] = $object;
 			}
 			return $objects;
-		} else {
-				// No class found... load DB record and return assoc
-			foreach (\TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $fieldValue, TRUE) as $uid) {
-				$enableFields = '';
+		}
+			// No class found... load DB record and return assoc
+		foreach (GeneralUtility::trimExplode(',', $fieldValue, TRUE) as $uid) {
+			$enableFields = '';
 
-				if (!$dceFieldConfiguration['dce_ignore_enablefields']) {
-					if (!$GLOBALS['TSFE']->sys_page instanceof t3lib_pageSelect) {
-						$GLOBALS['TSFE']->sys_page = \TYPO3\CMS\Core\Utility\GeneralUtility ::makeInstance('t3lib_pageSelect');
+			if (!$dceFieldConfiguration['dce_ignore_enablefields']) {
+				if (!$GLOBALS['TSFE']->sys_page instanceof \TYPO3\CMS\Frontend\Page\PageRepository) {
+					$GLOBALS['TSFE']->sys_page = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Page\PageRepository');
+				}
+				/** @var $contentObjectRenderer \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer */
+				$contentObjectRenderer = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
+				$enableFields = $contentObjectRenderer->enableFields($tablename);
+			}
+
+			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', $tablename, 'uid = ' . $uid . $enableFields);
+			while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
+				if ($dceFieldConfiguration['dce_enable_autotranslation']) {
+					if ($tablename === 'pages') {
+						$row = $GLOBALS['TSFE']->sys_page->getPageOverlay($row);
+					} else {
+						$row = $GLOBALS['TSFE']->sys_page->getRecordOverlay($tablename, $row, $GLOBALS['TSFE']->sys_language_uid, $GLOBALS['TSFE']->tmpl->setup['config.']['sys_language_overlay']);
 					}
-					/** @var $cObj tslib_cObj */
-					$cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tslib_cObj');
-					$enableFields = $cObj->enableFields($tablename);
 				}
 
-				$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', $tablename, 'uid = ' . $uid . $enableFields);
-				while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
-					if ($dceFieldConfiguration['dce_enable_autotranslation']) {
-						if ($tablename === 'pages') {
-							$row = $GLOBALS['TSFE']->sys_page->getPageOverlay($row);
-						} else {
-							$row = $GLOBALS['TSFE']->sys_page->getRecordOverlay($tablename, $row, $GLOBALS['TSFE']->sys_language_uid, $GLOBALS['TSFE']->tmpl->setup['config.']['sys_language_overlay']);
-						}
-					}
+					// Add field with converted flexform_data (as array)
+				$row['pi_flexform_data'] = GeneralUtility::xml2array($row['pi_flexform']);
 
-						// Add field with converted flexform_data (as array)
-					$row['pi_flexform_data'] = \TYPO3\CMS\Core\Utility\GeneralUtility::xml2array($row['pi_flexform']);
-
-					$dceUid = $this->extractUidFromCType($row['CType']);
-					if ($dceUid !== FALSE) {
-						$objects[] = $this->findAndBuildOneByUid(
-							$dceUid,
-							$this->getDceFieldsByRecord($row),
-							$row
-						);
-					} else {
-						$objects[] = $row;
-					}
+				$dceUid = $this->extractUidFromCType($row['CType']);
+				if ($dceUid !== FALSE) {
+					$objects[] = $this->findAndBuildOneByUid(
+						$dceUid,
+						$this->getDceFieldsByRecord($row),
+						$row
+					);
+				} else {
+					$objects[] = $row;
 				}
 			}
-			return $objects;
 		}
+		return $objects;
 	}
 }

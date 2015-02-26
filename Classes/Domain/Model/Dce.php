@@ -1,5 +1,5 @@
 <?php
-namespace DceTeam\Dce\Domain\Model ;
+namespace DceTeam\Dce\Domain\Model;
 /***************************************************************
  *  Copyright notice
  *
@@ -408,7 +408,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function getFieldByVariable($variable) {
 		/** @var $field DceField */
-		foreach($this->getFields() as $field) {
+		foreach ($this->getFields() as $field) {
 			if ($field->getVariable() === $variable) {
 				return $field;
 			}
@@ -522,13 +522,13 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected function getFieldsAsArray() {
 		$fields = array();
 		/** @var $field \DceTeam\Dce\Domain\Model\DceField */
-		foreach($this->getFields() as $field) {
+		foreach ($this->getFields() as $field) {
 			if ($field->isTab()) {
 				continue;
 			}
 			if ($field->hasSectionFields()) {
 				/**	@var $sectionField \DceTeam\Dce\Domain\Model\DceField  */
-				foreach($field->getSectionFields() as $sectionField) {
+				foreach ($field->getSectionFields() as $sectionField) {
 					$sectionFieldValues = $sectionField->getValue();
 					if (is_array($sectionFieldValues)) {
 						foreach ($sectionFieldValues as $i => $value) {
@@ -536,8 +536,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 						}
 					}
 				}
-			}
-			else {
+			} else {
 				$fields[$field->getVariable()] = $field->getValue();
 			}
 		}

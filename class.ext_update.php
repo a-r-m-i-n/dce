@@ -53,7 +53,7 @@ class ext_update  {
 		$version = '0.8.0';
 
 		$dceInstancesToUpdate = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows('uid,CType,tx_dce_dce', 'tt_content', 'CType LIKE "dce_dceuid%" AND tx_dce_dce=0');
-		foreach($dceInstancesToUpdate as $dceInstanceRow) {
+		foreach ($dceInstancesToUpdate as $dceInstanceRow) {
 			$dceInstanceRow['tx_dce_dce'] = \DceTeam\Dce\Domain\Repository\DceRepository::extractUidFromCType($dceInstanceRow['CType']);
 			$GLOBALS['TYPO3_DB']->exec_UPDATEquery('tt_content', 'uid=' . $dceInstanceRow['uid'], $dceInstanceRow);
 		}
@@ -64,7 +64,7 @@ class ext_update  {
 	 * @return bool Always returns true
 	 */
 	public function access() {
-		return true;
+		return TRUE;
 	}
 
 	/**
@@ -90,7 +90,7 @@ class ext_update  {
 	 */
 	protected function getOutput() {
 		$output = '<ul>';
-		foreach($this->output as $outputRecord) {
+		foreach ($this->output as $outputRecord) {
 			$output .= '<li><h4><span>' . $outputRecord['title'] . '</span> <em>[' . $outputRecord['version'] . ']</em></h4><p>' . $outputRecord['result'] . '</p></li>';
 		}
 		$output .= '</ul>';

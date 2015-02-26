@@ -52,9 +52,9 @@ class tx_docHeaderButtonsHook {
 			/** @var $tceMain t3lib_TCEmain */
 			$tceMain = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('t3lib_TCEmain');
 			$contentRecord = $tceMain->recordInfo('tt_content', $uid, 'CType');
-			$CType = current($contentRecord);
+			$cType = current($contentRecord);
 			$this->requireDceRepository();
-			$dceUid = \DceTeam\Dce\Domain\Repository\DceRepository::extractUidFromCType($CType);
+			$dceUid = \DceTeam\Dce\Domain\Repository\DceRepository::extractUidFromCType($cType);
 
 			if ($dceUid !== FALSE) {
 				$buttonCode = '';
@@ -62,7 +62,9 @@ class tx_docHeaderButtonsHook {
 					$linkToDce = 'alt_doc.php?&returnUrl=close.html&edit[tx_dce_domain_model_dce][' . $dceUid . ']=edit';
 					$pathToImage = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('dce') . 'Resources/Public/Icons/docheader_icon.png';
 					$titleTag = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('quickDcePopup', 'Dce');
-					$buttonCode = '<div class="buttongroup"><a href="#" onclick="window.open(\'' . $linkToDce . '\', \'editDcePopup\', \'height=600,width=820,status=0,menubar=0,scrollbars=1\')"><img src="' . $pathToImage . '" alt="" title="' . $titleTag . '" /></a></div>';
+					$buttonCode = '<div class="buttongroup"><a href="#" onclick="window.open(\'' . $linkToDce .
+						'\', \'editDcePopup\', \'height=600,width=820,status=0,menubar=0,scrollbars=1\')"><img src="' .
+						$pathToImage . '" alt="" title="' . $titleTag . '" /></a></div>';
 				}
 				$params['markers']['BUTTONLIST_LEFT'] .= $buttonCode . $this->getCustomStylesheet();
 			}

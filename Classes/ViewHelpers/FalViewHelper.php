@@ -51,8 +51,8 @@ class FalViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper 
 			'sys_file_reference',
 			'tablenames=' . \DceTeam\Dce\Utility\DatabaseUtility::getDatabaseConnection()->fullQuoteStr($tableName, 'sys_file_reference') .
 				' AND uid_foreign=' . $contentObjectUid .
-				' AND fieldname=' . \DceTeam\Dce\Utility\DatabaseUtility::getDatabaseConnection()->fullQuoteStr($field, 'sys_file_reference')
-				. $pageSelect->enableFields('sys_file_reference', $pageSelect->showHiddenRecords),
+				' AND fieldname=' . \DceTeam\Dce\Utility\DatabaseUtility::getDatabaseConnection()->fullQuoteStr($field, 'sys_file_reference') .
+				$pageSelect->enableFields('sys_file_reference', $pageSelect->showHiddenRecords),
 			'',
 			'sorting_foreign',
 			'',

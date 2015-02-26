@@ -39,7 +39,7 @@ class tx_dce_formevals_noLeadingNumber extends tx_dce_abstract_formeval {
 	 */
 	public function evaluateFieldValue($value) {
 		preg_match('/^\d*(.*)/i', $value, $matches);
-		if ($matches[0] !== $matches [1]) {
+		if ($matches[0] !== $matches[1]) {
 			$this->addFlashMessage(
 				$this->translate('tx_dce_formeval_noLeadingNumber', array($value, $matches[1])),
 				$this->translate('tx_dce_formeval_headline', array($value)),

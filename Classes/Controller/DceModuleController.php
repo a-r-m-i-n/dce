@@ -49,7 +49,6 @@ class DceModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
 		$extConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dce']);
 		$enableUpdateCheck = (bool) $extConfiguration['enableUpdateCheck'];
 
-
 		$this->view->assign('dces', $this->dceRepository->findAllAndStatics());
 		$this->view->assign('enableUpdateCheck', $enableUpdateCheck);
 	}
