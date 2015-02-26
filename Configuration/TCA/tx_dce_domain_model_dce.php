@@ -150,9 +150,9 @@ return array(
 				'maxitems' => 999,
 				'appearance' => array(
 					'enabledControls' => array(
-						'hide' => false,
-						'dragdrop' => true,
-						'sort' => true,
+						'hide' => FALSE,
+						'dragdrop' => TRUE,
+						'sort' => TRUE,
 					),
 					'levelLinksPosition' => 'both',
 				),

@@ -45,7 +45,7 @@ class tx_dce_impexp {
 		$tceMain->start(array(), array());
 
 		if (array_key_exists('tt_content', $data)) {
-			foreach($data['tt_content'] as $ttContentUid => $ttContentUpdatedFields) {
+			foreach ($data['tt_content'] as $ttContentUid => $ttContentUpdatedFields) {
 				if (array_key_exists('tx_dce_dce', $ttContentUpdatedFields)) {
 					$dceUid = intval(substr($ttContentUpdatedFields['tx_dce_dce'], strlen('tx_dce_domain_model_dce_')));
 					$tceMain->updateDB('tt_content', $ttContentUid, array(

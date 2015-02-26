@@ -41,7 +41,7 @@ class tx_dce_codemirrorField {
 	 * @param $parameter
 	 * @return string
 	 */
-	function getCodemirrorField($parameter) {
+	public function getCodemirrorField($parameter) {
 		/** @var $extConfiguration array */
 		$extConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dce']);
 

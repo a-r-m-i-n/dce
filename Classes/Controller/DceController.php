@@ -73,7 +73,7 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 
 		/** @var $dce \DceTeam\Dce\Domain\Model\Dce */
 		$dce = $this->dceRepository->findAndBuildOneByUid(
-			$this->dceRepository->extractUidFromCType($config['pluginName']),
+			$this->dceRepository->extractUidFromCtype($config['pluginName']),
 			$this->settings,
 			$contentObject
 		);

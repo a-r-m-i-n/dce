@@ -54,7 +54,7 @@ class tx_docHeaderButtonsHook {
 			$contentRecord = $tceMain->recordInfo('tt_content', $uid, 'CType');
 			$cType = current($contentRecord);
 			$this->requireDceRepository();
-			$dceUid = \DceTeam\Dce\Domain\Repository\DceRepository::extractUidFromCType($cType);
+			$dceUid = \DceTeam\Dce\Domain\Repository\DceRepository::extractUidFromCtype($cType);
 
 			if ($dceUid !== FALSE) {
 				$buttonCode = '';

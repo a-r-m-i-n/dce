@@ -144,7 +144,7 @@ class Cache {
 					$tabs[$i]['title'] = $row2['title'];
 					$tabs[$i]['fields'] = array();
 					continue;
-				} else if ($row2['type'] === '2'){
+				} elseif ($row2['type'] === '2') {
 					$res3 = $TYPO3_DB->exec_SELECTquery(
 						'*',
 						'tx_dce_domain_model_dcefield as a,tx_dce_dcefield_sectionfields_mm,tx_dce_domain_model_dcefield as b',
@@ -153,7 +153,7 @@ class Cache {
 						'tx_dce_dcefield_sectionfields_mm.sorting asc');
 					$sectionFields = array();
 					while (($row3 = $TYPO3_DB->sql_fetch_assoc($res3))) {
-						if ($row3['type'] === '0'){
+						if ($row3['type'] === '0') {
 							// add fields of section to fields
 							$sectionFields[] = $row3;
 						}

@@ -47,7 +47,6 @@ class ExplodeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHel
 		}
 
 		switch ($delimiter) {
-			default:
 			case '\n':
 				$delimiter = "\n";
 				break;
@@ -60,6 +59,7 @@ class ExplodeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHel
 			case '\t':
 				$delimiter = "\t";
 				break;
+			default:
 		}
 
 		return \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode($delimiter, $subject, $removeEmpty);

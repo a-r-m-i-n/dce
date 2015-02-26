@@ -54,7 +54,7 @@ class ext_update  {
 
 		$dceInstancesToUpdate = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows('uid,CType,tx_dce_dce', 'tt_content', 'CType LIKE "dce_dceuid%" AND tx_dce_dce=0');
 		foreach ($dceInstancesToUpdate as $dceInstanceRow) {
-			$dceInstanceRow['tx_dce_dce'] = \DceTeam\Dce\Domain\Repository\DceRepository::extractUidFromCType($dceInstanceRow['CType']);
+			$dceInstanceRow['tx_dce_dce'] = \DceTeam\Dce\Domain\Repository\DceRepository::extractUidFromCtype($dceInstanceRow['CType']);
 			$GLOBALS['TYPO3_DB']->exec_UPDATEquery('tt_content', 'uid=' . $dceInstanceRow['uid'], $dceInstanceRow);
 		}
 		$this->addOutput(count($dceInstancesToUpdate) . ' dce instances has been updated.', $title, $version);

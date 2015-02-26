@@ -265,7 +265,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * @return int|string|bool
 	 * @static
 	 */
-	static public function extractUidFromCType($cType) {
+	static public function extractUidFromCtype($cType) {
 		if (strpos($cType, 'dceuid') === 0) {
 			return intval(substr($cType, 6));
 		}
@@ -383,7 +383,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 					// Add field with converted flexform_data (as array)
 				$row['pi_flexform_data'] = GeneralUtility::xml2array($row['pi_flexform']);
 
-				$dceUid = $this->extractUidFromCType($row['CType']);
+				$dceUid = $this->extractUidFromCtype($row['CType']);
 				if ($dceUid !== FALSE) {
 					$objects[] = $this->findAndBuildOneByUid(
 						$dceUid,

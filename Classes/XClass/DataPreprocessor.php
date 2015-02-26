@@ -28,7 +28,7 @@ class DataPreprocessor extends \TYPO3\CMS\Backend\Form\DataPreprocessor {
 			static::$staticDceConfiguration = array_merge($staticDceValues, array('uid' => $idList, 'type' => 1));
 			$this->renderRecord($table, $idList, 0, static::$staticDceConfiguration);
 			header('X-XSS-Protection: 0');
-		} else if ($table === 'tx_dce_domain_model_dcefield' && !is_numeric($idList) && static::$staticDceConfiguration !== NULL) {
+		} elseif ($table === 'tx_dce_domain_model_dcefield' && !is_numeric($idList) && static::$staticDceConfiguration !== NULL) {
 			if (isset(static::$staticDceConfiguration['fields'][$idList])) {
 					// Normal fields
 				$row = static::$staticDceConfiguration['fields'][$idList];
@@ -73,14 +73,14 @@ class DataPreprocessor extends \TYPO3\CMS\Backend\Form\DataPreprocessor {
 		return $row;
 	}
 
-	public function renderRecord_inlineProc($data, $fieldConfig, $TSconfig, $table, $row, $field) {
+	public function renderRecord_inlineProc($data, $fieldConfig, $tsConfig, $table, $row, $field) {
 		if (isset($row['uid']) && $table === 'tx_dce_domain_model_dce' && strpos($row['uid'], 'dce_') === 0) {
 			if ($field === 'fields') {
 				return implode(',', array_keys($row[$field]));
 			}
-		} else if ($field === 'section_fields' && isset($row['section_fields']) && is_array($row['section_fields'])) {
+		} elseif ($field === 'section_fields' && isset($row['section_fields']) && is_array($row['section_fields'])) {
 			return implode(',', array_keys($row['section_fields']));
 		}
-		return parent::renderRecord_inlineProc($data, $fieldConfig, $TSconfig, $table, $row, $field);
+		return parent::renderRecord_inlineProc($data, $fieldConfig, $tsConfig, $table, $row, $field);
 	}
 }

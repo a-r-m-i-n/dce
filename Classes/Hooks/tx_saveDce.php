@@ -401,7 +401,7 @@ class tx_saveDce {
 		$row = $this->dataHandler->recordInfo('tt_content', $this->uid, 'CType,tx_dce_dce');
 		if (empty($row['tx_dce_dce'])) {
 			$this->dataHandler->updateDB('tt_content', $this->uid, array(
-				'tx_dce_dce' => \DceTeam\Dce\Domain\Repository\DceRepository::extractUidFromCType($row['CType'])
+				'tx_dce_dce' => \DceTeam\Dce\Domain\Repository\DceRepository::extractUidFromCtype($row['CType'])
 			));
 		}
 	}
