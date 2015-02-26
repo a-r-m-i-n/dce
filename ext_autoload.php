@@ -1,6 +1,9 @@
 <?php
+/*
+ * @TODO: Necessary?
+ *
 $extensionPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dce');
-/**
+
 $autoloadClasses = array(
 	'tx_dce_controller_dcemodulecontroller' => $extensionPath . 'Classes/Controller/DceModuleController.php',
 	'tx_dce_cache' => $extensionPath . 'Classes/Cache.php',
@@ -22,4 +25,4 @@ if (intval($typo3Version{0}) === 6) {
 }
 
 return $autoloadClasses;
- * */
+ */
