@@ -1,4 +1,4 @@
-{namespace dce=DceTeam\Dce\ViewHelpers}<?php
+{namespace dce=ArminVieweg\Dce\ViewHelpers}<?php
 
 $GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'][] = array(
 	0 => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce_long',
@@ -9,7 +9,7 @@ $GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'][] = array(
 <f:if condition="{dce.hidden} == 0">
 	///////////////////////////////////////////////////// {f:if(condition:"{dce.uid}", then:"uid: {dce.uid}", else:"identifier: {dce.identifier}")} ///
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-	'DceTeam.dce',
+	'ArminVieweg.dce',
 	'{f:if(condition:"{dce.uid}", then:"dceuid{dce.uid}", else:"dce_{dce.identifier}")}',
 	'{dce.title}'
 );

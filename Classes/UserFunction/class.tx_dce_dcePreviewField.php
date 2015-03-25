@@ -7,7 +7,7 @@
 /**
  * Preview of DCEs in backend
  *
- * @package DceTeam\Dce
+ * @package ArminVieweg\Dce
  */
 class tx_dce_dcePreviewField {
 	/** PID where all DCE previews are temporary stored with */
@@ -19,8 +19,8 @@ class tx_dce_dcePreviewField {
 	 * @return string
 	 */
 	public function getPreview($parameter, \TYPO3\CMS\Backend\Form\FormEngine $fObj) {
-		/** @var $fluidTemplate \DceTeam\Dce\Utility\FluidTemplate */
-		$fluidTemplate = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DceTeam\Dce\Utility\FluidTemplate');
+		/** @var $fluidTemplate \ArminVieweg\Dce\Utility\FluidTemplate */
+		$fluidTemplate = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('ArminVieweg\Dce\Utility\FluidTemplate');
 
 		$fluidTemplate->setLayoutRootPath(\TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dce/Resources/Private/Layouts/'));
 		$fluidTemplate->setPartialRootPath(\TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:dce/Resources/Private/Partials/'));

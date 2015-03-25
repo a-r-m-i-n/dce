@@ -1,5 +1,5 @@
 <?php
-namespace DceTeam\Dce\Domain\Model;
+namespace ArminVieweg\Dce\Domain\Model;
 
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is free software and is                          *
  *  | licensed under GNU General Public License.                                                                ♥php  *
@@ -9,7 +9,7 @@ namespace DceTeam\Dce\Domain\Model;
  * Model for DCEs. This model contains all necessary informations
  * to render the content element in frontend.
  *
- * @package DceTeam\Dce
+ * @package ArminVieweg\Dce
  */
 class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/** Identifier for default DCE templates */
@@ -32,7 +32,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/** @var string */
 	protected $title = '';
 
-	/** @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\DceTeam\Dce\Domain\Model\DceField> */
+	/** @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\ArminVieweg\Dce\Domain\Model\DceField> */
 	protected $fields = NULL;
 
 	/** @var string */
@@ -212,20 +212,20 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/**
 	 * Adds a field
 	 *
-	 * @param \DceTeam\Dce\Domain\Model\DceField $field The field to be added
+	 * @param \ArminVieweg\Dce\Domain\Model\DceField $field The field to be added
 	 * @return void
 	 */
-	public function addField(\DceTeam\Dce\Domain\Model\DceField $field) {
+	public function addField(\ArminVieweg\Dce\Domain\Model\DceField $field) {
 		$this->fields->attach($field);
 	}
 
 	/**
 	 * Removes a field
 	 *
-	 * @param \DceTeam\Dce\Domain\Model\DceField $fieldToRemove The field to be removed
+	 * @param \ArminVieweg\Dce\Domain\Model\DceField $fieldToRemove The field to be removed
 	 * @return void
 	 */
-	public function removeField(\DceTeam\Dce\Domain\Model\DceField $fieldToRemove) {
+	public function removeField(\ArminVieweg\Dce\Domain\Model\DceField $fieldToRemove) {
 		$this->fields->detach($fieldToRemove);
 	}
 
@@ -464,7 +464,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 			$fluidTemplate->setTemplateSource($this->$inlineTemplateGetter() . ' ');
 		} else {
 			$fileTemplateGetter = 'get' . ucfirst(\TYPO3\CMS\Core\Utility\GeneralUtility::underscoredToLowerCamelCase($templateFields['file']));
-			$filePath = \DceTeam\Dce\Utility\File::getFilePath($this->$fileTemplateGetter());
+			$filePath = \ArminVieweg\Dce\Utility\File::getFilePath($this->$fileTemplateGetter());
 			if (!file_exists($filePath)) {
 				$fluidTemplate->setTemplateSource('');
 			} else {
@@ -473,8 +473,8 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 			}
 		}
 
-		$fluidTemplate->setLayoutRootPath(\DceTeam\Dce\Utility\File::getFilePath($this->getTemplateLayoutRootPath()));
-		$fluidTemplate->setPartialRootPath( \DceTeam\Dce\Utility\File::getFilePath($this->getTemplatePartialRootPath()));
+		$fluidTemplate->setLayoutRootPath(\ArminVieweg\Dce\Utility\File::getFilePath($this->getTemplateLayoutRootPath()));
+		$fluidTemplate->setPartialRootPath( \ArminVieweg\Dce\Utility\File::getFilePath($this->getTemplatePartialRootPath()));
 
 		$fluidTemplate->assign('dce', $this);
 		$fluidTemplate->assign('contentObject', $this->getContentObject());
@@ -501,13 +501,13 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	protected function getFieldsAsArray() {
 		$fields = array();
-		/** @var $field \DceTeam\Dce\Domain\Model\DceField */
+		/** @var $field \ArminVieweg\Dce\Domain\Model\DceField */
 		foreach ($this->getFields() as $field) {
 			if ($field->isTab()) {
 				continue;
 			}
 			if ($field->hasSectionFields()) {
-				/**	@var $sectionField \DceTeam\Dce\Domain\Model\DceField  */
+				/**	@var $sectionField \ArminVieweg\Dce\Domain\Model\DceField  */
 				foreach ($field->getSectionFields() as $sectionField) {
 					$sectionFieldValues = $sectionField->getValue();
 					if (is_array($sectionFieldValues)) {
@@ -541,7 +541,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 			}
 
 			$field = $this->getFieldByVariable($variable);
-			if (get_class($field) === '\DceTeam\Dce\Domain\Model\DceField') {
+			if (get_class($field) === '\ArminVieweg\Dce\Domain\Model\DceField') {
 				return $field->getValue();
 			}
 		}

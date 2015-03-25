@@ -1,5 +1,5 @@
 <?php
-namespace DceTeam\Dce\Utility;
+namespace ArminVieweg\Dce\Utility;
 
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is free software and is                          *
  *  | licensed under GNU General Public License.                                                                ♥php  *
@@ -8,7 +8,7 @@ namespace DceTeam\Dce\Utility;
 /**
  * Fluid Template Utility
  *
- * @package DceTeam\Dce
+ * @package ArminVieweg\Dce
  */
 class FluidTemplate {
 	/** @var string	 */
@@ -45,7 +45,7 @@ class FluidTemplate {
 		}
 
 		// TODO: Necessary?
-		\DceTeam\Dce\Utility\DatabaseUtility::getDatabaseConnection();
+		\ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection();
 
 		// Add extbase_object to cacheConfigurations
 		$cacheConfigurations = array_merge($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'], array('extbase_object' => array()));

@@ -1,9 +1,9 @@
-{namespace dce=DceTeam\Dce\ViewHelpers}<?php
+{namespace dce=ArminVieweg\Dce\ViewHelpers}<?php
 <f:for each="{dceArray}" as="dce">
 <f:if condition="{dce.hidden} == 0">
 ///////////////////////////////////////////////////// {f:if(condition:"{dce.uid}", then:"uid: {dce.uid}", else:"identifier: {dce.identifier}")} ///
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-	'DceTeam.dce',
+	'ArminVieweg.dce',
 	'{f:if(condition:"{dce.uid}", then:"dceuid{dce.uid}", else:"dce_{dce.identifier}")}',
 	array(
 		'Dce' => 'show',

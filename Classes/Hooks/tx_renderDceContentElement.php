@@ -7,7 +7,7 @@
 /**
  * Render DCE Content Element Hook
  *
- * @package DceTeam\Dce
+ * @package ArminVieweg\Dce
  */
 class tx_renderDceContentElement implements \TYPO3\CMS\Backend\View\PageLayoutViewDrawItemHookInterface  {
 	/**

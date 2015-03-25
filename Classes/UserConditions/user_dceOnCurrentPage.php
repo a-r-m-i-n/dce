@@ -12,7 +12,7 @@
  * @param int Uid of DCE type to check for
  * @return bool Returns TRUE if the current page contains a DCE (instance). Otherwise returns FALSE.
  *
- * @package DceTeam\Dce
+ * @package ArminVieweg\Dce
  */
 function user_dceOnCurrentPage($dceUid) {
 	if (TYPO3_MODE !== 'FE') {

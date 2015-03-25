@@ -1,5 +1,5 @@
 <?php
-namespace DceTeam\Dce\Domain\Model;
+namespace ArminVieweg\Dce\Domain\Model;
 
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is free software and is                          *
  *  | licensed under GNU General Public License.                                                                ♥php  *
@@ -9,7 +9,7 @@ namespace DceTeam\Dce\Domain\Model;
  * Model for DCE fields. Contains configuration of fields and fetched values.
  * These fields are part of the DCE model.
  *
- * @package DceTeam\Dce
+ * @package ArminVieweg\Dce
  */
 class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/** Field Type: Element */

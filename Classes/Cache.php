@@ -1,5 +1,5 @@
 <?php
-namespace DceTeam\Dce;
+namespace ArminVieweg\Dce;
 
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is free software and is                          *
  *  | licensed under GNU General Public License.                                                                ♥php  *
@@ -9,11 +9,11 @@ namespace DceTeam\Dce;
  * Generates "temp_CACHED_dce_ext_localconf.php" and "temp_CACHED_dce_ext_tables.php" located in /typo3conf/
  * which contains the whole DCE configurations used by TYPO3.
  *
- * @package DceTeam\Dce
+ * @package ArminVieweg\Dce
  */
 class Cache {
 	/**
-	 * @var \DceTeam\Dce\Utility\FluidTemplate
+	 * @var \ArminVieweg\Dce\Utility\FluidTemplate
 	 */
 	protected $fluidTemplateUtility;
 
@@ -21,7 +21,7 @@ class Cache {
 	 * Constructor
 	 */
 	public function __construct() {
-		$this->fluidTemplateUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DceTeam\Dce\Utility\FluidTemplate');
+		$this->fluidTemplateUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('ArminVieweg\Dce\Utility\FluidTemplate');
 	}
 
 	/**
@@ -34,8 +34,8 @@ class Cache {
 	public function createLocalconf($pathDceLocalconf) {
 		$this->fluidTemplateUtility->setTemplatePathAndFilename(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dce') . 'Resources/Private/Templates/DceSource/localconf.html');
 
-		/** @var \DceTeam\Dce\Utility\StaticDce $staticDceUtility */
-		$staticDceUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DceTeam\Dce\Utility\StaticDce');
+		/** @var \ArminVieweg\Dce\Utility\StaticDce $staticDceUtility */
+		$staticDceUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('ArminVieweg\Dce\Utility\StaticDce');
 
 		$dces = array_merge($this->getDatabaseDce(), $staticDceUtility->getAll());
 		$this->fluidTemplateUtility->assign('dceArray', $dces);
@@ -55,8 +55,8 @@ class Cache {
 	public function createExtTables($pathDceExtTables) {
 		$this->fluidTemplateUtility->setTemplatePathAndFilename(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dce') . 'Resources/Private/Templates/DceSource/ext_tables.html');
 
-		/** @var \DceTeam\Dce\Utility\StaticDce $staticDceUtility */
-		$staticDceUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DceTeam\Dce\Utility\StaticDce');
+		/** @var \ArminVieweg\Dce\Utility\StaticDce $staticDceUtility */
+		$staticDceUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('ArminVieweg\Dce\Utility\StaticDce');
 
 		$dces = array_merge($this->getDatabaseDce(), $staticDceUtility->getAll(TRUE));
 		$this->fluidTemplateUtility->assign('dceArray', $dces);
@@ -87,7 +87,7 @@ class Cache {
 
 		// fetch the existing DB connection, or initialize it
 		/** @var $TYPO3_DB \TYPO3\CMS\Dbal\Database\DatabaseConnection */
-		$TYPO3_DB = \DceTeam\Dce\Utility\DatabaseUtility::getDatabaseConnection();
+		$TYPO3_DB = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection();
 
 		$res = $TYPO3_DB->exec_SELECTquery(
 			'*',

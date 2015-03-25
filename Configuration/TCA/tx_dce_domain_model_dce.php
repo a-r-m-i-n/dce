@@ -266,7 +266,7 @@ return array(
 					'mode' => 'htmlmixed',
 					'showTemplates' => FALSE,
 				),
-				'default' => '{namespace dce=Tx_Dce_ViewHelpers}
+				'default' => '{namespace dce=ArminVieweg\Dce\ViewHelpers}
 <f:layout name="Default" />
 
 <f:section name="main">
@@ -343,7 +343,7 @@ return array(
 					'showTemplates' => FALSE,
 				),
 				'default' => '
-{namespace dce=Tx_Dce_ViewHelpers}
+{namespace dce=ArminVieweg\Dce\ViewHelpers}
 {fields -> dce:arrayGetIndex()}
 ',
 			),
@@ -478,7 +478,7 @@ return array(
 					'mode' => 'htmlmixed',
 					'showTemplates' => FALSE,
 				),
-				'default' => '{namespace dce=Tx_Dce_ViewHelpers}
+				'default' => '{namespace dce=ArminVieweg\Dce\ViewHelpers}
 <f:layout name="Default" />
 
 <f:section name="main">

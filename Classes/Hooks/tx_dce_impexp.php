@@ -7,7 +7,7 @@
 /**
  * Import Hook
  *
- * @package DceTeam\Dce
+ * @package ArminVieweg\Dce
  */
 class tx_dce_impexp {
 	/**
@@ -29,7 +29,7 @@ class tx_dce_impexp {
 				if (array_key_exists('tx_dce_dce', $ttContentUpdatedFields)) {
 					$dceUid = intval(substr($ttContentUpdatedFields['tx_dce_dce'], strlen('tx_dce_domain_model_dce_')));
 					$tceMain->updateDB('tt_content', $ttContentUid, array(
-						'CType' => \DceTeam\Dce\Domain\Repository\DceRepository::convertUidToCtype($dceUid),
+						'CType' => \ArminVieweg\Dce\Domain\Repository\DceRepository::convertUidToCtype($dceUid),
 						'tx_dce_dce' => $dceUid
 					));
 				}

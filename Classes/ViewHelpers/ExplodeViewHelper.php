@@ -1,5 +1,5 @@
 <?php
-namespace DceTeam\Dce\ViewHelpers;
+namespace ArminVieweg\Dce\ViewHelpers;
 
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is free software and is                          *
  *  | licensed under GNU General Public License.                                                                ♥php  *
@@ -8,7 +8,7 @@ namespace DceTeam\Dce\ViewHelpers;
 /**
  * Explode viewhelper which uses the trimExplode method of \TYPO3\CMS\Core\Utility\GeneralUtility
  *
- * @package DceTeam\Dce
+ * @package ArminVieweg\Dce
  */
 class ExplodeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 

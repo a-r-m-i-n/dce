@@ -1,5 +1,5 @@
 <?php
-namespace DceTeam\Dce\ViewHelpers\Be;
+namespace ArminVieweg\Dce\ViewHelpers\Be;
 
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is free software and is                          *
  *  | licensed under GNU General Public License.                                                                ♥php  *
@@ -8,7 +8,7 @@ namespace DceTeam\Dce\ViewHelpers\Be;
 /**
  * This view helper adds js file to pagerenderer
  *
- * @package DceTeam\Dce
+ * @package ArminVieweg\Dce
  */
 class IncludeJsFileViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper {
 

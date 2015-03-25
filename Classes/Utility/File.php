@@ -1,5 +1,5 @@
 <?php
-namespace DceTeam\Dce\Utility;
+namespace ArminVieweg\Dce\Utility;
 
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is free software and is                          *
  *  | licensed under GNU General Public License.                                                                ♥php  *
@@ -8,7 +8,7 @@ namespace DceTeam\Dce\Utility;
 /**
  * Utility class for file handling (especially FAL support in TYPO3 6.0)
  *
- * @package DceTeam\Dce
+ * @package ArminVieweg\Dce
  */
 class File {
 	/**

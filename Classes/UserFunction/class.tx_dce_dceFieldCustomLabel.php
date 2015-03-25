@@ -7,7 +7,7 @@
 /**
  * Extends TCA label of fields with variable key
  *
- * @package DceTeam\Dce
+ * @package ArminVieweg\Dce
  */
 class tx_dce_dceFieldCustomLabel {
 

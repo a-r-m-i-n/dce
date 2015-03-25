@@ -7,7 +7,7 @@
 /**
  * Clear Cache Hook
  *
- * @package DceTeam\Dce
+ * @package ArminVieweg\Dce
  */
 class tx_clearCache {
 

@@ -1,5 +1,5 @@
 <?php
-namespace DceTeam\Dce\Utility;
+namespace ArminVieweg\Dce\Utility;
 
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is free software and is                          *
  *  | licensed under GNU General Public License.                                                                ♥php  *
@@ -9,7 +9,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 /**
  * Utility for StaticDce
  *
- * @package DceTeam\Dce
+ * @package ArminVieweg\Dce
  */
 class StaticDce {
 	/**
@@ -18,7 +18,7 @@ class StaticDce {
 	static protected $extConfiguration = array();
 
 	/**
-	 * @var \DceTeam\Dce\Utility\TypoScript
+	 * @var \ArminVieweg\Dce\Utility\TypoScript
 	 */
 	static protected $typoscriptUtility = NULL;
 
@@ -28,7 +28,7 @@ class StaticDce {
 	 */
 	public function __construct() {
 		static::$extConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dce']);
-		static::$typoscriptUtility = GeneralUtility::makeInstance('DceTeam\Dce\Utility\TypoScript');
+		static::$typoscriptUtility = GeneralUtility::makeInstance('ArminVieweg\Dce\Utility\TypoScript');
 	}
 
 	/**
@@ -114,13 +114,13 @@ class StaticDce {
 
 	/**
 	 * @param string $identifier
-	 * @return \DceTeam\Dce\Domain\Model\Dce
+	 * @return \ArminVieweg\Dce\Domain\Model\Dce
 	 */
 	public function getStaticDceModel($identifier) {
 		$data = $this->getStaticDceData($identifier);
 
-		/** @var \DceTeam\Dce\Domain\Model\Dce $dce */
-		$dce = GeneralUtility::makeInstance('DceTeam\Dce\Domain\Model\Dce');
+		/** @var \ArminVieweg\Dce\Domain\Model\Dce $dce */
+		$dce = GeneralUtility::makeInstance('ArminVieweg\Dce\Domain\Model\Dce');
 
 		foreach ($data as $attribute => $value) {
 			if ($attribute === 'fields') {
@@ -130,13 +130,13 @@ class StaticDce {
 		}
 
 		foreach ($data['fields'] as $fieldData) {
-			/** @var \DceTeam\Dce\Domain\Model\DceField $dceField */
-			$dceField = GeneralUtility::makeInstance('DceTeam\Dce\Domain\Model\DceField');
+			/** @var \ArminVieweg\Dce\Domain\Model\DceField $dceField */
+			$dceField = GeneralUtility::makeInstance('ArminVieweg\Dce\Domain\Model\DceField');
 			foreach ($fieldData as $attribute => $value) {
 				if ($attribute === 'type' && $value === '2') {
 					// Section field
-					/** @var \DceTeam\Dce\Domain\Model\DceField $sectionField */
-					$sectionField = GeneralUtility::makeInstance('DceTeam\Dce\Domain\Model\DceField');
+					/** @var \ArminVieweg\Dce\Domain\Model\DceField $sectionField */
+					$sectionField = GeneralUtility::makeInstance('ArminVieweg\Dce\Domain\Model\DceField');
 					foreach ($fieldData['section_fields'] as $sectionFieldData) {
 						foreach ($sectionFieldData as $attribute2 => $value2) {
 							$this->setAttribute($sectionField, $attribute2, $value2);

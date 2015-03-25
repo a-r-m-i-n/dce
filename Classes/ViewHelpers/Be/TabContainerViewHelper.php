@@ -1,5 +1,5 @@
 <?php
-namespace DceTeam\Dce\ViewHelpers\Be;
+namespace ArminVieweg\Dce\ViewHelpers\Be;
 
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is free software and is                          *
  *  | licensed under GNU General Public License.                                                                ♥php  *
@@ -14,7 +14,7 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\Facets\ChildNodeAccessInterface;
  *
  * The containers should only contain 'dce:be.tab's (see Be/TabViewHelper for usage).
  *
- * @package DceTeam\Dce
+ * @package ArminVieweg\Dce
  */
 class TabContainerViewHelper extends AbstractViewHelper implements ChildNodeAccessInterface {
 	/**
@@ -43,13 +43,13 @@ class TabContainerViewHelper extends AbstractViewHelper implements ChildNodeAcce
 		$tabs = array();
 		foreach ($this->childNodes as $childNode) {
 			if ($childNode instanceof \TYPO3\CMS\Fluid\Core\Parser\SyntaxTree\ViewHelperNode
-				&& $childNode->getViewHelperClassName() === 'DceTeam\Dce\ViewHelpers\Be\TabViewHelper'
+				&& $childNode->getViewHelperClassName() === 'ArminVieweg\Dce\ViewHelpers\Be\TabViewHelper'
 			) {
 				$tab = array();
 				$tab['content'] = $childNode->evaluate($this->getRenderingContext());
 				$tab['label'] = $this->getRenderingContext()
 					->getViewHelperVariableContainer()
-					->get('DceTeam\Dce\ViewHelpers\Be\TabViewHelper', 'title');
+					->get('ArminVieweg\Dce\ViewHelpers\Be\TabViewHelper', 'title');
 				$tabs[] = $tab;
 			}
 		}

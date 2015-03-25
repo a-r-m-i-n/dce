@@ -9,7 +9,7 @@ require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dce') 
 /**
  * Update content element via ajax request
  *
- * @package DceTeam\Dce
+ * @package ArminVieweg\Dce
  * @TODO: Remove that!
  */
 class tx_update_contentelement {

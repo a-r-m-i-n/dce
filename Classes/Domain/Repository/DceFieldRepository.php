@@ -1,5 +1,5 @@
 <?php
-namespace DceTeam\Dce\Domain\Repository;
+namespace ArminVieweg\Dce\Domain\Repository;
 
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is free software and is                          *
  *  | licensed under GNU General Public License.                                                                ♥php  *
@@ -8,7 +8,7 @@ namespace DceTeam\Dce\Domain\Repository;
 /**
  * DCE field repository
  *
- * @package DceTeam\Dce
+ * @package ArminVieweg\Dce
  */
 class DceFieldRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 }

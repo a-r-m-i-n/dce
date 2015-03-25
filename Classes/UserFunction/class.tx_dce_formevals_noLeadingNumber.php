@@ -7,7 +7,7 @@
 /**
  * TCA custom validator which checks the input and disallows leading numbers.
  *
- * @package DceTeam\Dce
+ * @package ArminVieweg\Dce
  */
 class tx_dce_formevals_noLeadingNumber extends tx_dce_abstract_formeval {
 

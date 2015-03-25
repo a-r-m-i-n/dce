@@ -1,5 +1,5 @@
 <?php
-namespace DceTeam\Dce\Controller;
+namespace ArminVieweg\Dce\Controller;
 
 
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is free software and is                          *
@@ -10,12 +10,12 @@ namespace DceTeam\Dce\Controller;
  * DCE Module Controller
  * Provides the backend DCE module, for faster and easier access to DCEs.
  *
- * @package DceTeam\Dce
+ * @package ArminVieweg\Dce
  */
 class DceModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 
 	/**
-	 * @var \DceTeam\Dce\Domain\Repository\DceRepository
+	 * @var \ArminVieweg\Dce\Domain\Repository\DceRepository
 	 * @inject
 	 */
 	protected $dceRepository;

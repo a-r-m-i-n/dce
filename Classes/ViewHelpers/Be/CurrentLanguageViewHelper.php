@@ -1,5 +1,5 @@
 <?php
-namespace DceTeam\Dce\ViewHelpers\Be;
+namespace ArminVieweg\Dce\ViewHelpers\Be;
 
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is free software and is                          *
  *  | licensed under GNU General Public License.                                                                ♥php  *
@@ -8,7 +8,7 @@ namespace DceTeam\Dce\ViewHelpers\Be;
 /**
  * Gets the current language key as string
  *
- * @package DceTeam\Dce
+ * @package ArminVieweg\Dce
  * @see \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger
  */
 class CurrentLanguageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper  {

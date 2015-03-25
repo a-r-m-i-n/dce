@@ -1,5 +1,5 @@
 <?php
-namespace DceTeam\Dce\Utility;
+namespace ArminVieweg\Dce\Utility;
 
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is free software and is                          *
  *  | licensed under GNU General Public License.                                                                ♥php  *
@@ -10,7 +10,7 @@ namespace DceTeam\Dce\Utility;
  * This is needed as the TYPO3 Connection handling is different in 6.1+
  * and the DCE extensions needs to connect to the DB at startup time (ext_localconf.php)
  *
- * @package DceTeam\Dce
+ * @package ArminVieweg\Dce
  */
 class DatabaseUtility {
 

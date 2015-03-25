@@ -1,5 +1,5 @@
 <?php
-namespace DceTeam\Dce\ViewHelpers\Format;
+namespace ArminVieweg\Dce\ViewHelpers\Format;
 
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is free software and is                          *
  *  | licensed under GNU General Public License.                                                                ♥php  *
@@ -8,7 +8,7 @@ namespace DceTeam\Dce\ViewHelpers\Format;
 /**
  * Convert a string to lower chars
  *
- * @package DceTeam\Dce
+ * @package ArminVieweg\Dce
  */
 class StrtolowerViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 

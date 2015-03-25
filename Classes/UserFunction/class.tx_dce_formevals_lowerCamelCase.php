@@ -7,7 +7,7 @@
 /**
  * TCA custom validator which checks lowerCamelCase.
  *
- * @package DceTeam\Dce
+ * @package ArminVieweg\Dce
  */
 class tx_dce_formevals_lowerCamelCase extends tx_dce_abstract_formeval {
 

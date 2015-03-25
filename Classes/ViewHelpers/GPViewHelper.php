@@ -1,5 +1,5 @@
 <?php
-namespace DceTeam\Dce\ViewHelpers;
+namespace ArminVieweg\Dce\ViewHelpers;
 
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is free software and is                          *
  *  | licensed under GNU General Public License.                                                                ♥php  *
@@ -9,7 +9,7 @@ namespace DceTeam\Dce\ViewHelpers;
  * GP viewhelper which returns get or post variables using _GP method of \TYPO3\CMS\Core\Utility\GeneralUtility.
  * Never use this viewhelper for direct output!! This would provoke XSS (Cross site scripting).
  *
- * @package DceTeam\Dce
+ * @package ArminVieweg\Dce
  */
 class GPViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelperr {
 

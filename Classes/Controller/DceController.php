@@ -1,5 +1,5 @@
 <?php
-namespace DceTeam\Dce\Controller;
+namespace ArminVieweg\Dce\Controller;
 
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is free software and is                          *
  *  | licensed under GNU General Public License.                                                                ♥php  *
@@ -9,14 +9,14 @@ namespace DceTeam\Dce\Controller;
  * DCE Controller
  * Handles the output of content element based on DCEs in frontend and also in backend.
  *
- * @package DceTeam\Dce
+ * @package ArminVieweg\Dce
  */
 class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 
 	/**
 	 * DCE Repository
 	 *
-	 * @var \DceTeam\Dce\Domain\Repository\DceRepository
+	 * @var \ArminVieweg\Dce\Domain\Repository\DceRepository
 	 * @inject
 	 */
 	protected $dceRepository;
@@ -24,7 +24,7 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 	/**
 	 * TypoScript Utility
 	 *
-	 * @var \DceTeam\Dce\Utility\TypoScript
+	 * @var \ArminVieweg\Dce\Utility\TypoScript
 	 * @inject
 	 */
 	protected $typoScriptUtility;
@@ -51,7 +51,7 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 		$contentObject = $this->configurationManager->getContentObject()->data;
 		$config = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
 
-		/** @var $dce \DceTeam\Dce\Domain\Model\Dce */
+		/** @var $dce \ArminVieweg\Dce\Domain\Model\Dce */
 		$dce = $this->dceRepository->findAndBuildOneByUid(
 			$this->dceRepository->extractUidFromCtype($config['pluginName']),
 			$this->settings,
@@ -76,7 +76,7 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 
 		$this->settings = $this->simulateContentElementSettings($this->settings['contentElementUid']);
 
-		/** @var $dce \DceTeam\Dce\Domain\Model\Dce */
+		/** @var $dce \ArminVieweg\Dce\Domain\Model\Dce */
 		$dce = clone $this->dceRepository->findAndBuildOneByUid(
 			$uid,
 			$this->settings,

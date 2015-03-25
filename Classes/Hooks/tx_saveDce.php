@@ -7,7 +7,7 @@
 /**
  * Save DCE Hook
  *
- * @package DceTeam\Dce
+ * @package ArminVieweg\Dce
  */
 class tx_saveDce {
 	/** @var \TYPO3\CMS\Core\DataHandling\DataHandler */
@@ -45,8 +45,8 @@ class tx_saveDce {
 			$newIdentifier = $newValues['identifier'];
 			$dceFolderPath = PATH_site . $path . $newIdentifier . DIRECTORY_SEPARATOR;
 
-			/** @var \DceTeam\Dce\Utility\StaticDce $staticDceUtility */
-			$staticDceUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DceTeam\Dce\Utility\StaticDce');
+			/** @var \ArminVieweg\Dce\Utility\StaticDce $staticDceUtility */
+			$staticDceUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('ArminVieweg\Dce\Utility\StaticDce');
 
 			$realDceIdentifier = substr($dceIdentifier, 4);
 			$oldValues = $staticDceUtility->getStaticDceData($realDceIdentifier);
@@ -58,7 +58,7 @@ class tx_saveDce {
 			$renamed = FALSE;
 			if (isset($oldIdentifier) && $oldIdentifier !== $newIdentifier) {
 				if (file_exists($dceFolderPath)) {
-					\DceTeam\Dce\Utility\FlashMessage::add('Another static DCE with name "' . $newIdentifier . '" already exists.', 'Renaming failed', \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR);
+					\ArminVieweg\Dce\Utility\FlashMessage::add('Another static DCE with name "' . $newIdentifier . '" already exists.', 'Renaming failed', \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR);
 					$newIdentifier = $oldIdentifier;
 					$dceFolderPath = PATH_site . $path . $newIdentifier . DIRECTORY_SEPARATOR;
 				} else {
@@ -118,8 +118,8 @@ class tx_saveDce {
 			unset($newValues['header_preview']);
 			unset($newValues['bodytext_preview']);
 
-			/** @var \DceTeam\Dce\Utility\TypoScript $typoScriptUtility */
-			$typoScriptUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\DceTeam\Dce\Utility\TypoScript');
+			/** @var \ArminVieweg\Dce\Utility\TypoScript $typoScriptUtility */
+			$typoScriptUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\ArminVieweg\Dce\Utility\TypoScript');
 			$dceTypoScript = $typoScriptUtility->convertArrayToTypoScript($newValues, 'tx_dce.static');
 
 			file_put_contents($dceFolderPath . 'Dce.ts', $dceTypoScript);
@@ -191,7 +191,7 @@ class tx_saveDce {
 		if ($table === 'tx_dce_domain_model_dce' && $status === 'update') {
 			if (!isset($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceImportInProgress'])) {
 				$this->performPreviewAutoupdateBatchOnDceChange();
-				\DceTeam\Dce\Controller\DceModuleController::removePreviewRecords();
+				\ArminVieweg\Dce\Controller\DceModuleController::removePreviewRecords();
 			}
 		}
 
@@ -272,8 +272,8 @@ class tx_saveDce {
 			'dceUid' => $this->getDceUidByContentElementUid($uid),
 		);
 		return array(
-			'header' => $this->runExtbaseController('DceTeam', 'Dce', 'Dce', 'renderPreview', 'tools_DceDcemodule', array_merge($settings, array('previewType' => 'header'))),
-			'bodytext' => $this->runExtbaseController('DceTeam', 'Dce', 'Dce', 'renderPreview', 'tools_DceDcemodule', array_merge($settings, array('previewType' => 'bodytext'))),
+			'header' => $this->runExtbaseController('ArminVieweg', 'Dce', 'Dce', 'renderPreview', 'tools_DceDcemodule', array_merge($settings, array('previewType' => 'header'))),
+			'bodytext' => $this->runExtbaseController('ArminVieweg', 'Dce', 'Dce', 'renderPreview', 'tools_DceDcemodule', array_merge($settings, array('previewType' => 'bodytext'))),
 		);
 	}
 
@@ -288,8 +288,8 @@ class tx_saveDce {
 			'dceUid' => $dceUid,
 		);
 		return array(
-			'header' => $this->runExtbaseController('DceTeam', 'Dce', 'renderPreview', 'tools_DceDcemodule', array_merge($settings, array('previewType' => 'header'))),
-			'bodytext' => $this->runExtbaseController('DceTeam', 'Dce', 'renderPreview', 'tools_DceDcemodule', array_merge($settings, array('previewType' => 'bodytext'))),
+			'header' => $this->runExtbaseController('ArminVieweg', 'Dce', 'renderPreview', 'tools_DceDcemodule', array_merge($settings, array('previewType' => 'header'))),
+			'bodytext' => $this->runExtbaseController('ArminVieweg', 'Dce', 'renderPreview', 'tools_DceDcemodule', array_merge($settings, array('previewType' => 'bodytext'))),
 		);
 	}
 
@@ -381,7 +381,7 @@ class tx_saveDce {
 		$row = $this->dataHandler->recordInfo('tt_content', $this->uid, 'CType,tx_dce_dce');
 		if (empty($row['tx_dce_dce'])) {
 			$this->dataHandler->updateDB('tt_content', $this->uid, array(
-				'tx_dce_dce' => \DceTeam\Dce\Domain\Repository\DceRepository::extractUidFromCtype($row['CType'])
+				'tx_dce_dce' => \ArminVieweg\Dce\Domain\Repository\DceRepository::extractUidFromCtype($row['CType'])
 			));
 		}
 	}

@@ -9,7 +9,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 /**
  * Codemirror text area field
  *
- * @package DceTeam\Dce
+ * @package ArminVieweg\Dce
  */
 class tx_dce_codemirrorField {
 	/**
@@ -27,8 +27,8 @@ class tx_dce_codemirrorField {
 
 		$this->parameter = $parameter;
 
-		/** @var $fluidTemplate \DceTeam\Dce\Utility\FluidTemplate */
-		$fluidTemplate = GeneralUtility::makeInstance('\DceTeam\Dce\Utility\FluidTemplate');
+		/** @var $fluidTemplate \ArminVieweg\Dce\Utility\FluidTemplate */
+		$fluidTemplate = GeneralUtility::makeInstance('\ArminVieweg\Dce\Utility\FluidTemplate');
 
 		$fluidTemplate->setLayoutRootPath(GeneralUtility::getFileAbsFileName('EXT:dce/Resources/Private/Layouts/'));
 		$fluidTemplate->setPartialRootPath(GeneralUtility::getFileAbsFileName('EXT:dce/Resources/Private/Partials/'));

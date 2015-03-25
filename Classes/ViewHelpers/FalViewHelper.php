@@ -1,5 +1,5 @@
 <?php
-namespace DceTeam\Dce\ViewHelpers;
+namespace ArminVieweg\Dce\ViewHelpers;
 
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is free software and is                          *
  *  | licensed under GNU General Public License.                                                                ♥php  *
@@ -8,7 +8,7 @@ namespace DceTeam\Dce\ViewHelpers;
 /**
  * Receives FAL FileReference objects
  *
- * @package DceTeam\Dce
+ * @package ArminVieweg\Dce
  */
 class FalViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
@@ -26,12 +26,12 @@ class FalViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper 
 
 		$pageSelect = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('t3lib_pageSelect');
 		$tableName = 'tt_content';
-		$rows = \DceTeam\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
+		$rows = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
 			'uid',
 			'sys_file_reference',
-			'tablenames=' . \DceTeam\Dce\Utility\DatabaseUtility::getDatabaseConnection()->fullQuoteStr($tableName, 'sys_file_reference') .
+			'tablenames=' . \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->fullQuoteStr($tableName, 'sys_file_reference') .
 				' AND uid_foreign=' . $contentObjectUid .
-				' AND fieldname=' . \DceTeam\Dce\Utility\DatabaseUtility::getDatabaseConnection()->fullQuoteStr($field, 'sys_file_reference') .
+				' AND fieldname=' . \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->fullQuoteStr($field, 'sys_file_reference') .
 				$pageSelect->enableFields('sys_file_reference', $pageSelect->showHiddenRecords),
 			'',
 			'sorting_foreign',

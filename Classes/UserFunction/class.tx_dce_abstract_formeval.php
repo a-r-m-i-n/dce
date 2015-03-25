@@ -8,7 +8,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 /**
  * Abstract class for DCE form validators
  *
- * @package DceTeam\Dce
+ * @package ArminVieweg\Dce
  */
 abstract class tx_dce_abstract_formeval {
 

@@ -1,5 +1,5 @@
 <?php
-namespace DceTeam\Dce\ViewHelpers\Uri;
+namespace ArminVieweg\Dce\ViewHelpers\Uri;
 
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is free software and is                          *
  *  | licensed under GNU General Public License.                                                                ♥php  *
@@ -8,7 +8,7 @@ namespace DceTeam\Dce\ViewHelpers\Uri;
 /**
  * Image viewhelper which works for preview texts as well
  *
- * @package DceTeam\Dce
+ * @package ArminVieweg\Dce
  */
 class ImageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Uri\ImageViewHelper {
 

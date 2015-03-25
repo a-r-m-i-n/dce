@@ -8,7 +8,7 @@
  * Access check hook
  * To allow edit not existing DCE entries (static DCEs)
  *
- * @package DceTeam\Dce
+ * @package ArminVieweg\Dce
  */
 class tx_accessCheck {
 

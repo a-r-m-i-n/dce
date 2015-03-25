@@ -1,5 +1,5 @@
 <?php
-namespace DceTeam\Dce\ViewHelpers;
+namespace ArminVieweg\Dce\ViewHelpers;
 
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is free software and is                          *
  *  | licensed under GNU General Public License.                                                                ♥php  *
@@ -9,7 +9,7 @@ namespace DceTeam\Dce\ViewHelpers;
  * This view helper handles parameter strings using typolink function of TYPO3.
  * It returns just the URL.
  *
- * @package DceTeam\Dce
+ * @package ArminVieweg\Dce
  */
 class TypolinkUrlViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 	/**

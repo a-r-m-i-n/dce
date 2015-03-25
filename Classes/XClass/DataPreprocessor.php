@@ -1,5 +1,5 @@
 <?php
-namespace DceTeam\Dce\XClass;
+namespace ArminVieweg\Dce\XClass;
 
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is free software and is                          *
  *  | licensed under GNU General Public License.                                                                ♥php  *
@@ -8,14 +8,14 @@ namespace DceTeam\Dce\XClass;
 /**
  * Class DataPreprocessor
  *
- * @package DceTeam\Dce
+ * @package ArminVieweg\Dce
  */
 class DataPreprocessor extends \TYPO3\CMS\Backend\Form\DataPreprocessor {
 	static protected $staticDceConfiguration = NULL;
 	static protected $lastField = NULL;
 
 	/**
-	 * @var \DceTeam\Dce\Utility\StaticDce
+	 * @var \ArminVieweg\Dce\Utility\StaticDce
 	 */
 	static protected $staticDceUtility = NULL;
 
@@ -23,7 +23,7 @@ class DataPreprocessor extends \TYPO3\CMS\Backend\Form\DataPreprocessor {
 	 * Constructor
 	 */
 	public function __construct() {
-		static::$staticDceUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DceTeam\Dce\Utility\StaticDce');
+		static::$staticDceUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('ArminVieweg\Dce\Utility\StaticDce');
 	}
 
 	public function fetchRecord($table, $idList, $operation) {

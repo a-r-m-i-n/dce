@@ -1,5 +1,5 @@
 <?php
-namespace DceTeam\Dce\Domain\Repository;
+namespace ArminVieweg\Dce\Domain\Repository;
 
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is free software and is                          *
  *  | licensed under GNU General Public License.                                                                ♥php  *
@@ -9,7 +9,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 /**
  * DCE repository
  *
- * @package DceTeam\Dce
+ * @package ArminVieweg\Dce
  */
 class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 
@@ -20,8 +20,8 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * @return array
 	 */
 	public function findAllAndStatics($includeHidden = FALSE) {
-		/** @var \DceTeam\Dce\Utility\StaticDce $staticDceUtility */
-		$staticDceUtility = GeneralUtility::makeInstance('DceTeam\Dce\Utility\StaticDce');
+		/** @var \ArminVieweg\Dce\Utility\StaticDce $staticDceUtility */
+		$staticDceUtility = GeneralUtility::makeInstance('ArminVieweg\Dce\Utility\StaticDce');
 		$staticDces = $staticDceUtility->getAll();
 
 		if ($includeHidden) {
@@ -38,21 +38,21 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * @param int $uid
 	 * @param array $fieldList
 	 * @param array $contentObject
-	 * @return \DceTeam\Dce\Domain\Model\Dce
+	 * @return \ArminVieweg\Dce\Domain\Model\Dce
 	 * @throws \UnexpectedValueException
 	 */
 	public function findAndBuildOneByUid($uid, $fieldList, $contentObject) {
 		$this->disableRespectOfEnableFields();
 
 		if (is_numeric($uid)) {
-			/** @var $dce \DceTeam\Dce\Domain\Model\Dce */
+			/** @var $dce \ArminVieweg\Dce\Domain\Model\Dce */
 			$dce = $this->findByUid($uid);
 		} else {
-			/** @var \DceTeam\Dce\Utility\StaticDce $staticDceUtility */
-			$staticDceUtility = GeneralUtility::makeInstance('DceTeam\Dce\Utility\StaticDce');
+			/** @var \ArminVieweg\Dce\Utility\StaticDce $staticDceUtility */
+			$staticDceUtility = GeneralUtility::makeInstance('ArminVieweg\Dce\Utility\StaticDce');
 			$dce = $staticDceUtility->getStaticDceModel($uid);
 		}
-		if (get_class($dce) !== 'DceTeam\Dce\Domain\Model\Dce') {
+		if (get_class($dce) !== 'ArminVieweg\Dce\Domain\Model\Dce') {
 			if (is_int($uid)) {
 				throw new \UnexpectedValueException('No DCE found with uid "' . $uid . '".', 1328613288);
 			}
@@ -69,21 +69,21 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	/**
 	 * Clones the fields of a dce separately, because cloning the dce just refers the fields
 	 *
-	 * @param \DceTeam\Dce\Domain\Model\Dce $dce
+	 * @param \ArminVieweg\Dce\Domain\Model\Dce $dce
 	 * @return void
 	 */
 	protected function cloneFields($dce) {
 		/** @var $clonedFields \TYPO3\CMS\Extbase\Persistence\ObjectStorage */
 		$clonedFields = GeneralUtility::makeInstance('\TYPO3\CMS\Extbase\Persistence\ObjectStorage');
-		/** @var $field \DceTeam\Dce\Domain\Model\DceField */
+		/** @var $field \ArminVieweg\Dce\Domain\Model\DceField */
 		foreach ($dce->getFields() as $field) {
 			$field = clone $field;
-			if ($field->getType() === \DceTeam\Dce\Domain\Model\DceField::TYPE_ELEMENT || $field->getType() ===  \DceTeam\Dce\Domain\Model\DceField::TYPE_SECTION) {
+			if ($field->getType() === \ArminVieweg\Dce\Domain\Model\DceField::TYPE_ELEMENT || $field->getType() ===  \ArminVieweg\Dce\Domain\Model\DceField::TYPE_SECTION) {
 				if ($field->getSectionFields()) {
 					/** @var $clonedFields \TYPO3\CMS\Extbase\Persistence\ObjectStorage */
 					$clonedSectionFields = GeneralUtility::makeInstance('\TYPO3\CMS\Extbase\Persistence\ObjectStorage');
 					foreach ($field->getSectionFields() as $sectionField) {
-						/** @var $clonedSectionField \DceTeam\Dce\Domain\Model\DceField */
+						/** @var $clonedSectionField \ArminVieweg\Dce\Domain\Model\DceField */
 						$clonedSectionField = clone $sectionField;
 						$clonedSectionField->setValue(NULL);
 						$clonedSectionFields->attach($clonedSectionField);
@@ -111,11 +111,11 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	/**
 	 * Walk through the fields and section fields to fill them
 	 *
-	 * @param \DceTeam\Dce\Domain\Model\Dce $dce
+	 * @param \ArminVieweg\Dce\Domain\Model\Dce $dce
 	 * @param array $fieldList Field list. Key must contain field variable, value its value.
 	 * @return void
 	 */
-	protected function processFillingFields(\DceTeam\Dce\Domain\Model\Dce $dce, array $fieldList) {
+	protected function processFillingFields(\ArminVieweg\Dce\Domain\Model\Dce $dce, array $fieldList) {
 		foreach ($fieldList as $fieldVariable => $fieldValue) {
 			$dceField = $dce->getFieldByVariable($fieldVariable);
 			if ($dceField) {
@@ -124,7 +124,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 						$sectionFieldValues = current($sectionFieldValues);
 						foreach ($sectionFieldValues as $sectionFieldVariable => $sectionFieldValue) {
 							$sectionField = $dceField->getSectionFieldByVariable($sectionFieldVariable);
-							if ($sectionField instanceof \DceTeam\Dce\Domain\Model\DceField) {
+							if ($sectionField instanceof \ArminVieweg\Dce\Domain\Model\DceField) {
 								$xmlIdentifier = $dce->getUid() . '-' . $dceField->getVariable() . '-' . $sectionField->getVariable();
 								$this->fillFields($sectionField, $sectionFieldValue, TRUE, $xmlIdentifier);
 							}
@@ -143,13 +143,13 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * if not just the given $fieldValue will be add to $dceField->_value. Value of sectionFields will be filled
 	 * differently.
 	 *
-	 * @param \DceTeam\Dce\Domain\Model\DceField $dceField
+	 * @param \ArminVieweg\Dce\Domain\Model\DceField $dceField
 	 * @param string $fieldValue
 	 * @param bool $isSectionField
 	 * @param string $xmlIdentifier
 	 * @return void
 	 */
-	protected function fillFields(\DceTeam\Dce\Domain\Model\DceField $dceField, $fieldValue, $isSectionField = FALSE, $xmlIdentifier) {
+	protected function fillFields(\ArminVieweg\Dce\Domain\Model\DceField $dceField, $fieldValue, $isSectionField = FALSE, $xmlIdentifier) {
 		$xmlWrapping = 'xml-' . $xmlIdentifier;
 		$dceFieldConfiguration = GeneralUtility::xml2array('<' . $xmlWrapping . '>' . $dceField->getConfiguration() . '</' . $xmlWrapping . '>');
 

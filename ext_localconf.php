@@ -42,7 +42,7 @@ $boot = function($extensionKey) {
 
 	// DataPreprocessor XClass
 	$GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Backend\\Form\\DataPreprocessor'] = array(
-		'className' => 'DceTeam\Dce\XClass\DataPreprocessor',
+		'className' => 'ArminVieweg\Dce\XClass\DataPreprocessor',
 	);
 
 
@@ -61,8 +61,8 @@ $boot = function($extensionKey) {
 
 	$GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceLocalconfPath'] = PATH_typo3conf . 'temp_CACHED_dce_ext_localconf.php';
 	if (!file_exists($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceLocalconfPath'])) {
-		/** @var $dceCache \DceTeam\Dce\Cache */
-		$dceCache = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('DceTeam\Dce\Cache');
+		/** @var $dceCache \ArminVieweg\Dce\Cache */
+		$dceCache = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('ArminVieweg\Dce\Cache');
 		$dceCache->createLocalconf($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceLocalconfPath']);
 	}
 	require_once($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceLocalconfPath']);
