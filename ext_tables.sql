@@ -1,3 +1,8 @@
+
+#   | This extension is part of the TYPO3 project. The TYPO3 project is free software and is                           #
+#   | licensed under GNU General Public License.                                                               ♥mysql  #
+#   | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>                                                           #
+
 #
 # Table structure for table 'tx_dce_domain_model_dce'
 #
