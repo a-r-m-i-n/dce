@@ -1,12 +1,8 @@
 <?php
 
-/***************************************************************
- * Extension Manager/Repository config file for ext "dce".
- *
- * Manual updates:
- * Only the data in the array - everything else is removed by next
- * writing. "version" and "dependencies" must not be touched!
- ***************************************************************/
+/*  | This extension is part of the TYPO3 project. The TYPO3 project is free software and is                          *
+ *  | licensed under GNU General Public License.                                                                ♥php  *
+ *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>                                                          */
 
 $EM_CONF[$_EXTKEY] = array(
 	'title' => 'Dynamic Content Elements (DCE)',

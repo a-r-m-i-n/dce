@@ -1,34 +1,14 @@
 <?php
 namespace DceTeam\Dce\ViewHelpers;
-	/***************************************************************
-*  Copyright notice
-*
-*  (c) 2012-2015 Armin Rüdiger Vieweg <armin@v.ieweg.de>
-*
-*  All rights reserved
-*
-*  This script is part of the TYPO3 project. The TYPO3 project is
-*  free software; you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation; either version 2 of the License, or
-*  (at your option) any later version.
-*
-*  The GNU General Public License can be found at
-*  http://www.gnu.org/copyleft/gpl.html.
-*
-*  This script is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
-*
-*  This copyright notice MUST APPEAR in all copies of the script!
-***************************************************************/
+
+/*  | This extension is part of the TYPO3 project. The TYPO3 project is free software and is                          *
+ *  | licensed under GNU General Public License.                                                                ♥php  *
+ *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>                                                          */
 
 /**
  * This view helper returns the url of current page
  *
- * @copyright  2012-2015 Copyright belongs to the respective authors
- * @license    http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
+ * @package DceTeam\Dce
  */
 class ThisUrlViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 	/**
@@ -37,7 +17,6 @@ class ThisUrlViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHel
 	 * @param bool $showHost If TRUE the hostname will be included
 	 * @param bool $showRequestedUri If TRUE the requested uri will be included
 	 * @param bool $urlencode If TRUE the whole result will be URI encoded
-	 *
 	 * @return string url
 	 */
 	public function render($showHost = TRUE, $showRequestedUri = TRUE, $urlencode = FALSE) {

@@ -1,8 +1,14 @@
 <?php
 namespace DceTeam\Dce\XClass;
 
+/*  | This extension is part of the TYPO3 project. The TYPO3 project is free software and is                          *
+ *  | licensed under GNU General Public License.                                                                ♥php  *
+ *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>                                                          */
+
 /**
  * Class DataPreprocessor
+ *
+ * @package DceTeam\Dce
  */
 class DataPreprocessor extends \TYPO3\CMS\Backend\Form\DataPreprocessor {
 	static protected $staticDceConfiguration = NULL;
