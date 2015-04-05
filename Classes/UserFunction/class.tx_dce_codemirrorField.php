@@ -30,7 +30,7 @@ class tx_dce_codemirrorField {
 		$this->parameter = $parameter;
 
 		/** @var $fluidTemplate \ArminVieweg\Dce\Utility\FluidTemplate */
-		$fluidTemplate = GeneralUtility::makeInstance('\ArminVieweg\Dce\Utility\FluidTemplate');
+		$fluidTemplate = GeneralUtility::makeInstance('ArminVieweg\Dce\Utility\FluidTemplate');
 
 		$fluidTemplate->setLayoutRootPath(GeneralUtility::getFileAbsFileName('EXT:dce/Resources/Private/Layouts/'));
 		$fluidTemplate->setPartialRootPath(GeneralUtility::getFileAbsFileName('EXT:dce/Resources/Private/Partials/'));

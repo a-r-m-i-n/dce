@@ -121,7 +121,7 @@ class tx_saveDce {
 			unset($newValues['bodytext_preview']);
 
 			/** @var \ArminVieweg\Dce\Utility\TypoScript $typoScriptUtility */
-			$typoScriptUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\ArminVieweg\Dce\Utility\TypoScript');
+			$typoScriptUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('ArminVieweg\Dce\Utility\TypoScript');
 			$dceTypoScript = $typoScriptUtility->convertArrayToTypoScript($newValues, 'tx_dce.static');
 
 			file_put_contents($dceFolderPath . 'Dce.ts', $dceTypoScript);

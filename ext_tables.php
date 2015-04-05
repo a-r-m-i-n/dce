@@ -14,7 +14,7 @@ $boot = function($extensionKey) {
 	$GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceExtTablesPath'] = PATH_typo3conf . 'temp_CACHED_dce_ext_tables.php';
 	if (!file_exists($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceExtTablesPath'])) {
 		/** @var $dceCache \ArminVieweg\Dce\Cache */
-		$dceCache = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\ArminVieweg\Dce\Cache');
+		$dceCache = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('ArminVieweg\Dce\Cache');
 		$dceCache->createExtTables($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceExtTablesPath']);
 	}
 	require_once($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceExtTablesPath']);

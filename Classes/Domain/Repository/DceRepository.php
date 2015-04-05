@@ -76,14 +76,14 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 */
 	protected function cloneFields($dce) {
 		/** @var $clonedFields \TYPO3\CMS\Extbase\Persistence\ObjectStorage */
-		$clonedFields = GeneralUtility::makeInstance('\TYPO3\CMS\Extbase\Persistence\ObjectStorage');
+		$clonedFields = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Persistence\ObjectStorage');
 		/** @var $field \ArminVieweg\Dce\Domain\Model\DceField */
 		foreach ($dce->getFields() as $field) {
 			$field = clone $field;
 			if ($field->getType() === \ArminVieweg\Dce\Domain\Model\DceField::TYPE_ELEMENT || $field->getType() ===  \ArminVieweg\Dce\Domain\Model\DceField::TYPE_SECTION) {
 				if ($field->getSectionFields()) {
 					/** @var $clonedFields \TYPO3\CMS\Extbase\Persistence\ObjectStorage */
-					$clonedSectionFields = GeneralUtility::makeInstance('\TYPO3\CMS\Extbase\Persistence\ObjectStorage');
+					$clonedSectionFields = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Persistence\ObjectStorage');
 					foreach ($field->getSectionFields() as $sectionField) {
 						/** @var $clonedSectionField \ArminVieweg\Dce\Domain\Model\DceField */
 						$clonedSectionField = clone $sectionField;
