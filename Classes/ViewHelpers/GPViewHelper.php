@@ -1,9 +1,11 @@
 <?php
 namespace ArminVieweg\Dce\ViewHelpers;
 
-/*  | This extension is part of the TYPO3 project. The TYPO3 project is free software and is                          *
- *  | licensed under GNU General Public License.                                                                ♥php  *
- *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>                                                          */
+/*  | This extension is part of the TYPO3 project. The TYPO3 project is
+ *  | free software and is licensed under GNU General Public License.
+ *  |
+ *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ */
 
 /**
  * GP viewhelper which returns get or post variables using _GP method of \TYPO3\CMS\Core\Utility\GeneralUtility.

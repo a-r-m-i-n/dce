@@ -1,10 +1,12 @@
 <?php
 namespace ArminVieweg\Dce\ViewHelpers\Be;
 
-/*  | This extension is part of the TYPO3 project. The TYPO3 project is free software and is                          *
- *  | licensed under GNU General Public License.                                                                ♥php  *
- *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>                                                          *
- *  |     2011 Benjamin Schulte <benj@minschulte.de>                                                                  */
+/*  | This extension is part of the TYPO3 project. The TYPO3 project is
+ *  | free software and is licensed under GNU General Public License.
+ *  |
+ *  | (c) 2012 Benjamin Schulte <benj@minschulte.de>
+ *  |     2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ */
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3\CMS\Fluid\Core\ViewHelper\Facets\ChildNodeAccessInterface;
 

@@ -49,7 +49,7 @@
 				<f:if condition="{dce.uid}">
 					<f:then>
 						<!-- Database DCE -->
-						<a href="{f:render(partial:'Module/OpenDce', arguments:'{uid:\'{dce.uid}\'}')}">{dce.uid}</a>
+						<a href="{f:render(partial:'Module/OpenDce', arguments:'{uid:\'{dce.uid}\'}')}">uid:{dce.uid}</a>
 
 					</f:then>
 					<f:else>
