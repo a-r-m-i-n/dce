@@ -212,8 +212,6 @@ class tx_saveDce {
 	 * about this circumstance.
 	 *
 	 * @return void
-	 *
-	 * @TODO Add link to notice, too - like in performPreviewAutoupdateBatchOnDceChange()
 	 */
 	protected function performPreviewAutoupdateOnContentElementSave() {
 		if (TYPO3_MODE === 'BE') {
@@ -238,27 +236,10 @@ class tx_saveDce {
 	protected function performPreviewAutoupdateBatchOnDceChange() {
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid', 'tt_content', 'CType="dce_dceuid' . $this->uid . '"');
 		while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
-			if ($this->extConfiguration['disablePreviewAutoUpdate'] == 0 && !$GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceImportInProgress']) {
-				$fieldArray = $this->generateDcePreview($row['uid']);
-			} else {
-				// if autoupdate of preview is disabled, show notice instead
-				$uid = $row['uid'];
-				$dceUid = $this->uid;
-
-				// TODO: Remove this feature?
-				$postBody = 'ajaxID=Dce::updateContentElement&uid=' . $uid . '&dceUid=' . $dceUid;
-				$js = "var t=this, b=$(t).up('span'), h=$(b).previous('strong'); $(t).replace('<img src=\'../../../../typo3conf/ext/dce/Resources/Public/Icons/ajax-loader.gif\' alt=\'\' /> ' + $(t).innerHTML); new Ajax.Request('../../../ajax.php',{postBody:'" . $postBody . "', onSuccess:function(r){ var j=r.responseText.evalJSON(); b.update(j.bodytext); $(h).update(j.header); }}); return false;";
-
-				$fieldArray = array(
-					'header' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('autoupdateDisabledHeader', 'dce'),
-					'bodytext' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('autoupdateDisabledBodytext', 'dce', array($js)),
-				);
-				unset($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceImportInProgress']);
-			}
+			$fieldArray = $this->generateDcePreview($row['uid']);
 			$this->dataHandler->updateDB('tt_content', $row['uid'], $fieldArray);
 		}
 	}
-
 
 	/**
 	 * Generates the preview texts (header and bodytext) of dce
