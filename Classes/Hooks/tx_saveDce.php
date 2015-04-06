@@ -236,10 +236,15 @@ class tx_saveDce {
 	protected function performPreviewAutoupdateBatchOnDceChange() {
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid', 'tt_content', 'CType="dce_dceuid' . $this->uid . '"');
 		while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
-			$fieldArray = $this->generateDcePreview($row['uid']);
-			$this->dataHandler->updateDB('tt_content', $row['uid'], $fieldArray);
+			if (!$GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceImportInProgress']) {
+				$fieldArray = $this->generateDcePreview($row['uid']);
+				$this->dataHandler->updateDB('tt_content', $row['uid'], $fieldArray);
+			} else {
+				unset($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceImportInProgress']);
+			}
 		}
 	}
+
 
 	/**
 	 * Generates the preview texts (header and bodytext) of dce
@@ -292,7 +297,6 @@ class tx_saveDce {
 	protected function runExtbaseController($vendorName, $extensionName, $controller, $action = 'index', $pluginName = 'Pi1', $settings = array()) {
 		$bootstrap = new \TYPO3\CMS\Extbase\Core\Bootstrap();
 		$bootstrap->cObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
-
 		$configuration = array(
 			'vendorName' => $vendorName,
 			'extensionName' => $extensionName,
@@ -302,10 +306,7 @@ class tx_saveDce {
 			'settings' => $settings
 		);
 
-		// @TODO: Do we need that?
-		//$_POST['tx_dce_tools_dcedcemodule']['controller'] = $controller;
-		//$_POST['tx_dce_tools_dcedcemodule']['action'] = $action;
-
+		\ArminVieweg\Dce\Utility\ForbiddenUtility::setExtbaseRelatedPostParameters($controller, $action);
 		return $bootstrap->run('', $configuration);
 	}
 
