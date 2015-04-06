@@ -105,7 +105,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 */
 	protected function disableRespectOfEnableFields() {
 		/** @var $querySettings \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings */
-		$querySettings = $this->objectManager->create('\TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings');
+		$querySettings = $this->objectManager->get('TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings');
 		$querySettings->setIgnoreEnableFields(TRUE)->setIncludeDeleted(TRUE);
 		$this->setDefaultQuerySettings($querySettings);
 	}
