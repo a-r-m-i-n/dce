@@ -19,9 +19,9 @@ $boot = function($extensionKey) {
 
 	// ImpExp Hooks
 	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/impexp/class.tx_impexp.php']['before_setRelation'][] =
-		'EXT:' . $extensionKey . '/Classes/Hooks/tx_dce_impexp.php:tx_dce_impexp->beforeSetRelation';
+		'EXT:' . $extensionKey . '/Classes/Hooks/ImpExp.php:ArminVieweg\Dce\Hooks\ImpExp->beforeSetRelation';
 	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/impexp/class.tx_impexp.php']['before_writeRecordsRecords'][] =
-		'EXT:' . $extensionKey . '/Classes/Hooks/tx_dce_impexp.php:tx_dce_impexp->beforeWriteRecordsRecords';
+		'EXT:' . $extensionKey . '/Classes/Hooks/ImpExp.php:ArminVieweg\Dce\Hooks\ImpExp->beforeWriteRecordsRecords';
 
 	// User conditions
 	require_once($extensionPath . 'Classes/UserConditions/user_dceOnCurrentPage.php');
