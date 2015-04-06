@@ -49,17 +49,17 @@ $boot = function($extensionKey) {
 
 
 	if (TYPO3_MODE === 'BE') {
-		require_once($extensionPath . 'Classes/UserFunction/class.tx_dce_codemirrorField.php');
-		require_once($extensionPath . 'Classes/UserFunction/class.tx_dce_dceFieldCustomLabel.php');
+		require_once($extensionPath . 'Classes/UserFunction/tx_dce_codemirrorField.php');
+		require_once($extensionPath . 'Classes/UserFunction/tx_dce_dceFieldCustomLabel.php');
 	}
 
 	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['typo3/template.php']['docHeaderButtonsHook'][] =
 		'EXT:dce/Classes/Hooks/tx_docHeaderButtonsHook.php:tx_docHeaderButtonsHook->addQuickDcePopupButton';
 
 		// Special tce validators (eval)
-	require_once($extensionPath . 'Classes/UserFunction/class.tx_dce_abstract_formeval.php');
-	$TYPO3_CONF_VARS['SC_OPTIONS']['tce']['formevals']['tx_dce_formevals_lowerCamelCase'] = 'EXT:dce/Classes/UserFunction/class.tx_dce_formevals_lowerCamelCase.php';
-	$TYPO3_CONF_VARS['SC_OPTIONS']['tce']['formevals']['tx_dce_formevals_noLeadingNumber'] = 'EXT:dce/Classes/UserFunction/class.tx_dce_formevals_noLeadingNumber.php';
+	require_once($extensionPath . 'Classes/UserFunction/CustomFieldValidation/AbstractFieldValidator.php');
+	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tce']['formevals']['ArminVieweg\Dce\UserFunction\CustomFieldValidation\LowerCamelCaseValidator'] = 'EXT:dce/Classes/UserFunction/CustomFieldValidation/LowerCamelCaseValidator.php';
+	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tce']['formevals']['ArminVieweg\Dce\UserFunction\CustomFieldValidation\NoLeadingNumberValidator'] = 'EXT:dce/Classes/UserFunction/CustomFieldValidation/NoLeadingNumberValidator.php';
 
 	$GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceLocalconfPath'] = PATH_typo3conf . 'temp_CACHED_dce_ext_localconf.php';
 	if (!file_exists($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceLocalconfPath'])) {
@@ -67,7 +67,6 @@ $boot = function($extensionKey) {
 		$dceCache = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('ArminVieweg\Dce\Cache');
 		$dceCache->createLocalconf($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceLocalconfPath']);
 	}
-	//var_dump($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceLocalconfPath']); die;
 	require_once($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceLocalconfPath']);
 };
 

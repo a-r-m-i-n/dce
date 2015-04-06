@@ -1,4 +1,5 @@
 <?php
+namespace ArminVieweg\Dce\UserFunction\CustomFieldValidation;
 
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is
  *  | free software and is licensed under GNU General Public License.
@@ -11,7 +12,7 @@
  *
  * @package ArminVieweg\Dce
  */
-class tx_dce_formevals_noLeadingNumber extends tx_dce_abstract_formeval {
+class NoLeadingNumberValidator extends AbstractFieldValidator {
 
 	/**
 	 * PHP Validation to disallow leading numbers

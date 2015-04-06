@@ -169,7 +169,7 @@ return array(
 			'config' => array(
 				'type' => 'input',
 				'size' => 30,
-				'eval' => 'trim,required,is_in,tx_dce_formevals_noLeadingNumber,tx_dce_formevals_lowerCamelCase',
+				'eval' => 'trim,required,is_in,ArminVieweg\Dce\UserFunction\CustomFieldValidation\NoLeadingNumberValidator,ArminVieweg\Dce\UserFunction\CustomFieldValidation\LowerCamelCaseValidator',
 				'is_in' => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890_',
 			),
 		),
@@ -179,7 +179,7 @@ return array(
 			'config' => array (
 				'type' => 'user',
 				'size' => '30',
-				'userFunc' => 'EXT:dce/Classes/UserFunction/class.tx_dce_codemirrorField.php:tx_dce_codemirrorField->getCodemirrorField',
+				'userFunc' => 'EXT:dce/Classes/UserFunction/tx_dce_codemirrorField.php:tx_dce_codemirrorField->getCodemirrorField',
 				'parameters' => array(
 					'mode' => 'xml',
 					'showTemplates' => TRUE,
