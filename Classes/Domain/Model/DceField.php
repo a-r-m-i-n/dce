@@ -36,7 +36,7 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	/** @var string */
 	protected $_value = '';
 
-	/** @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<DceField> */
+	/** @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\ArminVieweg\Dce\Domain\Model\DceField> */
 	protected $sectionFields = NULL;
 
 
