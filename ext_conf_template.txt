@@ -1,11 +1,11 @@
+# cat=general/paths; type=input; label=Path of filebased DCEs: Path to filebased DCEs
+filebasedDcePath = fileadmin/templates/dce/
+
 # cat=general/disable; type=boolean; label=Disable automatic clear cache: If enabled, the TYPO3 cache (all) will not get cleared automatically on changes of DCE. (not recommended)
 disableAutoClearCache = 0
 
 # cat=general/disable; type=boolean; label=Disable CodeMirror: If enabled, the textareas for field configuration and all DCE inline templates are not replaced by syntaxhighlighting code editor (CodeMirror)
 disableCodemirror = 0
-
-# cat=general/disable; type=boolean; label=Disable preview autoupdate: If enabled the preview texts of existing content elements based on DCE, are not getting updated automatically when the DCE changed. A link in preview text will be displayed to update the texts manually with ajax. (not recommended, only on problems)
-disablePreviewAutoUpdate = 0
 
 # cat=general/enable; type=boolean; label=Enables update check: If enabled the backend module contains a check if there are new DCE versions available. This requires to send some data to the update server. Check the Privacy Policy in the extension documentation for further informations.
 enableUpdateCheck = 0

@@ -1,25 +1,23 @@
 <?php
 
-/***************************************************************
- * Extension Manager/Repository config file for ext "dce".
- *
- * Manual updates:
- * Only the data in the array - everything else is removed by next
- * writing. "version" and "dependencies" must not be touched!
- ***************************************************************/
+/*  | This extension is part of the TYPO3 project. The TYPO3 project is
+ *  | free software and is licensed under GNU General Public License.
+ *  |
+ *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ */
 
 $EM_CONF[$_EXTKEY] = array(
 	'title' => 'Dynamic Content Elements (DCE)',
-	'description' => 'Creates easily and fast dynamic content elements. It is an alternative to flexible content elements (FCE) but without need of TemplaVoila (TV). Based on Extbase and Fluid.',
+	'description' => 'Beta-Version!! Read release notes carefully: http://goo.gl/gJMBY0',
 	'category' => 'Backend',
 	'shy' => 0,
-	'version' => '0.11.6',
+	'version' => '1.0.0',
 	'dependencies' => 'extbase,fluid',
 	'conflicts' => '',
 	'priority' => '',
 	'loadOrder' => '',
 	'module' => '',
-	'state' => 'stable',
+	'state' => 'beta',
 	'uploadfolder' => 1,
 	'createDirs' => '',
 	'modify_tables' => 'tt_content',
@@ -33,7 +31,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'constraints' => array(
 		'depends' => array(
 			'php' => '5.3.0-0.0.0',
-			'typo3' => '4.5.0-6.2.99',
+			'typo3' => '4.5.0-7.1.99',
 		),
 		'conflicts' => array(
 		),

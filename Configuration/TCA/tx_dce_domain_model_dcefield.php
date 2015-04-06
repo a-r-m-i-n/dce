@@ -1,17 +1,64 @@
 <?php
+
+/*  | This extension is part of the TYPO3 project. The TYPO3 project is
+ *  | free software and is licensed under GNU General Public License.
+ *  |
+ *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ */
+
 if (!defined ('TYPO3_MODE')) {
 	die ('Access denied.');
 }
 
-$TCA['tx_dce_domain_model_dcefield'] = array(
-	'ctrl' => $TCA['tx_dce_domain_model_dcefield']['ctrl'],
+$ll = 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:';
+$extensionPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('dce');
+
+return array(
+	'ctrl' => array(
+		'title' => $ll . 'tx_dce_domain_model_dcefield',
+		'label' => 'title',
+		'label_userFunc' => 'tx_dce_dceFieldCustomLabel->getLabel',
+		'hideTable' => TRUE,
+		'adminOnly' => TRUE,
+		'rootLevel' => TRUE,
+		'tstamp' => 'tstamp',
+		'crdate' => 'crdate',
+		'cruser_id' => 'cruser_id',
+		'dividers2tabs' => TRUE,
+		'versioningWS' => 2,
+		'versioning_followPages' => TRUE,
+		'origUid' => 't3_origuid',
+		'delete' => 'deleted',
+		'enablecolumns' => array(
+			'disabled' => 'hidden',
+			'starttime' => 'starttime',
+			'endtime' => 'endtime',
+		),
+		'requestUpdate' => 'type',
+		'type' => 'type',
+		'typeicon_column' => 'type',
+		'typeicons' => array(
+			'0' => $extensionPath . 'Resources/Public/Icons/tx_dce_domain_model_dcefield_element.gif',
+			'1' => $extensionPath . 'Resources/Public/Icons/tx_dce_domain_model_dcefield_tab.gif',
+			'2' => $extensionPath . 'Resources/Public/Icons/tx_dce_domain_model_dcefield_section.gif',
+		),
+	),
 	'interface' => array(
 		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden',
 	),
 	'types' => array(
-		'0' => array('showitem' => 'type,title,variable,configuration;;;fixed-font:enable-tab,--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,hidden;;1'),
-		'1' => array('showitem' => 'type,title,--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,hidden;;1'),
-		'2' => array('showitem' => 'type,title,section_fields_tag,variable,section_fields,LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dcefield.additionalConfiguration,--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,hidden;;1'),
+		'0' => array(
+			'showitem' => 'type,title,variable,configuration;;;fixed-font:enable-tab,
+			--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,hidden;;1'
+		),
+		'1' => array(
+			'showitem' => 'type,title,
+			--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,hidden;;1'
+		),
+		'2' => array(
+			'showitem' => 'type,title,section_fields_tag,variable,section_fields,
+			--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,hidden;;1'
+		),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -97,19 +144,19 @@ $TCA['tx_dce_domain_model_dcefield'] = array(
 		),
 		'type' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dcefield.type',
+			'label' => $ll . 'tx_dce_domain_model_dcefield.type',
 			'config' => array(
 				'type' => 'select',
 				'items' => array(
-					array('LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dcefield.type.element', 0),
-					array('LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dcefield.type.tab', 1),
-					array('LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dcefield.type.section', 2),
+					array($ll . 'tx_dce_domain_model_dcefield.type.element', 0),
+					array($ll . 'tx_dce_domain_model_dcefield.type.tab', 1),
+					array($ll . 'tx_dce_domain_model_dcefield.type.section', 2),
 				),
 			),
 		),
 		'title' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dcefield.title',
+			'label' => $ll . 'tx_dce_domain_model_dcefield.title',
 			'config' => array(
 				'type' => 'input',
 				'size' => 30,
@@ -118,21 +165,21 @@ $TCA['tx_dce_domain_model_dcefield'] = array(
 		),
 		'variable' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dcefield.variable',
+			'label' => $ll . 'tx_dce_domain_model_dcefield.variable',
 			'config' => array(
 				'type' => 'input',
 				'size' => 30,
-				'eval' => 'trim,required,is_in,tx_dce_formevals_noLeadingNumber,tx_dce_formevals_lowerCamelCase',
+				'eval' => 'trim,required,is_in,ArminVieweg\Dce\UserFunction\CustomFieldValidation\NoLeadingNumberValidator,ArminVieweg\Dce\UserFunction\CustomFieldValidation\LowerCamelCaseValidator',
 				'is_in' => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890_',
 			),
 		),
 		'configuration' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dcefield.configuration',
+			'label' => $ll . 'tx_dce_domain_model_dcefield.configuration',
 			'config' => array (
 				'type' => 'user',
 				'size' => '30',
-				'userFunc' => 'EXT:dce/Classes/UserFunction/class.tx_dce_codemirrorField.php:tx_dce_codemirrorField->getCodemirrorField',
+				'userFunc' => 'EXT:dce/Classes/UserFunction/tx_dce_codemirrorField.php:tx_dce_codemirrorField->getCodemirrorField',
 				'parameters' => array(
 					'mode' => 'xml',
 					'showTemplates' => TRUE,
@@ -141,7 +188,7 @@ $TCA['tx_dce_domain_model_dcefield'] = array(
 		),
 		'section_fields' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dcefield.section_fields',
+			'label' => $ll . 'tx_dce_domain_model_dcefield.section_fields',
 			'config' => array(
 				'type' => 'inline',
 				'foreign_table' => 'tx_dce_domain_model_dcefield',
@@ -150,9 +197,9 @@ $TCA['tx_dce_domain_model_dcefield'] = array(
 				'maxitems' => 999,
 				'appearance' => array(
 					'enabledControls' => array(
-						'hide' => false,
-						'dragdrop' => true,
-						'sort' => true,
+						'hide' => FALSE,
+						'dragdrop' => TRUE,
+						'sort' => TRUE,
 					),
 					'levelLinksPosition' => 'both',
 				),
@@ -160,7 +207,7 @@ $TCA['tx_dce_domain_model_dcefield'] = array(
 		),
 		'section_fields_tag' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dcefield.section_fields_tag',
+			'label' => $ll . 'tx_dce_domain_model_dcefield.section_fields_tag',
 			'config' => array(
 				'type' => 'input',
 				'size' => 30,

@@ -1,44 +1,27 @@
 <?php
-/***************************************************************
-*  Copyright notice
-*
-*  (c) 2012-2014 Armin Rüdiger Vieweg <armin@v.ieweg.de>
-*
-*  All rights reserved
-*
-*  This script is part of the TYPO3 project. The TYPO3 project is
-*  free software; you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation; either version 2 of the License, or
-*  (at your option) any later version.
-*
-*  The GNU General Public License can be found at
-*  http://www.gnu.org/copyleft/gpl.html.
-*
-*  This script is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
-*
-*  This copyright notice MUST APPEAR in all copies of the script!
-***************************************************************/
+namespace ArminVieweg\Dce\ViewHelpers\Be;
+
+/*  | This extension is part of the TYPO3 project. The TYPO3 project is
+ *  | free software and is licensed under GNU General Public License.
+ *  |
+ *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ */
 
 /**
- * Gets the current version of DCE as integer
+ * Gets the current version of DCE as int
  *
- * @copyright  2012-2014 Copyright belongs to the respective authors
- * @license    http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
+ * @package ArminVieweg\Dce
  * @see t3lib_utility_VersionNumber::convertVersionNumberToInteger
  */
-class Tx_Dce_ViewHelpers_Be_ExtensionIsInstalledViewHelper extends Tx_Fluid_ViewHelpers_Be_AbstractBackendViewHelper {
+class ExtensionIsInstalledViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper {
 
 	/**
 	 * Returns TRUE if given extension is installed. Otherwise returns FALSE.
 	 *
 	 * @param string $key Extension key to check for
-	 * @return boolean
+	 * @return bool
 	 */
 	public function render($key) {
-		return t3lib_extMgm::isLoaded($key);
+		return \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($key);
 	}
 }

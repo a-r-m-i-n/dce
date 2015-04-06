@@ -1,4 +1,4 @@
-{namespace dce=Tx_Dce_ViewHelpers}<dce:format.tiny>
+{namespace dce=ArminVieweg\Dce\ViewHelpers}<dce:format.tiny>
 	<dce:format.addcslashes>
 		<T3DataStructure>
 			<meta>
@@ -31,11 +31,11 @@
 															<title>{field.section_fields_tag}</title>
 														</tx_templavoila>
 														<el>
-															<f:for each="{field.sectionFields}" as="sectionField">
+															<f:for each="{field.section_fields}" as="sectionField">
 																<{sectionField.variable}>
 																	<TCEforms>
 																		<label>{sectionField.title}</label>
-																		{sectionField.configuration -> dce:format.raw()}
+																		{sectionField.configuration -> f:format.raw()}
 																	</TCEforms>
 																</{sectionField.variable}>
 															</f:for>
@@ -48,7 +48,7 @@
 											<settings.{field.variable}>
 													<TCEforms>
 															<label>{field.title}</label>
-															{field.configuration -> dce:format.raw()}
+															{field.configuration -> f:format.raw()}
 													</TCEforms>
 											</settings.{field.variable}>
 										</f:else>

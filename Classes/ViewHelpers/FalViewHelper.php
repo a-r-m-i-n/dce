@@ -1,35 +1,18 @@
 <?php
-/***************************************************************
-*  Copyright notice
-*
-*  (c) 2012-2014 Armin Ruediger Vieweg <armin@v.ieweg.de>
-*
-*  All rights reserved
-*
-*  This script is part of the TYPO3 project. The TYPO3 project is
-*  free software; you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation; either version 2 of the License, or
-*  (at your option) any later version.
-*
-*  The GNU General Public License can be found at
-*  http://www.gnu.org/copyleft/gpl.html.
-*
-*  This script is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
-*
-*  This copyright notice MUST APPEAR in all copies of the script!
-***************************************************************/
+namespace ArminVieweg\Dce\ViewHelpers;
+
+/*  | This extension is part of the TYPO3 project. The TYPO3 project is
+ *  | free software and is licensed under GNU General Public License.
+ *  |
+ *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ */
 
 /**
  * Receives FAL FileReference objects
  *
- * @copyright Copyright belongs to the respective authors
- * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
+ * @package ArminVieweg\Dce
  */
-class Tx_Dce_ViewHelpers_FalViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class FalViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
 	 * Gets FileReference objects (FAL)
@@ -42,19 +25,16 @@ class Tx_Dce_ViewHelpers_FalViewHelper extends Tx_Fluid_Core_ViewHelper_Abstract
 	 */
 	public function render($field, array $contentObject) {
 		$contentObjectUid = intval($contentObject['uid']);
-		if(array_key_exists('_LOCALIZED_UID', $contentObject)) {
-			$contentObjectUid = intval($contentObject['_LOCALIZED_UID']);
-		}
 
-		$pageSelect = t3lib_div::makeInstance('t3lib_pageSelect');
+		$pageSelect = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('t3lib_pageSelect');
 		$tableName = 'tt_content';
-		$rows = Tx_Dce_Utility_DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
+		$rows = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
 			'uid',
 			'sys_file_reference',
-			'tablenames=' . Tx_Dce_Utility_DatabaseUtility::getDatabaseConnection()->fullQuoteStr($tableName, 'sys_file_reference') .
+			'tablenames=' . \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->fullQuoteStr($tableName, 'sys_file_reference') .
 				' AND uid_foreign=' . $contentObjectUid .
-				' AND fieldname=' . Tx_Dce_Utility_DatabaseUtility::getDatabaseConnection()->fullQuoteStr($field, 'sys_file_reference')
-				. $pageSelect->enableFields('sys_file_reference', $pageSelect->showHiddenRecords),
+				' AND fieldname=' . \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->fullQuoteStr($field, 'sys_file_reference') .
+				$pageSelect->enableFields('sys_file_reference', $pageSelect->showHiddenRecords),
 			'',
 			'sorting_foreign',
 			'',

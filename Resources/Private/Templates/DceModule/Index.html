@@ -1,15 +1,8 @@
-{namespace dce=Tx_Dce_ViewHelpers}
+{namespace dce=ArminVieweg\Dce\ViewHelpers}
 
 <f:layout name="Backend" />
 <f:section name="iconButtons">
-	<f:if condition="{dce:be.currentTypo3Version()} >= 4007000">
-		<f:then>
-			<f:be.buttons.icon uri="{f:render(partial:'Module/NewDceLink')}" icon="actions-document-new" title="{f:translate(key:'LLL:typo3conf/ext/dce/Resources/Private/Language/locallang_mod.xml:createNewDce')}" />
-		</f:then>
-		<f:else>
-			<f:be.buttons.icon uri="{f:render(partial:'Module/NewDceLink')}" icon="new_el" title="{f:translate(key:'LLL:typo3conf/ext/dce/Resources/Private/Language/locallang_mod.xml:createNewDce')}" />
-		</f:else>
-	</f:if>
+	<f:be.buttons.icon uri="{f:render(partial:'Module/NewDceLink')}" icon="actions-document-new" title="{f:translate(key:'LLL:typo3conf/ext/dce/Resources/Private/Language/locallang_mod.xml:createNewDce')}" />
 </f:section>
 <f:section name="content">
 	<dce:be.includeCssFile path="{f:uri.resource(path:'CSS/dceModule.css', extensionName: 'dce')}" />
@@ -23,7 +16,6 @@
 		<div class="button">
 			<input type="button" value="{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang_mod.xml:goToListView')}" onclick="location.href = '{f:uri.page(additionalParams:'{M:\'web_list\', id:\'0\', table:\'tx_dce_domain_model_dce\', imagemode:\'1\'}')}';" />
 		</div>
-
 		<div class="button">
 			<form method="get" action="https://www.paypal.com/cgi-bin/webscr" target="_blank">
 				<input type="hidden" name="cmd" value="_s-xclick" />
@@ -40,7 +32,23 @@
 		<div class="clear"></div>
 	</div>
 
+	<ul>
+		<f:for each="{dces}" as="dce">
+			<li>
+				{dce.title}
+				<f:if condition="{dce.uid}">
+					<f:then>
+						<!-- Database DCE -->
+						<a href="{f:render(partial:'Module/OpenDce', arguments:'{uid:\'{dce.uid}\'}')}">uid:{dce.uid}</a>
 
+					</f:then>
+					<f:else>
+						<!-- Filebased DCE -->
+						<a href="{f:render(partial:'Module/OpenStaticDce', arguments:'{identifier:\'{dce.identifier}\'}')}">{dce.identifier}</a>
 
-	<dce:be.tableList tableName="tx_dce_domain_model_dce" storagePid="0" clickTitleMode="edit" fieldList="{0:'uid', 1:'tstamp', 2:'crdate'}" />
+					</f:else>
+				</f:if>
+			</li>
+		</f:for>
+	</ul>
 </f:section>
