@@ -23,10 +23,6 @@ $boot = function($extensionKey) {
 	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/impexp/class.tx_impexp.php']['before_writeRecordsRecords'][] =
 		'EXT:' . $extensionKey . '/Classes/Hooks/tx_dce_impexp.php:tx_dce_impexp->beforeWriteRecordsRecords';
 
-	// Ajax Calls
-	$GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['AJAX']['Dce::updateContentElement'] =
-		'EXT:' . $extensionKey . '/Classes/Hooks/tx_update_contentelement.php:tx_update_contentelement->updateContentElement';
-
 	// User conditions
 	require_once($extensionPath . 'Classes/UserConditions/user_dceOnCurrentPage.php');
 

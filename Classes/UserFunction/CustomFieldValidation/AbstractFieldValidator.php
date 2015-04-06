@@ -20,7 +20,7 @@ abstract class AbstractFieldValidator {
 	 *
 	 * @return string javascript function code for js validation
 	 */
-	public function returnFieldJS() {
+	public function returnFieldJs() {
 		return 'return value;';
 	}
 
@@ -42,7 +42,7 @@ abstract class AbstractFieldValidator {
 	 * @param int $severity optional severity code. One of the t3lib_FlashMessage constants
 	 *
 	 * @return void
-	 * @throws InvalidArgumentException
+	 * @throws \InvalidArgumentException
 	 */
 	protected function addFlashMessage($message, $title = '', $severity = \TYPO3\CMS\Core\Messaging\FlashMessage::OK) {
 		if (!is_string($message)) {
