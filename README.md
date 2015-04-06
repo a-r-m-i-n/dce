@@ -2,9 +2,9 @@
 
 ## Build status ##
 
-|master|develop|dce1.0|
-|---------|----------|---------|
-|[![dce Master branch](http://ci.v.ieweg.de/build-status/image/5?branch=master)](http://ci.v.ieweg.de/build-status/view/5?branch=master)|[![dce Develop Branch](http://ci.v.ieweg.de/build-status/image/5?branch=develop)](http://ci.v.ieweg.de/build-status/view/5?branch=develop)|[![dce 1.0 Branch](http://ci.v.ieweg.de/build-status/image/5?branch=dce1.0)](http://ci.v.ieweg.de/build-status/view/5?branch=dce1.0)|
+|master|develop|
+|---------|----------|
+|[![dce Master branch](http://ci.v.ieweg.de/build-status/image/5?branch=master)](http://ci.v.ieweg.de/build-status/view/5?branch=master)|[![dce Develop Branch](http://ci.v.ieweg.de/build-status/image/5?branch=develop)](http://ci.v.ieweg.de/build-status/view/5?branch=develop)|
 
 
 ## Vagrant setup ##
