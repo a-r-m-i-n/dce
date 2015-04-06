@@ -1,4 +1,5 @@
 <?php
+namespace ArminVieweg\Dce\UserFunction\CustomFieldValidation;
 
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is
  *  | free software and is licensed under GNU General Public License.
@@ -12,14 +13,14 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  *
  * @package ArminVieweg\Dce
  */
-abstract class tx_dce_abstract_formeval {
+abstract class AbstractFieldValidator {
 
 	/**
 	 * JavaScript validation
 	 *
 	 * @return string javascript function code for js validation
 	 */
-	public function returnFieldJS() {
+	public function returnFieldJs() {
 		return 'return value;';
 	}
 
@@ -41,15 +42,15 @@ abstract class tx_dce_abstract_formeval {
 	 * @param int $severity optional severity code. One of the t3lib_FlashMessage constants
 	 *
 	 * @return void
-	 * @throws InvalidArgumentException
+	 * @throws \InvalidArgumentException
 	 */
 	protected function addFlashMessage($message, $title = '', $severity = \TYPO3\CMS\Core\Messaging\FlashMessage::OK) {
 		if (!is_string($message)) {
-			throw new InvalidArgumentException('The flash message must be string, ' . gettype($message) . ' given.', 1243258395);
+			throw new \InvalidArgumentException('The flash message must be string, ' . gettype($message) . ' given.', 1243258395);
 		}
 
-		/** @var \TYPO3\CMS\Core\Messaging\FlashMessage $flashMessage */
-		$flashMessage = GeneralUtility::makeInstance(
+		/** @var \TYPO3\CMS\Core\Messaging\FlashMessage $message */
+		$message = GeneralUtility::makeInstance(
 			'TYPO3\CMS\Core\Messaging\FlashMessage',
 			$message,
 			$title,
@@ -57,9 +58,9 @@ abstract class tx_dce_abstract_formeval {
 			TRUE
 		);
 
-		/** @var \TYPO3\CMS\Core\Messaging\FlashMessageQueue $flashMessageQueue */
-		$flashMessageQueue = GeneralUtility::makeInstance('TYPO3\CMS\Core\Messaging\FlashMessageQueue');
-		$flashMessageQueue->enqueue($flashMessage);
+		/** @var $flashMessageService \TYPO3\CMS\Core\Messaging\FlashMessageService */
+		$flashMessageService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Messaging\FlashMessageService::class);
+		$flashMessageService->getMessageQueueByIdentifier()->addMessage($message);
 	}
 
 	/**

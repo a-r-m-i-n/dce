@@ -5,6 +5,7 @@
  *  |
  *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Save DCE Hook
@@ -48,7 +49,7 @@ class tx_saveDce {
 			$dceFolderPath = PATH_site . $path . $newIdentifier . DIRECTORY_SEPARATOR;
 
 			/** @var \ArminVieweg\Dce\Utility\StaticDce $staticDceUtility */
-			$staticDceUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('ArminVieweg\Dce\Utility\StaticDce');
+			$staticDceUtility = GeneralUtility::makeInstance('ArminVieweg\Dce\Utility\StaticDce');
 
 			$realDceIdentifier = substr($dceIdentifier, 4);
 			$oldValues = $staticDceUtility->getStaticDceData($realDceIdentifier);
@@ -72,7 +73,7 @@ class tx_saveDce {
 				// Create
 				if (!file_exists($dceFolderPath) && !is_dir($dceFolderPath)) {
 					mkdir($dceFolderPath, 0777, TRUE);
-					\TYPO3\CMS\Core\Utility\GeneralUtility::fixPermissions($dceFolderPath);
+					GeneralUtility::fixPermissions($dceFolderPath);
 				}
 			}
 
@@ -109,7 +110,7 @@ class tx_saveDce {
 			file_put_contents($dceFolderPath . 'BackendBodytext.html', $newValues['bodytext_preview']);
 			file_put_contents($dceFolderPath . 'Detailpage.html', $newValues['detailpage_template']);
 
-			\TYPO3\CMS\Core\Utility\GeneralUtility::fixPermissions($dceFolderPath, TRUE);
+			GeneralUtility::fixPermissions($dceFolderPath, TRUE);
 
 			unset($newValues['type']);
 			unset($newValues['template_type']);
@@ -121,17 +122,17 @@ class tx_saveDce {
 			unset($newValues['bodytext_preview']);
 
 			/** @var \ArminVieweg\Dce\Utility\TypoScript $typoScriptUtility */
-			$typoScriptUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\ArminVieweg\Dce\Utility\TypoScript');
+			$typoScriptUtility = GeneralUtility::makeInstance('ArminVieweg\Dce\Utility\TypoScript');
 			$dceTypoScript = $typoScriptUtility->convertArrayToTypoScript($newValues, 'tx_dce.static');
 
 			file_put_contents($dceFolderPath . 'Dce.ts', $dceTypoScript);
 
 			$cObj->datamap = array();
 
-			$saveOnly = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('_savedok_x') && \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('_savedok_y');
+			$saveOnly = GeneralUtility::_GP('_savedok_x') && GeneralUtility::_GP('_savedok_y');
 			if ($saveOnly === TRUE && $renamed === TRUE) {
 				ob_clean();
-				header('Location: alt_doc.php?edit[tx_dce_domain_model_dce][dce_' . $newIdentifier . ']=edit&returnUrl=' . urlencode(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('returnUrl')));
+				header('Location: alt_doc.php?edit[tx_dce_domain_model_dce][dce_' . $newIdentifier . ']=edit&returnUrl=' . urlencode(GeneralUtility::_GP('returnUrl')));
 				die;
 			}
 		}
@@ -193,7 +194,6 @@ class tx_saveDce {
 		if ($table === 'tx_dce_domain_model_dce' && $status === 'update') {
 			if (!isset($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceImportInProgress'])) {
 				$this->performPreviewAutoupdateBatchOnDceChange();
-				\ArminVieweg\Dce\Controller\DceModuleController::removePreviewRecords();
 			}
 		}
 
@@ -212,8 +212,6 @@ class tx_saveDce {
 	 * about this circumstance.
 	 *
 	 * @return void
-	 *
-	 * @TODO Add link to notice, too - like in performPreviewAutoupdateBatchOnDceChange()
 	 */
 	protected function performPreviewAutoupdateOnContentElementSave() {
 		if (TYPO3_MODE === 'BE') {
@@ -223,7 +221,7 @@ class tx_saveDce {
 			// Preview texts can not created in frontend context
 			$this->dataHandler->updateDB('tt_content', $this->uid, array_merge($this->fieldArray, array(
 				'header' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('contentElementCreatedByFrontendHeader', 'dce'),
-				'bodytext' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('contentElementCreatedByFrontendBodytext', 'dce', array(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('eID'))),
+				'bodytext' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('contentElementCreatedByFrontendBodytext', 'dce', array(GeneralUtility::_GP('eID'))),
 			)));
 		}
 	}
@@ -238,24 +236,12 @@ class tx_saveDce {
 	protected function performPreviewAutoupdateBatchOnDceChange() {
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid', 'tt_content', 'CType="dce_dceuid' . $this->uid . '"');
 		while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
-			if ($this->extConfiguration['disablePreviewAutoUpdate'] == 0 && !$GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceImportInProgress']) {
+			if (!$GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceImportInProgress']) {
 				$fieldArray = $this->generateDcePreview($row['uid']);
+				$this->dataHandler->updateDB('tt_content', $row['uid'], $fieldArray);
 			} else {
-				// if autoupdate of preview is disabled, show notice instead
-				$uid = $row['uid'];
-				$dceUid = $this->uid;
-
-				// TODO: Remove this feature?
-				$postBody = 'ajaxID=Dce::updateContentElement&uid=' . $uid . '&dceUid=' . $dceUid;
-				$js = "var t=this, b=$(t).up('span'), h=$(b).previous('strong'); $(t).replace('<img src=\'../../../../typo3conf/ext/dce/Resources/Public/Icons/ajax-loader.gif\' alt=\'\' /> ' + $(t).innerHTML); new Ajax.Request('../../../ajax.php',{postBody:'" . $postBody . "', onSuccess:function(r){ var j=r.responseText.evalJSON(); b.update(j.bodytext); $(h).update(j.header); }}); return false;";
-
-				$fieldArray = array(
-					'header' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('autoupdateDisabledHeader', 'dce'),
-					'bodytext' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('autoupdateDisabledBodytext', 'dce', array($js)),
-				);
 				unset($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceImportInProgress']);
 			}
-			$this->dataHandler->updateDB('tt_content', $row['uid'], $fieldArray);
 		}
 	}
 
@@ -310,8 +296,7 @@ class tx_saveDce {
 	 */
 	protected function runExtbaseController($vendorName, $extensionName, $controller, $action = 'index', $pluginName = 'Pi1', $settings = array()) {
 		$bootstrap = new \TYPO3\CMS\Extbase\Core\Bootstrap();
-		$bootstrap->cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tslib_cObj');
-
+		$bootstrap->cObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
 		$configuration = array(
 			'vendorName' => $vendorName,
 			'extensionName' => $extensionName,
@@ -321,10 +306,7 @@ class tx_saveDce {
 			'settings' => $settings
 		);
 
-		// @TODO: Do we need that?
-		$_POST['tx_dce_tools_dcedcemodule']['controller'] = $controller;
-		$_POST['tx_dce_tools_dcedcemodule']['action'] = $action;
-
+		\ArminVieweg\Dce\Utility\ForbiddenUtility::setExtbaseRelatedPostParameters($controller, $action);
 		return $bootstrap->run('', $configuration);
 	}
 
@@ -341,7 +323,7 @@ class tx_saveDce {
 	/**
 	 * Checks the CType of current content element and return TRUE if it is a dce. Otherwise return FALSE.
 	 *
-	 * @param t3lib_TCEmain $pObj
+	 * @param \TYPO3\CMS\Core\DataHandling\DataHandler $pObj
 	 * @return bool
 	 */
 	protected function isDceContentElement(\TYPO3\CMS\Core\DataHandling\DataHandler $pObj) {

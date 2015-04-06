@@ -91,7 +91,8 @@ class TypoScript {
 						}
 						$value = implode("\n", $indentedValueLines);
 					}
-					$typoScript .= str_repeat("\t", ($tab === 0) ? $tab : $tab - 1) . $key . " (\n" . $value . "\n" . str_repeat("\t", ($tab === 0) ? $tab : $tab - 1) . ")\n";
+					$tabAmount = ($tab === 0) ? $tab : $tab - 1;
+					$typoScript .= str_repeat("\t", $tabAmount) . $key . " (\n" . $value . "\n" . str_repeat("\t", $tabAmount) . ")\n";
 				}
 
 			} else {

@@ -32,8 +32,8 @@ class tx_docHeaderButtonsHook {
 		if ($editGetParam[$uidWithComma] === 'edit') {
 			$uid = intval($uidWithComma);
 
-			/** @var $tceMain t3lib_TCEmain */
-			$tceMain = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('t3lib_TCEmain');
+			/** @var $tceMain \TYPO3\CMS\Core\DataHandling\DataHandler */
+			$tceMain = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\DataHandling\DataHandler');
 			$contentRecord = $tceMain->recordInfo('tt_content', $uid, 'CType');
 			$cType = current($contentRecord);
 			$this->requireDceRepository();

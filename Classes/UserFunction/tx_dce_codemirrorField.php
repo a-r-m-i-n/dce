@@ -30,7 +30,7 @@ class tx_dce_codemirrorField {
 		$this->parameter = $parameter;
 
 		/** @var $fluidTemplate \ArminVieweg\Dce\Utility\FluidTemplate */
-		$fluidTemplate = GeneralUtility::makeInstance('\ArminVieweg\Dce\Utility\FluidTemplate');
+		$fluidTemplate = GeneralUtility::makeInstance('ArminVieweg\Dce\Utility\FluidTemplate');
 
 		$fluidTemplate->setLayoutRootPath(GeneralUtility::getFileAbsFileName('EXT:dce/Resources/Private/Layouts/'));
 		$fluidTemplate->setPartialRootPath(GeneralUtility::getFileAbsFileName('EXT:dce/Resources/Private/Partials/'));
@@ -46,9 +46,7 @@ class tx_dce_codemirrorField {
 		$fluidTemplate->assign('disableCodemirror', $extConfiguration['disableCodemirror']);
 
 		if ($parameter['fieldConf']['config']['parameters']['mode'] === 'htmlmixed') {
-			if ($this->parameter['row'] == 0) {
-				$fluidTemplate->assign('availableFields', $this->getAvailableFields());
-			}
+			$fluidTemplate->assign('availableFields', $this->getAvailableFields());
 			$fluidTemplate->assign('famousViewHelpers', $this->getFamousViewHelpers());
 			$fluidTemplate->assign('dceViewHelpers', $this->getDceViewHelpers());
 		} else {

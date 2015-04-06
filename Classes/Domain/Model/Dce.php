@@ -460,7 +460,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		$typeGetter = 'get' . ucfirst(\TYPO3\CMS\Core\Utility\GeneralUtility::underscoredToLowerCamelCase($templateFields['type']));
 
 		/** @var $fluidTemplate \TYPO3\CMS\Fluid\View\StandaloneView */
-		$fluidTemplate = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\TYPO3\CMS\Fluid\View\StandaloneView');
+		$fluidTemplate = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Fluid\View\StandaloneView');
 		if ($this->$typeGetter() === 'inline') {
 			$inlineTemplateGetter = 'get' . ucfirst(\TYPO3\CMS\Core\Utility\GeneralUtility::underscoredToLowerCamelCase($templateFields['inline']));
 			$fluidTemplate->setTemplateSource($this->$inlineTemplateGetter() . ' ');

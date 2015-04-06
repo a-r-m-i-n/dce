@@ -17,7 +17,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'priority' => '',
 	'loadOrder' => '',
 	'module' => '',
-	'state' => 'stable',
+	'state' => 'beta',
 	'uploadfolder' => 1,
 	'createDirs' => '',
 	'modify_tables' => 'tt_content',
@@ -31,7 +31,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'constraints' => array(
 		'depends' => array(
 			'php' => '5.3.0-0.0.0',
-			'typo3' => '4.5.0-6.2.99',
+			'typo3' => '4.5.0-7.1.99',
 		),
 		'conflicts' => array(
 		),

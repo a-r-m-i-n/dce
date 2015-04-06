@@ -75,10 +75,10 @@ function initCodeMirrorEditor(textarea, mode) {
  * @return void
  */
 function disableSectionFieldType(textarea) {
-	var parentTable = $(textarea).up('table').up('table');
-	var selectBox = $(parentTable).down('select[name^="data[tx_dce_domain_model_dcefield]"][name$="[type]"]');
-	if (selectBox && $(selectBox).up('.t3-form-field-record-inline', 1)) {
-		var parentTableRow = $(selectBox).up('tr').hide();
-		var labelTableRow = $(parentTableRow).previous('tr').hide();
+	var parentTable = TYPO3.jQuery(textarea).closest('table').closest('table');
+	var selectBox = TYPO3.jQuery(parentTable).find('select[name^="data[tx_dce_domain_model_dcefield]"][name$="[type]"]');
+	if (selectBox && TYPO3.jQuery(selectBox).closest('.t3-form-field-record-inline', 1)) {
+		var parentTableRow = $(selectBox).closest('tr').hide();
+		var labelTableRow = $(parentTableRow).prev('tr').hide();
 	}
 }

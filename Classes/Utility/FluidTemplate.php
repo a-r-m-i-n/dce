@@ -42,16 +42,11 @@ class FluidTemplate {
 	 * @return void
 	 */
 	protected function init() {
-		if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('dbal')) {
-			$this->assureDbalCompatibility();
-		}
-
-		// TODO: Necessary?
 		\ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection();
 
 		// Add extbase_object to cacheConfigurations
 		$cacheConfigurations = array_merge($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'], array('extbase_object' => array()));
-		$GLOBALS['typo3CacheManager']->setCacheConfigurations($cacheConfigurations);
+		\TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Cache\\CacheManager')->setCacheConfigurations($cacheConfigurations);
 
 		$this->fluidTemplate = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Fluid\View\StandaloneView');
 		$this->fluidTemplate->setLayoutRootPath(\TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName(self::DEFAULT_DIRECTORY_LAYOUTS));
@@ -121,17 +116,4 @@ class FluidTemplate {
 		$this->fluidTemplate->setPartialRootPath($partialRootPath);
 	}
 
-	/**
-	 * Checks installation order of dbal and dce, and throws exception if dce has been loaded first. Otherwise the
-	 * cache settings from dbal will be loaded to typo3CacheManager's cache configurations.
-	 *
-	 * @throws \Exception
-	 * @return void
-	 */
-	protected function assureDbalCompatibility() {
-		if ($GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\CMS\Core\Database\DatabaseConnection'] === NULL) {
-			throw new \Exception('When using dbal it is necessary to install the dce extension after dbal. Currently dce is loaded first.', 1358518250);
-		}
-		$GLOBALS['typo3CacheManager']->setCacheConfigurations($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']);
-	}
 }
