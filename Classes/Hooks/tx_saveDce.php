@@ -194,7 +194,6 @@ class tx_saveDce {
 		if ($table === 'tx_dce_domain_model_dce' && $status === 'update') {
 			if (!isset($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceImportInProgress'])) {
 				$this->performPreviewAutoupdateBatchOnDceChange();
-				\ArminVieweg\Dce\Controller\DceModuleController::removePreviewRecords();
 			}
 		}
 
@@ -323,8 +322,8 @@ class tx_saveDce {
 		);
 
 		// @TODO: Do we need that?
-		$_POST['tx_dce_tools_dcedcemodule']['controller'] = $controller;
-		$_POST['tx_dce_tools_dcedcemodule']['action'] = $action;
+		//$_POST['tx_dce_tools_dcedcemodule']['controller'] = $controller;
+		//$_POST['tx_dce_tools_dcedcemodule']['action'] = $action;
 
 		return $bootstrap->run('', $configuration);
 	}
