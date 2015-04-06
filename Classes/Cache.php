@@ -34,6 +34,7 @@ class Cache {
 	 * @return void
 	 */
 	public function createLocalconf($pathDceLocalconf) {
+		\ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection();
 		$this->fluidTemplateUtility->setTemplatePathAndFilename(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dce') . 'Resources/Private/Templates/DceSource/localconf.html');
 
 		/** @var \ArminVieweg\Dce\Utility\StaticDce $staticDceUtility */
@@ -55,6 +56,7 @@ class Cache {
 	 * @return void
 	 */
 	public function createExtTables($pathDceExtTables) {
+		\ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection();
 		$this->fluidTemplateUtility->setTemplatePathAndFilename(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dce') . 'Resources/Private/Templates/DceSource/ext_tables.html');
 
 		/** @var \ArminVieweg\Dce\Utility\StaticDce $staticDceUtility */

@@ -67,6 +67,7 @@ $boot = function($extensionKey) {
 		$dceCache = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('ArminVieweg\Dce\Cache');
 		$dceCache->createLocalconf($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceLocalconfPath']);
 	}
+	//var_dump($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceLocalconfPath']); die;
 	require_once($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceLocalconfPath']);
 };
 
