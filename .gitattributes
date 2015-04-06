@@ -1,10 +1,10 @@
 # Autodetect text files
 * text=auto
- 
+
 # Force the following filetypes to have unix eols, so Windows does not break them
 *.* text eol=lf
- 
-# Force images/fonts to be handled as binaries
+
+# Force media files to be handled as binaries
 *.jpg binary
 *.jpeg binary
 *.gif binary
@@ -15,4 +15,10 @@
 *.data binary
 *.ttf binary
 *.eof binary
-*.eot binary
+*.sxw binary
+*.swf binary
+*.mov binary
+*.avi binary
+*.mp4 binary
+*.mp3 binary
+*.ogg binary
