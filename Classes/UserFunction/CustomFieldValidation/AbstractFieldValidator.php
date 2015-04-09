@@ -59,7 +59,7 @@ abstract class AbstractFieldValidator {
 		);
 
 		/** @var $flashMessageService \TYPO3\CMS\Core\Messaging\FlashMessageService */
-		$flashMessageService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Messaging\FlashMessageService::class);
+		$flashMessageService = GeneralUtility::makeInstance('\TYPO3\CMS\Core\Messaging\FlashMessageService');
 		$flashMessageService->getMessageQueueByIdentifier()->addMessage($message);
 	}
 
