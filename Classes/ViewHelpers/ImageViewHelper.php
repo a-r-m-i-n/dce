@@ -31,17 +31,12 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper {
 	 * @param bool $treatIdAsReference given src argument is a sys_file_reference record
 	 *
 	 * @return string rendered tag.
+	 * @deprecated Will be removed in 1.2. Use the standard f:image viewhelper instead.
 	 */
 	public function render($src, $width = NULL, $height = NULL, $minWidth = NULL, $minHeight = NULL, $maxWidth = NULL, $maxHeight = NULL, $treatIdAsReference = NULL) {
-		$imageTag = parent::render($src, $width, $height, $minWidth, $minHeight, $maxWidth, $maxHeight, $treatIdAsReference);
-		if (TYPO3_MODE === 'BE') {
-				// Make image src absolute (and respect sub folder, if existing)
-			$subPart = '/';
-			if (isset($_SERVER['DOCUMENT_ROOT'])) {
-				$subPart = substr(PATH_site, strlen($_SERVER['DOCUMENT_ROOT']));
-			}
-			$imageTag = preg_replace('/(.*?src=")..\/(.*?)/i', '$1' . $subPart . '$2', $imageTag);
-		}
-		return $imageTag;
+		\TYPO3\CMS\Core\Utility\GeneralUtility::deprecationLog(
+			'One of your DCEs uses the dce:image ViewHelper, which will be removed in version 1.2 of the DCE extension. Check frontend and backend templates and replace it with f:image.'
+		);
+		return parent::render($src, $width, $height, $minWidth, $minHeight, $maxWidth, $maxHeight, $treatIdAsReference);
 	}
 }
