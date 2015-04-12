@@ -54,12 +54,10 @@ $boot = function($extensionKey) {
 
 		// Special tce validators (eval)
 	require_once($extensionPath . 'Classes/UserFunction/CustomFieldValidation/AbstractFieldValidator.php');
-	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tce']['formevals']
-	['ArminVieweg\Dce\UserFunction\CustomFieldValidation\LowerCamelCaseValidator'] =
-		'EXT:dce/Classes/UserFunction/CustomFieldValidation/LowerCamelCaseValidator.php';
-	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tce']['formevals']
-	['ArminVieweg\Dce\UserFunction\CustomFieldValidation\NoLeadingNumberValidator'] =
-		'EXT:dce/Classes/UserFunction/CustomFieldValidation/NoLeadingNumberValidator.php';
+	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tce']['formevals']['ArminVieweg\Dce\UserFunction\CustomFieldValidation\\' .
+	'LowerCamelCaseValidator'] = 'EXT:dce/Classes/UserFunction/CustomFieldValidation/LowerCamelCaseValidator.php';
+	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tce']['formevals']['ArminVieweg\Dce\UserFunction\CustomFieldValidation\\' .
+	'NoLeadingNumberValidator'] = 'EXT:dce/Classes/UserFunction/CustomFieldValidation/NoLeadingNumberValidator.php';
 
 	$GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceLocalconfPath'] = PATH_typo3conf . 'temp_CACHED_dce_ext_localconf.php';
 	if (!file_exists($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceLocalconfPath'])) {

@@ -40,7 +40,7 @@ class Cache {
 	public function createLocalconf($pathDceLocalconf) {
 		\ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection();
 		$this->fluidTemplateUtility->setTemplatePathAndFilename(
-			ExtensionManagementUtility::extPath('dce'). 'Resources/Private/Templates/DceSource/localconf.html'
+			ExtensionManagementUtility::extPath('dce') . 'Resources/Private/Templates/DceSource/localconf.html'
 		);
 
 		/** @var \ArminVieweg\Dce\Utility\StaticDce $staticDceUtility */

@@ -155,7 +155,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * @return void
 	 */
 	protected function fillFields(\ArminVieweg\Dce\Domain\Model\DceField $dceField, $fieldValue, $isSectionField = FALSE,
-								  $xmlIdentifier) {
+									$xmlIdentifier) {
 
 		$xmlWrapping = 'xml-' . $xmlIdentifier;
 		$dceFieldConfiguration = GeneralUtility::xml2array(
@@ -318,8 +318,8 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 
 		while (strpos($className, '_') !== FALSE) {
 			$position = strpos($className, '_') + 1;
-			$className = substr($className, 0, $position - 1) . '-' . strtoupper(substr($className, $position, 1))
-				. substr($className, $position + 1);
+			$className = substr($className, 0, $position - 1) . '-' . strtoupper(substr($className, $position, 1)) .
+				substr($className, $position + 1);
 		}
 
 		$className = str_replace('-', '_', $className);

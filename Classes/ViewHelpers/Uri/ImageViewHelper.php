@@ -29,7 +29,7 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Uri\ImageViewHelper {
 	 *             Use the standard f:image viewhelper instead.
 	 */
 	public function render($src, $width = NULL, $height = NULL, $minWidth = NULL, $minHeight = NULL, $maxWidth = NULL,
-						   $maxHeight = NULL, $image = NULL) {
+							$maxHeight = NULL, $image = NULL) {
 		return parent::render($src, $image, $width, $height, $minWidth, $minHeight, $maxWidth, $maxHeight);
 	}
 }

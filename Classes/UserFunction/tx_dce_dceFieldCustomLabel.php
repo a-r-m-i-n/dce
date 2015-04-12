@@ -28,11 +28,12 @@ class tx_dce_dceFieldCustomLabel {
 		if (!$this->isSectionChildField($parameter)) {
 			if (!$this->isSectionField($parameter)) {
 					// Standard field
-				$parameter['title'] = $GLOBALS['LANG']->sL($parameter['row']['title']) . ' <i style="font-weight: normal">{field.'
-					. $parameter['row']['variable'] . '}</i>';
+				$parameter['title'] = $GLOBALS['LANG']->sL($parameter['row']['title']) .
+					' <i style="font-weight: normal">{field.' . $parameter['row']['variable'] . '}</i>';
 			} else {
-				$parameter['title'] = $GLOBALS['LANG']->sL($parameter['row']['title']) . ' <i style="font-weight: normal">{field.'
-					. $parameter['row']['variable'] . '.<span style="color: blue;">n</span>}</i>';
+				$parameter['title'] = $GLOBALS['LANG']->sL($parameter['row']['title']) .
+					' <i style="font-weight: normal">{field.' . $parameter['row']['variable'] .
+					'.<span style="color: blue;">n</span>}</i>';
 			}
 		} else {
 			// Section child field

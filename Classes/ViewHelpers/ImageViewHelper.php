@@ -27,7 +27,7 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper {
 	 *             Use the standard f:image viewhelper instead.
 	 */
 	public function render($src, $width = NULL, $height = NULL, $minWidth = NULL, $minHeight = NULL, $maxWidth = NULL,
-						   $maxHeight = NULL, $treatIdAsReference = NULL) {
+							$maxHeight = NULL, $treatIdAsReference = NULL) {
 		\TYPO3\CMS\Core\Utility\GeneralUtility::deprecationLog(
 			'One of your DCEs uses the dce:image ViewHelper, which will be removed in version 1.2 of the DCE extension. ' .
 			'Check frontend and backend templates and replace it with f:image.'
