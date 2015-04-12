@@ -79,7 +79,8 @@ class Cache {
 	}
 
 	/**
-	 * Returns all available DCE as array with this format (just most important fields listed):
+	 * Returns all available DCE as array with this format
+	 * (just most important fields listed):
 	 *
 	 * DCE
 	 * 	|_ uid

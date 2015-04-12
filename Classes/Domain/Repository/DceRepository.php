@@ -7,6 +7,8 @@ namespace ArminVieweg\Dce\Domain\Repository;
  *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /**
  * DCE repository
@@ -105,7 +107,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * @return void
 	 */
 	protected function disableRespectOfEnableFields() {
-		/** @var $querySettings \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings */
+		/** @var $querySettings Typo3QuerySettings */
 		$querySettings = $this->objectManager->get('TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings');
 		$querySettings->setIgnoreEnableFields(TRUE)->setIncludeDeleted(TRUE);
 		$this->setDefaultQuerySettings($querySettings);
@@ -361,7 +363,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 				if (!$GLOBALS['TSFE']->sys_page instanceof \TYPO3\CMS\Frontend\Page\PageRepository) {
 					$GLOBALS['TSFE']->sys_page = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Page\PageRepository');
 				}
-				/** @var $contentObjectRenderer \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer */
+				/** @var $contentObjectRenderer ContentObjectRenderer */
 				$contentObjectRenderer = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
 				$enableFields = $contentObjectRenderer->enableFields($tableName);
 			}
