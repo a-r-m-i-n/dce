@@ -9,14 +9,14 @@
 /**
  * Hook for docHeaderButtons
  *
-
- *
+ * @package ArminVieweg\Dce
  */
 class tx_docHeaderButtonsHook {
 
 	/**
-	 * Adds a new button to docheader. This affects just DCE instances. The button will be not visible if the current
-	 * backend user is no administrator.
+	 * Adds a new button to docheader. This affects just DCE instances.
+	 * The button will be not visible if the current backend user is
+	 * no administrator.
 	 *
 	 * @param array $params
 	 * @return void
@@ -56,6 +56,7 @@ class tx_docHeaderButtonsHook {
 
 	/**
 	 * Includes the dce repository for TYPO3 4.5
+	 *
 	 * @return void
 	 */
 	protected function requireDceRepository() {
@@ -65,6 +66,7 @@ class tx_docHeaderButtonsHook {
 
 	/**
 	 * Adds stylesheet when editing dce instance. Not nice solved, but it works.
+	 *
 	 * @return string
 	 */
 	protected function getCustomStylesheet() {

@@ -11,10 +11,12 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3\CMS\Fluid\Core\ViewHelper\Facets\ChildNodeAccessInterface;
 
 /**
- * This class provides a container for backend tabs. To create a container just use the following in a fluid template:
+ * This class provides a container for backend tabs. To create a container just
+ * use the following in a fluid template:
  * <dce:be.tabContainer></dce:be.tabContainer>
  *
- * The containers should only contain 'dce:be.tab's (see Be/TabViewHelper for usage).
+ * The containers should only contain 'dce:be.tab's
+ * (see Be/TabViewHelper for usage).
  *
  * @package ArminVieweg\Dce
  */

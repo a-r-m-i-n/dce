@@ -8,8 +8,9 @@ namespace ArminVieweg\Dce;
  */
 
 /**
- * Generates "temp_CACHED_dce_ext_localconf.php" and "temp_CACHED_dce_ext_tables.php" located in /typo3conf/
- * which contains the whole DCE configurations used by TYPO3.
+ * Generates "temp_CACHED_dce_ext_localconf.php" and
+ * "temp_CACHED_dce_ext_tables.php" located in /typo3conf/ which contains
+ * the whole DCE configurations used by TYPO3.
  *
  * @package ArminVieweg\Dce
  */

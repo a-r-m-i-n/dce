@@ -12,7 +12,7 @@
  * 42 is a sample for the UID of DCE type.
  *
  * @param int Uid of DCE type to check for
- * @return bool Returns TRUE if the current page contains a DCE (instance). Otherwise returns FALSE.
+ * @return bool Returns TRUE if the current page contains a DCE (instance)
  *
  * @package ArminVieweg\Dce
  */

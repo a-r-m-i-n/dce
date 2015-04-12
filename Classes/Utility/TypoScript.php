@@ -6,6 +6,9 @@ namespace ArminVieweg\Dce\Utility;
  *  |
  *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Utility for TypoScript
@@ -14,23 +17,26 @@ namespace ArminVieweg\Dce\Utility;
  */
 class TypoScript {
 	/**
-	 * @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer
+	 * Content Object Renderer
+	 *
+	 * @var ContentObjectRenderer
 	 */
 	protected $contentObject;
 
 	/**
-	 * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
+	 * Configuration Manager
+	 *
+	 * @var ConfigurationManagerInterface
 	 */
 	protected $configurationManager = NULL;
 
 	/**
 	 * Injects the configurationManager
 	 *
-	 * @param \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager
-	 *
+	 * @param ConfigurationManagerInterface $configurationManager
 	 * @return void
 	 */
-	public function injectConfigurationManager(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager) {
+	public function injectConfigurationManager(ConfigurationManagerInterface $configurationManager) {
 		$this->configurationManager = $configurationManager;
 	}
 
@@ -52,7 +58,7 @@ class TypoScript {
 	 */
 	public function parseTypoScriptString($typoScriptString, $returnPlainArray = FALSE) {
 		/** @var \TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser $typoScriptParser */
-		$typoScriptParser = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser');
+		$typoScriptParser = GeneralUtility::makeInstance('TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser');
 		$typoScriptParser->parse($typoScriptString);
 		if ($returnPlainArray === FALSE) {
 			return $typoScriptParser->setup;
@@ -64,7 +70,8 @@ class TypoScript {
 	 * Converts given array to TypoScript
 	 *
 	 * @param array $typoScriptArray The array to convert to string
-	 * @param string $addKey Prefix given values with given key (eg. lib.whatever = {...})
+	 * @param string $addKey Prefix given values with given key
+	 *                       (eg. lib.whatever = {...})
 	 * @param int $tab Internal
 	 * @param bool $init Internal
 	 * @return string TypoScript
@@ -117,7 +124,7 @@ class TypoScript {
 	 */
 	public function convertTypoScriptArrayToPlainArray($typoScriptArray) {
 		/** @var \TYPO3\CMS\Extbase\Service\TypoScriptService $typoScriptService */
-		$typoScriptService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Service\TypoScriptService');
+		$typoScriptService = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Service\TypoScriptService');
 		return $typoScriptService->convertTypoScriptArrayToPlainArray($typoScriptArray);
 	}
 
@@ -153,7 +160,8 @@ class TypoScript {
 	}
 
 	/**
-	 * Overwrite flexform values with typoscript if flexform value is empty and typoscript value exists.
+	 * Overwrite flexform values with typoscript if flexform value is empty and
+	 * typoscript value exists.
 	 *
 	 * @param array $settings Settings from flexform
 	 * @return array enhanced settings
@@ -161,7 +169,7 @@ class TypoScript {
 	protected function enhanceSettingsWithTypoScript(array $settings) {
 		$extkey = 'tx_dce';
 		$typoscript = $this->configurationManager->getConfiguration(
-			\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT
+			ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT
 		);
 		$typoscript = $typoscript['plugin.'][$extkey . '.']['settings.'];
 		foreach ($settings as $key => $setting) {

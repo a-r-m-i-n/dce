@@ -6,6 +6,8 @@ namespace ArminVieweg\Dce\Utility;
  *  |
  *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
+use TYPO3\CMS\Fluid\View\AbstractTemplateView;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Fluid Template Utility
@@ -46,17 +48,18 @@ class FluidTemplate {
 
 		// Add extbase_object to cacheConfigurations
 		$cacheConfigurations = array_merge($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'], array('extbase_object' => array()));
-		\TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Cache\\CacheManager')->setCacheConfigurations($cacheConfigurations);
+		GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Cache\\CacheManager')->setCacheConfigurations($cacheConfigurations);
 
-		$this->fluidTemplate = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Fluid\View\StandaloneView');
-		$this->fluidTemplate->setLayoutRootPath(\TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName(self::DEFAULT_DIRECTORY_LAYOUTS));
-		$this->fluidTemplate->setPartialRootPath(\TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName(self::DEFAULT_DIRECTORY_PARTIALS));
+		$this->fluidTemplate = GeneralUtility::makeInstance('TYPO3\CMS\Fluid\View\StandaloneView');
+		$this->fluidTemplate->setLayoutRootPath(GeneralUtility::getFileAbsFileName(self::DEFAULT_DIRECTORY_LAYOUTS));
+		$this->fluidTemplate->setPartialRootPath(GeneralUtility::getFileAbsFileName(self::DEFAULT_DIRECTORY_PARTIALS));
 	}
 
 	/**
 	 * Loads the template source and render the template.
 	 *
-	 * @param string $actionName If set, the view of the specified action will be rendered instead.
+	 * @param string $actionName If set, the view of the specified action will
+	 *                           be rendered instead.
 	 *        Default is the action specified in the Request object
 	 * @return string Rendered Template
 	 */
@@ -69,7 +72,7 @@ class FluidTemplate {
 	 *
 	 * @param string $key The key of a view variable to set
 	 * @param mixed $value The value of the view variable
-	 * @return \TYPO3\CMS\Fluid\View\AbstractTemplateView the instance of this view to allow chaining
+	 * @return AbstractTemplateView the instance of this view to allow chaining
 	 */
 	public function assign($key, $value) {
 		return $this->fluidTemplate->assign($key, $value);
@@ -99,7 +102,9 @@ class FluidTemplate {
 	 * Set the root path to the layouts.
 	 * If set, overrides the one determined from $this->layoutRootPathPattern
 	 *
-	 * @param string $layoutRootPath Root path to the layouts. If set, overrides the one determined from $this->layoutRootPathPattern
+	 * @param string $layoutRootPath Root path to the layouts. If set, overrides
+	 *                               the one determined from
+	 *                               $this->layoutRootPathPattern
 	 * @return void
 	 */
 	public function setLayoutRootPath($layoutRootPath) {

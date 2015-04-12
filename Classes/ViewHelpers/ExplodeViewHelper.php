@@ -18,7 +18,8 @@ class ExplodeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHel
 	 * Splits a string to an array.
 	 *
 	 * @param string $subject String to explode.
-	 * @param string $delimiter Char or string to split the string into pieces. Default is a comma sign(,).
+	 * @param string $delimiter Char or string to split the string into pieces.
+	 *                          Default is a comma sign(,).
 	 * @param bool $removeEmpty If TRUE empty items will be removed.
 	 *
 	 * @return array Exploded parts

@@ -9,7 +9,7 @@ namespace ArminVieweg\Dce\Controller;
 
 /**
  * DCE Controller
- * Handles the output of content element based on DCEs in frontend and also in backend.
+ * Handles the output of content element based on DCEs in front- and backend.
  *
  * @package ArminVieweg\Dce
  */

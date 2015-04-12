@@ -17,7 +17,8 @@ class TypolinkViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 	/**
 	 * Create a typolink.
 	 *
-	 * @param string $parameter Parameter string, which can be handled by typolink functionality
+	 * @param string $parameter Parameter string, which can be handled by
+	 *                          typolink functionality
 	 * @param string $subject Link text
 	 * @return string Rendered HTML <a>-tag
 	 */

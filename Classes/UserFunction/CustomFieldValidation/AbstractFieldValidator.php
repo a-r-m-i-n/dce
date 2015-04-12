@@ -39,7 +39,7 @@ abstract class AbstractFieldValidator {
 	 *
 	 * @param string $message
 	 * @param string $title optional message title
-	 * @param int $severity optional severity code. One of the t3lib_FlashMessage constants
+	 * @param int $severity optional severity code
 	 *
 	 * @return void
 	 * @throws \InvalidArgumentException

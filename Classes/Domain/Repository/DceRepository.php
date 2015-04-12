@@ -34,8 +34,9 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	}
 
 	/**
-	 * Finds and build a DCE. The given uid loads the DCE structure and the fieldList triggers the fillFields which
-	 * gives the dce its contents and values.
+	 * Finds and build a DCE. The given uid loads the DCE structure and the
+	 * fieldList triggers the fillFields which gives the dce its contents
+	 * and values.
 	 *
 	 * @param int $uid
 	 * @param array $fieldList
@@ -69,7 +70,8 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	}
 
 	/**
-	 * Clones the fields of a dce separately, because cloning the dce just refers the fields
+	 * Clones the fields of a dce separately, because cloning the dce just
+	 * refers the fields
 	 *
 	 * @param \ArminVieweg\Dce\Domain\Model\Dce $dce
 	 * @return void
@@ -114,7 +116,8 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * Walk through the fields and section fields to fill them
 	 *
 	 * @param \ArminVieweg\Dce\Domain\Model\Dce $dce
-	 * @param array $fieldList Field list. Key must contain field variable, value its value.
+	 * @param array $fieldList Field list. Key must contain field variable,
+	 *                         value its value.
 	 * @return void
 	 */
 	protected function processFillingFields(\ArminVieweg\Dce\Domain\Model\Dce $dce, array $fieldList) {
@@ -141,9 +144,10 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	}
 
 	/**
-	 * Fills the value of given field. If field has special properties some objects or database operations will be do,
-	 * if not just the given $fieldValue will be add to $dceField->_value. Value of sectionFields will be filled
-	 * differently.
+	 * Fills the value of given field. If field has special properties some
+	 * objects or database operations will be do,if not just the given
+	 * $fieldValue will be add to $dceField->_value. Value of sectionFields
+	 * will be filled differently.
 	 *
 	 * @param \ArminVieweg\Dce\Domain\Model\DceField $dceField
 	 * @param string $fieldValue
@@ -202,7 +206,8 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	}
 
 	/**
-	 * Flatten the given array and extract all vDEF values. Result is stored in $this->dceProperties.
+	 * Flatten the given array and extract all vDEF values. Result is stored
+	 * in $this->dceProperties.
 	 *
 	 * @param array $array flexform data array
 	 * @param Object $caller
@@ -241,7 +246,8 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	}
 
 	/**
-	 * Extracts and returns the uid from given DCE CType. Returns FALSE if CType is not a DCE one.
+	 * Extracts and returns the uid from given DCE CType.
+	 * Returns FALSE if CType is not a DCE one.
 	 *
 	 * @param string $cType
 	 * @return int|string|bool
@@ -264,7 +270,8 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * Converts a given dce uid to a dce CType.
 	 *
 	 * @param int $uid
-	 * @return string|bool Returns converted CType. If given uid is invalid, returns FALSE
+	 * @return string|bool Returns converted CType. If given uid is invalid
+	 *                     returns FALSE
 	 * @static
 	 */
 	static public function convertUidToCtype($uid) {
@@ -276,7 +283,8 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	}
 
 	/**
-	 * Checks if given field configuration allows to load sub items (assoc array or objects)
+	 * Checks if given field configuration allows to load sub items
+	 * (assoc array or objects)
 	 *
 	 * @param array $fieldConfiguration
 	 * @return bool
@@ -287,7 +295,8 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	}
 
 	/**
-	 * Creates array of assoc array or objects, depending on given field configuration
+	 * Creates array of assoc array or objects, depending
+	 * on given field configuration
 	 *
 	 * @param string $fieldValue Comma separated list of uids
 	 * @param array $dceFieldConfiguration

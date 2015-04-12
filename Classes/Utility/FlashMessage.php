@@ -6,6 +6,7 @@ namespace ArminVieweg\Dce\Utility;
  *  |
  *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
+use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -28,9 +29,8 @@ class FlashMessage {
 	 */
 	static public function add($message, $title = '', $severity = \TYPO3\CMS\Core\Messaging\FlashMessage::WARNING) {
 		if (static::$flashMessageQueue === NULL) {
-			/** @var $flashMessageService \TYPO3\CMS\Core\Messaging\FlashMessageService */
+			/** @var $flashMessageService FlashMessageService */
 			$flashMessageService = GeneralUtility::makeInstance('TYPO3\CMS\Core\Messaging\FlashMessageService');
-			/** @var $defaultFlashMessageQueue \TYPO3\CMS\Core\Messaging\FlashMessageQueue */
 			static::$flashMessageQueue = $flashMessageService->getMessageQueueByIdentifier();
 		}
 
