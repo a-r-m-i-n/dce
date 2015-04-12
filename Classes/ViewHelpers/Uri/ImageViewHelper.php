@@ -28,12 +28,8 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Uri\ImageViewHelper {
 	 * @deprecated Will be removed in 1.2.
 	 *             Use the standard f:image viewhelper instead.
 	 */
-	public function render($src, $width = NULL, $height = NULL, $minWidth = NULL, $minHeight = NULL, $maxWidth = NULL, $maxHeight = NULL, $image = NULL) {
-		$imageUri = parent::render($src, $image, $width, $height, $minWidth, $minHeight, $maxWidth, $maxHeight);
-		if (TYPO3_MODE === 'BE' && strpos($imageUri, '../') === 0) {
-				// Make image uri absolute
-				$imageUri = substr($imageUri, 2);
-		}
-		return $imageUri;
+	public function render($src, $width = NULL, $height = NULL, $minWidth = NULL, $minHeight = NULL, $maxWidth = NULL,
+						   $maxHeight = NULL, $image = NULL) {
+		return parent::render($src, $image, $width, $height, $minWidth, $minHeight, $maxWidth, $maxHeight);
 	}
 }
