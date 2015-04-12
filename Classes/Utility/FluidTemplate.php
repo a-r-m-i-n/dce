@@ -47,7 +47,10 @@ class FluidTemplate {
 		\ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection();
 
 		// Add extbase_object to cacheConfigurations
-		$cacheConfigurations = array_merge($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'], array('extbase_object' => array()));
+		$cacheConfigurations = array_merge(
+			$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'],
+			array('extbase_object' => array())
+		);
 		GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Cache\\CacheManager')->setCacheConfigurations($cacheConfigurations);
 
 		$this->fluidTemplate = GeneralUtility::makeInstance('TYPO3\CMS\Fluid\View\StandaloneView');

@@ -34,7 +34,9 @@ class tx_dce_codemirrorField {
 
 		$fluidTemplate->setLayoutRootPath(GeneralUtility::getFileAbsFileName('EXT:dce/Resources/Private/Layouts/'));
 		$fluidTemplate->setPartialRootPath(GeneralUtility::getFileAbsFileName('EXT:dce/Resources/Private/Partials/'));
-		$fluidTemplate->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName('EXT:dce/Resources/Private/Templates/DceUserFields/Coldmirror.html'));
+		$fluidTemplate->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
+			'EXT:dce/Resources/Private/Templates/DceUserFields/Coldmirror.html'
+		));
 
 		$fluidTemplate->assign('name', $this->parameter['itemFormElName']);
 		$fluidTemplate->assign('value', $this->parameter['itemFormElValue']);
@@ -131,14 +133,16 @@ class tx_dce_codemirrorField {
 	 * @return array
 	 */
 	protected function getFamousViewHelpers() {
-		return $this->getViewhelpers(ExtensionManagementUtility::extPath('dce') . 'Resources/Public/CodeSnippets/FamousViewHelpers/');
+		return $this->getViewhelpers(ExtensionManagementUtility::extPath('dce')
+			. 'Resources/Public/CodeSnippets/FamousViewHelpers/');
 	}
 
 	/**
 	 * @return array
 	 */
 	protected function getDceViewHelpers() {
-		return $this->getViewhelpers(ExtensionManagementUtility::extPath('dce') . 'Resources/Public/CodeSnippets/DceViewHelpers/');
+		return $this->getViewhelpers(ExtensionManagementUtility::extPath('dce')
+			. 'Resources/Public/CodeSnippets/DceViewHelpers/');
 	}
 
 	/**

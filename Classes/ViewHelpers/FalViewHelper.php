@@ -6,6 +6,8 @@ namespace ArminVieweg\Dce\ViewHelpers;
  *  |
  *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
+use ArminVieweg\Dce\Utility\DatabaseUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Receives FAL FileReference objects
@@ -27,14 +29,14 @@ class FalViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper 
 	public function render($field, array $contentObject) {
 		$contentObjectUid = intval($contentObject['uid']);
 
-		$pageSelect = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('t3lib_pageSelect');
+		$pageSelect = GeneralUtility::makeInstance('t3lib_pageSelect');
 		$tableName = 'tt_content';
-		$rows = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
+		$rows = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
 			'uid',
 			'sys_file_reference',
-			'tablenames=' . \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->fullQuoteStr($tableName, 'sys_file_reference') .
+			'tablenames=' . DatabaseUtility::getDatabaseConnection()->fullQuoteStr($tableName, 'sys_file_reference') .
 				' AND uid_foreign=' . $contentObjectUid .
-				' AND fieldname=' . \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->fullQuoteStr($field, 'sys_file_reference') .
+				' AND fieldname=' . DatabaseUtility::getDatabaseConnection()->fullQuoteStr($field, 'sys_file_reference') .
 				$pageSelect->enableFields('sys_file_reference', $pageSelect->showHiddenRecords),
 			'',
 			'sorting_foreign',
@@ -43,7 +45,7 @@ class FalViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper 
 		);
 
 		/** @var \TYPO3\CMS\Core\Resource\FileRepository $fileRepository */
-		$fileRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\FileRepository');
+		$fileRepository = GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\FileRepository');
 		$result = array();
 		foreach ($rows as $referenceUid) {
 			$result[] = $fileRepository->findFileReferenceByUid(intval($referenceUid['uid']));

@@ -87,7 +87,8 @@ return array(
 					array('', 0),
 				),
 				'foreign_table' => 'tx_dce_domain_model_dcefield',
-				'foreign_table_where' => 'AND tx_dce_domain_model_dcefield.pid=###CURRENT_PID### AND tx_dce_domain_model_dcefield.sys_language_uid IN (-1,0)',
+				'foreign_table_where' => 'AND tx_dce_domain_model_dcefield.pid=###CURRENT_PID### ' .
+				                   		 'AND tx_dce_domain_model_dcefield.sys_language_uid IN (-1,0)',
 			),
 		),
 		'l10n_diffsource' => array(
@@ -169,7 +170,8 @@ return array(
 			'config' => array(
 				'type' => 'input',
 				'size' => 30,
-				'eval' => 'trim,required,is_in,ArminVieweg\Dce\UserFunction\CustomFieldValidation\NoLeadingNumberValidator,ArminVieweg\Dce\UserFunction\CustomFieldValidation\LowerCamelCaseValidator',
+				'eval' => 'trim,required,is_in,ArminVieweg\Dce\UserFunction\CustomFieldValidation\NoLeadingNumberValidator,' .
+						   'ArminVieweg\Dce\UserFunction\CustomFieldValidation\LowerCamelCaseValidator',
 				'is_in' => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890_',
 			),
 		),
@@ -179,7 +181,8 @@ return array(
 			'config' => array (
 				'type' => 'user',
 				'size' => '30',
-				'userFunc' => 'EXT:dce/Classes/UserFunction/tx_dce_codemirrorField.php:tx_dce_codemirrorField->getCodemirrorField',
+				'userFunc' => 'EXT:dce/Classes/UserFunction/tx_dce_codemirrorField.php:' .
+							  'tx_dce_codemirrorField->getCodemirrorField',
 				'parameters' => array(
 					'mode' => 'xml',
 					'showTemplates' => TRUE,

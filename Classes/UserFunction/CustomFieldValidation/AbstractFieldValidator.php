@@ -7,6 +7,7 @@ namespace ArminVieweg\Dce\UserFunction\CustomFieldValidation;
  *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * Abstract class for DCE form validators
@@ -71,6 +72,8 @@ abstract class AbstractFieldValidator {
 	 * @return string Translated text
 	 */
 	protected function translate($key, array $arguments = array()) {
-		return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:' . $key, 'Dce', $arguments);
+		return LocalizationUtility::translate(
+			'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:' . $key, 'Dce', $arguments
+		);
 	}
 }

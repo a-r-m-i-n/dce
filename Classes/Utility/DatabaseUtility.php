@@ -8,9 +8,7 @@ namespace ArminVieweg\Dce\Utility;
  */
 
 /**
- * Utility class for handling Database Connection
- * This is needed as the TYPO3 Connection handling is different in 6.1+
- * and the DCE extensions needs to connect to the DB at startup time (ext_localconf.php)
+ * Database utility
  *
  * @package ArminVieweg\Dce
  */

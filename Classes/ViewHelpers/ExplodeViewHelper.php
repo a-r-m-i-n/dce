@@ -8,7 +8,8 @@ namespace ArminVieweg\Dce\ViewHelpers;
  */
 
 /**
- * Explode viewhelper which uses the trimExplode method of \TYPO3\CMS\Core\Utility\GeneralUtility
+ * Explode viewhelper which uses the trimExplode method of
+ * \TYPO3\CMS\Core\Utility\GeneralUtility
  *
  * @package ArminVieweg\Dce
  */

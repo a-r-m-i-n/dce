@@ -6,6 +6,8 @@ namespace ArminVieweg\Dce\ViewHelpers\Be;
  *  |
  *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 /**
  * Gets the current version of DCE as integer
@@ -21,6 +23,6 @@ class CurrentDceVersionViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\Abstra
 	 * @return int Current DCE version
 	 */
 	public function render() {
-		return \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger( \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getExtensionVersion('dce'));
+		return VersionNumberUtility::convertVersionNumberToInteger( ExtensionManagementUtility::getExtensionVersion('dce'));
 	}
 }

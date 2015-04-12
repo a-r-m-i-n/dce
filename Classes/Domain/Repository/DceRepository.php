@@ -82,17 +82,16 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 		/** @var $field \ArminVieweg\Dce\Domain\Model\DceField */
 		foreach ($dce->getFields() as $field) {
 			$field = clone $field;
-			if ($field->getType() === \ArminVieweg\Dce\Domain\Model\DceField::TYPE_ELEMENT || $field->getType() ===  \ArminVieweg\Dce\Domain\Model\DceField::TYPE_SECTION) {
-				if ($field->getSectionFields()) {
-					/** @var $clonedFields \TYPO3\CMS\Extbase\Persistence\ObjectStorage */
-					$clonedSectionFields = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Persistence\ObjectStorage');
-					foreach ($field->getSectionFields() as $sectionField) {
-						/** @var $clonedSectionField \ArminVieweg\Dce\Domain\Model\DceField */
-						$clonedSectionField = clone $sectionField;
-						$clonedSectionField->setValue(NULL);
-						$clonedSectionFields->attach($clonedSectionField);
-						$field->setSectionFields($clonedSectionFields);
-					}
+			if (($field->getType() === \ArminVieweg\Dce\Domain\Model\DceField::TYPE_ELEMENT && $field->getSectionFields())
+				|| ($field->getType() === \ArminVieweg\Dce\Domain\Model\DceField::TYPE_SECTION && $field->getSectionFields())) {
+				/** @var $clonedFields \TYPO3\CMS\Extbase\Persistence\ObjectStorage */
+				$clonedSectionFields = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Persistence\ObjectStorage');
+				foreach ($field->getSectionFields() as $sectionField) {
+					/** @var $clonedSectionField \ArminVieweg\Dce\Domain\Model\DceField */
+					$clonedSectionField = clone $sectionField;
+					$clonedSectionField->setValue(NULL);
+					$clonedSectionFields->attach($clonedSectionField);
+					$field->setSectionFields($clonedSectionFields);
 				}
 				$clonedFields->attach($field);
 				$dce->setFields($clonedFields);
@@ -130,14 +129,14 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 						foreach ($sectionFieldValues as $sectionFieldVariable => $sectionFieldValue) {
 							$sectionField = $dceField->getSectionFieldByVariable($sectionFieldVariable);
 							if ($sectionField instanceof \ArminVieweg\Dce\Domain\Model\DceField) {
-								$xmlIdentifier = $dce->getUid() . '-' . $dceField->getVariable() . '-' . $sectionField->getVariable();
-								$this->fillFields($sectionField, $sectionFieldValue, TRUE, $xmlIdentifier);
+								$xmlIdent = $dce->getUid() . '-' . $dceField->getVariable() . '-' . $sectionField->getVariable();
+								$this->fillFields($sectionField, $sectionFieldValue, TRUE, $xmlIdent);
 							}
 						}
 					}
 				} else {
-					$xmlIdentifier = $dce->getUid() . '-' . $dceField->getVariable();
-					$this->fillFields($dceField, $fieldValue, FALSE, $xmlIdentifier);
+					$xmlIdent = $dce->getUid() . '-' . $dceField->getVariable();
+					$this->fillFields($dceField, $fieldValue, FALSE, $xmlIdent);
 				}
 			}
 		}
@@ -155,9 +154,13 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * @param string $xmlIdentifier
 	 * @return void
 	 */
-	protected function fillFields(\ArminVieweg\Dce\Domain\Model\DceField $dceField, $fieldValue, $isSectionField = FALSE, $xmlIdentifier) {
+	protected function fillFields(\ArminVieweg\Dce\Domain\Model\DceField $dceField, $fieldValue, $isSectionField = FALSE,
+								  $xmlIdentifier) {
+
 		$xmlWrapping = 'xml-' . $xmlIdentifier;
-		$dceFieldConfiguration = GeneralUtility::xml2array('<' . $xmlWrapping . '>' . $dceField->getConfiguration() . '</' . $xmlWrapping . '>');
+		$dceFieldConfiguration = GeneralUtility::xml2array(
+			'<' . $xmlWrapping . '>' . $dceField->getConfiguration() . '</' . $xmlWrapping . '>'
+		);
 
 		if (is_array($dceFieldConfiguration)) {
 			$dceFieldConfiguration = $dceFieldConfiguration['config'];
@@ -291,7 +294,8 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 */
 	protected function hasRelatedObjects(array $fieldConfiguration) {
 		return  in_array($fieldConfiguration['type'], array('group', 'inline', 'select'))
-			&& (($fieldConfiguration['type'] === 'select' && !empty($fieldConfiguration['foreign_table'])) || ($fieldConfiguration['type'] === 'group' && !empty($fieldConfiguration['allowed'])));
+			&& (($fieldConfiguration['type'] === 'select' && !empty($fieldConfiguration['foreign_table']))
+			|| ($fieldConfiguration['type'] === 'group' && !empty($fieldConfiguration['allowed'])));
 	}
 
 	/**
@@ -310,11 +314,12 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 		} else {
 			$className = $dceFieldConfiguration['foreign_table'];
 		}
-		$tablename = $className;
+		$tableName = $className;
 
 		while (strpos($className, '_') !== FALSE) {
 			$position = strpos($className, '_') + 1;
-			$className = substr($className, 0, $position - 1) . '-' . strtoupper(substr($className, $position, 1)) . substr($className, $position + 1);
+			$className = substr($className, 0, $position - 1) . '-' . strtoupper(substr($className, $position, 1))
+				. substr($className, $position + 1);
 		}
 
 		$className = str_replace('-', '_', $className);
@@ -358,16 +363,21 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 				}
 				/** @var $contentObjectRenderer \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer */
 				$contentObjectRenderer = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
-				$enableFields = $contentObjectRenderer->enableFields($tablename);
+				$enableFields = $contentObjectRenderer->enableFields($tableName);
 			}
 
-			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', $tablename, 'uid = ' . $uid . $enableFields);
+			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', $tableName, 'uid = ' . $uid . $enableFields);
 			while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
 				if ($dceFieldConfiguration['dce_enable_autotranslation']) {
-					if ($tablename === 'pages') {
+					if ($tableName === 'pages') {
 						$row = $GLOBALS['TSFE']->sys_page->getPageOverlay($row);
 					} else {
-						$row = $GLOBALS['TSFE']->sys_page->getRecordOverlay($tablename, $row, $GLOBALS['TSFE']->sys_language_uid, $GLOBALS['TSFE']->tmpl->setup['config.']['sys_language_overlay']);
+						$row = $GLOBALS['TSFE']->sys_page->getRecordOverlay(
+							$tableName,
+							$row,
+							$GLOBALS['TSFE']->sys_language_uid,
+							$GLOBALS['TSFE']->tmpl->setup['config.']['sys_language_overlay']
+						);
 					}
 				}
 

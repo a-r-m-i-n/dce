@@ -5,6 +5,8 @@
  *  |
  *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * Hook for docHeaderButtons
@@ -43,8 +45,8 @@ class tx_docHeaderButtonsHook {
 				$buttonCode = '';
 				if ($GLOBALS['BE_USER']->isAdmin()) {
 					$linkToDce = 'alt_doc.php?&returnUrl=close.html&edit[tx_dce_domain_model_dce][' . $dceUid . ']=edit';
-					$pathToImage = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('dce') . 'Resources/Public/Icons/docheader_icon.png';
-					$titleTag = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('quickDcePopup', 'Dce');
+					$pathToImage = ExtensionManagementUtility::extRelPath('dce') . 'Resources/Public/Icons/docheader_icon.png';
+					$titleTag = LocalizationUtility::translate('quickDcePopup', 'Dce');
 					$buttonCode = '<div class="buttongroup"><a href="#" onclick="window.open(\'' . $linkToDce .
 						'\', \'editDcePopup\', \'height=600,width=820,status=0,menubar=0,scrollbars=1\')"><img src="' .
 						$pathToImage . '" alt="" title="' . $titleTag . '" /></a></div>';
@@ -60,7 +62,7 @@ class tx_docHeaderButtonsHook {
 	 * @return void
 	 */
 	protected function requireDceRepository() {
-		require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dce') . 'Classes/Domain/Repository/DceRepository.php');
+		require_once(ExtensionManagementUtility::extPath('dce') . 'Classes/Domain/Repository/DceRepository.php');
 	}
 
 
@@ -70,7 +72,7 @@ class tx_docHeaderButtonsHook {
 	 * @return string
 	 */
 	protected function getCustomStylesheet() {
-		$file = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dce') . 'Resources/Public/CSS/dceInstance.css';
+		$file = ExtensionManagementUtility::extPath('dce') . 'Resources/Public/CSS/dceInstance.css';
 		$content = file_get_contents($file);
 		return '<style type="text/css">' . $content . '</style>';
 	}
