@@ -30,6 +30,11 @@ class FileInfoViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 	protected static $fileRepository;
 
 	/**
+	 * @var array
+	 */
+	protected static $files = array();
+
+	/**
 	 * Returns file info
 	 *
 	 * @param int $fileUid Uid of file to get attributes of
@@ -38,12 +43,7 @@ class FileInfoViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 	 * @throws \Exception
 	 */
 	public function render($fileUid, $attribute) {
-		$file = $this->getFileRepository()->findByUid((int) $fileUid);
-		if (!$file instanceof \TYPO3\CMS\Core\Resource\File) {
-			throw new \Exception('No file found with uid "' . (int) $fileUid . '"!', 1429046285);
-		}
-
-		$metaData = $file->_getMetaData();
+		$metaData = $this->getFile($fileUid)->_getMetaData();
 		if (!array_key_exists($attribute, $metaData)) {
 			throw new \Exception(
 				'Given file in DCE\'s fileInfo view helper has no attribute named "' . $attribute . '". ' .
@@ -52,6 +52,25 @@ class FileInfoViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 			);
 		}
 		return $metaData[$attribute];
+	}
+
+	/**
+	 * Get file
+	 *
+	 * @param int $fileUid
+	 * @return \TYPO3\CMS\Core\Resource\File
+	 * @throws \Exception
+	 */
+	protected function getFile($fileUid) {
+		if (array_key_exists($fileUid, self::$files)) {
+			return self::$files[$fileUid];
+		}
+		$file = $this->getFileRepository()->findByUid((int)$fileUid);
+		if (!$file instanceof \TYPO3\CMS\Core\Resource\File) {
+			throw new \Exception('No file found with uid "' . (int)$fileUid . '"!', 1429046285);
+		}
+		self::$files[$fileUid] = $file;
+		return $file;
 	}
 
 	/**
