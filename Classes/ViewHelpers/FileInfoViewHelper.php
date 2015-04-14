@@ -36,6 +36,8 @@ class FileInfoViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 
 	/**
 	 * Returns file info
+	 * Merges meta data of with properties of file. Properties have got higher
+	 * priority.
 	 *
 	 * @param int $fileUid Uid of file to get attributes of
 	 * @param string $attribute Name of attribute to return
@@ -43,15 +45,16 @@ class FileInfoViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 	 * @throws \Exception
 	 */
 	public function render($fileUid, $attribute) {
-		$metaData = $this->getFile($fileUid)->_getMetaData();
-		if (!array_key_exists($attribute, $metaData)) {
+		$file = $this->getFile($fileUid);
+		$properties = array_merge($file->_getMetaData(), $file->getProperties());
+		if (!array_key_exists($attribute, $properties)) {
 			throw new \Exception(
 				'Given file in DCE\'s fileInfo view helper has no attribute named "' . $attribute . '". ' .
-				'Most common, available attributes are: title, description, alternative, width, height',
+				'Most common, available attributes are: title,description,alternative,width,height,name,extension,size,uid',
 				1429046106
 			);
 		}
-		return $metaData[$attribute];
+		return $properties[$attribute];
 	}
 
 	/**
