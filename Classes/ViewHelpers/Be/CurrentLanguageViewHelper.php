@@ -11,7 +11,6 @@ namespace ArminVieweg\Dce\ViewHelpers\Be;
  * Gets the current language key as string
  *
  * @package ArminVieweg\Dce
- * @see \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger
  */
 class CurrentLanguageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper  {
 

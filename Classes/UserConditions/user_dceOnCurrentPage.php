@@ -12,7 +12,7 @@
  * 42 is a sample for the UID of DCE type.
  *
  * @param int Uid of DCE type to check for
- * @return bool Returns TRUE if the current page contains a DCE (instance). Otherwise returns FALSE.
+ * @return bool Returns TRUE if the current page contains a DCE (instance)
  *
  * @package ArminVieweg\Dce
  */
@@ -23,5 +23,7 @@ function user_dceOnCurrentPage($dceUid) {
 
 	$dceUid = intval($dceUid);
 	$currentPageUid = $GLOBALS['TSFE']->id;
-	return ($GLOBALS['TYPO3_DB']->exec_SELECTcountRows('uid', 'tt_content', 'pid=' . $currentPageUid . ' AND CType="dce_dceuid' . $dceUid . '"') > 0);
+	return ($GLOBALS['TYPO3_DB']->exec_SELECTcountRows(
+			'uid', 'tt_content', 'pid=' . $currentPageUid . ' AND CType="dce_dceuid' . $dceUid . '"') > 0
+	);
 }

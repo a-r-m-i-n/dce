@@ -22,7 +22,8 @@ class tx_renderDceContentElement implements \TYPO3\CMS\Backend\View\PageLayoutVi
 	 * @param array $row#
 	 * @return void
 	 */
-	public function preProcess(\TYPO3\CMS\Backend\View\PageLayoutView &$parentObject, &$drawItem, &$headerContent, &$itemContent, array &$row) {
+	public function preProcess(\TYPO3\CMS\Backend\View\PageLayoutView &$parentObject, &$drawItem, &$headerContent, &$itemContent,
+								array &$row) {
 		if (strpos($row['CType'], 'dce_dceuid') !== FALSE) {
 			$drawItem = FALSE;
 			$itemContent .= $parentObject->linkEditContent($row['bodytext'], $row) . '<br />';

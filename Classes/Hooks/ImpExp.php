@@ -14,7 +14,8 @@ namespace ArminVieweg\Dce\Hooks;
  */
 class ImpExp {
 	/**
-	 * Update tt_content dce record on import. Also sets global for import in progress indicator used in tx_saveDce.
+	 * Update tt_content dce record on import. Also sets global for import in
+	 * progress indicator used in tx_saveDce.
 	 *
 	 * @param array $params
 	 * @return void

@@ -91,7 +91,8 @@ return array(
 					array('', 0),
 				),
 				'foreign_table' => 'tx_dce_domain_model_dce',
-				'foreign_table_where' => 'AND tx_dce_domain_model_dce.pid=###CURRENT_PID### AND tx_dce_domain_model_dce.sys_language_uid IN (-1,0)',
+				'foreign_table_where' => 'AND tx_dce_domain_model_dce.pid=###CURRENT_PID### ' .
+										 'AND tx_dce_domain_model_dce.sys_language_uid IN (-1,0)',
 			),
 		),
 		'l10n_diffsource' => array(
@@ -262,7 +263,8 @@ return array(
 			'config' => array (
 				'type' => 'user',
 				'size' => '30',
-				'userFunc' => 'EXT:dce/Classes/UserFunction/tx_dce_codemirrorField.php:tx_dce_codemirrorField->getCodemirrorField',
+				'userFunc' => 'EXT:dce/Classes/UserFunction/tx_dce_codemirrorField.php:' .
+							  'tx_dce_codemirrorField->getCodemirrorField',
 				'parameters' => array(
 					'mode' => 'htmlmixed',
 					'showTemplates' => FALSE,

@@ -7,6 +7,8 @@ namespace ArminVieweg\Dce\Domain\Repository;
  *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /**
  * DCE repository
@@ -34,8 +36,9 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	}
 
 	/**
-	 * Finds and build a DCE. The given uid loads the DCE structure and the fieldList triggers the fillFields which
-	 * gives the dce its contents and values.
+	 * Finds and build a DCE. The given uid loads the DCE structure and the
+	 * fieldList triggers the fillFields which gives the dce its contents
+	 * and values.
 	 *
 	 * @param int $uid
 	 * @param array $fieldList
@@ -69,7 +72,8 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	}
 
 	/**
-	 * Clones the fields of a dce separately, because cloning the dce just refers the fields
+	 * Clones the fields of a dce separately, because cloning the dce just
+	 * refers the fields
 	 *
 	 * @param \ArminVieweg\Dce\Domain\Model\Dce $dce
 	 * @return void
@@ -80,17 +84,16 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 		/** @var $field \ArminVieweg\Dce\Domain\Model\DceField */
 		foreach ($dce->getFields() as $field) {
 			$field = clone $field;
-			if ($field->getType() === \ArminVieweg\Dce\Domain\Model\DceField::TYPE_ELEMENT || $field->getType() ===  \ArminVieweg\Dce\Domain\Model\DceField::TYPE_SECTION) {
-				if ($field->getSectionFields()) {
-					/** @var $clonedFields \TYPO3\CMS\Extbase\Persistence\ObjectStorage */
-					$clonedSectionFields = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Persistence\ObjectStorage');
-					foreach ($field->getSectionFields() as $sectionField) {
-						/** @var $clonedSectionField \ArminVieweg\Dce\Domain\Model\DceField */
-						$clonedSectionField = clone $sectionField;
-						$clonedSectionField->setValue(NULL);
-						$clonedSectionFields->attach($clonedSectionField);
-						$field->setSectionFields($clonedSectionFields);
-					}
+			if (($field->getType() === \ArminVieweg\Dce\Domain\Model\DceField::TYPE_ELEMENT && $field->getSectionFields())
+				|| ($field->getType() === \ArminVieweg\Dce\Domain\Model\DceField::TYPE_SECTION && $field->getSectionFields())) {
+				/** @var $clonedFields \TYPO3\CMS\Extbase\Persistence\ObjectStorage */
+				$clonedSectionFields = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Persistence\ObjectStorage');
+				foreach ($field->getSectionFields() as $sectionField) {
+					/** @var $clonedSectionField \ArminVieweg\Dce\Domain\Model\DceField */
+					$clonedSectionField = clone $sectionField;
+					$clonedSectionField->setValue(NULL);
+					$clonedSectionFields->attach($clonedSectionField);
+					$field->setSectionFields($clonedSectionFields);
 				}
 				$clonedFields->attach($field);
 				$dce->setFields($clonedFields);
@@ -104,7 +107,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * @return void
 	 */
 	protected function disableRespectOfEnableFields() {
-		/** @var $querySettings \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings */
+		/** @var $querySettings Typo3QuerySettings */
 		$querySettings = $this->objectManager->get('TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings');
 		$querySettings->setIgnoreEnableFields(TRUE)->setIncludeDeleted(TRUE);
 		$this->setDefaultQuerySettings($querySettings);
@@ -114,7 +117,8 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * Walk through the fields and section fields to fill them
 	 *
 	 * @param \ArminVieweg\Dce\Domain\Model\Dce $dce
-	 * @param array $fieldList Field list. Key must contain field variable, value its value.
+	 * @param array $fieldList Field list. Key must contain field variable,
+	 *                         value its value.
 	 * @return void
 	 */
 	protected function processFillingFields(\ArminVieweg\Dce\Domain\Model\Dce $dce, array $fieldList) {
@@ -127,23 +131,24 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 						foreach ($sectionFieldValues as $sectionFieldVariable => $sectionFieldValue) {
 							$sectionField = $dceField->getSectionFieldByVariable($sectionFieldVariable);
 							if ($sectionField instanceof \ArminVieweg\Dce\Domain\Model\DceField) {
-								$xmlIdentifier = $dce->getUid() . '-' . $dceField->getVariable() . '-' . $sectionField->getVariable();
-								$this->fillFields($sectionField, $sectionFieldValue, TRUE, $xmlIdentifier);
+								$xmlIdent = $dce->getUid() . '-' . $dceField->getVariable() . '-' . $sectionField->getVariable();
+								$this->fillFields($sectionField, $sectionFieldValue, TRUE, $xmlIdent);
 							}
 						}
 					}
 				} else {
-					$xmlIdentifier = $dce->getUid() . '-' . $dceField->getVariable();
-					$this->fillFields($dceField, $fieldValue, FALSE, $xmlIdentifier);
+					$xmlIdent = $dce->getUid() . '-' . $dceField->getVariable();
+					$this->fillFields($dceField, $fieldValue, FALSE, $xmlIdent);
 				}
 			}
 		}
 	}
 
 	/**
-	 * Fills the value of given field. If field has special properties some objects or database operations will be do,
-	 * if not just the given $fieldValue will be add to $dceField->_value. Value of sectionFields will be filled
-	 * differently.
+	 * Fills the value of given field. If field has special properties some
+	 * objects or database operations will be do,if not just the given
+	 * $fieldValue will be add to $dceField->_value. Value of sectionFields
+	 * will be filled differently.
 	 *
 	 * @param \ArminVieweg\Dce\Domain\Model\DceField $dceField
 	 * @param string $fieldValue
@@ -151,9 +156,13 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * @param string $xmlIdentifier
 	 * @return void
 	 */
-	protected function fillFields(\ArminVieweg\Dce\Domain\Model\DceField $dceField, $fieldValue, $isSectionField = FALSE, $xmlIdentifier) {
+	protected function fillFields(\ArminVieweg\Dce\Domain\Model\DceField $dceField, $fieldValue, $isSectionField = FALSE,
+									$xmlIdentifier) {
+
 		$xmlWrapping = 'xml-' . $xmlIdentifier;
-		$dceFieldConfiguration = GeneralUtility::xml2array('<' . $xmlWrapping . '>' . $dceField->getConfiguration() . '</' . $xmlWrapping . '>');
+		$dceFieldConfiguration = GeneralUtility::xml2array(
+			'<' . $xmlWrapping . '>' . $dceField->getConfiguration() . '</' . $xmlWrapping . '>'
+		);
 
 		if (is_array($dceFieldConfiguration)) {
 			$dceFieldConfiguration = $dceFieldConfiguration['config'];
@@ -202,7 +211,8 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	}
 
 	/**
-	 * Flatten the given array and extract all vDEF values. Result is stored in $this->dceProperties.
+	 * Flatten the given array and extract all vDEF values. Result is stored
+	 * in $this->dceProperties.
 	 *
 	 * @param array $array flexform data array
 	 * @param Object $caller
@@ -241,7 +251,8 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	}
 
 	/**
-	 * Extracts and returns the uid from given DCE CType. Returns FALSE if CType is not a DCE one.
+	 * Extracts and returns the uid from given DCE CType.
+	 * Returns FALSE if CType is not a DCE one.
 	 *
 	 * @param string $cType
 	 * @return int|string|bool
@@ -264,7 +275,8 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * Converts a given dce uid to a dce CType.
 	 *
 	 * @param int $uid
-	 * @return string|bool Returns converted CType. If given uid is invalid, returns FALSE
+	 * @return string|bool Returns converted CType. If given uid is invalid
+	 *                     returns FALSE
 	 * @static
 	 */
 	static public function convertUidToCtype($uid) {
@@ -276,18 +288,21 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	}
 
 	/**
-	 * Checks if given field configuration allows to load sub items (assoc array or objects)
+	 * Checks if given field configuration allows to load sub items
+	 * (assoc array or objects)
 	 *
 	 * @param array $fieldConfiguration
 	 * @return bool
 	 */
 	protected function hasRelatedObjects(array $fieldConfiguration) {
 		return  in_array($fieldConfiguration['type'], array('group', 'inline', 'select'))
-			&& (($fieldConfiguration['type'] === 'select' && !empty($fieldConfiguration['foreign_table'])) || ($fieldConfiguration['type'] === 'group' && !empty($fieldConfiguration['allowed'])));
+			&& (($fieldConfiguration['type'] === 'select' && !empty($fieldConfiguration['foreign_table']))
+			|| ($fieldConfiguration['type'] === 'group' && !empty($fieldConfiguration['allowed'])));
 	}
 
 	/**
-	 * Creates array of assoc array or objects, depending on given field configuration
+	 * Creates array of assoc array or objects, depending
+	 * on given field configuration
 	 *
 	 * @param string $fieldValue Comma separated list of uids
 	 * @param array $dceFieldConfiguration
@@ -301,11 +316,12 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 		} else {
 			$className = $dceFieldConfiguration['foreign_table'];
 		}
-		$tablename = $className;
+		$tableName = $className;
 
 		while (strpos($className, '_') !== FALSE) {
 			$position = strpos($className, '_') + 1;
-			$className = substr($className, 0, $position - 1) . '-' . strtoupper(substr($className, $position, 1)) . substr($className, $position + 1);
+			$className = substr($className, 0, $position - 1) . '-' . strtoupper(substr($className, $position, 1)) .
+				substr($className, $position + 1);
 		}
 
 		$className = str_replace('-', '_', $className);
@@ -347,18 +363,23 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 				if (!$GLOBALS['TSFE']->sys_page instanceof \TYPO3\CMS\Frontend\Page\PageRepository) {
 					$GLOBALS['TSFE']->sys_page = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Page\PageRepository');
 				}
-				/** @var $contentObjectRenderer \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer */
+				/** @var $contentObjectRenderer ContentObjectRenderer */
 				$contentObjectRenderer = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
-				$enableFields = $contentObjectRenderer->enableFields($tablename);
+				$enableFields = $contentObjectRenderer->enableFields($tableName);
 			}
 
-			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', $tablename, 'uid = ' . $uid . $enableFields);
+			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', $tableName, 'uid = ' . $uid . $enableFields);
 			while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
 				if ($dceFieldConfiguration['dce_enable_autotranslation']) {
-					if ($tablename === 'pages') {
+					if ($tableName === 'pages') {
 						$row = $GLOBALS['TSFE']->sys_page->getPageOverlay($row);
 					} else {
-						$row = $GLOBALS['TSFE']->sys_page->getRecordOverlay($tablename, $row, $GLOBALS['TSFE']->sys_language_uid, $GLOBALS['TSFE']->tmpl->setup['config.']['sys_language_overlay']);
+						$row = $GLOBALS['TSFE']->sys_page->getRecordOverlay(
+							$tableName,
+							$row,
+							$GLOBALS['TSFE']->sys_language_uid,
+							$GLOBALS['TSFE']->tmpl->setup['config.']['sys_language_overlay']
+						);
 					}
 				}
 

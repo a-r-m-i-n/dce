@@ -17,22 +17,19 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Uri\ImageViewHelper {
 	/**
 	 * Resizes a given image (if required) and renders the respective img tag
 	 *
-	 * @param string $src
-	 * @param string $width width of the image
-	 * @param string $height height of the image
-	 * @param int $minWidth minimum width of the image
-	 * @param int $minHeight minimum height of the image
-	 * @param int $maxWidth maximum width of the image
-	 * @param int $maxHeight maximum height of the image
-	 * @param \TYPO3\CMS\Core\Resource\FileInterface|\TYPO3\CMS\Extbase\Domain\Model\AbstractFileFolder $image
+	 * @param null|string $src
+	 * @param null|string $width
+	 * @param null|string $height
+	 * @param null|string $minWidth
+	 * @param null|string $minHeight
+	 * @param null|string $maxWidth
+	 * @param null|string $maxHeight
 	 * @return string rendered tag.
+	 * @deprecated Will be removed in 1.2.
+	 *             Use the standard f:image viewhelper instead.
 	 */
-	public function render($src, $width = NULL, $height = NULL, $minWidth = NULL, $minHeight = NULL, $maxWidth = NULL, $maxHeight = NULL, $image = NULL) {
-		$imageUri = parent::render($src, $image, $width, $height, $minWidth, $minHeight, $maxWidth, $maxHeight);
-		if (TYPO3_MODE === 'BE' && strpos($imageUri, '../') === 0) {
-				// Make image uri absolute
-				$imageUri = substr($imageUri, 2);
-		}
-		return $imageUri;
+	public function render($src, $width = NULL, $height = NULL, $minWidth = NULL, $minHeight = NULL, $maxWidth = NULL,
+							$maxHeight = NULL, $image = NULL) {
+		return parent::render($src, $image, $width, $height, $minWidth, $minHeight, $maxWidth, $maxHeight);
 	}
 }

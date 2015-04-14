@@ -41,7 +41,9 @@ class StaticDce {
 		if (TYPO3_MODE === 'FE') {
 			$generalTabLabel = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('generaltab', 'dce');
 		} else {
-			$generalTabLabel = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dce/Resources/Private/Language/locallang.xml:generaltab', 'dce');
+			$generalTabLabel = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
+				'LLL:EXT:dce/Resources/Private/Language/locallang.xml:generaltab', 'dce'
+			);
 		}
 		$tabs = array(0 => array('title' => $generalTabLabel, 'fields' => array()));
 		$i = 0;
@@ -107,7 +109,8 @@ class StaticDce {
 			$configurationArray['tx_dce']['static']['template_type'] = 'inline';
 			$configurationArray['tx_dce']['static']['preview_template_type'] = 'inline';
 			$configurationArray['tx_dce']['static']['detailpage_template_type'] = 'inline';
-			$configurationArray['tx_dce']['static']['hasCustomWizardIcon'] = $configurationArray['tx_dce']['static']['wizard_icon'] === 'custom';
+			$configurationArray['tx_dce']['static']['hasCustomWizardIcon'] =
+				$configurationArray['tx_dce']['static']['wizard_icon'] === 'custom';
 
 			return $configurationArray['tx_dce']['static'];
 		}
@@ -171,7 +174,8 @@ class StaticDce {
 	 * @TODO: Other extensions must be able to extend this list
 	 */
 	public function getAll($nestFieldsInTabs = FALSE) {
-		if (empty(self::$extConfiguration['filebasedDcePath']) || !is_dir(PATH_site . self::$extConfiguration['filebasedDcePath'])) {
+		if (empty(self::$extConfiguration['filebasedDcePath'])
+			|| !is_dir(PATH_site . self::$extConfiguration['filebasedDcePath'])) {
 			return array();
 		}
 

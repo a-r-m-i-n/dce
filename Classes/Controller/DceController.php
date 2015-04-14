@@ -6,10 +6,12 @@ namespace ArminVieweg\Dce\Controller;
  *  |
  *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * DCE Controller
- * Handles the output of content element based on DCEs in frontend and also in backend.
+ * Handles the output of content element based on DCEs in front- and backend.
  *
  * @package ArminVieweg\Dce
  */
@@ -51,7 +53,7 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 	 */
 	public function showAction() {
 		$contentObject = $this->configurationManager->getContentObject()->data;
-		$config = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
+		$config = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
 
 		/** @var $dce \ArminVieweg\Dce\Domain\Model\Dce */
 		$dce = $this->dceRepository->findAndBuildOneByUid(
@@ -60,7 +62,8 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 			$contentObject
 		);
 
-		if ($dce->getEnableDetailpage() && intval($contentObject['uid']) === intval(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP($dce->getDetailpageIdentifier()))) {
+		if ($dce->getEnableDetailpage()
+			&& intval($contentObject['uid']) === intval(GeneralUtility::_GP($dce->getDetailpageIdentifier()))) {
 			return $dce->renderDetailpage();
 		}
 		return $dce->render();
@@ -99,7 +102,7 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 	 */
 	protected function simulateContentElementSettings($contentElementUid) {
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('pi_flexform', 'tt_content', 'uid = ' . $contentElementUid);
-		$flexform = \TYPO3\CMS\Core\Utility\GeneralUtility::xml2array(current($GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)));
+		$flexform = GeneralUtility::xml2array(current($GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)));
 
 		$this->temporaryDceProperties = array();
 		if (is_array($flexform)) {

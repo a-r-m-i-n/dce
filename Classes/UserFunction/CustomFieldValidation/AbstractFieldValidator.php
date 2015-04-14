@@ -7,6 +7,7 @@ namespace ArminVieweg\Dce\UserFunction\CustomFieldValidation;
  *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * Abstract class for DCE form validators
@@ -39,7 +40,7 @@ abstract class AbstractFieldValidator {
 	 *
 	 * @param string $message
 	 * @param string $title optional message title
-	 * @param int $severity optional severity code. One of the t3lib_FlashMessage constants
+	 * @param int $severity optional severity code
 	 *
 	 * @return void
 	 * @throws \InvalidArgumentException
@@ -59,7 +60,7 @@ abstract class AbstractFieldValidator {
 		);
 
 		/** @var $flashMessageService \TYPO3\CMS\Core\Messaging\FlashMessageService */
-		$flashMessageService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Messaging\FlashMessageService::class);
+		$flashMessageService = GeneralUtility::makeInstance('\TYPO3\CMS\Core\Messaging\FlashMessageService');
 		$flashMessageService->getMessageQueueByIdentifier()->addMessage($message);
 	}
 
@@ -71,6 +72,8 @@ abstract class AbstractFieldValidator {
 	 * @return string Translated text
 	 */
 	protected function translate($key, array $arguments = array()) {
-		return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:' . $key, 'Dce', $arguments);
+		return LocalizationUtility::translate(
+			'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:' . $key, 'Dce', $arguments
+		);
 	}
 }
