@@ -16,7 +16,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * <f:for each="{field.section}" as="entry">
  *     <f:for each="{entry.images -> dce:explode()}" as="imageUid">
  *         <f:image src="file:{imageUid}" width="350" /><br />
- *         Original width: <dce:fileInfo fileUid="{imageUid}" attribute="width" />px
+ *         Width: <dce:fileInfo fileUid="{imageUid}" attribute="width" />px
  *     </f:for>
  * </f:for>
  *
