@@ -13,7 +13,7 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
  * Gets the current version of DCE as integer
  *
  * @package ArminVieweg\Dce
- * @see t3lib_utility_VersionNumber::convertVersionNumberToInteger
+ * @see \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger
  */
 class CurrentDceVersionViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper {
 
