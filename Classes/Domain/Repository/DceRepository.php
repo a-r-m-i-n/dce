@@ -6,6 +6,7 @@ namespace ArminVieweg\Dce\Domain\Repository;
  *  |
  *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
+use ArminVieweg\Dce\Domain\Model\DceField;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
@@ -81,19 +82,20 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	protected function cloneFields($dce) {
 		/** @var $clonedFields \TYPO3\CMS\Extbase\Persistence\ObjectStorage */
 		$clonedFields = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Persistence\ObjectStorage');
-		/** @var $field \ArminVieweg\Dce\Domain\Model\DceField */
+		/** @var $field DceField */
 		foreach ($dce->getFields() as $field) {
 			$field = clone $field;
-			if (($field->getType() === \ArminVieweg\Dce\Domain\Model\DceField::TYPE_ELEMENT && $field->getSectionFields())
-				|| ($field->getType() === \ArminVieweg\Dce\Domain\Model\DceField::TYPE_SECTION && $field->getSectionFields())) {
-				/** @var $clonedFields \TYPO3\CMS\Extbase\Persistence\ObjectStorage */
-				$clonedSectionFields = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Persistence\ObjectStorage');
-				foreach ($field->getSectionFields() as $sectionField) {
-					/** @var $clonedSectionField \ArminVieweg\Dce\Domain\Model\DceField */
-					$clonedSectionField = clone $sectionField;
-					$clonedSectionField->setValue(NULL);
-					$clonedSectionFields->attach($clonedSectionField);
-					$field->setSectionFields($clonedSectionFields);
+			if ($field->getType() === DceField::TYPE_ELEMENT || $field->getType() === DceField::TYPE_SECTION) {
+				if ($field->getSectionFields()) {
+					/** @var $clonedFields \TYPO3\CMS\Extbase\Persistence\ObjectStorage */
+					$clonedSectionFields = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Persistence\ObjectStorage');
+					foreach ($field->getSectionFields() as $sectionField) {
+						/** @var $clonedSectionField DceField */
+						$clonedSectionField = clone $sectionField;
+						$clonedSectionField->setValue(NULL);
+						$clonedSectionFields->attach($clonedSectionField);
+						$field->setSectionFields($clonedSectionFields);
+					}
 				}
 				$clonedFields->attach($field);
 				$dce->setFields($clonedFields);
@@ -130,7 +132,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 						$sectionFieldValues = current($sectionFieldValues);
 						foreach ($sectionFieldValues as $sectionFieldVariable => $sectionFieldValue) {
 							$sectionField = $dceField->getSectionFieldByVariable($sectionFieldVariable);
-							if ($sectionField instanceof \ArminVieweg\Dce\Domain\Model\DceField) {
+							if ($sectionField instanceof DceField) {
 								$xmlIdent = $dce->getUid() . '-' . $dceField->getVariable() . '-' . $sectionField->getVariable();
 								$this->fillFields($sectionField, $sectionFieldValue, TRUE, $xmlIdent);
 							}
@@ -150,13 +152,13 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	 * $fieldValue will be add to $dceField->_value. Value of sectionFields
 	 * will be filled differently.
 	 *
-	 * @param \ArminVieweg\Dce\Domain\Model\DceField $dceField
+	 * @param DceField $dceField
 	 * @param string $fieldValue
 	 * @param bool $isSectionField
 	 * @param string $xmlIdentifier
 	 * @return void
 	 */
-	protected function fillFields(\ArminVieweg\Dce\Domain\Model\DceField $dceField, $fieldValue, $isSectionField = FALSE,
+	protected function fillFields(DceField $dceField, $fieldValue, $isSectionField = FALSE,
 									$xmlIdentifier) {
 
 		$xmlWrapping = 'xml-' . $xmlIdentifier;
