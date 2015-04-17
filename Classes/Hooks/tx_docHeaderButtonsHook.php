@@ -72,7 +72,7 @@ class tx_docHeaderButtonsHook {
 	 * @return string
 	 */
 	protected function getCustomStylesheet() {
-		$file = ExtensionManagementUtility::extPath('dce') . 'Resources/Public/CSS/dceInstance.css';
+		$file = ExtensionManagementUtility::extPath('dce') . 'Resources/Public/Css/dceInstance.css';
 		$content = file_get_contents($file);
 		return '<style type="text/css">' . $content . '</style>';
 	}
