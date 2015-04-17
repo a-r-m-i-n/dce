@@ -25,7 +25,7 @@ $boot = function($extensionKey) {
 		'dceModule',
 		'',
 		array(
-			'DceModule' => 'index,dcePreviewReturnPage',
+			'DceModule' => 'index',
 			'Dce' => 'renderPreview'
 		),
 		array(

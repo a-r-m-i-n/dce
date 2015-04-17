@@ -34,13 +34,4 @@ class DceModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
 		$this->view->assign('dces', $this->dceRepository->findAllAndStatics());
 		$this->view->assign('enableUpdateCheck', $enableUpdateCheck);
 	}
-
-	/**
-	 * DcePreviewReturnPage Action
-	 * @return void
-	 */
-	public function dcePreviewReturnPageAction() {
-		$this->flashMessageContainer->flush();
-	}
-
 }
