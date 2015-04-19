@@ -17,7 +17,7 @@ return array(
 	'ctrl' => array(
 		'title' => $ll . 'tx_dce_domain_model_dcefield',
 		'label' => 'title',
-		'label_userFunc' => 'tx_dce_dceFieldCustomLabel->getLabel',
+		'label_userFunc' => '\ArminVieweg\Dce\UserFunction\CustomLabels\DceFieldLabel->getLabel',
 		'hideTable' => TRUE,
 		'adminOnly' => TRUE,
 		'rootLevel' => TRUE,

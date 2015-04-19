@@ -43,11 +43,6 @@ $boot = function($extensionKey) {
 		'className' => 'ArminVieweg\Dce\XClass\DataPreprocessor',
 	);
 
-
-	if (TYPO3_MODE === 'BE') {
-		require_once($extensionPath . 'Classes/UserFunction/tx_dce_dceFieldCustomLabel.php');
-	}
-
 	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['typo3/template.php']['docHeaderButtonsHook'][] =
 		'EXT:dce/Classes/Hooks/tx_docHeaderButtonsHook.php:tx_docHeaderButtonsHook->addQuickDcePopupButton';
 

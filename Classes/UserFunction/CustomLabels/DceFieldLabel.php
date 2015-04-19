@@ -1,4 +1,5 @@
 <?php
+namespace ArminVieweg\Dce\UserFunction\CustomLabels;
 
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is
  *  | free software and is licensed under GNU General Public License.
@@ -11,7 +12,7 @@
  *
  * @package ArminVieweg\Dce
  */
-class tx_dce_dceFieldCustomLabel {
+class DceFieldLabel {
 
 	/**
 	 * User function to get custom labels for DCE fields
