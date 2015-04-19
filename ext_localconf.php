@@ -45,7 +45,6 @@ $boot = function($extensionKey) {
 
 
 	if (TYPO3_MODE === 'BE') {
-		require_once($extensionPath . 'Classes/UserFunction/tx_dce_codemirrorField.php');
 		require_once($extensionPath . 'Classes/UserFunction/tx_dce_dceFieldCustomLabel.php');
 	}
 

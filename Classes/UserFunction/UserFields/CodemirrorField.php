@@ -1,4 +1,5 @@
 <?php
+namespace ArminVieweg\Dce\UserFunction\UserFields;
 
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is
  *  | free software and is licensed under GNU General Public License.
@@ -13,7 +14,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  *
  * @package ArminVieweg\Dce
  */
-class tx_dce_codemirrorField {
+class CodemirrorField {
 	/**
 	 * @var array Field parameters
 	 */
@@ -152,14 +153,14 @@ class tx_dce_codemirrorField {
 	protected function getViewhelpers($path) {
 		$files = GeneralUtility::getFilesInDir($path);
 
-		$viewhelpers = array();
+		$viewHelpers = array();
 		foreach ($files as $file) {
 			$name = preg_replace('/(.*)\.html/i', '$1', $file);
 			$value = file_get_contents($path . $file);
-			$viewhelpers[$name] = $value;
+			$viewHelpers[$name] = $value;
 		}
-		ksort($viewhelpers);
-		return $viewhelpers;
+		ksort($viewHelpers);
+		return $viewHelpers;
 	}
 
 }

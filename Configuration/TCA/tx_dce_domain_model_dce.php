@@ -263,8 +263,8 @@ return array(
 			'config' => array (
 				'type' => 'user',
 				'size' => '30',
-				'userFunc' => 'EXT:dce/Classes/UserFunction/tx_dce_codemirrorField.php:' .
-							  'tx_dce_codemirrorField->getCodemirrorField',
+				'userFunc' => 'EXT:dce/Classes/UserFunction/UserFields/CodemirrorField.php:' .
+								'\ArminVieweg\Dce\UserFunction\UserFields\CodemirrorField->getCodemirrorField',
 				'parameters' => array(
 					'mode' => 'htmlmixed',
 					'showTemplates' => FALSE,
@@ -340,7 +340,8 @@ return array(
 			'config' => array(
 				'type' => 'user',
 				'size' => '30',
-				'userFunc' => 'EXT:dce/Classes/UserFunction/tx_dce_codemirrorField.php:tx_dce_codemirrorField->getCodemirrorField',
+				'userFunc' => 'EXT:dce/Classes/UserFunction/UserFields/CodemirrorField.php:' .
+					'\ArminVieweg\Dce\UserFunction\UserFields\CodemirrorField->getCodemirrorField',
 				'parameters' => array(
 					'mode' => 'htmlmixed',
 					'showTemplates' => FALSE,
@@ -371,7 +372,8 @@ return array(
 			'config' => array(
 				'type' => 'user',
 				'size' => '30',
-				'userFunc' => 'EXT:dce/Classes/UserFunction/tx_dce_codemirrorField.php:tx_dce_codemirrorField->getCodemirrorField',
+				'userFunc' => 'EXT:dce/Classes/UserFunction/UserFields/CodemirrorField.php:' .
+					'\ArminVieweg\Dce\UserFunction\UserFields\CodemirrorField->getCodemirrorField',
 				'parameters' => array(
 					'mode' => 'htmlmixed',
 					'showTemplates' => FALSE,
@@ -476,7 +478,8 @@ return array(
 			'config' => array (
 				'type' => 'user',
 				'size' => '30',
-				'userFunc' => 'EXT:dce/Classes/UserFunction/tx_dce_codemirrorField.php:tx_dce_codemirrorField->getCodemirrorField',
+				'userFunc' => 'EXT:dce/Classes/UserFunction/UserFields/CodemirrorField.php:' .
+					'\ArminVieweg\Dce\UserFunction\UserFields\CodemirrorField->getCodemirrorField',
 				'parameters' => array(
 					'mode' => 'htmlmixed',
 					'showTemplates' => FALSE,
