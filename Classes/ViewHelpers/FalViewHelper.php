@@ -29,7 +29,8 @@ class FalViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper 
 	public function render($field, array $contentObject) {
 		$contentObjectUid = intval($contentObject['uid']);
 
-		$pageSelect = GeneralUtility::makeInstance('t3lib_pageSelect');
+		/** @var \TYPO3\CMS\Frontend\Page\PageRepository $pageRepository */
+		$pageRepository = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Page\PageRepository');
 		$tableName = 'tt_content';
 		$rows = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
 			'uid',
@@ -37,7 +38,7 @@ class FalViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper 
 			'tablenames=' . DatabaseUtility::getDatabaseConnection()->fullQuoteStr($tableName, 'sys_file_reference') .
 				' AND uid_foreign=' . $contentObjectUid .
 				' AND fieldname=' . DatabaseUtility::getDatabaseConnection()->fullQuoteStr($field, 'sys_file_reference') .
-				$pageSelect->enableFields('sys_file_reference', $pageSelect->showHiddenRecords),
+				$pageRepository->enableFields('sys_file_reference', $pageRepository->showHiddenRecords),
 			'',
 			'sorting_foreign',
 			'',

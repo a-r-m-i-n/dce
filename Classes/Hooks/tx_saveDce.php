@@ -80,12 +80,12 @@ class tx_saveDce {
 			unset($newValues['identifier']);
 
 			$fields = array();
-			foreach (t3lib_div::trimExplode(',', $newValues['fields'], TRUE) as $fieldId) {
+			foreach (GeneralUtility::trimExplode(',', $newValues['fields'], TRUE) as $fieldId) {
 				$fieldSettings = $datamap['tx_dce_domain_model_dcefield'][$fieldId];
 
 				if (intval($fieldSettings['type']) === 2) {
 					$sectionFields = array();
-					foreach (t3lib_div::trimExplode(',', $fieldSettings['section_fields'], TRUE) as $sectionFieldId) {
+					foreach (GeneralUtility::trimExplode(',', $fieldSettings['section_fields'], TRUE) as $sectionFieldId) {
 						$sectionFieldVariable = $datamap['tx_dce_domain_model_dcefield'][$sectionFieldId]['variable'];
 						if ($sectionFieldId !== $sectionFieldVariable) {
 							$sectionFields[$sectionFieldVariable] = $datamap['tx_dce_domain_model_dcefield'][$sectionFieldId];

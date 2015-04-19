@@ -25,12 +25,12 @@ $boot = function($extensionKey) {
 		'dceModule',
 		'',
 		array(
-			'DceModule' => 'index,dcePreviewReturnPage',
+			'DceModule' => 'index',
 			'Dce' => 'renderPreview'
 		),
 		array(
 			'access' => 'user,group',
-			'icon' => 'EXT:' . $extensionKey . '/ext_icon.gif',
+			'icon' => 'EXT:' . $extensionKey . '/ext_icon.png',
 			'labels' => 'LLL:EXT:' . $extensionKey . '/Resources/Private/Language/locallang_mod.xml',
 		)
 	);

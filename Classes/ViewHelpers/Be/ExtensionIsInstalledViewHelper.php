@@ -11,7 +11,7 @@ namespace ArminVieweg\Dce\ViewHelpers\Be;
  * Gets the current version of DCE as int
  *
  * @package ArminVieweg\Dce
- * @see t3lib_utility_VersionNumber::convertVersionNumberToInteger
+ * @see \TYPO3\CMS\Core\Utility\VersionNumberUtility
  */
 class ExtensionIsInstalledViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper {
 

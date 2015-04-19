@@ -17,7 +17,7 @@ return array(
 	'ctrl' => array(
 		'title' => $ll . 'tx_dce_domain_model_dcefield',
 		'label' => 'title',
-		'label_userFunc' => 'tx_dce_dceFieldCustomLabel->getLabel',
+		'label_userFunc' => '\ArminVieweg\Dce\UserFunction\CustomLabels\DceFieldLabel->getLabel',
 		'hideTable' => TRUE,
 		'adminOnly' => TRUE,
 		'rootLevel' => TRUE,
@@ -38,9 +38,9 @@ return array(
 		'type' => 'type',
 		'typeicon_column' => 'type',
 		'typeicons' => array(
-			'0' => $extensionPath . 'Resources/Public/Icons/tx_dce_domain_model_dcefield_element.gif',
-			'1' => $extensionPath . 'Resources/Public/Icons/tx_dce_domain_model_dcefield_tab.gif',
-			'2' => $extensionPath . 'Resources/Public/Icons/tx_dce_domain_model_dcefield_section.gif',
+			'0' => $extensionPath . 'Resources/Public/Icons/tx_dce_domain_model_dcefield_element.png',
+			'1' => $extensionPath . 'Resources/Public/Icons/tx_dce_domain_model_dcefield_tab.png',
+			'2' => $extensionPath . 'Resources/Public/Icons/tx_dce_domain_model_dcefield_section.png',
 		),
 	),
 	'interface' => array(
@@ -181,8 +181,8 @@ return array(
 			'config' => array (
 				'type' => 'user',
 				'size' => '30',
-				'userFunc' => 'EXT:dce/Classes/UserFunction/tx_dce_codemirrorField.php:' .
-								'tx_dce_codemirrorField->getCodemirrorField',
+				'userFunc' => 'EXT:dce/Classes/UserFunction/UserFields/CodemirrorField.php:' .
+					'\ArminVieweg\Dce\UserFunction\UserFields\CodemirrorField->getCodemirrorField',
 				'parameters' => array(
 					'mode' => 'xml',
 					'showTemplates' => TRUE,
