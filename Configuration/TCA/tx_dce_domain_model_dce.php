@@ -38,9 +38,10 @@ return array(
 		'type' => 'type',
 		'typeicon_column' => 'type',
 		'typeicons' => array(
-			'0' => $extensionPath . 'Resources/Public/Icons/tx_dce_domain_model_dce_databased.gif',
-			'1' => $extensionPath . 'Resources/Public/Icons/tx_dce_domain_model_dce_filebased.gif',
+			'0' => $extensionPath . 'Resources/Public/Icons/tx_dce_domain_model_dce_databased.png',
+			'1' => $extensionPath . 'Resources/Public/Icons/tx_dce_domain_model_dce_filebased.png',
 		),
+		'iconfile' => $extensionPath . 'ext_icon.png'
 	),
 	'interface' => array(
 		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden',

@@ -38,9 +38,9 @@ return array(
 		'type' => 'type',
 		'typeicon_column' => 'type',
 		'typeicons' => array(
-			'0' => $extensionPath . 'Resources/Public/Icons/tx_dce_domain_model_dcefield_element.gif',
-			'1' => $extensionPath . 'Resources/Public/Icons/tx_dce_domain_model_dcefield_tab.gif',
-			'2' => $extensionPath . 'Resources/Public/Icons/tx_dce_domain_model_dcefield_section.gif',
+			'0' => $extensionPath . 'Resources/Public/Icons/tx_dce_domain_model_dcefield_element.png',
+			'1' => $extensionPath . 'Resources/Public/Icons/tx_dce_domain_model_dcefield_tab.png',
+			'2' => $extensionPath . 'Resources/Public/Icons/tx_dce_domain_model_dcefield_section.png',
 		),
 	),
 	'interface' => array(
