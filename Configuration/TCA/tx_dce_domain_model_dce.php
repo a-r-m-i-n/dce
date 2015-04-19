@@ -512,7 +512,7 @@ return array(
 				'type' => 'input',
 				'eval' => 'trim,is_in',
 				'is_in' => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890-_, ',
-				'default' => 'sys_language_uid, l18n_parent, colPos, spaceBefore, spaceAfter, section_frame, sectionIndex',
+				'default' => 'sys_language_uid, l18n_parent, colPos, spaceBefore, spaceAfter, section_frame, hidden',
 			),
 		),
 	),

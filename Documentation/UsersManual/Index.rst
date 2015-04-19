@@ -508,7 +508,7 @@ DCE palette fields
 
 This is a comma separated list of fields which should be shown in the head area of this DCE in the backend.
 
-The default value is this: sys_language_uid, l18n_parent, colPos, spaceBefore, spaceAfter, section_frame, sectionIndex
+The default value is this: sys_language_uid, l18n_parent, colPos, spaceBefore, spaceAfter, section_frame, hidden
 
 Fluid layout and partial root path
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
