@@ -17,7 +17,7 @@ return array(
 	'ctrl' => array(
 		'title' => $ll . 'tx_dce_domain_model_dcefield',
 		'label' => 'title',
-		'label_userFunc' => '\ArminVieweg\Dce\UserFunction\CustomLabels\DceFieldLabel->getLabel',
+		'label_userFunc' => 'ArminVieweg\Dce\UserFunction\CustomLabels\DceFieldLabel->getLabel',
 		'hideTable' => TRUE,
 		'adminOnly' => TRUE,
 		'rootLevel' => TRUE,
@@ -182,7 +182,7 @@ return array(
 				'type' => 'user',
 				'size' => '30',
 				'userFunc' => 'EXT:dce/Classes/UserFunction/UserFields/CodemirrorField.php:' .
-					'\ArminVieweg\Dce\UserFunction\UserFields\CodemirrorField->getCodemirrorField',
+					'ArminVieweg\Dce\UserFunction\UserFields\CodemirrorField->getCodemirrorField',
 				'parameters' => array(
 					'mode' => 'xml',
 					'showTemplates' => TRUE,

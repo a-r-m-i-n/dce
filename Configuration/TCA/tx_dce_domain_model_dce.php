@@ -265,7 +265,7 @@ return array(
 				'type' => 'user',
 				'size' => '30',
 				'userFunc' => 'EXT:dce/Classes/UserFunction/UserFields/CodemirrorField.php:' .
-								'\ArminVieweg\Dce\UserFunction\UserFields\CodemirrorField->getCodemirrorField',
+								'ArminVieweg\Dce\UserFunction\UserFields\CodemirrorField->getCodemirrorField',
 				'parameters' => array(
 					'mode' => 'htmlmixed',
 					'showTemplates' => FALSE,
@@ -342,7 +342,7 @@ return array(
 				'type' => 'user',
 				'size' => '30',
 				'userFunc' => 'EXT:dce/Classes/UserFunction/UserFields/CodemirrorField.php:' .
-					'\ArminVieweg\Dce\UserFunction\UserFields\CodemirrorField->getCodemirrorField',
+					'ArminVieweg\Dce\UserFunction\UserFields\CodemirrorField->getCodemirrorField',
 				'parameters' => array(
 					'mode' => 'htmlmixed',
 					'showTemplates' => FALSE,
@@ -374,7 +374,7 @@ return array(
 				'type' => 'user',
 				'size' => '30',
 				'userFunc' => 'EXT:dce/Classes/UserFunction/UserFields/CodemirrorField.php:' .
-					'\ArminVieweg\Dce\UserFunction\UserFields\CodemirrorField->getCodemirrorField',
+					'ArminVieweg\Dce\UserFunction\UserFields\CodemirrorField->getCodemirrorField',
 				'parameters' => array(
 					'mode' => 'htmlmixed',
 					'showTemplates' => FALSE,
@@ -480,7 +480,7 @@ return array(
 				'type' => 'user',
 				'size' => '30',
 				'userFunc' => 'EXT:dce/Classes/UserFunction/UserFields/CodemirrorField.php:' .
-					'\ArminVieweg\Dce\UserFunction\UserFields\CodemirrorField->getCodemirrorField',
+					'ArminVieweg\Dce\UserFunction\UserFields\CodemirrorField->getCodemirrorField',
 				'parameters' => array(
 					'mode' => 'htmlmixed',
 					'showTemplates' => FALSE,
