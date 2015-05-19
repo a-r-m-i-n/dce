@@ -16,7 +16,7 @@ namespace ArminVieweg\Dce\ViewHelpers;
  *
  * @package ArminVieweg\Dce
  */
-class GPViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelperr {
+class GPViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
 	 * Returns get or post variable by given subject
