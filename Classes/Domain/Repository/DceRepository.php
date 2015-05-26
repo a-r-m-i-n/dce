@@ -299,6 +299,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	protected function hasRelatedObjects(array $fieldConfiguration) {
 		return  in_array($fieldConfiguration['type'], array('group', 'inline', 'select'))
 			&& (($fieldConfiguration['type'] === 'select' && !empty($fieldConfiguration['foreign_table']))
+			|| ($fieldConfiguration['type'] === 'inline' && !empty($fieldConfiguration['foreign_table']))
 			|| ($fieldConfiguration['type'] === 'group' && !empty($fieldConfiguration['allowed'])));
 	}
 
