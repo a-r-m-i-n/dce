@@ -543,7 +543,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 			}
 
 			$field = $this->getFieldByVariable($variable);
-			if (get_class($field) === '\ArminVieweg\Dce\Domain\Model\DceField') {
+			if ($field instanceof DceField) {
 				return $field->getValue();
 			}
 		}
