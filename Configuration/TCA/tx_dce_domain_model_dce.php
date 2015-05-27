@@ -171,6 +171,7 @@ return array(
 			'label' => $ll . 'tx_dce_domain_model_dce.wizardEnable',
 			'config' => array(
 				'type' => 'check',
+				'default' => TRUE,
 			),
 		),
 		'wizard_category' => array(
