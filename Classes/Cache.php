@@ -97,7 +97,6 @@ class Cache {
 	 * @return array with DCE -> containing tabs -> containing fields
 	 */
 	protected function getDatabaseDce() {
-
 		// fetch the existing DB connection, or initialize it
 		/** @var $TYPO3_DB \TYPO3\CMS\Dbal\Database\DatabaseConnection */
 		$TYPO3_DB = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection();
@@ -131,14 +130,14 @@ class Cache {
 				);
 			}
 			$tabs = array(0 => array('title' => $generalTabLabel, 'fields' => array()));
-			$i = 0;
+			$index = 0;
 			while (($row2 = $TYPO3_DB->sql_fetch_assoc($res2))) {
 				if ($row2['type'] === '1') {
 					// Create new Tab
-					$i++;
-					$tabs[$i] = array();
-					$tabs[$i]['title'] = $row2['title'];
-					$tabs[$i]['fields'] = array();
+					$index++;
+					$tabs[$index] = array();
+					$tabs[$index]['title'] = $row2['title'];
+					$tabs[$index]['fields'] = array();
 					continue;
 				} elseif ($row2['type'] === '2') {
 					$res3 = $TYPO3_DB->exec_SELECTquery(
@@ -156,10 +155,10 @@ class Cache {
 						}
 					}
 					$row2['section_fields'] = $sectionFields;
-					$tabs[$i]['fields'][] = $row2;
+					$tabs[$index]['fields'][] = $row2;
 				} else {
 					// usual element
-					$tabs[$i]['fields'][] = $row2;
+					$tabs[$index]['fields'][] = $row2;
 				}
 			}
 			if (count($tabs[0]['fields']) === 0) {
