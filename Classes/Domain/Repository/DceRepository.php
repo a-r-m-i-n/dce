@@ -299,6 +299,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	protected function hasRelatedObjects(array $fieldConfiguration) {
 		return  in_array($fieldConfiguration['type'], array('group', 'inline', 'select'))
 			&& (($fieldConfiguration['type'] === 'select' && !empty($fieldConfiguration['foreign_table']))
+			|| ($fieldConfiguration['type'] === 'inline' && !empty($fieldConfiguration['foreign_table']))
 			|| ($fieldConfiguration['type'] === 'group' && !empty($fieldConfiguration['allowed'])));
 	}
 
@@ -349,6 +350,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 			$repository = $objectManager->get($repositoryName);
 
 			foreach (GeneralUtility::trimExplode(',', $fieldValue, TRUE) as $uid) {
+				$uid = (int) $uid;
 				$object = $repository->findByUid($uid);
 				if ($specialClass === 'FileCollection') {
 					$object->loadContents();
@@ -359,10 +361,16 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 		}
 			// No class found... load DB record and return assoc
 		foreach (GeneralUtility::trimExplode(',', $fieldValue, TRUE) as $uid) {
+			$uid = (int) $uid;
 			$enableFields = '';
 
 			if (!$dceFieldConfiguration['dce_ignore_enablefields']) {
 				if (!$GLOBALS['TSFE']->sys_page instanceof \TYPO3\CMS\Frontend\Page\PageRepository) {
+					if (!$GLOBALS['TSFE'] instanceof \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController) {
+						$GLOBALS['TSFE'] = GeneralUtility::makeInstance(
+							'TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController', $GLOBALS['TYPO3_CONF_VARS'], 0, 0
+						);
+					}
 					$GLOBALS['TSFE']->sys_page = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Page\PageRepository');
 				}
 				/** @var $contentObjectRenderer ContentObjectRenderer */

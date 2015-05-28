@@ -212,7 +212,7 @@ Besides the custom created variables, they are also some variables existing whic
 
 + ``{dce}`` - The DCE object
 + ``{contentObject}`` -  Content object, this is the DCE instance
-+ ``{TSFE}`` -  TSFE object, tslib_fe
++ ``{TSFE}`` -  TSFE object, TypoScriptFrontendController
 + ``{page}`` - Properties of the current page
 + ``{tsSetup}`` - TypoScript setup of the current page
 

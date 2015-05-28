@@ -17,7 +17,7 @@
 			<label index="dceObjectNode">{dce}</label>
 			<label index="contentObject">Content Object (DCE instance)</label>
 			<label index="contentObjectNode">{contentObject}</label>
-			<label index="tsfeObject">TSFE object (tslib_fe)</label>
+			<label index="tsfeObject">TSFE object (TypoScriptFrontendController)</label>
 			<label index="tsfeObjectNode">{TSFE}</label>
 			<label index="pageObject">Properties of current page</label>
 			<label index="pageObjectNode">{page}</label>
@@ -39,7 +39,7 @@
 			<label index="dceViewHelper">DCE Viewhelper</label>
 			<label index="dceObject">DCE Objekt</label>
 			<label index="contentObject">Content Objekt (DCE-Instanz)</label>
-			<label index="tsfeObject">TSFE Objekt (tslib_fe)</label>
+			<label index="tsfeObject">TSFE Objekt (TypoScriptFrontendController)</label>
 			<label index="pageObject">Eigenschaften der aktuellen Seite</label>
 			<label index="tsSetupObject">TypoScript-Setup der aktuellen Seite</label>
 

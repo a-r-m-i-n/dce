@@ -116,7 +116,7 @@ class CodemirrorField {
 		$templates = GeneralUtility::get_dirs($path);
 		$templates = array_flip($templates);
 
-		foreach ($templates as $key => $_) {
+		foreach (array_keys($templates) as $key) {
 			$files = array();
 			foreach (GeneralUtility::getFilesInDir($path . $key) as $file) {
 				$filename = preg_replace('/(.*)\.xml/i', '$1', $file);

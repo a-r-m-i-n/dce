@@ -46,16 +46,16 @@ class StaticDce {
 			);
 		}
 		$tabs = array(0 => array('title' => $generalTabLabel, 'fields' => array()));
-		$i = 0;
+		$index = 0;
 		foreach ($configurationArray['tx_dce']['static']['fields'] as $variable => $field) {
 			if ($field['type'] === '1') {
-				$tabs[++$i] = array(
+				$tabs[++$index] = array(
 					'title' => $field['title'],
 					'fields' => array()
 				);
 				continue;
 			}
-			$tabs[$i]['fields'][$variable] = $field;
+			$tabs[$index]['fields'][$variable] = $field;
 		}
 		if (empty($tabs[0]['fields'])) {
 			unset($tabs[0]);

@@ -8,6 +8,12 @@
 		<link>
 			<type>popup</type>
 			<title>Link</title>
+			<module>
+				<name>wizard_element_browser</name>
+				<urlParameters>
+					<mode>wizard</mode>
+				</urlParameters>
+			</module>
 			<icon>link_popup.gif</icon>
 			<script>browse_links.php?mode=wizard</script>
 			<params>
