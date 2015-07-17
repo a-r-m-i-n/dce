@@ -1,11 +1,11 @@
 <?php
 namespace ArminVieweg\Dce\ViewHelpers;
 
-/*  | This extension is part of the TYPO3 project. The TYPO3 project is
- *  | free software and is licensed under GNU General Public License.
- *  |
- *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
- */
+    /*  | This extension is part of the TYPO3 project. The TYPO3 project is
+     *  | free software and is licensed under GNU General Public License.
+     *  |
+     *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
+     */
 
 /**
  * This view helper handles parameter strings using typolink function of TYPO3.
@@ -13,17 +13,19 @@ namespace ArminVieweg\Dce\ViewHelpers;
  *
  * @package ArminVieweg\Dce
  */
-class TypolinkUrlViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
-	/**
-	 * Create a typolink and returns just the URL
-	 *
-	 * @param string $parameter Parameter string, which can be handled by
-	 *                          typolink functionality
-	 * @return string url
-	 */
-	public function render($parameter) {
-		/** @var $cObj \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer */
-		$cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
-		return $cObj->getTypoLink_URL($parameter);
-	}
+class TypolinkUrlViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
+    /**
+     * Create a typolink and returns just the URL
+     *
+     * @param string $parameter Parameter string, which can be handled by
+     *                          typolink functionality
+     * @return string url
+     */
+    public function render($parameter)
+    {
+        /** @var $cObj \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer */
+        $cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
+        return $cObj->getTypoLink_URL($parameter);
+    }
 }

@@ -11,22 +11,24 @@
  *
  * @package ArminVieweg\Dce
  */
-class tx_clearCache {
+class tx_clearCache
+{
 
-	/**
-	 * Clears the dce cache files
-	 *
-	 * @param $params
-	 * @return void
-	 */
-	public function clearDceCache($params) {
-		if ($params['cacheCmd'] === 'all' || $params['cacheCmd'] === 'temp_cached') {
-			if (file_exists($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceLocalconfPath'])) {
-				unlink($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceLocalconfPath']);
-			}
-			if (file_exists($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceExtTablesPath'])) {
-				unlink($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceExtTablesPath']);
-			}
-		}
-	}
+    /**
+     * Clears the dce cache files
+     *
+     * @param $params
+     * @return void
+     */
+    public function clearDceCache($params)
+    {
+        if ($params['cacheCmd'] === 'all' || $params['cacheCmd'] === 'temp_cached') {
+            if (file_exists($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceLocalconfPath'])) {
+                unlink($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceLocalconfPath']);
+            }
+            if (file_exists($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceExtTablesPath'])) {
+                unlink($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceExtTablesPath']);
+            }
+        }
+    }
 }

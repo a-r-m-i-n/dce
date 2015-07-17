@@ -14,14 +14,16 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
  *
  * @package ArminVieweg\Dce
  */
-class CurrentDceVersionViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper {
+class CurrentDceVersionViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper
+{
 
-	/**
-	 * Returns the current version of DCE as int
-	 *
-	 * @return int Current DCE version
-	 */
-	public function render() {
-		return VersionNumberUtility::convertVersionNumberToInteger( ExtensionManagementUtility::getExtensionVersion('dce'));
-	}
+    /**
+     * Returns the current version of DCE as int
+     *
+     * @return int Current DCE version
+     */
+    public function render()
+    {
+        return VersionNumberUtility::convertVersionNumberToInteger(ExtensionManagementUtility::getExtensionVersion('dce'));
+    }
 }

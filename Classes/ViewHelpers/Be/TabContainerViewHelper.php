@@ -20,53 +20,57 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\Facets\ChildNodeAccessInterface;
  *
  * @package ArminVieweg\Dce
  */
-class TabContainerViewHelper extends AbstractViewHelper implements ChildNodeAccessInterface {
-	/**
-	 * All child nodes within this viewHelper
-	 *
-	 * @var array<\TYPO3\CMS\Fluid\Core\Parser\SyntaxTree\AbstractNode>
-	 */
-	protected $childNodes = array();
+class TabContainerViewHelper extends AbstractViewHelper implements ChildNodeAccessInterface
+{
+    /**
+     * All child nodes within this viewHelper
+     *
+     * @var array<\TYPO3\CMS\Fluid\Core\Parser\SyntaxTree\AbstractNode>
+     */
+    protected $childNodes = array();
 
-	/**
-	 * Setter for ChildNodes - as defined in ChildNodeAccessInterface
-	 *
-	 * @param array $childNodes Child nodes of this syntax tree node
-	 * @return void
-	 */
-	public function setChildNodes(array $childNodes) {
-		$this->childNodes = $childNodes;
-	}
+    /**
+     * Setter for ChildNodes - as defined in ChildNodeAccessInterface
+     *
+     * @param array $childNodes Child nodes of this syntax tree node
+     * @return void
+     */
+    public function setChildNodes(array $childNodes)
+    {
+        $this->childNodes = $childNodes;
+    }
 
-	/**
-	 * Gets title and contents of tabs and returns as array
-	 *
-	 * @return array array of tab contents and titles
-	 */
-	protected function getTabsDataArray() {
-		$tabs = array();
-		foreach ($this->childNodes as $childNode) {
-			if ($childNode instanceof \TYPO3\CMS\Fluid\Core\Parser\SyntaxTree\ViewHelperNode
-				&& $childNode->getViewHelperClassName() === 'ArminVieweg\Dce\ViewHelpers\Be\TabViewHelper'
-			) {
-				$tab = array();
-				$tab['content'] = $childNode->evaluate($this->getRenderingContext());
-				$tab['label'] = $this->getRenderingContext()
-					->getViewHelperVariableContainer()
-					->get('ArminVieweg\Dce\ViewHelpers\Be\TabViewHelper', 'title');
-				$tabs[] = $tab;
-			}
-		}
-		return $tabs;
-	}
+    /**
+     * Gets title and contents of tabs and returns as array
+     *
+     * @return array array of tab contents and titles
+     */
+    protected function getTabsDataArray()
+    {
+        $tabs = array();
+        foreach ($this->childNodes as $childNode) {
+            if ($childNode instanceof \TYPO3\CMS\Fluid\Core\Parser\SyntaxTree\ViewHelperNode
+                && $childNode->getViewHelperClassName() === 'ArminVieweg\Dce\ViewHelpers\Be\TabViewHelper'
+            ) {
+                $tab = array();
+                $tab['content'] = $childNode->evaluate($this->getRenderingContext());
+                $tab['label'] = $this->getRenderingContext()
+                    ->getViewHelperVariableContainer()
+                    ->get('ArminVieweg\Dce\ViewHelpers\Be\TabViewHelper', 'title');
+                $tabs[] = $tab;
+            }
+        }
+        return $tabs;
+    }
 
-	/**
-	 * Renders a tab container with typo3 tce forms function getDynTabMenu
-	 *
-	 * @return string the whole tab container construct
-	 */
-	public function render() {
-		$tabs = $this->getTabsDataArray();
-		return \TYPO3\CMS\Backend\Form\FormEngine::getDynTabMenu($tabs, uniqid());
-	}
+    /**
+     * Renders a tab container with typo3 tce forms function getDynTabMenu
+     *
+     * @return string the whole tab container construct
+     */
+    public function render()
+    {
+        $tabs = $this->getTabsDataArray();
+        return \TYPO3\CMS\Backend\Form\FormEngine::getDynTabMenu($tabs, uniqid());
+    }
 }

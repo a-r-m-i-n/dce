@@ -1,28 +1,30 @@
 <?php
 namespace ArminVieweg\Dce\ViewHelpers\Be;
 
-/*  | This extension is part of the TYPO3 project. The TYPO3 project is
- *  | free software and is licensed under GNU General Public License.
- *  |
- *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
- */
+    /*  | This extension is part of the TYPO3 project. The TYPO3 project is
+     *  | free software and is licensed under GNU General Public License.
+     *  |
+     *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
+     */
 
 /**
  * This view helper adds js file to pagerenderer
  *
  * @package ArminVieweg\Dce
  */
-class IncludeJsFileViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper {
+class IncludeJsFileViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper
+{
 
-	/**
-	 * Adds js file to PageRenderer
-	 *
-	 * @param string $path to js file
-	 * @return void
-	 */
-	public function render($path) {
-		$doc = $this->getDocInstance();
-		$pageRenderer = $doc->getPageRenderer();
-		$pageRenderer->addJsFile($path);
-	}
+    /**
+     * Adds js file to PageRenderer
+     *
+     * @param string $path to js file
+     * @return void
+     */
+    public function render($path)
+    {
+        $doc = $this->getDocInstance();
+        $pageRenderer = $doc->getPageRenderer();
+        $pageRenderer->addJsFile($path);
+    }
 }

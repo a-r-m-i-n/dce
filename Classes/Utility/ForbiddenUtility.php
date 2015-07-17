@@ -1,11 +1,11 @@
 <?php
 namespace ArminVieweg\Dce\Utility;
 
-/*  | This extension is part of the TYPO3 project. The TYPO3 project is
- *  | free software and is licensed under GNU General Public License.
- *  |
- *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
- */
+    /*  | This extension is part of the TYPO3 project. The TYPO3 project is
+     *  | free software and is licensed under GNU General Public License.
+     *  |
+     *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
+     */
 
 /**
  * Stuff in here is just here, because I have no clue how to
@@ -16,18 +16,20 @@ namespace ArminVieweg\Dce\Utility;
  *
  * @package ArminVieweg\Dce
  */
-class ForbiddenUtility {
+class ForbiddenUtility
+{
 
-	/**
-	 * If these post methods are missing, rendering fluid template in
-	 * backend context fails. Don't know why, but this works.
-	 *
-	 * @param string $controller
-	 * @param string $action
-	 * @return void
-	 */
-	public static function setExtbaseRelatedPostParameters($controller, $action) {
-		$_POST['tx_dce_tools_dcedcemodule']['controller'] = $controller;
-		$_POST['tx_dce_tools_dcedcemodule']['action'] = $action;
-	}
+    /**
+     * If these post methods are missing, rendering fluid template in
+     * backend context fails. Don't know why, but this works.
+     *
+     * @param string $controller
+     * @param string $action
+     * @return void
+     */
+    public static function setExtbaseRelatedPostParameters($controller, $action)
+    {
+        $_POST['tx_dce_tools_dcedcemodule']['controller'] = $controller;
+        $_POST['tx_dce_tools_dcedcemodule']['action'] = $action;
+    }
 }

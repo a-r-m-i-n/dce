@@ -16,14 +16,15 @@
  *
  * @package ArminVieweg\Dce
  */
-function user_dceOnCurrentPage($dceUid) {
-	if (TYPO3_MODE !== 'FE') {
-		return FALSE;
-	}
+function user_dceOnCurrentPage($dceUid)
+{
+    if (TYPO3_MODE !== 'FE') {
+        return false;
+    }
 
-	$dceUid = intval($dceUid);
-	$currentPageUid = $GLOBALS['TSFE']->id;
-	return ($GLOBALS['TYPO3_DB']->exec_SELECTcountRows(
-			'uid', 'tt_content', 'pid=' . $currentPageUid . ' AND CType="dce_dceuid' . $dceUid . '"') > 0
-	);
+    $dceUid = intval($dceUid);
+    $currentPageUid = $GLOBALS['TSFE']->id;
+    return ($GLOBALS['TYPO3_DB']->exec_SELECTcountRows(
+            'uid', 'tt_content', 'pid=' . $currentPageUid . ' AND CType="dce_dceuid' . $dceUid . '"') > 0
+    );
 }

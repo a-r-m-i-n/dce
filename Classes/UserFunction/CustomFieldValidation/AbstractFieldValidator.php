@@ -14,66 +14,72 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  *
  * @package ArminVieweg\Dce
  */
-abstract class AbstractFieldValidator {
+abstract class AbstractFieldValidator
+{
 
-	/**
-	 * JavaScript validation
-	 *
-	 * @return string javascript function code for js validation
-	 */
-	public function returnFieldJs() {
-		return 'return value;';
-	}
+    /**
+     * JavaScript validation
+     *
+     * @return string javascript function code for js validation
+     */
+    public function returnFieldJs()
+    {
+        return 'return value;';
+    }
 
-	/**
-	 * PHP Validation
-	 *
-	 * @param string $value
-	 * @return mixed
-	 */
-	public function evaluateFieldValue($value) {
-		return $value;
-	}
+    /**
+     * PHP Validation
+     *
+     * @param string $value
+     * @return mixed
+     */
+    public function evaluateFieldValue($value)
+    {
+        return $value;
+    }
 
-	/**
-	 * Adds a flash message
-	 *
-	 * @param string $message
-	 * @param string $title optional message title
-	 * @param int $severity optional severity code
-	 *
-	 * @return void
-	 * @throws \InvalidArgumentException
-	 */
-	protected function addFlashMessage($message, $title = '', $severity = \TYPO3\CMS\Core\Messaging\FlashMessage::OK) {
-		if (!is_string($message)) {
-			throw new \InvalidArgumentException('The flash message must be string, ' . gettype($message) . ' given.', 1243258395);
-		}
+    /**
+     * Adds a flash message
+     *
+     * @param string $message
+     * @param string $title optional message title
+     * @param int $severity optional severity code
+     *
+     * @return void
+     * @throws \InvalidArgumentException
+     */
+    protected function addFlashMessage($message, $title = '', $severity = \TYPO3\CMS\Core\Messaging\FlashMessage::OK)
+    {
+        if (!is_string($message)) {
+            throw new \InvalidArgumentException('The flash message must be string, ' . gettype($message) . ' given.',
+                1243258395);
+        }
 
-		/** @var \TYPO3\CMS\Core\Messaging\FlashMessage $message */
-		$message = GeneralUtility::makeInstance(
-			'TYPO3\CMS\Core\Messaging\FlashMessage',
-			$message,
-			$title,
-			$severity,
-			TRUE
-		);
+        /** @var \TYPO3\CMS\Core\Messaging\FlashMessage $message */
+        $message = GeneralUtility::makeInstance(
+            'TYPO3\CMS\Core\Messaging\FlashMessage',
+            $message,
+            $title,
+            $severity,
+            true
+        );
 
-		/** @var $flashMessageService \TYPO3\CMS\Core\Messaging\FlashMessageService */
-		$flashMessageService = GeneralUtility::makeInstance('\TYPO3\CMS\Core\Messaging\FlashMessageService');
-		$flashMessageService->getMessageQueueByIdentifier()->addMessage($message);
-	}
+        /** @var $flashMessageService \TYPO3\CMS\Core\Messaging\FlashMessageService */
+        $flashMessageService = GeneralUtility::makeInstance('\TYPO3\CMS\Core\Messaging\FlashMessageService');
+        $flashMessageService->getMessageQueueByIdentifier()->addMessage($message);
+    }
 
-	/**
-	 * Returns the translation of current language, stored in locallang_db.xml.
-	 *
-	 * @param string $key key in locallang_db.xml to translate
-	 * @param array $arguments optional arguments
-	 * @return string Translated text
-	 */
-	protected function translate($key, array $arguments = array()) {
-		return LocalizationUtility::translate(
-			'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:' . $key, 'Dce', $arguments
-		);
-	}
+    /**
+     * Returns the translation of current language, stored in locallang_db.xml.
+     *
+     * @param string $key key in locallang_db.xml to translate
+     * @param array $arguments optional arguments
+     * @return string Translated text
+     */
+    protected function translate($key, array $arguments = array())
+    {
+        return LocalizationUtility::translate(
+            'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:' . $key, 'Dce', $arguments
+        );
+    }
 }

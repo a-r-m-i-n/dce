@@ -12,19 +12,21 @@
  *
  * @package ArminVieweg\Dce
  */
-class tx_accessCheck {
+class tx_accessCheck
+{
 
-	/**
-	 * Returns TRUE if requested record is a static DCE
-	 *
-	 * @param array $params
-	 * @return bool
-	 */
-	public function checkAccess(array $params) {
-		if (is_numeric($params['uid'])) {
-			return $params['hasAccess'];
-		}
-		return $params['table'] === 'tx_dce_domain_model_dce' && strpos($params['uid'], 'dce_') === 0;
-	}
+    /**
+     * Returns TRUE if requested record is a static DCE
+     *
+     * @param array $params
+     * @return bool
+     */
+    public function checkAccess(array $params)
+    {
+        if (is_numeric($params['uid'])) {
+            return $params['hasAccess'];
+        }
+        return $params['table'] === 'tx_dce_domain_model_dce' && strpos($params['uid'], 'dce_') === 0;
+    }
 
 }
