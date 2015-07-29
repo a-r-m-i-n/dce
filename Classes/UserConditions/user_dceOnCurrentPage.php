@@ -1,4 +1,5 @@
 <?php
+namespace ArminVieweg\Dce\UserConditions;
 
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is
  *  | free software and is licensed under GNU General Public License.
@@ -8,13 +9,13 @@
 
 /**
  * Checks if the current page contains a DCE (instance).
- * Usage in typoscript: [userFunc = user_dceOnCurrentPage(42)]
+ * Usage in typoscript:
+ * [userFunc = \ArminVieweg\Dce\UserConditions\user_dceOnCurrentPage(42)]
+ *
  * 42 is a sample for the UID of DCE type.
  *
- * @param int Uid of DCE type to check for
- * @return bool Returns TRUE if the current page contains a DCE (instance)
- *
- * @package ArminVieweg\Dce
+ * @param int $dceUid Uid of DCE type to check for
+ * @return bool Returns true if the current page contains a DCE (instance)
  */
 function user_dceOnCurrentPage($dceUid)
 {
@@ -22,9 +23,10 @@ function user_dceOnCurrentPage($dceUid)
         return false;
     }
 
-    $dceUid = intval($dceUid);
     $currentPageUid = $GLOBALS['TSFE']->id;
-    return ($GLOBALS['TYPO3_DB']->exec_SELECTcountRows(
-            'uid', 'tt_content', 'pid=' . $currentPageUid . ' AND CType="dce_dceuid' . $dceUid . '"') > 0
-    );
+    return $GLOBALS['TYPO3_DB']->exec_SELECTcountRows(
+        'uid',
+        'tt_content',
+        'pid=' . $currentPageUid . ' AND CType="dce_dceuid' . (int) $dceUid . '"'
+    ) > 0;
 }
