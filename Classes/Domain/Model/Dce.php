@@ -6,6 +6,8 @@ namespace ArminVieweg\Dce\Domain\Model;
      *  |
      *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
      */
+use ArminVieweg\Dce\Utility\File;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Model for DCEs. This model contains all necessary informations
@@ -23,6 +25,11 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     const TEMPLATE_FIELD_BODYTEXTPREVIEW = 2;
     /** Identifier for detail page templates */
     const TEMPLATE_FIELD_DETAILPAGE = 3;
+
+    /**
+     * @var array Cache for fluid instances
+     */
+    static protected $fluidTemplateCache = array();
 
     /** @var array database field names of columns for different types of templates */
     protected $templateFields = array(
@@ -519,39 +526,9 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     protected function renderFluidTemplate($templateType = self::TEMPLATE_FIELD_DEFAULT)
     {
-        $templateFields = $this->templateFields[$templateType];
-        $typeGetter = 'get' . ucfirst(\TYPO3\CMS\Core\Utility\GeneralUtility::underscoredToLowerCamelCase($templateFields['type']));
+        $fluidTemplate = $this->getFluidStandaloneView($templateType);
 
-        /** @var $fluidTemplate \TYPO3\CMS\Fluid\View\StandaloneView */
-        $fluidTemplate = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Fluid\View\StandaloneView');
-        if ($this->$typeGetter() === 'inline') {
-            $inlineTemplateGetter = 'get' . ucfirst(\TYPO3\CMS\Core\Utility\GeneralUtility::underscoredToLowerCamelCase($templateFields['inline']));
-            $fluidTemplate->setTemplateSource($this->$inlineTemplateGetter() . ' ');
-        } else {
-            $fileTemplateGetter = 'get' . ucfirst(\TYPO3\CMS\Core\Utility\GeneralUtility::underscoredToLowerCamelCase($templateFields['file']));
-            $filePath = \ArminVieweg\Dce\Utility\File::getFilePath($this->$fileTemplateGetter());
-            if (!file_exists($filePath)) {
-                $fluidTemplate->setTemplateSource('');
-            } else {
-                $templateContent = file_get_contents($filePath);
-                $fluidTemplate->setTemplateSource($templateContent . ' ');
-            }
-        }
-
-        $fluidTemplate->setLayoutRootPath(\ArminVieweg\Dce\Utility\File::getFilePath($this->getTemplateLayoutRootPath()));
-        $fluidTemplate->setPartialRootPath(\ArminVieweg\Dce\Utility\File::getFilePath($this->getTemplatePartialRootPath()));
-
-        $fluidTemplate->assign('dce', $this);
         $fluidTemplate->assign('contentObject', $this->getContentObject());
-
-        if (TYPO3_MODE === 'FE' && isset($GLOBALS['TSFE'])) {
-            $fluidTemplate->assign('TSFE', $GLOBALS['TSFE']);
-            $fluidTemplate->assign('page', $GLOBALS['TSFE']->page);
-
-            $typoScriptService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Service\TypoScriptService');
-            $fluidTemplate->assign('tsSetup',
-                $typoScriptService->convertTypoScriptArrayToPlainArray($GLOBALS['TSFE']->tmpl->setup));
-        }
 
         $fields = $this->getFieldsAsArray();
         $fluidTemplate->assign('field', $fields);
@@ -614,5 +591,58 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
             }
         }
         return null;
+    }
+
+    /**
+     * Creates new standalone view or returns cached one, if existing
+     *
+     * @param int $templateType
+     * @return \TYPO3\CMS\Fluid\View\StandaloneView
+     */
+    protected function getFluidStandaloneView($templateType)
+    {
+        if (isset(self::$fluidTemplateCache[$this->getUid()][$templateType])) {
+            return self::$fluidTemplateCache[$this->getUid()][$templateType];
+        }
+
+        $templateFields = $this->templateFields[$templateType];
+        $typeGetter = 'get' . ucfirst(GeneralUtility::underscoredToLowerCamelCase($templateFields['type']));
+
+        /** @var $fluidTemplate \TYPO3\CMS\Fluid\View\StandaloneView */
+        $fluidTemplate = GeneralUtility::makeInstance('TYPO3\CMS\Fluid\View\StandaloneView');
+        if ($this->$typeGetter() === 'inline') {
+            $inlineTemplateGetter = 'get' . ucfirst(
+                GeneralUtility::underscoredToLowerCamelCase($templateFields['inline'])
+            );
+            $fluidTemplate->setTemplateSource($this->$inlineTemplateGetter() . ' ');
+        } else {
+            $fileTemplateGetter = 'get' . ucfirst(GeneralUtility::underscoredToLowerCamelCase($templateFields['file']));
+            $filePath = File::getFilePath($this->$fileTemplateGetter());
+            if (!file_exists($filePath)) {
+                $fluidTemplate->setTemplateSource('');
+            } else {
+                $templateContent = file_get_contents($filePath);
+                $fluidTemplate->setTemplateSource($templateContent . ' ');
+            }
+        }
+
+        $fluidTemplate->setLayoutRootPath(File::getFilePath($this->getTemplateLayoutRootPath()));
+        $fluidTemplate->setPartialRootPath(File::getFilePath($this->getTemplatePartialRootPath()));
+
+        $fluidTemplate->assign('dce', $this);
+
+        if (TYPO3_MODE === 'FE' && isset($GLOBALS['TSFE'])) {
+            $fluidTemplate->assign('TSFE', $GLOBALS['TSFE']);
+            $fluidTemplate->assign('page', $GLOBALS['TSFE']->page);
+
+            $typoScriptService = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Service\TypoScriptService');
+            $fluidTemplate->assign(
+                'tsSetup',
+                $typoScriptService->convertTypoScriptArrayToPlainArray($GLOBALS['TSFE']->tmpl->setup)
+            );
+        }
+
+        self::$fluidTemplateCache[$this->getUid()][$templateType] = $fluidTemplate;
+        return $fluidTemplate;
     }
 }
