@@ -1,4 +1,5 @@
 <?php
+namespace ArminVieweg\Dce\Hooks;
 
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is
  *  | free software and is licensed under GNU General Public License.
@@ -11,16 +12,15 @@
  *
  * @package ArminVieweg\Dce
  */
-class tx_clearCache
+class ClearCachePostHook
 {
-
     /**
      * Clears the dce cache files
      *
-     * @param $params
+     * @param array $params
      * @return void
      */
-    public function clearDceCache($params)
+    public function clearDceCache(array $params)
     {
         if ($params['cacheCmd'] === 'all' || $params['cacheCmd'] === 'temp_cached') {
             if (file_exists($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceLocalconfPath'])) {

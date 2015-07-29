@@ -11,6 +11,7 @@ if (!defined('TYPO3_MODE')) {
 }
 
 $boot = function ($extensionKey) {
+    // Include cached ext_tables
     $GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceExtTablesPath'] = PATH_typo3conf . 'temp_CACHED_dce_ext_tables.php';
     if (!file_exists($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceExtTablesPath'])) {
         /** @var $dceCache \ArminVieweg\Dce\Cache */
@@ -19,6 +20,7 @@ $boot = function ($extensionKey) {
     }
     require_once($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceExtTablesPath']);
 
+    // Register backend module
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
         'ArminVieweg.' . $extensionKey,
         'tools',

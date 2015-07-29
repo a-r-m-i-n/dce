@@ -1,4 +1,5 @@
 <?php
+namespace ArminVieweg\Dce\Hooks;
 
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is
  *  | free software and is licensed under GNU General Public License.
@@ -8,11 +9,11 @@
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * Save DCE Hook
+ * AfterSave Hook
  *
  * @package ArminVieweg\Dce
  */
-class tx_saveDce
+class AfterSaveHook
 {
     /** @var \TYPO3\CMS\Core\DataHandling\DataHandler */
     protected $dataHandler = null;

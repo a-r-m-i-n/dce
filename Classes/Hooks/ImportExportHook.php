@@ -1,22 +1,22 @@
 <?php
 namespace ArminVieweg\Dce\Hooks;
 
-    /*  | This extension is part of the TYPO3 project. The TYPO3 project is
-     *  | free software and is licensed under GNU General Public License.
-     *  |
-     *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
-     */
+/*  | This extension is part of the TYPO3 project. The TYPO3 project is
+ *  | free software and is licensed under GNU General Public License.
+ *  |
+ *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ */
 
 /**
- * Import Hook
+ * Import/Export Hook
  *
  * @package ArminVieweg\Dce
  */
-class ImpExp
+class ImportExportHook
 {
     /**
      * Update tt_content dce record on import. Also sets global for import in
-     * progress indicator used in tx_saveDce.
+     * progress indicator used in AfterSaveHook.
      *
      * @param array $params
      * @return void

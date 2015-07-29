@@ -1,4 +1,5 @@
 <?php
+namespace ArminVieweg\Dce\Hooks;
 
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is
  *  | free software and is licensed under GNU General Public License.
@@ -13,9 +14,8 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  *
  * @package ArminVieweg\Dce
  */
-class tx_docHeaderButtonsHook
+class DocHeaderButtonsHook
 {
-
     /**
      * Adds a new button to docheader. This affects just DCE instances.
      * The button will be not visible if the current backend user is
@@ -24,7 +24,7 @@ class tx_docHeaderButtonsHook
      * @param array $params
      * @return void
      */
-    public function addQuickDcePopupButton(array &$params)
+    public function addDcePopupButton(array &$params)
     {
         $editGetParam = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('edit');
         $editGetParam = isset($editGetParam['tt_content']) ? $editGetParam['tt_content'] : null;
@@ -44,15 +44,7 @@ class tx_docHeaderButtonsHook
             $dceUid = \ArminVieweg\Dce\Domain\Repository\DceRepository::extractUidFromCtype($cType);
 
             if ($dceUid !== false) {
-                $buttonCode = '';
-                if ($GLOBALS['BE_USER']->isAdmin()) {
-                    $linkToDce = 'alt_doc.php?&returnUrl=close.html&edit[tx_dce_domain_model_dce][' . $dceUid . ']=edit';
-                    $pathToImage = ExtensionManagementUtility::extRelPath('dce') . 'Resources/Public/Icons/docheader_icon.png';
-                    $titleTag = LocalizationUtility::translate('quickDcePopup', 'Dce');
-                    $buttonCode = '<div class="buttongroup"><a href="#" onclick="window.open(\'' . $linkToDce .
-                        '\', \'editDcePopup\', \'height=600,width=820,status=0,menubar=0,scrollbars=1\')"><img src="' .
-                        $pathToImage . '" alt="" title="' . $titleTag . '" /></a></div>';
-                }
+                $buttonCode = $this->generateButtonHtmlCode($dceUid);
                 $params['markers']['BUTTONLIST_LEFT'] .= $buttonCode . $this->getCustomStylesheet();
             }
         }
@@ -68,7 +60,6 @@ class tx_docHeaderButtonsHook
         require_once(ExtensionManagementUtility::extPath('dce') . 'Classes/Domain/Repository/DceRepository.php');
     }
 
-
     /**
      * Adds stylesheet when editing dce instance. Not nice solved, but it works.
      *
@@ -79,5 +70,26 @@ class tx_docHeaderButtonsHook
         $file = ExtensionManagementUtility::extPath('dce') . 'Resources/Public/Css/dceInstance.css';
         $content = file_get_contents($file);
         return '<style type="text/css">' . $content . '</style>';
+    }
+
+    /**
+     * Generate button html code
+     *
+     * @param int $dceUid
+     * @return string
+     */
+    protected function generateButtonHtmlCode($dceUid)
+    {
+        if (!$GLOBALS['BE_USER']->isAdmin()) {
+            return '';
+        }
+
+        $linkToDce = 'alt_doc.php?&returnUrl=close.html&edit[tx_dce_domain_model_dce][' . $dceUid . ']=edit';
+        $pathToImage = ExtensionManagementUtility::extRelPath('dce') . 'Resources/Public/Icons/docheader_icon.png';
+        $titleTag = LocalizationUtility::translate('dcePopupButtonTitle', 'Dce');
+
+        return '<div class="buttongroup"><a href="#" class="dcePopupButton" onclick="window.open(\'' . $linkToDce .
+            '\', \'editDcePopup\', \'height=600,width=820,status=0,menubar=0,scrollbars=1\')"><img src="' .
+            $pathToImage . '" alt="" title="' . $titleTag . '" /></a></div>';
     }
 }

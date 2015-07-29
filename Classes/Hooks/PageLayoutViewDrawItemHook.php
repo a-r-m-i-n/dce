@@ -1,4 +1,5 @@
 <?php
+namespace ArminVieweg\Dce\Hooks;
 
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is
  *  | free software and is licensed under GNU General Public License.
@@ -7,11 +8,11 @@
  */
 
 /**
- * Render DCE Content Element Hook
+ * PageLayoutView DrawItem Hook for DCE content elements
  *
  * @package ArminVieweg\Dce
  */
-class tx_renderDceContentElement implements \TYPO3\CMS\Backend\View\PageLayoutViewDrawItemHookInterface
+class PageLayoutViewDrawItemHook implements \TYPO3\CMS\Backend\View\PageLayoutViewDrawItemHookInterface
 {
     /**
      * Disable rendering restrictions for dce content elements

@@ -13,46 +13,63 @@ if (!defined('TYPO3_MODE')) {
 $boot = function ($extensionKey) {
     $extensionPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($extensionKey);
 
-    // Save hook
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] =
-        'EXT:' . $extensionKey . '/Classes/Hooks/tx_saveDce.php:tx_saveDce';
+    // AfterSave hook
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass']['dce'] =
+        'ArminVieweg\\Dce\\Hooks\\AfterSaveHook';
 
-    // ImpExp Hooks
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/impexp/class.tx_impexp.php']['before_setRelation'][] =
-        'EXT:' . $extensionKey . '/Classes/Hooks/ImpExp.php:ArminVieweg\Dce\Hooks\ImpExp->beforeSetRelation';
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/impexp/class.tx_impexp.php']['before_writeRecordsRecords'][] =
-        'EXT:' . $extensionKey . '/Classes/Hooks/ImpExp.php:ArminVieweg\Dce\Hooks\ImpExp->beforeWriteRecordsRecords';
+    // ImportExport Hooks
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/impexp/class.tx_impexp.php']['before_setRelation']['dce'] =
+        'EXT:' . $extensionKey . '/Classes/Hooks/ImportExportHook.php:' .
+        'ArminVieweg\\Dce\\Hooks\\ImportExportHook->beforeSetRelation';
 
-    // User conditions
-    require_once($extensionPath . 'Classes/UserConditions/user_dceOnCurrentPage.php');
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/impexp/class.tx_impexp.php']['before_writeRecordsRecords']['dce'] =
+        'EXT:' . $extensionKey . '/Classes/Hooks/ImportExportHook.php:' .
+        'ArminVieweg\\Dce\\Hooks\\ImportExportHook->beforeWriteRecordsRecords';
 
-    // Rendering hook of content elements in backend
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['tt_content_drawItem'][] =
-        'EXT:dce/Classes/Hooks/tx_renderDceContentElement.php:tx_renderDceContentElement';
+    // PageLayoutView DrawItem Hook for DCE content elements
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['tt_content_drawItem']['dce'] =
+        'EXT:' . $extensionKey . '/Classes/Hooks/PageLayoutViewDrawItemHook.php:' .
+        'ArminVieweg\\Dce\\Hooks\\PageLayoutViewDrawItemHook';
 
     // Clear cache hook
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc'][] =
-        'EXT:dce/Classes/Hooks/tx_clearCache.php:tx_clearCache->clearDceCache';
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc']['dce'] =
+        'EXT:' . $extensionKey . '/Classes/Hooks/ClearCachePostHook.php:' .
+        'ArminVieweg\\Dce\\Hooks\\ClearCachePostHook->clearDceCache';
 
-    // Access check
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['typo3/alt_doc.php']['makeEditForm_accessCheck'][] =
-        'EXT:dce/Classes/Hooks/tx_accessCheck.php:tx_accessCheck->checkAccess';
+    // Make edit form access check hook
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['typo3/alt_doc.php']['makeEditForm_accessCheck']['dce'] =
+        'EXT:' . $extensionKey . '/Classes/Hooks/MakeEditFormAccessCheckHook.php:' .
+        'ArminVieweg\\Dce\\Hooks\\MakeEditFormAccessCheckHook->checkAccess';
+
+    // DocHeader buttons hook
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['typo3/template.php']['docHeaderButtonsHook'][] =
+        'EXT:' . $extensionKey . '/Classes/Hooks/DocHeaderButtonsHook.php:' .
+        'ArminVieweg\\Dce\\Hooks\\DocHeaderButtonsHook->addDcePopupButton';
+
 
     // DataPreprocessor XClass
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Backend\\Form\\DataPreprocessor'] = array(
         'className' => 'ArminVieweg\Dce\XClass\DataPreprocessor',
     );
 
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['typo3/template.php']['docHeaderButtonsHook'][] =
-        'EXT:dce/Classes/Hooks/tx_docHeaderButtonsHook.php:tx_docHeaderButtonsHook->addQuickDcePopupButton';
+
+    // User conditions
+    require_once($extensionPath . 'Classes/UserConditions/user_dceOnCurrentPage.php');
+
 
     // Special tce validators (eval)
     require_once($extensionPath . 'Classes/UserFunction/CustomFieldValidation/AbstractFieldValidator.php');
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tce']['formevals']['ArminVieweg\Dce\UserFunction\CustomFieldValidation\\' .
-    'LowerCamelCaseValidator'] = 'EXT:dce/Classes/UserFunction/CustomFieldValidation/LowerCamelCaseValidator.php';
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tce']['formevals']['ArminVieweg\Dce\UserFunction\CustomFieldValidation\\' .
-    'NoLeadingNumberValidator'] = 'EXT:dce/Classes/UserFunction/CustomFieldValidation/NoLeadingNumberValidator.php';
 
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tce']['formevals']
+    ['ArminVieweg\Dce\UserFunction\CustomFieldValidation\\LowerCamelCaseValidator'] =
+        'EXT:dce/Classes/UserFunction/CustomFieldValidation/LowerCamelCaseValidator.php';
+
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tce']['formevals']
+    ['ArminVieweg\Dce\UserFunction\CustomFieldValidation\\NoLeadingNumberValidator'] =
+        'EXT:dce/Classes/UserFunction/CustomFieldValidation/NoLeadingNumberValidator.php';
+
+
+    // Include cached ext_localconf
     $GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceLocalconfPath'] = PATH_typo3conf . 'temp_CACHED_dce_ext_localconf.php';
     if (!file_exists($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceLocalconfPath'])) {
         /** @var $dceCache \ArminVieweg\Dce\Cache */
