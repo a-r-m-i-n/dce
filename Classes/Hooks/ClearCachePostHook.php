@@ -15,6 +15,15 @@ namespace ArminVieweg\Dce\Hooks;
 class ClearCachePostHook
 {
     /**
+     * @var array Defines after which cache clearing the DCE cache
+     *            should get cleared as well
+     */
+    protected $clearedCacheTypes = array(
+        'all', 'temp_cached', 'system'
+    );
+
+
+    /**
      * Clears the dce cache files
      *
      * @param array $params
@@ -22,13 +31,8 @@ class ClearCachePostHook
      */
     public function clearDceCache(array $params)
     {
-        if ($params['cacheCmd'] === 'all' || $params['cacheCmd'] === 'temp_cached') {
-            if (file_exists($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceLocalconfPath'])) {
-                unlink($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceLocalconfPath']);
-            }
-            if (file_exists($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceExtTablesPath'])) {
-                unlink($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceExtTablesPath']);
-            }
+        if (in_array($params['cacheCmd'], $this->clearedCacheTypes)) {
+            \ArminVieweg\Dce\Cache::clear();
         }
     }
 }

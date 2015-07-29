@@ -11,14 +11,30 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * Generates "temp_CACHED_dce_ext_localconf.php" and
- * "temp_CACHED_dce_ext_tables.php" located in /typo3conf/ which contains
+ * Generates "ext_localconf.php" and "ext_tables.php" located
+ * in "typo3temp/Cache/Code/cache_dce/" which contains
  * the whole DCE configurations used by TYPO3.
  *
  * @package ArminVieweg\Dce
  */
 class Cache
 {
+    /**
+     * Path of DCE cache files
+     */
+    const CACHE_PATH = 'typo3temp/Cache/Code/cache_dce/';
+
+    /**
+     * Filename for cache type ext_localconf
+     */
+    const CACHE_TYPE_EXTLOCALCONF = 'ext_localconf.php';
+
+    /**
+     * Filename for cache type ext_tables
+     */
+    const CACHE_TYPE_EXTTABLES = 'ext_tables.php';
+
+
     /**
      * @var \ArminVieweg\Dce\Utility\FluidTemplate
      */
@@ -35,11 +51,9 @@ class Cache
     /**
      * Create localconf
      *
-     * @param string $pathDceLocalconf
-     *
      * @return void
      */
-    public function createLocalconf($pathDceLocalconf)
+    public function createLocalconf()
     {
         \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection();
         $this->fluidTemplateUtility->setTemplatePathAndFilename(
@@ -51,20 +65,15 @@ class Cache
 
         $dces = array_merge($this->getDatabaseDce(), $staticDceUtility->getAll());
         $this->fluidTemplateUtility->assign('dceArray', $dces);
-        $string = $this->fluidTemplateUtility->render();
-
-        file_put_contents($pathDceLocalconf, $string);
-        GeneralUtility::fixPermissions($pathDceLocalconf);
+        $this->saveCacheData(self::CACHE_TYPE_EXTLOCALCONF, $this->fluidTemplateUtility->render());
     }
 
     /**
      * Create ext_tables
      *
-     * @param string $pathDceExtTables
-     *
      * @return void
      */
-    public function createExtTables($pathDceExtTables)
+    public function createExtTables()
     {
         \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection();
         $this->fluidTemplateUtility->setTemplatePathAndFilename(
@@ -76,10 +85,86 @@ class Cache
 
         $dces = array_merge($this->getDatabaseDce(), $staticDceUtility->getAll(true));
         $this->fluidTemplateUtility->assign('dceArray', $dces);
-        $string = $this->fluidTemplateUtility->render();
+        $this->saveCacheData(self::CACHE_TYPE_EXTTABLES, $this->fluidTemplateUtility->render());
+    }
 
-        file_put_contents($pathDceExtTables, $string);
-        GeneralUtility::fixPermissions($pathDceExtTables);
+    /**
+     * Stores given data under given path, create folder if not existing and fixes file permissions.
+     *
+     * @param string $cacheType Filename of cache file
+     * @param string $data Content to write to cache
+     * @return void
+     * @throws \Exception
+     */
+    protected function saveCacheData($cacheType, $data)
+    {
+        self::validateCacheType($cacheType);
+        self::checkCacheBasePath();
+
+        $cachePath = PATH_site . self::CACHE_PATH . $cacheType;
+        if (is_writable(dirname($cachePath))) {
+            file_put_contents($cachePath, $data);
+            GeneralUtility::fixPermissions($cachePath);
+        } else {
+            throw new \Exception('Not able to write to cache file "' . $cachePath . '"!', 1438174706);
+        }
+    }
+
+    /**
+     * Clears the DCE cache
+     *
+     * @return void
+     */
+    public static function clear()
+    {
+        $cachePath = PATH_site . self::CACHE_PATH;
+        if (file_exists($cachePath . self::CACHE_TYPE_EXTLOCALCONF)) {
+            unlink($cachePath . self::CACHE_TYPE_EXTLOCALCONF);
+        }
+        if (file_exists($cachePath . self::CACHE_TYPE_EXTTABLES)) {
+            unlink($cachePath . self::CACHE_TYPE_EXTTABLES);
+        }
+    }
+
+    /**
+     * Checks if given cache type is valid. If not an exception will be thrown.
+     *
+     * @param string $cacheType
+     * @return void
+     * @throws \UnexpectedValueException
+     */
+    protected static function validateCacheType($cacheType)
+    {
+        if ($cacheType !== self::CACHE_TYPE_EXTLOCALCONF && $cacheType !== self::CACHE_TYPE_EXTTABLES) {
+            throw new \UnexpectedValueException(
+                'Given cache type not allowed. Use \ArminVieweg\Dce\Cache::CACHE_TYPE_* constants only.',
+                1438174705
+            );
+        }
+    }
+
+    /**
+     * Checks if given cacheType exists
+     *
+     * @param string $cacheType
+     * @return bool true if cache already exists, false if not
+     */
+    public static function cacheExists($cacheType)
+    {
+        self::validateCacheType($cacheType);
+        return file_exists(PATH_site . self::CACHE_PATH . $cacheType);
+    }
+
+    /**
+     * Checks if expected folder for DCE cache is exsting. If not
+     * it creates the folder.
+     */
+    protected function checkCacheBasePath()
+    {
+        $cachePath = PATH_site . self::CACHE_PATH;
+        if (!file_exists($cachePath) || !is_dir($cachePath)) {
+            GeneralUtility::mkdir_deep($cachePath);
+        }
     }
 
     /**
@@ -102,11 +187,10 @@ class Cache
      */
     protected function getDatabaseDce()
     {
-        // fetch the existing DB connection, or initialize it
-        /** @var $TYPO3_DB \TYPO3\CMS\Dbal\Database\DatabaseConnection */
-        $TYPO3_DB = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection();
+        /** @var $databaseConnection \TYPO3\CMS\Dbal\Database\DatabaseConnection */
+        $databaseConnection = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection();
 
-        $res = $TYPO3_DB->exec_SELECTquery(
+        $res = $databaseConnection->exec_SELECTquery(
             '*',
             'tx_dce_domain_model_dce',
             'deleted=0 AND pid=0',
@@ -115,8 +199,8 @@ class Cache
         );
 
         $dce = array();
-        while (($row = $TYPO3_DB->sql_fetch_assoc($res))) {
-            $res2 = $TYPO3_DB->exec_SELECT_mm_query(
+        while (($row = $databaseConnection->sql_fetch_assoc($res))) {
+            $res2 = $databaseConnection->exec_SELECT_mm_query(
                 '*',
                 'tx_dce_domain_model_dce',
                 'tx_dce_dce_dcefield_mm',
@@ -131,12 +215,13 @@ class Cache
                 $generalTabLabel = LocalizationUtility::translate('generaltab', 'dce');
             } else {
                 $generalTabLabel = LocalizationUtility::translate(
-                    'LLL:EXT:dce/Resources/Private/Language/locallang.xml:generaltab', 'dce'
+                    'LLL:EXT:dce/Resources/Private/Language/locallang.xml:generaltab',
+                    'dce'
                 );
             }
             $tabs = array(0 => array('title' => $generalTabLabel, 'fields' => array()));
             $index = 0;
-            while (($row2 = $TYPO3_DB->sql_fetch_assoc($res2))) {
+            while ($row2 = $databaseConnection->sql_fetch_assoc($res2)) {
                 if ($row2['type'] === '1') {
                     // Create new Tab
                     $index++;
@@ -145,15 +230,19 @@ class Cache
                     $tabs[$index]['fields'] = array();
                     continue;
                 } elseif ($row2['type'] === '2') {
-                    $res3 = $TYPO3_DB->exec_SELECTquery(
+                    $res3 = $databaseConnection->exec_SELECTquery(
                         '*',
-                        'tx_dce_domain_model_dcefield as a,tx_dce_dcefield_sectionfields_mm,tx_dce_domain_model_dcefield as b',
-                        'a.uid=tx_dce_dcefield_sectionfields_mm.uid_local AND b.uid=tx_dce_dcefield_sectionfields_mm.uid_foreign
-						AND a.uid = ' . $row2['uid'] . ' AND b.deleted = 0 AND b.hidden = 0',
+                        'tx_dce_domain_model_dcefield as a,' .
+                        'tx_dce_dcefield_sectionfields_mm,' .
+                        'tx_dce_domain_model_dcefield as b',
+                        'a.uid=tx_dce_dcefield_sectionfields_mm.uid_local ' .
+                        'AND b.uid=tx_dce_dcefield_sectionfields_mm.uid_foreign AND a.uid = ' . $row2['uid'] .
+                        ' AND b.deleted = 0 AND b.hidden = 0',
                         '',
-                        'tx_dce_dcefield_sectionfields_mm.sorting asc');
+                        'tx_dce_dcefield_sectionfields_mm.sorting asc'
+                    );
                     $sectionFields = array();
-                    while (($row3 = $TYPO3_DB->sql_fetch_assoc($res3))) {
+                    while (($row3 = $databaseConnection->sql_fetch_assoc($res3))) {
                         if ($row3['type'] === '0') {
                             // add fields of section to fields
                             $sectionFields[] = $row3;
