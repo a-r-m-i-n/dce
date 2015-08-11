@@ -38,7 +38,7 @@ class CodemirrorField
         $fluidTemplate->setLayoutRootPath(GeneralUtility::getFileAbsFileName('EXT:dce/Resources/Private/Layouts/'));
         $fluidTemplate->setPartialRootPath(GeneralUtility::getFileAbsFileName('EXT:dce/Resources/Private/Partials/'));
         $fluidTemplate->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
-            'EXT:dce/Resources/Private/Templates/DceUserFields/Coldmirror.html'
+            'EXT:dce/Resources/Private/Templates/DceUserFields/Codemirror.html'
         ));
 
         $fluidTemplate->assign('name', $this->parameter['itemFormElName']);
