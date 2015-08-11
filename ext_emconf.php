@@ -8,16 +8,16 @@
 
 $EM_CONF[$_EXTKEY] = array(
     'title' => 'Dynamic Content Elements (DCE)',
-    'description' => 'Beta-Version!! Read release notes carefully: http://goo.gl/gJMBY0',
+    'description' => 'DCE is an extension for the CMS TYPO3, which creates easily and fast dynamic content elements. It is an alternative to flexible content elements (FCE) but without need of TemplaVoila (TV). Based on Extbase and Fluid.',
     'category' => 'Backend',
     'shy' => 0,
-    'version' => '1.0.5',
+    'version' => '1.1.0-dev',
     'dependencies' => 'extbase,fluid',
     'conflicts' => '',
     'priority' => '',
     'loadOrder' => '',
     'module' => '',
-    'state' => 'beta',
+    'state' => 'stable',
     'uploadfolder' => 1,
     'createDirs' => '',
     'modify_tables' => 'tt_content',
@@ -30,7 +30,7 @@ $EM_CONF[$_EXTKEY] = array(
     'CGLcompliance_note' => '',
     'constraints' => array(
         'depends' => array(
-            'typo3' => '6.2.0-7.1.99',
+            'typo3' => '6.2.0-7.4.99',
         ),
         'conflicts' => array(),
         'suggests' => array(),
