@@ -170,8 +170,9 @@ return array(
             'config' => array(
                 'type' => 'input',
                 'size' => 30,
-                'eval' => 'trim,required,is_in,ArminVieweg\Dce\UserFunction\CustomFieldValidation\NoLeadingNumberValidator,' .
-                    'ArminVieweg\Dce\UserFunction\CustomFieldValidation\LowerCamelCaseValidator',
+                'eval' => 'trim,required,is_in,' .
+                          'ArminVieweg\Dce\UserFunction\CustomFieldValidation\NoLeadingNumberValidator,' .
+                          'ArminVieweg\Dce\UserFunction\CustomFieldValidation\LowerCamelCaseValidator',
                 'is_in' => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890_',
             ),
         ),

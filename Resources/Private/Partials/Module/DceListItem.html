@@ -1,0 +1,23 @@
+{namespace dce=ArminVieweg\Dce\ViewHelpers}
+<f:if condition="{dce.uid}">
+    <f:then>
+        <li class="db">
+
+
+            <!-- Database DCE -->
+            {dce.title}
+
+
+
+
+            <a href="{f:render(partial:'Module/OpenDce', arguments:'{uid:\'{dce.uid}\'}')}">uid:{dce.uid}</a>
+        </li>
+    </f:then>
+    <f:else>
+        <li class="static">
+            <!-- Filebased DCE -->
+            {dce.title}
+            <a href="{f:render(partial:'Module/OpenStaticDce', arguments:'{identifier:\'{dce.identifier}\'}')}">{dce.identifier}</a>
+        </li>
+    </f:else>
+</f:if>

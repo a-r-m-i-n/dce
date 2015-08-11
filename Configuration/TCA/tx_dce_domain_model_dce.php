@@ -13,7 +13,7 @@ if (!defined('TYPO3_MODE')) {
 $ll = 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:';
 $extensionPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('dce');
 
-return array(
+$dceTca = array(
     'ctrl' => array(
         'title' => $ll . 'tx_dce_domain_model_dce',
         'label' => 'title',
@@ -185,10 +185,10 @@ return array(
                     array($ll . 'tx_dce_domain_model_dce', '--div--'),
                     array($ll . 'tx_dce_domain_model_dce_long', 'dce'),
                     array($ll . 'typo3_default_categories', '--div--'),
-                    array('LLL:EXT:cms/layout/locallang_db_new_content_el.xml:common', 'common'),
-                    array('LLL:EXT:cms/layout/locallang_db_new_content_el.xml:special', 'special'),
-                    array('LLL:EXT:cms/layout/locallang_db_new_content_el.xml:forms', 'forms'),
-                    array('LLL:EXT:cms/layout/locallang_db_new_content_el.xml:plugins', 'plugins'),
+                    array('LLL:EXT:backend/Resources/Private/Language/locallang_db_new_content_el.xlf:common', 'common'),
+                    array('LLL:EXT:backend/Resources/Private/Language/locallang_db_new_content_el.xlf:special', 'special'),
+                    array('LLL:EXT:backend/Resources/Private/Language/locallang_db_new_content_el.xlf:forms', 'forms'),
+                    array('LLL:EXT:backend/Resources/Private/Language/locallang_db_new_content_el.xlf:plugins', 'plugins'),
                 ),
             ),
         ),
@@ -468,6 +468,9 @@ return array(
                         'type' => 'popup',
                         'icon' => 'fileicons/folder.gif',
                         'script' => 'browse_links.php?mode=wizard&amp;act=folder',
+                        'module' => array(
+                            'name' => 'folderWizard'
+                        ),
                         'params' => array(
                             'blindLinkOptions' => 'page,url,mail,spec,file',
                         ),
@@ -490,6 +493,9 @@ return array(
                         'type' => 'popup',
                         'icon' => 'fileicons/folder.gif',
                         'script' => 'browse_links.php?mode=wizard&amp;act=folder',
+                        'module' => array(
+                            'name' => 'folderWizard'
+                        ),
                         'params' => array(
                             'blindLinkOptions' => 'page,url,mail,spec,file',
                         ),
@@ -585,3 +591,94 @@ return array(
         ),
     ),
 );
+
+
+if (\TYPO3\CMS\Core\Utility\GeneralUtility::compat_version('7.4')) {
+    $dceTca['columns']['wizard_icon']['config']['items'] = array(
+        array($ll . 'wizardIcon.default', '--div--'),
+        array(
+            'LLL:EXT:backend/Resources/Private/Language/locallang_db_new_content_el.xlf:common_regularText_title',
+            'regular_text',
+            'EXT:frontend/Resources/Public/Icons/ContentElementWizard/regular_header.gif'
+        ),
+        array(
+            'LLL:EXT:backend/Resources/Private/Language/locallang_db_new_content_el.xlf:special_plainHTML_title',
+            'html',
+            'EXT:frontend/Resources/Public/Icons/ContentElementWizard/html.gif'
+        ),
+        array(
+            'LLL:EXT:backend/Resources/Private/Language/locallang_db_new_content_el.xlf:common_bulletList_title',
+            'bullet_list',
+            'EXT:frontend/Resources/Public/Icons/ContentElementWizard/bullet_list.gif'
+        ),
+        array(
+            'LLL:EXT:backend/Resources/Private/Language/locallang_db_new_content_el.xlf:common_textImage_title',
+            'text_image_right',
+            'EXT:frontend/Resources/Public/Icons/ContentElementWizard/text_image_right.gif'
+        ),
+        array(
+            $ll . 'common_textImage2_title',
+            'text_image_below',
+            'EXT:frontend/Resources/Public/Icons/ContentElementWizard/text_image_below.gif'
+        ),
+        array(
+            'LLL:EXT:backend/Resources/Private/Language/locallang_db_new_content_el.xlf:common_table_title',
+            'table',
+            'EXT:frontend/Resources/Public/Icons/ContentElementWizard/table.gif'
+        ),
+        array(
+            'LLL:EXT:backend/Resources/Private/Language/locallang_db_new_content_el.xlf:special_sitemap_title',
+            'sitemap',
+            'EXT:frontend/Resources/Public/Icons/ContentElementWizard/sitemap.gif'
+        ),
+        array(
+            $ll . 'special_sitemap2_title',
+            'sitemap2',
+            'EXT:frontend/Resources/Public/Icons/ContentElementWizard/sitemap2.gif'
+        ),
+        array(
+            'LLL:EXT:backend/Resources/Private/Language/locallang_db_new_content_el.xlf:forms_search_title',
+            'searchform',
+            'EXT:frontend/Resources/Public/Icons/ContentElementWizard/searchform.gif'
+        ),
+        array(
+            'LLL:EXT:backend/Resources/Private/Language/locallang_db_new_content_el.xlf:special_multimedia_title',
+            'multimedia',
+            'EXT:frontend/Resources/Public/Icons/ContentElementWizard/multimedia.gif'
+        ),
+        array(
+            'LLL:EXT:backend/Resources/Private/Language/locallang_db_new_content_el.xlf:forms_mail_title',
+            'mailform',
+            'EXT:frontend/Resources/Public/Icons/ContentElementWizard/mailform.gif'
+        ),
+        array(
+            'LLL:EXT:backend/Resources/Private/Language/locallang_db_new_content_el.xlf:forms_login_title',
+            'login_form',
+            'EXT:frontend/Resources/Public/Icons/ContentElementWizard/login_form.gif'
+        ),
+        array(
+            'LLL:EXT:backend/Resources/Private/Language/locallang_db_new_content_el.xlf:common_imagesOnly_title',
+            'images_only',
+            'EXT:frontend/Resources/Public/Icons/ContentElementWizard/images_only.gif'
+        ),
+        array(
+            'LLL:EXT:backend/Resources/Private/Language/locallang_db_new_content_el.xlf:special_filelinks_title',
+            'filelinks',
+            'EXT:frontend/Resources/Public/Icons/ContentElementWizard/filelinks.gif'
+        ),
+        array(
+            'LLL:EXT:backend/Resources/Private/Language/locallang_db_new_content_el.xlf:special_divider_title',
+            'div',
+            'EXT:frontend/Resources/Public/Icons/ContentElementWizard/div.gif'
+        ),
+        array(
+            'LLL:EXT:backend/Resources/Private/Language/locallang_db_new_content_el.xlf:plugins_general_title',
+            'user_defined',
+            'EXT:frontend/Resources/Public/Icons/ContentElementWizard/user_defined.gif'
+        ),
+        array($ll . 'wizardIcon.custom', '--div--'),
+        array($ll . 'wizardIcon.customIcon', 'custom'),
+    );
+}
+
+return $dceTca;
