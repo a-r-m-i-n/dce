@@ -52,6 +52,10 @@ $boot = function ($extensionKey) {
         'className' => 'ArminVieweg\Dce\XClass\DataPreprocessor',
     );
 
+    // LiveSearch XClass
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Backend\\Search\\LiveSearch\\LiveSearch'] = array(
+        'className' => 'ArminVieweg\Dce\XClass\LiveSearch',
+    );
 
     // User conditions
     require_once($extensionPath . 'Classes/UserConditions/user_dceOnCurrentPage.php');

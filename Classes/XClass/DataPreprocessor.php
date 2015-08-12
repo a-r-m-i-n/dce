@@ -8,7 +8,7 @@ namespace ArminVieweg\Dce\XClass;
      */
 
 /**
- * Class DataPreprocessor
+ * XClass DataPreprocessor
  *
  * @package ArminVieweg\Dce
  */
