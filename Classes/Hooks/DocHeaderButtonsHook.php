@@ -84,7 +84,12 @@ class DocHeaderButtonsHook
             return '';
         }
 
-        $linkToDce = 'alt_doc.php?&returnUrl=close.html&edit[tx_dce_domain_model_dce][' . $dceUid . ']=edit';
+        $returnUrl = 'sysext/backend/Resources/Private/Templates/Close.html';
+        if (!\TYPO3\CMS\Core\Utility\GeneralUtility::compat_version('7.4')) {
+            $returnUrl = 'close.html';
+        }
+        $linkToDce = 'alt_doc.php?&returnUrl=' . $returnUrl . '&edit[tx_dce_domain_model_dce][' . $dceUid . ']=edit';
+
         $pathToImage = ExtensionManagementUtility::extRelPath('dce') . 'Resources/Public/Icons/docheader_icon.png';
         $titleTag = LocalizationUtility::translate('dcePopupButtonTitle', 'Dce');
 
