@@ -461,22 +461,6 @@ $dceTca = array(
                 'type' => 'input',
                 'eval' => 'trim,required',
                 'default' => 'EXT:dce/Resources/Private/Layouts/',
-                'wizards' => array(
-                    '_PADDING' => 2,
-                    0 => array(
-                        'title' => 'Link',
-                        'type' => 'popup',
-                        'icon' => 'fileicons/folder.gif',
-                        'script' => 'browse_links.php?mode=wizard&amp;act=folder',
-                        'module' => array(
-                            'name' => 'folderWizard'
-                        ),
-                        'params' => array(
-                            'blindLinkOptions' => 'page,url,mail,spec,file',
-                        ),
-                        'JSopenParams' => 'height=400,width=500,status=0,menubar=0,scrollbars=1',
-                    ),
-                ),
             ),
         ),
         'template_partial_root_path' => array(
@@ -486,22 +470,6 @@ $dceTca = array(
                 'type' => 'input',
                 'eval' => 'trim,required',
                 'default' => 'EXT:dce/Resources/Private/Partials/',
-                'wizards' => array(
-                    '_PADDING' => 2,
-                    0 => array(
-                        'title' => 'Link',
-                        'type' => 'popup',
-                        'icon' => 'fileicons/folder.gif',
-                        'script' => 'browse_links.php?mode=wizard&amp;act=folder',
-                        'module' => array(
-                            'name' => 'folderWizard'
-                        ),
-                        'params' => array(
-                            'blindLinkOptions' => 'page,url,mail,spec,file',
-                        ),
-                        'JSopenParams' => 'height=400,width=500,status=0,menubar=0,scrollbars=1',
-                    ),
-                ),
             ),
         ),
         'enable_detailpage' => array(
