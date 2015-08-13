@@ -11,6 +11,7 @@ namespace ArminVieweg\Dce\ViewHelpers\Be;
  * Get the current version of TYPO3 as integer
  *
  * @package ArminVieweg\Dce
+ * @deprecated Will be removed in 1.2. Use \ArminVieweg\Dce\ViewHelpers\Be\Version\Typo3ViewHelper instead.
  */
 class CurrentTypo3VersionViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper
 {
