@@ -77,6 +77,18 @@ function initCodeMirrorEditor($textarea, mode) {
  */
 function disableSectionFieldType() {
 	var $ = TYPO3.jQuery;
-	$('select[name^="data[tx_dce_domain_model_dcefield]"][name$="[type]"]').closest('.wrapperTable').hide();
-	$('select[name^="data[tx_dce_domain_model_dcefield]"][name$="[type]"]').closest('fieldset.form-section').hide();
+
+	$('select[name^="data[tx_dce_domain_model_dcefield]"][name$="[type]"]').each(function(){
+		// 6.2
+		var $wrapperTable = $(this).closest('.wrapperTable');
+		if ($wrapperTable.is(':visible') && $wrapperTable.parents('div[id$="section_fields_records"]').length > 0 ) {
+			$wrapperTable.hide();
+		}
+
+		// 7.x
+		var $wrapperFieldset = $(this).closest('fieldset.form-section');
+		if ($wrapperFieldset.is(':visible') && $wrapperFieldset.parents('div[id$="section_fields_records"]').length > 0 ) {
+			$wrapperFieldset.hide();
+		}
+	});
 }
