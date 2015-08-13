@@ -84,6 +84,10 @@ class Cache
         $staticDceUtility = GeneralUtility::makeInstance('ArminVieweg\Dce\Utility\StaticDce');
 
         $dces = array_merge($this->getDatabaseDce(), $staticDceUtility->getAll(true));
+
+        if (ExtensionManagementUtility::isLoaded('gridelements')) {
+            $dces = $this->ensureGridelementsFieldCompatibility($dces);
+        }
         $this->fluidTemplateUtility->assign('dceArray', $dces);
         $this->saveCacheData(self::CACHE_TYPE_EXTTABLES, $this->fluidTemplateUtility->render());
     }
@@ -264,5 +268,27 @@ class Cache
             $dce[] = $row;
         }
         return $dce;
+    }
+
+    /**
+     * Iterates through given DCE rows and add field "" to DCE palettes
+     * if not already set.
+     *
+     * @param array $dces
+     * @return array
+     */
+    protected function ensureGridelementsFieldCompatibility($dces)
+    {
+        foreach ($dces as $key => $dceRow) {
+            $paletteFields = GeneralUtility::trimExplode(',', $dceRow['palette_fields'], true);
+            if (!in_array('colPos', $paletteFields)) {
+                $paletteFields[] = 'colPos';
+            }
+            if (!in_array('tx_gridelements_container', $paletteFields)) {
+                $paletteFields[] = 'tx_gridelements_container ';
+            }
+            $dces[$key]['palette_fields'] = implode(', ', $paletteFields);
+        }
+        return $dces;
     }
 }
