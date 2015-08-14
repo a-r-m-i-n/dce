@@ -18,6 +18,9 @@
 			<label index="goToListView">Go to list view</label>
 			<label index="donate">Donate</label>
 			<label index="donateText">If you like the dce extension, feel free to donate some funds to support further development.</label>
+
+			<label index="caution">Caution!</label>
+			<label index="hideContentElementsBasedOnDce">%s content elements based on this DCE have been also disabled, to avoid errors in frontned. These content items will not get re-enabled automatically!</label>
         </languageKey>
 
         <languageKey index="de" type="array">
@@ -30,6 +33,9 @@
 			<label index="goToListView">Gehe zur Listenansicht</label>
 			<label index="donate">Spenden</label>
 			<label index="donateText">Wenn Ihnen die DCE Extension gefällt, können Sie die weitere Entwicklung der Extension mit einer Spende unterstützen.</label>
+
+			<label index="caution">Achtung!</label>
+			<label index="hideContentElementsBasedOnDce">%i Inhaltselemente, welche auf diesem DCE basieren wurden ebenfalls deaktiviert um Fehlermeldungen im Frontend zu vermeiden. Die deaktivierten Inhaltselemente werden nicht automatisch wieder aktiviert.</label>
         </languageKey>
     </data>
 </T3locallang>

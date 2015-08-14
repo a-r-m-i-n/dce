@@ -6,7 +6,9 @@ namespace ArminVieweg\Dce\Hooks;
  *  |
  *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
+use ArminVieweg\Dce\Utility\FlashMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * AfterSave Hook
@@ -205,7 +207,11 @@ class AfterSaveHook
 
         if ($table === 'tx_dce_domain_model_dce' && $status === 'update') {
             if (!isset($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceImportInProgress'])) {
-                $this->performPreviewAutoupdateBatchOnDceChange();
+                if (array_key_exists('hidden', $fieldArray) && $fieldArray['hidden'] == '1') {
+                    $this->hideContentElementsBasedOnDce();
+                } else {
+                    $this->performPreviewAutoupdateBatchOnDceChange();
+                }
             }
         }
 
@@ -250,7 +256,7 @@ class AfterSaveHook
      */
     protected function performPreviewAutoupdateBatchOnDceChange()
     {
-        $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid', 'tt_content', 'CType="dce_dceuid' . $this->uid . '"');
+        $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid', 'tt_content', 'CType="dce_dceuid' . $this->uid . '" AND deleted=0');
         while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
             if (!$GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceImportInProgress']) {
                 $fieldArray = $this->generateDcePreview($row['uid']);
@@ -261,6 +267,39 @@ class AfterSaveHook
         }
     }
 
+    /**
+     * Disables content elements based on this deactivated DCE. Also display flash message
+     * about the amount of content elements affected and a notice, that these content elements
+     * will not get re-enabled when enabling the DCE again.
+     *
+     * @return void
+     */
+    protected function hideContentElementsBasedOnDce()
+    {
+        $whereStatement = 'CType="dce_dceuid' . $this->uid . '" AND deleted=0 AND hidden=0';
+        $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid', 'tt_content', $whereStatement);
+        $updatedContentElementsCount = 0;
+        while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
+            $this->dataHandler->updateDB('tt_content', $row['uid'], array('hidden' => 1));
+            $updatedContentElementsCount++;
+        }
+
+        if ($updatedContentElementsCount === 0) {
+            return;
+        }
+
+        $pathToLocallang = 'LLL:EXT:dce/Resources/Private/Language/locallang_mod.xml:';
+        $message = LocalizationUtility::translate(
+            $pathToLocallang . 'hideContentElementsBasedOnDce',
+            'Dce',
+            array('count' => $updatedContentElementsCount)
+        );
+        FlashMessage::add(
+            $message,
+            LocalizationUtility::translate($pathToLocallang . 'caution', 'Dce'),
+            \TYPO3\CMS\Core\Messaging\FlashMessage::INFO
+        );
+    }
 
     /**
      * Generates the preview texts (header and bodytext) of dce
