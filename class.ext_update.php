@@ -138,15 +138,15 @@ class ext_update
      */
     protected function updateFileTemplate(array $dceRow, $column)
     {
-        $file = $dceRow[$column];
+        $file = \ArminVieweg\Dce\Utility\File::getFilePath($dceRow[$column]);
         $this->dceStatus[$dceRow['uid']]['columns'][$column]['type'] = 'file';
-        if (!is_writeable(PATH_site . $file)) {
+        if (!is_writeable($file)) {
             $this->dceStatus[$dceRow['uid']]['columns'][$column]['status'] = 'error';
             $this->dceStatus[$dceRow['uid']]['columns'][$column]['error'] = 'Template ("' . $file . '") not writeable!';
             return;
         }
 
-        $templateContent = file_get_contents(PATH_site . $file);
+        $templateContent = file_get_contents($file);
         if (strpos($templateContent, self::NAMESPACE_OLD) !== false) {
             $updatedTemplateContent = str_replace(self::NAMESPACE_OLD, self::NAMESPACE_NEW, $templateContent);
             $updateStatus = file_put_contents(PATH_site . $file, $updatedTemplateContent);
