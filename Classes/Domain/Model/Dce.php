@@ -26,6 +26,11 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /** Identifier for detail page templates */
     const TEMPLATE_FIELD_DETAILPAGE = 3;
 
+    /** Type for databased stored DCEs */
+    const TYPE_DB = 0;
+    /** Type for filebased DCEs */
+    const TYPE_FILE = 1;
+
     /**
      * @var array Cache for fluid instances
      */
@@ -54,6 +59,11 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
             'file' => 'detailpage_template_file'
         ),
     );
+
+    /**
+     * @var int
+     */
+    protected $type = self::TYPE_DB;
 
     /** @var string */
     protected $title = '';
@@ -126,6 +136,22 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected function initStorageObjects()
     {
         $this->fields = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+    }
+
+    /**
+     * @return int
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param int $type
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
     }
 
     /**
