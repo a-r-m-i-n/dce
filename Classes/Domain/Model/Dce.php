@@ -61,8 +61,11 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     );
 
     /**
-     * @var int
+     * @var bool
      */
+    protected $hidden = false;
+
+    /** @var int */
     protected $type = self::TYPE_DB;
 
     /** @var string */
@@ -116,6 +119,21 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /** @var string */
     protected $detailpageTemplateFile = '';
 
+    /** @var bool  */
+    protected $wizardEnable = true;
+
+    /** @var string */
+    protected $wizardCategory = '';
+
+    /** @var string */
+    protected $wizardDescription = '';
+
+    /** @var string */
+    protected $wizardIcon = '';
+
+    /** @var string */
+    protected $wizardCustomIcon = '';
+
     /** @var array */
     protected $_contentObject = array();
 
@@ -136,6 +154,22 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected function initStorageObjects()
     {
         $this->fields = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getHidden()
+    {
+        return $this->hidden;
+    }
+
+    /**
+     * @param boolean $hidden
+     */
+    public function setHidden($hidden)
+    {
+        $this->hidden = $hidden;
     }
 
     /**
@@ -467,6 +501,97 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setDetailpageTemplateFile($detailpageTemplateFile)
     {
         $this->detailpageTemplateFile = $detailpageTemplateFile;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isWizardEnable()
+    {
+        return $this->wizardEnable;
+    }
+
+    /**
+     * @param boolean $wizardEnable
+     */
+    public function setWizardEnable($wizardEnable)
+    {
+        $this->wizardEnable = $wizardEnable;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWizardCategory()
+    {
+        return $this->wizardCategory;
+    }
+
+    /**
+     * @param string $wizardCategory
+     */
+    public function setWizardCategory($wizardCategory)
+    {
+        $this->wizardCategory = $wizardCategory;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWizardDescription()
+    {
+        return $this->wizardDescription;
+    }
+
+    /**
+     * @param string $wizardDescription
+     */
+    public function setWizardDescription($wizardDescription)
+    {
+        $this->wizardDescription = $wizardDescription;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWizardIcon()
+    {
+        return $this->wizardIcon;
+    }
+
+    /**
+     * @param string $wizardIcon
+     */
+    public function setWizardIcon($wizardIcon)
+    {
+        $this->wizardIcon = $wizardIcon;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWizardCustomIcon()
+    {
+        return $this->wizardCustomIcon;
+    }
+
+    /**
+     * @param string $wizardCustomIcon
+     */
+    public function setWizardCustomIcon($wizardCustomIcon)
+    {
+        $this->wizardCustomIcon = $wizardCustomIcon;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSelectedWizardIconPath()
+    {
+        if ($this->getWizardIcon() === 'custom') {
+            return 'uploads/tx_dce/' . $this->getWizardCustomIcon();
+        }
+        return 'EXT:frontend/Resources/Public/Icons/ContentElementWizard/' . $this->getWizardIcon() . '.gif';
     }
 
     /**
