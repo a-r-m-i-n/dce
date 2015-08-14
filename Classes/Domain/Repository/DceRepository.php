@@ -9,6 +9,7 @@ namespace ArminVieweg\Dce\Domain\Repository;
 use ArminVieweg\Dce\Domain\Model\DceField;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
+use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /**
@@ -32,8 +33,12 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $staticDces = $staticDceUtility->getAll();
 
         if ($includeHidden) {
-            $this->defaultQuerySettings->setIgnoreEnableFields(true);
+            /** @var \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings $querySettings */
+            $querySettings = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings');
+            $querySettings->setIgnoreEnableFields(true);
+            $this->setDefaultQuerySettings($querySettings);
         }
+        $this->setDefaultOrderings(array('sorting' => QueryInterface::ORDER_ASCENDING));
         $databaseDces = $this->findAll()->toArray();
         return array_merge($databaseDces, $staticDces);
     }
