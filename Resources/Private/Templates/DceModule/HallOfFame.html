@@ -1,0 +1,55 @@
+{namespace dce=ArminVieweg\Dce\ViewHelpers}
+
+<f:layout name="Backend" />
+<f:section name="functions">
+	<dce:be.includeCssFile path="{f:uri.resource(path:'Css/dceModule.css', extensionName: 'dce')}" />
+	<f:if condition="{dce:be.version.typo3(returnInt:'1')} < 7000000">
+		<dce:be.includeCssFile path="{f:uri.resource(path:'Css/Contrib/bootstrap.min.css', extensionName: 'dce')}" />
+		<dce:be.includeCssFile path="{f:uri.resource(path:'Css/Contrib/bootstrap-theme.min.css', extensionName: 'dce')}" />
+		<dce:be.includeCssFile path="{f:uri.resource(path:'Css/dceModule62.css', extensionName: 'dce')}" />
+	</f:if>
+</f:section>
+<f:section name="buttons">
+	<h4 class="dceHeader">
+		<f:image src="{f:uri.resource(path:'Icons/tx_dce_domain_model_dce_databased.png')}" alt="{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang_mod.xml:mlang_labels_tablabel')}" />
+		<span><f:translate key="LLL:EXT:dce/Resources/Private/Language/locallang_mod.xml:mlang_labels_tablabel" /></span>
+		<span class="dceVersion">{dce:be.version.dce()}</span>
+	</h4>
+</f:section>
+<f:section name="content">
+	<f:alias map="{lll: 'LLL:EXT:dce/Resources/Private/Language/locallang_mod.xml:'}">
+		<div class="row space-bottom">
+			<div class="col-lg-12">
+				<div class="nav-group">
+					<f:link.action action="index" class="btn btn-default"><span class="fa fa-backward"></span> {f:translate(key:'{lll}back')}</f:link.action>
+					<f:render partial="Module/Donate" arguments="{primary:'1'}" />
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-8">
+				<h1 class="hallOfFame">{f:translate(key:'{lll}hallOfFame')}</h1>
+				<p>{f:translate(key:'{lll}hallOfFameIntroText')}</p>
+
+				<ul class="list-unstyled">
+					<f:for each="{donators}" as="donator">
+						<li>
+							<div class="well">
+								<div class="icon">
+									<img src="{f:uri.resource(path:'Icons/dce_trophy.png')}" height="64" width="64">
+								</div>
+								<div class="donator">
+									<span class="name">{donator.name}</span>
+									<f:if condition="{donator.url}">
+										<br><f:link.external uri="{donator.url}" target="_blank">{donator.url}</f:link.external>
+									</f:if>
+								</div>
+								<div class="clear"></div>
+							</div>
+						</li>
+					</f:for>
+				</ul>
+			</div>
+		</div>
+	</f:alias>
+</f:section>

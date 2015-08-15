@@ -19,10 +19,14 @@ class Typo3ViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendVie
     /**
      * Returns the current TYPO3 version
      *
+     * @param bool $returnInt Returns the version number as integer if true
      * @return string Current TYPO3 version
      */
-    public function render()
+    public function render($returnInt = false)
     {
+        if ($returnInt) {
+            return \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
+        }
         return TYPO3_version;
     }
 }

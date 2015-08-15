@@ -1,22 +1,115 @@
-.buttons {
-	padding-bottom: 10px;
+.typo3-fullDoc {
+	overflow-x: hidden;
 }
 
-.buttons .button {
+#typo3-docheader > div.inner {
+	-webkit-box-shadow: inset 0px -4px 6px 0px rgba(0,0,0,0.1);
+	-moz-box-shadow: inset 0px -4px 6px 0px rgba(0,0,0,0.1);
+	box-shadow: inset 0px -4px 6px 0px rgba(0,0,0,0.1);
+	margin: 0 -50px;
+	padding: 0 50px;
+}
+
+#typo3-docheader .typo3-docheader-buttons {
+	overflow: visible;
+}
+
+h4.dceHeader {
+	margin-top: -17px;
+	font-family: Share, Verdana, Arial, Helvetica, sans-serif;
+	font-size: 21px;
+}
+
+h4.dceHeader img {
+	vertical-align: baseline;
+}
+
+div.nav-group {
+	margin-right: 30px;
 	float: left;
-	margin-right: 8px;
 }
 
-.buttons .unobtrusive {
-	padding-top: 4px;
-	color: #777;
+.space-right {
+	margin-right: 10px;
+}
+.space-bottom {
+	margin-bottom: 24px;
 }
 
-.buttons .clear {
+.typeicon {
+	float: left;
+	position: relative;
+	padding-top: 5px;
+	margin-left: 2px;
+	margin-right: 6px;
+}
+
+.typeicon .overlay {
+	position: absolute;
+	right: -6px;
+	bottom: -3px;
+}
+
+.dceLabel {
+	padding-left: 42px;
+}
+
+.listEntry {
+	min-height: 47px;
+	position: relative;
+}
+
+a.overlayLink {
+	background: transparent;
+	display: block;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	z-index: 1;
+}
+
+.label-darker {
+	background-color: #aaa;
+}
+
+.form-inline {
+	display: inline;
+}
+
+.dceVersion {
+	font-size: 12px;
+	color: #D81D13;
+}
+
+.updateCheck {
+	padding-top: 5px;
+}
+
+.well {
+	position: relative;
+}
+
+.well .donator {
+	position: absolute;
+	left: 95px;
+	top: 50%;
+	transform: translate(0, -50%);
+}
+
+.well .donator .name {
+	font-size: 1.3em;
+	color: #222;
+}
+
+.well .donator a {
+	color: #444;
+}
+
+.well > div.clear {
 	clear: left;
-}
-
-.versioncheck {
-	float: right;
-	padding-right: 10px;
+	height: 0;
+	line-height: 0;
+	font-size: 0;
 }

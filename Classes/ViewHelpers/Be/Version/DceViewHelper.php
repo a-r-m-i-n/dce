@@ -19,10 +19,16 @@ class DceViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewH
     /**
      * Returns the current version of DCE
      *
+     * @param bool $returnInt Returns the version number as integer if true
      * @return string Current DCE version
      */
-    public function render()
+    public function render($returnInt = false)
     {
+        if ($returnInt) {
+            return \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(
+                ExtensionManagementUtility::getExtensionVersion('dce')
+            );
+        }
         return ExtensionManagementUtility::getExtensionVersion('dce');
     }
 }

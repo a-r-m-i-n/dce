@@ -1,40 +1,83 @@
 {namespace dce=ArminVieweg\Dce\ViewHelpers}
 
 <f:layout name="Backend" />
-<f:section name="iconButtons">
-	<f:be.buttons.icon uri="{f:render(partial:'Module/NewDceLink')}" icon="actions-document-new" title="{f:translate(key:'LLL:typo3conf/ext/dce/Resources/Private/Language/locallang_mod.xml:createNewDce')}" />
+<f:section name="functions">
+	<dce:be.includeCssFile path="{f:uri.resource(path:'Css/dceModule.css', extensionName: 'dce')}" />
+	<f:if condition="{dce:be.version.typo3(returnInt:'1')} < 7000000 ">
+		<dce:be.includeCssFile path="{f:uri.resource(path:'Css/Contrib/bootstrap.min.css', extensionName: 'dce')}" />
+		<dce:be.includeCssFile path="{f:uri.resource(path:'Css/Contrib/bootstrap-theme.min.css', extensionName: 'dce')}" />
+		<dce:be.includeCssFile path="{f:uri.resource(path:'Css/dceModule62.css', extensionName: 'dce')}" />
+	</f:if>
+</f:section>
+<f:section name="buttons">
+	<h4 class="dceHeader">
+		<f:image src="{f:uri.resource(path:'Icons/tx_dce_domain_model_dce_databased.png')}" alt="{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang_mod.xml:mlang_labels_tablabel')}" />
+		<span><f:translate key="LLL:EXT:dce/Resources/Private/Language/locallang_mod.xml:mlang_labels_tablabel" /></span>
+		<span class="dceVersion">{dce:be.version.dce()}</span>
+	</h4>
 </f:section>
 <f:section name="content">
-	<dce:be.includeCssFile path="{f:uri.resource(path:'Css/dceModule.css', extensionName: 'dce')}" />
+	<f:alias map="{lll: 'LLL:EXT:dce/Resources/Private/Language/locallang_mod.xml:'}">
+		<div class="row space-bottom">
+			<div class="col-lg-12">
+				<div class="nav-group">
+					<a href="{f:render(partial:'Module/NewDceLink')}" class="btn btn-success">{f:translate(key:'{lll}createNewDce')}</a>
+					<a href="{f:uri.page(additionalParams:'{M:\'web_list\', id:\'0\', table:\'tx_dce_domain_model_dce\', imagemode:\'1\'}')}" class="btn btn-default">{f:translate(key:'{lll}goToListView')}</a>
+				</div>
 
-    <f:if condition="{enableUpdateCheck}">
-        <div class="versioncheck">
-            <a href="http://dce.v.ieweg.de/versioncheck/update" target="_blank"><img src="http://dce.v.ieweg.de/versioncheck?t3={dce:be.currentTypo3Version()}&amp;dce={dce:be.currentDceVersion()}&amp;l={dce:be.currentLanguage()}" alt="" /></a>
-        </div>
-    </f:if>
-	<div class="buttons">
-		<div class="button">
-			<input type="button" value="{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang_mod.xml:goToListView')}" onclick="location.href = '{f:uri.page(additionalParams:'{M:\'web_list\', id:\'0\', table:\'tx_dce_domain_model_dce\', imagemode:\'1\'}')}';" />
+				<div class="nav-group">
+					<f:link.action action="hallOfFame" class="btn btn-default">{f:translate(key:'{lll}hallOfFame')}</f:link.action>
+					<f:render partial="Module/Donate" />
+				</div>
+
+				<div class="nav-group">
+					<div class="btn-group">
+						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							{f:translate(key:'{lll}help')} <span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu">
+							<li><a target="_blank" href="https://docs.typo3.org/typo3cms/extensions/dce/">{f:translate(key:'{lll}help.manual')}</a></li>
+							<li><a target="_blank" href="https://forge.typo3.org/projects/extension-dce/wiki/">{f:translate(key:'{lll}help.wiki')}</a></li>
+							<li class="divider"></li>
+							<li><a target="_blank" href="https://www.facebook.com/TYPO3.DCE.Extension">{f:translate(key:'{lll}help.facebook')}</a></li>
+							<li><a target="_blank" href="https://bitbucket.org/ArminVieweg/dce/">{f:translate(key:'{lll}help.bitbucket')}</a></li>
+
+						</ul>
+					</div>
+				</div>
+
+				<f:if condition="{enableUpdateCheck}">
+					<div class="nav-group updateCheck">
+						<a href="http://dce.v.ieweg.de/versioncheck/update" target="_blank"><img src="http://dce.v.ieweg.de/versioncheck?t3={dce:be.version.typo3()}&amp;dce={dce:be.version.dce()}&amp;l={dce:be.currentLanguage()}" alt="" /></a>
+					</div>
+				</f:if>
+			</div>
 		</div>
-		<div class="button">
-			<form method="get" action="https://www.paypal.com/cgi-bin/webscr" target="_blank">
-				<input type="hidden" name="cmd" value="_s-xclick" />
-				<input type="hidden" name="hosted_button_id" value="2DCCULSKFRZFU" />
-				<input type="hidden" name="thank" value="you very much" />
-				<input type="submit" value="{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang_mod.xml:donate')}" />
-			</form>
+		<div class="row space-bottom">
+			<div class="col-lg-8">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>DCEs</th>
+							<th>Status</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<f:if condition="{dces -> f:count()} > 0">
+							<f:then>
+								<f:for each="{dces}" as="dce">
+									<f:render partial="Module/DceListItem" arguments="{dce:dce}" />
+								</f:for>
+							</f:then>
+							<f:else>
+								<tr><td colspan="3"><em><f:translate key="{lll}noDcesFound" /></em></td></tr>
+							</f:else>
+						</f:if>
+
+					</tbody>
+				</table>
+			</div>
 		</div>
-
-		<div class="button unobtrusive">
-			{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang_mod.xml:donateText')}
-		</div>
-
-		<div class="clear"></div>
-	</div>
-
-	<ul>
-		<f:for each="{dces}" as="dce">
-			<f:render partial="Module/DceListItem" arguments="{dce:dce}" />
-		</f:for>
-	</ul>
+	</f:alias>
 </f:section>

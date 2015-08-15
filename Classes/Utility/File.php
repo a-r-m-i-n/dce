@@ -17,7 +17,9 @@ class File
     /**
      * Converts given file path to absolute or relative file path.
      * If FAL reference is given (eg. "file:123") it will be interpret to
-     * real existing file path.
+     * real existing file path. It also performs getFileAbsFileName when
+     * the $absolute parameter is true, which allows you to use links like:
+     * "EXT:extension_key/path/to/file"
      *
      * @param string $file Filename (eg. "fileadmin/file.html") or FAL reference
      *                     (eg. "file:123")
@@ -25,7 +27,7 @@ class File
      *                       absolute path.
      * @return string File path (absolute or relative)
      */
-    static public function getFilePath($file, $absolute = true)
+    public static function getFilePath($file, $absolute = true)
     {
         $filePath = $file;
         if (\TYPO3\CMS\Core\Utility\GeneralUtility::isFirstPartOfStr($file, 'file:')) {
@@ -40,5 +42,19 @@ class File
             return \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($filePath);
         }
         return $filePath;
+    }
+
+    /**
+     * Opens JSON File and returns JSON data as array.
+     * File may contain "EXT:extension_key/path/to/file"
+     *
+     * @param string $file
+     * @return array
+     */
+    public static function openJsonFile($file)
+    {
+        $filePath = self::getFilePath($file, true);
+        $content = file_get_contents($filePath);
+        return json_decode($content, true);
     }
 }

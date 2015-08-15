@@ -1,0 +1,14 @@
+{namespace dce=ArminVieweg\Dce\ViewHelpers}
+<div class="typeicon">
+	<f:image src="{dce.selectedWizardIconPath}" />
+	<div class="overlay">
+		<f:if condition="{dce.type} == 0">
+			<f:then>
+				<f:image src="{f:uri.resource(path:'Icons/tx_dce_domain_model_dce_databased.png')}" />
+			</f:then>
+			<f:else>
+				<f:image src="{f:uri.resource(path:'Icons/tx_dce_domain_model_dce_filebased.png')}" />
+			</f:else>
+		</f:if>
+	</div>
+</div>

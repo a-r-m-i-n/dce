@@ -27,7 +27,7 @@ $boot = function ($extensionKey) {
         'dceModule',
         '',
         array(
-            'DceModule' => 'index',
+            'DceModule' => 'index,hallOfFame',
             'Dce' => 'renderPreview'
         ),
         array(

@@ -15,12 +15,25 @@
 			<label index="previewOverText">The preview tt_content record has been removed.</label>
 			<label index="previewSaveFirst">Please save the new DCE. After initial save the preview will be available. To update the preview, don't forgett to save when you have made changes on the DCE fields.</label>
 
+			<label index="createNewDce">Create new DCE</label>
 			<label index="goToListView">Go to list view</label>
+			<label index="hallOfFame">Hall of fame</label>
+			<label index="hallOfFameIntroText">Thanks to everyone who supported further development of DCE!</label>
 			<label index="donate">Donate</label>
 			<label index="donateText">If you like the dce extension, feel free to donate some funds to support further development.</label>
+			<label index="help">Help</label>
+			<label index="help.manual">Manual</label>
+			<label index="help.wiki">Wiki</label>
+			<label index="help.facebook">DCE Facebook Page</label>
+			<label index="help.bitbucket">DCE on Bitbucket</label>
 
 			<label index="caution">Caution!</label>
 			<label index="hideContentElementsBasedOnDce">%s content elements based on this DCE have been also disabled, to avoid errors in frontned. These content items will not get re-enabled automatically!</label>
+			<label index="edit">Edit</label>
+			<label index="enabled">Enabled</label>
+			<label index="disabled">Disabled</label>
+			<label index="back">Back</label>
+			<label index="noDcesFound">No DCEs found!</label>
         </languageKey>
 
         <languageKey index="de" type="array">
@@ -30,12 +43,25 @@
 			<label index="previewOverText">The Vorschau-Eintrag in tt_content wurde wieder entfernt.</label>
 			<label index="previewSaveFirst">Bitte das erst das DCE speichern. Nach einem initialem Speichern ist die Vorschau verfügbar. Um die Vorschau zu aktualisieren, nicht vergessen nach Änderungen an den DCE-Feldern zu speichern.</label>
 
+			<label index="createNewDce">Erstelle neues DCE</label>
 			<label index="goToListView">Gehe zur Listenansicht</label>
+			<label index="hallOfFame">Ruhmeshalle</label>
+			<label index="hallOfFameIntroText">Vielen Dank an alle, die die weitere Entwicklung von DCE unterstützt haben!</label>
 			<label index="donate">Spenden</label>
 			<label index="donateText">Wenn Ihnen die DCE Extension gefällt, können Sie die weitere Entwicklung der Extension mit einer Spende unterstützen.</label>
+			<label index="help">Hilfe</label>
+			<label index="help.manual">Dokumentation</label>
+			<label index="help.wiki">Wiki</label>
+			<label index="help.facebook">DCE Facebook Seite</label>
+			<label index="help.bitbucket">DCE auf Bitbucket</label>
 
 			<label index="caution">Achtung!</label>
 			<label index="hideContentElementsBasedOnDce">%i Inhaltselemente, welche auf diesem DCE basieren wurden ebenfalls deaktiviert um Fehlermeldungen im Frontend zu vermeiden. Die deaktivierten Inhaltselemente werden nicht automatisch wieder aktiviert.</label>
+			<label index="edit">Bearbeiten</label>
+			<label index="enabled">Aktiv</label>
+			<label index="disabled">Inaktiv</label>
+			<label index="back">Zurück</label>
+			<label index="noDcesFound">Keine DCEs gefunden!</label>
         </languageKey>
     </data>
 </T3locallang>
