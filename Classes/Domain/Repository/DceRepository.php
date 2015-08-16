@@ -144,7 +144,8 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                         foreach ($sectionFieldValues as $sectionFieldVariable => $sectionFieldValue) {
                             $sectionField = $dceField->getSectionFieldByVariable($sectionFieldVariable);
                             if ($sectionField instanceof DceField) {
-                                $xmlIdent = $dce->getUid() . '-' . $dceField->getVariable() . '-' . $sectionField->getVariable();
+                                $xmlIdent = $dce->getUid() . '-' . $dceField->getVariable() . '-' .
+                                    $sectionField->getVariable();
                                 $this->fillFields($sectionField, $sectionFieldValue, true, $xmlIdent);
                             }
                         }
@@ -342,21 +343,29 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         }
         $tableName = $className;
 
-        while (strpos($className, '_') !== false) {
-            $position = strpos($className, '_') + 1;
-            $className = substr($className, 0, $position - 1) . '-' . strtoupper(substr($className, $position, 1)) .
-                substr($className, $position + 1);
-        }
-
-        $className = str_replace('-', '_', $className);
-        $className{0} = strtoupper($className{0});
         $specialClass = null;
+        if ($dceFieldConfiguration['dce_load_entity_class']) {
+            $className = $dceFieldConfiguration['dce_load_entity_class'];
+        } else {
+            while (strpos($className, '_') !== false) {
+                $position = strpos($className, '_') + 1;
+                $className = substr($className, 0, $position - 1) . '-' . strtoupper(substr($className, $position, 1)) .
+                    substr($className, $position + 1);
+            }
+
+            $className = str_replace('-', '_', $className);
+            $className{0} = strtoupper($className{0});
+        }
 
         if ($dceFieldConfiguration['dce_get_fal_objects'] && strtolower($className) === 'sys_file') {
             $className = 'TYPO3\CMS\Core\Resource\File';
         }
 
-        $repositoryName = str_replace('_Model_', '_Repository_', $className) . 'Repository';
+        if (strstr($className, '\\') === false) {
+            $repositoryName = str_replace('_Model_', '_Repository_', $className) . 'Repository';
+        } else {
+            $repositoryName = str_replace('\\Model\\', '\\Repository\\', $className) . 'Repository';
+        }
 
         if (strtolower($className) === 'sys_file_collection') {
             $specialClass = 'FileCollection';
@@ -389,14 +398,18 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                 if (!$GLOBALS['TSFE']->sys_page instanceof \TYPO3\CMS\Frontend\Page\PageRepository) {
                     if (!$GLOBALS['TSFE'] instanceof \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController) {
                         $GLOBALS['TSFE'] = GeneralUtility::makeInstance(
-                            'TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController', $GLOBALS['TYPO3_CONF_VARS'],
-                            0, 0
+                            'TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController',
+                            $GLOBALS['TYPO3_CONF_VARS'],
+                            0,
+                            0
                         );
                     }
                     $GLOBALS['TSFE']->sys_page = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Page\PageRepository');
                 }
                 /** @var $contentObjectRenderer ContentObjectRenderer */
-                $contentObjectRenderer = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
+                $contentObjectRenderer = GeneralUtility::makeInstance(
+                    'TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer'
+                );
                 $enableFields = $contentObjectRenderer->enableFields($tableName);
             }
 

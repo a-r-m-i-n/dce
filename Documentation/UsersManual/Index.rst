@@ -87,6 +87,13 @@ It is also possible to access directly the value of single fields:
 
 	{otherDce.fieldname}
 
+**dce_load_entity_class**
+
+::
+
+	<dce_load_entity_class>VendorName\Extension\Domain\Model\YourModel</dce_load_entity_class>
+
+Uses this class (and its repository) instead of guessing the model class name from table name.
 
 **dce_get_fal_objects**
 
