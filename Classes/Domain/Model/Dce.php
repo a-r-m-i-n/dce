@@ -556,6 +556,9 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getWizardIcon()
     {
+        if (empty($this->wizardIcon)) {
+            return 'regular_text';
+        }
         return $this->wizardIcon;
     }
 
