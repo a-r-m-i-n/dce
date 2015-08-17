@@ -52,7 +52,8 @@ class FileInfoViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
         if (!array_key_exists($attribute, $properties)) {
             throw new \Exception(
                 'Given file in DCE\'s fileInfo view helper has no attribute named "' . $attribute . '". ' .
-                'Most common, available attributes are: title,description,alternative,width,height,name,extension,size,uid',
+                'Most common, available attributes are: title,description,alternative,width,height,name,' .
+                'extension,size,uid',
                 1429046106
             );
         }

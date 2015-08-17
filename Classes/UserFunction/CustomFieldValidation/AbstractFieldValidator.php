@@ -51,8 +51,10 @@ abstract class AbstractFieldValidator
     protected function addFlashMessage($message, $title = '', $severity = \TYPO3\CMS\Core\Messaging\FlashMessage::OK)
     {
         if (!is_string($message)) {
-            throw new \InvalidArgumentException('The flash message must be string, ' . gettype($message) . ' given.',
-                1243258395);
+            throw new \InvalidArgumentException(
+                'The flash message must be string, ' . gettype($message) . ' given.',
+                1243258395
+            );
         }
 
         /** @var \TYPO3\CMS\Core\Messaging\FlashMessage $message */
@@ -79,7 +81,9 @@ abstract class AbstractFieldValidator
     protected function translate($key, array $arguments = array())
     {
         return LocalizationUtility::translate(
-            'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:' . $key, 'Dce', $arguments
+            'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:' . $key,
+            'Dce',
+            $arguments
         );
     }
 }

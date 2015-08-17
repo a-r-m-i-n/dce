@@ -12,7 +12,7 @@ namespace ArminVieweg\Dce\ViewHelpers\Format;
  *
  * @package ArminVieweg\Dce
  */
-class  StripslashesViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class StripslashesViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
     /**
      * Add slashes to a given string using the php function "stripslashes".

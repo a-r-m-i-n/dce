@@ -25,7 +25,9 @@ class TypolinkUrlViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVie
     public function render($parameter)
     {
         /** @var $cObj \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer */
-        $cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
+        $cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+            'TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer'
+        );
         return $cObj->getTypoLink_URL($parameter);
     }
 }

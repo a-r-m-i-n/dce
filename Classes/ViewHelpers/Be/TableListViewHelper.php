@@ -50,8 +50,19 @@ class TableListViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\TableListViewH
         }
         $this->getDocInstance();
 
-        return parent::render($tableName, $fieldList, $storagePid, $levels, $filter, $recordsPerPage, $sortField,
+        return parent::render(
+            $tableName,
+            $fieldList,
+            $storagePid,
+            $levels,
+            $filter,
+            $recordsPerPage,
+            $sortField,
             $sortDescending,
-            $readOnly, $enableClickMenu, $clickTitleMode, $alternateBackgroundColors);
+            $readOnly,
+            $enableClickMenu,
+            $clickTitleMode,
+            $alternateBackgroundColors
+        );
     }
 }

@@ -146,13 +146,13 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                             if ($sectionField instanceof DceField) {
                                 $xmlIdent = $dce->getUid() . '-' . $dceField->getVariable() . '-' .
                                     $sectionField->getVariable();
-                                $this->fillFields($sectionField, $sectionFieldValue, true, $xmlIdent);
+                                $this->fillFields($sectionField, $sectionFieldValue, $xmlIdent, true);
                             }
                         }
                     }
                 } else {
                     $xmlIdent = $dce->getUid() . '-' . $dceField->getVariable();
-                    $this->fillFields($dceField, $fieldValue, false, $xmlIdent);
+                    $this->fillFields($dceField, $fieldValue, $xmlIdent, false);
                 }
             }
         }
@@ -166,15 +166,15 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      *
      * @param DceField $dceField
      * @param string $fieldValue
-     * @param bool $isSectionField
      * @param string $xmlIdentifier
+     * @param bool $isSectionField
      * @return void
      */
     protected function fillFields(
         DceField $dceField,
         $fieldValue,
-        $isSectionField = false,
-        $xmlIdentifier
+        $xmlIdentifier,
+        $isSectionField = false
     ) {
 
         $xmlWrapping = 'xml-' . $xmlIdentifier;
@@ -278,7 +278,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      * @return int|string|bool
      * @static
      */
-    static public function extractUidFromCtype($cType)
+    public static function extractUidFromCtype($cType)
     {
         if (strpos($cType, 'dceuid') === 0) {
             return intval(substr($cType, 6));
@@ -300,7 +300,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      *                     returns FALSE
      * @static
      */
-    static public function convertUidToCtype($uid)
+    public static function convertUidToCtype($uid)
     {
         $uid = intval($uid);
         if ($uid === 0) {

@@ -104,10 +104,9 @@ class TypoScript
                         $value = implode("\n", $indentedValueLines);
                     }
                     $tabAmount = ($tab === 0) ? $tab : $tab - 1;
-                    $typoScript .= str_repeat("\t", $tabAmount) . $key . " (\n" . $value . "\n" . str_repeat("\t",
-                            $tabAmount) . ")\n";
+                    $typoScript .= str_repeat("\t", $tabAmount) . $key . " (\n" . $value . "\n" .
+                        str_repeat("\t", $tabAmount) . ")\n";
                 }
-
             } else {
                 $typoScript .= $this->convertArrayToTypoScript($value, $key, $tab, false);
             }

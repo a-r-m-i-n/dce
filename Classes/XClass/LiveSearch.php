@@ -21,7 +21,8 @@ class LiveSearch extends \TYPO3\CMS\Backend\Search\LiveSearch\LiveSearch
      * @param array $fieldsToSearchWithin
      * @return mixed|string
      */
-    protected function makeQuerySearchByTable($tableName, array $fieldsToSearchWithin) {
+    protected function makeQuerySearchByTable($tableName, array $fieldsToSearchWithin)
+    {
         $data = parent::makeQuerySearchByTable($tableName, $fieldsToSearchWithin);
         $searchString = 'CType=\'text\' OR CType=\'textpic\'';
         $dceAppendix = ' OR CType LIKE \'dce_%\'';

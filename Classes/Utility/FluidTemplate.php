@@ -52,7 +52,8 @@ class FluidTemplate
             $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'],
             array('extbase_object' => array())
         );
-        GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Cache\\CacheManager')->setCacheConfigurations($cacheConfigurations);
+        GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Cache\\CacheManager')
+            ->setCacheConfigurations($cacheConfigurations);
 
         \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection();
 
@@ -132,5 +133,4 @@ class FluidTemplate
     {
         $this->fluidTemplate->setPartialRootPath($partialRootPath);
     }
-
 }

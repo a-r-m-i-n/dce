@@ -109,14 +109,11 @@ class CodemirrorField
     }
 
     /**
-     *
-     *
      * @return array
      */
     protected function getAvailableTemplates()
     {
         $path = ExtensionManagementUtility::extPath('dce') . 'Resources/Public/CodeSnippets/ConfigurationTemplates/';
-
         $templates = GeneralUtility::get_dirs($path);
         $templates = array_flip($templates);
 
@@ -139,8 +136,9 @@ class CodemirrorField
      */
     protected function getFamousViewHelpers()
     {
-        return $this->getViewhelpers(ExtensionManagementUtility::extPath('dce') .
-            'Resources/Public/CodeSnippets/FamousViewHelpers/');
+        return $this->getViewhelpers(
+            ExtensionManagementUtility::extPath('dce') . 'Resources/Public/CodeSnippets/FamousViewHelpers/'
+        );
     }
 
     /**
@@ -148,12 +146,13 @@ class CodemirrorField
      */
     protected function getDceViewHelpers()
     {
-        return $this->getViewhelpers(ExtensionManagementUtility::extPath('dce') .
-            'Resources/Public/CodeSnippets/DceViewHelpers/');
+        return $this->getViewhelpers(
+            ExtensionManagementUtility::extPath('dce') . 'Resources/Public/CodeSnippets/DceViewHelpers/'
+        );
     }
 
     /**
-     * @param $path
+     * @param string $path
      * @return array
      */
     protected function getViewhelpers($path)
@@ -169,5 +168,4 @@ class CodemirrorField
         ksort($viewHelpers);
         return $viewHelpers;
     }
-
 }

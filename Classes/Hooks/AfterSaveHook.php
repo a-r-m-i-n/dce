@@ -66,8 +66,11 @@ class AfterSaveHook
             $renamed = false;
             if (isset($oldIdentifier) && $oldIdentifier !== $newIdentifier) {
                 if (file_exists($dceFolderPath)) {
-                    \ArminVieweg\Dce\Utility\FlashMessage::add('Another static DCE with name "' . $newIdentifier . '" already exists.',
-                        'Renaming failed', \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR);
+                    \ArminVieweg\Dce\Utility\FlashMessage::add(
+                        'Another static DCE with name "' . $newIdentifier . '" already exists.',
+                        'Renaming failed',
+                        \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR
+                    );
                     $newIdentifier = $oldIdentifier;
                     $dceFolderPath = PATH_site . $path . $newIdentifier . DIRECTORY_SEPARATOR;
                 } else {
@@ -91,11 +94,12 @@ class AfterSaveHook
 
                 if (intval($fieldSettings['type']) === 2) {
                     $sectionFields = array();
-                    foreach (GeneralUtility::trimExplode(',', $fieldSettings['section_fields'],
-                        true) as $sectionFieldId) {
+                    $sectionFieldIds = GeneralUtility::trimExplode(',', $fieldSettings['section_fields'], true);
+                    foreach ($sectionFieldIds as $sectionFieldId) {
                         $sectionFieldVariable = $datamap['tx_dce_domain_model_dcefield'][$sectionFieldId]['variable'];
                         if ($sectionFieldId !== $sectionFieldVariable) {
-                            $sectionFields[$sectionFieldVariable] = $datamap['tx_dce_domain_model_dcefield'][$sectionFieldId];
+                            $sectionFields[$sectionFieldVariable] =
+                                $datamap['tx_dce_domain_model_dcefield'][$sectionFieldId];
                         } else {
                             $sectionFields[$sectionFieldId] = $datamap['tx_dce_domain_model_dcefield'][$sectionFieldId];
                         }
@@ -139,7 +143,10 @@ class AfterSaveHook
             $saveOnly = GeneralUtility::_GP('_savedok_x') && GeneralUtility::_GP('_savedok_y');
             if ($saveOnly === true && $renamed === true) {
                 ob_clean();
-                header('Location: alt_doc.php?edit[tx_dce_domain_model_dce][dce_' . $newIdentifier . ']=edit&returnUrl=' . urlencode(GeneralUtility::_GP('returnUrl')));
+                header(
+                    'Location: alt_doc.php?edit[tx_dce_domain_model_dce][dce_' . $newIdentifier .
+                    ']=edit&returnUrl=' . urlencode(GeneralUtility::_GP('returnUrl'))
+                );
                 die;
             }
         }
@@ -239,10 +246,15 @@ class AfterSaveHook
         } else {
             // Preview texts can not created in frontend context
             $this->dataHandler->updateDB('tt_content', $this->uid, array_merge($this->fieldArray, array(
-                'header' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('contentElementCreatedByFrontendHeader',
-                    'dce'),
-                'bodytext' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('contentElementCreatedByFrontendBodytext',
-                    'dce', array(GeneralUtility::_GP('eID'))),
+                'header' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
+                    'contentElementCreatedByFrontendHeader',
+                    'dce'
+                ),
+                'bodytext' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
+                    'contentElementCreatedByFrontendBodytext',
+                    'dce',
+                    array(GeneralUtility::_GP('eID'))
+                ),
             )));
         }
     }
@@ -256,7 +268,11 @@ class AfterSaveHook
      */
     protected function performPreviewAutoupdateBatchOnDceChange()
     {
-        $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid', 'tt_content', 'CType="dce_dceuid' . $this->uid . '" AND deleted=0');
+        $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+            'uid',
+            'tt_content',
+            'CType="dce_dceuid' . $this->uid . '" AND deleted=0'
+        );
         while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
             if (!$GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceImportInProgress']) {
                 $fieldArray = $this->generateDcePreview($row['uid']);
@@ -316,10 +332,22 @@ class AfterSaveHook
             'dceUid' => $this->getDceUidByContentElementUid($uid),
         );
         return array(
-            'header' => $this->runExtbaseController('ArminVieweg', 'Dce', 'Dce', 'renderPreview', 'tools_DceDcemodule',
-                array_merge($settings, array('previewType' => 'header'))),
-            'bodytext' => $this->runExtbaseController('ArminVieweg', 'Dce', 'Dce', 'renderPreview',
-                'tools_DceDcemodule', array_merge($settings, array('previewType' => 'bodytext'))),
+            'header' => $this->runExtbaseController(
+                'ArminVieweg',
+                'Dce',
+                'Dce',
+                'renderPreview',
+                'tools_DceDcemodule',
+                array_merge($settings, array('previewType' => 'header'))
+            ),
+            'bodytext' => $this->runExtbaseController(
+                'ArminVieweg',
+                'Dce',
+                'Dce',
+                'renderPreview',
+                'tools_DceDcemodule',
+                array_merge($settings, array('previewType' => 'bodytext'))
+            ),
         );
     }
 
@@ -335,10 +363,20 @@ class AfterSaveHook
             'dceUid' => $dceUid,
         );
         return array(
-            'header' => $this->runExtbaseController('ArminVieweg', 'Dce', 'renderPreview', 'tools_DceDcemodule',
-                array_merge($settings, array('previewType' => 'header'))),
-            'bodytext' => $this->runExtbaseController('ArminVieweg', 'Dce', 'renderPreview', 'tools_DceDcemodule',
-                array_merge($settings, array('previewType' => 'bodytext'))),
+            'header' => $this->runExtbaseController(
+                'ArminVieweg',
+                'Dce',
+                'renderPreview',
+                'tools_DceDcemodule',
+                array_merge($settings, array('previewType' => 'header'))
+            ),
+            'bodytext' => $this->runExtbaseController(
+                'ArminVieweg',
+                'Dce',
+                'renderPreview',
+                'tools_DceDcemodule',
+                array_merge($settings, array('previewType' => 'bodytext'))
+            ),
         );
     }
 

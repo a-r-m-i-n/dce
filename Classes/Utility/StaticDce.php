@@ -45,7 +45,8 @@ class StaticDce
             $generalTabLabel = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('generaltab', 'dce');
         } else {
             $generalTabLabel = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
-                'LLL:EXT:dce/Resources/Private/Language/locallang.xml:generaltab', 'dce'
+                'LLL:EXT:dce/Resources/Private/Language/locallang.xml:generaltab',
+                'dce'
             );
         }
         $tabs = array(0 => array('title' => $generalTabLabel, 'fields' => array()));
@@ -94,17 +95,20 @@ class StaticDce
 
             $backendHeaderTemplateFile = $dceFolderPath . 'BackendHeader.html';
             if (file_exists($backendHeaderTemplateFile)) {
-                $configurationArray['tx_dce']['static']['header_preview'] = file_get_contents($backendHeaderTemplateFile);
+                $configurationArray['tx_dce']['static']['header_preview'] =
+                    file_get_contents($backendHeaderTemplateFile);
             }
 
             $backendBodytextTemplateFile = $dceFolderPath . 'BackendBodytext.html';
             if (file_exists($backendBodytextTemplateFile)) {
-                $configurationArray['tx_dce']['static']['bodytext_preview'] = file_get_contents($backendBodytextTemplateFile);
+                $configurationArray['tx_dce']['static']['bodytext_preview'] =
+                    file_get_contents($backendBodytextTemplateFile);
             }
 
             $backendBodytextTemplateFile = $dceFolderPath . 'Detailpage.html';
             if (file_exists($backendBodytextTemplateFile)) {
-                $configurationArray['tx_dce']['static']['detailpage_template'] = file_get_contents($backendBodytextTemplateFile);
+                $configurationArray['tx_dce']['static']['detailpage_template'] =
+                    file_get_contents($backendBodytextTemplateFile);
             }
 
             $configurationArray['tx_dce']['static']['identifier'] = $identifier;
@@ -202,5 +206,4 @@ class StaticDce
         }
         return $staticDces;
     }
-
 }

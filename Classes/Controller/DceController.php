@@ -56,7 +56,9 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     public function showAction()
     {
         $contentObject = $this->configurationManager->getContentObject()->data;
-        $config = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
+        $config = $this->configurationManager->getConfiguration(
+            ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK
+        );
 
         /** @var $dce \ArminVieweg\Dce\Domain\Model\Dce */
         $dce = $this->dceRepository->findAndBuildOneByUid(

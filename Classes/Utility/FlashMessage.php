@@ -28,7 +28,7 @@ class FlashMessage
      * @return void
      * @throws \TYPO3\CMS\Core\Exception
      */
-    static public function add($message, $title = '', $severity = \TYPO3\CMS\Core\Messaging\FlashMessage::WARNING)
+    public static function add($message, $title = '', $severity = \TYPO3\CMS\Core\Messaging\FlashMessage::WARNING)
     {
         if (static::$flashMessageQueue === null) {
             /** @var $flashMessageService FlashMessageService */
@@ -38,9 +38,12 @@ class FlashMessage
 
         /** @var \TYPO3\CMS\Core\Messaging\FlashMessage $flashMessage */
         $flashMessage = GeneralUtility::makeInstance(
-            'TYPO3\CMS\Core\Messaging\FlashMessage', htmlspecialchars($message), $title, $severity, true
+            'TYPO3\CMS\Core\Messaging\FlashMessage',
+            htmlspecialchars($message),
+            $title,
+            $severity,
+            true
         );
         static::$flashMessageQueue->enqueue($flashMessage);
     }
-
 }

@@ -29,5 +29,4 @@ class MakeEditFormAccessCheckHook
         }
         return $params['table'] === 'tx_dce_domain_model_dce' && strpos($params['uid'], 'dce_') === 0;
     }
-
 }
