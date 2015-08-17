@@ -1,0 +1,23 @@
+/* TODO: Remove when TYPO3 6.2 is outdated */
+
+.typo3-docheader-functions,
+.typo3-docheader-buttons {
+	background: transparent;
+}
+
+#typo3-docheader > div.inner {
+	background: #eee;
+	height: 54px;
+}
+
+h4.dceHeader {
+	margin-top: -15px;
+}
+
+.btn {
+	text-decoration: none !important;
+}
+
+h1.hallOfFame {
+	font-family: Share, Verdana, Arial, Helvetica, sans-serif;
+}

@@ -11,16 +11,18 @@ namespace ArminVieweg\Dce\ViewHelpers\Be;
  * Get the current version of TYPO3 as integer
  *
  * @package ArminVieweg\Dce
- * @TODO: Necessary?
+ * @deprecated Will be removed in 1.2. Use \ArminVieweg\Dce\ViewHelpers\Be\Version\Typo3ViewHelper instead.
  */
-class CurrentTypo3VersionViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper {
+class CurrentTypo3VersionViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper
+{
 
-	/**
-	 * Returns the current version of TYPO3 as integer
-	 *
-	 * @return int Current TYPO3 version
-	 */
-	public function render() {
-		return \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
-	}
+    /**
+     * Returns the current version of TYPO3 as integer
+     *
+     * @return int Current TYPO3 version
+     */
+    public function render()
+    {
+        return \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
+    }
 }

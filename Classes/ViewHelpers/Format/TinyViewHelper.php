@@ -12,18 +12,20 @@ namespace ArminVieweg\Dce\ViewHelpers\Format;
  *
  * @package ArminVieweg\Dce
  */
-class TinyViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class TinyViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
 
-	/**
-	 * Make the given source tiny
-	 *
-	 * @param string $subject Code to make tiny
-	 * @return string Tiny code
-	 */
-	public function render($subject = NULL) {
-		if ($subject === NULL) {
-			$subject = $this->renderChildren();
-		}
-		return str_replace(array("\r", "\n", "\t"), '', $subject);
-	}
+    /**
+     * Make the given source tiny
+     *
+     * @param string $subject Code to make tiny
+     * @return string Tiny code
+     */
+    public function render($subject = null)
+    {
+        if ($subject === null) {
+            $subject = $this->renderChildren();
+        }
+        return str_replace(array("\r", "\n", "\t"), '', $subject);
+    }
 }

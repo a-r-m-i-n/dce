@@ -13,15 +13,20 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
  * Gets the current version of DCE as integer
  *
  * @package ArminVieweg\Dce
+ * @deprecated Will be removed in 1.2. Use \ArminVieweg\Dce\ViewHelpers\Be\Version\DceViewHelper instead.
  */
-class CurrentDceVersionViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper {
+class CurrentDceVersionViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper
+{
 
-	/**
-	 * Returns the current version of DCE as int
-	 *
-	 * @return int Current DCE version
-	 */
-	public function render() {
-		return VersionNumberUtility::convertVersionNumberToInteger( ExtensionManagementUtility::getExtensionVersion('dce'));
-	}
+    /**
+     * Returns the current version of DCE as int
+     *
+     * @return int Current DCE version
+     */
+    public function render()
+    {
+        return VersionNumberUtility::convertVersionNumberToInteger(
+            ExtensionManagementUtility::getExtensionVersion('dce')
+        );
+    }
 }

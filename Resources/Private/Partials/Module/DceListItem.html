@@ -1,0 +1,50 @@
+{namespace dce=ArminVieweg\Dce\ViewHelpers}
+<f:alias map="{lll: 'LLL:EXT:dce/Resources/Private/Language/locallang_mod.xml:'}">
+    <tr class="{f:if(condition:'{dce.uid}', then:'db', else:'file')}">
+        <td class="listEntry">
+            <f:if condition="{dce.uid}">
+                <f:then><a href="{f:render(partial:'Module/OpenDce', arguments:'{uid:\'{dce.uid}\'}')}" class="overlayLink"></a></f:then>
+                <f:else><a href="{f:render(partial:'Module/OpenStaticDce', arguments:'{identifier:\'{dce.identifier}\'}')}" class="overlayLink"></a></f:else>
+            </f:if>
+
+            <f:render partial="Module/ListItem/TypeIcon" arguments="{dce:dce}" />
+            <div class="dceLabel">
+                <div>
+                    <span><f:translate key="{dce.title}" default="{dce.title}" /></span>
+
+                </div>
+                <div class="small text-muted">
+                    <em>
+                        <f:if condition="{dce.wizardDescription}">
+                            <span title="{dce.wizardDescription}">
+                                <f:format.crop maxCharacters="80">
+                                    <f:translate key="{dce.wizardDescription}" default="{dce.wizardDescription}" />
+                                </f:format.crop>
+                            </span>
+                        </f:if>
+                    </em>
+                </div>
+            </div>
+        </td>
+
+        <td>
+            <f:if condition="{dce.hidden} == 1">
+                <f:then>
+                    <span class="label label-danger text-uppercase">{f:translate(key:'{lll}disabled')}</span>
+                </f:then>
+                <f:else>
+                    <span class="label label-success text-uppercase">{f:translate(key:'{lll}enabled')}</span>
+                </f:else>
+            </f:if>
+            <span class="label label-default label-darker">UID: {dce.uid}</span>
+        </td>
+        <td>
+            <div class="pull-right">
+                <f:if condition="{dce.uid}">
+                    <f:then><a href="{f:render(partial:'Module/OpenDce', arguments:'{uid:\'{dce.uid}\'}')}" class="btn btn-default"><span class="fa fa-edit"></span> {f:translate(key:'{lll}edit')}</a></f:then>
+                    <f:else><a href="{f:render(partial:'Module/OpenStaticDce', arguments:'{identifier:\'{dce.identifier}\'}')}" class="btn btn-default"><span class="fa fa-edit"></span> {f:translate(key:'{lll}edit')}</a></f:else>
+                </f:if>
+            </div>
+        </td>
+    </tr>
+</f:alias>

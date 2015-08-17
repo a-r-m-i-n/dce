@@ -1,0 +1,25 @@
+<config>
+	<type>input</type>
+	<size>10</size>
+	<eval>trim</eval>
+	<wizards>
+		<_PADDING>2</_PADDING>
+		<link>
+			<type>colorbox</type>
+			<title>Color Picker</title>
+			<module>
+				<name>wizard_colorpicker</name>
+				<urlParameters>
+					<mode>wizard</mode>
+				</urlParameters>
+			</module>
+			<icon>link_popup.gif</icon>
+			<script>browse_links.php?mode=wizard</script>
+			<JSopenParams>height=500,width=500,status=0,menubar=0,scrollbars=1</JSopenParams>
+			<!--
+				Color can be picked from image if provided:
+				<exampleImg>EXT:introduction/Initialisation/Files/images/theme/IntroductionPackage.png</exampleImg>
+			-->
+		</link>
+	</wizards>
+</config>

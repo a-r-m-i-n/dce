@@ -16,18 +16,20 @@ namespace ArminVieweg\Dce\Utility;
  *
  * @package ArminVieweg\Dce
  */
-class ForbiddenUtility {
+class ForbiddenUtility
+{
 
-	/**
-	 * If these post methods are missing, rendering fluid template in
-	 * backend context fails. Don't know why, but this works.
-	 *
-	 * @param string $controller
-	 * @param string $action
-	 * @return void
-	 */
-	public static function setExtbaseRelatedPostParameters($controller, $action) {
-		$_POST['tx_dce_tools_dcedcemodule']['controller'] = $controller;
-		$_POST['tx_dce_tools_dcedcemodule']['action'] = $action;
-	}
+    /**
+     * If these post methods are missing, rendering fluid template in
+     * backend context fails. Don't know why, but this works.
+     *
+     * @param string $controller
+     * @param string $action
+     * @return void
+     */
+    public static function setExtbaseRelatedPostParameters($controller, $action)
+    {
+        $_POST['tx_dce_tools_dcedcemodule']['controller'] = $controller;
+        $_POST['tx_dce_tools_dcedcemodule']['action'] = $action;
+    }
 }

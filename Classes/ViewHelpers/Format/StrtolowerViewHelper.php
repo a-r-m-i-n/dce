@@ -12,18 +12,20 @@ namespace ArminVieweg\Dce\ViewHelpers\Format;
  *
  * @package ArminVieweg\Dce
  */
-class StrtolowerViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class StrtolowerViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
 
-	/**
-	 * Performs strtolower on given subject
-	 *
-	 * @param string $subject to perform strtolower
-	 * @return string lowered string
-	 */
-	public function render($subject = NULL) {
-		if ($subject === NULL) {
-			$subject = $this->renderChildren();
-		}
-		return strtolower($subject);
-	}
+    /**
+     * Performs strtolower on given subject
+     *
+     * @param string $subject to perform strtolower
+     * @return string lowered string
+     */
+    public function render($subject = null)
+    {
+        if ($subject === null) {
+            $subject = $this->renderChildren();
+        }
+        return strtolower($subject);
+    }
 }

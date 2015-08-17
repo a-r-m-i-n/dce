@@ -12,24 +12,33 @@ namespace ArminVieweg\Dce\ViewHelpers\Uri;
  *
  * @package ArminVieweg\Dce
  */
-class ImageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Uri\ImageViewHelper {
+class ImageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Uri\ImageViewHelper
+{
 
-	/**
-	 * Resizes a given image (if required) and renders the respective img tag
-	 *
-	 * @param null|string $src
-	 * @param null|string $width
-	 * @param null|string $height
-	 * @param null|string $minWidth
-	 * @param null|string $minHeight
-	 * @param null|string $maxWidth
-	 * @param null|string $maxHeight
-	 * @return string rendered tag.
-	 * @deprecated Will be removed in 1.2.
-	 *             Use the standard f:image viewhelper instead.
-	 */
-	public function render($src, $width = NULL, $height = NULL, $minWidth = NULL, $minHeight = NULL, $maxWidth = NULL,
-							$maxHeight = NULL, $image = NULL) {
-		return parent::render($src, $image, $width, $height, $minWidth, $minHeight, $maxWidth, $maxHeight);
-	}
+    /**
+     * Resizes a given image (if required) and renders the respective img tag
+     *
+     * @param null|string $src
+     * @param null|string $width
+     * @param null|string $height
+     * @param null|string $minWidth
+     * @param null|string $minHeight
+     * @param null|string $maxWidth
+     * @param null|string $maxHeight
+     * @return string rendered tag.
+     * @deprecated Will be removed in 1.2.
+     *             Use the standard f:image viewhelper instead.
+     */
+    public function render(
+        $src,
+        $width = null,
+        $height = null,
+        $minWidth = null,
+        $minHeight = null,
+        $maxWidth = null,
+        $maxHeight = null,
+        $image = null
+    ) {
+        return parent::render($src, $image, $width, $height, $minWidth, $minHeight, $maxWidth, $maxHeight);
+    }
 }

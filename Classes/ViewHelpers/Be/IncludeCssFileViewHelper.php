@@ -12,17 +12,19 @@ namespace ArminVieweg\Dce\ViewHelpers\Be;
  *
  * @package ArminVieweg\Dce
  */
-class IncludeCssFileViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper {
+class IncludeCssFileViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper
+{
 
-	/**
-	 * Adds css file to pagerenderer
-	 *
-	 * @param string $path to css file
-	 * @return void
-	 */
-	public function render($path) {
-		$doc = $this->getDocInstance();
-		$pageRenderer = $doc->getPageRenderer();
-		$pageRenderer->addCssFile($path);
-	}
+    /**
+     * Adds css file to pagerenderer
+     *
+     * @param string $path to css file
+     * @return void
+     */
+    public function render($path)
+    {
+        $doc = $this->getDocInstance();
+        $pageRenderer = $doc->getPageRenderer();
+        $pageRenderer->addCssFile($path);
+    }
 }

@@ -1,0 +1,17 @@
+#typo3-inner-docbody {
+	font-size: 90%;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+#typo3-inner-docbody h1 {
+	font-family: Share, Verdana, Arial, Helvetica, sans-serif;
+	font-size: 27px;
+}
+
+#typo3-inner-docbody h2 {
+	font-size: 19px;
+}
+
+#typo3-inner-docbody h3 {
+	font-size: 17px;
+}

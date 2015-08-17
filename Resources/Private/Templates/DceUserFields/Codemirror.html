@@ -2,10 +2,10 @@
 <f:layout name="CustomTcaField" />
 
 <f:section name="head">
-	<dce:be.includeCssFile path="{f:uri.resource(path:'Libraries/codemirror/codemirror.css', extensionName:'dce')}" />
-	<dce:be.includeCssFile path="{f:uri.resource(path:'Libraries/codemirror/codemirror_custom.css', extensionName:'dce')}" />
+	<dce:be.includeCssFile path="{f:uri.resource(path:'JavaScript/Contrib/codemirror/lib/codemirror.css', extensionName:'dce')}" />
+	<dce:be.includeCssFile path="{f:uri.resource(path:'Css/custom_codemirror.css', extensionName:'dce')}" />
 
-	<dce:be.includeJsFile path="{f:uri.resource(path:'Libraries/codemirror/init.js', extensionName:'dce')}" />
+	<dce:be.includeJsFile path="{f:uri.resource(path:'JavaScript/InitializeCodemirror.js', extensionName:'dce')}" />
 </f:section>
 
 <f:section name="main">
@@ -32,12 +32,12 @@
 		<f:then></f:then>
 		<f:else>
 			<script type="text/javascript">
-				initCodeMirrorEditor($('codemirror_{uniqueIdentifier}'), '{parameters.mode}');
+				initCodeMirrorEditor(TYPO3.jQuery('#codemirror_{uniqueIdentifier}'), '{parameters.mode}');
 			</script>
 		</f:else>
 	</f:if>
 
 	<script type="text/javascript">
-		disableSectionFieldType($('codemirror_{uniqueIdentifier}'));
+		disableSectionFieldType();
 	</script>
 </f:section>

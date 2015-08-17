@@ -12,23 +12,25 @@ namespace ArminVieweg\Dce\UserFunction\CustomFieldValidation;
  *
  * @package ArminVieweg\Dce
  */
-class NoLeadingNumberValidator extends AbstractFieldValidator {
+class NoLeadingNumberValidator extends AbstractFieldValidator
+{
 
-	/**
-	 * PHP Validation to disallow leading numbers
-	 *
-	 * @param string $value
-	 * @return mixed|string Updated string, which fits the requirements
-	 */
-	public function evaluateFieldValue($value) {
-		preg_match('/^\d*(.*)/i', $value, $matches);
-		if ($matches[0] !== $matches[1]) {
-			$this->addFlashMessage(
-				$this->translate('tx_dce_formeval_noLeadingNumber', array($value, $matches[1])),
-				$this->translate('tx_dce_formeval_headline', array($value)),
-				\TYPO3\CMS\Core\Messaging\FlashMessage::NOTICE
-			);
-		}
-		return $matches[1];
-	}
+    /**
+     * PHP Validation to disallow leading numbers
+     *
+     * @param string $value
+     * @return mixed|string Updated string, which fits the requirements
+     */
+    public function evaluateFieldValue($value)
+    {
+        preg_match('/^\d*(.*)/i', $value, $matches);
+        if ($matches[0] !== $matches[1]) {
+            $this->addFlashMessage(
+                $this->translate('tx_dce_formeval_noLeadingNumber', array($value, $matches[1])),
+                $this->translate('tx_dce_formeval_headline', array($value)),
+                \TYPO3\CMS\Core\Messaging\FlashMessage::NOTICE
+            );
+        }
+        return $matches[1];
+    }
 }

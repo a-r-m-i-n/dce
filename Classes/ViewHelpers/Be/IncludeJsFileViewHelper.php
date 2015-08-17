@@ -12,17 +12,19 @@ namespace ArminVieweg\Dce\ViewHelpers\Be;
  *
  * @package ArminVieweg\Dce
  */
-class IncludeJsFileViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper {
+class IncludeJsFileViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper
+{
 
-	/**
-	 * Adds js file to PageRenderer
-	 *
-	 * @param string $path to js file
-	 * @return void
-	 */
-	public function render($path) {
-		$doc = $this->getDocInstance();
-		$pageRenderer = $doc->getPageRenderer();
-		$pageRenderer->addJsFile($path);
-	}
+    /**
+     * Adds js file to PageRenderer
+     *
+     * @param string $path to js file
+     * @return void
+     */
+    public function render($path)
+    {
+        $doc = $this->getDocInstance();
+        $pageRenderer = $doc->getPageRenderer();
+        $pageRenderer->addJsFile($path);
+    }
 }

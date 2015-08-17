@@ -12,21 +12,23 @@ namespace ArminVieweg\Dce\ViewHelpers\Be;
  *
  * @package ArminVieweg\Dce
  */
-class CurrentLanguageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper  {
+class CurrentLanguageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper
+{
 
-	/**
-	 * Returns the current language key
-	 *
-	 * @return string Current language key
-	 */
-	public function render() {
-		if (TYPO3_MODE === 'FE') {
-			if (isset($GLOBALS['TSFE']->config['config']['language'])) {
-				return $GLOBALS['TSFE']->config['config']['language'];
-			}
-		} elseif (strlen($GLOBALS['BE_USER']->uc['lang']) > 0) {
-			return $GLOBALS['BE_USER']->uc['lang'];
-		}
-		return 'default';
-	}
+    /**
+     * Returns the current language key
+     *
+     * @return string Current language key
+     */
+    public function render()
+    {
+        if (TYPO3_MODE === 'FE') {
+            if (isset($GLOBALS['TSFE']->config['config']['language'])) {
+                return $GLOBALS['TSFE']->config['config']['language'];
+            }
+        } elseif (strlen($GLOBALS['BE_USER']->uc['lang']) > 0) {
+            return $GLOBALS['BE_USER']->uc['lang'];
+        }
+        return 'default';
+    }
 }

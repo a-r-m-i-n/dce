@@ -12,26 +12,36 @@ namespace ArminVieweg\Dce\ViewHelpers;
  *
  * @package ArminVieweg\Dce
  */
-class ImageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper {
+class ImageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper
+{
 
-	/**
-	 * @param null|string $src
-	 * @param null|string $width
-	 * @param null|string $height
-	 * @param null|string $minWidth
-	 * @param null|string $minHeight
-	 * @param null|string $maxWidth
-	 * @param null|string $maxHeight
-	 * @return string rendered tag.
-	 * @deprecated Will be removed in 1.2.
-	 *             Use the standard f:image viewhelper instead.
-	 */
-	public function render($src, $width = NULL, $height = NULL, $minWidth = NULL, $minHeight = NULL, $maxWidth = NULL,
-							$maxHeight = NULL, $treatIdAsReference = NULL) {
-		\TYPO3\CMS\Core\Utility\GeneralUtility::deprecationLog(
-			'One of your DCEs uses the dce:image ViewHelper, which will be removed in version 1.2 of the DCE extension. ' .
-			'Check frontend and backend templates and replace it with f:image.'
-		);
-		return parent::render($src, $width, $height, $minWidth, $minHeight, $maxWidth, $maxHeight, $treatIdAsReference);
-	}
+    /**
+     * @param null|string $src
+     * @param null|string $width
+     * @param null|string $height
+     * @param null|string $minWidth
+     * @param null|string $minHeight
+     * @param null|string $maxWidth
+     * @param null|string $maxHeight
+     * @param null|bool $treatIdAsReference
+     * @return string rendered tag.
+     * @deprecated Will be removed in 1.2.
+     *             Use the standard f:image viewhelper instead.
+     */
+    public function render(
+        $src,
+        $width = null,
+        $height = null,
+        $minWidth = null,
+        $minHeight = null,
+        $maxWidth = null,
+        $maxHeight = null,
+        $treatIdAsReference = null
+    ) {
+        \TYPO3\CMS\Core\Utility\GeneralUtility::deprecationLog(
+            'One of your DCEs uses the dce:image ViewHelper, which will be removed in version 1.2 of the DCE ' .
+            'extension. Check frontend and backend templates and replace it with f:image.'
+        );
+        return parent::render($src, $width, $height, $minWidth, $minHeight, $maxWidth, $maxHeight, $treatIdAsReference);
+    }
 }

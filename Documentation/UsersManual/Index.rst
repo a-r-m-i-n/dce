@@ -87,6 +87,13 @@ It is also possible to access directly the value of single fields:
 
 	{otherDce.fieldname}
 
+**dce_load_entity_class**
+
+::
+
+	<dce_load_entity_class>VendorName\Extension\Domain\Model\YourModel</dce_load_entity_class>
+
+Uses this class (and its repository) instead of guessing the model class name from table name.
 
 **dce_get_fal_objects**
 
@@ -305,17 +312,11 @@ Use this ViewHelper if you want to wrap something with curly braces {}. Availabl
 
 **dce:image**
 
-Identically like f:image ViewHelper, but works in preview texts too. Example:
-::
-
-	<dce:image src="uploads/pics/{field.myImage}" width="100" />
+DEPRECATED! Will be removed in DCE version 1.2.
 
 **dce:uri.image**
 
-Works like dce:image, but just returns the URL of image (no <img>-tag). Example:
-::
-
-	{dce:uri.image(src:'uploads/pics/{field.myImage}', width:'100')}
+DEPRECATED! Will be removed in DCE version 1.2.
 
 
 **dce:isArray**
@@ -339,6 +340,8 @@ This view helper handles parameter strings using typolink function of TYPO3. It 
 
 	<dce:typolink parameter="{field.url}">This is the link text</dce:typolink>
 
+Since DCE 1.1 it also supports the attributes: class, title and target. They overwrite the value set in parameter.
+
 **dce:typolinkUrl**
 
 Same like *dce:typolink*. Returns just the URL (no <a>-tag). Example:
@@ -346,18 +349,11 @@ Same like *dce:typolink*. Returns just the URL (no <a>-tag). Example:
 
 	{dce:typolinkUrl(parameter:'{field.url}')}
 
-**dce:uri.dam** (Not supported in sections)
-
-Deprecated since TYPO3 6.0. Works like FAL viewhelper, just for the extension DAM.
-::
-
-	{dce:uri.dam(field:'variableName', contentObject:contentObject, returnArray:0)}
-
 
 Wizard
 ------
 
-It is possible to add this DCE to the list of the create content element Wizard.
+It is possible to add this DCE to the list of the create content element Wizard. This is enabled by default.
 
 .. image:: ../Images/UsersManual/newDceEmptyWizard.png
 	:alt: Create new DCE, wizard tab

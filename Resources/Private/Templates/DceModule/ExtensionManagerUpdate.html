@@ -1,0 +1,41 @@
+{namespace dce=ArminVieweg\Dce\ViewHelpers}
+<f:if condition="{includeBootstrap}">
+    <dce:be.includeCssFile path="{f:uri.resource(path:'Css/Contrib/bootstrap.min.css', extensionName: 'dce')}" />
+    <dce:be.includeCssFile path="{f:uri.resource(path:'Css/Contrib/bootstrap-theme.min.css', extensionName: 'dce')}" />
+    <dce:be.includeCssFile path="{f:uri.resource(path:'Css/dceExtensionManager62.css', extensionName: 'dce')}" />
+</f:if>
+<div class="row">
+    <div class="col-lg-12">
+
+        <h2>Check for old namespaces</h2>
+
+        <f:for each="{status}" key="dceUid" as="dce">
+            <div>
+                <h3> <f:translate key="{dce.row.title}" default="{dce.row.title}" /> <small><span class="label label-info label-inline">DCE UID {dceUid}</span></small></h3>
+                <table class="table">
+                    <tr>
+                        <th style="width:20%">Field</th>
+                        <th style="width:10%">Typ</th>
+                        <th>Status</th>
+                    </tr>
+
+                    <f:for each="{dce.columns}" key="columnName" as="column">
+                        <tr>
+                            <td>{columnName}</td>
+                            <td><span class="fa {f:if(condition:'{column.type} == \'inline\'', then:'fa-database', else:'fa-file')}" ></span> {column.type}</td>
+                            <td><span
+                                    class="label{f:if(condition:'{column.error}', then:' label-danger', else: ' label-success')}">{column.status}</span>
+                                <f:if condition="{column.error}"> {column.error}</f:if>
+                            </td>
+                        </tr>
+                    </f:for>
+                </table>
+            </div>
+        </f:for>
+
+        <div class="alert alert-title alert-dismissible" role="alert" style="font-weight: normal;">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            When you are usings <span class="fa {f:if(condition:'{column.type} == \'inline\'', then:'fa-database', else:'fa-file')}" ></span> files for your templates and a versioning tool like Git or SVN, please don't forget to download and commit these changes.
+        </div>
+    </div>
+</div>

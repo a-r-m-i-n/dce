@@ -12,18 +12,20 @@ namespace ArminVieweg\Dce\ViewHelpers;
  *
  * @package ArminVieweg\Dce
  */
-class IsArrayViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class IsArrayViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
 
-	/**
-	 * Checks if the given subject is an array
-	 *
-	 * @param mixed $subject to check if is array
-	 * @return bool TRUE if given subject is an array, otherwise FALSE
-	 */
-	public function render($subject = NULL) {
-		if ($subject === NULL) {
-			$subject = $this->renderChildren();
-		}
-		return is_array($subject);
-	}
+    /**
+     * Checks if the given subject is an array
+     *
+     * @param mixed $subject to check if is array
+     * @return bool TRUE if given subject is an array, otherwise FALSE
+     */
+    public function render($subject = null)
+    {
+        if ($subject === null) {
+            $subject = $this->renderChildren();
+        }
+        return is_array($subject);
+    }
 }

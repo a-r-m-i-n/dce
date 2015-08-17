@@ -21,33 +21,36 @@ use TYPO3\CMS\Fluid\Core\Rendering\RenderingContext;
  *
  * @package ArminVieweg\Dce
  */
-class TabViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper  {
-	/**
-	 * @var RenderingContext
-	 */
-	protected $renderingContext;
+class TabViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
+    /**
+     * @var RenderingContext
+     */
+    protected $renderingContext;
 
-	/**
-	 * Sets the rendering context which needs to be passed on to child nodes.
-	 *
-	 * @param RenderingContext $renderingContext the rendering context to use
-	 * @return void
-	 */
-	public function setRenderingContext(RenderingContext $renderingContext) {
-		parent::setRenderingContext($renderingContext);
-		$this->renderingContext = $renderingContext;
-	}
+    /**
+     * Sets the rendering context which needs to be passed on to child nodes.
+     *
+     * @param RenderingContext $renderingContext the rendering context to use
+     * @return void
+     */
+    public function setRenderingContext(RenderingContext $renderingContext)
+    {
+        parent::setRenderingContext($renderingContext);
+        $this->renderingContext = $renderingContext;
+    }
 
-	/**
-	 * Renders a tab container.
-	 *
-	 * @param string $title title for the tab
-	 * @return string the whole tab container construct
-	 */
-	public function render($title) {
-		$result = $this->renderChildren();
-		$this->renderingContext->getViewHelperVariableContainer()
-			->addOrUpdate('ArminVieweg\Dce\ViewHelpers\Be\TabViewHelper', 'title', $title);
-		return $result;
-	}
+    /**
+     * Renders a tab container.
+     *
+     * @param string $title title for the tab
+     * @return string the whole tab container construct
+     */
+    public function render($title)
+    {
+        $result = $this->renderChildren();
+        $this->renderingContext->getViewHelperVariableContainer()
+            ->addOrUpdate('ArminVieweg\Dce\ViewHelpers\Be\TabViewHelper', 'title', $title);
+        return $result;
+    }
 }

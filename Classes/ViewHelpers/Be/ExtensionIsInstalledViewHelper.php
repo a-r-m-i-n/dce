@@ -13,15 +13,17 @@ namespace ArminVieweg\Dce\ViewHelpers\Be;
  * @package ArminVieweg\Dce
  * @see \TYPO3\CMS\Core\Utility\VersionNumberUtility
  */
-class ExtensionIsInstalledViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper {
+class ExtensionIsInstalledViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper
+{
 
-	/**
-	 * Returns TRUE if given extension is installed. Otherwise returns FALSE.
-	 *
-	 * @param string $key Extension key to check for
-	 * @return bool
-	 */
-	public function render($key) {
-		return \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($key);
-	}
+    /**
+     * Returns TRUE if given extension is installed. Otherwise returns FALSE.
+     *
+     * @param string $key Extension key to check for
+     * @return bool
+     */
+    public function render($key)
+    {
+        return \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($key);
+    }
 }

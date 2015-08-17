@@ -13,17 +13,21 @@ namespace ArminVieweg\Dce\ViewHelpers;
  *
  * @package ArminVieweg\Dce
  */
-class TypolinkUrlViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
-	/**
-	 * Create a typolink and returns just the URL
-	 *
-	 * @param string $parameter Parameter string, which can be handled by
-	 *                          typolink functionality
-	 * @return string url
-	 */
-	public function render($parameter) {
-		/** @var $cObj \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer */
-		$cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
-		return $cObj->getTypoLink_URL($parameter);
-	}
+class TypolinkUrlViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
+    /**
+     * Create a typolink and returns just the URL
+     *
+     * @param string $parameter Parameter string, which can be handled by
+     *                          typolink functionality
+     * @return string url
+     */
+    public function render($parameter)
+    {
+        /** @var $cObj \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer */
+        $cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+            'TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer'
+        );
+        return $cObj->getTypoLink_URL($parameter);
+    }
 }
