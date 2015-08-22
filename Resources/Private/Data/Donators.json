@@ -1,5 +1,13 @@
 [
 	{
+		"name": "Rene Kreupl",
+		"url": ""
+	},
+	{
+		"name": "Philipp Holdener",
+		"url": "www.holdesign.ch"
+	},
+	{
 		"name": "PHTH - Philipp Thiele",
 		"url": "www.phth.de"
 	},
@@ -50,9 +58,5 @@
 	{
 		"name": "Motus",
 		"url": "www.motus.com.hr"
-	},
-	{
-		"name": "Philipp Holdener",
-		"url": "www.holdesign.ch"
 	}
 ]

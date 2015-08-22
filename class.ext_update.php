@@ -108,8 +108,9 @@ class ext_update
     protected function updateInlineTemplate(array $dceRow, $column)
     {
         $templateContent = $dceRow[$column];
-        if (strpos($templateContent, self::NAMESPACE_OLD) !== false) {
-            $updatedTemplateContent = str_replace(self::NAMESPACE_OLD, self::NAMESPACE_NEW, $templateContent);
+        if ($this->templateNeedUpdate($templateContent)) {
+            $updatedTemplateContent = $this->performTemplateUpdates($templateContent);
+
             $updateStatus = $this->databaseConnection->exec_UPDATEquery(
                 'tx_dce_domain_model_dce',
                 'uid = ' . (int) $dceRow['uid'],
@@ -147,8 +148,8 @@ class ext_update
         }
 
         $templateContent = file_get_contents($file);
-        if (strpos($templateContent, self::NAMESPACE_OLD) !== false) {
-            $updatedTemplateContent = str_replace(self::NAMESPACE_OLD, self::NAMESPACE_NEW, $templateContent);
+        if ($this->templateNeedUpdate($templateContent)) {
+            $updatedTemplateContent = $this->performTemplateUpdates($templateContent);
             $updateStatus = file_put_contents(PATH_site . $file, $updatedTemplateContent);
 
             if (!$updateStatus) {
@@ -177,5 +178,33 @@ class ext_update
         $view->assign('includeBootstrap', !\TYPO3\CMS\Core\Utility\GeneralUtility::compat_version('7.4'));
         $view->assign('status', $this->dceStatus);
         return $view->render();
+    }
+
+    /**
+     * Performs updates to given DCE template code
+     *
+     * @param string $templateContent
+     * @return string
+     */
+    protected function performTemplateUpdates($templateContent)
+    {
+        $content = str_replace(self::NAMESPACE_OLD, self::NAMESPACE_NEW, $templateContent);
+        $content = str_replace('dce:format.raw', 'f:format.raw', $content);
+        $content = str_replace('dce:image', 'f:image', $content);
+        $content = str_replace('dce:uri.image', 'f:uri.image', $content);
+        return $content;
+    }
+
+    /**
+     * Checks if given code needs an update
+     *
+     * @param string $templateContent
+     * @return bool
+     */
+    protected function templateNeedUpdate($templateContent) {
+        return strpos($templateContent, self::NAMESPACE_OLD) ||
+                strpos($templateContent, 'dce:format.raw') ||
+                strpos($templateContent, 'dce:image') ||
+                strpos($templateContent, 'dce:uri.image');
     }
 }
