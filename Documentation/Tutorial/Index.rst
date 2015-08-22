@@ -58,7 +58,7 @@ Now go to the template tab, you will see a default template in the "Template con
 
 ::
 
-	{namespace dce=Tx_Dce_ViewHelpers}
+	{namespace dce=ArminVieweg\Dce\ViewHelpers}
 	<f:layout name="Default" />
 
 	<f:section name="main">
@@ -69,7 +69,7 @@ Replace the text "Your template goes here..." with the fluid code to display the
 
 ::
 
-	{namespace dce=Tx_Dce_ViewHelpers}
+	{namespace dce=ArminVieweg\Dce\ViewHelpers}
 	<f:layout name="Default" />
 
 	<f:section name="main">
@@ -93,7 +93,7 @@ The complete "Detail page template (fluid)" should be this:
 
 ::
 
-	{namespace dce=Tx_Dce_ViewHelpers}
+	{namespace dce=ArminVieweg\Dce\ViewHelpers}
 	<f:layout name="Default" />
 
 	<f:section name="main">

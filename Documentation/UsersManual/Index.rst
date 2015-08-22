@@ -167,7 +167,7 @@ Lets have a look at the default template code and explain the parts.
 
 ::
 
-	{namespace dce=Tx_Dce_ViewHelpers}
+	{namespace dce=ArminVieweg\Dce\ViewHelpers}
 	<f:layout name="Default" />
 
 	<f:section name="main">
