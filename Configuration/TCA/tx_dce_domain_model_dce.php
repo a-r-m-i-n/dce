@@ -648,5 +648,16 @@ if (\TYPO3\CMS\Core\Utility\GeneralUtility::compat_version('7.4')) {
         array($ll . 'wizardIcon.customIcon', 'custom'),
     );
 }
+if (!\TYPO3\CMS\Core\Utility\GeneralUtility::compat_version('7.4')) {
+    $dceTca['columns']['wizard_category']['config']['items'] = array(
+        array($ll . 'tx_dce_domain_model_dce', '--div--'),
+        array($ll . 'tx_dce_domain_model_dce_long', 'dce'),
+        array($ll . 'typo3_default_categories', '--div--'),
+        array('LLL:EXT:cms/layout/locallang_db_new_content_el.xml:common', 'common'),
+        array('LLL:EXT:cms/layout/locallang_db_new_content_el.xml:special', 'special'),
+        array('LLL:EXT:cms/layout/locallang_db_new_content_el.xml:forms', 'forms'),
+        array('LLL:EXT:cms/layout/locallang_db_new_content_el.xml:plugins', 'plugins'),
+    );
+}
 
 return $dceTca;
