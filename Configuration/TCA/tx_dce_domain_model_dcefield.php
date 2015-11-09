@@ -48,16 +48,15 @@ return array(
     ),
     'types' => array(
         '0' => array(
-            'showitem' => 'type,title,variable,configuration;;;fixed-font:enable-tab,
-			--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,hidden;;1'
+            'showitem' => 'type,title,variable,configuration;;;fixed-font:enable-tab,' .
+                '--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,hidden;;1'
         ),
         '1' => array(
-            'showitem' => 'type,title,
-			--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,hidden;;1'
+            'showitem' => 'type,title,--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,hidden;;1'
         ),
         '2' => array(
-            'showitem' => 'type,title,section_fields_tag,variable,section_fields,
-			--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,hidden;;1'
+            'showitem' => 'type,title,section_fields_tag,variable,section_fields,' .
+                '--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,hidden;;1'
         ),
     ),
     'palettes' => array(
@@ -195,17 +194,23 @@ return array(
             'label' => $ll . 'tx_dce_domain_model_dcefield.section_fields',
             'config' => array(
                 'type' => 'inline',
+                'allowed' => 'tx_dce_domain_model_dcefield',
                 'foreign_table' => 'tx_dce_domain_model_dcefield',
-                'MM' => 'tx_dce_dcefield_sectionfields_mm',
+                'foreign_field' => 'parent',
                 'minitems' => 0,
                 'maxitems' => 999,
                 'appearance' => array(
+                    'collapseAll' => 1,
+                    'expandSingle' => 1,
+                    'levelLinksPosition' => 'bottom',
+                    'useSortable' => 1,
+                    'showPossibleLocalizationRecords' => 1,
+                    'showRemovedLocalizationRecords' => 1,
+                    'showAllLocalizationLink' => 1,
+                    'showSynchronizationLink' => 1,
                     'enabledControls' => array(
-                        'hide' => false,
-                        'dragdrop' => true,
-                        'sort' => true,
-                    ),
-                    'levelLinksPosition' => 'both',
+                        'info' => false,
+                    )
                 ),
             ),
         ),
