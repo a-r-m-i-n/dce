@@ -94,6 +94,11 @@ a.overlayLink {
 	position: relative;
 }
 
+.well .icon img {
+	width: 64px !important;
+	height: 64px !important;
+}
+
 .well .donator {
 	position: absolute;
 	left: 95px;
