@@ -2,6 +2,10 @@
 	overflow-x: hidden;
 }
 
+.typo3-docheader-functions {
+	display: none;
+}
+
 #typo3-docheader > div.inner {
 	-webkit-box-shadow: inset 0px -4px 6px 0px rgba(0,0,0,0.1);
 	-moz-box-shadow: inset 0px -4px 6px 0px rgba(0,0,0,0.1);
@@ -11,11 +15,10 @@
 }
 
 #typo3-docheader .typo3-docheader-buttons {
-	overflow: visible;
+	height: 48px !important;
 }
 
 h4.dceHeader {
-	margin-top: -17px;
 	font-family: Share, Verdana, Arial, Helvetica, sans-serif;
 	font-size: 21px;
 }
