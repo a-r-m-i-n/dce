@@ -44,7 +44,7 @@ div.nav-group {
 	position: relative;
 	padding-top: 5px;
 	margin-left: 2px;
-	margin-right: 6px;
+	margin-right: 12px;
 }
 
 .typeicon .overlay {
@@ -55,6 +55,7 @@ div.nav-group {
 
 .dceLabel {
 	padding-left: 42px;
+	padding-top: 4px;
 }
 
 .listEntry {

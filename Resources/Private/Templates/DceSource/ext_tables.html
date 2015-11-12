@@ -23,9 +23,26 @@ $GLOBALS['TCA']['tt_content']['types']['dce_{f:if(condition:"{dce.uid}", then:"d
 </f:if>
 
 <f:if condition="{dce.wizard_enable}">
+<f:if condition="{dce.hasCustomWizardIcon}">
+if (\TYPO3\CMS\Core\Utility\GeneralUtility::compat_version('7.6')) {
+	$iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\Imaging\IconRegistry');
+	$iconRegistry->registerIcon(
+		'ext-dce-{f:if(condition:"{dce.uid}", then:"dceuid{dce.uid}", else:"dce_{dce.identifier}")}-customwizardicon',
+		'TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider',
+		array('source' => '{dce.wizard_custom_icon}')
+	);
+}
+</f:if>
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('
 	mod.wizards.newContentElement.wizardItems.{dce.wizard_category}.elements.dce_{f:if(condition:"{dce.uid}", then:"dceuid{dce.uid}", else:"dce_{dce.identifier}")} {
-	    icon = <f:if condition="{dce.hasCustomWizardIcon}"><f:then>../uploads/tx_dce/{dce.wizard_custom_icon}</f:then><f:else>{dce:be.contentElementWizardIconPath()}{dce.wizard_icon}</f:else></f:if>
+	<f:if condition="{dce:be.version.typo3(returnInt:'1')} < 7006000">
+		<f:then>
+			icon = <f:if condition="{dce.hasCustomWizardIcon}"><f:then>../{dce.wizard_custom_icon}</f:then><f:else>{dce:be.contentElementWizardIconPath()}{dce.wizard_icon}</f:else></f:if>
+		</f:then>
+		<f:else>
+			iconIdentifier = <f:if condition="{dce.hasCustomWizardIcon}"><f:then>ext-dce-dceuid{dce.uid}-customwizardicon</f:then><f:else>{dce:be.contentElementWizardIconPath()}{dce.wizard_icon}</f:else></f:if>
+		</f:else>
+	</f:if>
 	    title = {dce.title}
 	    description = {dce.wizard_description -> f:format.raw()}
 	    tt_content_defValues {
