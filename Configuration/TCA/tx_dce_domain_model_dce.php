@@ -37,11 +37,10 @@ $dceTca = array(
         'requestUpdate' => 'wizard_enable,wizard_icon,template_type,preview_template_type,detailpage_template_type,enable_detailpage',
         'type' => 'type',
         'typeicon_column' => 'type',
-        'typeicons' => array(
-            '0' => $extensionPath . 'Resources/Public/Icons/tx_dce_domain_model_dce_databased.png',
-            '1' => $extensionPath . 'Resources/Public/Icons/tx_dce_domain_model_dce_filebased.png',
+        'typeicon_classes' => array(
+            '0' => 'ext-dce-dce-type-databased',
+            '1' => 'ext-dce-dce-type-filebased',
         ),
-        'iconfile' => $extensionPath . 'ext_icon.png'
     ),
     'interface' => array(
         'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden',
@@ -660,4 +659,11 @@ if (!\TYPO3\CMS\Core\Utility\GeneralUtility::compat_version('7.4')) {
     );
 }
 
+if (!\TYPO3\CMS\Core\Utility\GeneralUtility::compat_version('7.6')) {
+    unset($dceTca['ctrl']['typeicon_classes']);
+    $dceTca['ctrl']['typeicons'] = array(
+        '0' => $extensionPath . 'Resources/Public/Icons/tx_dce_domain_model_dce_databased.png',
+        '1' => $extensionPath . 'Resources/Public/Icons/tx_dce_domain_model_dce_filebased.png',
+    );
+}
 return $dceTca;

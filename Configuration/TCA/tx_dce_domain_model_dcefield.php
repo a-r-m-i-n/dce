@@ -13,7 +13,7 @@ if (!defined('TYPO3_MODE')) {
 $ll = 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:';
 $extensionPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('dce');
 
-return array(
+$dceFieldTca = array(
     'ctrl' => array(
         'title' => $ll . 'tx_dce_domain_model_dcefield',
         'label' => 'title',
@@ -37,10 +37,10 @@ return array(
         'requestUpdate' => 'type',
         'type' => 'type',
         'typeicon_column' => 'type',
-        'typeicons' => array(
-            '0' => $extensionPath . 'Resources/Public/Icons/tx_dce_domain_model_dcefield_element.png',
-            '1' => $extensionPath . 'Resources/Public/Icons/tx_dce_domain_model_dcefield_tab.png',
-            '2' => $extensionPath . 'Resources/Public/Icons/tx_dce_domain_model_dcefield_section.png',
+        'typeicon_classes' => array(
+            '0' => 'ext-dce-dcefield-type-element',
+            '1' => 'ext-dce-dcefield-type-tab',
+            '2' => 'ext-dce-dcefield-type-section'
         ),
     ),
     'interface' => array(
@@ -224,3 +224,13 @@ return array(
         ),
     ),
 );
+
+if (!\TYPO3\CMS\Core\Utility\GeneralUtility::compat_version('7.6')) {
+    unset($dceFieldTca['ctrl']['typeicon_classes']);
+    $dceFieldTca['ctrl']['typeicons'] = array(
+        '0' => $extensionPath . 'Resources/Public/Icons/tx_dce_domain_model_dcefield_element.png',
+        '1' => $extensionPath . 'Resources/Public/Icons/tx_dce_domain_model_dcefield_tab.png',
+        '2' => $extensionPath . 'Resources/Public/Icons/tx_dce_domain_model_dcefield_section.png',
+    );
+}
+return $dceFieldTca;
