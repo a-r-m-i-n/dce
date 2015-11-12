@@ -296,14 +296,6 @@ $dceTca = array(
                 'default' => '0',
             ),
         ),
-        'hide_default_ce_wrap' => array(
-            'exclude' => 0,
-            'label' => $ll . 'tx_dce_domain_model_dce.hideDefaultCeWrap',
-            'config' => array(
-                'type' => 'check',
-                'default' => '0',
-            ),
-        ),
         'preview_template_type' => array(
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dce.previewTemplateType',
@@ -582,4 +574,17 @@ if (!\TYPO3\CMS\Core\Utility\GeneralUtility::compat_version('7.6')) {
         '1' => $extensionPath . 'Resources/Public/Icons/tx_dce_domain_model_dce_filebased.png',
     );
 }
+
+if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('css_styled_content')) {
+    //hide_default_ce_wrap
+    $dceTca['columns']['hide_default_ce_wrap'] = array(
+        'exclude' => 0,
+        'label' => $ll . 'tx_dce_domain_model_dce.hideDefaultCeWrap',
+        'config' => array(
+            'type' => 'check',
+            'default' => '0',
+        )
+    );
+}
+
 return $dceTca;
