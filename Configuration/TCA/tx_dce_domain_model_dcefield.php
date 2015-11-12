@@ -194,9 +194,8 @@ return array(
             'label' => $ll . 'tx_dce_domain_model_dcefield.section_fields',
             'config' => array(
                 'type' => 'inline',
-                'allowed' => 'tx_dce_domain_model_dcefield',
                 'foreign_table' => 'tx_dce_domain_model_dcefield',
-                'foreign_field' => 'parent',
+                'MM' => 'tx_dce_dcefield_sectionfields_mm',
                 'minitems' => 0,
                 'maxitems' => 999,
                 'appearance' => array(
