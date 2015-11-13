@@ -6,6 +6,7 @@ namespace ArminVieweg\Dce\UserFunction\CustomLabels;
  *  |
  *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
+use ArminVieweg\Dce\Domain\Model\DceField;
 
 /**
  * Extends TCA label of fields with variable key
@@ -30,9 +31,15 @@ class DceFieldLabel
     {
         if (!$this->isSectionChildField($parameter)) {
             if (!$this->isSectionField($parameter)) {
-                // Standard field
-                $parameter['title'] = $GLOBALS['LANG']->sL($parameter['row']['title']) .
-                    ' <i style="font-weight: normal">{field.' . $parameter['row']['variable'] . '}</i>';
+                //\TYPO3\CMS\Core\Utility\DebugUtility::debug($parameter['row']['type'], 'Debug');
+                if ($this->isTab($parameter)) {
+                    // Tab
+                    $parameter['title'] = $GLOBALS['LANG']->sL($parameter['row']['title']);
+                } else {
+                    // Standard field
+                    $parameter['title'] = $GLOBALS['LANG']->sL($parameter['row']['title']) .
+                        ' <i style="font-weight: normal">{field.' . $parameter['row']['variable'] . '}</i>';
+                }
             } else {
                 $parameter['title'] = $GLOBALS['LANG']->sL($parameter['row']['title']) .
                     ' <i style="font-weight: normal">{field.' . $parameter['row']['variable'] .
@@ -83,7 +90,18 @@ class DceFieldLabel
      */
     protected function isSectionField($parameter)
     {
-        return intval($parameter['row']['type']) === 2;
+        return intval($parameter['row']['type'][0]) === DceField::TYPE_SECTION;
+    }
+
+    /**
+     * Checks if given parameters, belonging to a DCE field, is a tab
+     *
+     * @param array $parameter
+     * @return bool
+     */
+    protected function isTab($parameter)
+    {
+        return intval($parameter['row']['type'][0]) === DceField::TYPE_TAB;
     }
 
     /**
