@@ -24,6 +24,10 @@ CREATE TABLE tx_dce_domain_model_dce (
 	show_access_tab varchar(255) DEFAULT '' NOT NULL,
 	show_category_tab varchar(255) DEFAULT '' NOT NULL,
 	hide_default_ce_wrap varchar(255) DEFAULT '' NOT NULL,
+
+	use_simple_backend_view tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	backend_view_header varchar(255) DEFAULT '' NOT NULL,
+	backend_view_bodytext text,
 	preview_template_type varchar(255) DEFAULT '' NOT NULL,
 	header_preview text,
 	header_preview_template_file varchar(255) DEFAULT '' NOT NULL,

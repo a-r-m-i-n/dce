@@ -29,6 +29,10 @@ class DceFieldLabel
      */
     public function getLabel(&$parameter)
     {
+        if (!isset($parameter['row']['variable']) || empty($parameter['row']['variable'])) {
+            $parameter['title'] = $GLOBALS['LANG']->sL($parameter['row']['title']);
+            return;
+        }
         if (!$this->isSectionChildField($parameter)) {
             if (!$this->isSectionField($parameter)) {
                 //\TYPO3\CMS\Core\Utility\DebugUtility::debug($parameter['row']['type'], 'Debug');

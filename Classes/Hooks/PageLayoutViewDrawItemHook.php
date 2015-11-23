@@ -31,9 +31,52 @@ class PageLayoutViewDrawItemHook implements \TYPO3\CMS\Backend\View\PageLayoutVi
         &$itemContent,
         array &$row
     ) {
+        $dceUid = $this->getDceUidByContentElementUid($row['uid']);
+        if ($dceUid === 0) {
+            return;
+        }
+
+        /** @var \ArminVieweg\Dce\Domain\Model\Dce $dce */
+        $dce = \ArminVieweg\Dce\Utility\Extbase::bootstrapControllerAction(
+            'ArminVieweg',
+            'Dce',
+            'Dce',
+            'renderDce',
+            'Dce',
+            array(
+                'contentElementUid' => $row['uid'],
+                'dceUid' => $dceUid
+            ),
+            true
+        );
+
+        if ($dce->isUseSimpleBackendView()) {
+            $drawItem = false;
+            $headerContent = $parentObject->linkEditContent(
+                '<strong>' . $dce->getSimpleBackendViewHeaderContent() . '</strong>',
+                $row
+            );
+            $itemContent .= $parentObject->linkEditContent($dce->getSimpleBackendViewBodytextContent(), $row);
+            return;
+        }
+
         if (strpos($row['CType'], 'dce_dceuid') !== false) {
             $drawItem = false;
             $itemContent .= $parentObject->linkEditContent($row['bodytext'], $row) . '<br />';
         }
+    }
+
+    /**
+     * Gets dce uid by content element uid
+     *
+     * @param int $uid content element uid (tt_content)
+     * @return int Returns zero if it is no dce. Otherwise uid of dce
+     */
+    protected function getDceUidByContentElementUid($uid)
+    {
+        /** @var \TYPO3\CMS\Core\DataHandling\DataHandler $dataHandler */
+        $dataHandler = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\DataHandling\DataHandler');
+        $cType = current($dataHandler->recordInfo('tt_content', $uid, 'CType'));
+        return intval(substr($cType, strlen('dce_dceuid')));
     }
 }

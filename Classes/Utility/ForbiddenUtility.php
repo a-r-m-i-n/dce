@@ -31,5 +31,7 @@ class ForbiddenUtility
     {
         $_POST['tx_dce_tools_dcedcemodule']['controller'] = $controller;
         $_POST['tx_dce_tools_dcedcemodule']['action'] = $action;
+        $_POST['tx_dce_dce']['controller'] = $controller;
+        $_POST['tx_dce_dce']['action'] = $action;
     }
 }

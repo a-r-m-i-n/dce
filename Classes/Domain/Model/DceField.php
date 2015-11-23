@@ -40,9 +40,6 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /** @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\ArminVieweg\Dce\Domain\Model\DceField> */
     protected $sectionFields;
 
-    /** @var bool */
-    protected $isSectionField;
-
 
     /**
      * Constructor
@@ -159,7 +156,7 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * @return DceField[]
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<DceField>
      */
     public function getSectionFields()
     {
@@ -219,27 +216,6 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Get IsSectionField
-     *
-     * @return bool
-     */
-    public function getIsSectionField()
-    {
-        return $this->isSectionField;
-    }
-
-    /**
-     * Set IsSectionField
-     *
-     * @param bool $isSectionField
-     * @return void
-     */
-    public function setIsSectionField($isSectionField)
-    {
-        $this->isSectionField = $isSectionField;
-    }
-
-    /**
      * Checks if the field is of type element
      *
      * @return bool
@@ -256,7 +232,7 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function isSection()
     {
-        return $this->getIsSectionField();
+        return $this->getType() === self::TYPE_SECTION;
     }
 
     /**

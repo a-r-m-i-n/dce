@@ -34,7 +34,8 @@ $dceTca = array(
             'endtime' => 'endtime',
         ),
         'copyAfterDuplFields' => 'fields',
-        'requestUpdate' => 'wizard_enable,wizard_icon,template_type,preview_template_type,detailpage_template_type,enable_detailpage',
+        'requestUpdate' => 'wizard_enable,wizard_icon,template_type,preview_template_type,use_simple_backend_view,' .
+                            'backend_view_header,detailpage_template_type,enable_detailpage',
         'type' => 'type',
         'typeicon_column' => 'type',
         'typeicon_classes' => array(
@@ -50,7 +51,7 @@ $dceTca = array(
         '0' => array(
             'showitem' => '--palette--;;general_header,fields,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.template,template_type,template_content;;;fixed-font:enable-tab,template_file,
-			--div--;' . $ll . 'tx_dce_domain_model_dce.backendTemplate,preview_template_type,header_preview,header_preview_template_file,bodytext_preview,bodytext_preview_template_file,
+			--div--;' . $ll . 'tx_dce_domain_model_dce.backendTemplate,use_simple_backend_view,backend_view_header,backend_view_bodytext,preview_template_type,header_preview,header_preview_template_file,bodytext_preview,bodytext_preview_template_file,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.wizard,wizard_enable,wizard_category,wizard_description,wizard_icon,wizard_custom_icon,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.detailpage,enable_detailpage,detailpage_identifier,detailpage_template_type,detailpage_template,detailpage_template_file,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.miscellaneous,cache_dce,hide_default_ce_wrap,show_access_tab,show_category_tab,palette_fields,template_layout_root_path,template_partial_root_path'
@@ -59,7 +60,7 @@ $dceTca = array(
         '1' => array(
             'showitem' => '--palette--;;general_header,fields,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.template,template_content;;;fixed-font:enable-tab,template_file,
-			--div--;' . $ll . 'tx_dce_domain_model_dce.backendTemplate,preview_template_type,header_preview,header_preview_template_file,bodytext_preview,bodytext_preview_template_file,
+			--div--;' . $ll . 'tx_dce_domain_model_dce.backendTemplate,use_simple_backend_view,backend_view_header,backend_view_bodytext,preview_template_type,header_preview,header_preview_template_file,bodytext_preview,bodytext_preview_template_file,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.wizard,wizard_enable,wizard_category,wizard_description,wizard_icon,wizard_custom_icon,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.detailpage,enable_detailpage,detailpage_identifier,detailpage_template,detailpage_template_file,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.miscellaneous,cache_dce,hide_default_ce_wrap,show_access_tab,show_category_tab,palette_fields,template_layout_root_path,template_partial_root_path'
@@ -300,6 +301,41 @@ $dceTca = array(
                 'default' => '0',
             ),
         ),
+
+        'use_simple_backend_view' => array(
+            'exclude' => 0,
+            'label' => $ll . 'tx_dce_domain_model_dce.useSimpleBackendView',
+            'config' => array(
+                'type' => 'check',
+                'default' => '1'
+            ),
+        ),
+        'backend_view_header' => array(
+            'exclude' => 0,
+            'label' => $ll . 'tx_dce_domain_model_dce.backendViewHeader',
+            'config' => array(
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'itemsProcFunc' => 'ArminVieweg\Dce\UserFunction\ItemProcFunc->getDceFields',
+                'size' => 1,
+                'minitems' => 0,
+                'maxitems' => 1
+            ),
+            'displayCond' => 'FIELD:use_simple_backend_view:=:1',
+        ),
+        'backend_view_bodytext' => array(
+            'exclude' => 0,
+            'label' => $ll . 'tx_dce_domain_model_dce.backendViewBodytext',
+            'config' => array(
+                'type' => 'select',
+                'renderType' => 'selectMultipleSideBySide',
+                'itemsProcFunc' => 'ArminVieweg\Dce\UserFunction\ItemProcFunc->getDceFields',
+                'size' => 5,
+                'minitems' => 0,
+                'maxitems' => 15
+            ),
+            'displayCond' => 'FIELD:use_simple_backend_view:=:1',
+        ),
         'preview_template_type' => array(
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dce.previewTemplateType',
@@ -310,11 +346,17 @@ $dceTca = array(
                     array($ll . 'tx_dce_domain_model_dce.templateType.file', 'file'),
                 ),
             ),
+            'displayCond' => 'FIELD:use_simple_backend_view:!=:1',
         ),
         'header_preview' => array(
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dce.headerPreview',
-            'displayCond' => 'FIELD:preview_template_type:!IN:file',
+            'displayCond' => array(
+                'AND' => array(
+                    'FIELD:use_simple_backend_view:!=:1',
+                    'FIELD:preview_template_type:!IN:file'
+                )
+            ),
             'config' => array(
                 'type' => 'user',
                 'size' => '30',
@@ -333,7 +375,12 @@ $dceTca = array(
         'header_preview_template_file' => array(
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dce.headerPreviewTemplateFile',
-            'displayCond' => 'FIELD:preview_template_type:IN:file',
+            'displayCond' => array(
+                'AND' => array(
+                    'FIELD:use_simple_backend_view:!=:1',
+                    'FIELD:preview_template_type:IN:file'
+                )
+            ),
             'config' => array(
                 'type' => 'group',
                 'internal_type' => 'file_reference',
@@ -346,7 +393,12 @@ $dceTca = array(
         'bodytext_preview' => array(
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dce.bodytextPreview',
-            'displayCond' => 'FIELD:preview_template_type:!IN:file',
+            'displayCond' => array(
+                'AND' => array(
+                    'FIELD:use_simple_backend_view:!=:1',
+                    'FIELD:preview_template_type:!IN:file'
+                )
+            ),
             'config' => array(
                 'type' => 'user',
                 'size' => '30',
@@ -364,7 +416,12 @@ $dceTca = array(
         'bodytext_preview_template_file' => array(
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dce.bodytextPreviewTemplateFile',
-            'displayCond' => 'FIELD:preview_template_type:IN:file',
+            'displayCond' => array(
+                'AND' => array(
+                    'FIELD:use_simple_backend_view:!=:1',
+                    'FIELD:preview_template_type:IN:file'
+                )
+            ),
             'config' => array(
                 'type' => 'group',
                 'internal_type' => 'file_reference',

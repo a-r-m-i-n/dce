@@ -102,6 +102,31 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     }
 
     /**
+     * Renders DCE with given values.
+     * If values are null, the values are read from $this->settings array.
+     *
+     * @param int|null $uid Uid of DCE
+     * @param int|null $contentElementUid Uid of content element (tt_content)
+     * @return string
+     */
+    public function renderDceAction($uid = null, $contentElementUid = null)
+    {
+        $uid = !is_null($uid) ? $uid : intval($this->settings['dceUid']);
+        $contentElementUid = !is_null($contentElementUid) ? $contentElementUid : $this->settings['contentElementUid'];
+
+        $contentObject = $this->getContentObject($contentElementUid);
+
+        $this->settings = $this->simulateContentElementSettings($this->settings['contentElementUid']);
+
+        $dce = $this->dceRepository->findAndBuildOneByUid(
+            $uid,
+            $this->settings,
+            $contentObject
+        );
+        return gzcompress(serialize($dce));
+    }
+
+    /**
      * Simulates content element settings, which is necessary in backend context
      *
      * @param int $contentElementUid

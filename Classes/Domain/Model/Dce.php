@@ -89,6 +89,15 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /** @var string */
     protected $templatePartialRootPath = '';
 
+    /** @var bool */
+    protected $useSimpleBackendView = false;
+
+    /** @var string */
+    protected $backendViewHeader = '';
+
+    /** @var string */
+    protected $backendViewBodytext = '';
+
     /** @var string */
     protected $previewTemplateType = '';
 
@@ -293,7 +302,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Gets objectStorage with fields
      *
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<DceField>
+     * @return DceField[]
      */
     public function getFields()
     {
@@ -331,6 +340,89 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function removeField(\ArminVieweg\Dce\Domain\Model\DceField $fieldToRemove)
     {
         $this->fields->detach($fieldToRemove);
+    }
+
+    /**
+     * Get UseSimpleBackendView
+     *
+     * @return boolean
+     */
+    public function getUseSimpleBackendView()
+    {
+        return $this->useSimpleBackendView;
+    }
+
+    /**
+     * Get UseSimpleBackendView
+     *
+     * @return boolean
+     */
+    public function isUseSimpleBackendView()
+    {
+        return $this->useSimpleBackendView;
+    }
+
+    /**
+     * Set UseSimpleBackendView
+     *
+     * @param boolean $useSimpleBackendView
+     * @return void
+     */
+    public function setUseSimpleBackendView($useSimpleBackendView)
+    {
+        $this->useSimpleBackendView = $useSimpleBackendView;
+    }
+
+    /**
+     * Get BackendViewHeader
+     *
+     * @return string
+     */
+    public function getBackendViewHeader()
+    {
+        return $this->backendViewHeader;
+    }
+
+    /**
+     * Set BackendViewHeader
+     *
+     * @param string $backendViewHeader
+     * @return void
+     */
+    public function setBackendViewHeader($backendViewHeader)
+    {
+        $this->backendViewHeader = $backendViewHeader;
+    }
+
+    /**
+     * Get BackendViewBodytext
+     *
+     * @return string
+     */
+    public function getBackendViewBodytext()
+    {
+        return $this->backendViewBodytext;
+    }
+
+    /**
+     * Get BackendViewBodytext as array
+     *
+     * @return array
+     */
+    public function getBackendViewBodytextArray()
+    {
+        return GeneralUtility::trimExplode(',', $this->getBackendViewBodytext(), true);
+    }
+
+    /**
+     * Set BackendViewBodytext
+     *
+     * @param string $backendViewBodytext
+     * @return void
+     */
+    public function setBackendViewBodytext($backendViewBodytext)
+    {
+        $this->backendViewBodytext = $backendViewBodytext;
     }
 
     /**
@@ -610,9 +702,24 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getFieldByVariable($variable)
     {
-        /** @var $field DceField */
         foreach ($this->getFields() as $field) {
             if ($field->getVariable() === $variable) {
+                return $field;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Returns field of this dce by its uid.
+     *
+     * @param int $fieldUid
+     * @return DceField|null
+     */
+    private function getFieldByUid($fieldUid)
+    {
+        foreach ($this->getFields() as $field) {
+            if ($field->getUid() === (int) $fieldUid) {
                 return $field;
             }
         }
@@ -802,5 +909,67 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
         self::$fluidTemplateCache[$this->getUid()][$templateType] = $fluidTemplate;
         return $fluidTemplate;
+    }
+
+    /**
+     * Returns configured rendered field value
+     *
+     * @return string
+     */
+    public function getSimpleBackendViewHeaderContent()
+    {
+        if ($this->getBackendViewHeader() === '*empty') {
+            return '';
+        }
+        if ($this->getBackendViewHeader() === '*dcetitle') {
+            return $this->getTitle();
+        }
+
+        $field = $this->getFieldByUid($this->getBackendViewHeader());
+        if (!$field) {
+            return '';
+        }
+        return $field->getValue();
+    }
+
+    /**
+     * Returns table of configured rendered field values
+     *
+     * @return string
+     */
+    public function getSimpleBackendViewBodytextContent()
+    {
+        $fields = array();
+        foreach ($this->getBackendViewBodytextArray() as $fieldIdentifier) {
+            if (strpos($fieldIdentifier, '*') === 0) {
+                $fields[] = $fieldIdentifier;
+            } else {
+                $fields[] = $this->getFieldByVariable($fieldIdentifier);
+            }
+        }
+
+        $content = '<table class="table table-bordered table-responsive"><tbody>';
+        /** @var DceField|string $field */
+        foreach ($fields as $field) {
+            if ($field === '*empty') {
+                $content .= '<tr><td colspan="2"></td></tr>';
+            } elseif ($field === '*dcetitle') {
+                $content .= '<tr><td colspan="2">' . $GLOBALS['LANG']->sL($this->getTitle()) . '</td></tr>';
+            } else {
+                $fieldValue = $field->getValue();
+                if ($field->isSection()) {
+                    if (count($field->getSectionFields()) === 1) {
+                        $label = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('entry', 'dce');
+                    } else {
+                        $label = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('entries', 'dce');
+                    }
+                    $fieldValue = count($field->getSectionFields()) . $label;
+                }
+                $content .= '<tr><td>' . $GLOBALS['LANG']->sL($field->getTitle()) . '</td>' .
+                            '<td>' . $fieldValue . '</td></tr>';
+            }
+        }
+        $content .= '</tbody></table>';
+        return $content;
     }
 }

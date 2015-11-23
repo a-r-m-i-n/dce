@@ -86,6 +86,21 @@ $boot = function ($extensionKey) {
         'ArminVieweg\Dce\Updates\MigrateDceFieldDatabaseRelationUpdate';
 
 
+    // Register Plugin to get Dce instance
+    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+        'ArminVieweg.' . $extensionKey,
+        'Dce',
+        array(
+            'Dce' => 'renderDce'
+        ),
+        array(
+            'Dce' => 'renderDce'
+        )
+    );
+
+    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['extbase']['extensions']['Dce']['modules']
+        = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['extbase']['extensions']['Dce']['plugins'];
+
     // Include cached ext_localconf
     if (!\ArminVieweg\Dce\Cache::cacheExists(\ArminVieweg\Dce\Cache::CACHE_TYPE_EXTLOCALCONF)) {
         /** @var $dceCache \ArminVieweg\Dce\Cache */
