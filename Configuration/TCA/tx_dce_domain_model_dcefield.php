@@ -29,6 +29,7 @@ $dceFieldTca = array(
         'versioning_followPages' => true,
         'origUid' => 't3_origuid',
         'delete' => 'deleted',
+        'sortby' => 'sorting',
         'enablecolumns' => array(
             'disabled' => 'hidden',
             'starttime' => 'starttime',
@@ -109,6 +110,12 @@ $dceFieldTca = array(
             'config' => array(
                 'type' => 'check',
             ),
+        ),
+        'sorting' => array(
+            'label' => 'Sorting',
+            'config' => array(
+                'passthrough'
+            )
         ),
         'starttime' => array(
             'exclude' => 1,
@@ -220,6 +227,13 @@ $dceFieldTca = array(
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim,required'
+            ),
+        ),
+        'parent' => array(
+            'exclude' => 0,
+            'label' => $ll . 'tx_dce_domain_model_dcefield.parent',
+            'config' => array(
+                'type' => 'passthrough'
             ),
         ),
     ),
