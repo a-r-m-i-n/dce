@@ -598,8 +598,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
             // TODO: Remove this when TYPO3 6.2 is outdated
             return 'typo3/sysext/t3skin/icons/gfx/c_wiz/' . $this->getWizardIcon() . '.gif';
         }
-        //return 'EXT:frontend/Resources/Public/Icons/ContentElementWizard/' .  $this->getWizardIcon() . '.gif';
-        return $GLOBALS['TCA']['tt_content']['ctrl']['typeicon_classes'][$this->getWizardIcon()];
+        return $this->getWizardIcon();
     }
 
     /**

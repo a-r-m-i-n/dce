@@ -207,11 +207,7 @@ $dceTca = array(
             'displayCond' => 'FIELD:wizard_enable:REQ:true',
             'config' => array(
                 'type' => 'select',
-                'items' => array_merge($GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'], array(array(
-                    'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:wizardIcon.customIcon',
-                    'custom',
-                    'content-plugin'
-                ))),
+                'items' => \ArminVieweg\Dce\Utility\WizardIcon::getTcaListItems(),
             ),
         ),
         'wizard_custom_icon' => array(
@@ -476,85 +472,6 @@ $dceTca = array(
     ),
 );
 
-if (!\TYPO3\CMS\Core\Utility\GeneralUtility::compat_version('7.6')) {
-    $dceTca['columns']['wizard_icon']['config']['items'] = array(
-        array($ll . 'wizardIcon.default', '--div--'),
-        array(
-            'LLL:EXT:cms/layout/locallang_db_new_content_el.xml:common_regularText_title',
-            'regular_text',
-            'c_wiz/regular_text.gif'
-        ),
-        array(
-            'LLL:EXT:cms/layout/locallang_db_new_content_el.xml:special_plainHTML_title',
-            'html',
-            'c_wiz/html.gif'
-        ),
-        array(
-            'LLL:EXT:cms/layout/locallang_db_new_content_el.xml:common_bulletList_title',
-            'bullet_list',
-            'c_wiz/bullet_list.gif'
-        ),
-        array(
-            'LLL:EXT:cms/layout/locallang_db_new_content_el.xml:common_textImage_title',
-            'text_image_right',
-            'c_wiz/text_image_right.gif'
-        ),
-        array($ll . 'common_textImage2_title', 'text_image_below', 'c_wiz/text_image_below.gif'),
-        array(
-            'LLL:EXT:cms/layout/locallang_db_new_content_el.xml:common_table_title',
-            'table',
-            'c_wiz/table.gif'
-        ),
-        array(
-            'LLL:EXT:cms/layout/locallang_db_new_content_el.xml:special_sitemap_title',
-            'sitemap',
-            'c_wiz/sitemap.gif'
-        ),
-        array($ll . 'special_sitemap2_title', 'sitemap2', 'c_wiz/sitemap2.gif'),
-        array(
-            'LLL:EXT:cms/layout/locallang_db_new_content_el.xml:forms_search_title',
-            'searchform',
-            'c_wiz/searchform.gif'
-        ),
-        array(
-            'LLL:EXT:cms/layout/locallang_db_new_content_el.xml:special_multimedia_title',
-            'multimedia',
-            'c_wiz/multimedia.gif'
-        ),
-        array(
-            'LLL:EXT:cms/layout/locallang_db_new_content_el.xml:forms_mail_title',
-            'mailform',
-            'c_wiz/mailform.gif'
-        ),
-        array(
-            'LLL:EXT:cms/layout/locallang_db_new_content_el.xml:forms_login_title',
-            'login_form',
-            'c_wiz/login_form.gif'
-        ),
-        array(
-            'LLL:EXT:cms/layout/locallang_db_new_content_el.xml:common_imagesOnly_title',
-            'images_only',
-            'c_wiz/images_only.gif'
-        ),
-        array(
-            'LLL:EXT:cms/layout/locallang_db_new_content_el.xml:special_filelinks_title',
-            'filelinks',
-            'c_wiz/filelinks.gif'
-        ),
-        array(
-            'LLL:EXT:cms/layout/locallang_db_new_content_el.xml:special_divider_title',
-            'div',
-            'c_wiz/div.gif'
-        ),
-        array(
-            'LLL:EXT:cms/layout/locallang_db_new_content_el.xml:plugins_general_title',
-            'user_defined',
-            'c_wiz/user_defined.gif'
-        ),
-        array($ll . 'wizardIcon.custom', '--div--'),
-        array($ll . 'wizardIcon.customIcon', 'custom'),
-    );
-}
 if (!\TYPO3\CMS\Core\Utility\GeneralUtility::compat_version('7.4')) {
     $dceTca['columns']['wizard_category']['config']['items'] = array(
         array($ll . 'tx_dce_domain_model_dce', '--div--'),

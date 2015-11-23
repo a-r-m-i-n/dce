@@ -13,11 +13,10 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
  * Returns the path of content element wizard icons
  *
  * @package ArminVieweg\Dce
- * @TODO Remove this view helper, when TYPO3 6.2 is outdated.
+ * @deprecated Will be removed with 6.2 support
  */
 class ContentElementWizardIconPathViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper
 {
-
     /**
      * Returns path of ce wizard icon. If name is given it appends the filename.
      *
@@ -26,6 +25,9 @@ class ContentElementWizardIconPathViewHelper extends \TYPO3\CMS\Fluid\ViewHelper
      */
     public function render($name = '')
     {
+        if (\TYPO3\CMS\Core\Utility\GeneralUtility::compat_version('7.6')) {
+            return $name;
+        }
         if (!empty($name)) {
             $name = $name . '.gif';
         }

@@ -37,7 +37,7 @@ if (\TYPO3\CMS\Core\Utility\GeneralUtility::compat_version('7.6')) {
 	mod.wizards.newContentElement.wizardItems.{dce.wizard_category}.elements.dce_{f:if(condition:"{dce.uid}", then:"dceuid{dce.uid}", else:"dce_{dce.identifier}")} {
 	<f:if condition="{dce:be.version.typo3(returnInt:'1')} < 7006000">
 		<f:then>
-			icon = <f:if condition="{dce.hasCustomWizardIcon}"><f:then>../{dce.wizard_custom_icon}</f:then><f:else>{dce:be.contentElementWizardIconPath()}{dce.wizard_icon}</f:else></f:if>
+			icon = <f:if condition="{dce.hasCustomWizardIcon}"><f:then>../{dce.wizard_custom_icon}</f:then><f:else>{dce:be.contentElementWizardIconPath(name:'{dce.wizard_icon}')}</f:else></f:if>
 		</f:then>
 		<f:else>
 			iconIdentifier = <f:if condition="{dce.hasCustomWizardIcon}"><f:then>ext-dce-dceuid{dce.uid}-customwizardicon</f:then><f:else>{dce:be.contentElementWizardIconPath()}{dce.wizard_icon}</f:else></f:if>
