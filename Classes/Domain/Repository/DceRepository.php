@@ -338,10 +338,11 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
         if ($dceFieldConfiguration['type'] === 'group') {
             $className = $dceFieldConfiguration['allowed'];
+            $tableNames = GeneralUtility::trimExplode(',', $dceFieldConfiguration['allowed'], true);
         } else {
             $className = $dceFieldConfiguration['foreign_table'];
+            $tableNames = GeneralUtility::trimExplode(',', $dceFieldConfiguration['foreign_table'], true);
         }
-        $tableName = $className;
 
         $specialClass = null;
         if ($dceFieldConfiguration['dce_load_entity_class']) {
@@ -391,9 +392,20 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         }
         // No class found... load DB record and return assoc
         foreach (GeneralUtility::trimExplode(',', $fieldValue, true) as $uid) {
-            $uid = (int)$uid;
             $enableFields = '';
 
+            if (count($tableNames) === 1) {
+                $uid = (int) $uid;
+                $tableName = $tableNames[0];
+            } else {
+                $position = strripos($uid, '_');
+                $tableName = substr($uid, 0, $position);
+                $uid = (int) substr($uid, $position + 1);
+            }
+
+            if (empty($tableName)) {
+                continue;
+            }
             if (!$dceFieldConfiguration['dce_ignore_enablefields']) {
                 if (!$GLOBALS['TSFE']->sys_page instanceof \TYPO3\CMS\Frontend\Page\PageRepository) {
                     if (!$GLOBALS['TSFE'] instanceof \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController) {
@@ -430,6 +442,8 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
                 // Add field with converted flexform_data (as array)
                 $row['pi_flexform_data'] = GeneralUtility::xml2array($row['pi_flexform']);
+                // Add field with tableName
+                $row['_table'] = $tableName;
 
                 $dceUid = $this->extractUidFromCtype($row['CType']);
                 if ($dceUid !== false) {
