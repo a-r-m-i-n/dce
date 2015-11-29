@@ -233,7 +233,7 @@ class Cache
                 } elseif ($row2['type'] === '2') {
                     $res3 = $databaseConnection->exec_SELECTquery(
                         '*',
-                        'tx_dce_domain_model_dce',
+                        'tx_dce_domain_model_dcefield',
                         'parent = ' . $row2['uid'] . ' AND is_section_field = 1 AND deleted = 0 AND hidden = 0',
                         '',
                         'sorting asc'

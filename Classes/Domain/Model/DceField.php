@@ -37,8 +37,8 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /** @var string */
     protected $_value = '';
 
-    /** @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\ArminVieweg\Dce\Domain\Model\DceField> */
-    protected $sectionFields = null;
+    /** @var \ArminVieweg\Dce\Domain\Model\DceField[] */
+    protected $sectionFields;
 
 
     /**
@@ -156,7 +156,7 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+     * @return DceField[]
      */
     public function getSectionFields()
     {
@@ -202,10 +202,13 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getSectionFieldByVariable($variable)
     {
-        /** @var $sectionField DceField */
-        foreach ($this->getSectionFields() as $sectionField) {
-            if ($sectionField->getVariable() === $variable) {
-                return $sectionField;
+        $sectionFields = $this->getSectionFields();
+        if (isset($sectionFields)) {
+            /** @var $sectionField DceField */
+            foreach ($this->getSectionFields() as $sectionField) {
+                if ($sectionField->getVariable() === $variable) {
+                    return $sectionField;
+                }
             }
         }
         return null;
