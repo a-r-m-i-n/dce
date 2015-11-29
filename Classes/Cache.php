@@ -206,12 +206,11 @@ class Cache
         while (($row = $databaseConnection->sql_fetch_assoc($res))) {
             $res2 = $databaseConnection->exec_SELECTquery(
                 '*',
-                'tx_dce_domain_model_dce',
+                'tx_dce_domain_model_dcefield',
                 'parent = ' . $row['uid'] . ' AND deleted = 0 AND hidden = 0',
                 '',
                 'sorting asc'
             );
-
 
             if (TYPO3_MODE === 'FE') {
                 $generalTabLabel = LocalizationUtility::translate('generaltab', 'dce');
