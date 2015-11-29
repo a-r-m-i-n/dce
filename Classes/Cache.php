@@ -204,16 +204,14 @@ class Cache
 
         $dce = array();
         while (($row = $databaseConnection->sql_fetch_assoc($res))) {
-            $res2 = $databaseConnection->exec_SELECT_mm_query(
+            $res2 = $databaseConnection->exec_SELECTquery(
                 '*',
                 'tx_dce_domain_model_dce',
-                'tx_dce_dce_dcefield_mm',
-                'tx_dce_domain_model_dcefield',
-                ' AND tx_dce_domain_model_dce.uid = ' . $row['uid'] .
-                ' AND tx_dce_domain_model_dcefield.deleted = 0 AND tx_dce_domain_model_dcefield.hidden = 0',
+                'parent = ' . $row['uid'] . ' AND deleted = 0 AND hidden = 0',
                 '',
-                'tx_dce_dce_dcefield_mm.sorting asc'
+                'sorting asc'
             );
+
 
             if (TYPO3_MODE === 'FE') {
                 $generalTabLabel = LocalizationUtility::translate('generaltab', 'dce');
@@ -236,15 +234,12 @@ class Cache
                 } elseif ($row2['type'] === '2') {
                     $res3 = $databaseConnection->exec_SELECTquery(
                         '*',
-                        'tx_dce_domain_model_dcefield as a,' .
-                        'tx_dce_dcefield_sectionfields_mm,' .
-                        'tx_dce_domain_model_dcefield as b',
-                        'a.uid=tx_dce_dcefield_sectionfields_mm.uid_local ' .
-                        'AND b.uid=tx_dce_dcefield_sectionfields_mm.uid_foreign AND a.uid = ' . $row2['uid'] .
-                        ' AND b.deleted = 0 AND b.hidden = 0',
+                        'tx_dce_domain_model_dce',
+                        'parent = ' . $row2['uid'] . ' AND is_section_field = 1 AND deleted = 0 AND hidden = 0',
                         '',
-                        'tx_dce_dcefield_sectionfields_mm.sorting asc'
+                        'sorting asc'
                     );
+
                     $sectionFields = array();
                     while (($row3 = $databaseConnection->sql_fetch_assoc($res3))) {
                         if ($row3['type'] === '0') {

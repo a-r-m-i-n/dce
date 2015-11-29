@@ -85,12 +85,8 @@ class CodemirrorField
                     if ($row['type'] === '2') {
                         $res2 = $GLOBALS['TYPO3_DB']->sql_query('
 							SELECT title, variable
-
 							FROM tx_dce_domain_model_dcefield
-							JOIN tx_dce_dcefield_sectionfields_mm
-							ON uid = uid_foreign
-
-							WHERE deleted = 0  AND uid_local = ' . $row['uid'] . '
+							WHERE deleted = 0  AND parent = ' . $row['uid'] . '
 							ORDER BY sorting asc
 						');
 

@@ -78,7 +78,7 @@ class DceFieldLabel
      */
     protected function isSectionChildField($parameter)
     {
-        return $parameter['parent']['config']['MM'] === 'tx_dce_dcefield_sectionfields_mm';
+        return (bool) $parameter['row']['is_section_field'];
     }
 
     /**
