@@ -34,6 +34,7 @@
 			<label index="disabled">Disabled</label>
 			<label index="back">Back</label>
 			<label index="noDcesFound">No DCEs found!</label>
+			<label index="fields">fields</label>
         </languageKey>
 
         <languageKey index="de" type="array">
@@ -62,6 +63,7 @@
 			<label index="disabled">Inaktiv</label>
 			<label index="back">Zurück</label>
 			<label index="noDcesFound">Keine DCEs gefunden!</label>
+			<label index="fields">Felder</label>
         </languageKey>
     </data>
 </T3locallang>

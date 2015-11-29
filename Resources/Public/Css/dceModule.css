@@ -75,7 +75,7 @@ a.overlayLink {
 }
 
 .label-darker {
-	background-color: #aaa;
+	background-color: #777 !important;
 }
 
 .form-inline {

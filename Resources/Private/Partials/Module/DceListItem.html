@@ -47,6 +47,7 @@
                 </f:else>
             </f:if>
             <span class="label label-default label-darker">UID: {dce.uid}</span>
+            <span class="label label-info">{dce.fields -> f:count()} {f:translate(key:'{lll}fields')}</span>
         </td>
         <td>
             <div class="pull-right">
