@@ -15,9 +15,9 @@ use TYPO3\CMS\Core\Database\DatabaseConnection;
  */
 class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
 {
-
-    const MM_TABLE = 'tx_news_domain_model_news_ttcontent_mm';
-
+    /**
+     * @var string
+     */
     protected $title = 'EXT:dce Migrate m:n-relation of dce fields to 1:n-relation';
 
     /**
@@ -119,7 +119,6 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
             $this->storeLastQuery($dbQueries);
         }
 
-
         $remainingDceFields = $this->getUpdatableDceFields();
         $this->storeLastQuery($dbQueries);
         if (count($remainingDceFields) > 0) {
@@ -144,7 +143,9 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
     }
 
     /**
-     * @return array
+     * Returns DceFields without set parent field
+     *
+     * @return array DceField row
      */
     protected function getUpdatableDceFields()
     {
@@ -195,7 +196,6 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
         return null;
     }
 
-
     /**
      * @return DatabaseConnection
      */
@@ -203,5 +203,4 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
     {
         return $GLOBALS['TYPO3_DB'];
     }
-
 }

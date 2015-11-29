@@ -80,8 +80,10 @@ $boot = function ($extensionKey) {
 
 
     // Update Scripts
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceMigrateOldNamespacesInFluidTemplateUpdate'] =
+        'ArminVieweg\Dce\Updates\MigrateOldNamespacesInFluidTemplateUpdate';
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceMigrateDceFieldDatabaseRelationUpdate'] =
-            'ArminVieweg\Dce\Updates\MigrateDceFieldDatabaseRelationUpdate';
+        'ArminVieweg\Dce\Updates\MigrateDceFieldDatabaseRelationUpdate';
 
 
     // Include cached ext_localconf
