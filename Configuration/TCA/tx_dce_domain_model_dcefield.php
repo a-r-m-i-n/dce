@@ -202,12 +202,16 @@ $dceFieldTca = array(
             'config' => array(
                 'type' => 'inline',
                 'foreign_table' => 'tx_dce_domain_model_dcefield',
-                'MM' => 'tx_dce_dcefield_sectionfields_mm',
+                'foreign_sortby' => 'sorting',
+                'foreign_field' => 'parent',
+                'foreign_record_defaults' => array(
+                    'is_section_field' => '1'
+                ),
                 'minitems' => 0,
                 'maxitems' => 999,
                 'appearance' => array(
-                    'collapseAll' => 1,
-                    'expandSingle' => 1,
+                    'collapseAll' => 0,
+                    'expandSingle' => 0,
                     'levelLinksPosition' => 'bottom',
                     'useSortable' => 1,
                     'showPossibleLocalizationRecords' => 1,
@@ -216,6 +220,8 @@ $dceFieldTca = array(
                     'showSynchronizationLink' => 1,
                     'enabledControls' => array(
                         'info' => false,
+                        'dragdrop' => true,
+                        'sort' => true
                     )
                 ),
             ),

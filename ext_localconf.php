@@ -79,6 +79,11 @@ $boot = function ($extensionKey) {
         'EXT:dce/Classes/UserFunction/CustomFieldValidation/NoLeadingNumberValidator.php';
 
 
+    // Update Scripts
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceMigrateDceFieldDatabaseRelationUpdate'] =
+            'ArminVieweg\Dce\Updates\MigrateDceFieldDatabaseRelationUpdate';
+
+
     // Include cached ext_localconf
     if (!\ArminVieweg\Dce\Cache::cacheExists(\ArminVieweg\Dce\Cache::CACHE_TYPE_EXTLOCALCONF)) {
         /** @var $dceCache \ArminVieweg\Dce\Cache */
