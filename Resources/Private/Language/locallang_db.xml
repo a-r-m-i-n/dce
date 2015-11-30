@@ -47,6 +47,7 @@
 
 			<label index="tx_dce_domain_model_dce">DCE</label>
 			<label index="tx_dce_domain_model_dce_long">Dynamic Content Elements</label>
+			<label index="tx_dce_domain_model_dce.hidden">Inactive</label>
 			<label index="tx_dce_domain_model_dce.type">Type</label>
 			<label index="tx_dce_domain_model_dce.type.databased">Database based</label>
 			<label index="tx_dce_domain_model_dce.type.filebased">File based</label>
@@ -91,12 +92,13 @@
 			<label index="tx_dce_domain_model_dce.paletteFields">DCE palette fields</label>
 
 			<label index="tx_dce_domain_model_dcefield">DCE Field</label>
+			<label index="tx_dce_domain_model_dcefield.hidden">Inactive</label>
 			<label index="tx_dce_domain_model_dcefield.type">Type</label>
 			<label index="tx_dce_domain_model_dcefield.type.element">Element</label>
 			<label index="tx_dce_domain_model_dcefield.type.tab">Tab</label>
 			<label index="tx_dce_domain_model_dcefield.type.section">Section</label>
 			<label index="tx_dce_domain_model_dcefield.title">Title</label>
-			<label index="tx_dce_domain_model_dcefield.variable">Variable (unique key for usage in fluid template)</label>
+			<label index="tx_dce_domain_model_dcefield.variable">Variable (must be unique)</label>
 			<label index="tx_dce_domain_model_dcefield.configuration">Configuration</label>
 			<label index="tx_dce_domain_model_dcefield.section_fields">Section fields</label>
 			<label index="tx_dce_domain_model_dcefield.section_fields_tag">Section fields tag (singular)</label>
@@ -120,6 +122,7 @@
 
 			<label index="tx_dce_domain_model_dce">DCE</label>
 			<label index="tx_dce_domain_model_dce_long">Dynamische Content-Elemente</label>
+            <label index="tx_dce_domain_model_dce.hidden">Inaktiv</label>
             <label index="tx_dce_domain_model_dce.type">Typ</label>
 			<label index="tx_dce_domain_model_dce.type.databased">Datenbankbasiert</label>
 			<label index="tx_dce_domain_model_dce.type.filebased">Dateibasiert</label>
@@ -164,12 +167,13 @@
 			<label index="tx_dce_domain_model_dce.paletteFields">DCE Paletten-Felder</label>
 
 			<label index="tx_dce_domain_model_dcefield">DCE Feld</label>
+			<label index="tx_dce_domain_model_dcefield.hidden">Inaktiv</label>
 			<label index="tx_dce_domain_model_dcefield.type">Typ</label>
 			<label index="tx_dce_domain_model_dcefield.type.element">Element</label>
 			<label index="tx_dce_domain_model_dcefield.type.tab">Tab</label>
 			<label index="tx_dce_domain_model_dcefield.type.section">Sektion</label>
 			<label index="tx_dce_domain_model_dcefield.title">Titel</label>
-			<label index="tx_dce_domain_model_dcefield.variable">Variable (eindeutiger Schlüssel, wird im Fluid-Template verwendet)</label>
+			<label index="tx_dce_domain_model_dcefield.variable">Variable (muss eindeutig sein)</label>
 			<label index="tx_dce_domain_model_dcefield.configuration">Konfiguration</label>
 			<label index="tx_dce_domain_model_dcefield.section_fields">Sektionsfelder</label>
 			<label index="tx_dce_domain_model_dcefield.section_fields_tag">Sektionsfelder Bezeichnung (Einzahl)</label>

@@ -49,17 +49,17 @@ $dceFieldTca = array(
     ),
     'types' => array(
         '0' => array(
-            'showitem' => 'hidden,type,title,variable,configuration;;;fixed-font:enable-tab,parent_dce,parent_field'
+            'showitem' => '--palette--;;general_header,configuration;;;fixed-font:enable-tab,parent_dce,parent_field'
         ),
         '1' => array(
-            'showitem' => 'hidden,type,title,variable,parent_dce'
+            'showitem' => '--palette--;;general_header,parent_dce'
         ),
         '2' => array(
-            'showitem' => 'hidden,type,title,section_fields_tag,variable,section_fields,parent_dce'
+            'showitem' => '--palette--;;general_header,section_fields_tag,section_fields,parent_dce'
         ),
     ),
     'palettes' => array(
-        '1' => array('showitem' => ''),
+        'general_header' => array('showitem' => 'type,title,variable,hidden', 'canNotCollapse' => true)
     ),
     'columns' => array(
         'sys_language_uid' => array(
@@ -104,7 +104,7 @@ $dceFieldTca = array(
         ),
         'hidden' => array(
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.hidden',
+            'label' => $ll . 'tx_dce_domain_model_dcefield.hidden',
             'config' => array(
                 'type' => 'check',
             ),
@@ -164,7 +164,7 @@ $dceFieldTca = array(
             'label' => $ll . 'tx_dce_domain_model_dcefield.title',
             'config' => array(
                 'type' => 'input',
-                'size' => 30,
+                'size' => 15,
                 'eval' => 'trim,required'
             ),
         ),
@@ -173,7 +173,7 @@ $dceFieldTca = array(
             'label' => $ll . 'tx_dce_domain_model_dcefield.variable',
             'config' => array(
                 'type' => 'input',
-                'size' => 30,
+                'size' => 10,
                 'eval' => 'trim,required,is_in,' .
                           'ArminVieweg\Dce\UserFunction\CustomFieldValidation\NoLeadingNumberValidator,' .
                           'ArminVieweg\Dce\UserFunction\CustomFieldValidation\LowerCamelCaseValidator',
@@ -226,7 +226,7 @@ $dceFieldTca = array(
             'label' => $ll . 'tx_dce_domain_model_dcefield.section_fields_tag',
             'config' => array(
                 'type' => 'input',
-                'size' => 30,
+                'size' => 15,
                 'eval' => 'trim,required'
             ),
         ),

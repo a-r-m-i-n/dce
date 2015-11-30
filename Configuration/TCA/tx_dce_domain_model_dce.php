@@ -48,7 +48,7 @@ $dceTca = array(
     'types' => array(
         // Database DCE
         '0' => array(
-            'showitem' => 'hidden;;1,type,title,fields,
+            'showitem' => '--palette--;;general_header,fields,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.template,template_type,template_content;;;fixed-font:enable-tab,template_file,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.backendTemplate,preview_template_type,header_preview,header_preview_template_file,bodytext_preview,bodytext_preview_template_file,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.wizard,wizard_enable,wizard_category,wizard_description,wizard_icon,wizard_custom_icon,
@@ -57,7 +57,7 @@ $dceTca = array(
         ),
         // Filebased DCE
         '1' => array(
-            'showitem' => 'hidden;;1,type,identifier,title,fields,
+            'showitem' => '--palette--;;general_header,fields,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.template,template_content;;;fixed-font:enable-tab,template_file,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.backendTemplate,preview_template_type,header_preview,header_preview_template_file,bodytext_preview,bodytext_preview_template_file,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.wizard,wizard_enable,wizard_category,wizard_description,wizard_icon,wizard_custom_icon,
@@ -66,7 +66,7 @@ $dceTca = array(
         ),
     ),
     'palettes' => array(
-        '1' => array('showitem' => ''),
+        'general_header' => array('showitem' => 'title,type,hidden', 'canNotCollapse' => true),
     ),
     'columns' => array(
         'sys_language_uid' => array(
@@ -111,7 +111,7 @@ $dceTca = array(
         ),
         'hidden' => array(
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.hidden',
+            'label' => $ll . 'tx_dce_domain_model_dce.hidden',
             'config' => array(
                 'type' => 'check',
             ),
@@ -143,7 +143,7 @@ $dceTca = array(
             'label' => $ll . 'tx_dce_domain_model_dce.title',
             'config' => array(
                 'type' => 'input',
-                'size' => 30,
+                'size' => 15,
                 'eval' => 'trim,required',
             ),
         ),
