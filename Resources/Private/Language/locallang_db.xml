@@ -100,6 +100,8 @@
 			<label index="tx_dce_domain_model_dcefield.configuration">Configuration</label>
 			<label index="tx_dce_domain_model_dcefield.section_fields">Section fields</label>
 			<label index="tx_dce_domain_model_dcefield.section_fields_tag">Section fields tag (singular)</label>
+			<label index="tx_dce_domain_model_dcefield.parent_dce">Parent DCE</label>
+			<label index="tx_dce_domain_model_dcefield.parent_field">Parent field</label>
 
 			<label index="tx_dce_formeval_headline">Input '%s' not valid</label>
 			<label index="tx_dce_formeval_noLeadingNumber">The value may not start with numbers. Changed input from '%s' to '%s'.</label>
@@ -171,6 +173,8 @@
 			<label index="tx_dce_domain_model_dcefield.configuration">Konfiguration</label>
 			<label index="tx_dce_domain_model_dcefield.section_fields">Sektionsfelder</label>
 			<label index="tx_dce_domain_model_dcefield.section_fields_tag">Sektionsfelder Bezeichnung (Einzahl)</label>
+			<label index="tx_dce_domain_model_dcefield.parent_dce">Eltern-DCE</label>
+			<label index="tx_dce_domain_model_dcefield.parent_field">Eltern-Field</label>
 
 			<label index="tx_dce_formeval_headline">Eingabe '%s' ungültig</label>
 			<label index="tx_dce_formeval_noLeadingNumber">Der Wert darf nicht mit Nummern beginnen. Eingabe wurde von '%s' nach '%s' geändert.</label>

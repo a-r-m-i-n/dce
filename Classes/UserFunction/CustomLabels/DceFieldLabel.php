@@ -78,7 +78,7 @@ class DceFieldLabel
      */
     protected function isSectionChildField($parameter)
     {
-        return (bool) $parameter['row']['is_section_field'];
+        return  !empty($parameter['row']['parent_field']);
     }
 
     /**

@@ -207,7 +207,7 @@ class Cache
             $res2 = $databaseConnection->exec_SELECTquery(
                 '*',
                 'tx_dce_domain_model_dcefield',
-                'parent = ' . $row['uid'] . ' AND deleted = 0 AND hidden = 0',
+                'parent_dce = ' . $row['uid'] . ' AND deleted = 0 AND hidden = 0',
                 '',
                 'sorting asc'
             );
@@ -234,7 +234,7 @@ class Cache
                     $res3 = $databaseConnection->exec_SELECTquery(
                         '*',
                         'tx_dce_domain_model_dcefield',
-                        'parent = ' . $row2['uid'] . ' AND is_section_field = 1 AND deleted = 0 AND hidden = 0',
+                        'parent_field = ' . $row2['uid'] . ' AND deleted = 0 AND hidden = 0',
                         '',
                         'sorting asc'
                     );

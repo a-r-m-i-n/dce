@@ -37,8 +37,11 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /** @var string */
     protected $_value = '';
 
-    /** @var \ArminVieweg\Dce\Domain\Model\DceField[] */
+    /** @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\ArminVieweg\Dce\Domain\Model\DceField> */
     protected $sectionFields;
+
+    /** @var bool */
+    protected $isSectionField;
 
 
     /**
@@ -152,7 +155,7 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function hasSectionFields()
     {
         $sectionFields = $this->getSectionFields();
-        return isset($sectionFields) && $sectionFields->count() > 0;
+        return isset($sectionFields) && count($sectionFields) > 0;
     }
 
     /**
@@ -195,10 +198,11 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Checks attached sectionFields for given variable and returns the single field if found. If not found, returns NULL.
+     * Checks attached sectionFields for given variable and returns the single field if found.
+     * If not found, returns null.
      *
      * @param string $variable
-     * @return NULL|DceField
+     * @return DceField|null
      */
     public function getSectionFieldByVariable($variable)
     {
@@ -215,6 +219,27 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
+     * Get IsSectionField
+     *
+     * @return bool
+     */
+    public function getIsSectionField()
+    {
+        return $this->isSectionField;
+    }
+
+    /**
+     * Set IsSectionField
+     *
+     * @param bool $isSectionField
+     * @return void
+     */
+    public function setIsSectionField($isSectionField)
+    {
+        $this->isSectionField = $isSectionField;
+    }
+
+    /**
      * Checks if the field is of type element
      *
      * @return bool
@@ -224,7 +249,6 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         return ($this->getType() === self::TYPE_ELEMENT);
     }
 
-
     /**
      * Checks if the field is of type section
      *
@@ -232,9 +256,8 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function isSection()
     {
-        return ($this->getType() === self::TYPE_SECTION);
+        return $this->getIsSectionField();
     }
-
 
     /**
      * Checks if the field is of type tab

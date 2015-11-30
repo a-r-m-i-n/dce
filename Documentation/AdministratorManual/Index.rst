@@ -92,7 +92,7 @@ During the installation of the DCE extension two tables are automatically create
 
 They correspond with the domain models of the class diagram. This is a standard of Extbase.
 
-Instead of MM-tables DCE uses the "parent" field to map fields to dces and to other fields (for section fields).
+Instead of MM-tables DCE uses the "parent_dce" and "parent_field" field to map fields to dces and to other fields (for section fields).
 
 .. image:: ../Images/AdministratorManual/databaseStructure.png
 	:alt: Database structure

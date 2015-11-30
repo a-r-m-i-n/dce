@@ -709,7 +709,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
                 continue;
             }
             if ($field->hasSectionFields()) {
-                /**    @var $sectionField \ArminVieweg\Dce\Domain\Model\DceField */
+                /** @var $sectionField \ArminVieweg\Dce\Domain\Model\DceField */
                 foreach ($field->getSectionFields() as $sectionField) {
                     $sectionFieldValues = $sectionField->getValue();
                     if (is_array($sectionFieldValues)) {

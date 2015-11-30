@@ -86,7 +86,7 @@ class CodemirrorField
                         $res2 = $GLOBALS['TYPO3_DB']->sql_query('
 							SELECT title, variable
 							FROM tx_dce_domain_model_dcefield
-							WHERE deleted = 0  AND parent = ' . $row['uid'] . '
+							WHERE deleted = 0  AND parent_field = ' . $row['uid'] . '
 							ORDER BY sorting asc
 						');
 

@@ -30,13 +30,13 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
     {
         // Check if "parent" and "sorting" fields are existing in DceField table
         $dceFieldTableFields = $this->getDatabaseConnection()->admin_get_fields('tx_dce_domain_model_dcefield');
-        if (!array_key_exists('parent', $dceFieldTableFields) ||
-            !array_key_exists('sorting', $dceFieldTableFields) ||
-            !array_key_exists('is_section_field', $dceFieldTableFields)
+        if (!array_key_exists('parent_dce', $dceFieldTableFields) ||
+            !array_key_exists('parent_field', $dceFieldTableFields) ||
+            !array_key_exists('sorting', $dceFieldTableFields)
         ) {
             $description .= '<div class="alert alert-warning"><strong>WARNING</strong><br>' .
-                'The database table of DceFields has no <em>parent</em> and/or <em>sorting</em> and/or ' .
-                '<em>is_section_field</em> column. Please execute <em>Compare current database with ' .
+                'The database table of DceFields has no <em>parent_dce</em> and/or <em>parent_field</em> and/or ' .
+                '<em>sorting</em> column. Please execute <em>Compare current database with ' .
                 'specification</em> in Important Actions section here in Install Tool.</div>';
             return true;
         }
@@ -61,7 +61,7 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
                 return true;
             }
             $description = '<div class="alert alert-info">' .
-                'You have <b>' . count($updatableDceFields) . ' dce fields</b> which need to get updated.' .
+                'You have <b>' . count($updatableDceFields) . ' dce fields</b> which need to get updated. ' .
                 'The old relations are taking from <em>' . $dceFieldTableName .
                 '</em> and <em>' . $secionFieldTableName . '</em> table.' . '</div>';
             return true;
@@ -86,15 +86,14 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
         );
         $this->storeLastQuery($dbQueries);
 
-        foreach ($sectionFieldRelations as $secionFieldRelation) {
+        foreach ($sectionFieldRelations as $sectionFieldRelation) {
             $updateValues = array(
-                'parent' => $secionFieldRelation['uid_local'],
-                'sorting' => $secionFieldRelation['sorting'],
-                'is_section_field' => 1
+                'parent_field' => $sectionFieldRelation['uid_local'],
+                'sorting' => $sectionFieldRelation['sorting']
             );
             $this->getDatabaseConnection()->exec_UPDATEquery(
                 'tx_dce_domain_model_dcefield',
-                'uid=' . $secionFieldRelation['uid_foreign'],
+                'uid=' . $sectionFieldRelation['uid_foreign'],
                 $updateValues
             );
             $this->storeLastQuery($dbQueries);
@@ -108,7 +107,7 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
         $this->storeLastQuery($dbQueries);
         foreach ($dceFieldRelations as $dceFieldRelation) {
             $updateValues = array(
-                'parent' => $dceFieldRelation['uid_local'],
+                'parent_dce' => $dceFieldRelation['uid_local'],
                 'sorting' => $dceFieldRelation['sorting']
             );
             $this->getDatabaseConnection()->exec_UPDATEquery(
@@ -152,7 +151,7 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
         return $this->getDatabaseConnection()->exec_SELECTgetRows(
             '*',
             'tx_dce_domain_model_dcefield',
-            'parent = 0 AND deleted = 0'
+            'parent_dce = 0 AND parent_field = 0 AND deleted = 0'
         );
     }
 

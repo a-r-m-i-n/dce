@@ -49,15 +49,13 @@ $dceFieldTca = array(
     ),
     'types' => array(
         '0' => array(
-            'showitem' => 'type,title,variable,configuration;;;fixed-font:enable-tab,' .
-                '--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,hidden;;1'
+            'showitem' => 'hidden,type,title,variable,configuration;;;fixed-font:enable-tab,parent_dce,parent_field'
         ),
         '1' => array(
-            'showitem' => 'type,title,--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,hidden;;1'
+            'showitem' => 'hidden,type,title,variable,parent_dce'
         ),
         '2' => array(
-            'showitem' => 'type,title,section_fields_tag,variable,section_fields,' .
-                '--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,hidden;;1'
+            'showitem' => 'hidden,type,title,section_fields_tag,variable,section_fields,parent_dce'
         ),
     ),
     'palettes' => array(
@@ -203,10 +201,7 @@ $dceFieldTca = array(
                 'type' => 'inline',
                 'foreign_table' => 'tx_dce_domain_model_dcefield',
                 'foreign_sortby' => 'sorting',
-                'foreign_field' => 'parent',
-                'foreign_record_defaults' => array(
-                    'is_section_field' => '1'
-                ),
+                'foreign_field' => 'parent_field',
                 'minitems' => 0,
                 'maxitems' => 999,
                 'appearance' => array(
@@ -235,11 +230,18 @@ $dceFieldTca = array(
                 'eval' => 'trim,required'
             ),
         ),
-        'parent' => array(
+        'parent_dce' => array(
             'exclude' => 0,
-            'label' => $ll . 'tx_dce_domain_model_dcefield.parent',
+            'label' => $ll . 'tx_dce_domain_model_dcefield.parent_dce',
             'config' => array(
-                'type' => 'passthrough'
+                'type' => 'passthrough',
+            ),
+        ),
+        'parent_field' => array(
+            'exclude' => 0,
+            'label' => $ll . 'tx_dce_domain_model_dcefield.parent_field',
+            'config' => array(
+                'type' => 'passthrough',
             ),
         ),
     ),
