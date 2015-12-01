@@ -37,6 +37,17 @@ $boot = function ($extensionKey) {
         )
     );
 
+    // Register PageTS defaults
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('tx_dce.defaults {
+        simpleBackendView {
+            titleCropLength = 10
+            titleCropAppendix = ...
+
+            imageWidth = 50c
+            imageHeight = 50c
+        }
+    ');
+
     if (\TYPO3\CMS\Core\Utility\GeneralUtility::compat_version('7.6')) {
         /** @var \TYPO3\CMS\Core\Imaging\IconRegistry $iconRegistry */
         $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\Imaging\IconRegistry');

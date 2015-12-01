@@ -6,6 +6,7 @@ namespace ArminVieweg\Dce\Hooks;
  *  |
  *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -15,6 +16,11 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class PageLayoutViewDrawItemHook implements \TYPO3\CMS\Backend\View\PageLayoutViewDrawItemHookInterface
 {
+    /**
+     * @var bool
+     */
+    protected $stylesAdded = false;
+
     /**
      * Disable rendering restrictions for dce content elements
      *
@@ -52,11 +58,13 @@ class PageLayoutViewDrawItemHook implements \TYPO3\CMS\Backend\View\PageLayoutVi
         );
 
         if ($dce->isUseSimpleBackendView()) {
+            $this->addPageViewStylesheets();
+
             /** @var \ArminVieweg\Dce\Utility\SimpleBackendView $simpleBackendViewUtility */
             $simpleBackendViewUtility = GeneralUtility::makeInstance('ArminVieweg\Dce\Utility\SimpleBackendView');
             $drawItem = false;
             $headerContent = $parentObject->linkEditContent(
-                '<strong>' . $simpleBackendViewUtility->getSimpleBackendViewHeaderContent($dce) . '</strong>',
+                $simpleBackendViewUtility->getSimpleBackendViewHeaderContent($dce),
                 $row
             );
             $itemContent .= $parentObject->linkEditContent(
@@ -84,5 +92,26 @@ class PageLayoutViewDrawItemHook implements \TYPO3\CMS\Backend\View\PageLayoutVi
         $dataHandler = GeneralUtility::makeInstance('TYPO3\CMS\Core\DataHandling\DataHandler');
         $cType = current($dataHandler->recordInfo('tt_content', $uid, 'CType'));
         return intval(substr($cType, strlen('dce_dceuid')));
+    }
+
+    /**
+     * Add custom dce styles for Simple Backend View to page module
+     *
+     * @return void
+     */
+    protected function addPageViewStylesheets()
+    {
+        if ($this->stylesAdded) {
+            return;
+        }
+        /** @var \TYPO3\CMS\Backend\Template\DocumentTemplate $mediumDocumentTemplate */
+        $mediumDocumentTemplate = GeneralUtility::makeInstance('TYPO3\CMS\Backend\Template\DocumentTemplate');
+        /** @var \TYPO3\CMS\Core\Page\PageRenderer $pr */
+        $pageRenderer = $mediumDocumentTemplate->getPageRenderer();
+        $pageRenderer->addCssInlineBlock(
+            'DcePageLayoutStyles',
+            file_get_contents(ExtensionManagementUtility::extPath('dce') . 'Resources/Public/Css/dceInstance.css')
+        );
+        $this->stylesAdded = true;
     }
 }
