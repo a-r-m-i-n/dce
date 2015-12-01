@@ -40,6 +40,15 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /** @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\ArminVieweg\Dce\Domain\Model\DceField> */
     protected $sectionFields;
 
+    /**
+     * @var \ArminVieweg\Dce\Domain\Model\Dce
+     */
+    protected $parentDce;
+
+    /**
+     * @var \ArminVieweg\Dce\Domain\Model\DceField
+     */
+    protected $parentField;
 
     /**
      * Constructor
@@ -111,6 +120,8 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
+     * Returns field configuration as xml string
+     *
      * @return string
      */
     public function getConfiguration()
@@ -119,7 +130,19 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * @param string $configuration
+     * Returns field configuration as array
+     *
+     * @return array
+     */
+    public function getConfigurationAsArray()
+    {
+        return \TYPO3\CMS\Core\Utility\GeneralUtility::xml2array($this->getConfiguration());
+    }
+
+    /**
+     * Set field configuration as xml string
+     *
+     * @param string $configuration xml string
      * @return void
      */
     public function setConfiguration($configuration)
@@ -216,6 +239,48 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
+     * Get ParentDce
+     *
+     * @return Dce
+     */
+    public function getParentDce()
+    {
+        return $this->parentDce;
+    }
+
+    /**
+     * Set ParentDce
+     *
+     * @param Dce $parentDce
+     * @return void
+     */
+    public function setParentDce($parentDce)
+    {
+        $this->parentDce = $parentDce;
+    }
+
+    /**
+     * Get ParentField
+     *
+     * @return DceField
+     */
+    public function getParentField()
+    {
+        return $this->parentField;
+    }
+
+    /**
+     * Set ParentField
+     *
+     * @param DceField $parentField
+     * @return void
+     */
+    public function setParentField($parentField)
+    {
+        $this->parentField = $parentField;
+    }
+
+    /**
      * Checks if the field is of type element
      *
      * @return bool
@@ -243,5 +308,16 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function isTab()
     {
         return ($this->getType() === self::TYPE_TAB);
+    }
+
+    /**
+     * Checks if given xml configuration refers to FAL
+     *
+     * @return bool
+     */
+    public function isFal()
+    {
+        $configuration = $this->getConfigurationAsArray();
+        return $configuration['type'] === 'inline' && $configuration['foreign_table'] === 'sys_file_reference';
     }
 }

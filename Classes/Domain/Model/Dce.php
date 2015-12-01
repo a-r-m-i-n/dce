@@ -711,22 +711,6 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Returns field of this dce by its uid.
-     *
-     * @param int $fieldUid
-     * @return DceField|null
-     */
-    private function getFieldByUid($fieldUid)
-    {
-        foreach ($this->getFields() as $field) {
-            if ($field->getUid() === (int) $fieldUid) {
-                return $field;
-            }
-        }
-        return null;
-    }
-
-    /**
      * @return array
      */
     public function getContentObject()
@@ -909,67 +893,5 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
         self::$fluidTemplateCache[$this->getUid()][$templateType] = $fluidTemplate;
         return $fluidTemplate;
-    }
-
-    /**
-     * Returns configured rendered field value
-     *
-     * @return string
-     */
-    public function getSimpleBackendViewHeaderContent()
-    {
-        if ($this->getBackendViewHeader() === '*empty') {
-            return '';
-        }
-        if ($this->getBackendViewHeader() === '*dcetitle') {
-            return $this->getTitle();
-        }
-
-        $field = $this->getFieldByUid($this->getBackendViewHeader());
-        if (!$field) {
-            return '';
-        }
-        return $field->getValue();
-    }
-
-    /**
-     * Returns table of configured rendered field values
-     *
-     * @return string
-     */
-    public function getSimpleBackendViewBodytextContent()
-    {
-        $fields = array();
-        foreach ($this->getBackendViewBodytextArray() as $fieldIdentifier) {
-            if (strpos($fieldIdentifier, '*') === 0) {
-                $fields[] = $fieldIdentifier;
-            } else {
-                $fields[] = $this->getFieldByVariable($fieldIdentifier);
-            }
-        }
-
-        $content = '<table class="table table-bordered table-responsive"><tbody>';
-        /** @var DceField|string $field */
-        foreach ($fields as $field) {
-            if ($field === '*empty') {
-                $content .= '<tr><td colspan="2"></td></tr>';
-            } elseif ($field === '*dcetitle') {
-                $content .= '<tr><td colspan="2">' . $GLOBALS['LANG']->sL($this->getTitle()) . '</td></tr>';
-            } else {
-                $fieldValue = $field->getValue();
-                if ($field->isSection()) {
-                    if (count($field->getSectionFields()) === 1) {
-                        $label = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('entry', 'dce');
-                    } else {
-                        $label = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('entries', 'dce');
-                    }
-                    $fieldValue = count($field->getSectionFields()) . $label;
-                }
-                $content .= '<tr><td>' . $GLOBALS['LANG']->sL($field->getTitle()) . '</td>' .
-                            '<td>' . $fieldValue . '</td></tr>';
-            }
-        }
-        $content .= '</tbody></table>';
-        return $content;
     }
 }

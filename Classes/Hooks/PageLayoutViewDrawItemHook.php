@@ -6,6 +6,7 @@ namespace ArminVieweg\Dce\Hooks;
  *  |
  *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * PageLayoutView DrawItem Hook for DCE content elements
@@ -51,12 +52,17 @@ class PageLayoutViewDrawItemHook implements \TYPO3\CMS\Backend\View\PageLayoutVi
         );
 
         if ($dce->isUseSimpleBackendView()) {
+            /** @var \ArminVieweg\Dce\Utility\SimpleBackendView $simpleBackendViewUtility */
+            $simpleBackendViewUtility = GeneralUtility::makeInstance('ArminVieweg\Dce\Utility\SimpleBackendView');
             $drawItem = false;
             $headerContent = $parentObject->linkEditContent(
-                '<strong>' . $dce->getSimpleBackendViewHeaderContent() . '</strong>',
+                '<strong>' . $simpleBackendViewUtility->getSimpleBackendViewHeaderContent($dce) . '</strong>',
                 $row
             );
-            $itemContent .= $parentObject->linkEditContent($dce->getSimpleBackendViewBodytextContent(), $row);
+            $itemContent .= $parentObject->linkEditContent(
+                $simpleBackendViewUtility->getSimpleBackendViewBodytextContent($dce, $row),
+                $row
+            );
             return;
         }
 
@@ -75,7 +81,7 @@ class PageLayoutViewDrawItemHook implements \TYPO3\CMS\Backend\View\PageLayoutVi
     protected function getDceUidByContentElementUid($uid)
     {
         /** @var \TYPO3\CMS\Core\DataHandling\DataHandler $dataHandler */
-        $dataHandler = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\DataHandling\DataHandler');
+        $dataHandler = GeneralUtility::makeInstance('TYPO3\CMS\Core\DataHandling\DataHandler');
         $cType = current($dataHandler->recordInfo('tt_content', $uid, 'CType'));
         return intval(substr($cType, strlen('dce_dceuid')));
     }
