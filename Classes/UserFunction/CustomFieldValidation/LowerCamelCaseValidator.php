@@ -24,6 +24,7 @@ class LowerCamelCaseValidator extends AbstractFieldValidator
     public function evaluateFieldValue($value)
     {
         $originalValue = $value;
+        $value = lcfirst($value);
         $value = str_replace('-', '_', $value);
         if (strpos($value, '_') !== false) {
             $value = \TYPO3\CMS\Core\Utility\GeneralUtility::underscoredToLowerCamelCase($value);
