@@ -237,9 +237,15 @@ class AfterSaveHook
      * about this circumstance.
      *
      * @return void
+     * @deprecated Remove whole fluid-based backend templating in further versions
      */
     protected function performPreviewAutoupdateOnContentElementSave()
     {
+        $dceUid = $this->getDceUidByContentElementUid($this->uid);
+        $dceRow = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('*', 'tx_dce_domain_model_dce', 'uid=' . $dceUid);
+        if (isset($dceRow['use_simple_backend_view']) && $dceRow['use_simple_backend_view'] === '1') {
+            return;
+        }
         if (TYPO3_MODE === 'BE') {
             $mergedFieldArray = array_merge($this->fieldArray, $this->generateDcePreview($this->uid));
             $this->dataHandler->updateDB('tt_content', $this->uid, $mergedFieldArray);
@@ -265,9 +271,14 @@ class AfterSaveHook
      * high amount of such elements.
      *
      * @return void
+     * @deprecated Remove whole fluid-based backend templating in further versions
      */
     protected function performPreviewAutoupdateBatchOnDceChange()
     {
+        $dceRow = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('*', 'tx_dce_domain_model_dce', 'uid=' . $this->uid);
+        if (isset($dceRow['use_simple_backend_view']) && $dceRow['use_simple_backend_view'] === '1') {
+            return;
+        }
         $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
             'uid',
             'tt_content',
