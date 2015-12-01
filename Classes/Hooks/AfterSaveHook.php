@@ -343,7 +343,7 @@ class AfterSaveHook
             'dceUid' => $this->getDceUidByContentElementUid($uid),
         );
         return array(
-            'header' => $this->runExtbaseController(
+            'header' => \ArminVieweg\Dce\Utility\Extbase::bootstrapControllerAction(
                 'ArminVieweg',
                 'Dce',
                 'Dce',
@@ -351,7 +351,7 @@ class AfterSaveHook
                 'tools_DceDcemodule',
                 array_merge($settings, array('previewType' => 'header'))
             ),
-            'bodytext' => $this->runExtbaseController(
+            'bodytext' => \ArminVieweg\Dce\Utility\Extbase::bootstrapControllerAction(
                 'ArminVieweg',
                 'Dce',
                 'Dce',
@@ -360,71 +360,6 @@ class AfterSaveHook
                 array_merge($settings, array('previewType' => 'bodytext'))
             ),
         );
-    }
-
-    /**
-     * @param int $contentElementUid
-     * @param int $dceUid
-     * @return array
-     */
-    public function ajaxGenerateDcePreview($contentElementUid, $dceUid)
-    {
-        $settings = array(
-            'contentElementUid' => $contentElementUid,
-            'dceUid' => $dceUid,
-        );
-        return array(
-            'header' => $this->runExtbaseController(
-                'ArminVieweg',
-                'Dce',
-                'renderPreview',
-                'tools_DceDcemodule',
-                array_merge($settings, array('previewType' => 'header'))
-            ),
-            'bodytext' => $this->runExtbaseController(
-                'ArminVieweg',
-                'Dce',
-                'renderPreview',
-                'tools_DceDcemodule',
-                array_merge($settings, array('previewType' => 'bodytext'))
-            ),
-        );
-    }
-
-    /**
-     * Initializes and runs an extbase controller
-     *
-     * @param string $vendorName Name of vendor
-     * @param string $extensionName Name of extension, in UpperCamelCase
-     * @param string $controller Name of controller, in UpperCamelCase
-     * @param string $action Optional name of action, in lowerCamelCase (without 'Action' suffix). Default is 'index'.
-     * @param string $pluginName Optional name of plugin. Default is 'Pi1'.
-     * @param array $settings Optional array of settings to use in controller and fluid template. Default is array().
-     *
-     * @return string output of controller's action
-     * @TODO: Is there a better to call extbase?
-     */
-    protected function runExtbaseController(
-        $vendorName,
-        $extensionName,
-        $controller,
-        $action = 'index',
-        $pluginName = 'Pi1',
-        $settings = array()
-    ) {
-        $bootstrap = new \TYPO3\CMS\Extbase\Core\Bootstrap();
-        $bootstrap->cObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
-        $configuration = array(
-            'vendorName' => $vendorName,
-            'extensionName' => $extensionName,
-            'controller' => $controller,
-            'action' => $action,
-            'pluginName' => $pluginName,
-            'settings' => $settings
-        );
-
-        \ArminVieweg\Dce\Utility\ForbiddenUtility::setExtbaseRelatedPostParameters($controller, $action);
-        return $bootstrap->run('', $configuration);
     }
 
     /**
