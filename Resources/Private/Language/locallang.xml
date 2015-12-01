@@ -31,6 +31,8 @@
 
 			<label index="noTitle">No title</label>
 			<label index="section">Section</label>
+			<label index="dceTitle">*DCE title*</label>
+			<label index="empty">*Empty*</label>
 			<label index="entry">entry</label>
 			<label index="entries">entries</label>
 			<label index="editDceOfThisContentElement">Edit DCE (on which this content element is based on)</label>
@@ -56,6 +58,8 @@
 
 			<label index="noTitle">Kein Titel</label>
 			<label index="section">Sektion</label>
+			<label index="dceTitle">*DCE-Titel*</label>
+			<label index="empty">*Leer*</label>
 			<label index="entry">Eintrag</label>
 			<label index="entries">Einträge</label>
 			<label index="editDceOfThisContentElement">Bearbeite DCE (auf welchem dieses Inhaltselement basiert)</label>

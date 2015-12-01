@@ -6,6 +6,7 @@ namespace ArminVieweg\Dce\UserFunction;
  *  |
  *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * ItemProfFunc UserFunctions
@@ -18,14 +19,13 @@ class ItemProcFunc
      * Add DceFields to referenced $parameters['items'] array
      *
      * @param array $parameters Referenced parameter array
-     * @param \TYPO3\CMS\Backend\Form\DataPreprocessor $dataPreprocessor
      * @return void
      */
-    public function getDceFields(array &$parameters, $dataPreprocessor)
+    public function getDceFields(array &$parameters)
     {
-        $parameters['items'][] = array('DCE Titel', '*dcetitle');
+        $parameters['items'][] = array(LocalizationUtility::translate('dceTitle', 'dce'), '*dcetitle');
         if ($parameters['config']['size'] === 1) {
-            $parameters['items'][] = array('Empty', '*empty');
+            $parameters['items'][] = array(LocalizationUtility::translate('empty', 'dce'), '*empty');
         }
 
         $database = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection();
@@ -39,7 +39,7 @@ class ItemProcFunc
         foreach ($dceFields as $dceField) {
             $label = $GLOBALS['LANG']->sL($dceField['title']);
             if ($dceField['type'] === '2') {
-                $label .= ' (' . \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('section', 'dce') . ')';
+                $label .= ' (' . LocalizationUtility::translate('section', 'dce') . ')';
             }
             $parameters['items'][] = array($label, $dceField['variable']);
         }
