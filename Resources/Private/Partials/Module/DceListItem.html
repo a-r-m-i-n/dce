@@ -14,8 +14,14 @@
 
             <div class="dceLabel">
                 <div>
-                    <span><f:translate key="{dce.title}" default="{dce.title}" /></span>
-
+                    <f:if condition="{dce.title}">
+                        <f:then>
+                            <span><f:translate key="{dce.title}" default="{dce.title}" /></span>
+                        </f:then>
+                        <f:else>
+                            <span><em><f:translate key="noTitle" /></em></span>
+                        </f:else>
+                    </f:if>
                 </div>
                 <div class="small text-muted">
                     <em>
