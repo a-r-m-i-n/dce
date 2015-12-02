@@ -220,7 +220,7 @@ class Cache
                     'dce'
                 );
             }
-            $tabs = array(0 => array('title' => $generalTabLabel, 'fields' => array()));
+            $tabs = array(0 => array('title' => $generalTabLabel, 'variable' => 'tabGeneral', 'fields' => array()));
             $index = 0;
             while ($row2 = $databaseConnection->sql_fetch_assoc($res2)) {
                 if ($row2['type'] === '1') {
@@ -228,6 +228,7 @@ class Cache
                     $index++;
                     $tabs[$index] = array();
                     $tabs[$index]['title'] = $row2['title'];
+                    $tabs[$index]['variable'] = $row2['variable'];
                     $tabs[$index]['fields'] = array();
                     continue;
                 } elseif ($row2['type'] === '2') {

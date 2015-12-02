@@ -173,7 +173,7 @@ $dceFieldTca = array(
             'label' => $ll . 'tx_dce_domain_model_dcefield.variable',
             'config' => array(
                 'type' => 'input',
-                'size' => 10,
+                'size' => 15,
                 'eval' => 'trim,required,is_in,' .
                           'ArminVieweg\Dce\UserFunction\CustomFieldValidation\NoLeadingNumberValidator,' .
                           'ArminVieweg\Dce\UserFunction\CustomFieldValidation\LowerCamelCaseValidator',

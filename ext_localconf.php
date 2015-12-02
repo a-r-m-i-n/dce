@@ -84,6 +84,8 @@ $boot = function ($extensionKey) {
         'ArminVieweg\Dce\Updates\MigrateOldNamespacesInFluidTemplateUpdate';
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceMigrateDceFieldDatabaseRelationUpdate'] =
         'ArminVieweg\Dce\Updates\MigrateDceFieldDatabaseRelationUpdate';
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceMigrateFlexformSheetIdentifierUpdate'] =
+        'ArminVieweg\Dce\Updates\MigrateFlexformSheetIdentifierUpdate';
 
 
     // Register Plugin to get Dce instance
