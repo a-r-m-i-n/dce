@@ -36,12 +36,14 @@ class ItemProcFunc
             '',
             'sorting asc'
         );
-        foreach ($dceFields as $dceField) {
-            $label = $GLOBALS['LANG']->sL($dceField['title']);
-            if ($dceField['type'] === '2') {
-                $label .= ' (' . LocalizationUtility::translate('section', 'dce') . ')';
+        if (!empty($dceFields)) {
+            foreach ($dceFields as $dceField) {
+                $label = $GLOBALS['LANG']->sL($dceField['title']);
+                if ($dceField['type'] === '2') {
+                    $label .= ' (' . LocalizationUtility::translate('section', 'dce') . ')';
+                }
+                $parameters['items'][] = array($label, $dceField['variable']);
             }
-            $parameters['items'][] = array($label, $dceField['variable']);
         }
     }
 }
