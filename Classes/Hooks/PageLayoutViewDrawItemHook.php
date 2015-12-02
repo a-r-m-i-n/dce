@@ -43,19 +43,24 @@ class PageLayoutViewDrawItemHook implements \TYPO3\CMS\Backend\View\PageLayoutVi
             return;
         }
 
-        /** @var \ArminVieweg\Dce\Domain\Model\Dce $dce */
-        $dce = \ArminVieweg\Dce\Utility\Extbase::bootstrapControllerAction(
-            'ArminVieweg',
-            'Dce',
-            'Dce',
-            'renderDce',
-            'Dce',
-            array(
-                'contentElementUid' => $row['uid'],
-                'dceUid' => $dceUid
-            ),
-            true
-        );
+        try {
+            /** @var \ArminVieweg\Dce\Domain\Model\Dce $dce */
+            $dce = \ArminVieweg\Dce\Utility\Extbase::bootstrapControllerAction(
+                'ArminVieweg',
+                'Dce',
+                'Dce',
+                'renderDce',
+                'Dce',
+                array(
+                    'contentElementUid' => $row['uid'],
+                    'dceUid' => $dceUid
+                ),
+                true
+            );
+        } catch (\Exception $exception) {
+            $headerContent = '<strong class="text-danger">' . $exception->getMessage() .'</strong>';
+            return;
+        }
 
         if ($dce->isUseSimpleBackendView()) {
             $this->addPageViewStylesheets();
