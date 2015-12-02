@@ -30,6 +30,7 @@
 			<label index="contentElementCreatedByFrontendBodytext"><![CDATA[<!-- Please update! -->If a content element based on DCE, has been created in frontend context, it is not possible to render this preview texts, because in frontend extbase resources are not always available. <em>(eID: %s)</em>]]></label>
 
 			<label index="noTitle">No title</label>
+			<label index="editDceOfThisContentElement">Edit DCE (on which this content element is based on)</label>
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="generaltab">Allgemein</label>
@@ -51,6 +52,7 @@
 			<label index="contentElementCreatedByFrontendBodytext"><![CDATA[<!-- Bitte aktualisieren! -->Wenn ein Inhaltselement, basierend auf DCE, im Frontend Kontext erstellt oder geändert wurde, ist es nicht möglich die Vorschau-Templates zu rendern. <em>(eID: %s)</em>]]></label>
 
 			<label index="noTitle">Kein Titel</label>
+			<label index="editDceOfThisContentElement">Bearbeite DCE (auf welchem dieses Inhaltselement basiert)</label>
 		</languageKey>
 	</data>
 </T3locallang>
