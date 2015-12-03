@@ -48,7 +48,8 @@ class MigrateFlexformSheetIdentifierUpdate extends AbstractUpdate
         $description .= 'There are ' . count($tabsWithoutIdentifier) . ' tabs without identifier existing.<br>' .
                         'Caution! Please make sure that you\'ve migrated the mm-relation of dce fields to 1:n ' .
                         'before executing this update wizard.<br><br>';
-        return $tabsWithoutIdentifier > 0;
+
+        return count($tabsWithoutIdentifier) > 0;
     }
 
     /**
