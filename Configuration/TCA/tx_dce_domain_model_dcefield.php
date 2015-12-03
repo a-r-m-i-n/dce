@@ -49,7 +49,7 @@ $dceFieldTca = array(
     ),
     'types' => array(
         '0' => array(
-            'showitem' => '--palette--;;general_header,configuration;;;fixed-font:enable-tab,parent_dce,parent_field'
+            'showitem' => '--palette--;;general_header,configuration;;;fixed-font:enable-tab,map_to,parent_dce,parent_field'
         ),
         '1' => array(
             'showitem' => '--palette--;;general_header,parent_dce'
@@ -193,6 +193,18 @@ $dceFieldTca = array(
                     'showTemplates' => true,
                 )
             ),
+        ),
+        'map_to' => array(
+            'exclude' => 0,
+            'label' => $ll . 'tx_dce_domain_model_dcefield.mapTo',
+            'config' => array(
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'itemsProcFunc' => 'ArminVieweg\Dce\UserFunction\ItemProcFunc->getAvailableTtContentColumns',
+                'size' => 1,
+                'minitems' => 0,
+                'maxitems' => 1
+            )
         ),
         'section_fields' => array(
             'exclude' => 0,

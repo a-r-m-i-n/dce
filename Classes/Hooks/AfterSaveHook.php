@@ -6,7 +6,9 @@ namespace ArminVieweg\Dce\Hooks;
  *  |
  *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
+use ArminVieweg\Dce\Utility\DatabaseUtility;
 use ArminVieweg\Dce\Utility\FlashMessage;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
@@ -207,6 +209,7 @@ class AfterSaveHook
 
         if ($table === 'tt_content' && $this->isDceContentElement($pObj)) {
             $this->checkAndUpdateDceRelationField();
+            $this->saveFlexformValuesToTca();
             if (!isset($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceImportInProgress'])) {
                 $this->performPreviewAutoupdateOnContentElementSave();
             }
@@ -423,6 +426,55 @@ class AfterSaveHook
             $this->dataHandler->updateDB('tt_content', $this->uid, array(
                 'tx_dce_dce' => \ArminVieweg\Dce\Domain\Repository\DceRepository::extractUidFromCtype($row['CType'])
             ));
+        }
+    }
+
+    /**
+     * Check if DceFields has been mapped with TCA columns
+     * and writes values to columns in database, if so.
+     *
+     * @return void
+     */
+    protected function saveFlexformValuesToTca()
+    {
+        $dceUid = $this->getDceUidByContentElementUid($this->uid);
+        $dceFieldsWithMapping = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
+            '*',
+            'tx_dce_domain_model_dcefield',
+            'parent_dce=' . $dceUid . ' AND map_to!="" AND deleted=0'
+        );
+        if (count($dceFieldsWithMapping) === 0 || !isset($this->fieldArray['pi_flexform'])) {
+            return;
+        }
+
+        /** @var array $fieldToTcaMappings */
+        $fieldToTcaMappings = array();
+        foreach ($dceFieldsWithMapping as $dceField) {
+            if (isset($fieldToTcaMappings[$dceField['map_to']])) {
+                throw new \InvalidArgumentException(
+                    'You\'ve mapped two DceFields to the same TCA column. Column: "' . $dceField['map_to'] . '", ' .
+                    'Fields: "' . $fieldToTcaMappings[$dceField['map_to']] . '" and "' . $dceField['variable'] . '"',
+                    1449160090
+                );
+            }
+            $fieldToTcaMappings[$dceField['map_to']] = $dceField['variable'];
+        }
+        $fieldToTcaMappings = array_flip($fieldToTcaMappings);
+
+        $updateData = array();
+        $flatFlexFormData = ArrayUtility::flatten(GeneralUtility::xml2array($this->fieldArray['pi_flexform']));
+        foreach ($flatFlexFormData as $key => $value) {
+            $fieldName = preg_replace('/.*settings\.(.*?)\.vDEF$/', '$1', $key);
+            if (array_key_exists($fieldName, $fieldToTcaMappings)) {
+                $updateData[$fieldToTcaMappings[$fieldName]] = $value;
+            }
+        }
+        if (!empty($updateData)) {
+            DatabaseUtility::getDatabaseConnection()->exec_UPDATEquery(
+                'tt_content',
+                'uid=' . $this->uid,
+                $updateData
+            );
         }
     }
 }

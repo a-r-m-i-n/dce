@@ -104,6 +104,7 @@
 			<label index="tx_dce_domain_model_dcefield.title">Title</label>
 			<label index="tx_dce_domain_model_dcefield.variable">Variable (must be unique)</label>
 			<label index="tx_dce_domain_model_dcefield.configuration">Configuration</label>
+			<label index="tx_dce_domain_model_dcefield.mapTo">Map field value to TCA column</label>
 			<label index="tx_dce_domain_model_dcefield.section_fields">Section fields</label>
 			<label index="tx_dce_domain_model_dcefield.section_fields_tag">Section fields tag (singular)</label>
 			<label index="tx_dce_domain_model_dcefield.parent_dce">Parent DCE</label>
@@ -183,6 +184,7 @@
 			<label index="tx_dce_domain_model_dcefield.title">Titel</label>
 			<label index="tx_dce_domain_model_dcefield.variable">Variable (muss eindeutig sein)</label>
 			<label index="tx_dce_domain_model_dcefield.configuration">Konfiguration</label>
+			<label index="tx_dce_domain_model_dcefield.mapTo">Binde Feldwert an TCA-Spalte</label>
 			<label index="tx_dce_domain_model_dcefield.section_fields">Sektionsfelder</label>
 			<label index="tx_dce_domain_model_dcefield.section_fields_tag">Sektionsfelder Bezeichnung (Einzahl)</label>
 			<label index="tx_dce_domain_model_dcefield.parent_dce">Eltern-DCE</label>

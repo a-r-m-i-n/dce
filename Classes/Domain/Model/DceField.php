@@ -34,6 +34,12 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /** @var string */
     protected $configuration = '';
 
+    /**
+     * TCA column name to map $this->_value to
+     * @var string
+     */
+    protected $mapTo = '';
+
     /** @var string */
     protected $_value = '';
 
@@ -148,6 +154,27 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setConfiguration($configuration)
     {
         $this->configuration = $configuration;
+    }
+
+    /**
+     * Get MapTo
+     *
+     * @return string
+     */
+    public function getMapTo()
+    {
+        return $this->mapTo;
+    }
+
+    /**
+     * Set MapTo
+     *
+     * @param string $mapTo
+     * @return void
+     */
+    public function setMapTo($mapTo)
+    {
+        $this->mapTo = $mapTo;
     }
 
     /**

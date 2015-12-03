@@ -46,4 +46,38 @@ class ItemProcFunc
             }
         }
     }
+
+    /**
+     * Add available tt_content columns to $parameters['items'] array
+     *
+     * @param array $parameters Referenced parameter array
+     * @return void
+     */
+    public function getAvailableTtContentColumns(array &$parameters)
+    {
+        $excludedColumns = array(
+            'uid',
+            'pid',
+            'CType',
+            'editlock',
+            'sys_language_uid',
+            'l18n_parent',
+            'colPos',
+            'pi_flexform',
+            'tx_impexp_origuid',
+            'l18n_diffsource',
+            't3ver_label',
+            'tx_dce_dce'
+        );
+        $tcaColumns = $GLOBALS['TCA']['tt_content']['columns'];
+        $dbColumns = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->admin_get_fields('tt_content');
+
+        $parameters['items'][] = array('', '');
+        foreach ($tcaColumns as $name => $column) {
+            if (!in_array($name, $excludedColumns)) {
+                $columnInfo = 'TCA: "' . $column['config']['type'] . '", DB: "' . $dbColumns[$name]['Type'] . '"';
+                $parameters['items'][] = array($name . ' - ' . $columnInfo . '', $name);
+            }
+        }
+    }
 }
