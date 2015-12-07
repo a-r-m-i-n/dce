@@ -85,6 +85,8 @@ CREATE TABLE tx_dce_domain_model_dcefield (
 	type varchar(255) DEFAULT '' NOT NULL,
 	configuration text,
 	map_to varchar(255) DEFAULT '' NOT NULL,
+	new_tca_field_name varchar(255) DEFAULT '' NOT NULL,
+	new_tca_field_type varchar(255) DEFAULT '' NOT NULL,
 	section_fields text,
 	section_fields_tag varchar(255) DEFAULT '' NOT NULL,
 	parent_dce int(11) DEFAULT '0' NOT NULL,

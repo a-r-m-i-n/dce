@@ -73,6 +73,7 @@ class ItemProcFunc
         $dbColumns = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->admin_get_fields('tt_content');
 
         $parameters['items'][] = array('', '');
+        $parameters['items'][] = array(LocalizationUtility::translate('newcol', 'dce'), '*newcol');
         foreach ($tcaColumns as $name => $column) {
             if (!in_array($name, $excludedColumns)) {
                 $columnInfo = 'TCA: "' . $column['config']['type'] . '", DB: "' . $dbColumns[$name]['Type'] . '"';

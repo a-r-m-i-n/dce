@@ -36,6 +36,7 @@
 			<label index="entry">entry</label>
 			<label index="entries">entries</label>
 			<label index="editDceOfThisContentElement">Edit DCE (on which this content element is based on)</label>
+			<label index="newcol">Create new column in tt_content (!)</label>
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="generaltab">Allgemein</label>
@@ -63,6 +64,7 @@
 			<label index="entry">Eintrag</label>
 			<label index="entries">Einträge</label>
 			<label index="editDceOfThisContentElement">Bearbeite DCE (auf welchem dieses Inhaltselement basiert)</label>
+			<label index="newcol">Erstelle neue Spalte in tt_content (!)</label>
 		</languageKey>
 	</data>
 </T3locallang>

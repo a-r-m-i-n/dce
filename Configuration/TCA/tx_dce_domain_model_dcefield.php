@@ -35,7 +35,7 @@ $dceFieldTca = array(
             'starttime' => 'starttime',
             'endtime' => 'endtime',
         ),
-        'requestUpdate' => 'type',
+        'requestUpdate' => 'type,map_to',
         'type' => 'type',
         'typeicon_column' => 'type',
         'typeicon_classes' => array(
@@ -49,7 +49,8 @@ $dceFieldTca = array(
     ),
     'types' => array(
         '0' => array(
-            'showitem' => '--palette--;;general_header,configuration;;;fixed-font:enable-tab,map_to,parent_dce,parent_field'
+            'showitem' => '--palette--;;general_header,configuration;;;fixed-font:enable-tab,' .
+                          '--palette--;;tca_options,parent_dce,parent_field'
         ),
         '1' => array(
             'showitem' => '--palette--;;general_header,parent_dce'
@@ -59,7 +60,8 @@ $dceFieldTca = array(
         ),
     ),
     'palettes' => array(
-        'general_header' => array('showitem' => 'type,title,variable,hidden', 'canNotCollapse' => true)
+        'general_header' => array('showitem' => 'type,title,variable,hidden', 'canNotCollapse' => true),
+        'tca_options' => array('showitem' => 'map_to,new_tca_field_name,new_tca_field_type', 'canNotCollapse' => true)
     ),
     'columns' => array(
         'sys_language_uid' => array(
@@ -205,6 +207,31 @@ $dceFieldTca = array(
                 'minitems' => 0,
                 'maxitems' => 1
             )
+        ),
+        'new_tca_field_name' => array(
+            'exclude' => 0,
+            'label' => $ll . 'tx_dce_domain_model_dcefield.newTcaFieldName',
+            'config' => array(
+                'type' => 'input',
+                'eval' => 'trim,required'
+            ),
+            'displayCond' => 'FIELD:map_to:=:*newcol'
+        ),
+        'new_tca_field_type' => array(
+            'exclude' => 0,
+            'label' => $ll . 'tx_dce_domain_model_dcefield.newTcaFieldType',
+            'config' => array(
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'items' => array(
+                    array($ll . 'tx_dce_domain_model_dcefield.newTcaFieldType.auto', 'auto'),
+                    // TODO: Add list entries for TCA field type
+                ),
+                'size' => 1,
+                'minitems' => 0,
+                'maxitems' => 1
+            ),
+            'displayCond' => 'FIELD:map_to:=:*newcol'
         ),
         'section_fields' => array(
             'exclude' => 0,

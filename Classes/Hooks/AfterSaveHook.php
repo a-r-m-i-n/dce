@@ -450,7 +450,7 @@ class AfterSaveHook
         /** @var array $fieldToTcaMappings */
         $fieldToTcaMappings = array();
         foreach ($dceFieldsWithMapping as $dceField) {
-            if (isset($fieldToTcaMappings[$dceField['map_to']])) {
+            if (isset($fieldToTcaMappings[$dceField['map_to']]) && strpos($dceField['map_to'], '*') === false) {
                 throw new \InvalidArgumentException(
                     'You\'ve mapped two DceFields to the same TCA column. Column: "' . $dceField['map_to'] . '", ' .
                     'Fields: "' . $fieldToTcaMappings[$dceField['map_to']] . '" and "' . $dceField['variable'] . '"',
