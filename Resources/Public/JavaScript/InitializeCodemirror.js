@@ -4,7 +4,6 @@ TYPO3.dce = TYPO3.dce || {};
 TYPO3.dce.codemirrorEditors = TYPO3.dce.codemirrorEditors || [];
 TYPO3.dce.codemirrorCycle = TYPO3.dce.codemirrorCycle || 0;
 
-
 /**
  * Initializes the CodeMirror editor for given textarea.
  *
@@ -66,37 +65,5 @@ function initCodeMirrorEditor($textarea, mode) {
 				$(this).val('');
 			}
 		});
-	});
-}
-
-/**
- * Removes type select box of dce section field
- *
- * @param textarea
- * @return void
- */
-function disableSectionFieldType() {
-	var $ = TYPO3.jQuery;
-
-	$('select[name^="data[tx_dce_domain_model_dcefield]"][name$="[type]"]').each(function(){
-		// 6.2
-		var $wrapperTable = $(this).closest('.wrapperTable, span.t3-form-palette-field-container');
-		var isSectionField = $wrapperTable.closest('.t3-form-field-record-inline').attr('id');
-		if (isSectionField) {
-			isSectionField = isSectionField.match(/section_fields\-tx_dce_domain_model/gi);
-		}
-		if (isSectionField) {
-			$wrapperTable.hide();
-		}
-
-		// 7.x
-		var $wrapperFieldset = $(this).closest('fieldset.form-section, div.form-group');
-		var isSectionField = $wrapperFieldset.closest('.panel-collapse').attr('id');
-		if (isSectionField) {
-			isSectionField = isSectionField.match(/section_fields\-tx_dce_domain_model/gi);
-		}
-		if (isSectionField) {
-			$wrapperFieldset.hide();
-		}
 	});
 }
