@@ -51,8 +51,8 @@ class DceFieldLabel
             }
         } else {
             // Section child field
-            if (is_numeric($parameter['parent']['uid'])) {
-                $parentFieldRow = $this->getDceFieldRecordByUid($parameter['parent']['uid']);
+            if (is_numeric($parameter['row']['parent_field'])) {
+                $parentFieldRow = $this->getDceFieldRecordByUid($parameter['row']['parent_field']);
             } else {
                 $parentFieldRow = array('variable' => $parameter['parent']['uid']);
             }
