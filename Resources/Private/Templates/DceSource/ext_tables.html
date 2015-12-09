@@ -11,7 +11,7 @@ $GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'][] = array(
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
 	'ArminVieweg.dce',
 	'{f:if(condition:"{dce.uid}", then:"dceuid{dce.uid}", else:"dce_{dce.identifier}")}',
-	'{dce.title}'
+	'{dce.title -> dce:format.addcslashes()}'
 );
 
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['dce_{f:if(condition:"{dce.uid}", then:"dceuid{dce.uid}", else:"dce_{dce.identifier}")}'] = 'pi_flexform';
@@ -43,8 +43,8 @@ if (\TYPO3\CMS\Core\Utility\GeneralUtility::compat_version('7.6')) {
 			iconIdentifier = <f:if condition="{dce.hasCustomWizardIcon}"><f:then>ext-dce-dceuid{dce.uid}-customwizardicon</f:then><f:else>{dce:be.contentElementWizardIconPath()}{dce.wizard_icon}</f:else></f:if>
 		</f:else>
 	</f:if>
-	    title = {dce.title}
-	    description = {dce.wizard_description -> f:format.raw()}
+	    title = {dce.title -> dce:format.addcslashes()}
+	    description = {dce.wizard_description -> f:format.raw() -> dce:format.addcslashes()}
 	    tt_content_defValues {
 	        CType = dce_{f:if(condition:"{dce.uid}", then:"dceuid{dce.uid}", else:"dce_{dce.identifier}")}
 	    }
