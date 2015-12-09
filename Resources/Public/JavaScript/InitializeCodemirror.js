@@ -80,7 +80,7 @@ function disableSectionFieldType() {
 
 	$('select[name^="data[tx_dce_domain_model_dcefield]"][name$="[type]"]').each(function(){
 		// 6.2
-		var $wrapperTable = $(this).closest('.wrapperTable');
+		var $wrapperTable = $(this).closest('.wrapperTable, span.t3-form-palette-field-container');
 		var isSectionField = $wrapperTable.closest('.t3-form-field-record-inline').attr('id');
 		if (isSectionField) {
 			isSectionField = isSectionField.match(/section_fields\-tx_dce_domain_model/gi);
@@ -90,7 +90,7 @@ function disableSectionFieldType() {
 		}
 
 		// 7.x
-		var $wrapperFieldset = $(this).closest('fieldset.form-section');
+		var $wrapperFieldset = $(this).closest('fieldset.form-section, div.form-group');
 		var isSectionField = $wrapperFieldset.closest('.panel-collapse').attr('id');
 		if (isSectionField) {
 			isSectionField = isSectionField.match(/section_fields\-tx_dce_domain_model/gi);
