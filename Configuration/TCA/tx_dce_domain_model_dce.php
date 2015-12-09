@@ -49,7 +49,7 @@ $dceTca = array(
     'types' => array(
         // Database DCE
         '0' => array(
-            'showitem' => '--palette--;;general_header,fields,
+            'showitem' => 'initCustomJs,--palette--;;general_header,fields,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.template,template_type,template_content;;;fixed-font:enable-tab,template_file,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.backendTemplate,use_simple_backend_view,backend_view_header,backend_view_bodytext,preview_template_type,header_preview,header_preview_template_file,bodytext_preview,bodytext_preview_template_file,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.wizard,wizard_enable,wizard_category,wizard_description,wizard_icon,wizard_custom_icon,
@@ -58,7 +58,7 @@ $dceTca = array(
         ),
         // Filebased DCE
         '1' => array(
-            'showitem' => '--palette--;;general_header,fields,
+            'showitem' => 'initCustomJs,--palette--;;general_header,fields,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.template,template_content;;;fixed-font:enable-tab,template_file,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.backendTemplate,use_simple_backend_view,backend_view_header,backend_view_bodytext,preview_template_type,header_preview,header_preview_template_file,bodytext_preview,bodytext_preview_template_file,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.wizard,wizard_enable,wizard_category,wizard_description,wizard_icon,wizard_custom_icon,
@@ -70,6 +70,15 @@ $dceTca = array(
         'general_header' => array('showitem' => 'title,type,hidden', 'canNotCollapse' => true),
     ),
     'columns' => array(
+        'initCustomJs' => array(
+            'exclude' => 0,
+            'label' => '',
+            'config' => array(
+                'type' => 'user',
+                'userFunc' => 'EXT:dce/Classes/UserFunction/UserFields/InitCustomJavaScriptField.php:' .
+                    'ArminVieweg\Dce\UserFunction\UserFields\InitCustomJavaScriptField->init'
+            )
+        ),
         'sys_language_uid' => array(
             'exclude' => 1,
             'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.language',
