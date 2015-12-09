@@ -72,11 +72,13 @@ class ItemProcFunc
         $tcaColumns = $GLOBALS['TCA']['tt_content']['columns'];
         $dbColumns = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->admin_get_fields('tt_content');
 
-        $parameters['items'][] = array('', '');
+        $parameters['items'][] = array(LocalizationUtility::translate('chooseOption', 'dce'), '--div--');
+        $parameters['items'][] = array(LocalizationUtility::translate('noMapping', 'dce'), '');
         $parameters['items'][] = array(LocalizationUtility::translate('newcol', 'dce'), '*newcol');
+        $parameters['items'][] = array(LocalizationUtility::translate('chooseExistingField', 'dce'), '--div--');
         foreach ($tcaColumns as $name => $column) {
             if (!in_array($name, $excludedColumns)) {
-                $columnInfo = 'TCA: "' . $column['config']['type'] . '", DB: "' . $dbColumns[$name]['Type'] . '"';
+                $columnInfo = '"' . $dbColumns[$name]['Type'] . '"';
                 $parameters['items'][] = array($name . ' - ' . $columnInfo . '', $name);
             }
         }

@@ -215,12 +215,12 @@ $dceFieldTca = array(
             'label' => $ll . 'tx_dce_domain_model_dcefield.newTcaFieldName',
             'config' => array(
                 'type' => 'input',
-                'eval' => 'trim,required'
+                'eval' => 'trim,required,lower'
             ),
             'displayCond' => array(
                 'AND' => array(
                     'FIELD:parent_field:=:0',
-                    'FIELD:FIELD:map_to:=:*newcol'
+                    'FIELD:map_to:=:*newcol'
                 )
             ),
         ),
@@ -241,7 +241,7 @@ $dceFieldTca = array(
             'displayCond' => array(
                 'AND' => array(
                     'FIELD:parent_field:=:0',
-                    'FIELD:FIELD:map_to:=:*newcol'
+                    'FIELD:map_to:=:*newcol'
                 )
             ),
         ),

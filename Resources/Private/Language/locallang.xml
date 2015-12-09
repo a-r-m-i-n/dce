@@ -36,7 +36,11 @@
 			<label index="entry">entry</label>
 			<label index="entries">entries</label>
 			<label index="editDceOfThisContentElement">Edit DCE (on which this content element is based on)</label>
-			<label index="newcol">Create new column in tt_content (!)</label>
+
+			<label index="chooseOption">Choose an option</label>
+			<label index="noMapping">Do not map field</label>
+			<label index="newcol">Create new column (in tt_content)</label>
+			<label index="chooseExistingField">Or choose an existing field</label>
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="generaltab">Allgemein</label>
@@ -64,7 +68,11 @@
 			<label index="entry">Eintrag</label>
 			<label index="entries">Einträge</label>
 			<label index="editDceOfThisContentElement">Bearbeite DCE (auf welchem dieses Inhaltselement basiert)</label>
-			<label index="newcol">Erstelle neue Spalte in tt_content (!)</label>
+			<label index="chooseOption">Wähle eine Option</label>
+			<label index="noMapping">Feld nicht mappen</label>
+			<label index="newcol">Erstelle neue Spalte (in tt_content)</label>
+			<label index="chooseExistingField">Oder wähle ein bestehendes Feld</label>
+
 		</languageKey>
 	</data>
 </T3locallang>
