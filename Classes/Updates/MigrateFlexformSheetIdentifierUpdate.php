@@ -45,11 +45,15 @@ class MigrateFlexformSheetIdentifierUpdate extends AbstractUpdate
     public function checkForUpdate(&$description)
     {
         $tabsWithoutIdentifier = $this->getUpdatableDceFields();
-        $description .= 'There are ' . count($tabsWithoutIdentifier) . ' tabs without identifier existing.<br>' .
+        $contentElementsWithWrongXml = $this->getUpdatableContentElements();
+
+        $description .= 'There are <b>' . count($tabsWithoutIdentifier) . ' tab fields</b> without identifier and ' .
+                        '<b>' . count($contentElementsWithWrongXml) . ' content elements</b> with old xml structure ' .
+                        'existing.<br>' .
                         'Caution! Please make sure that you\'ve migrated the mm-relation of dce fields to 1:n ' .
                         'before executing this update wizard.<br><br>';
 
-        return count($tabsWithoutIdentifier) > 0;
+        return count($tabsWithoutIdentifier) > 0 || count($contentElementsWithWrongXml) > 0;
     }
 
     /**
@@ -58,6 +62,7 @@ class MigrateFlexformSheetIdentifierUpdate extends AbstractUpdate
      * @param array &$dbQueries Queries done in this update
      * @param mixed &$customMessages Custom messages
      * @return bool Whether everything went smoothly or not
+     * @TODO Refactor me
      */
     public function performUpdate(array &$dbQueries, &$customMessages)
     {
@@ -125,6 +130,28 @@ class MigrateFlexformSheetIdentifierUpdate extends AbstractUpdate
                 $this->storeLastQuery($dbQueries);
             }
         }
+
+        $updatableContentElements = $this->getUpdatableContentElements();
+        foreach ($updatableContentElements as $contentElement) {
+            $flexformData = GeneralUtility::xml2array($contentElement['pi_flexform']);
+            $newFlexformData = array('data' => array());
+            foreach ($flexformData['data'] as $sheetIdentifier => $sheetData) {
+                if ($sheetIdentifier === 'sheet0') {
+                    $newFlexformData['data']['sheet.tabGeneral'] = $sheetData;
+                } else {
+                    $newFlexformData['data'][$sheetIdentifier] = $sheetData;
+                }
+                \TYPO3\CMS\Core\Utility\DebugUtility::debug($sheetIdentifier, 'Debug');
+            }
+            $this->getDatabaseConnection()->exec_UPDATEquery(
+                'tt_content',
+                'uid=' . $contentElement['uid'],
+                array(
+                    'pi_flexform' => $flexFormTools->flexArray2Xml($newFlexformData, true)
+                )
+            );
+            $this->storeLastQuery($dbQueries);
+        }
         return true;
     }
 
@@ -141,6 +168,20 @@ class MigrateFlexformSheetIdentifierUpdate extends AbstractUpdate
             'type=1 AND variable="" AND deleted=0',
             '',
             'sorting asc'
+        );
+    }
+
+    /**
+     * Returns content elements, based on DCE, with old sheet identifier
+     *
+     * @return array tt_content rows
+     */
+    protected function getUpdatableContentElements()
+    {
+        return $this->getDatabaseConnection()->exec_SELECTgetRows(
+            '*',
+            'tt_content',
+            'CType LIKE "dce_dceuid%" AND deleted=0 AND pi_flexform LIKE "%<sheet index=\"sheet0\">%"'
         );
     }
 
