@@ -77,7 +77,7 @@ class ItemProcFunc
         $parameters['items'][] = array(LocalizationUtility::translate('newcol', 'dce'), '*newcol');
         $parameters['items'][] = array(LocalizationUtility::translate('chooseExistingField', 'dce'), '--div--');
         foreach ($tcaColumns as $name => $column) {
-            if (!in_array($name, $excludedColumns)) {
+            if (!in_array($name, $excludedColumns) && !empty($dbColumns[$name]['Type'])) {
                 $columnInfo = '"' . $dbColumns[$name]['Type'] . '"';
                 $parameters['items'][] = array($name . ' - ' . $columnInfo . '', $name);
             }

@@ -5,6 +5,11 @@ $GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'][] = array(
 	1 => '--div--'
 );
 
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('tt_content', array(
+<f:for each="{dceFieldsWithNewTcaColumns}" as="dceField">
+	'{dceField.new_tca_field_name}' => array('label' => '', 'config' => array('type' => 'passthrough')),
+</f:for>
+));
 <f:for each="{dceArray}" as="dce">
 <f:if condition="{dce.hidden} == 0">
 	///////////////////////////////////////////////////// {f:if(condition:"{dce.uid}", then:"uid: {dce.uid}", else:"identifier: {dce.identifier}")} ///

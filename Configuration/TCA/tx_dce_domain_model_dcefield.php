@@ -228,15 +228,9 @@ $dceFieldTca = array(
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dcefield.newTcaFieldType',
             'config' => array(
-                'type' => 'select',
-                'renderType' => 'selectSingle',
-                'items' => array(
-                    array($ll . 'tx_dce_domain_model_dcefield.newTcaFieldType.auto', 'auto'),
-                    // TODO: Add list entries for TCA field type
-                ),
-                'size' => 1,
-                'minitems' => 0,
-                'maxitems' => 1
+                'type' => 'input',
+                'default' => 'auto',
+                'eval' => 'trim,required'
             ),
             'displayCond' => array(
                 'AND' => array(

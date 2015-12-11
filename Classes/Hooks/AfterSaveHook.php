@@ -224,6 +224,18 @@ class AfterSaveHook
                 }
             }
         }
+        if ($table === 'tx_dce_domain_model_dcefield' && $status === 'update') {
+            if (array_key_exists('new_tca_field_name', $fieldArray) ||
+                array_key_exists('new_tca_field_type', $fieldArray)
+            ) {
+                \ArminVieweg\Dce\Utility\FlashMessage::add(
+                    'You did some changes (in DceField with uid ' . $this->uid . ') which affects the sql schema of ' .
+                    'tt_content table. Please don\'t forget to update database schema (in e.g. Install Tool)!',
+                    'SQL schema changes detected!',
+                    \TYPO3\CMS\Core\Messaging\FlashMessage::NOTICE
+                );
+            }
+        }
 
         // Clear cache if dce or dcefield has been created or updated
         if ($this->extConfiguration['disableAutoClearCache'] == 0
@@ -457,7 +469,11 @@ class AfterSaveHook
                     1449160090
                 );
             }
-            $fieldToTcaMappings[$dceField['map_to']] = $dceField['variable'];
+            $mapTo = $dceField['map_to'];
+            if ($mapTo === '*newcol') {
+                $mapTo = $dceField['new_tca_field_name'];
+            }
+            $fieldToTcaMappings[$mapTo] = $dceField['variable'];
         }
         $fieldToTcaMappings = array_flip($fieldToTcaMappings);
 
@@ -470,11 +486,18 @@ class AfterSaveHook
             }
         }
         if (!empty($updateData)) {
-            DatabaseUtility::getDatabaseConnection()->exec_UPDATEquery(
+            $updateStatus = DatabaseUtility::getDatabaseConnection()->exec_UPDATEquery(
                 'tt_content',
                 'uid=' . $this->uid,
                 $updateData
             );
+            if (!$updateStatus) {
+                \ArminVieweg\Dce\Utility\FlashMessage::add(
+                    DatabaseUtility::getDatabaseConnection()->sql_error(),
+                    'Flexform to TCA mapping failure',
+                    \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR
+                );
+            }
         }
     }
 }

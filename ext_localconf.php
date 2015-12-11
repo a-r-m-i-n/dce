@@ -88,6 +88,19 @@ $boot = function ($extensionKey) {
         'ArminVieweg\Dce\Updates\MigrateFlexformSheetIdentifierUpdate';
 
 
+    // Slot to extend SQL tables definitions
+    /** @var \TYPO3\CMS\Extbase\SignalSlot\Dispatcher $signalSlotDispatcher */
+    $signalSlotDispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+        'TYPO3\\CMS\\Extbase\\SignalSlot\\Dispatcher'
+    );
+    $signalSlotDispatcher->connect(
+        'TYPO3\CMS\Install\Service\SqlExpectedSchemaService',
+        'tablesDefinitionIsBeingBuilt',
+        'ArminVieweg\Dce\Slots\TablesDefinitionIsBeingBuiltSlot',
+        'extendTtContentTable'
+    );
+
+
     // Register Plugin to get Dce instance
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
         'ArminVieweg.' . $extensionKey,
