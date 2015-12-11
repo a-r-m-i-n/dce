@@ -462,27 +462,23 @@ class AfterSaveHook
         /** @var array $fieldToTcaMappings */
         $fieldToTcaMappings = array();
         foreach ($dceFieldsWithMapping as $dceField) {
-            if (isset($fieldToTcaMappings[$dceField['map_to']]) && strpos($dceField['map_to'], '*') === false) {
-                throw new \InvalidArgumentException(
-                    'You\'ve mapped two DceFields to the same TCA column. Column: "' . $dceField['map_to'] . '", ' .
-                    'Fields: "' . $fieldToTcaMappings[$dceField['map_to']] . '" and "' . $dceField['variable'] . '"',
-                    1449160090
-                );
-            }
             $mapTo = $dceField['map_to'];
             if ($mapTo === '*newcol') {
                 $mapTo = $dceField['new_tca_field_name'];
             }
-            $fieldToTcaMappings[$mapTo] = $dceField['variable'];
+            $fieldToTcaMappings[$dceField['variable']] = $mapTo;
         }
-        $fieldToTcaMappings = array_flip($fieldToTcaMappings);
 
         $updateData = array();
         $flatFlexFormData = ArrayUtility::flatten(GeneralUtility::xml2array($this->fieldArray['pi_flexform']));
         foreach ($flatFlexFormData as $key => $value) {
             $fieldName = preg_replace('/.*settings\.(.*?)\.vDEF$/', '$1', $key);
             if (array_key_exists($fieldName, $fieldToTcaMappings)) {
-                $updateData[$fieldToTcaMappings[$fieldName]] = $value;
+                if (empty($updateData[$fieldToTcaMappings[$fieldName]])) {
+                    $updateData[$fieldToTcaMappings[$fieldName]] = $value;
+                } else {
+                    $updateData[$fieldToTcaMappings[$fieldName]] .= PHP_EOL . PHP_EOL . $value;
+                }
             }
         }
         if (!empty($updateData)) {
