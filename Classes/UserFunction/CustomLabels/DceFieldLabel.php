@@ -35,7 +35,6 @@ class DceFieldLabel
         }
         if (!$this->isSectionChildField($parameter)) {
             if (!$this->isSectionField($parameter)) {
-                //\TYPO3\CMS\Core\Utility\DebugUtility::debug($parameter['row']['type'], 'Debug');
                 if ($this->isTab($parameter)) {
                     // Tab
                     $parameter['title'] = $GLOBALS['LANG']->sL($parameter['row']['title']);

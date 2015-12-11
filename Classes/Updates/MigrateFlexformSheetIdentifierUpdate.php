@@ -141,7 +141,6 @@ class MigrateFlexformSheetIdentifierUpdate extends AbstractUpdate
                 } else {
                     $newFlexformData['data'][$sheetIdentifier] = $sheetData;
                 }
-                \TYPO3\CMS\Core\Utility\DebugUtility::debug($sheetIdentifier, 'Debug');
             }
             $this->getDatabaseConnection()->exec_UPDATEquery(
                 'tt_content',
