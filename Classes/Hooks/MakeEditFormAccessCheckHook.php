@@ -24,7 +24,7 @@ class MakeEditFormAccessCheckHook
      */
     public function checkAccess(array $params)
     {
-        if (is_numeric($params['uid'])) {
+        if (is_numeric($params['uid']) || is_null($params['uid'])) {
             return $params['hasAccess'];
         }
         return $params['table'] === 'tx_dce_domain_model_dce' && strpos($params['uid'], 'dce_') === 0;
