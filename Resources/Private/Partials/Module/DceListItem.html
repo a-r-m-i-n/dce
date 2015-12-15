@@ -7,11 +7,21 @@
                 <f:else><a href="{f:render(partial:'Module/OpenStaticDce', arguments:'{identifier:\'{dce.identifier}\'}')}" class="overlayLink"></a></f:else>
             </f:if>
 
-            <f:render partial="Module/ListItem/TypeIcon" arguments="{dce:dce}" />
+            <f:if condition="{dce:be.version.typo3(returnInt:'1')} < 7006000">
+                <f:then><f:render partial="Module/ListItem/TypeIcon62" arguments="{dce:dce}" /></f:then>
+                <f:else><f:render partial="Module/ListItem/TypeIcon" arguments="{dce:dce}" /></f:else>
+            </f:if>
+
             <div class="dceLabel">
                 <div>
-                    <span><f:translate key="{dce.title}" default="{dce.title}" /></span>
-
+                    <f:if condition="{dce.title}">
+                        <f:then>
+                            <span><f:translate key="{dce.title}" default="{dce.title}" /></span>
+                        </f:then>
+                        <f:else>
+                            <span><em><f:translate key="noTitle" /></em></span>
+                        </f:else>
+                    </f:if>
                 </div>
                 <div class="small text-muted">
                     <em>

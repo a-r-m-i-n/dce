@@ -13,7 +13,7 @@ if (!defined('TYPO3_MODE')) {
 $ll = 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:';
 $extensionPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('dce');
 
-return array(
+$dceFieldTca = array(
     'ctrl' => array(
         'title' => $ll . 'tx_dce_domain_model_dcefield',
         'label' => 'title',
@@ -37,10 +37,10 @@ return array(
         'requestUpdate' => 'type',
         'type' => 'type',
         'typeicon_column' => 'type',
-        'typeicons' => array(
-            '0' => $extensionPath . 'Resources/Public/Icons/tx_dce_domain_model_dcefield_element.png',
-            '1' => $extensionPath . 'Resources/Public/Icons/tx_dce_domain_model_dcefield_tab.png',
-            '2' => $extensionPath . 'Resources/Public/Icons/tx_dce_domain_model_dcefield_section.png',
+        'typeicon_classes' => array(
+            '0' => 'ext-dce-dcefield-type-element',
+            '1' => 'ext-dce-dcefield-type-tab',
+            '2' => 'ext-dce-dcefield-type-section'
         ),
     ),
     'interface' => array(
@@ -48,16 +48,15 @@ return array(
     ),
     'types' => array(
         '0' => array(
-            'showitem' => 'type,title,variable,configuration;;;fixed-font:enable-tab,
-			--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,hidden;;1'
+            'showitem' => 'type,title,variable,configuration;;;fixed-font:enable-tab,' .
+                '--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,hidden;;1'
         ),
         '1' => array(
-            'showitem' => 'type,title,
-			--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,hidden;;1'
+            'showitem' => 'type,title,--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,hidden;;1'
         ),
         '2' => array(
-            'showitem' => 'type,title,section_fields_tag,variable,section_fields,
-			--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,hidden;;1'
+            'showitem' => 'type,title,section_fields_tag,variable,section_fields,' .
+                '--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,hidden;;1'
         ),
     ),
     'palettes' => array(
@@ -200,12 +199,17 @@ return array(
                 'minitems' => 0,
                 'maxitems' => 999,
                 'appearance' => array(
+                    'collapseAll' => 1,
+                    'expandSingle' => 1,
+                    'levelLinksPosition' => 'bottom',
+                    'useSortable' => 1,
+                    'showPossibleLocalizationRecords' => 1,
+                    'showRemovedLocalizationRecords' => 1,
+                    'showAllLocalizationLink' => 1,
+                    'showSynchronizationLink' => 1,
                     'enabledControls' => array(
-                        'hide' => false,
-                        'dragdrop' => true,
-                        'sort' => true,
-                    ),
-                    'levelLinksPosition' => 'both',
+                        'info' => false,
+                    )
                 ),
             ),
         ),
@@ -220,3 +224,13 @@ return array(
         ),
     ),
 );
+
+if (!\TYPO3\CMS\Core\Utility\GeneralUtility::compat_version('7.6')) {
+    unset($dceFieldTca['ctrl']['typeicon_classes']);
+    $dceFieldTca['ctrl']['typeicons'] = array(
+        '0' => $extensionPath . 'Resources/Public/Icons/tx_dce_domain_model_dcefield_element.png',
+        '1' => $extensionPath . 'Resources/Public/Icons/tx_dce_domain_model_dcefield_tab.png',
+        '2' => $extensionPath . 'Resources/Public/Icons/tx_dce_domain_model_dcefield_section.png',
+    );
+}
+return $dceFieldTca;

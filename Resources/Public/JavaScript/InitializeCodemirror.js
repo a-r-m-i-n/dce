@@ -81,13 +81,21 @@ function disableSectionFieldType() {
 	$('select[name^="data[tx_dce_domain_model_dcefield]"][name$="[type]"]').each(function(){
 		// 6.2
 		var $wrapperTable = $(this).closest('.wrapperTable');
-		if ($wrapperTable.is(':visible') && $wrapperTable.parents('div[id$="section_fields_records"]').length > 0 ) {
+		var isSectionField = $wrapperTable.closest('.t3-form-field-record-inline').attr('id');
+		if (isSectionField) {
+			isSectionField = isSectionField.match(/section_fields\-tx_dce_domain_model/gi);
+		}
+		if (isSectionField) {
 			$wrapperTable.hide();
 		}
 
 		// 7.x
 		var $wrapperFieldset = $(this).closest('fieldset.form-section');
-		if ($wrapperFieldset.is(':visible') && $wrapperFieldset.parents('div[id$="section_fields_records"]').length > 0 ) {
+		var isSectionField = $wrapperFieldset.closest('.panel-collapse').attr('id');
+		if (isSectionField) {
+			isSectionField = isSectionField.match(/section_fields\-tx_dce_domain_model/gi);
+		}
+		if (isSectionField) {
 			$wrapperFieldset.hide();
 		}
 	});

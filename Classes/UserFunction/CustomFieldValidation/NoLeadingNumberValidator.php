@@ -25,6 +25,9 @@ class NoLeadingNumberValidator extends AbstractFieldValidator
     {
         preg_match('/^\d*(.*)/i', $value, $matches);
         if ($matches[0] !== $matches[1]) {
+            if (empty($matches[1])) {
+                $matches[1] = 'field' . uniqid();
+            }
             $this->addFlashMessage(
                 $this->translate('tx_dce_formeval_noLeadingNumber', array($value, $matches[1])),
                 $this->translate('tx_dce_formeval_headline', array($value)),

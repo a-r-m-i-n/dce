@@ -1,14 +1,6 @@
 {namespace dce=ArminVieweg\Dce\ViewHelpers}
-{namespace c=TYPO3\CMS\Core\ViewHelpers}
-<div class="typeicon">
-	<f:if condition="{dce.wizardIcon} == 'custom'">
-		<f:then>
-			<img src="../{dce.selectedWizardIconPath}" width="32" height="32" />
-		</f:then>
-		<f:else>
-			<c:icon identifier="{dce.selectedWizardIconPath}" size="default" />
-		</f:else>
-	</f:if>
+<div class="typeicon typeicon62">
+	<f:image src="{dce.selectedWizardIconPath}" width="24c" height="24c" />
 	<div class="overlay">
 		<f:if condition="{dce.type} == 0">
 			<f:then>
