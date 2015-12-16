@@ -32,7 +32,7 @@ $boot = function ($extensionKey) {
         ),
         array(
             'access' => 'user,group',
-            'icon' => 'EXT:' . $extensionKey . '/ext_icon.png',
+            'icon' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/ext_icon.svg',
             'labels' => 'LLL:EXT:' . $extensionKey . '/Resources/Private/Language/locallang_mod.xml',
         )
     );
