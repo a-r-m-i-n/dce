@@ -31,7 +31,8 @@ class DocHeaderButtonsHook
         }
 
         $uidWithComma = current(array_keys($this->getEditGetParameters()));
-        if ($this->getEditGetParameters()[$uidWithComma] === 'edit') {
+        $editGetParameters = $this->getEditGetParameters();
+        if (is_array($editGetParameters) && $editGetParameters[$uidWithComma] === 'edit') {
             $contentItemUid = intval($uidWithComma);
 
             /** @var \TYPO3\CMS\Core\Imaging\IconFactory $iconFactory */
