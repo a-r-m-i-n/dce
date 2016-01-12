@@ -117,7 +117,8 @@ class DocHeaderButtonsHook
         }
 
         $uidWithComma = current(array_keys($this->getEditGetParameters()));
-        if ($this->getEditGetParameters()[$uidWithComma] === 'edit') {
+        $editGetParameters = $this->getEditGetParameters();
+        if (is_array($editGetParameters) && $editGetParameters[$uidWithComma] === 'edit') {
             $uid = intval($uidWithComma);
 
             /** @var $tceMain \TYPO3\CMS\Core\DataHandling\DataHandler */
