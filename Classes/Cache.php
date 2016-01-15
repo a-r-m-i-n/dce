@@ -198,6 +198,11 @@ class Cache
         /** @var $databaseConnection \TYPO3\CMS\Dbal\Database\DatabaseConnection */
         $databaseConnection = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection();
 
+        $tables = array_keys($databaseConnection->admin_get_tables());
+        if (!in_array('tx_dce_domain_model_dce', $tables) || !in_array('tx_dce_domain_model_dcefield', $tables)) {
+            return array();
+        }
+
         $res = $databaseConnection->exec_SELECTquery(
             '*',
             'tx_dce_domain_model_dce',
