@@ -55,8 +55,11 @@
         <td>
             <div class="pull-right">
                 <f:if condition="{dce.uid}">
-                    <f:then><a href="{f:render(partial:'Module/OpenDce', arguments:'{uid:\'{dce.uid}\'}')}" class="btn btn-default"><span class="fa fa-edit"></span> {f:translate(key:'{lll}edit')}</a></f:then>
-                    <f:else><a href="{f:render(partial:'Module/OpenStaticDce', arguments:'{identifier:\'{dce.identifier}\'}')}" class="btn btn-default"><span class="fa fa-edit"></span> {f:translate(key:'{lll}edit')}</a></f:else>
+                    <a class="btn btn-default" href="{f:render(partial:'Module/DceInfoLink', arguments:'{dce:dce}')}" title="{f:translate(key:'{lll}relatedContentElements', arguments:'{0:\'{dce.relatedContentElementRows -> f:count()}\'}')}"><span class="fa fa-info-circle"></span> <f:translate key="{lll}info" /> ({dce.relatedContentElementRows -> f:count()})</a>
+                </f:if>
+                <f:if condition="{dce.uid}">
+                    <f:then><a href="{f:render(partial:'Module/OpenDce', arguments:'{uid:\'{dce.uid}\'}')}" class="btn btn-success"><span class="fa fa-edit"></span> {f:translate(key:'{lll}edit')}</a></f:then>
+                    <f:else><a href="{f:render(partial:'Module/OpenStaticDce', arguments:'{identifier:\'{dce.identifier}\'}')}" class="btn btn-success"><span class="fa fa-edit"></span> {f:translate(key:'{lll}edit')}</a></f:else>
                 </f:if>
             </div>
         </td>

@@ -30,6 +30,7 @@
 			<label index="caution">Caution!</label>
 			<label index="hideContentElementsBasedOnDce">%s content elements based on this DCE have been also disabled, to avoid errors in frontned. These content items will not get re-enabled automatically!</label>
 			<label index="edit">Edit</label>
+			<label index="info">Info</label>
 			<label index="enabled">Enabled</label>
 			<label index="disabled">Disabled</label>
 			<label index="back">Back</label>
@@ -37,6 +38,7 @@
 			<label index="fields">fields</label>
 			<label index="tca">This DCE has fields which are mapped with TCA columns.</label>
 			<label index="tcaplus">This DCE has fields which are mapped with TCA columns. Furthermore this DCE adds new columns to TCA and database!</label>
+			<label index="relatedContentElements">%s content elements existing, based on this DCE.</label>
         </languageKey>
 
         <languageKey index="de" type="array">
@@ -61,6 +63,7 @@
 			<label index="caution">Achtung!</label>
 			<label index="hideContentElementsBasedOnDce">%i Inhaltselemente, welche auf diesem DCE basieren wurden ebenfalls deaktiviert um Fehlermeldungen im Frontend zu vermeiden. Die deaktivierten Inhaltselemente werden nicht automatisch wieder aktiviert.</label>
 			<label index="edit">Bearbeiten</label>
+			<label index="info">Info</label>
 			<label index="enabled">Aktiv</label>
 			<label index="disabled">Inaktiv</label>
 			<label index="back">Zurück</label>
@@ -68,6 +71,7 @@
 			<label index="fields">Felder</label>
 			<label index="tca">Dieses DCE besitzt Felder, die mit TCA-Spalten gemappt wurden.</label>
 			<label index="tcaplus">Dieses DCE besitzt Felder, die mit TCA-Spalten gemappt wurden. Darüberhinaus fügt es neue Spalten zum TCA und zur Datenbank hinzu.</label>
+			<label index="relatedContentElements">%s Inhaltselemente basierend auf diesem DCE gefunden.</label>
         </languageKey>
     </data>
 </T3locallang>

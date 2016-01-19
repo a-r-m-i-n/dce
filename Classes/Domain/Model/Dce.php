@@ -41,6 +41,11 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     static protected $fieldsCache = array();
 
+    /**
+     * @var array Cache for content element rows
+     */
+    static protected $contentElementRowsCache = array();
+
     /** @var array database field names of columns for different types of templates */
     protected $templateFields = array(
         self::TEMPLATE_FIELD_DEFAULT => array(
@@ -934,5 +939,28 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
         self::$fluidTemplateCache[$this->getUid()][$templateType] = $fluidTemplate;
         return $fluidTemplate;
+    }
+
+    /**
+     * Get content element rows based on this DCE
+     *
+     * @return array|NULL
+     */
+    public function getRelatedContentElementRows()
+    {
+        if (array_key_exists($this->getUid(), static::$fieldsCache)) {
+            return static::$fieldsCache[$this->getUid()];
+        }
+        $rows = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
+            '*',
+            'tt_content',
+            'CType="dce_dceuid' . $this->getUid() . '" AND deleted=0',
+            '',
+            '',
+            '',
+            'uid'
+        );
+        static::$fieldsCache[$this->getUid()] = $rows;
+        return $rows;
     }
 }
