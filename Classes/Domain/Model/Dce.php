@@ -36,6 +36,11 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     static protected $fluidTemplateCache = array();
 
+    /**
+     * @var array Cache for DceFields
+     */
+    static protected $fieldsCache = array();
+
     /** @var array database field names of columns for different types of templates */
     protected $templateFields = array(
         self::TEMPLATE_FIELD_DEFAULT => array(
@@ -793,6 +798,9 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     protected function getFieldsAsArray()
     {
+        if (array_key_exists($this->getUid(), static::$fieldsCache)) {
+            return static::$fieldsCache[$this->getUid()];
+        }
         $fields = array();
         /** @var $field \ArminVieweg\Dce\Domain\Model\DceField */
         foreach ($this->getFields() as $field) {
@@ -813,7 +821,40 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
                 $fields[$field->getVariable()] = $field->getValue();
             }
         }
+        static::$fieldsCache[$this->getUid()] = $fields;
         return $fields;
+    }
+
+    /**
+     * Checks if this DCE has fields, which map their values to TCA columns
+     *
+     * @return bool
+     */
+    public function getHasTcaMappings()
+    {
+        /** @var DceField $field */
+        foreach ($this->getFields() as $field) {
+            if (!empty($field->getMapTo())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Checks if this DCE adds new fields to TCA of tt_content
+     *
+     * @return bool
+     */
+    public function getAddsNewFieldsToTca()
+    {
+        /** @var DceField $field */
+        foreach ($this->getFields() as $field) {
+            if (!empty($field->getNewTcaFieldName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

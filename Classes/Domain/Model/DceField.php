@@ -41,7 +41,10 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $mapTo = '';
 
     /** @var string */
-    protected $_value = '';
+    protected $newTcaFieldName = '';
+
+    /** @var string */
+    protected $newTcaFieldType = '';
 
     /** @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\ArminVieweg\Dce\Domain\Model\DceField> */
     protected $sectionFields;
@@ -55,6 +58,9 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var \ArminVieweg\Dce\Domain\Model\DceField
      */
     protected $parentField;
+
+    /** @var string */
+    protected $_value = '';
 
     /**
      * Constructor
@@ -175,6 +181,49 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setMapTo($mapTo)
     {
         $this->mapTo = $mapTo;
+    }
+
+
+    /**
+     * Get NewTcaFieldName
+     *
+     * @return string
+     */
+    public function getNewTcaFieldName()
+    {
+        return $this->newTcaFieldName;
+    }
+
+    /**
+     * Set NewTcaFieldName
+     *
+     * @param string $newTcaFieldName
+     * @return void
+     */
+    public function setNewTcaFieldName($newTcaFieldName)
+    {
+        $this->newTcaFieldName = $newTcaFieldName;
+    }
+
+    /**
+     * Get NewTcaFieldType
+     *
+     * @return string
+     */
+    public function getNewTcaFieldType()
+    {
+        return $this->newTcaFieldType;
+    }
+
+    /**
+     * Set NewTcaFieldType
+     *
+     * @param string $newTcaFieldType
+     * @return void
+     */
+    public function setNewTcaFieldType($newTcaFieldType)
+    {
+        $this->newTcaFieldType = $newTcaFieldType;
     }
 
     /**

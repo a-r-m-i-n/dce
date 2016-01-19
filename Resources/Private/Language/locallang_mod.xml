@@ -35,6 +35,8 @@
 			<label index="back">Back</label>
 			<label index="noDcesFound">No DCEs found!</label>
 			<label index="fields">fields</label>
+			<label index="tca">This DCE has fields which are mapped with TCA columns.</label>
+			<label index="tcaplus">This DCE has fields which are mapped with TCA columns. Furthermore this DCE adds new columns to TCA and database!</label>
         </languageKey>
 
         <languageKey index="de" type="array">
@@ -64,6 +66,8 @@
 			<label index="back">Zurück</label>
 			<label index="noDcesFound">Keine DCEs gefunden!</label>
 			<label index="fields">Felder</label>
+			<label index="tca">Dieses DCE besitzt Felder, die mit TCA-Spalten gemappt wurden.</label>
+			<label index="tcaplus">Dieses DCE besitzt Felder, die mit TCA-Spalten gemappt wurden. Darüberhinaus fügt es neue Spalten zum TCA und zur Datenbank hinzu.</label>
         </languageKey>
     </data>
 </T3locallang>

@@ -48,6 +48,9 @@
             </f:if>
             <span class="label label-default label-darker">UID: {dce.uid}</span>
             <span class="label label-info">{dce.fields -> f:count()} {f:translate(key:'{lll}fields')}</span>
+            <f:if condition="{dce.hasTcaMappings}">
+                <span title="{f:translate(key:'{lll}tca{f:if(condition:\'dce.addsNewFieldsToTca\', then:\'plus\')}')}" class="label label-danger">TCA<f:if condition="{dce.addsNewFieldsToTca}">+</f:if></span>
+            </f:if>
         </td>
         <td>
             <div class="pull-right">
