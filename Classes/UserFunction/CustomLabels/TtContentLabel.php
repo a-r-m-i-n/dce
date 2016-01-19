@@ -26,30 +26,35 @@ class TtContentLabel
      */
     public function getLabel(&$parameter)
     {
-        if ($this->isDceContentElement($parameter['row']) && empty($parameter['row']['header'])) {
-            try {
-                /** @var \ArminVieweg\Dce\Domain\Model\Dce $dce */
-                $dce = \ArminVieweg\Dce\Utility\Extbase::bootstrapControllerAction(
-                    'ArminVieweg',
-                    'Dce',
-                    'Dce',
-                    'renderDce',
-                    'Dce',
-                    array(
-                        'contentElementUid' => $parameter['row']['uid'],
-                        'dceUid' => DceRepository::extractUidFromCtype($parameter['row']['CType'])
-                    ),
-                    true
-                );
-            } catch (\Exception $exception) {
-                $parameter['title'] = 'ERROR: ' . $exception->getMessage();
-                return;
-            }
+        if (!is_string($parameter['row']['CType']) ||
+            !empty($parameter['row']['header']) ||
+            !$this->isDceContentElement($parameter['row'])
+        ) {
+            return;
+        }
 
-            if ($dce->isUseSimpleBackendView()) {
-                $simpleBackendViewUtility = new \ArminVieweg\Dce\Utility\SimpleBackendView();
-                $parameter['title'] = $simpleBackendViewUtility->getSimpleBackendViewHeaderContent($dce, true);
-            }
+        try {
+            /** @var \ArminVieweg\Dce\Domain\Model\Dce $dce */
+            $dce = \ArminVieweg\Dce\Utility\Extbase::bootstrapControllerAction(
+                'ArminVieweg',
+                'Dce',
+                'Dce',
+                'renderDce',
+                'Dce',
+                array(
+                    'contentElementUid' => $parameter['row']['uid'],
+                    'dceUid' => DceRepository::extractUidFromCtype($parameter['row']['CType'])
+                ),
+                true
+            );
+        } catch (\Exception $exception) {
+            $parameter['title'] = 'ERROR: ' . $exception->getMessage();
+            return;
+        }
+
+        if ($dce->isUseSimpleBackendView()) {
+            $simpleBackendViewUtility = new \ArminVieweg\Dce\Utility\SimpleBackendView();
+            $parameter['title'] = $simpleBackendViewUtility->getSimpleBackendViewHeaderContent($dce, true);
         }
     }
 
