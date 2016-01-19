@@ -42,7 +42,7 @@ class TtContentLabel
                     true
                 );
             } catch (\Exception $exception) {
-                $parameter['title'] = 'ERROR:' . $exception->getMessage();
+                $parameter['title'] = 'ERROR: ' . $exception->getMessage();
                 return;
             }
 

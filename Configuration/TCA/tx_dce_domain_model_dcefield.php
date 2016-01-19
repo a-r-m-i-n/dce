@@ -7,7 +7,7 @@
  */
 
 if (!defined('TYPO3_MODE')) {
-    die ('Access denied.');
+    die('Access denied.');
 }
 
 $ll = 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:';
