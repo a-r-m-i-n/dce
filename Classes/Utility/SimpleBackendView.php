@@ -92,13 +92,13 @@ class SimpleBackendView
         $cropLength = 10;
         $pageTs = \TYPO3\CMS\Backend\Utility\BackendUtility::getPagesTSconfig(GeneralUtility::_GP('id'));
         if (isset($pageTs['tx_dce.']['defaults.']['simpleBackendView.']['titleCropLength'])) {
-            $cropLength = (int) $pageTs['tx_dce.']['defaults.']['simpleBackendView.']['titleCropLength'];
+            $cropLength = $pageTs['tx_dce.']['defaults.']['simpleBackendView.']['titleCropLength'];
         }
 
         // TODO: Write class for getting settings from pageTS
         $cropString = '';
         if (isset($pageTs['tx_dce.']['defaults.']['simpleBackendView.']['titleCropAppendix'])) {
-            $cropString = (string) $pageTs['tx_dce.']['defaults.']['simpleBackendView.']['titleCropAppendix'];
+            $cropString = $pageTs['tx_dce.']['defaults.']['simpleBackendView.']['titleCropAppendix'];
         }
 
         /** @var \TYPO3\CMS\Core\Charset\CharsetConverter $charsetConverter */
@@ -162,13 +162,13 @@ class SimpleBackendView
         $imageWidth = '50c';
         $pageTs = \TYPO3\CMS\Backend\Utility\BackendUtility::getPagesTSconfig(GeneralUtility::_GP('id'));
         if (isset($pageTs['tx_dce.']['defaults.']['simpleBackendView.']['imageWidth'])) {
-            $imageWidth = (int) $pageTs['tx_dce.']['defaults.']['simpleBackendView.']['imageWidth'];
+            $imageWidth = $pageTs['tx_dce.']['defaults.']['simpleBackendView.']['imageWidth'];
         }
         // TODO: Write class for getting settings from pageTS
         $imageHeight = '50c';
         $pageTs = \TYPO3\CMS\Backend\Utility\BackendUtility::getPagesTSconfig(GeneralUtility::_GP('id'));
         if (isset($pageTs['tx_dce.']['defaults.']['simpleBackendView.']['imageHeight'])) {
-            $imageHeight = (int) $pageTs['tx_dce.']['defaults.']['simpleBackendView.']['imageHeight'];
+            $imageHeight = $pageTs['tx_dce.']['defaults.']['simpleBackendView.']['imageHeight'];
         }
 
         $imageTags = array();
