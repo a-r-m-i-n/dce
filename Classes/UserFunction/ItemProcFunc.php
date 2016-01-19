@@ -23,6 +23,9 @@ class ItemProcFunc
      */
     public function getDceFields(array &$parameters)
     {
+        if (!isset($parameters['row']['uid']) || !is_numeric($parameters['row']['uid'])) {
+            return;
+        }
         $parameters['items'][] = array(LocalizationUtility::translate('dceTitle', 'dce'), '*dcetitle');
         if ($parameters['config']['size'] === 1) {
             $parameters['items'][] = array(LocalizationUtility::translate('empty', 'dce'), '*empty');
