@@ -20,11 +20,12 @@
 
 h4.dceHeader {
 	font-family: Share, Verdana, Arial, Helvetica, sans-serif;
-	font-size: 21px;
+	font-size: 20px;
 }
 
 h4.dceHeader img {
 	vertical-align: baseline;
+	margin-bottom: -1px;
 }
 
 div.nav-group {
@@ -51,6 +52,21 @@ div.nav-group {
 	position: absolute;
 	right: -6px;
 	bottom: -3px;
+	line-height: 0;
+	border-radius: 2px;
+}
+
+.bg-pink {
+	background: #ed2448;
+}
+
+.bg-azure {
+	background: #2f749d;
+}
+
+.bg-logo {
+	border-radius: 2px;
+	line-height: 0;
 }
 
 .dceLabel {

@@ -20,6 +20,11 @@ $boot = function ($extensionKey) {
     require_once(PATH_site . \ArminVieweg\Dce\Cache::CACHE_PATH . \ArminVieweg\Dce\Cache::CACHE_TYPE_EXTTABLES);
 
 
+    $extensionIconPath = 'EXT:' . $extensionKey . '/Resources/Public/Icons/ext_icon.svg';
+    if (!\TYPO3\CMS\Core\Utility\GeneralUtility::compat_version('7.6')) {
+        $extensionIconPath = 'EXT:' . $extensionKey . '/ext_icon.png';
+    }
+
     // Register backend module
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
         'ArminVieweg.' . $extensionKey,
@@ -32,7 +37,7 @@ $boot = function ($extensionKey) {
         ),
         array(
             'access' => 'user,group',
-            'icon' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/ext_icon.svg',
+            'icon' => $extensionIconPath,
             'labels' => 'LLL:EXT:' . $extensionKey . '/Resources/Private/Language/locallang_mod.xml',
         )
     );
