@@ -45,7 +45,7 @@ $dceFieldTca = array(
         ),
     ),
     'interface' => array(
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden',
+        'showRecordFieldList' => 'hidden,title,type,variable',
     ),
     'types' => array(
         '0' => array(
