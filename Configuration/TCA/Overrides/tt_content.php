@@ -26,3 +26,8 @@ $newTtContentColumns = array(
 );
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('tt_content', $newTtContentColumns);
+
+if (!isset($GLOBALS['TCA']['tt_content']['ctrl']['label_userFunc'])) {
+    $GLOBALS['TCA']['tt_content']['ctrl']['label_userFunc'] =
+        'ArminVieweg\Dce\UserFunction\CustomLabels\TtContentLabel->getLabel';
+}

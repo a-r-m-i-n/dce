@@ -25,20 +25,27 @@ class SimpleBackendView
      * Returns configured rendered field value
      *
      * @param Dce $dce
+     * @param bool $textOnly When true the return value is not wrapped by <strong>-tags
      * @return string
      */
-    public function getSimpleBackendViewHeaderContent(Dce $dce)
+    public function getSimpleBackendViewHeaderContent(Dce $dce, $textOnly = false)
     {
         if ($dce->getBackendViewHeader() === '*empty') {
             return '';
         }
         if ($dce->getBackendViewHeader() === '*dcetitle') {
+            if ($textOnly) {
+                return $dce->getTitle();
+            }
             return '<strong class="dceHeader">' . $dce->getTitle() . '</strong>';
         }
 
         $field = $dce->getFieldByVariable($dce->getBackendViewHeader());
         if (!$field) {
             return '';
+        }
+        if ($textOnly) {
+            return $field->getValue();
         }
         return '<strong class="dceHeader">' . $field->getValue() . '</strong>';
     }
