@@ -165,7 +165,7 @@ class DocHeaderButtonsHook
         }
         $linkToDce = 'alt_doc.php?&returnUrl=' . $returnUrl . '&edit[tx_dce_domain_model_dce][' . $dceUid . ']=edit';
 
-        $pathToImage = ExtensionManagementUtility::extRelPath('dce') . 'Resources/Public/Icons/docheader_icon.png';
+        $pathToImage = ExtensionManagementUtility::extRelPath('dce') . 'Resources/Public/Icons/ext_icon.png';
         $titleTag = LocalizationUtility::translate('dcePopupButtonTitle', 'Dce');
 
         return '<div class="buttongroup"><a href="#" class="dcePopupButton" onclick="window.open(\'' . $linkToDce .
