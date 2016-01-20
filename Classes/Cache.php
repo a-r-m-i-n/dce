@@ -89,9 +89,10 @@ class Cache
             $dces = $this->ensureGridelementsFieldCompatibility($dces);
         }
         $this->fluidTemplateUtility->assign('dceArray', $dces);
+
         $this->fluidTemplateUtility->assign(
             'dceFieldsWithNewTcaColumns',
-            \ArminVieweg\Dce\Utility\FlexformToTcaMapper::getDceFieldRowsWithNewTcaColumns()
+            array_unique(\ArminVieweg\Dce\Utility\FlexformToTcaMapper::getDceFieldRowsWithNewTcaColumns())
         );
         $this->saveCacheData(self::CACHE_TYPE_EXTTABLES, $this->fluidTemplateUtility->render());
     }
