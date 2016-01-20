@@ -48,4 +48,12 @@ class AbstractUpdate extends \TYPO3\CMS\Install\Updates\AbstractUpdate
     {
         $dbQueries[] = $this->getDatabaseConnection()->debug_lastBuiltQuery;
     }
+
+    /**
+     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+     */
+    protected function getDatabaseConnection()
+    {
+        return $GLOBALS['TYPO3_DB'];
+    }
 }

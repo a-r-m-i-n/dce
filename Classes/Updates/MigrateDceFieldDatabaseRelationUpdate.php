@@ -194,12 +194,4 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
         }
         return null;
     }
-
-    /**
-     * @return DatabaseConnection
-     */
-    protected function getDatabaseConnection()
-    {
-        return $GLOBALS['TYPO3_DB'];
-    }
 }

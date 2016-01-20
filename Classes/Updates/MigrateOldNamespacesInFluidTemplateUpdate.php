@@ -212,13 +212,4 @@ class MigrateOldNamespacesInFluidTemplateUpdate extends AbstractUpdate
         $content = str_replace('dce:uri.image', 'f:uri.image', $content);
         return $content;
     }
-
-    /**
-     * @return DatabaseConnection
-     */
-    protected function getDatabaseConnection()
-    {
-        return $GLOBALS['TYPO3_DB'];
-    }
-
 }

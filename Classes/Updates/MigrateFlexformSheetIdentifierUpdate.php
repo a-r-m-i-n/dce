@@ -198,12 +198,4 @@ class MigrateFlexformSheetIdentifierUpdate extends AbstractUpdate
         $variable = preg_replace('/[^A-Z0-9]/i', '_', $variable);
         return GeneralUtility::underscoredToUpperCamelCase($variable);
     }
-
-    /**
-     * @return DatabaseConnection
-     */
-    protected function getDatabaseConnection()
-    {
-        return $GLOBALS['TYPO3_DB'];
-    }
 }
