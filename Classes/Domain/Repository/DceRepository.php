@@ -7,6 +7,7 @@ namespace ArminVieweg\Dce\Domain\Repository;
  *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
 use ArminVieweg\Dce\Domain\Model\DceField;
+use ArminVieweg\Dce\Utility\DatabaseUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
@@ -425,8 +426,12 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                 $enableFields = $contentObjectRenderer->enableFields($tableName);
             }
 
-            $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', $tableName, 'uid = ' . $uid . $enableFields);
-            while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
+            $res = DatabaseUtility::getDatabaseConnection()->exec_SELECTquery(
+                '*',
+                $tableName,
+                'uid = ' . $uid . $enableFields
+            );
+            while (($row = DatabaseUtility::getDatabaseConnection()->sql_fetch_assoc($res))) {
                 if ($dceFieldConfiguration['dce_enable_autotranslation']) {
                     if ($tableName === 'pages') {
                         $row = $GLOBALS['TSFE']->sys_page->getPageOverlay($row);

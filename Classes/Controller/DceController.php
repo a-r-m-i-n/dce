@@ -132,8 +132,12 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     protected function simulateContentElementSettings($contentElementUid)
     {
-        $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('pi_flexform', 'tt_content', 'uid = ' . $contentElementUid);
-        $flexform = GeneralUtility::xml2array(current($GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)));
+        $row = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
+            'pi_flexform',
+            'tt_content',
+            'uid = ' . (int) $contentElementUid
+        );
+        $flexform = GeneralUtility::xml2array($row['pi_flexform']);
 
         $this->temporaryDceProperties = array();
         if (is_array($flexform)) {
@@ -150,6 +154,10 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     protected function getContentObject($uid)
     {
-        return $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('*', 'tt_content', 'uid=' . $uid);
+        return \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
+            '*',
+            'tt_content',
+            'uid = ' . (int) $uid
+        );
     }
 }

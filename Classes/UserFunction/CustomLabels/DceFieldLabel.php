@@ -115,7 +115,7 @@ class DceFieldLabel
      */
     protected function getDceFieldRecordByUid($uid)
     {
-        return $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow(
+        return \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
             '*',
             'tx_dce_domain_model_dcefield',
             'uid=' . intval($uid)

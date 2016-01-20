@@ -257,7 +257,7 @@ class AfterSaveHook
     protected function performPreviewAutoupdateOnContentElementSave()
     {
         $dceUid = $this->getDceUidByContentElementUid($this->uid);
-        $dceRow = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('*', 'tx_dce_domain_model_dce', 'uid=' . $dceUid);
+        $dceRow = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow('*', 'tx_dce_domain_model_dce', 'uid=' . $dceUid);
         if (isset($dceRow['use_simple_backend_view']) && $dceRow['use_simple_backend_view'] === '1') {
             return;
         }
@@ -290,16 +290,16 @@ class AfterSaveHook
      */
     protected function performPreviewAutoupdateBatchOnDceChange()
     {
-        $dceRow = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('*', 'tx_dce_domain_model_dce', 'uid=' . $this->uid);
+        $dceRow = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow('*', 'tx_dce_domain_model_dce', 'uid=' . $this->uid);
         if (isset($dceRow['use_simple_backend_view']) && $dceRow['use_simple_backend_view'] === '1') {
             return;
         }
-        $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+        $res = DatabaseUtility::getDatabaseConnection()->exec_SELECTquery(
             'uid',
             'tt_content',
             'CType="dce_dceuid' . $this->uid . '" AND deleted=0'
         );
-        while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
+        while (($row = DatabaseUtility::getDatabaseConnection()->sql_fetch_assoc($res))) {
             if (!$GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceImportInProgress']) {
                 $fieldArray = $this->generateDcePreview($row['uid']);
                 $this->dataHandler->updateDB('tt_content', $row['uid'], $fieldArray);
@@ -319,9 +319,9 @@ class AfterSaveHook
     protected function hideContentElementsBasedOnDce()
     {
         $whereStatement = 'CType="dce_dceuid' . $this->uid . '" AND deleted=0 AND hidden=0';
-        $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid', 'tt_content', $whereStatement);
+        $res = DatabaseUtility::getDatabaseConnection()->exec_SELECTquery('uid', 'tt_content', $whereStatement);
         $updatedContentElementsCount = 0;
-        while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
+        while (($row = DatabaseUtility::getDatabaseConnection()->sql_fetch_assoc($res))) {
             $this->dataHandler->updateDB('tt_content', $row['uid'], array('hidden' => 1));
             $updatedContentElementsCount++;
         }

@@ -27,7 +27,7 @@ function user_dceOnCurrentPage($dceUid)
     if (isset($GLOBALS['TSFE']->page['content_from_pid']) && $GLOBALS['TSFE']->page['content_from_pid'] > 0) {
         $currentPageUid = $GLOBALS['TSFE']->page['content_from_pid'];
     }
-    return (bool) $GLOBALS['TYPO3_DB']->exec_SELECTcountRows(
+    return (bool) \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTcountRows(
         'uid',
         'tt_content',
         'pid=' . $currentPageUid . ' AND CType="dce_dceuid' . (int) $dceUid . '"'

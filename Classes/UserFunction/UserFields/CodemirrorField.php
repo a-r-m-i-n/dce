@@ -72,7 +72,8 @@ class CodemirrorField
 
         $rowFields = $this->parameter['row']['fields'];
         if (!empty($rowFields)) {
-            $rows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+            $db = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection();
+            $rows = $db->exec_SELECTgetRows(
                 '*',
                 'tx_dce_domain_model_dcefield',
                 'hidden=0 AND deleted=0 AND pid=0 AND (type=0 OR type=2) AND uid IN (' . $rowFields . ')',
@@ -83,7 +84,7 @@ class CodemirrorField
             if (is_array($rows)) {
                 foreach ($rows as $row) {
                     if ($row['type'] === '2') {
-                        $res2 = $GLOBALS['TYPO3_DB']->sql_query('
+                        $res2 = $db->sql_query('
 							SELECT title, variable
 							FROM tx_dce_domain_model_dcefield
 							WHERE deleted = 0  AND parent_field = ' . $row['uid'] . '
@@ -91,7 +92,7 @@ class CodemirrorField
 						');
 
                         $sectionFields = array();
-                        while (($row2 = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res2))) {
+                        while (($row2 = $db->sql_fetch_assoc($res2))) {
                             $sectionFields[] = $row2;
                         }
                         $row['hasSectionFields'] = true;
