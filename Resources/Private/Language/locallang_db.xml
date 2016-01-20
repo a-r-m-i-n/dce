@@ -55,12 +55,12 @@
 			<label index="tx_dce_domain_model_dce.title">Title</label>
 			<label index="tx_dce_domain_model_dce.category">Category</label>
 			<label index="tx_dce_domain_model_dce.fields">Fields</label>
-			<label index="tx_dce_domain_model_dce.wizard">Wizard</label>
+			<label index="tx_dce_domain_model_dce.wizard">Icon &amp; Wizard</label>
+			<label index="tx_dce_domain_model_dce.wizardIcon">DCE icon</label>
+			<label index="tx_dce_domain_model_dce.wizardCustomIcon">DCE custom icon (24x24 pixel)</label>
 			<label index="tx_dce_domain_model_dce.wizardEnable">Show DCE in content element Wizard</label>
 			<label index="tx_dce_domain_model_dce.wizardCategory">Wizard category</label>
 			<label index="tx_dce_domain_model_dce.wizardDescription">Wizard description</label>
-			<label index="tx_dce_domain_model_dce.wizardIcon">Wizard icon</label>
-			<label index="tx_dce_domain_model_dce.wizardCustomIcon">Wizard custom icon (24x24 pixel)</label>
 
 			<label index="tx_dce_domain_model_dce.template">Template</label>
 			<label index="tx_dce_domain_model_dce.templateType">Template type</label>
@@ -138,12 +138,12 @@
 			<label index="tx_dce_domain_model_dce.title">Titel</label>
 			<label index="tx_dce_domain_model_dce.category">Kategorie</label>
 			<label index="tx_dce_domain_model_dce.fields">Felder</label>
-			<label index="tx_dce_domain_model_dce.wizard">Wizard</label>
+			<label index="tx_dce_domain_model_dce.wizard">Icon &amp; Wizard</label>
+			<label index="tx_dce_domain_model_dce.wizardIcon">DCE Icon</label>
+			<label index="tx_dce_domain_model_dce.wizardCustomIcon">Benutzerdefiniertes DCE Icon (24x24 Pixel)</label>
 			<label index="tx_dce_domain_model_dce.wizardEnable">Zeige DCE in Wizard zum Anlegen neuer Content-Elemente</label>
 			<label index="tx_dce_domain_model_dce.wizardCategory">Wizard Kategorie</label>
 			<label index="tx_dce_domain_model_dce.wizardDescription">Wizard Beschreibung</label>
-			<label index="tx_dce_domain_model_dce.wizardIcon">Wizard Icon</label>
-			<label index="tx_dce_domain_model_dce.wizardCustomIcon">Wizard benutzerdefiniertes Icon (24x24 Pixel)</label>
 
 			<label index="tx_dce_domain_model_dce.template">Template</label>
 			<label index="tx_dce_domain_model_dce.templateType">Template-Typ</label>
