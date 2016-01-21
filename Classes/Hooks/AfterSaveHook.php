@@ -210,7 +210,7 @@ class AfterSaveHook
 
         if ($table === 'tt_content' && $this->isDceContentElement($pObj)) {
             $this->checkAndUpdateDceRelationField();
-            $this->saveFlexformValuesToTca();
+            \ArminVieweg\Dce\Utility\TcaMapper::saveFlexformValuesToTca($this->uid, $this->fieldArray['pi_flexform']);
             if (!isset($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceImportInProgress'])) {
                 $this->performPreviewAutoupdateOnContentElementSave();
             }
@@ -402,62 +402,6 @@ class AfterSaveHook
             $this->dataHandler->updateDB('tt_content', $this->uid, array(
                 'tx_dce_dce' => \ArminVieweg\Dce\Domain\Repository\DceRepository::extractUidFromCtype($row['CType'])
             ));
-        }
-    }
-
-    /**
-     * Check if DceFields has been mapped with TCA columns
-     * and writes values to columns in database, if so.
-     *
-     * @return void
-     */
-    protected function saveFlexformValuesToTca()
-    {
-        $dceUid = DatabaseUtility::getDceUidByContentElementUid($this->uid);
-        $dceFieldsWithMapping = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
-            '*',
-            'tx_dce_domain_model_dcefield',
-            'parent_dce=' . $dceUid . ' AND map_to!="" AND deleted=0'
-        );
-        if (count($dceFieldsWithMapping) === 0 || !isset($this->fieldArray['pi_flexform'])) {
-            return;
-        }
-
-        /** @var array $fieldToTcaMappings */
-        $fieldToTcaMappings = array();
-        foreach ($dceFieldsWithMapping as $dceField) {
-            $mapTo = $dceField['map_to'];
-            if ($mapTo === '*newcol') {
-                $mapTo = $dceField['new_tca_field_name'];
-            }
-            $fieldToTcaMappings[$dceField['variable']] = $mapTo;
-        }
-
-        $updateData = array();
-        $flatFlexFormData = ArrayUtility::flatten(GeneralUtility::xml2array($this->fieldArray['pi_flexform']));
-        foreach ($flatFlexFormData as $key => $value) {
-            $fieldName = preg_replace('/.*settings\.(.*?)\.vDEF$/', '$1', $key);
-            if (array_key_exists($fieldName, $fieldToTcaMappings)) {
-                if (empty($updateData[$fieldToTcaMappings[$fieldName]])) {
-                    $updateData[$fieldToTcaMappings[$fieldName]] = $value;
-                } else {
-                    $updateData[$fieldToTcaMappings[$fieldName]] .= PHP_EOL . PHP_EOL . $value;
-                }
-            }
-        }
-        if (!empty($updateData)) {
-            $updateStatus = DatabaseUtility::getDatabaseConnection()->exec_UPDATEquery(
-                'tt_content',
-                'uid=' . $this->uid,
-                $updateData
-            );
-            if (!$updateStatus) {
-                \ArminVieweg\Dce\Utility\FlashMessage::add(
-                    DatabaseUtility::getDatabaseConnection()->sql_error(),
-                    'Flexform to TCA mapping failure',
-                    \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR
-                );
-            }
         }
     }
 }
