@@ -318,41 +318,6 @@ class AfterSaveHook
     }
 
     /**
-     * Generates the preview texts (header and bodytext) of dce
-     *
-     * @param int $uid uid of content element
-     * @return array
-     *
-     * @TODO Reduce redundancy of extbase controller call
-     */
-    protected function generateDcePreview($uid)
-    {
-
-        $settings = array(
-            'contentElementUid' => $uid,
-            'dceUid' => DatabaseUtility::getDceUidByContentElementUid($uid),
-        );
-        return array(
-            'header' => \ArminVieweg\Dce\Utility\Extbase::bootstrapControllerAction(
-                'ArminVieweg',
-                'Dce',
-                'Dce',
-                'renderPreview',
-                'tools_DceDcemodule',
-                array_merge($settings, array('previewType' => 'header'))
-            ),
-            'bodytext' => \ArminVieweg\Dce\Utility\Extbase::bootstrapControllerAction(
-                'ArminVieweg',
-                'Dce',
-                'Dce',
-                'renderPreview',
-                'tools_DceDcemodule',
-                array_merge($settings, array('previewType' => 'bodytext'))
-            ),
-        );
-    }
-
-    /**
      * Checks the CType of current content element and return TRUE if it is a dce. Otherwise return FALSE.
      *
      * @param \TYPO3\CMS\Core\DataHandling\DataHandler $pObj
