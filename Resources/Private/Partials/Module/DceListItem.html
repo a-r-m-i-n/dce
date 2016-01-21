@@ -1,4 +1,5 @@
 {namespace dce=ArminVieweg\Dce\ViewHelpers}
+{namespace c=TYPO3\CMS\Core\ViewHelpers}
 <f:alias map="{lll: 'LLL:EXT:dce/Resources/Private/Language/locallang_mod.xml:'}">
     <tr class="{f:if(condition:'{dce.uid}', then:'db', else:'file')}">
         <td class="listEntry">
@@ -37,7 +38,7 @@
             </div>
         </td>
 
-        <td>
+        <td class="status">
             <f:if condition="{dce.hidden} == 1">
                 <f:then>
                     <span class="label label-danger text-uppercase">{f:translate(key:'{lll}disabled')}</span>
@@ -46,8 +47,18 @@
                     <span class="label label-success text-uppercase">{f:translate(key:'{lll}enabled')}</span>
                 </f:else>
             </f:if>
-            <span class="label label-default label-darker">UID: {dce.uid}</span>
-            <span class="label label-info">{dce.fields -> f:count()} {f:translate(key:'{lll}fields')}</span>
+        </td>
+        <td class="uid">
+            {dce.uid}
+        </td>
+        <td class="usage">
+            <a href="{f:render(partial:'Module/DceInfoLink', arguments:'{dce:dce}')}" title="{f:translate(key:'{lll}relatedContentElements', arguments:'{0:\'{dce.relatedContentElementRows -> f:count()}\'}')}">
+                <c:icon identifier="content-textpic" size="small" />
+                <span>{dce.relatedContentElementRows -> f:count()}</span>
+            </a>
+        </td>
+        <td class="fieldStats">
+            <span class="label label-default label-darker">{dce.fields -> f:count()} {f:translate(key:'{lll}fields')}</span>
             <f:if condition="{dce.hasTcaMappings}">
                 <span title="{f:translate(key:'{lll}tca{f:if(condition:\'dce.addsNewFieldsToTca\', then:\'plus\')}')}" class="label label-danger">TCA<f:if condition="{dce.addsNewFieldsToTca}">+</f:if></span>
             </f:if>
@@ -74,9 +85,6 @@
                             </li>
                         </ul>
                     </div>
-                </f:if>
-                <f:if condition="{dce.uid}">
-                    <a class="btn btn-default" href="{f:render(partial:'Module/DceInfoLink', arguments:'{dce:dce}')}" title="{f:translate(key:'{lll}relatedContentElements', arguments:'{0:\'{dce.relatedContentElementRows -> f:count()}\'}')}"><span class="fa fa-info-circle"></span> <f:translate key="{lll}info" /> ({dce.relatedContentElementRows -> f:count()})</a>
                 </f:if>
                 <f:if condition="{dce.uid}">
                     <f:then><a href="{f:render(partial:'Module/OpenDce', arguments:'{uid:\'{dce.uid}\'}')}" class="btn btn-primary"><span class="fa fa-edit"></span> {f:translate(key:'{lll}edit')}</a></f:then>

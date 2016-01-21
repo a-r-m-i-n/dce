@@ -153,3 +153,9 @@ a.disabled {
 	opacity: 0.4;
 	cursor: not-allowed;
 }
+
+.status span.label {
+	display: inline-block;
+	min-width: 65px;
+	padding: 4px;
+}

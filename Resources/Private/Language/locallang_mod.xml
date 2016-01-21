@@ -40,6 +40,8 @@
 			<label index="tca">This DCE has fields which are mapped with TCA columns.</label>
 			<label index="tcaplus">This DCE has fields which are mapped with TCA columns. Furthermore this DCE adds new columns to TCA and database!</label>
 			<label index="relatedContentElements">%s content elements existing, based on this DCE.</label>
+			<label index="usage">Usage (CEs)</label>
+			<label index="fieldStats">Field statistics</label>
 
 			<label index="updatePreviewTemplates">Update Backend Preview Templates</label>
 			<label index="updatePreviewTemplatesMessage">You have %s content elements based on this DCE. Rendering the double amount of fluid templates may take a while.</label>
@@ -82,6 +84,8 @@
 			<label index="tca">Dieses DCE besitzt Felder, die mit TCA-Spalten gemappt wurden.</label>
 			<label index="tcaplus">Dieses DCE besitzt Felder, die mit TCA-Spalten gemappt wurden. Darüberhinaus fügt es neue Spalten zum TCA und zur Datenbank hinzu.</label>
 			<label index="relatedContentElements">%s Inhaltselemente basierend auf diesem DCE gefunden.</label>
+			<label index="usage">Verwendung (CEs)</label>
+			<label index="fieldStats">Feldstatistiken</label>
 
 			<label index="updatePreviewTemplates">Aktualisiere Backend Vorschau Templates</label>
 			<label index="updatePreviewTemplatesMessage">Es gibt %i Inhaltselemente basierend auf diesem DCE. Das Rendern der doppelten Anzahl an Fluid-Templates kann einen Moment dauern.</label>
