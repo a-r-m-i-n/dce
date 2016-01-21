@@ -28,4 +28,20 @@ class DatabaseUtility
         }
         return $GLOBALS['TYPO3_DB'];
     }
+
+    /**
+     * Gets dce uid by content element uid
+     *
+     * @param int $uid of tt_content record
+     * @return int uid of DCE used for this content element
+     */
+    public static function getDceUidByContentElementUid($uid)
+    {
+        $contentElement = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
+            'CType',
+            'tt_content',
+            'uid = ' . $uid
+        );
+        return intval(substr($contentElement['CType'], strlen('dce_dceuid')));
+    }
 }

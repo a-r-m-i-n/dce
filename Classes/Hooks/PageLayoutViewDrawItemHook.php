@@ -6,6 +6,7 @@ namespace ArminVieweg\Dce\Hooks;
  *  |
  *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
+use ArminVieweg\Dce\Utility\DatabaseUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -38,7 +39,7 @@ class PageLayoutViewDrawItemHook implements \TYPO3\CMS\Backend\View\PageLayoutVi
         &$itemContent,
         array &$row
     ) {
-        $dceUid = $this->getDceUidByContentElementUid($row['uid']);
+        $dceUid = DatabaseUtility::getDceUidByContentElementUid($row['uid']);
         if ($dceUid === 0) {
             return;
         }
@@ -83,20 +84,6 @@ class PageLayoutViewDrawItemHook implements \TYPO3\CMS\Backend\View\PageLayoutVi
             $drawItem = false;
             $itemContent .= $parentObject->linkEditContent($row['bodytext'], $row) . '<br />';
         }
-    }
-
-    /**
-     * Gets dce uid by content element uid
-     *
-     * @param int $uid content element uid (tt_content)
-     * @return int Returns zero if it is no dce. Otherwise uid of dce
-     */
-    protected function getDceUidByContentElementUid($uid)
-    {
-        /** @var \TYPO3\CMS\Core\DataHandling\DataHandler $dataHandler */
-        $dataHandler = GeneralUtility::makeInstance('TYPO3\CMS\Core\DataHandling\DataHandler');
-        $cType = current($dataHandler->recordInfo('tt_content', $uid, 'CType'));
-        return intval(substr($cType, strlen('dce_dceuid')));
     }
 
     /**

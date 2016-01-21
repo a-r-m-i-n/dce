@@ -6,6 +6,7 @@ namespace ArminVieweg\Dce\Hooks;
  *  |
  *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
+use ArminVieweg\Dce\Utility\BackendPreviewTemplate;
 use ArminVieweg\Dce\Utility\DatabaseUtility;
 use ArminVieweg\Dce\Utility\FlashMessage;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
@@ -219,8 +220,6 @@ class AfterSaveHook
             if (!isset($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceImportInProgress'])) {
                 if (array_key_exists('hidden', $fieldArray) && $fieldArray['hidden'] == '1') {
                     $this->hideContentElementsBasedOnDce();
-                } else {
-                    $this->performPreviewAutoupdateBatchOnDceChange();
                 }
             }
         }
@@ -256,13 +255,17 @@ class AfterSaveHook
      */
     protected function performPreviewAutoupdateOnContentElementSave()
     {
-        $dceUid = $this->getDceUidByContentElementUid($this->uid);
-        $dceRow = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow('*', 'tx_dce_domain_model_dce', 'uid=' . $dceUid);
+        $dceUid = DatabaseUtility::getDceUidByContentElementUid($this->uid);
+        $dceRow = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
+            '*',
+            'tx_dce_domain_model_dce',
+            'uid=' . $dceUid
+        );
         if (isset($dceRow['use_simple_backend_view']) && $dceRow['use_simple_backend_view'] === '1') {
             return;
         }
         if (TYPO3_MODE === 'BE') {
-            $mergedFieldArray = array_merge($this->fieldArray, $this->generateDcePreview($this->uid));
+            $mergedFieldArray = array_merge($this->fieldArray, BackendPreviewTemplate::generateDcePreview($this->uid));
             $this->dataHandler->updateDB('tt_content', $this->uid, $mergedFieldArray);
         } else {
             // Preview texts can not created in frontend context
@@ -277,35 +280,6 @@ class AfterSaveHook
                     array(GeneralUtility::_GP('eID'))
                 ),
             )));
-        }
-    }
-
-    /**
-     * If this function has not been disabled in extension settings, it performs an update of all existing content
-     * elements, which based on DCE. The preview texts will be updated. This could become delicate if is existing a
-     * high amount of such elements.
-     *
-     * @return void
-     * @deprecated Remove whole fluid-based backend templating in further versions
-     */
-    protected function performPreviewAutoupdateBatchOnDceChange()
-    {
-        $dceRow = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow('*', 'tx_dce_domain_model_dce', 'uid=' . $this->uid);
-        if (isset($dceRow['use_simple_backend_view']) && $dceRow['use_simple_backend_view'] === '1') {
-            return;
-        }
-        $res = DatabaseUtility::getDatabaseConnection()->exec_SELECTquery(
-            'uid',
-            'tt_content',
-            'CType="dce_dceuid' . $this->uid . '" AND deleted=0'
-        );
-        while (($row = DatabaseUtility::getDatabaseConnection()->sql_fetch_assoc($res))) {
-            if (!$GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceImportInProgress']) {
-                $fieldArray = $this->generateDcePreview($row['uid']);
-                $this->dataHandler->updateDB('tt_content', $row['uid'], $fieldArray);
-            } else {
-                unset($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceImportInProgress']);
-            }
         }
     }
 
@@ -353,9 +327,10 @@ class AfterSaveHook
      */
     protected function generateDcePreview($uid)
     {
+
         $settings = array(
             'contentElementUid' => $uid,
-            'dceUid' => $this->getDceUidByContentElementUid($uid),
+            'dceUid' => DatabaseUtility::getDceUidByContentElementUid($uid),
         );
         return array(
             'header' => \ArminVieweg\Dce\Utility\Extbase::bootstrapControllerAction(
@@ -375,17 +350,6 @@ class AfterSaveHook
                 array_merge($settings, array('previewType' => 'bodytext'))
             ),
         );
-    }
-
-    /**
-     * Gets dce uid by content element uid
-     *
-     * @return int
-     */
-    protected function getDceUidByContentElementUid($uid)
-    {
-        $cType = current($this->dataHandler->recordInfo('tt_content', $uid, 'CType'));
-        return intval(substr($cType, strlen('dce_dceuid')));
     }
 
     /**
@@ -449,7 +413,7 @@ class AfterSaveHook
      */
     protected function saveFlexformValuesToTca()
     {
-        $dceUid = $this->getDceUidByContentElementUid($this->uid);
+        $dceUid = DatabaseUtility::getDceUidByContentElementUid($this->uid);
         $dceFieldsWithMapping = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
             '*',
             'tx_dce_domain_model_dcefield',
