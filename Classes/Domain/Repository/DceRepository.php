@@ -82,6 +82,21 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     }
 
     /**
+     * Returns content element rows based on given DCE object
+     *
+     * @param \ArminVieweg\Dce\Domain\Model\Dce $dce
+     * @return array|NULL
+     */
+    public function findContentElementsBasedOnDce(\ArminVieweg\Dce\Domain\Model\Dce $dce)
+    {
+        return DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
+            '*',
+            'tt_content',
+            'CType="dce_dceuid' . $dce->getUid() . '" AND deleted=0'
+        );
+    }
+
+    /**
      * Clones the fields of a dce separately, because cloning the dce just
      * refers the fields
      *

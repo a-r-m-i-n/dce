@@ -863,6 +863,22 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
+     * Returns true if this DCE has some actions which can be performed
+     *
+     * @return bool
+     */
+    public function getHasActions()
+    {
+        if (!$this->getUseSimpleBackendView()) {
+            return !$this->getHidden();
+        }
+        if ($this->getHasTcaMappings()) {
+            return !$this->getHidden();
+        }
+        return false;
+    }
+
+    /**
      * Magic PHP method.
      * Checks if called and not existing method begins with "get". If yes, extract the part behind the get.
      * If a method in $this exists which matches this part, it will be called. Otherwise it will be searched in

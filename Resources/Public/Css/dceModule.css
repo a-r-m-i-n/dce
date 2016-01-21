@@ -1,3 +1,8 @@
+.btn-primary {
+	background-color: #ed2448 !important;
+	border-color: #a02035 !important;
+}
+
 .typo3-fullDoc {
 	overflow-x: hidden;
 }
@@ -137,4 +142,14 @@ a.overlayLink {
 	height: 0;
 	line-height: 0;
 	font-size: 0;
+}
+
+.align-right .dropdown-menu {
+	right: 0;
+	left: auto;
+}
+
+a.disabled {
+	opacity: 0.4;
+	cursor: not-allowed;
 }

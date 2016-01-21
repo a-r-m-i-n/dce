@@ -24,7 +24,7 @@ class BackendPreviewTemplate
      * @param int $dceUid
      * @deprecated Remove whole fluid-based backend templating in further versions
      */
-    public function performPreviewAutoupdateBatchOnDceChange($dceUid)
+    public static function performPreviewAutoupdateBatchOnDceChange($dceUid)
     {
         $uid = (int) $dceUid;
         $dceRow = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
@@ -42,7 +42,7 @@ class BackendPreviewTemplate
             'CType="dce_dceuid' . $uid . '" AND deleted=0'
         );
         foreach ($rows as $row) {
-            $fieldArray = $this->generateDcePreview($row['uid']);
+            $fieldArray = static::generateDcePreview($row['uid']);
 
             DatabaseUtility::getDatabaseConnection()->exec_UPDATEquery(
                 'tt_content',

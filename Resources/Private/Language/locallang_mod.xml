@@ -29,6 +29,7 @@
 
 			<label index="caution">Caution!</label>
 			<label index="hideContentElementsBasedOnDce">%s content elements based on this DCE have been also disabled, to avoid errors in frontned. These content items will not get re-enabled automatically!</label>
+			<label index="ok">OK</label>
 			<label index="edit">Edit</label>
 			<label index="info">Info</label>
 			<label index="enabled">Enabled</label>
@@ -39,6 +40,15 @@
 			<label index="tca">This DCE has fields which are mapped with TCA columns.</label>
 			<label index="tcaplus">This DCE has fields which are mapped with TCA columns. Furthermore this DCE adds new columns to TCA and database!</label>
 			<label index="relatedContentElements">%s content elements existing, based on this DCE.</label>
+
+			<label index="updatePreviewTemplates">Update Backend Preview Templates</label>
+			<label index="updatePreviewTemplatesMessage">You have %s content elements based on this DCE. Rendering the double amount of fluid templates may take a while.</label>
+			<label index="updatePreviewTemplatesDone">Backend preview templates has been updated successfully.</label>
+			<label index="updateTcaMappings">Update TCA Mappings</label>
+			<label index="updateTcaMappingsMessage">You have %s content elements based on this DCE. Do you want to continue updating all TCA mappings?.</label>
+			<label index="updateTcaMappingsDone">TCA mappings has been updated successfully.</label>
+			<label index="updateOk">Okay, proceed!</label>
+			<label index="updateAbort">Cancel</label>
         </languageKey>
 
         <languageKey index="de" type="array">
@@ -72,6 +82,13 @@
 			<label index="tca">Dieses DCE besitzt Felder, die mit TCA-Spalten gemappt wurden.</label>
 			<label index="tcaplus">Dieses DCE besitzt Felder, die mit TCA-Spalten gemappt wurden. Darüberhinaus fügt es neue Spalten zum TCA und zur Datenbank hinzu.</label>
 			<label index="relatedContentElements">%s Inhaltselemente basierend auf diesem DCE gefunden.</label>
+
+			<label index="updatePreviewTemplates">Aktualisiere Backend Vorschau Templates</label>
+			<label index="updatePreviewTemplatesMessage">Es gibt %i Inhaltselemente basierend auf diesem DCE. Das Rendern der doppelten Anzahl an Fluid-Templates kann einen Moment dauern.</label>
+			<label index="updatePreviewTemplatesDone">Backend Vorschau Templates wurden erfolgreich aktualisiert.</label>
+			<label index="updateTcaMappings">Aktualisiere TCA Mappings</label>
+			<label index="updateOk">Okay, ausführen!</label>
+			<label index="updateAbort">Abbrechen</label>
         </languageKey>
     </data>
 </T3locallang>
