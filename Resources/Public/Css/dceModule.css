@@ -1,6 +1,13 @@
 .btn-primary {
 	background-color: #ed2448 !important;
 	border-color: #a02035 !important;
+	color: #fff !important;
+}
+
+.btn-secondary {
+	background-color: #666 !important;
+	border-color: #444 !important;
+	color: #fff !important;
 }
 
 .typo3-fullDoc {

@@ -5,7 +5,7 @@
 	<dce:be.includeCssFile path="{f:uri.resource(path:'Css/dceModule.css', extensionName: 'dce')}" />
 	<f:if condition="{dce:be.version.typo3(returnInt:'1')} < 7000000">
 		<dce:be.includeCssFile path="{f:uri.resource(path:'Css/Contrib/bootstrap.min.css', extensionName: 'dce')}" />
-		<dce:be.includeCssFile path="{f:uri.resource(path:'Css/Contrib/bootstrap-theme.min.css', extensionName: 'dce')}" />
+		<dce:be.includeJsFile path="{f:uri.resource(path:'JavaScript/Contrib/bootstrap.js', extensionName: 'dce')}" />
 		<dce:be.includeCssFile path="{f:uri.resource(path:'Css/dceModule62.css', extensionName: 'dce')}" />
 	</f:if>
 </f:section>
@@ -54,7 +54,7 @@
 			</div>
 		</div>
 		<div class="row space-bottom">
-			<div class="col-lg-8">
+			<div class="col-lg-10">
 				<table class="table table-striped">
 					<thead>
 						<tr>

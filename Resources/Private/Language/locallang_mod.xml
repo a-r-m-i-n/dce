@@ -47,7 +47,7 @@
 			<label index="updatePreviewTemplatesMessage">You have %s content elements based on this DCE. Rendering the double amount of fluid templates may take a while.</label>
 			<label index="updatePreviewTemplatesDone">Backend preview templates has been updated successfully.</label>
 			<label index="updateTcaMappings">Update TCA Mappings</label>
-			<label index="updateTcaMappingsMessage">You have %s content elements based on this DCE. Do you want to continue updating all TCA mappings?.</label>
+			<label index="updateTcaMappingsMessage">You have %s content elements based on this DCE. Do you want to continue updating all TCA mappings?</label>
 			<label index="updateTcaMappingsDone">TCA mappings has been updated successfully.</label>
 			<label index="updateOk">Okay, proceed!</label>
 			<label index="updateAbort">Cancel</label>
@@ -73,7 +73,7 @@
 			<label index="help.bitbucket">DCE auf Bitbucket</label>
 
 			<label index="caution">Achtung!</label>
-			<label index="hideContentElementsBasedOnDce">%i Inhaltselemente, welche auf diesem DCE basieren wurden ebenfalls deaktiviert um Fehlermeldungen im Frontend zu vermeiden. Die deaktivierten Inhaltselemente werden nicht automatisch wieder aktiviert.</label>
+			<label index="hideContentElementsBasedOnDce">%s Inhaltselemente, welche auf diesem DCE basieren wurden ebenfalls deaktiviert um Fehlermeldungen im Frontend zu vermeiden. Die deaktivierten Inhaltselemente werden nicht automatisch wieder aktiviert.</label>
 			<label index="edit">Bearbeiten</label>
 			<label index="info">Info</label>
 			<label index="enabled">Aktiv</label>
@@ -88,9 +88,11 @@
 			<label index="fieldStats">Feldstatistiken</label>
 
 			<label index="updatePreviewTemplates">Aktualisiere Backend Vorschau Templates</label>
-			<label index="updatePreviewTemplatesMessage">Es gibt %i Inhaltselemente basierend auf diesem DCE. Das Rendern der doppelten Anzahl an Fluid-Templates kann einen Moment dauern.</label>
+			<label index="updatePreviewTemplatesMessage">Es gibt %s Inhaltselemente basierend auf diesem DCE. Das Rendern der doppelten Anzahl an Fluid-Templates kann einen Moment dauern.</label>
 			<label index="updatePreviewTemplatesDone">Backend Vorschau Templates wurden erfolgreich aktualisiert.</label>
 			<label index="updateTcaMappings">Aktualisiere TCA Mappings</label>
+			<label index="updateTcaMappingsMessage">Es gibt %s Inhaltselemente basierend auf diesem DCE. Sollen die TCA Mappings der Inhaltselemente aktualisiert werden?</label>
+			<label index="updateTcaMappingsDone">TCA Mappings wurden erfolgreich aktualisiert.</label>
 			<label index="updateOk">Okay, ausführen!</label>
 			<label index="updateAbort">Abbrechen</label>
         </languageKey>

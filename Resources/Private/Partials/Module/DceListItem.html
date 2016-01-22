@@ -1,5 +1,4 @@
 {namespace dce=ArminVieweg\Dce\ViewHelpers}
-{namespace c=TYPO3\CMS\Core\ViewHelpers}
 <f:alias map="{lll: 'LLL:EXT:dce/Resources/Private/Language/locallang_mod.xml:'}">
     <tr class="{f:if(condition:'{dce.uid}', then:'db', else:'file')}">
         <td class="listEntry">
@@ -53,7 +52,7 @@
         </td>
         <td class="usage">
             <a href="{f:render(partial:'Module/DceInfoLink', arguments:'{dce:dce}')}" title="{f:translate(key:'{lll}relatedContentElements', arguments:'{0:\'{dce.relatedContentElementRows -> f:count()}\'}')}">
-                <c:icon identifier="content-textpic" size="small" />
+                <f:be.buttons.icon icon="mimetypes-x-content-text-picture" />
                 <span>{dce.relatedContentElementRows -> f:count()}</span>
             </a>
         </td>
@@ -87,8 +86,8 @@
                     </div>
                 </f:if>
                 <f:if condition="{dce.uid}">
-                    <f:then><a href="{f:render(partial:'Module/OpenDce', arguments:'{uid:\'{dce.uid}\'}')}" class="btn btn-primary"><span class="fa fa-edit"></span> {f:translate(key:'{lll}edit')}</a></f:then>
-                    <f:else><a href="{f:render(partial:'Module/OpenStaticDce', arguments:'{identifier:\'{dce.identifier}\'}')}" class="btn btn-primary"><span class="fa fa-edit"></span> {f:translate(key:'{lll}edit')}</a></f:else>
+                    <f:then><a href="{f:render(partial:'Module/OpenDce', arguments:'{uid:\'{dce.uid}\'}')}" class="btn btn-secondary"><span class="fa fa-edit"></span> {f:translate(key:'{lll}edit')}</a></f:then>
+                    <f:else><a href="{f:render(partial:'Module/OpenStaticDce', arguments:'{identifier:\'{dce.identifier}\'}')}" class="btn btn-secondary"><span class="fa fa-edit"></span> {f:translate(key:'{lll}edit')}</a></f:else>
                 </f:if>
             </div>
         </td>
