@@ -30,6 +30,7 @@ class TtContentLabel
             !empty($parameter['row']['header']) ||
             !$this->isDceContentElement($parameter['row'])
         ) {
+            $parameter['title'] = $parameter['row'][$GLOBALS['TCA']['tt_content']['ctrl']['label']];
             return;
         }
 
