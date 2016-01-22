@@ -39,6 +39,7 @@
 
 			<label index="chooseOption">Choose an option</label>
 			<label index="noMapping">Do not map field</label>
+			<label index="mapToIndexColumn">Map to index column (tx_dce_index, mediumtext)</label>
 			<label index="newcol">Create new column (in tt_content)</label>
 			<label index="chooseExistingField">Or choose an existing field</label>
 		</languageKey>
@@ -70,6 +71,7 @@
 			<label index="editDceOfThisContentElement">Bearbeite DCE (auf welchem dieses Inhaltselement basiert)</label>
 			<label index="chooseOption">Wähle eine Option</label>
 			<label index="noMapping">Feld nicht mappen</label>
+			<label index="mapToIndexColumn">Mappe auf Index-Spalte (tx_dce_index, mediumtext)</label>
 			<label index="newcol">Erstelle neue Spalte (in tt_content)</label>
 			<label index="chooseExistingField">Oder wähle ein bestehendes Feld</label>
 
