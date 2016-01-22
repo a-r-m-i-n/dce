@@ -210,7 +210,7 @@ class AfterSaveHook
 
         if ($table === 'tt_content' && $this->isDceContentElement($pObj)) {
             $this->checkAndUpdateDceRelationField();
-            \ArminVieweg\Dce\Utility\TcaMapper::saveFlexformValuesToTca($this->uid, $this->fieldArray['pi_flexform']);
+            \ArminVieweg\Dce\Utility\FlexformToTcaMapper::saveFlexformValuesToTca($this->uid, $this->fieldArray['pi_flexform']);
             if (!isset($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceImportInProgress'])) {
                 $this->performPreviewAutoupdateOnContentElementSave();
             }
