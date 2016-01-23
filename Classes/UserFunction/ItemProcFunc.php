@@ -70,13 +70,15 @@ class ItemProcFunc
             'tx_impexp_origuid',
             'l18n_diffsource',
             't3ver_label',
-            'tx_dce_dce'
+            'tx_dce_dce',
+            'tx_dce_index'
         );
         $tcaColumns = $GLOBALS['TCA']['tt_content']['columns'];
         $dbColumns = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->admin_get_fields('tt_content');
 
         $parameters['items'][] = array(LocalizationUtility::translate('chooseOption', 'dce'), '--div--');
         $parameters['items'][] = array(LocalizationUtility::translate('noMapping', 'dce'), '');
+        $parameters['items'][] = array(LocalizationUtility::translate('mapToIndexColumn', 'dce'), 'tx_dce_index');
         $parameters['items'][] = array(LocalizationUtility::translate('newcol', 'dce'), '*newcol');
         $parameters['items'][] = array(LocalizationUtility::translate('chooseExistingField', 'dce'), '--div--');
         foreach ($tcaColumns as $name => $column) {

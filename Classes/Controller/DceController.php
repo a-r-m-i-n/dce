@@ -62,7 +62,7 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
         /** @var $dce \ArminVieweg\Dce\Domain\Model\Dce */
         $dce = $this->dceRepository->findAndBuildOneByUid(
-            $this->dceRepository->extractUidFromCtype($config['pluginName']),
+            \ArminVieweg\Dce\Domain\Repository\DceRepository::extractUidFromCtype($config['pluginName']),
             $this->settings,
             $contentObject
         );

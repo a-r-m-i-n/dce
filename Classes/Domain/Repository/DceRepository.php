@@ -465,7 +465,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                 // Add field with tableName
                 $row['_table'] = $tableName;
 
-                $dceUid = $this->extractUidFromCtype($row['CType']);
+                $dceUid = static::extractUidFromCtype($row['CType']);
                 if ($dceUid !== false) {
                     $objects[] = $this->findAndBuildOneByUid(
                         $dceUid,

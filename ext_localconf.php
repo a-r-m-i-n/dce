@@ -41,6 +41,11 @@ $boot = function ($extensionKey) {
         'EXT:' . $extensionKey . '/Classes/Hooks/MakeEditFormAccessCheckHook.php:' .
         'ArminVieweg\\Dce\\Hooks\\MakeEditFormAccessCheckHook->checkAccess';
 
+    // Register ke_search hook to be able to index DCE frontend output
+    if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('ke_search')) {
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['ke_search']['modifyContentFromContentElement'][] =
+            'EXT:' . $extensionKey . '/Classes/Hooks/KeSearchHook.php:ArminVieweg\\Dce\\Hooks\\KeSearchHook';
+    }
 
     // DocHeader buttons hook
     if (\TYPO3\CMS\Core\Utility\GeneralUtility::compat_version('7.6')) {

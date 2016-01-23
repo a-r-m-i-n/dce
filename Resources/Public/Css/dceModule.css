@@ -161,8 +161,13 @@ a.disabled {
 	cursor: not-allowed;
 }
 
-.status span.label {
+.status span.label, .fieldStats span.label:first-child {
 	display: inline-block;
-	min-width: 65px;
+	min-width: 60px;
+	padding: 4px;
+}
+
+.fieldStats span.label {
+	display: inline-block;
 	padding: 4px;
 }

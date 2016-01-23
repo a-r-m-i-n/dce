@@ -23,6 +23,11 @@ $newTtContentColumns = array(
             'maxitems' => 1,
         ),
     ),
+    'tx_dce_index' => array(
+        'config' => array(
+            'type' => 'passthrough',
+        ),
+    ),
 );
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('tt_content', $newTtContentColumns);
