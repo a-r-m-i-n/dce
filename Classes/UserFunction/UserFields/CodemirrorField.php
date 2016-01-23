@@ -87,7 +87,7 @@ class CodemirrorField
                         $res2 = $db->sql_query('
 							SELECT title, variable
 							FROM tx_dce_domain_model_dcefield
-							WHERE deleted = 0  AND parent_field = ' . $row['uid'] . '
+							WHERE deleted=0 AND parent_field=' . $row['uid'] . '
 							ORDER BY sorting asc
 						');
 

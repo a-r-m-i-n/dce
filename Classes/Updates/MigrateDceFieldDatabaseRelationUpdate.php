@@ -151,7 +151,7 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
         return $this->getDatabaseConnection()->exec_SELECTgetRows(
             '*',
             'tx_dce_domain_model_dcefield',
-            'parent_dce = 0 AND parent_field = 0 AND deleted = 0'
+            'parent_dce=0 AND parent_field=0 AND deleted=0'
         );
     }
 

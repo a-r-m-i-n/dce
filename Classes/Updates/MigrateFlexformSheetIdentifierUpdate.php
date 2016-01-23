@@ -96,7 +96,7 @@ class MigrateFlexformSheetIdentifierUpdate extends AbstractUpdate
             $contentElements = $this->getDatabaseConnection()->exec_SELECTgetRows(
                 '*',
                 'tt_content',
-                'CType="dce_dceuid' . $dceUid . '" AND deleted = 0'
+                'CType="dce_dceuid' . $dceUid . '" AND deleted=0'
             );
             $this->storeLastQuery($dbQueries);
 

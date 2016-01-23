@@ -33,7 +33,7 @@ class MigrateOldNamespacesInFluidTemplateUpdate extends AbstractUpdate
      */
     public function checkForUpdate(&$description)
     {
-        $dceRows = $this->getDatabaseConnection()->exec_SELECTgetRows('*', 'tx_dce_domain_model_dce', 'deleted = 0');
+        $dceRows = $this->getDatabaseConnection()->exec_SELECTgetRows('*', 'tx_dce_domain_model_dce', 'deleted=0');
         $updateTemplates = 0;
         foreach ($dceRows as $dceRow) {
             // Frontend Template
@@ -124,7 +124,7 @@ class MigrateOldNamespacesInFluidTemplateUpdate extends AbstractUpdate
      */
     public function performUpdate(array &$dbQueries, &$customMessages)
     {
-        $dceRows = $this->getDatabaseConnection()->exec_SELECTgetRows('*', 'tx_dce_domain_model_dce', 'deleted = 0');
+        $dceRows = $this->getDatabaseConnection()->exec_SELECTgetRows('*', 'tx_dce_domain_model_dce', 'deleted=0');
         foreach ($dceRows as $dceRow) {
             // Frontend Template
             if ($dceRow['template_type'] === 'file') {
