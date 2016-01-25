@@ -93,7 +93,7 @@
 
 			<label index="tx_dce_domain_model_dce.useSimpleBackendView">Use simple backend view</label>
 			<label index="tx_dce_domain_model_dce.backendViewHeader">Header field (which field value should be used as header)</label>
-			<label index="tx_dce_domain_model_dce.backend_view_bodytext">Bodytext fields (which labels and values of fields should be listed in bodytext)</label>
+			<label index="tx_dce_domain_model_dce.backendViewBodytext">Bodytext fields (which labels and values of fields should be listed in bodytext)</label>
 
 			<label index="tx_dce_domain_model_dcefield">DCE Field</label>
 			<label index="tx_dce_domain_model_dcefield.hidden">Inactive</label>
@@ -176,7 +176,7 @@
 
 			<label index="tx_dce_domain_model_dce.useSimpleBackendView">Benutze einfache Backend-Ansicht</label>
 			<label index="tx_dce_domain_model_dce.backendViewHeader">Header-Feld (welcher Feldwert soll als Überschrift benutzt werden)</label>
-			<label index="tx_dce_domain_model_dce.backend_view_bodytext">Bodytext-Felder (welche Feldtitel und -werte sollen im Bodytext aufgelistet werden)</label>
+			<label index="tx_dce_domain_model_dce.backendViewBodytext">Bodytext-Felder (welche Feldtitel und -werte sollen im Bodytext aufgelistet werden)</label>
 
 			<label index="tx_dce_domain_model_dcefield">DCE Feld</label>
 			<label index="tx_dce_domain_model_dcefield.hidden">Inaktiv</label>
