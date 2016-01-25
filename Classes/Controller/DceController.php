@@ -4,7 +4,7 @@ namespace ArminVieweg\Dce\Controller;
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is
  *  | free software and is licensed under GNU General Public License.
  *  |
- *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -62,7 +62,7 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
         /** @var $dce \ArminVieweg\Dce\Domain\Model\Dce */
         $dce = $this->dceRepository->findAndBuildOneByUid(
-            $this->dceRepository->extractUidFromCtype($config['pluginName']),
+            \ArminVieweg\Dce\Domain\Repository\DceRepository::extractUidFromCtype($config['pluginName']),
             $this->settings,
             $contentObject
         );
@@ -102,6 +102,29 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     }
 
     /**
+     * Renders DCE with given values.
+     * If values are null, the values are read from $this->settings array.
+     *
+     * @param int|null $uid Uid of DCE
+     * @param int|null $contentElementUid Uid of content element (tt_content)
+     * @return string Serialized, (gz)compressed DCE model
+     */
+    public function renderDceAction($uid = null, $contentElementUid = null)
+    {
+        $uid = !is_null($uid) ? $uid : intval($this->settings['dceUid']);
+        $contentElementUid = !is_null($contentElementUid) ? $contentElementUid : $this->settings['contentElementUid'];
+        $contentObject = $this->getContentObject($contentElementUid);
+
+        $this->settings = $this->simulateContentElementSettings($this->settings['contentElementUid']);
+        $dce = $this->dceRepository->findAndBuildOneByUid(
+            $uid,
+            $this->settings,
+            $contentObject
+        );
+        return gzcompress(serialize($dce));
+    }
+
+    /**
      * Simulates content element settings, which is necessary in backend context
      *
      * @param int $contentElementUid
@@ -109,8 +132,12 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     protected function simulateContentElementSettings($contentElementUid)
     {
-        $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('pi_flexform', 'tt_content', 'uid = ' . $contentElementUid);
-        $flexform = GeneralUtility::xml2array(current($GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)));
+        $row = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
+            'pi_flexform',
+            'tt_content',
+            'uid = ' . (int) $contentElementUid
+        );
+        $flexform = GeneralUtility::xml2array($row['pi_flexform']);
 
         $this->temporaryDceProperties = array();
         if (is_array($flexform)) {
@@ -127,6 +154,10 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     protected function getContentObject($uid)
     {
-        return $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('*', 'tt_content', 'uid=' . $uid);
+        return \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
+            '*',
+            'tt_content',
+            'uid = ' . (int) $uid
+        );
     }
 }

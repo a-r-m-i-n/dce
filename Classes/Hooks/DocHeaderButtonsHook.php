@@ -4,7 +4,7 @@ namespace ArminVieweg\Dce\Hooks;
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is
  *  | free software and is licensed under GNU General Public License.
  *  |
- *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
@@ -31,7 +31,8 @@ class DocHeaderButtonsHook
         }
 
         $uidWithComma = current(array_keys($this->getEditGetParameters()));
-        if ($this->getEditGetParameters()[$uidWithComma] === 'edit') {
+        $editGetParameters = $this->getEditGetParameters();
+        if (is_array($editGetParameters) && $editGetParameters[$uidWithComma] === 'edit') {
             $contentItemUid = intval($uidWithComma);
 
             /** @var \TYPO3\CMS\Core\Imaging\IconFactory $iconFactory */
@@ -116,7 +117,8 @@ class DocHeaderButtonsHook
         }
 
         $uidWithComma = current(array_keys($this->getEditGetParameters()));
-        if ($this->getEditGetParameters()[$uidWithComma] === 'edit') {
+        $editGetParameters = $this->getEditGetParameters();
+        if (is_array($editGetParameters) && $editGetParameters[$uidWithComma] === 'edit') {
             $uid = intval($uidWithComma);
 
             /** @var $tceMain \TYPO3\CMS\Core\DataHandling\DataHandler */
@@ -163,7 +165,7 @@ class DocHeaderButtonsHook
         }
         $linkToDce = 'alt_doc.php?&returnUrl=' . $returnUrl . '&edit[tx_dce_domain_model_dce][' . $dceUid . ']=edit';
 
-        $pathToImage = ExtensionManagementUtility::extRelPath('dce') . 'Resources/Public/Icons/docheader_icon.png';
+        $pathToImage = ExtensionManagementUtility::extRelPath('dce') . 'Resources/Public/Icons/ext_icon.png';
         $titleTag = LocalizationUtility::translate('dcePopupButtonTitle', 'Dce');
 
         return '<div class="buttongroup"><a href="#" class="dcePopupButton" onclick="window.open(\'' . $linkToDce .

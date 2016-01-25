@@ -1,0 +1,40 @@
+{namespace dce=ArminVieweg\Dce\ViewHelpers}
+
+<f:layout name="Backend" />
+<f:section name="functions">
+	<dce:be.includeCssFile path="{f:uri.resource(path:'Css/dceModule.css', extensionName: 'dce')}" />
+	<f:if condition="{dce:be.version.typo3(returnInt:'1')} < 7000000">
+		<dce:be.includeCssFile path="{f:uri.resource(path:'Css/Contrib/bootstrap.min.css', extensionName: 'dce')}" />
+		<dce:be.includeCssFile path="{f:uri.resource(path:'Css/dceModule62.css', extensionName: 'dce')}" />
+	</f:if>
+</f:section>
+<f:section name="buttons">
+	<h4 class="dceHeader">
+		<f:image class="bg-pink bg-logo" src="{f:uri.resource(path:'Icons/ext_icon_white.png')}" alt="{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang_mod.xml:mlang_labels_tablabel')}" />
+		<span><f:translate key="LLL:EXT:dce/Resources/Private/Language/locallang_mod.xml:mlang_labels_tablabel" /></span>
+		<span class="dceVersion">{dce:be.version.dce()}</span>
+	</h4>
+</f:section>
+<f:section name="content">
+	<f:alias map="{lll: 'LLL:EXT:dce/Resources/Private/Language/locallang_mod.xml:'}">
+		<div class="row space-bottom">
+			<div class="col-lg-8">
+				<h4><f:translate key="{lll}updatePreviewTemplates" /></h4>
+				<f:if condition="{perform}">
+					<f:then>
+						<p><f:translate key="{lll}updatePreviewTemplatesDone" /></p>
+						<p><f:link.action action="index" class="btn btn-default">{f:translate(key:'{lll}back')}</f:link.action></p>
+					</f:then>
+					<f:else>
+						<f:form action="updatePreviewTemplates">
+							<f:form.hidden name="perform" value="1" />
+							<f:form.hidden name="dce" value="{dce}" />
+							<p><f:translate key="{lll}updatePreviewTemplatesMessage" arguments="{0: '{contentElements -> f:count()}'}" /></p>
+							<p><f:link.action action="index" class="btn btn-default">{f:translate(key:'{lll}updateAbort')}</f:link.action> <f:form.submit class="btn btn-primary" value="{f:translate(key:'{lll}updateOk')}" /></p>
+						</f:form>
+					</f:else>
+				</f:if>
+			</div>
+		</div>
+	</f:alias>
+</f:section>

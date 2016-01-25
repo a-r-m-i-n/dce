@@ -47,6 +47,7 @@
 
 			<label index="tx_dce_domain_model_dce">DCE</label>
 			<label index="tx_dce_domain_model_dce_long">Dynamic Content Elements</label>
+			<label index="tx_dce_domain_model_dce.hidden">Inactive</label>
 			<label index="tx_dce_domain_model_dce.type">Type</label>
 			<label index="tx_dce_domain_model_dce.type.databased">Database based</label>
 			<label index="tx_dce_domain_model_dce.type.filebased">File based</label>
@@ -54,12 +55,12 @@
 			<label index="tx_dce_domain_model_dce.title">Title</label>
 			<label index="tx_dce_domain_model_dce.category">Category</label>
 			<label index="tx_dce_domain_model_dce.fields">Fields</label>
-			<label index="tx_dce_domain_model_dce.wizard">Wizard</label>
+			<label index="tx_dce_domain_model_dce.wizard">Icon &amp; Wizard</label>
+			<label index="tx_dce_domain_model_dce.wizardIcon">DCE icon</label>
+			<label index="tx_dce_domain_model_dce.wizardCustomIcon">DCE custom icon (24x24 pixel)</label>
 			<label index="tx_dce_domain_model_dce.wizardEnable">Show DCE in content element Wizard</label>
 			<label index="tx_dce_domain_model_dce.wizardCategory">Wizard category</label>
 			<label index="tx_dce_domain_model_dce.wizardDescription">Wizard description</label>
-			<label index="tx_dce_domain_model_dce.wizardIcon">Wizard icon</label>
-			<label index="tx_dce_domain_model_dce.wizardCustomIcon">Wizard custom icon (24x24 pixel)</label>
 
 			<label index="tx_dce_domain_model_dce.template">Template</label>
 			<label index="tx_dce_domain_model_dce.templateType">Template type</label>
@@ -90,16 +91,27 @@
 			<label index="tx_dce_domain_model_dce.hideDefaultCeWrap">Disables the "div.csc-default" wrapping</label>
 			<label index="tx_dce_domain_model_dce.paletteFields">DCE palette fields</label>
 
+			<label index="tx_dce_domain_model_dce.useSimpleBackendView">Use simple backend view</label>
+			<label index="tx_dce_domain_model_dce.backendViewHeader">Header field (which field value should be used as header)</label>
+			<label index="tx_dce_domain_model_dce.backend_view_bodytext">Bodytext fields (which labels and values of fields should be listed in bodytext)</label>
+
 			<label index="tx_dce_domain_model_dcefield">DCE Field</label>
+			<label index="tx_dce_domain_model_dcefield.hidden">Inactive</label>
 			<label index="tx_dce_domain_model_dcefield.type">Type</label>
 			<label index="tx_dce_domain_model_dcefield.type.element">Element</label>
 			<label index="tx_dce_domain_model_dcefield.type.tab">Tab</label>
 			<label index="tx_dce_domain_model_dcefield.type.section">Section</label>
 			<label index="tx_dce_domain_model_dcefield.title">Title</label>
-			<label index="tx_dce_domain_model_dcefield.variable">Variable (unique key for usage in fluid template)</label>
+			<label index="tx_dce_domain_model_dcefield.variable">Variable (must be unique)</label>
 			<label index="tx_dce_domain_model_dcefield.configuration">Configuration</label>
+			<label index="tx_dce_domain_model_dcefield.mapTo">Map field value to TCA column</label>
+			<label index="tx_dce_domain_model_dcefield.newTcaFieldName">New TCA field name</label>
+			<label index="tx_dce_domain_model_dcefield.newTcaFieldType">New TCA field type</label>
+			<label index="tx_dce_domain_model_dcefield.newTcaFieldType.auto">Auto</label>
 			<label index="tx_dce_domain_model_dcefield.section_fields">Section fields</label>
 			<label index="tx_dce_domain_model_dcefield.section_fields_tag">Section fields tag (singular)</label>
+			<label index="tx_dce_domain_model_dcefield.parent_dce">Parent DCE</label>
+			<label index="tx_dce_domain_model_dcefield.parent_field">Parent field</label>
 
 			<label index="tx_dce_formeval_headline">Input '%s' not valid</label>
 			<label index="tx_dce_formeval_noLeadingNumber">The value may not start with numbers. Changed input from '%s' to '%s'.</label>
@@ -118,6 +130,7 @@
 
 			<label index="tx_dce_domain_model_dce">DCE</label>
 			<label index="tx_dce_domain_model_dce_long">Dynamische Content-Elemente</label>
+            <label index="tx_dce_domain_model_dce.hidden">Inaktiv</label>
             <label index="tx_dce_domain_model_dce.type">Typ</label>
 			<label index="tx_dce_domain_model_dce.type.databased">Datenbankbasiert</label>
 			<label index="tx_dce_domain_model_dce.type.filebased">Dateibasiert</label>
@@ -125,12 +138,12 @@
 			<label index="tx_dce_domain_model_dce.title">Titel</label>
 			<label index="tx_dce_domain_model_dce.category">Kategorie</label>
 			<label index="tx_dce_domain_model_dce.fields">Felder</label>
-			<label index="tx_dce_domain_model_dce.wizard">Wizard</label>
+			<label index="tx_dce_domain_model_dce.wizard">Icon &amp; Wizard</label>
+			<label index="tx_dce_domain_model_dce.wizardIcon">DCE Icon</label>
+			<label index="tx_dce_domain_model_dce.wizardCustomIcon">Benutzerdefiniertes DCE Icon (24x24 Pixel)</label>
 			<label index="tx_dce_domain_model_dce.wizardEnable">Zeige DCE in Wizard zum Anlegen neuer Content-Elemente</label>
 			<label index="tx_dce_domain_model_dce.wizardCategory">Wizard Kategorie</label>
 			<label index="tx_dce_domain_model_dce.wizardDescription">Wizard Beschreibung</label>
-			<label index="tx_dce_domain_model_dce.wizardIcon">Wizard Icon</label>
-			<label index="tx_dce_domain_model_dce.wizardCustomIcon">Wizard benutzerdefiniertes Icon (24x24 Pixel)</label>
 
 			<label index="tx_dce_domain_model_dce.template">Template</label>
 			<label index="tx_dce_domain_model_dce.templateType">Template-Typ</label>
@@ -161,16 +174,27 @@
 			<label index="tx_dce_domain_model_dce.hideDefaultCeWrap">Deaktiviere das "div.csc-default" Wrapping</label>
 			<label index="tx_dce_domain_model_dce.paletteFields">DCE Paletten-Felder</label>
 
+			<label index="tx_dce_domain_model_dce.useSimpleBackendView">Benutze einfache Backend-Ansicht</label>
+			<label index="tx_dce_domain_model_dce.backendViewHeader">Header-Feld (welcher Feldwert soll als Überschrift benutzt werden)</label>
+			<label index="tx_dce_domain_model_dce.backend_view_bodytext">Bodytext-Felder (welche Feldtitel und -werte sollen im Bodytext aufgelistet werden)</label>
+
 			<label index="tx_dce_domain_model_dcefield">DCE Feld</label>
+			<label index="tx_dce_domain_model_dcefield.hidden">Inaktiv</label>
 			<label index="tx_dce_domain_model_dcefield.type">Typ</label>
 			<label index="tx_dce_domain_model_dcefield.type.element">Element</label>
 			<label index="tx_dce_domain_model_dcefield.type.tab">Tab</label>
 			<label index="tx_dce_domain_model_dcefield.type.section">Sektion</label>
 			<label index="tx_dce_domain_model_dcefield.title">Titel</label>
-			<label index="tx_dce_domain_model_dcefield.variable">Variable (eindeutiger Schlüssel, wird im Fluid-Template verwendet)</label>
+			<label index="tx_dce_domain_model_dcefield.variable">Variable (muss eindeutig sein)</label>
 			<label index="tx_dce_domain_model_dcefield.configuration">Konfiguration</label>
+			<label index="tx_dce_domain_model_dcefield.mapTo">Binde Feldwert an TCA-Spalte</label>
+			<label index="tx_dce_domain_model_dcefield.newTcaFieldName">Neuer TCA-Feld-Name</label>
+			<label index="tx_dce_domain_model_dcefield.newTcaFieldType">Neuer TCA-Feld-Typ</label>
+			<label index="tx_dce_domain_model_dcefield.newTcaFieldType.auto">Auto</label>
 			<label index="tx_dce_domain_model_dcefield.section_fields">Sektionsfelder</label>
 			<label index="tx_dce_domain_model_dcefield.section_fields_tag">Sektionsfelder Bezeichnung (Einzahl)</label>
+			<label index="tx_dce_domain_model_dcefield.parent_dce">Eltern-DCE</label>
+			<label index="tx_dce_domain_model_dcefield.parent_field">Eltern-Field</label>
 
 			<label index="tx_dce_formeval_headline">Eingabe '%s' ungültig</label>
 			<label index="tx_dce_formeval_noLeadingNumber">Der Wert darf nicht mit Nummern beginnen. Eingabe wurde von '%s' nach '%s' geändert.</label>

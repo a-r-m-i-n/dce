@@ -4,7 +4,7 @@ namespace ArminVieweg\Dce\UserFunction\CustomLabels;
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is
  *  | free software and is licensed under GNU General Public License.
  *  |
- *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
 use ArminVieweg\Dce\Domain\Model\DceField;
 
@@ -29,9 +29,12 @@ class DceFieldLabel
      */
     public function getLabel(&$parameter)
     {
+        if (!isset($parameter['row']['variable']) || empty($parameter['row']['variable'])) {
+            $parameter['title'] = $GLOBALS['LANG']->sL($parameter['row']['title']);
+            return;
+        }
         if (!$this->isSectionChildField($parameter)) {
             if (!$this->isSectionField($parameter)) {
-                //\TYPO3\CMS\Core\Utility\DebugUtility::debug($parameter['row']['type'], 'Debug');
                 if ($this->isTab($parameter)) {
                     // Tab
                     $parameter['title'] = $GLOBALS['LANG']->sL($parameter['row']['title']);
@@ -47,8 +50,8 @@ class DceFieldLabel
             }
         } else {
             // Section child field
-            if (is_numeric($parameter['parent']['uid'])) {
-                $parentFieldRow = $this->getDceFieldRecordByUid($parameter['parent']['uid']);
+            if (is_numeric($parameter['row']['parent_field'])) {
+                $parentFieldRow = $this->getDceFieldRecordByUid($parameter['row']['parent_field']);
             } else {
                 $parentFieldRow = array('variable' => $parameter['parent']['uid']);
             }
@@ -78,7 +81,7 @@ class DceFieldLabel
      */
     protected function isSectionChildField($parameter)
     {
-        return $parameter['parent']['config']['MM'] === 'tx_dce_dcefield_sectionfields_mm';
+        return  !empty($parameter['row']['parent_field']);
     }
 
     /**
@@ -112,7 +115,7 @@ class DceFieldLabel
      */
     protected function getDceFieldRecordByUid($uid)
     {
-        return $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow(
+        return \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
             '*',
             'tx_dce_domain_model_dcefield',
             'uid=' . intval($uid)

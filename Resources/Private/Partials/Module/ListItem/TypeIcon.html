@@ -9,14 +9,16 @@
 			<c:icon identifier="{dce.selectedWizardIconPath}" size="default" />
 		</f:else>
 	</f:if>
-	<div class="overlay">
-		<f:if condition="{dce.type} == 0">
-			<f:then>
-				<f:image src="{f:uri.resource(path:'Icons/tx_dce_domain_model_dce_databased.png')}" />
-			</f:then>
-			<f:else>
-				<f:image src="{f:uri.resource(path:'Icons/tx_dce_domain_model_dce_filebased.png')}" />
-			</f:else>
-		</f:if>
-	</div>
+	<f:if condition="{dce.type} == 0">
+		<f:then>
+			<div class="overlay bg-pink">
+				<f:image src="{f:uri.resource(path:'Icons/ext_icon_white.png')}" />
+			</div>
+		</f:then>
+		<f:else>
+			<div class="overlay bg-azure">
+				<f:image src="{f:uri.resource(path:'Icons/ext_icon_white.png')}" />
+			</div>
+		</f:else>
+	</f:if>
 </div>

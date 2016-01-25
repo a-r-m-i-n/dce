@@ -4,7 +4,7 @@ namespace ArminVieweg\Dce\Utility;
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is
  *  | free software and is licensed under GNU General Public License.
  *  |
- *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
 
 /**
@@ -31,5 +31,7 @@ class ForbiddenUtility
     {
         $_POST['tx_dce_tools_dcedcemodule']['controller'] = $controller;
         $_POST['tx_dce_tools_dcedcemodule']['action'] = $action;
+        $_POST['tx_dce_dce']['controller'] = $controller;
+        $_POST['tx_dce_dce']['action'] = $action;
     }
 }

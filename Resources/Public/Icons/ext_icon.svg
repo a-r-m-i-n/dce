@@ -1,0 +1,45 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+<title>DCE Icon</title>
+<g
+ fill="none"
+ fill-rule="evenodd"
+ id="g4140">
+<path
+   d="M0 0h64v64H0z"
+   fill="#CA6434"
+   id="path4142"
+   style="fill:#ed2448;fill-opacity:1" />
+<g
+   id="g4174"
+   transform="matrix(2,0,0,2,16.067599,13.969698)">
+  <rect
+     y="1.5136913"
+     x="0.46474075"
+     height="14.002919"
+     width="15.002919"
+     id="rect4154"
+     style="fill:#ffffff;fill-opacity:0;stroke:#ffffff;stroke-width:0.99708056;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+  <rect
+     y="3.503686"
+     x="2.503686"
+     height="2.9926281"
+     width="10.992627"
+     id="rect4160"
+     style="fill:#5c5c5c;fill-opacity:0;stroke:#ffffff;stroke-width:1.00737202;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+  <rect
+     y="8.4437227"
+     x="2.4437227"
+     height="5.1125546"
+     width="3.1125543"
+     id="rect4162"
+     style="fill:#5c5c5c;fill-opacity:0;stroke:#ffffff;stroke-width:0.88744557;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+  <rect
+     y="8.5030909"
+     x="7.3030915"
+     height="4.9938169"
+     width="6.1938167"
+     id="rect4164"
+     style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:1.00618327;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+</g>
+</g>
+</svg>

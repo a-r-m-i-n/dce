@@ -3,11 +3,11 @@
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is
  *  | free software and is licensed under GNU General Public License.
  *  |
- *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
 
 if (!defined('TYPO3_MODE')) {
-    die ('Access denied.');
+    die('Access denied.');
 }
 
 $newTtContentColumns = array(
@@ -23,6 +23,16 @@ $newTtContentColumns = array(
             'maxitems' => 1,
         ),
     ),
+    'tx_dce_index' => array(
+        'config' => array(
+            'type' => 'passthrough',
+        ),
+    ),
 );
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('tt_content', $newTtContentColumns);
+
+if (!isset($GLOBALS['TCA']['tt_content']['ctrl']['label_userFunc'])) {
+    $GLOBALS['TCA']['tt_content']['ctrl']['label_userFunc'] =
+        'ArminVieweg\Dce\UserFunction\CustomLabels\TtContentLabel->getLabel';
+}

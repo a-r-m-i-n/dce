@@ -4,7 +4,7 @@ namespace ArminVieweg\Dce\Domain\Model;
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is
  *  | free software and is licensed under GNU General Public License.
  *  |
- *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
 use ArminVieweg\Dce\Utility\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -35,6 +35,16 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var array Cache for fluid instances
      */
     static protected $fluidTemplateCache = array();
+
+    /**
+     * @var array Cache for DceFields
+     */
+    static protected $fieldsCache = array();
+
+    /**
+     * @var array Cache for content element rows
+     */
+    static protected $contentElementRowsCache = array();
 
     /** @var array database field names of columns for different types of templates */
     protected $templateFields = array(
@@ -88,6 +98,15 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     /** @var string */
     protected $templatePartialRootPath = '';
+
+    /** @var bool */
+    protected $useSimpleBackendView = false;
+
+    /** @var string */
+    protected $backendViewHeader = '';
+
+    /** @var string */
+    protected $backendViewBodytext = '';
 
     /** @var string */
     protected $previewTemplateType = '';
@@ -293,7 +312,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Gets objectStorage with fields
      *
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<DceField>
+     * @return DceField[]
      */
     public function getFields()
     {
@@ -331,6 +350,89 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function removeField(\ArminVieweg\Dce\Domain\Model\DceField $fieldToRemove)
     {
         $this->fields->detach($fieldToRemove);
+    }
+
+    /**
+     * Get UseSimpleBackendView
+     *
+     * @return boolean
+     */
+    public function getUseSimpleBackendView()
+    {
+        return $this->useSimpleBackendView;
+    }
+
+    /**
+     * Get UseSimpleBackendView
+     *
+     * @return boolean
+     */
+    public function isUseSimpleBackendView()
+    {
+        return $this->useSimpleBackendView;
+    }
+
+    /**
+     * Set UseSimpleBackendView
+     *
+     * @param boolean $useSimpleBackendView
+     * @return void
+     */
+    public function setUseSimpleBackendView($useSimpleBackendView)
+    {
+        $this->useSimpleBackendView = $useSimpleBackendView;
+    }
+
+    /**
+     * Get BackendViewHeader
+     *
+     * @return string
+     */
+    public function getBackendViewHeader()
+    {
+        return $this->backendViewHeader;
+    }
+
+    /**
+     * Set BackendViewHeader
+     *
+     * @param string $backendViewHeader
+     * @return void
+     */
+    public function setBackendViewHeader($backendViewHeader)
+    {
+        $this->backendViewHeader = $backendViewHeader;
+    }
+
+    /**
+     * Get BackendViewBodytext
+     *
+     * @return string
+     */
+    public function getBackendViewBodytext()
+    {
+        return $this->backendViewBodytext;
+    }
+
+    /**
+     * Get BackendViewBodytext as array
+     *
+     * @return array
+     */
+    public function getBackendViewBodytextArray()
+    {
+        return GeneralUtility::trimExplode(',', $this->getBackendViewBodytext(), true);
+    }
+
+    /**
+     * Set BackendViewBodytext
+     *
+     * @param string $backendViewBodytext
+     * @return void
+     */
+    public function setBackendViewBodytext($backendViewBodytext)
+    {
+        $this->backendViewBodytext = $backendViewBodytext;
     }
 
     /**
@@ -610,7 +712,6 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getFieldByVariable($variable)
     {
-        /** @var $field DceField */
         foreach ($this->getFields() as $field) {
             if ($field->getVariable() === $variable) {
                 return $field;
@@ -702,6 +803,9 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     protected function getFieldsAsArray()
     {
+        if (array_key_exists($this->getUid(), static::$fieldsCache)) {
+            return static::$fieldsCache[$this->getUid()];
+        }
         $fields = array();
         /** @var $field \ArminVieweg\Dce\Domain\Model\DceField */
         foreach ($this->getFields() as $field) {
@@ -709,7 +813,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
                 continue;
             }
             if ($field->hasSectionFields()) {
-                /**    @var $sectionField \ArminVieweg\Dce\Domain\Model\DceField */
+                /** @var $sectionField \ArminVieweg\Dce\Domain\Model\DceField */
                 foreach ($field->getSectionFields() as $sectionField) {
                     $sectionFieldValues = $sectionField->getValue();
                     if (is_array($sectionFieldValues)) {
@@ -722,7 +826,56 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
                 $fields[$field->getVariable()] = $field->getValue();
             }
         }
+        static::$fieldsCache[$this->getUid()] = $fields;
         return $fields;
+    }
+
+    /**
+     * Checks if this DCE has fields, which map their values to TCA columns
+     *
+     * @return bool
+     */
+    public function getHasTcaMappings()
+    {
+        /** @var DceField $field */
+        foreach ($this->getFields() as $field) {
+            if (!empty($field->getMapTo())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Checks if this DCE adds new fields to TCA of tt_content
+     *
+     * @return bool
+     */
+    public function getAddsNewFieldsToTca()
+    {
+        /** @var DceField $field */
+        foreach ($this->getFields() as $field) {
+            if ($field->getMapTo() === '*newcol' && !empty($field->getNewTcaFieldName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Returns true if this DCE has some actions which can be performed
+     *
+     * @return bool
+     */
+    public function getHasActions()
+    {
+        if (!$this->getUseSimpleBackendView()) {
+            return !$this->getHidden();
+        }
+        if ($this->getHasTcaMappings()) {
+            return !$this->getHidden();
+        }
+        return false;
     }
 
     /**
@@ -802,5 +955,28 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
         self::$fluidTemplateCache[$this->getUid()][$templateType] = $fluidTemplate;
         return $fluidTemplate;
+    }
+
+    /**
+     * Get content element rows based on this DCE
+     *
+     * @return array|NULL
+     */
+    public function getRelatedContentElementRows()
+    {
+        if (array_key_exists($this->getUid(), static::$fieldsCache)) {
+            return static::$fieldsCache[$this->getUid()];
+        }
+        $rows = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
+            '*',
+            'tt_content',
+            'CType="dce_dceuid' . $this->getUid() . '" AND deleted=0',
+            '',
+            '',
+            '',
+            'uid'
+        );
+        static::$fieldsCache[$this->getUid()] = $rows;
+        return $rows;
     }
 }

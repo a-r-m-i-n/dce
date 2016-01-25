@@ -4,7 +4,7 @@ namespace ArminVieweg\Dce\Controller;
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is
  *  | free software and is licensed under GNU General Public License.
  *  |
- *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
 use ArminVieweg\Dce\Utility\File;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
@@ -37,6 +37,43 @@ class DceModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
 
         $this->view->assign('dces', $this->dceRepository->findAllAndStatics(true));
         $this->view->assign('enableUpdateCheck', $enableUpdateCheck);
+    }
+
+    /**
+     * @param \ArminVieweg\Dce\Domain\Model\Dce $dce
+     * @param bool $perform
+     * @return void
+     */
+    public function updatePreviewTemplatesAction(\ArminVieweg\Dce\Domain\Model\Dce $dce, $perform = false)
+    {
+        $contentElements = $this->dceRepository->findContentElementsBasedOnDce($dce);
+        $this->view->assign('contentElements', $contentElements);
+        $this->view->assign('dce', $dce);
+        if ($perform) {
+            \ArminVieweg\Dce\Utility\BackendPreviewTemplate::performPreviewAutoupdateBatchOnDceChange($dce->getUid());
+            $this->view->assign('perform', true);
+        }
+    }
+
+    /**
+     * @param \ArminVieweg\Dce\Domain\Model\Dce $dce
+     * @param bool $perform
+     * @return void
+     */
+    public function updateTcaMappingsAction(\ArminVieweg\Dce\Domain\Model\Dce $dce, $perform = false)
+    {
+        $contentElements = $this->dceRepository->findContentElementsBasedOnDce($dce);
+        $this->view->assign('contentElements', $contentElements);
+        $this->view->assign('dce', $dce);
+        if ($perform) {
+            foreach ($contentElements as $contentElement) {
+                \ArminVieweg\Dce\Utility\FlexformToTcaMapper::saveFlexformValuesToTca(
+                    $contentElement['uid'],
+                    $contentElement['pi_flexform']
+                );
+            }
+            $this->view->assign('perform', true);
+        }
     }
 
     /**

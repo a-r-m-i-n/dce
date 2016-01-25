@@ -85,15 +85,14 @@ and other classes that are directly involved, in a simple representation. Extbas
 Database structure
 ^^^^^^^^^^^^^^^^^^
 
-During the installation of the DCE extension three tables are automatically created:
+During the installation of the DCE extension two tables are automatically created:
 
 1. tx_dce_domain_model_dce
 2. tx_dce_domain_model_dcefield
-3. tx_dce_dce_dcefield_mm
 
-The first two tables corresponds with the domain models of the class diagram. This is a standard of Extbase.
+They correspond with the domain models of the class diagram. This is a standard of Extbase.
 
-The 3rd "mm" table is used as a connector between DCEs and DCE fields. Here uid_local is the uid of the DCE and uid_foreign is the uid of the DCE field. This is also a standard of Extbase.
+Instead of MM-tables DCE uses the "parent_dce" and "parent_field" field to map fields to dces and to other fields (for section fields).
 
 .. image:: ../Images/AdministratorManual/databaseStructure.png
 	:alt: Database structure

@@ -1,3 +1,15 @@
+.btn-primary {
+	background-color: #ed2448 !important;
+	border-color: #a02035 !important;
+	color: #fff !important;
+}
+
+.btn-secondary {
+	background-color: #666 !important;
+	border-color: #444 !important;
+	color: #fff !important;
+}
+
 .typo3-fullDoc {
 	overflow-x: hidden;
 }
@@ -20,11 +32,12 @@
 
 h4.dceHeader {
 	font-family: Share, Verdana, Arial, Helvetica, sans-serif;
-	font-size: 21px;
+	font-size: 20px;
 }
 
 h4.dceHeader img {
 	vertical-align: baseline;
+	margin-bottom: -1px;
 }
 
 div.nav-group {
@@ -51,6 +64,21 @@ div.nav-group {
 	position: absolute;
 	right: -6px;
 	bottom: -3px;
+	line-height: 0;
+	border-radius: 2px;
+}
+
+.bg-pink {
+	background: #ed2448;
+}
+
+.bg-azure {
+	background: #2f749d;
+}
+
+.bg-logo {
+	border-radius: 2px;
+	line-height: 0;
 }
 
 .dceLabel {
@@ -75,7 +103,7 @@ a.overlayLink {
 }
 
 .label-darker {
-	background-color: #aaa;
+	background-color: #777 !important;
 }
 
 .form-inline {
@@ -121,4 +149,25 @@ a.overlayLink {
 	height: 0;
 	line-height: 0;
 	font-size: 0;
+}
+
+.align-right .dropdown-menu {
+	right: 0;
+	left: auto;
+}
+
+a.disabled {
+	opacity: 0.4;
+	cursor: not-allowed;
+}
+
+.status span.label, .fieldStats span.label:first-child {
+	display: inline-block;
+	min-width: 60px;
+	padding: 4px;
+}
+
+.fieldStats span.label {
+	display: inline-block;
+	padding: 4px;
 }

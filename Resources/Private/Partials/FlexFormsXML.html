@@ -7,7 +7,7 @@
 			</meta>
 			<sheets>
 				<f:for each="{dce.tabs}" as="tab" iteration="iterator">
-					<sheet{iterator.index}>
+					<sheet.{tab.variable}>
 						<ROOT>
 							<TCEforms>
 								<sheetTitle>{tab.title}</sheetTitle>
@@ -57,7 +57,7 @@
 								</f:for>
 							</el>
 						</ROOT>
-					</sheet{iterator.index}>
+					</sheet.{tab.variable}>
 				</f:for>
 			</sheets>
 		</T3DataStructure>
