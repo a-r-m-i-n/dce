@@ -43,6 +43,7 @@
 			<label index="usage">Usage (CEs)</label>
 			<label index="fieldStats">Field statistics</label>
 
+			<label index="actions">Actions</label>
 			<label index="updatePreviewTemplates">Update Backend Preview Templates</label>
 			<label index="updatePreviewTemplatesMessage">You have %s content elements based on this DCE. Rendering the double amount of fluid templates may take a while.</label>
 			<label index="updatePreviewTemplatesDone">Backend preview templates has been updated successfully.</label>
@@ -87,6 +88,7 @@
 			<label index="usage">Verwendung (CEs)</label>
 			<label index="fieldStats">Feldstatistiken</label>
 
+			<label index="actions">Aktionen</label>
 			<label index="updatePreviewTemplates">Aktualisiere Backend Vorschau Templates</label>
 			<label index="updatePreviewTemplatesMessage">Es gibt %s Inhaltselemente basierend auf diesem DCE. Das Rendern der doppelten Anzahl an Fluid-Templates kann einen Moment dauern.</label>
 			<label index="updatePreviewTemplatesDone">Backend Vorschau Templates wurden erfolgreich aktualisiert.</label>
