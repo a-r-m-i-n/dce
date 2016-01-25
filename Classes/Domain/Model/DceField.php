@@ -255,7 +255,7 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<DceField>
+     * @return DceField[]
      */
     public function getSectionFields()
     {
