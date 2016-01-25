@@ -310,14 +310,6 @@ Use this ViewHelper if you want to wrap something with curly braces {}. Availabl
 
 	<dce:format.wrapWithCurlyBraces prepend="" append="">{field.myVariable}</dce:format.wrapWithCurlyBraces>
 
-**dce:image**
-
-DEPRECATED! Will be removed in DCE version 1.2.
-
-**dce:uri.image**
-
-DEPRECATED! Will be removed in DCE version 1.2.
-
 
 **dce:isArray**
 
