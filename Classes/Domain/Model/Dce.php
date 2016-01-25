@@ -855,7 +855,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         /** @var DceField $field */
         foreach ($this->getFields() as $field) {
-            if (!empty($field->getNewTcaFieldName())) {
+            if ($field->getMapTo() === '*newcol' && !empty($field->getNewTcaFieldName())) {
                 return true;
             }
         }
