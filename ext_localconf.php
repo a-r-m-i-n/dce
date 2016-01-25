@@ -3,11 +3,11 @@
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is
  *  | free software and is licensed under GNU General Public License.
  *  |
- *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
 
 if (!defined('TYPO3_MODE')) {
-    die ('Access denied.');
+    die('Access denied.');
 }
 
 $boot = function ($extensionKey) {
@@ -41,6 +41,11 @@ $boot = function ($extensionKey) {
         'EXT:' . $extensionKey . '/Classes/Hooks/MakeEditFormAccessCheckHook.php:' .
         'ArminVieweg\\Dce\\Hooks\\MakeEditFormAccessCheckHook->checkAccess';
 
+    // Register ke_search hook to be able to index DCE frontend output
+    if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('ke_search')) {
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['ke_search']['modifyContentFromContentElement'][] =
+            'EXT:' . $extensionKey . '/Classes/Hooks/KeSearchHook.php:ArminVieweg\\Dce\\Hooks\\KeSearchHook';
+    }
 
     // DocHeader buttons hook
     if (\TYPO3\CMS\Core\Utility\GeneralUtility::compat_version('7.6')) {
@@ -78,6 +83,43 @@ $boot = function ($extensionKey) {
     ['ArminVieweg\Dce\UserFunction\CustomFieldValidation\\NoLeadingNumberValidator'] =
         'EXT:dce/Classes/UserFunction/CustomFieldValidation/NoLeadingNumberValidator.php';
 
+
+    // Update Scripts
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceMigrateOldNamespacesInFluidTemplateUpdate'] =
+        'ArminVieweg\Dce\Updates\MigrateOldNamespacesInFluidTemplateUpdate';
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceMigrateDceFieldDatabaseRelationUpdate'] =
+        'ArminVieweg\Dce\Updates\MigrateDceFieldDatabaseRelationUpdate';
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceMigrateFlexformSheetIdentifierUpdate'] =
+        'ArminVieweg\Dce\Updates\MigrateFlexformSheetIdentifierUpdate';
+
+
+    // Slot to extend SQL tables definitions
+    /** @var \TYPO3\CMS\Extbase\SignalSlot\Dispatcher $signalSlotDispatcher */
+    $signalSlotDispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+        'TYPO3\\CMS\\Extbase\\SignalSlot\\Dispatcher'
+    );
+    $signalSlotDispatcher->connect(
+        'TYPO3\CMS\Install\Service\SqlExpectedSchemaService',
+        'tablesDefinitionIsBeingBuilt',
+        'ArminVieweg\Dce\Slots\TablesDefinitionIsBeingBuiltSlot',
+        'extendTtContentTable'
+    );
+
+
+    // Register Plugin to get Dce instance
+    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+        'ArminVieweg.' . $extensionKey,
+        'Dce',
+        array(
+            'Dce' => 'renderDce'
+        ),
+        array(
+            'Dce' => 'renderDce'
+        )
+    );
+
+    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['extbase']['extensions']['Dce']['modules']
+        = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['extbase']['extensions']['Dce']['plugins'];
 
     // Include cached ext_localconf
     if (!\ArminVieweg\Dce\Cache::cacheExists(\ArminVieweg\Dce\Cache::CACHE_TYPE_EXTLOCALCONF)) {

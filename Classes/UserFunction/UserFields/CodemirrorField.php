@@ -4,7 +4,7 @@ namespace ArminVieweg\Dce\UserFunction\UserFields;
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is
  *  | free software and is licensed under GNU General Public License.
  *  |
- *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -72,7 +72,8 @@ class CodemirrorField
 
         $rowFields = $this->parameter['row']['fields'];
         if (!empty($rowFields)) {
-            $rows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+            $db = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection();
+            $rows = $db->exec_SELECTgetRows(
                 '*',
                 'tx_dce_domain_model_dcefield',
                 'hidden=0 AND deleted=0 AND pid=0 AND (type=0 OR type=2) AND uid IN (' . $rowFields . ')',
@@ -83,19 +84,15 @@ class CodemirrorField
             if (is_array($rows)) {
                 foreach ($rows as $row) {
                     if ($row['type'] === '2') {
-                        $res2 = $GLOBALS['TYPO3_DB']->sql_query('
+                        $res2 = $db->sql_query('
 							SELECT title, variable
-
 							FROM tx_dce_domain_model_dcefield
-							JOIN tx_dce_dcefield_sectionfields_mm
-							ON uid = uid_foreign
-
-							WHERE deleted = 0  AND uid_local = ' . $row['uid'] . '
+							WHERE deleted=0 AND parent_field=' . $row['uid'] . '
 							ORDER BY sorting asc
 						');
 
                         $sectionFields = array();
-                        while (($row2 = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res2))) {
+                        while (($row2 = $db->sql_fetch_assoc($res2))) {
                             $sectionFields[] = $row2;
                         }
                         $row['hasSectionFields'] = true;

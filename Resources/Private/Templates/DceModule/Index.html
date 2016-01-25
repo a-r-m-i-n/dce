@@ -5,13 +5,13 @@
 	<dce:be.includeCssFile path="{f:uri.resource(path:'Css/dceModule.css', extensionName: 'dce')}" />
 	<f:if condition="{dce:be.version.typo3(returnInt:'1')} < 7000000">
 		<dce:be.includeCssFile path="{f:uri.resource(path:'Css/Contrib/bootstrap.min.css', extensionName: 'dce')}" />
-		<dce:be.includeCssFile path="{f:uri.resource(path:'Css/Contrib/bootstrap-theme.min.css', extensionName: 'dce')}" />
+		<dce:be.includeJsFile path="{f:uri.resource(path:'JavaScript/Contrib/bootstrap.js', extensionName: 'dce')}" />
 		<dce:be.includeCssFile path="{f:uri.resource(path:'Css/dceModule62.css', extensionName: 'dce')}" />
 	</f:if>
 </f:section>
 <f:section name="buttons">
 	<h4 class="dceHeader">
-		<f:image src="{f:uri.resource(path:'Icons/tx_dce_domain_model_dce_databased.png')}" alt="{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang_mod.xml:mlang_labels_tablabel')}" />
+		<f:image class="bg-pink bg-logo" src="{f:uri.resource(path:'Icons/ext_icon_white.png')}" alt="{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang_mod.xml:mlang_labels_tablabel')}" />
 		<span><f:translate key="LLL:EXT:dce/Resources/Private/Language/locallang_mod.xml:mlang_labels_tablabel" /></span>
 		<span class="dceVersion">{dce:be.version.dce()}</span>
 	</h4>
@@ -21,7 +21,7 @@
 		<div class="row space-bottom">
 			<div class="col-lg-12">
 				<div class="nav-group">
-					<a href="{f:render(partial:'Module/NewDceLink')}" class="btn btn-success">{f:translate(key:'{lll}createNewDce')}</a>
+					<a href="{f:render(partial:'Module/NewDceLink')}" class="btn btn-primary">{f:translate(key:'{lll}createNewDce')}</a>
 					<a href="{f:uri.page(additionalParams:'{M:\'web_list\', id:\'0\', table:\'tx_dce_domain_model_dce\', imagemode:\'1\'}')}" class="btn btn-default">{f:translate(key:'{lll}goToListView')}</a>
 				</div>
 
@@ -54,12 +54,15 @@
 			</div>
 		</div>
 		<div class="row space-bottom">
-			<div class="col-lg-8">
+			<div class="col-lg-10">
 				<table class="table table-striped">
 					<thead>
 						<tr>
 							<th>DCEs</th>
 							<th>Status</th>
+							<th>UID</th>
+							<th>{f:translate(key:'{lll}usage')}</th>
+							<th>{f:translate(key:'{lll}fieldStats')}</th>
 							<th></th>
 						</tr>
 					</thead>

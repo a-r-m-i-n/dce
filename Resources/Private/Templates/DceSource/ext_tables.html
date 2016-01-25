@@ -5,14 +5,44 @@ $GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'][] = array(
 	1 => '--div--'
 );
 
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('tt_content', array(
+<f:for each="{dceFieldsWithNewTcaColumns}" as="dceField">
+	'{dceField.new_tca_field_name}' => array('label' => '', 'config' => array('type' => 'passthrough')),
+</f:for>
+));
 <f:for each="{dceArray}" as="dce">
 <f:if condition="{dce.hidden} == 0">
 	///////////////////////////////////////////////////// {f:if(condition:"{dce.uid}", then:"uid: {dce.uid}", else:"identifier: {dce.identifier}")} ///
+	<f:if condition="{dce:be.version.typo3(returnInt:'1')} < 7006000">
+		<f:then>
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
 	'ArminVieweg.dce',
 	'{f:if(condition:"{dce.uid}", then:"dceuid{dce.uid}", else:"dce_{dce.identifier}")}',
-	'{dce.title -> dce:format.addcslashes()}'
+	'{dce.title -> dce:format.addcslashes()}',
+	''
 );
+		</f:then>
+		<f:else>
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTcaSelectItem(
+	'tt_content',
+	'CType',
+	array(
+		'{dce.title -> dce:format.addcslashes()}',
+		'{f:if(condition:"{dce.uid}", then:"dce_dceuid{dce.uid}", else:"dce_{dce.identifier}")}',
+		'<f:if condition="{dce.hasCustomWizardIcon}"><f:then>ext-dce-dceuid{dce.uid}-customwizardicon</f:then><f:else>{dce:be.contentElementWizardIconPath()}{dce.wizard_icon}</f:else></f:if>'
+	)
+);
+		</f:else>
+	</f:if>
+
+<f:if condition="{dce:be.version.typo3(returnInt:'1')} >= 7006000">
+	<f:then>
+		$GLOBALS['TCA']['tt_content']['ctrl']['typeicon_classes']['{f:if(condition:"{dce.uid}", then:"dce_dceuid{dce.uid}", else:"dce_{dce.identifier}")}'] =
+		'<f:if condition="{dce.hasCustomWizardIcon}"><f:then>ext-dce-dceuid{dce.uid}-customwizardicon</f:then><f:else>{dce:be.contentElementWizardIconPath()}{dce.wizard_icon}</f:else></f:if>';
+	</f:then>
+	<f:else>
+	</f:else>
+</f:if>
 
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['dce_{f:if(condition:"{dce.uid}", then:"dceuid{dce.uid}", else:"dce_{dce.identifier}")}'] = 'pi_flexform';
 $GLOBALS['TCA']['tt_content']['columns']['pi_flexform']['config']['ds'][',dce_{f:if(condition:"{dce.uid}", then:"dceuid{dce.uid}", else:"dce_{dce.identifier}")}'] = '<f:render partial="FlexFormsXML" arguments="{dce:dce}"></f:render>';
@@ -37,10 +67,10 @@ if (\TYPO3\CMS\Core\Utility\GeneralUtility::compat_version('7.6')) {
 	mod.wizards.newContentElement.wizardItems.{dce.wizard_category}.elements.dce_{f:if(condition:"{dce.uid}", then:"dceuid{dce.uid}", else:"dce_{dce.identifier}")} {
 	<f:if condition="{dce:be.version.typo3(returnInt:'1')} < 7006000">
 		<f:then>
-			icon = <f:if condition="{dce.hasCustomWizardIcon}"><f:then>../{dce.wizard_custom_icon}</f:then><f:else>{dce:be.contentElementWizardIconPath(name:'{dce.wizard_icon}')}</f:else></f:if>
+		icon = <f:if condition="{dce.hasCustomWizardIcon}"><f:then>../{dce.wizard_custom_icon}</f:then><f:else>{dce:be.contentElementWizardIconPath(name:'{dce.wizard_icon}')}</f:else></f:if>
 		</f:then>
 		<f:else>
-			iconIdentifier = <f:if condition="{dce.hasCustomWizardIcon}"><f:then>ext-dce-dceuid{dce.uid}-customwizardicon</f:then><f:else>{dce:be.contentElementWizardIconPath()}{dce.wizard_icon}</f:else></f:if>
+		iconIdentifier = <f:if condition="{dce.hasCustomWizardIcon}"><f:then>ext-dce-dceuid{dce.uid}-customwizardicon</f:then><f:else>{dce:be.contentElementWizardIconPath()}{dce.wizard_icon}</f:else></f:if>
 		</f:else>
 	</f:if>
 	    title = {dce.title -> dce:format.addcslashes()}

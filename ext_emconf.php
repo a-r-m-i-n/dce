@@ -3,7 +3,7 @@
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is
  *  | free software and is licensed under GNU General Public License.
  *  |
- *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
 
 $EM_CONF[$_EXTKEY] = array(
@@ -11,7 +11,7 @@ $EM_CONF[$_EXTKEY] = array(
     'description' => 'DCE is an extension for the CMS TYPO3, which creates easily and fast dynamic content elements. It is an alternative to flexible content elements (FCE) but without need of TemplaVoila (TV). Based on Extbase and Fluid.',
     'category' => 'Backend',
     'shy' => 0,
-    'version' => '1.1.3',
+    'version' => '1.2.0',
     'dependencies' => 'extbase,fluid',
     'conflicts' => '',
     'priority' => '',

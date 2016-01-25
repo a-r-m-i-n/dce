@@ -29,11 +29,29 @@
 
 			<label index="caution">Caution!</label>
 			<label index="hideContentElementsBasedOnDce">%s content elements based on this DCE have been also disabled, to avoid errors in frontned. These content items will not get re-enabled automatically!</label>
+			<label index="ok">OK</label>
 			<label index="edit">Edit</label>
+			<label index="info">Info</label>
 			<label index="enabled">Enabled</label>
 			<label index="disabled">Disabled</label>
 			<label index="back">Back</label>
 			<label index="noDcesFound">No DCEs found!</label>
+			<label index="fields">fields</label>
+			<label index="tca">This DCE has fields which are mapped with TCA columns.</label>
+			<label index="tcaplus">This DCE has fields which are mapped with TCA columns. Furthermore this DCE adds new columns to TCA and database!</label>
+			<label index="relatedContentElements">%s content elements existing, based on this DCE.</label>
+			<label index="usage">Usage (CEs)</label>
+			<label index="fieldStats">Field statistics</label>
+
+			<label index="actions">Actions</label>
+			<label index="updatePreviewTemplates">Update Backend Preview Templates</label>
+			<label index="updatePreviewTemplatesMessage">You have %s content elements based on this DCE. Rendering the double amount of fluid templates may take a while.</label>
+			<label index="updatePreviewTemplatesDone">Backend preview templates has been updated successfully.</label>
+			<label index="updateTcaMappings">Update TCA Mappings</label>
+			<label index="updateTcaMappingsMessage">You have %s content elements based on this DCE. Do you want to continue updating all TCA mappings?</label>
+			<label index="updateTcaMappingsDone">TCA mappings has been updated successfully.</label>
+			<label index="updateOk">Okay, proceed!</label>
+			<label index="updateAbort">Cancel</label>
         </languageKey>
 
         <languageKey index="de" type="array">
@@ -56,12 +74,29 @@
 			<label index="help.bitbucket">DCE auf Bitbucket</label>
 
 			<label index="caution">Achtung!</label>
-			<label index="hideContentElementsBasedOnDce">%i Inhaltselemente, welche auf diesem DCE basieren wurden ebenfalls deaktiviert um Fehlermeldungen im Frontend zu vermeiden. Die deaktivierten Inhaltselemente werden nicht automatisch wieder aktiviert.</label>
+			<label index="hideContentElementsBasedOnDce">%s Inhaltselemente, welche auf diesem DCE basieren wurden ebenfalls deaktiviert um Fehlermeldungen im Frontend zu vermeiden. Die deaktivierten Inhaltselemente werden nicht automatisch wieder aktiviert.</label>
 			<label index="edit">Bearbeiten</label>
+			<label index="info">Info</label>
 			<label index="enabled">Aktiv</label>
 			<label index="disabled">Inaktiv</label>
 			<label index="back">Zurück</label>
 			<label index="noDcesFound">Keine DCEs gefunden!</label>
+			<label index="fields">Felder</label>
+			<label index="tca">Dieses DCE besitzt Felder, die mit TCA-Spalten gemappt wurden.</label>
+			<label index="tcaplus">Dieses DCE besitzt Felder, die mit TCA-Spalten gemappt wurden. Darüberhinaus fügt es neue Spalten zum TCA und zur Datenbank hinzu.</label>
+			<label index="relatedContentElements">%s Inhaltselemente basierend auf diesem DCE gefunden.</label>
+			<label index="usage">Verwendung (CEs)</label>
+			<label index="fieldStats">Feldstatistiken</label>
+
+			<label index="actions">Aktionen</label>
+			<label index="updatePreviewTemplates">Aktualisiere Backend Vorschau Templates</label>
+			<label index="updatePreviewTemplatesMessage">Es gibt %s Inhaltselemente basierend auf diesem DCE. Das Rendern der doppelten Anzahl an Fluid-Templates kann einen Moment dauern.</label>
+			<label index="updatePreviewTemplatesDone">Backend Vorschau Templates wurden erfolgreich aktualisiert.</label>
+			<label index="updateTcaMappings">Aktualisiere TCA Mappings</label>
+			<label index="updateTcaMappingsMessage">Es gibt %s Inhaltselemente basierend auf diesem DCE. Sollen die TCA Mappings der Inhaltselemente aktualisiert werden?</label>
+			<label index="updateTcaMappingsDone">TCA Mappings wurden erfolgreich aktualisiert.</label>
+			<label index="updateOk">Okay, ausführen!</label>
+			<label index="updateAbort">Abbrechen</label>
         </languageKey>
     </data>
 </T3locallang>

@@ -4,7 +4,7 @@ namespace ArminVieweg\Dce;
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is
  *  | free software and is licensed under GNU General Public License.
  *  |
- *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
@@ -89,6 +89,11 @@ class Cache
             $dces = $this->ensureGridelementsFieldCompatibility($dces);
         }
         $this->fluidTemplateUtility->assign('dceArray', $dces);
+
+        $this->fluidTemplateUtility->assign(
+            'dceFieldsWithNewTcaColumns',
+            array_unique(\ArminVieweg\Dce\Utility\FlexformToTcaMapper::getDceFieldRowsWithNewTcaColumns())
+        );
         $this->saveCacheData(self::CACHE_TYPE_EXTTABLES, $this->fluidTemplateUtility->render());
     }
 
@@ -194,6 +199,11 @@ class Cache
         /** @var $databaseConnection \TYPO3\CMS\Dbal\Database\DatabaseConnection */
         $databaseConnection = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection();
 
+        $tables = array_keys($databaseConnection->admin_get_tables());
+        if (!in_array('tx_dce_domain_model_dce', $tables) || !in_array('tx_dce_domain_model_dcefield', $tables)) {
+            return array();
+        }
+
         $res = $databaseConnection->exec_SELECTquery(
             '*',
             'tx_dce_domain_model_dce',
@@ -204,15 +214,12 @@ class Cache
 
         $dce = array();
         while (($row = $databaseConnection->sql_fetch_assoc($res))) {
-            $res2 = $databaseConnection->exec_SELECT_mm_query(
+            $res2 = $databaseConnection->exec_SELECTquery(
                 '*',
-                'tx_dce_domain_model_dce',
-                'tx_dce_dce_dcefield_mm',
                 'tx_dce_domain_model_dcefield',
-                ' AND tx_dce_domain_model_dce.uid = ' . $row['uid'] .
-                ' AND tx_dce_domain_model_dcefield.deleted = 0 AND tx_dce_domain_model_dcefield.hidden = 0',
+                'parent_dce = ' . $row['uid'] . ' AND deleted=0 AND hidden=0',
                 '',
-                'tx_dce_dce_dcefield_mm.sorting asc'
+                'sorting asc'
             );
 
             if (TYPO3_MODE === 'FE') {
@@ -223,7 +230,7 @@ class Cache
                     'dce'
                 );
             }
-            $tabs = array(0 => array('title' => $generalTabLabel, 'fields' => array()));
+            $tabs = array(0 => array('title' => $generalTabLabel, 'variable' => 'tabGeneral', 'fields' => array()));
             $index = 0;
             while ($row2 = $databaseConnection->sql_fetch_assoc($res2)) {
                 if ($row2['type'] === '1') {
@@ -231,20 +238,18 @@ class Cache
                     $index++;
                     $tabs[$index] = array();
                     $tabs[$index]['title'] = $row2['title'];
+                    $tabs[$index]['variable'] = $row2['variable'];
                     $tabs[$index]['fields'] = array();
                     continue;
                 } elseif ($row2['type'] === '2') {
                     $res3 = $databaseConnection->exec_SELECTquery(
                         '*',
-                        'tx_dce_domain_model_dcefield as a,' .
-                        'tx_dce_dcefield_sectionfields_mm,' .
-                        'tx_dce_domain_model_dcefield as b',
-                        'a.uid=tx_dce_dcefield_sectionfields_mm.uid_local ' .
-                        'AND b.uid=tx_dce_dcefield_sectionfields_mm.uid_foreign AND a.uid = ' . $row2['uid'] .
-                        ' AND b.deleted = 0 AND b.hidden = 0',
+                        'tx_dce_domain_model_dcefield',
+                        'parent_field = ' . $row2['uid'] . ' AND deleted=0 AND hidden=0',
                         '',
-                        'tx_dce_dcefield_sectionfields_mm.sorting asc'
+                        'sorting asc'
                     );
+
                     $sectionFields = array();
                     while (($row3 = $databaseConnection->sql_fetch_assoc($res3))) {
                         if ($row3['type'] === '0') {

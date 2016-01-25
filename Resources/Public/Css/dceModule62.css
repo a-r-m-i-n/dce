@@ -17,3 +17,20 @@
 h1.hallOfFame {
 	font-family: Share, Verdana, Arial, Helvetica, sans-serif;
 }
+
+.btn-group li.divider {
+	background-color: transparent;
+	margin-top: 2px;
+}
+
+*:hover a {
+	text-decoration: none !important;
+}
+
+.usage a {
+	color: #000;
+}
+
+.usage a:hover {
+	text-decoration: underline !important;
+}

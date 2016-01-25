@@ -3,11 +3,11 @@
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is
  *  | free software and is licensed under GNU General Public License.
  *  |
- *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
 
 if (!defined('TYPO3_MODE')) {
-    die ('Access denied.');
+    die('Access denied.');
 }
 
 $boot = function ($extensionKey) {
@@ -20,6 +20,11 @@ $boot = function ($extensionKey) {
     require_once(PATH_site . \ArminVieweg\Dce\Cache::CACHE_PATH . \ArminVieweg\Dce\Cache::CACHE_TYPE_EXTTABLES);
 
 
+    $extensionIconPath = 'EXT:' . $extensionKey . '/Resources/Public/Icons/ext_icon.svg';
+    if (!\TYPO3\CMS\Core\Utility\GeneralUtility::compat_version('7.6')) {
+        $extensionIconPath = 'EXT:' . $extensionKey . '/ext_icon.png';
+    }
+
     // Register backend module
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
         'ArminVieweg.' . $extensionKey,
@@ -27,15 +32,26 @@ $boot = function ($extensionKey) {
         'dceModule',
         '',
         array(
-            'DceModule' => 'index,hallOfFame',
+            'DceModule' => 'index,hallOfFame,updatePreviewTemplates,updateTcaMappings',
             'Dce' => 'renderPreview'
         ),
         array(
             'access' => 'user,group',
-            'icon' => 'EXT:' . $extensionKey . '/ext_icon.png',
+            'icon' => $extensionIconPath,
             'labels' => 'LLL:EXT:' . $extensionKey . '/Resources/Private/Language/locallang_mod.xml',
         )
     );
+
+    // Register PageTS defaults
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('tx_dce.defaults {
+        simpleBackendView {
+            titleCropLength = 10
+            titleCropAppendix = ...
+
+            imageWidth = 50c
+            imageHeight = 50c
+        }
+    ');
 
     if (\TYPO3\CMS\Core\Utility\GeneralUtility::compat_version('7.6')) {
         /** @var \TYPO3\CMS\Core\Imaging\IconRegistry $iconRegistry */

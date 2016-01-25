@@ -24,6 +24,10 @@ CREATE TABLE tx_dce_domain_model_dce (
 	show_access_tab varchar(255) DEFAULT '' NOT NULL,
 	show_category_tab varchar(255) DEFAULT '' NOT NULL,
 	hide_default_ce_wrap varchar(255) DEFAULT '' NOT NULL,
+
+	use_simple_backend_view tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	backend_view_header varchar(255) DEFAULT '' NOT NULL,
+	backend_view_bodytext text,
 	preview_template_type varchar(255) DEFAULT '' NOT NULL,
 	header_preview text,
 	header_preview_template_file varchar(255) DEFAULT '' NOT NULL,
@@ -78,10 +82,15 @@ CREATE TABLE tx_dce_domain_model_dcefield (
 
 	title varchar(255) DEFAULT '' NOT NULL,
 	variable varchar(255) DEFAULT '' NOT NULL,
-	type varchar(255) DEFAULT '' NOT NULL,
+	type varchar(255) DEFAULT '0' NOT NULL,
 	configuration text,
+	map_to varchar(255) DEFAULT '' NOT NULL,
+	new_tca_field_name varchar(255) DEFAULT '' NOT NULL,
+	new_tca_field_type varchar(255) DEFAULT '' NOT NULL,
 	section_fields text,
 	section_fields_tag varchar(255) DEFAULT '' NOT NULL,
+	parent_dce int(11) DEFAULT '0' NOT NULL,
+	parent_field int(11) DEFAULT '0' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -90,6 +99,7 @@ CREATE TABLE tx_dce_domain_model_dcefield (
 	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	starttime int(11) unsigned DEFAULT '0' NOT NULL,
 	endtime int(11) unsigned DEFAULT '0' NOT NULL,
+	sorting int(11) DEFAULT '0' NOT NULL,
 
 	t3ver_oid int(11) DEFAULT '0' NOT NULL,
 	t3ver_id int(11) DEFAULT '0' NOT NULL,
@@ -113,35 +123,9 @@ CREATE TABLE tx_dce_domain_model_dcefield (
 );
 
 #
-# Table structure for table 'tx_dce_dce_dcefield_mm'
-#
-CREATE TABLE tx_dce_dce_dcefield_mm (
-	uid_local int(11) unsigned DEFAULT '0' NOT NULL,
-	uid_foreign int(11) unsigned DEFAULT '0' NOT NULL,
-	sorting int(11) unsigned DEFAULT '0' NOT NULL,
-	sorting_foreign int(11) unsigned DEFAULT '0' NOT NULL,
-
-	KEY uid_local (uid_local),
-	KEY uid_foreign (uid_foreign)
-);
-
-#
-# Table structure for table 'tx_dce_dcefield_sectionfields_mm'
-#
-CREATE TABLE tx_dce_dcefield_sectionfields_mm (
-	uid_local int(11) unsigned DEFAULT '0' NOT NULL,
-	uid_foreign int(11) unsigned DEFAULT '0' NOT NULL,
-	sorting int(11) unsigned DEFAULT '0' NOT NULL,
-	sorting_foreign int(11) unsigned DEFAULT '0' NOT NULL,
-
-	KEY uid_local (uid_local),
-	KEY uid_foreign (uid_foreign)
-);
-
-
-#
 # Table structure for table 'tt_content'
 #
 CREATE TABLE tt_content (
-	tx_dce_dce int(11) DEFAULT '0' NOT NULL
+	tx_dce_dce int(11) DEFAULT '0' NOT NULL,
+	tx_dce_index mediumtext
 );

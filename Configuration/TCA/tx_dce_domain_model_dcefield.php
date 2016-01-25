@@ -3,11 +3,11 @@
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is
  *  | free software and is licensed under GNU General Public License.
  *  |
- *  | (c) 2012-2015 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
 
 if (!defined('TYPO3_MODE')) {
-    die ('Access denied.');
+    die('Access denied.');
 }
 
 $ll = 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:';
@@ -29,12 +29,13 @@ $dceFieldTca = array(
         'versioning_followPages' => true,
         'origUid' => 't3_origuid',
         'delete' => 'deleted',
+        'sortby' => 'sorting',
         'enablecolumns' => array(
             'disabled' => 'hidden',
             'starttime' => 'starttime',
             'endtime' => 'endtime',
         ),
-        'requestUpdate' => 'type',
+        'requestUpdate' => 'type,map_to',
         'type' => 'type',
         'typeicon_column' => 'type',
         'typeicon_classes' => array(
@@ -44,23 +45,23 @@ $dceFieldTca = array(
         ),
     ),
     'interface' => array(
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden',
+        'showRecordFieldList' => 'hidden,title,type,variable',
     ),
     'types' => array(
         '0' => array(
-            'showitem' => 'type,title,variable,configuration;;;fixed-font:enable-tab,' .
-                '--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,hidden;;1'
+            'showitem' => '--palette--;;general_header,configuration;;;fixed-font:enable-tab,' .
+                          '--palette--;;tca_options,parent_dce,parent_field'
         ),
         '1' => array(
-            'showitem' => 'type,title,--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,hidden;;1'
+            'showitem' => '--palette--;;general_header,parent_dce'
         ),
         '2' => array(
-            'showitem' => 'type,title,section_fields_tag,variable,section_fields,' .
-                '--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,hidden;;1'
+            'showitem' => '--palette--;;general_header,section_fields_tag,section_fields,parent_dce'
         ),
     ),
     'palettes' => array(
-        '1' => array('showitem' => ''),
+        'general_header' => array('showitem' => 'type,title,variable,hidden', 'canNotCollapse' => true),
+        'tca_options' => array('showitem' => 'map_to,new_tca_field_name,new_tca_field_type', 'canNotCollapse' => true)
     ),
     'columns' => array(
         'sys_language_uid' => array(
@@ -105,10 +106,16 @@ $dceFieldTca = array(
         ),
         'hidden' => array(
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.hidden',
+            'label' => $ll . 'tx_dce_domain_model_dcefield.hidden',
             'config' => array(
                 'type' => 'check',
             ),
+        ),
+        'sorting' => array(
+            'label' => 'Sorting',
+            'config' => array(
+                'passthrough'
+            )
         ),
         'starttime' => array(
             'exclude' => 1,
@@ -153,13 +160,14 @@ $dceFieldTca = array(
                     array($ll . 'tx_dce_domain_model_dcefield.type.section', 2),
                 ),
             ),
+            'displayCond' => 'FIELD:parent_field:=:0'
         ),
         'title' => array(
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dcefield.title',
             'config' => array(
                 'type' => 'input',
-                'size' => 30,
+                'size' => 15,
                 'eval' => 'trim,required'
             ),
         ),
@@ -168,7 +176,7 @@ $dceFieldTca = array(
             'label' => $ll . 'tx_dce_domain_model_dcefield.variable',
             'config' => array(
                 'type' => 'input',
-                'size' => 30,
+                'size' => 15,
                 'eval' => 'trim,required,is_in,' .
                           'ArminVieweg\Dce\UserFunction\CustomFieldValidation\NoLeadingNumberValidator,' .
                           'ArminVieweg\Dce\UserFunction\CustomFieldValidation\LowerCamelCaseValidator',
@@ -189,18 +197,64 @@ $dceFieldTca = array(
                 )
             ),
         ),
+        'map_to' => array(
+            'exclude' => 0,
+            'label' => $ll . 'tx_dce_domain_model_dcefield.mapTo',
+            'config' => array(
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'itemsProcFunc' => 'ArminVieweg\Dce\UserFunction\ItemProcFunc->getAvailableTtContentColumns',
+                'size' => 1,
+                'minitems' => 0,
+                'maxitems' => 1
+            ),
+            'displayCond' => 'FIELD:parent_field:=:0'
+        ),
+        'new_tca_field_name' => array(
+            'exclude' => 0,
+            'label' => $ll . 'tx_dce_domain_model_dcefield.newTcaFieldName',
+            'config' => array(
+                'type' => 'input',
+                'eval' => 'trim,required,lower'
+            ),
+            'displayCond' => array(
+                'AND' => array(
+                    'FIELD:parent_field:=:0',
+                    'FIELD:map_to:=:*newcol'
+                )
+            ),
+        ),
+        'new_tca_field_type' => array(
+            'exclude' => 0,
+            'label' => $ll . 'tx_dce_domain_model_dcefield.newTcaFieldType',
+            'config' => array(
+                'type' => 'input',
+                'default' => 'auto',
+                'eval' => 'trim,required'
+            ),
+            'displayCond' => array(
+                'AND' => array(
+                    'FIELD:parent_field:=:0',
+                    'FIELD:map_to:=:*newcol'
+                )
+            ),
+        ),
         'section_fields' => array(
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dcefield.section_fields',
             'config' => array(
                 'type' => 'inline',
                 'foreign_table' => 'tx_dce_domain_model_dcefield',
-                'MM' => 'tx_dce_dcefield_sectionfields_mm',
+                'foreign_sortby' => 'sorting',
+                'foreign_field' => 'parent_field',
+                'foreign_record_defaults' => array(
+                    'parent_field' => -1
+                ),
                 'minitems' => 0,
                 'maxitems' => 999,
                 'appearance' => array(
-                    'collapseAll' => 1,
-                    'expandSingle' => 1,
+                    'collapseAll' => 0,
+                    'expandSingle' => 0,
                     'levelLinksPosition' => 'bottom',
                     'useSortable' => 1,
                     'showPossibleLocalizationRecords' => 1,
@@ -209,6 +263,8 @@ $dceFieldTca = array(
                     'showSynchronizationLink' => 1,
                     'enabledControls' => array(
                         'info' => false,
+                        'dragdrop' => true,
+                        'sort' => true
                     )
                 ),
             ),
@@ -218,8 +274,23 @@ $dceFieldTca = array(
             'label' => $ll . 'tx_dce_domain_model_dcefield.section_fields_tag',
             'config' => array(
                 'type' => 'input',
-                'size' => 30,
+                'size' => 15,
                 'eval' => 'trim,required'
+            ),
+        ),
+        'parent_dce' => array(
+            'exclude' => 0,
+            'label' => $ll . 'tx_dce_domain_model_dcefield.parent_dce',
+            'config' => array(
+                'type' => 'passthrough',
+            ),
+        ),
+        'parent_field' => array(
+            'exclude' => 0,
+            'label' => $ll . 'tx_dce_domain_model_dcefield.parent_field',
+            'config' => array(
+                'type' => 'passthrough',
+                'default' => 0
             ),
         ),
     ),
