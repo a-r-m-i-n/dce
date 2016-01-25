@@ -803,8 +803,9 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     protected function getFieldsAsArray()
     {
-        if (array_key_exists($this->getUid(), static::$fieldsCache)) {
-            return static::$fieldsCache[$this->getUid()];
+        $contentObject = $this->getContentObject();
+        if (array_key_exists($contentObject['uid'], static::$fieldsCache)) {
+            return static::$fieldsCache[$contentObject['uid']];
         }
         $fields = array();
         /** @var $field \ArminVieweg\Dce\Domain\Model\DceField */
@@ -826,7 +827,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
                 $fields[$field->getVariable()] = $field->getValue();
             }
         }
-        static::$fieldsCache[$this->getUid()] = $fields;
+        static::$fieldsCache[$contentObject['uid']] = $fields;
         return $fields;
     }
 
