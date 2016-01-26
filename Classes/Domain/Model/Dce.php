@@ -658,10 +658,11 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getWizardIcon()
     {
-        if (empty($this->wizardIcon)) {
+        $wizardIcon = $this->wizardIcon;
+        if (empty($wizardIcon)) {
             return 'regular_text';
         }
-        return $this->wizardIcon;
+        return $wizardIcon;
     }
 
     /**
@@ -840,7 +841,8 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         /** @var DceField $field */
         foreach ($this->getFields() as $field) {
-            if (!empty($field->getMapTo())) {
+            $mapTo = $field->getMapTo();
+            if (!empty($mapTo)) {
                 return true;
             }
         }
@@ -856,7 +858,8 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         /** @var DceField $field */
         foreach ($this->getFields() as $field) {
-            if ($field->getMapTo() === '*newcol' && !empty($field->getNewTcaFieldName())) {
+            $newTcaFieldName = $field->getNewTcaFieldName();
+            if ($field->getMapTo() === '*newcol' && !empty($newTcaFieldName)) {
                 return true;
             }
         }
