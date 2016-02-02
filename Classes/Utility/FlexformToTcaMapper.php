@@ -33,15 +33,20 @@ class FlexformToTcaMapper
     /**
      * Returns all DceFields which introduce new columns to tt_content
      *
-     * @return array of DceField rows
+     * @return array of DceField rows or empty array
      */
     public static function getDceFieldRowsWithNewTcaColumns()
     {
-        return DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
+        $rows = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
             '*',
             'tx_dce_domain_model_dcefield',
             'map_to="*newcol" AND deleted=0 AND type=0 AND new_tca_field_name!="" AND new_tca_field_type!=""'
         );
+
+        if ($rows === null) {
+            return array();
+        }
+        return $rows;
     }
 
     /**
