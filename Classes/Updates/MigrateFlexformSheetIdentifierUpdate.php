@@ -6,7 +6,6 @@ namespace ArminVieweg\Dce\Updates;
  *  |
  *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
-use TYPO3\CMS\Core\Database\DatabaseConnection;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -102,22 +101,23 @@ class MigrateFlexformSheetIdentifierUpdate extends AbstractUpdate
 
             foreach ($contentElements as $contentElement) {
                 $flexformData = GeneralUtility::xml2array($contentElement['pi_flexform']);
-
                 $i = 0;
                 $newFlexformData = array('data' => array());
-                foreach ($flexformData['data'] as $sheetIdentifier => $sheetData) {
-                    if ($i === 0) {
-                        // First sheet
-                        $newFlexformData['data']['sheet.tabGeneral'] = $sheetData;
+                if (!empty($flexformData['data'])) {
+                    foreach ($flexformData['data'] as $sheetIdentifier => $sheetData) {
+                        if ($i === 0) {
+                            // First sheet
+                            $newFlexformData['data']['sheet.tabGeneral'] = $sheetData;
+                            $i++;
+                            continue;
+                        }
+                        if (strpos($sheetIdentifier, '.') === false) {
+                            $newFlexformData['data']['sheet.' . $tabs[$i]['variable']] = $sheetData;
+                        } else {
+                            $newFlexformData['data'][$sheetIdentifier] = $sheetData;
+                        }
                         $i++;
-                        continue;
                     }
-                    if (strpos($sheetIdentifier, '.') === false) {
-                        $newFlexformData['data']['sheet.' . $tabs[$i]['variable']] = $sheetData;
-                    } else {
-                        $newFlexformData['data'][$sheetIdentifier] = $sheetData;
-                    }
-                    $i++;
                 }
 
                 $this->getDatabaseConnection()->exec_UPDATEquery(
@@ -135,11 +135,13 @@ class MigrateFlexformSheetIdentifierUpdate extends AbstractUpdate
         foreach ($updatableContentElements as $contentElement) {
             $flexformData = GeneralUtility::xml2array($contentElement['pi_flexform']);
             $newFlexformData = array('data' => array());
-            foreach ($flexformData['data'] as $sheetIdentifier => $sheetData) {
-                if ($sheetIdentifier === 'sheet0') {
-                    $newFlexformData['data']['sheet.tabGeneral'] = $sheetData;
-                } else {
-                    $newFlexformData['data'][$sheetIdentifier] = $sheetData;
+            if (!empty($flexformData['data'])) {
+                foreach ($flexformData['data'] as $sheetIdentifier => $sheetData) {
+                    if ($sheetIdentifier === 'sheet0') {
+                        $newFlexformData['data']['sheet.tabGeneral'] = $sheetData;
+                    } else {
+                        $newFlexformData['data'][$sheetIdentifier] = $sheetData;
+                    }
                 }
             }
             $this->getDatabaseConnection()->exec_UPDATEquery(
