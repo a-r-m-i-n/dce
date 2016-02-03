@@ -30,18 +30,15 @@ class DocHeaderButtonsHook
             return $buttons;
         }
 
-        $uidWithComma = current(array_keys($this->getEditGetParameters()));
-        $editGetParameters = $this->getEditGetParameters();
-        if (is_array($editGetParameters) && $editGetParameters[$uidWithComma] === 'edit') {
-            $contentItemUid = intval($uidWithComma);
-
+        $contentUid = $this->getContentUid();
+        if ($contentUid !== null) {
             /** @var \TYPO3\CMS\Core\Imaging\IconFactory $iconFactory */
             $iconFactory = GeneralUtility::makeInstance('TYPO3\CMS\Core\Imaging\IconFactory');
             $button = $buttonBar->makeLinkButton();
             $button->setIcon($iconFactory->getIcon('ext-dce-dce-type-databased', Icon::SIZE_SMALL));
             $button->setTitle(LocalizationUtility::translate('editDceOfThisContentElement', 'dce'));
             $button->setOnClick(
-                'window.open(\'' . $this->getDceEditLink($contentItemUid) . '\', \'editDcePopup\', ' .
+                'window.open(\'' . $this->getDceEditLink($contentUid) . '\', \'editDcePopup\', ' .
                 '\'height=768,width=1024,status=0,menubar=0,scrollbars=1\')'
             );
             $buttons[\TYPO3\CMS\Backend\Template\Components\ButtonBar::BUTTON_POSITION_LEFT][][] = $button;
@@ -57,11 +54,7 @@ class DocHeaderButtonsHook
      */
     protected function getDceEditLink($contentItemUid)
     {
-        /** @var $tceMain \TYPO3\CMS\Core\DataHandling\DataHandler */
-        $tceMain = GeneralUtility::makeInstance('TYPO3\CMS\Core\DataHandling\DataHandler');
-        $contentRecord = $tceMain->recordInfo('tt_content', $contentItemUid, 'CType');
-        $cType = current($contentRecord);
-        $dceIdent = \ArminVieweg\Dce\Domain\Repository\DceRepository::extractUidFromCtype($cType);
+        $dceIdent = $this->getDceUid($contentItemUid);
         if (!is_numeric($dceIdent)) {
             $dceIdent = 'dce_' . $dceIdent;
         }
@@ -85,20 +78,61 @@ class DocHeaderButtonsHook
      */
     protected function isButtonVisible()
     {
-        $editGetParam = GeneralUtility::_GP('edit');
-        $editGetParam = isset($editGetParam['tt_content']) ? $editGetParam['tt_content'] : null;
-        return !($editGetParam === null || !is_array($editGetParam) || !$GLOBALS['BE_USER']->isAdmin());
+        $contentUid = $this->getContentUid();
+        if ($contentUid !== null && $GLOBALS['BE_USER']->isAdmin()) {
+            /** @var $tceMain \TYPO3\CMS\Core\DataHandling\DataHandler */
+            $tceMain = GeneralUtility::makeInstance('TYPO3\CMS\Core\DataHandling\DataHandler');
+            $contentRecord = $tceMain->recordInfo('tt_content', $contentUid, 'CType');
+            $cType = current($contentRecord);
+            $dceUid = \ArminVieweg\Dce\Domain\Repository\DceRepository::extractUidFromCtype($cType);
+            return $dceUid !== false;
+        }
+        return false;
     }
 
     /**
-     * Returns the get parameters related to edit of tt_content item.
+     * Returns the get parameters, related to currently edited tt_content element
      *
-     * @return array|null
+     * @return null|array
      */
     protected function getEditGetParameters()
     {
         $editGetParam = GeneralUtility::_GP('edit');
         return isset($editGetParam['tt_content']) ? $editGetParam['tt_content'] : null;
+    }
+
+    /**
+     * Returns the uid of the currently edited content element in backend
+     *
+     * @return int|null content element uid
+     */
+    protected function getContentUid()
+    {
+        $editGetParameters = $this->getEditGetParameters();
+        if (!is_array($editGetParameters) || empty($editGetParameters)) {
+            return null;
+        }
+
+        $contentUid = intval(current(array_keys($editGetParameters)));
+        if ($editGetParameters[$contentUid] !== 'edit') {
+            return null;
+        }
+        return $contentUid;
+    }
+
+    /**
+     * Returns the uid (or identifier) of DCE of given content element
+     *
+     * @param int $contentUid uid of content element
+     * @return bool|int|string
+     */
+    protected function getDceUid($contentUid)
+    {
+        /** @var $tceMain \TYPO3\CMS\Core\DataHandling\DataHandler */
+        $tceMain = GeneralUtility::makeInstance('TYPO3\CMS\Core\DataHandling\DataHandler');
+        $contentRecord = $tceMain->recordInfo('tt_content', $contentUid, 'CType');
+        $cType = current($contentRecord);
+        return \ArminVieweg\Dce\Domain\Repository\DceRepository::extractUidFromCtype($cType);
     }
 
     /**
@@ -108,7 +142,7 @@ class DocHeaderButtonsHook
      *
      * @param array $params
      * @return void
-     * @deprecated Will get removed then 6.2 support is running out
+     * @deprecated Will get removed when 6.2 support is running out
      */
     public function addDcePopupButton62(array &$params)
     {
@@ -116,21 +150,11 @@ class DocHeaderButtonsHook
             return;
         }
 
-        $uidWithComma = current(array_keys($this->getEditGetParameters()));
-        $editGetParameters = $this->getEditGetParameters();
-        if (is_array($editGetParameters) && $editGetParameters[$uidWithComma] === 'edit') {
-            $uid = intval($uidWithComma);
-
-            /** @var $tceMain \TYPO3\CMS\Core\DataHandling\DataHandler */
-            $tceMain = GeneralUtility::makeInstance('TYPO3\CMS\Core\DataHandling\DataHandler');
-            $contentRecord = $tceMain->recordInfo('tt_content', $uid, 'CType');
-            $cType = current($contentRecord);
-            $dceUid = \ArminVieweg\Dce\Domain\Repository\DceRepository::extractUidFromCtype($cType);
-
-            if ($dceUid !== false) {
-                $buttonCode = $this->generateButtonHtmlCode($dceUid);
-                $params['markers']['BUTTONLIST_LEFT'] .= $buttonCode . $this->getCustomStylesheet();
-            }
+        $contentUid = $this->getContentUid();
+        $dceUid = $this->getDceUid($contentUid);
+        if ($dceUid !== false) {
+            $buttonCode = $this->generateButtonHtmlCode($dceUid);
+            $params['markers']['BUTTONLIST_LEFT'] .= $buttonCode . $this->getCustomStylesheet();
         }
     }
 
@@ -138,7 +162,7 @@ class DocHeaderButtonsHook
      * Adds stylesheet when editing dce instance. Not nice solved, but it works.
      *
      * @return string
-     * @deprecated Will get removed then 6.2 support is running out
+     * @deprecated Will get removed when 6.2 support is running out
      */
     protected function getCustomStylesheet()
     {
@@ -152,13 +176,10 @@ class DocHeaderButtonsHook
      *
      * @param int $dceUid
      * @return string
-     * @deprecated Will get removed then 6.2 support is running out
+     * @deprecated Will get removed when 6.2 support is running out
      */
     protected function generateButtonHtmlCode($dceUid)
     {
-        if (!$GLOBALS['BE_USER']->isAdmin()) {
-            return '';
-        }
         $returnUrl = 'sysext/backend/Resources/Private/Templates/Close.html';
         if (!GeneralUtility::compat_version('7.4')) {
             $returnUrl = 'close.html';

@@ -33,15 +33,20 @@ class FlexformToTcaMapper
     /**
      * Returns all DceFields which introduce new columns to tt_content
      *
-     * @return array of DceField rows
+     * @return array of DceField rows or empty array
      */
     public static function getDceFieldRowsWithNewTcaColumns()
     {
-        return DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
+        $rows = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
             '*',
             'tx_dce_domain_model_dcefield',
             'map_to="*newcol" AND deleted=0 AND type=0 AND new_tca_field_name!="" AND new_tca_field_type!=""'
         );
+
+        if ($rows === null) {
+            return array();
+        }
+        return $rows;
     }
 
     /**
@@ -101,7 +106,12 @@ class FlexformToTcaMapper
             'tx_dce_domain_model_dcefield',
             'parent_dce=' . $dceUid . ' AND map_to!="" AND deleted=0'
         );
-        if (count($dceFieldsWithMapping) === 0 || !isset($piFlexform)) {
+        if (count($dceFieldsWithMapping) === 0 || !isset($piFlexform) || empty($piFlexform)) {
+            return;
+        }
+
+        $flexFormArray = GeneralUtility::xml2array($piFlexform);
+        if (!is_array($flexFormArray)) {
             return;
         }
 
@@ -116,7 +126,7 @@ class FlexformToTcaMapper
         }
 
         $updateData = array();
-        $flatFlexFormData = \TYPO3\CMS\Core\Utility\ArrayUtility::flatten(GeneralUtility::xml2array($piFlexform));
+        $flatFlexFormData = \TYPO3\CMS\Core\Utility\ArrayUtility::flatten($flexFormArray);
         foreach ($flatFlexFormData as $key => $value) {
             $fieldName = preg_replace('/.*settings\.(.*?)\.vDEF$/', '$1', $key);
             if (array_key_exists($fieldName, $fieldToTcaMappings)) {

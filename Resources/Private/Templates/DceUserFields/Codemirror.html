@@ -1,39 +1,28 @@
 {namespace dce=ArminVieweg\Dce\ViewHelpers}
-<f:layout name="CustomTcaField" />
-
-<f:section name="head">
-	<dce:be.includeCssFile path="{f:uri.resource(path:'JavaScript/Contrib/codemirror/lib/codemirror.css', extensionName:'dce')}" />
-	<dce:be.includeCssFile path="{f:uri.resource(path:'Css/custom_codemirror.css', extensionName:'dce')}" />
-
-	<dce:be.includeJsFile path="{f:uri.resource(path:'JavaScript/InitializeCodemirror.js', extensionName:'dce')}" />
-</f:section>
-
-<f:section name="main">
-	<div id="dceConfigurationWizard">
-		<f:if condition="{disableCodemirror}">
-			<f:then></f:then>
-			<f:else>
-				<f:if condition="{parameters.showTemplates}">
-					<f:then>
-						<f:render partial="ConfigurationEditor/AvailableTemplates" arguments="{uniqueIdentifier:uniqueIdentifier, availableTemplates:availableTemplates}"  />
-					</f:then>
-					<f:else>
-						<f:render partial="ConfigurationEditor/AvailableVariables" arguments="{uniqueIdentifier:uniqueIdentifier, availableFields:availableFields, famousViewHelpers:famousViewHelpers, dceViewHelpers:dceViewHelpers}"  />
-					</f:else>
-				</f:if>
-			</f:else>
-		</f:if>
-		<div>
-			<textarea id="codemirror_{uniqueIdentifier}" name={name} cols="80" rows="15" onchange="{onChangeFunc}" {onFocus}>{value}</textarea>
-		</div>
-	</div>
-
+<div id="dceConfigurationWizard">
 	<f:if condition="{disableCodemirror}">
 		<f:then></f:then>
 		<f:else>
-			<script type="text/javascript">
-				initCodeMirrorEditor(TYPO3.jQuery('#codemirror_{uniqueIdentifier}'), '{parameters.mode}');
-			</script>
+			<f:if condition="{parameters.showTemplates}">
+				<f:then>
+					<f:render partial="ConfigurationEditor/AvailableTemplates" arguments="{uniqueIdentifier:uniqueIdentifier, availableTemplates:availableTemplates}"  />
+				</f:then>
+				<f:else>
+					<f:render partial="ConfigurationEditor/AvailableVariables" arguments="{uniqueIdentifier:uniqueIdentifier, availableFields:availableFields, famousViewHelpers:famousViewHelpers, dceViewHelpers:dceViewHelpers}"  />
+				</f:else>
+			</f:if>
 		</f:else>
 	</f:if>
-</f:section>
+	<div>
+		<textarea id="codemirror_{uniqueIdentifier}" name={name} cols="80" rows="15" onchange="{onChangeFunc}" {onFocus}>{value}</textarea>
+	</div>
+</div>
+
+<f:if condition="{disableCodemirror}">
+	<f:then></f:then>
+	<f:else>
+		<script type="text/javascript">
+			initCodeMirrorEditor(TYPO3.jQuery('#codemirror_{uniqueIdentifier}'), '{parameters.mode}');
+		</script>
+	</f:else>
+</f:if>

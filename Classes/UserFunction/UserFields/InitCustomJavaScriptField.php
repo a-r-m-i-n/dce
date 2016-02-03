@@ -24,8 +24,9 @@ class InitCustomJavaScriptField
     {
         /** @var \TYPO3\CMS\Backend\Template\DocumentTemplate $mediumDocumentTemplate */
         $mediumDocumentTemplate = GeneralUtility::makeInstance('TYPO3\CMS\Backend\Template\DocumentTemplate');
-
         $extPath = ExtensionManagementUtility::extRelPath('dce');
+
+        // Include JavaScripts
         $mediumDocumentTemplate->getPageRenderer()->addJsFile(
             $extPath . 'Resources/Public/JavaScript/InitializeCodemirror.js'
         );
@@ -34,6 +35,15 @@ class InitCustomJavaScriptField
                 $extPath . 'Resources/Public/JavaScript/EnhanceIrre.js'
             );
         }
+
+        // Include Styles
+        $mediumDocumentTemplate->getPageRenderer()->addCssFile(
+            $extPath . 'Resources/Public/JavaScript/Contrib/codemirror/lib/codemirror.css'
+        );
+        $mediumDocumentTemplate->getPageRenderer()->addCssFile(
+            $extPath . 'Resources/Public/Css/custom_codemirror.css'
+        );
+
         return '';
     }
 }
