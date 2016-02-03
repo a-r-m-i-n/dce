@@ -1,6 +1,4 @@
 (function($){
-	//can do something like
-	//$.fn.function_name = function(x){};
 	require([
 		"../typo3conf/ext/dce/Resources/Public/JavaScript/Contrib/js.cookie.js"
 	], function(Cookie) {
