@@ -106,7 +106,12 @@ class FlexformToTcaMapper
             'tx_dce_domain_model_dcefield',
             'parent_dce=' . $dceUid . ' AND map_to!="" AND deleted=0'
         );
-        if (count($dceFieldsWithMapping) === 0 || !isset($piFlexform)) {
+        if (count($dceFieldsWithMapping) === 0 || !isset($piFlexform) || empty($piFlexform)) {
+            return;
+        }
+
+        $flexFormArray = GeneralUtility::xml2array($piFlexform);
+        if (!is_array($flexFormArray)) {
             return;
         }
 
@@ -121,7 +126,7 @@ class FlexformToTcaMapper
         }
 
         $updateData = array();
-        $flatFlexFormData = \TYPO3\CMS\Core\Utility\ArrayUtility::flatten(GeneralUtility::xml2array($piFlexform));
+        $flatFlexFormData = \TYPO3\CMS\Core\Utility\ArrayUtility::flatten($flexFormArray);
         foreach ($flatFlexFormData as $key => $value) {
             $fieldName = preg_replace('/.*settings\.(.*?)\.vDEF$/', '$1', $key);
             if (array_key_exists($fieldName, $fieldToTcaMappings)) {
