@@ -87,13 +87,13 @@ class TypoLinkCodecService
         }
 
         // The order of the entries is crucial!!
-        $typoLinkParts = [
+        $typoLinkParts = array(
             'url' => isset($parts[0]) ? trim($parts[0]) : '',
             'target' => isset($parts[1]) && $parts[1] !== static::$emptyValueSymbol ? trim($parts[1]) : '',
             'class' => isset($parts[2]) && $parts[2] !== static::$emptyValueSymbol ? trim($parts[2]) : '',
             'title' => isset($parts[3]) && $parts[3] !== static::$emptyValueSymbol ? trim($parts[3]) : '',
             'additionalParams' => isset($parts[4]) && $parts[4] !== static::$emptyValueSymbol ? trim($parts[4]) : ''
-        ];
+        );
 
         return $typoLinkParts;
     }
