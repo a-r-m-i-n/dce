@@ -48,6 +48,7 @@ class Extbase
         );
         \ArminVieweg\Dce\Utility\ForbiddenUtility::setExtbaseRelatedPostParameters($controller, $action);
         $extbaseReturnValue = $bootstrap->run('', $configuration);
+        unset($bootstrap);
 
         if ($compressedObject) {
             return unserialize(gzuncompress($extbaseReturnValue));

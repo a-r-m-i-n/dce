@@ -114,7 +114,7 @@ $boot = function ($extensionKey) {
             'Dce' => 'renderDce'
         ),
         array(
-            'Dce' => 'renderDce'
+            'Dce' => ''
         )
     );
 
