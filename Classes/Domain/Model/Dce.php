@@ -25,6 +25,8 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     const TEMPLATE_FIELD_BODYTEXTPREVIEW = 2;
     /** Identifier for detail page templates */
     const TEMPLATE_FIELD_DETAILPAGE = 3;
+    /** Identifier for dce container templates */
+    const TEMPLATE_FIELD_CONTAINER = 4;
 
     /** Type for databased stored DCEs */
     const TYPE_DB = 0;
@@ -68,6 +70,11 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
             'inline' => 'detailpage_template',
             'file' => 'detailpage_template_file'
         ),
+        self::TEMPLATE_FIELD_CONTAINER => array(
+            'type' => 'container_template_type',
+            'inline' => 'container_template',
+            'file' => 'container_template_file'
+        )
     );
 
     /**
@@ -137,6 +144,18 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     /** @var string */
     protected $detailpageTemplateFile = '';
+
+    /** @var bool */
+    protected $enableContainer = false;
+
+    /** @var string */
+    protected $containerTemplateType = '';
+
+    /** @var string */
+    protected $containerTemplate = '';
+
+    /** @var string */
+    protected $containerTemplateFile = '';
 
     /** @var bool  */
     protected $wizardEnable = true;
@@ -606,6 +625,74 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
+     * @return bool
+     */
+    public function getEnableContainer()
+    {
+        return $this->enableContainer;
+    }
+
+    /**
+     * @param bool $enableContainer
+     * @return void
+     */
+    public function setEnableContainer($enableContainer)
+    {
+        $this->enableContainer = $enableContainer;
+    }
+
+    /**
+     * @return string
+     */
+    public function getContainerTemplateType()
+    {
+        return $this->containerTemplateType;
+    }
+
+    /**
+     * @param string $containerTemplateType
+     * @return void
+     */
+    public function setContainerTemplateType($containerTemplateType)
+    {
+        $this->containerTemplateType = $containerTemplateType;
+    }
+
+    /**
+     * @return string
+     */
+    public function getContainerTemplate()
+    {
+        return $this->containerTemplate;
+    }
+
+    /**
+     * @param string $containerTemplate
+     * @return void
+     */
+    public function setContainerTemplate($containerTemplate)
+    {
+        $this->containerTemplate = $containerTemplate;
+    }
+
+    /**
+     * @return string
+     */
+    public function getContainerTemplateFile()
+    {
+        return $this->containerTemplateFile;
+    }
+
+    /**
+     * @param string $containerTemplateFile
+     * @return void
+     */
+    public function setContainerTemplateFile($containerTemplateFile)
+    {
+        $this->containerTemplateFile = $containerTemplateFile;
+    }
+
+    /**
      * @return boolean
      */
     public function isWizardEnable()
@@ -914,7 +1001,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param int $templateType
      * @return \TYPO3\CMS\Fluid\View\StandaloneView
      */
-    protected function getFluidStandaloneView($templateType)
+    public function getFluidStandaloneView($templateType)
     {
         if (isset(self::$fluidTemplateCache[$this->getUid()][$templateType])) {
             return self::$fluidTemplateCache[$this->getUid()][$templateType];
@@ -944,7 +1031,9 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $fluidTemplate->setLayoutRootPath(File::getFilePath($this->getTemplateLayoutRootPath()));
         $fluidTemplate->setPartialRootPath(File::getFilePath($this->getTemplatePartialRootPath()));
 
-        $fluidTemplate->assign('dce', $this);
+        if ($templateType !== self::TEMPLATE_FIELD_CONTAINER) {
+            $fluidTemplate->assign('dce', $this);
+        }
 
         if (TYPO3_MODE === 'FE' && isset($GLOBALS['TSFE'])) {
             $fluidTemplate->assign('TSFE', $GLOBALS['TSFE']);

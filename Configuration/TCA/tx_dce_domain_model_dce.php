@@ -35,7 +35,8 @@ $dceTca = array(
         ),
         'copyAfterDuplFields' => 'fields',
         'requestUpdate' => 'wizard_enable,wizard_icon,template_type,preview_template_type,use_simple_backend_view,' .
-                            'backend_view_header,detailpage_template_type,enable_detailpage',
+                           'backend_view_header,enable_detailpage,detailpage_template_type,' .
+                           'enable_container,container_template_type',
         'type' => 'type',
         'typeicon_column' => 'type',
         'typeicon_classes' => array(
@@ -54,6 +55,7 @@ $dceTca = array(
 			--div--;' . $ll . 'tx_dce_domain_model_dce.backendTemplate,use_simple_backend_view,backend_view_header,backend_view_bodytext,preview_template_type,header_preview,header_preview_template_file,bodytext_preview,bodytext_preview_template_file,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.wizard,wizard_icon,wizard_custom_icon,wizard_enable,wizard_category,wizard_description,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.detailpage,enable_detailpage,detailpage_identifier,detailpage_template_type,detailpage_template,detailpage_template_file,
+			--div--;' . $ll . 'tx_dce_domain_model_dce.container,enable_container,container_identifier,container_template_type,container_template,container_template_file,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.miscellaneous,cache_dce,hide_default_ce_wrap,show_access_tab,show_category_tab,palette_fields,template_layout_root_path,template_partial_root_path'
         ),
         // Filebased DCE
@@ -63,6 +65,7 @@ $dceTca = array(
 			--div--;' . $ll . 'tx_dce_domain_model_dce.backendTemplate,use_simple_backend_view,backend_view_header,backend_view_bodytext,preview_template_type,header_preview,header_preview_template_file,bodytext_preview,bodytext_preview_template_file,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.wizard,wizard_icon,wizard_custom_icon,wizard_enable,wizard_category,wizard_description,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.detailpage,enable_detailpage,detailpage_identifier,detailpage_template,detailpage_template_file,
+			--div--;' . $ll . 'tx_dce_domain_model_dce.container,enable_container,container_identifier,container_template_type,container_template,container_template_file,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.miscellaneous,cache_dce,hide_default_ce_wrap,show_access_tab,show_category_tab,palette_fields,template_layout_root_path,template_partial_root_path'
         ),
     ),
@@ -525,6 +528,69 @@ $dceTca = array(
                 'AND' => array(
                     'FIELD:enable_detailpage:=:1',
                     'FIELD:detailpage_template_type:IN:file'
+                )
+            ),
+            'config' => array(
+                'type' => 'group',
+                'internal_type' => 'file_reference',
+                'allowed' => 'html,htm',
+                'size' => 1,
+                'maxitems' => 1,
+                'minitems' => 0,
+            ),
+        ),
+        'enable_container' => array(
+            'exclude' => 0,
+            'label' => $ll . 'tx_dce_domain_model_dce.enableContainer',
+            'config' => array(
+                'type' => 'check',
+            ),
+        ),
+        'container_template_type' => array(
+            'exclude' => 0,
+            'label' => $ll . 'tx_dce_domain_model_dce.templateType',
+            'displayCond' => 'FIELD:enable_container:=:1',
+            'config' => array(
+                'type' => 'select',
+                'items' => array(
+                    array($ll . 'tx_dce_domain_model_dce.templateType.inline', 'inline'),
+                    array($ll . 'tx_dce_domain_model_dce.templateType.file', 'file'),
+                ),
+            ),
+        ),
+        'container_template' => array(
+            'exclude' => 0,
+            'label' => $ll . 'tx_dce_domain_model_dce.containerTemplate',
+            'displayCond' => array(
+                'AND' => array(
+                    'FIELD:enable_container:=:1',
+                    'FIELD:container_template_type:!IN:file'
+                )
+            ),
+            'config' => array(
+                'type' => 'user',
+                'size' => '30',
+                'userFunc' => 'EXT:dce/Classes/UserFunction/UserFields/CodemirrorField.php:' .
+                    'ArminVieweg\Dce\UserFunction\UserFields\CodemirrorField->getCodemirrorField',
+                'parameters' => array(
+                    'mode' => 'htmlmixed',
+                    'showTemplates' => false,
+                ),
+                'default' => '{namespace dce=ArminVieweg\Dce\ViewHelpers}
+<f:layout name="DefaultContainer" />
+
+<f:section name="main">
+	Your container template goes here... tbd;
+</f:section>',
+            ),
+        ),
+        'container_template_file' => array(
+            'exclude' => 0,
+            'label' => $ll . 'tx_dce_domain_model_dce.containerTemplateFile',
+            'displayCond' => array(
+                'AND' => array(
+                    'FIELD:enable_container:=:1',
+                    'FIELD:container_template_type:IN:file'
                 )
             ),
             'config' => array(

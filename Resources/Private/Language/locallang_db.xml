@@ -84,6 +84,11 @@
 			<label index="tx_dce_domain_model_dce.detailpageTemplate">Detail page template (fluid)</label>
 			<label index="tx_dce_domain_model_dce.detailpageTemplateFile">Detail page template file (fluid)</label>
 
+			<label index="tx_dce_domain_model_dce.container">DCE Container</label>
+			<label index="tx_dce_domain_model_dce.enableContainer">Enable DCE container</label>
+			<label index="tx_dce_domain_model_dce.containerTemplate">DCE container template (fluid)</label>
+			<label index="tx_dce_domain_model_dce.containerTemplateFile">DCE container template file (fluid)</label>
+
 			<label index="tx_dce_domain_model_dce.miscellaneous">Miscellaneous</label>
 			<label index="tx_dce_domain_model_dce.cacheDce">Cache DCE frontend plugin</label>
 			<label index="tx_dce_domain_model_dce.showAccessTab">Enable access tab in backend</label>
@@ -166,6 +171,11 @@
 			<label index="tx_dce_domain_model_dce.enableDetailpage">Aktiviere Detailseite</label>
 			<label index="tx_dce_domain_model_dce.detailpageTemplate">Detailseiten-Template (Fluid)</label>
 			<label index="tx_dce_domain_model_dce.detailpageTemplateFile">Detailseiten-Template-Datei (Fluid)</label>
+
+			<label index="tx_dce_domain_model_dce.container">DCE-Container</label>
+			<label index="tx_dce_domain_model_dce.enableContainer">Aktiviere DCE-Container</label>
+			<label index="tx_dce_domain_model_dce.containerTemplate">DCE-Container-Template (Fluid)</label>
+			<label index="tx_dce_domain_model_dce.containerTemplateFile">DCE-Container-Template-Datei (Fluid)</label>
 
 			<label index="tx_dce_domain_model_dce.miscellaneous">Sonstiges</label>
 			<label index="tx_dce_domain_model_dce.cacheDce">DCE Frontend Plugin Cache aktivieren</label>
