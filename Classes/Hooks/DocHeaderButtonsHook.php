@@ -113,11 +113,11 @@ class DocHeaderButtonsHook
             return null;
         }
 
-        $contentUid = intval(current(array_keys($editGetParameters)));
+        $contentUid = current(array_keys($editGetParameters));
         if ($editGetParameters[$contentUid] !== 'edit') {
             return null;
         }
-        return $contentUid;
+        return (int) trim($contentUid, ',');
     }
 
     /**
