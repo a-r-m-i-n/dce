@@ -241,6 +241,7 @@ $dceTca = array(
                 'size' => 1,
                 'maxitems' => 1,
                 'minitems' => 0,
+                'show_thumbs' => true
             ),
         ),
         'template_type' => array(
