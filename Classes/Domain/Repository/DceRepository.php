@@ -8,6 +8,7 @@ namespace ArminVieweg\Dce\Domain\Repository;
  */
 use ArminVieweg\Dce\Domain\Model\DceField;
 use ArminVieweg\Dce\Utility\DatabaseUtility;
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
@@ -423,35 +424,38 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                 continue;
             }
             if (!$dceFieldConfiguration['dce_ignore_enablefields']) {
-                if (!$GLOBALS['TSFE']->sys_page instanceof \TYPO3\CMS\Frontend\Page\PageRepository) {
-                    if (!$GLOBALS['TSFE'] instanceof \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController) {
-                        $GLOBALS['TSFE'] = GeneralUtility::makeInstance(
-                            'TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController',
-                            $GLOBALS['TYPO3_CONF_VARS'],
-                            0,
-                            0
-                        );
-                    }
-                    $GLOBALS['TSFE']->sys_page = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Page\PageRepository');
+                if (TYPO3_MODE === 'BE') {
+                    $enableFields = BackendUtility::BEenableFields($tableName) .
+                        BackendUtility::deleteClause($tableName);
+                } else {
+                    /** @var $contentObjectRenderer ContentObjectRenderer */
+                    $contentObjectRenderer = GeneralUtility::makeInstance(
+                        'TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer'
+                    );
+                    $enableFields = $contentObjectRenderer->enableFields($tableName);
                 }
-                /** @var $contentObjectRenderer ContentObjectRenderer */
-                $contentObjectRenderer = GeneralUtility::makeInstance(
-                    'TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer'
-                );
-                $enableFields = $contentObjectRenderer->enableFields($tableName);
             }
 
-            $res = DatabaseUtility::getDatabaseConnection()->exec_SELECTquery(
+            $recordRows = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
                 '*',
                 $tableName,
                 'uid = ' . $uid . $enableFields
             );
-            while (($row = DatabaseUtility::getDatabaseConnection()->sql_fetch_assoc($res))) {
+
+            if ($dceFieldConfiguration['dce_enable_autotranslation']) {
+                if (!$GLOBALS['TSFE']->sys_page instanceof \TYPO3\CMS\Frontend\Page\PageRepository) {
+                    /** @var \TYPO3\CMS\Frontend\Page\PageRepository $pageRepository */
+                    $pageRepository = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Page\PageRepository');
+                } else {
+                    $pageRepository = $GLOBALS['TSFE']->sys_page;
+                }
+            }
+            foreach ($recordRows as $row) {
                 if ($dceFieldConfiguration['dce_enable_autotranslation']) {
                     if ($tableName === 'pages') {
-                        $row = $GLOBALS['TSFE']->sys_page->getPageOverlay($row);
+                        $row = $pageRepository->getPageOverlay($row);
                     } else {
-                        $row = $GLOBALS['TSFE']->sys_page->getRecordOverlay(
+                        $row = $pageRepository->getRecordOverlay(
                             $tableName,
                             $row,
                             $GLOBALS['TSFE']->sys_language_uid,

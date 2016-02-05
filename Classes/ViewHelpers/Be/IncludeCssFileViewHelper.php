@@ -14,7 +14,6 @@ namespace ArminVieweg\Dce\ViewHelpers\Be;
  */
 class IncludeCssFileViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper
 {
-
     /**
      * Adds css file to pagerenderer
      *
@@ -23,8 +22,8 @@ class IncludeCssFileViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractB
      */
     public function render($path)
     {
-        $doc = $this->getDocInstance();
-        $pageRenderer = $doc->getPageRenderer();
+        /** @var \TYPO3\CMS\Core\Page\PageRenderer $pageRenderer */
+        $pageRenderer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\Page\PageRenderer');
         $pageRenderer->addCssFile($path);
     }
 }

@@ -68,8 +68,6 @@ class SimpleBackendView
             }
         }
 
-        //\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($fields);
-
         $content = '<table class="dceSimpleBackendView"><tbody>';
         /** @var DceField|string $field */
         foreach ($fields as $field) {
@@ -143,6 +141,16 @@ class SimpleBackendView
         if ($field->isFal()) {
             return $this->getFalMediaPreview($field, $row);
         }
+
+        if (is_array($field->getValue()) || $field->getValue() instanceof \Countable) {
+            if (count($field->getValue()) === 1) {
+                $label = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('entry', 'dce');
+            } else {
+                $label = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('entries', 'dce');
+            }
+            return count($field->getValue()) . ' ' . $label;
+        }
+
         return $field->getValue();
     }
 
