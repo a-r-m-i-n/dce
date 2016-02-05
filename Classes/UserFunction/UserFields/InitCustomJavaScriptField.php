@@ -22,27 +22,19 @@ class InitCustomJavaScriptField
      */
     public function init(array $parameter)
     {
-        /** @var \TYPO3\CMS\Backend\Template\DocumentTemplate $mediumDocumentTemplate */
-        $mediumDocumentTemplate = GeneralUtility::makeInstance('TYPO3\CMS\Backend\Template\DocumentTemplate');
+        /** @var \TYPO3\CMS\Core\Page\PageRenderer $pageRenderer */
+        $pageRenderer = GeneralUtility::makeInstance('TYPO3\CMS\Core\Page\PageRenderer');
         $extPath = ExtensionManagementUtility::extRelPath('dce');
 
         // Include JavaScripts
-        $mediumDocumentTemplate->getPageRenderer()->addJsFile(
-            $extPath . 'Resources/Public/JavaScript/InitializeCodemirror.js'
-        );
+        $pageRenderer->addJsFile($extPath . 'Resources/Public/JavaScript/InitializeCodemirror.js');
         if (GeneralUtility::compat_version('7.6')) {
-            $mediumDocumentTemplate->getPageRenderer()->addJsFile(
-                $extPath . 'Resources/Public/JavaScript/EnhanceIrre.js'
-            );
+            $pageRenderer->addJsFile($extPath . 'Resources/Public/JavaScript/EnhanceIrre.js');
         }
 
         // Include Styles
-        $mediumDocumentTemplate->getPageRenderer()->addCssFile(
-            $extPath . 'Resources/Public/JavaScript/Contrib/codemirror/lib/codemirror.css'
-        );
-        $mediumDocumentTemplate->getPageRenderer()->addCssFile(
-            $extPath . 'Resources/Public/Css/custom_codemirror.css'
-        );
+        $pageRenderer->addCssFile($extPath . 'Resources/Public/JavaScript/Contrib/codemirror/lib/codemirror.css');
+        $pageRenderer->addCssFile($extPath . 'Resources/Public/Css/custom_codemirror.css');
 
         return '';
     }

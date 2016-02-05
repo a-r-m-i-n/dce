@@ -96,10 +96,8 @@ class PageLayoutViewDrawItemHook implements \TYPO3\CMS\Backend\View\PageLayoutVi
         if ($this->stylesAdded) {
             return;
         }
-        /** @var \TYPO3\CMS\Backend\Template\DocumentTemplate $mediumDocumentTemplate */
-        $mediumDocumentTemplate = GeneralUtility::makeInstance('TYPO3\CMS\Backend\Template\DocumentTemplate');
-        /** @var \TYPO3\CMS\Core\Page\PageRenderer $pr */
-        $pageRenderer = $mediumDocumentTemplate->getPageRenderer();
+        /** @var \TYPO3\CMS\Core\Page\PageRenderer $pageRenderer */
+        $pageRenderer = GeneralUtility::makeInstance('TYPO3\CMS\Core\Page\PageRenderer');
         $pageRenderer->addCssInlineBlock(
             'DcePageLayoutStyles',
             file_get_contents(ExtensionManagementUtility::extPath('dce') . 'Resources/Public/Css/dceInstance.css')
