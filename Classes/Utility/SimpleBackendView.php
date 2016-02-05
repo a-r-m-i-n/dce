@@ -143,6 +143,16 @@ class SimpleBackendView
         if ($field->isFal()) {
             return $this->getFalMediaPreview($field, $row);
         }
+
+        if (is_array($field->getValue()) || $field->getValue() instanceof \Countable) {
+            if (count($field->getValue()) === 1) {
+                $label = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('entry', 'dce');
+            } else {
+                $label = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('entries', 'dce');
+            }
+            return count($field->getValue()) . ' ' . $label;
+        }
+
         return $field->getValue();
     }
 
