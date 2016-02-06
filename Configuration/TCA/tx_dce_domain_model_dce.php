@@ -580,7 +580,7 @@ $dceTca = array(
 <f:layout name="DefaultContainer" />
 
 <f:section name="main">
-	Your container template goes here... tbd;
+	<f:render partial="Container/Dces" arguments="{dces:dces}" />
 </f:section>',
             ),
         ),
