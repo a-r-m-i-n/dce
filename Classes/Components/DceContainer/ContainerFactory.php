@@ -88,24 +88,7 @@ class ContainerFactory
             $sortColumn . ' asc'
         );
 
-        // Resolve "shortcut" content elements
-        $resolvedContentElements = array();
-        foreach ($rawContentElements as $rawContentElement) {
-            if ($rawContentElement['CType'] === 'shortcut') {
-                $linkedContentElements = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
-                    '*',
-                    'tt_content',
-                    'uid IN (' . $rawContentElement['records'] . ')',
-                    '',
-                    $sortColumn . ' asc'
-                );
-                foreach ($linkedContentElements as $linkedContentElement) {
-                    $resolvedContentElements[] = $linkedContentElement;
-                }
-            } else {
-                $resolvedContentElements[] = $rawContentElement;
-            }
-        }
+        $resolvedContentElements = static::resolveShortcutElements($rawContentElements);
 
         $contentElementsInContainer = array();
         foreach ($resolvedContentElements as $rawContentElement) {
@@ -125,7 +108,7 @@ class ContainerFactory
      */
     public static function checkContentElementForBeingRendered(array $contentElementRow)
     {
-        return in_array($contentElementRow['uid'], self::$contentElementsToSkip);
+        return in_array($contentElementRow['uid'], static::$contentElementsToSkip);
     }
 
     /**
@@ -137,5 +120,70 @@ class ContainerFactory
     public static function clearContentElementsToSkip()
     {
         static::$contentElementsToSkip = array();
+    }
+
+    /**
+     * Returns the first contentObject in container of given DCE.
+     *
+     * If $dce->getContentObject() === static::getFirstContentObjectInContainer() then
+     * the given DCE instance is already the first item in container.
+     *
+     * @param Dce $dce
+     * @return array
+     */
+    public static function getFirstContentObjectInContainer(Dce $dce)
+    {
+        $contentObject = $dce->getContentObject();
+        $sortColumn = $GLOBALS['TCA']['tt_content']['ctrl']['sortby'];
+        $where = 'pid = ' . $contentObject['pid'] .
+            ' AND colPos = ' . $contentObject['colPos'] .
+            ' AND ' . $sortColumn . ' < ' . $contentObject[$sortColumn] .
+            DatabaseUtility::getEnabledFields('tt_content');
+
+        $rawContentElements = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
+            '*',
+            'tt_content',
+            $where,
+            '',
+            $sortColumn . ' desc'
+        );
+        $resolvedContentElements = static::resolveShortcutElements($rawContentElements);
+        $lastContentObject = $dce->getContentObject();
+        foreach ($resolvedContentElements as $contentElement) {
+            //\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($resolvedContentElements);
+            if ($contentElement['CType'] !== 'dce_dceuid' . $dce->getUid()) {
+                return $lastContentObject;
+            }
+            $lastContentObject = $contentElement;
+        }
+        return $lastContentObject;
+    }
+
+    /**
+     * Resolves CType="shortcut" content elements
+     *
+     * @param array $rawContentElements array with tt_content rows
+     * @return array
+     */
+    protected static function resolveShortcutElements(array $rawContentElements)
+    {
+        $resolvedContentElements = array();
+        foreach ($rawContentElements as $rawContentElement) {
+            if ($rawContentElement['CType'] === 'shortcut') {
+                $linkedContentElements = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
+                    '*',
+                    'tt_content',
+                    'uid IN (' . $rawContentElement['records'] . ')',
+                    '',
+                    $GLOBALS['TCA']['tt_content']['ctrl']['sortby'] . ' asc'
+                );
+                foreach ($linkedContentElements as $linkedContentElement) {
+                    $resolvedContentElements[] = $linkedContentElement;
+                }
+            } else {
+                $resolvedContentElements[] = $rawContentElement;
+            }
+        }
+        return $resolvedContentElements;
     }
 }

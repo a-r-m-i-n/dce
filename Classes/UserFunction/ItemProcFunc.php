@@ -30,6 +30,9 @@ class ItemProcFunc
         if ($parameters['config']['size'] === 1) {
             $parameters['items'][] = array(LocalizationUtility::translate('empty', 'dce'), '*empty');
         }
+        if ($parameters['row']['enable_container']) {
+            $parameters['items'][] = array(LocalizationUtility::translate('containerflag', 'dce'), '*containerflag');
+        }
 
         $database = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection();
         $dceFields = $database->exec_SELECTgetRows(

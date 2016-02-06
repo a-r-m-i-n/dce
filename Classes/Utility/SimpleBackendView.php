@@ -6,6 +6,7 @@ namespace ArminVieweg\Dce\Utility;
  *  |
  *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
+use ArminVieweg\Dce\Components\DceContainer\ContainerFactory;
 use ArminVieweg\Dce\Domain\Model\Dce;
 use ArminVieweg\Dce\Domain\Model\DceField;
 use TYPO3\CMS\Backend\View\PageLayoutView;
@@ -68,21 +69,25 @@ class SimpleBackendView
             }
         }
 
-        $content = '<table class="dceSimpleBackendView"><tbody>';
+        $content = '';
         /** @var DceField|string $field */
         foreach ($fields as $field) {
             if ($field === '*empty') {
-                $content .= '<tr><td class="dceFull" colspan="2"></td></tr>';
+                $content .= '<tr class="dceRow"><td class="dceFull" colspan="2"></td></tr>';
             } elseif ($field === '*dcetitle') {
-                $content .= '<tr><td class="dceFull" colspan="2">' . $GLOBALS['LANG']->sL($dce->getTitle()) .
-                            '</td></tr>';
+                $content .= '<tr class="dceRow"><td class="dceFull" colspan="2">' .
+                            $GLOBALS['LANG']->sL($dce->getTitle()) . '</td></tr>';
+            } elseif ($field === '*containerflag') {
+                if ($this->getContainerFlag($dce)) {
+                    $content = '<tr><td class="dce-container-flag" colspan="2" style="background-color: ' .
+                                $this->getContainerFlag($dce) . '"></td></tr>' . $content;
+                }
             } else {
-                $content .= '<tr><td class="dceFieldTitle">' . $this->getFieldLabel($field) . '</td>' .
+                $content .= '<tr class="dceRow"><td class="dceFieldTitle">' . $this->getFieldLabel($field) . '</td>' .
                     '<td class="dceFieldValue">' . $this->renderDceFieldValue($field, $row) . '</td></tr>';
             }
         }
-        $content .= '</tbody></table>';
-        return $content;
+        return '<table class="dceSimpleBackendView"><tbody>' . $content . '</tbody></table>';
     }
 
     /**
@@ -209,5 +214,29 @@ class SimpleBackendView
             $imageTags[] = '<img src="' . $image->getPublicUrl(true) . '" class="dceFieldImage">';
         }
         return implode('', $imageTags);
+    }
+
+    /**
+     * @param Dce $dce
+     * @return int|bool
+     */
+    protected function getContainerFlag(Dce $dce)
+    {
+        if (!$dce->getEnableContainer()) {
+            return false;
+        }
+        $firstContentElementInContainer = ContainerFactory::getFirstContentObjectInContainer($dce);
+        $colors = array(
+            '#0079BF',
+            '#D29034',
+            '#519839',
+            '#B04632',
+            '#838C91',
+            '#CD5A91',
+            '#4BBF6B',
+            '#89609E',
+            '#00AECC'
+        );
+        return $colors[$firstContentElementInContainer['uid'] % count($colors)];
     }
 }
