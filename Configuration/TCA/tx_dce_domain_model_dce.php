@@ -52,20 +52,20 @@ $dceTca = array(
         '0' => array(
             'showitem' => '--palette--;;general_header,fields,initCustomJs,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.template,template_type,template_content;;;fixed-font:enable-tab,template_file,
+			--div--;' . $ll . 'tx_dce_domain_model_dce.container,enable_container,container_identifier,container_template_type,container_template,container_template_file,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.backendTemplate,use_simple_backend_view,backend_view_header,backend_view_bodytext,preview_template_type,header_preview,header_preview_template_file,bodytext_preview,bodytext_preview_template_file,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.wizard,wizard_icon,wizard_custom_icon,wizard_enable,wizard_category,wizard_description,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.detailpage,enable_detailpage,detailpage_identifier,detailpage_template_type,detailpage_template,detailpage_template_file,
-			--div--;' . $ll . 'tx_dce_domain_model_dce.container,enable_container,container_identifier,container_template_type,container_template,container_template_file,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.miscellaneous,cache_dce,hide_default_ce_wrap,show_access_tab,show_category_tab,palette_fields,template_layout_root_path,template_partial_root_path'
         ),
         // Filebased DCE
         '1' => array(
             'showitem' => '--palette--;;general_header,fields,initCustomJs,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.template,template_content;;;fixed-font:enable-tab,template_file,
+			--div--;' . $ll . 'tx_dce_domain_model_dce.container,enable_container,container_identifier,container_template_type,container_template,container_template_file,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.backendTemplate,use_simple_backend_view,backend_view_header,backend_view_bodytext,preview_template_type,header_preview,header_preview_template_file,bodytext_preview,bodytext_preview_template_file,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.wizard,wizard_icon,wizard_custom_icon,wizard_enable,wizard_category,wizard_description,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.detailpage,enable_detailpage,detailpage_identifier,detailpage_template,detailpage_template_file,
-			--div--;' . $ll . 'tx_dce_domain_model_dce.container,enable_container,container_identifier,container_template_type,container_template,container_template_file,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.miscellaneous,cache_dce,hide_default_ce_wrap,show_access_tab,show_category_tab,palette_fields,template_layout_root_path,template_partial_root_path'
         ),
     ),
