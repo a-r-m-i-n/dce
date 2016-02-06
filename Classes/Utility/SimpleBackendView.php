@@ -217,8 +217,10 @@ class SimpleBackendView
     }
 
     /**
+     * Uses the uid of the first content object to get a color code
+     *
      * @param Dce $dce
-     * @return int|bool
+     * @return int|bool color code or false if container is not enabled
      */
     protected function getContainerFlag(Dce $dce)
     {
@@ -235,7 +237,10 @@ class SimpleBackendView
             '#CD5A91',
             '#4BBF6B',
             '#89609E',
-            '#00AECC'
+            '#00AECC',
+            '#ED2448',
+            '#FF8700',
+            '#3A3A3A'
         );
         return $colors[$firstContentElementInContainer['uid'] % count($colors)];
     }
