@@ -51,7 +51,13 @@ class CodemirrorField
         $fluidTemplate->assign('disableCodemirror', $extConfiguration['disableCodemirror']);
 
         if ($parameter['fieldConf']['config']['parameters']['mode'] === 'htmlmixed') {
-            $fluidTemplate->assign('availableFields', $this->getAvailableFields());
+            if (!(bool) $parameter['fieldConf']['config']['parameters']['doNotShowFields']) {
+                $fluidTemplate->assign('availableFields', $this->getAvailableFields());
+            }
+            $fluidTemplate->assign(
+                'showFields',
+                !(bool) $parameter['fieldConf']['config']['parameters']['doNotShowFields']
+            );
             $fluidTemplate->assign('famousViewHelpers', $this->getFamousViewHelpers());
             $fluidTemplate->assign('dceViewHelpers', $this->getDceViewHelpers());
         } else {

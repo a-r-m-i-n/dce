@@ -13,8 +13,10 @@
 			<label index="availableBaseVariables">Available base variables</label>
 			<label index="famousViewHelper">Famous viewhelper</label>
 			<label index="dceViewHelper">DCE viewhelper</label>
-			<label index="dceObject">DCE Object</label>
+			<label index="dceObject">DCE object</label>
 			<label index="dceObjectNode">{dce}</label>
+			<label index="dcesObject">Array of DCE objects</label>
+			<label index="dcesObjectNode">{dces}</label>
 			<label index="contentObject">Content Object (DCE instance)</label>
 			<label index="contentObjectNode">{contentObject}</label>
 			<label index="tsfeObject">TSFE object (TypoScriptFrontendController)</label>
@@ -53,6 +55,7 @@
 			<label index="famousViewHelper">Meist verwendete Viewhelper</label>
 			<label index="dceViewHelper">DCE Viewhelper</label>
 			<label index="dceObject">DCE Objekt</label>
+			<label index="dcesObject">Sammlung von DCE Objekten</label>
 			<label index="contentObject">Content Objekt (DCE-Instanz)</label>
 			<label index="tsfeObject">TSFE Objekt (TypoScriptFrontendController)</label>
 			<label index="pageObject">Eigenschaften der aktuellen Seite</label>

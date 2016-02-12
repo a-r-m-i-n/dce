@@ -574,7 +574,7 @@ $dceTca = array(
                     'ArminVieweg\Dce\UserFunction\UserFields\CodemirrorField->getCodemirrorField',
                 'parameters' => array(
                     'mode' => 'htmlmixed',
-                    'showTemplates' => false,
+                    'doNotShowFields' => true,
                 ),
                 'default' => '{namespace dce=ArminVieweg\Dce\ViewHelpers}
 <f:layout name="DefaultContainer" />
