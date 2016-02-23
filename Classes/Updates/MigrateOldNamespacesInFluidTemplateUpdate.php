@@ -193,7 +193,10 @@ class MigrateOldNamespacesInFluidTemplateUpdate extends AbstractUpdate
         $templateContent = file_get_contents($file);
         if ($this->templateNeedUpdate($templateContent)) {
             $updatedTemplateContent = $this->performTemplateUpdates($templateContent);
-            return (bool) file_put_contents(PATH_site . $file, $updatedTemplateContent);
+            if (!file_exists($file)) {
+                $file = PATH_site . $file;
+            }
+            return (bool) file_put_contents($file, $updatedTemplateContent);
         }
         return null;
     }
