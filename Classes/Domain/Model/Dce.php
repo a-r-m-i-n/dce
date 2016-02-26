@@ -989,7 +989,14 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
             $field = $this->getFieldByVariable($variable);
             if ($field instanceof DceField) {
-                return $field->getValue();
+                if ($field->isSection()) {
+                    $fieldsArray = $this->getFieldsAsArray();
+                    if (array_key_exists($variable, $fieldsArray)) {
+                        return $fieldsArray[$variable];
+                    }
+                } else {
+                    return $field->getValue();
+                }
             }
         }
         return null;
