@@ -227,21 +227,10 @@ class SimpleBackendView
         if (!$dce->getEnableContainer()) {
             return false;
         }
+        $pageTs = \TYPO3\CMS\Backend\Utility\BackendUtility::getPagesTSconfig(GeneralUtility::_GP('id'));
+        $colors = array_values($pageTs['tx_dce.']['defaults.']['simpleBackendView.']['containerGroupColors.']);
+
         $firstContentElementInContainer = ContainerFactory::getFirstContentObjectInContainer($dce);
-        $colors = array(
-            '#0079BF',
-            '#D29034',
-            '#519839',
-            '#B04632',
-            '#838C91',
-            '#CD5A91',
-            '#4BBF6B',
-            '#89609E',
-            '#00AECC',
-            '#ED2448',
-            '#FF8700',
-            '#3A3A3A'
-        );
         return $colors[$firstContentElementInContainer['uid'] % count($colors)];
     }
 }
