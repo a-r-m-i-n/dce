@@ -76,7 +76,7 @@ class SimpleBackendView
                 $content .= '<tr class="dceRow"><td class="dceFull" colspan="2"></td></tr>';
             } elseif ($field === '*dcetitle') {
                 $content .= '<tr class="dceRow"><td class="dceFull" colspan="2">' .
-                            $GLOBALS['LANG']->sL($dce->getTitle()) . '</td></tr>';
+                            LanguageService::sL($dce->getTitle()) . '</td></tr>';
             } elseif ($field === '*containerflag') {
                 if ($this->getContainerFlag($dce)) {
                     $content = '<tr><td class="dce-container-flag" colspan="2" style="background-color: ' .
@@ -102,7 +102,7 @@ class SimpleBackendView
         $charsetConverter = GeneralUtility::makeInstance('TYPO3\CMS\Core\Charset\CharsetConverter');
         return $charsetConverter->crop(
             'utf-8',
-            $GLOBALS['LANG']->sL($field->getTitle()),
+            LanguageService::sL($field->getTitle()),
             PageTS::get('tx_dce.defaults.simpleBackendView.titleCropLength', 10),
             PageTS::get('tx_dce.defaults.simpleBackendView.titleCropAppendix', '...')
         );

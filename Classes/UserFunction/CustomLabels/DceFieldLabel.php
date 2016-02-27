@@ -7,6 +7,7 @@ namespace ArminVieweg\Dce\UserFunction\CustomLabels;
  *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
 use ArminVieweg\Dce\Domain\Model\DceField;
+use ArminVieweg\Dce\Utility\LanguageService;
 
 /**
  * Extends TCA label of fields with variable key
@@ -30,21 +31,21 @@ class DceFieldLabel
     public function getLabel(&$parameter)
     {
         if (!isset($parameter['row']['variable']) || empty($parameter['row']['variable'])) {
-            $parameter['title'] = $GLOBALS['LANG']->sL($parameter['row']['title']);
+            $parameter['title'] = LanguageService::sL($parameter['row']['title']);
             return;
         }
         if (!$this->isSectionChildField($parameter)) {
             if (!$this->isSectionField($parameter)) {
                 if ($this->isTab($parameter)) {
                     // Tab
-                    $parameter['title'] = $GLOBALS['LANG']->sL($parameter['row']['title']);
+                    $parameter['title'] = LanguageService::sL($parameter['row']['title']);
                 } else {
                     // Standard field
-                    $parameter['title'] = $GLOBALS['LANG']->sL($parameter['row']['title']) .
+                    $parameter['title'] = LanguageService::sL($parameter['row']['title']) .
                         ' <i style="font-weight: normal">{field.' . $parameter['row']['variable'] . '}</i>';
                 }
             } else {
-                $parameter['title'] = $GLOBALS['LANG']->sL($parameter['row']['title']) .
+                $parameter['title'] = LanguageService::sL($parameter['row']['title']) .
                     ' <i style="font-weight: normal">{field.' . $parameter['row']['variable'] .
                     '.<span style="color: blue;">n</span>}</i>';
             }
@@ -69,7 +70,7 @@ class DceFieldLabel
      */
     public function getLabelDce(&$parameter)
     {
-        $parameter['title'] = $GLOBALS['LANG']->sL($parameter['row']['title']);
+        $parameter['title'] = LanguageService::sL($parameter['row']['title']);
     }
 
     /**
