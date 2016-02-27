@@ -208,6 +208,7 @@ class AfterSaveHook
         }
         $this->uid = $this->getUid($id, $table, $status, $pObj);
 
+        // Write flexform values to TCA, when enabled
         if ($table === 'tt_content' && $this->isDceContentElement($pObj)) {
             $this->checkAndUpdateDceRelationField();
             \ArminVieweg\Dce\Utility\FlexformToTcaMapper::saveFlexformValuesToTca(
@@ -219,6 +220,7 @@ class AfterSaveHook
             }
         }
 
+        // When a DCE is disabled, also disable/hide the based content elements
         if ($table === 'tx_dce_domain_model_dce' && $status === 'update') {
             if (!isset($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceImportInProgress'])) {
                 if (array_key_exists('hidden', $fieldArray) && $fieldArray['hidden'] == '1') {
@@ -226,6 +228,8 @@ class AfterSaveHook
                 }
             }
         }
+
+        // Show hint when dcefield has been mapped to tca column
         if ($table === 'tx_dce_domain_model_dcefield' && $status === 'update') {
             if (array_key_exists('new_tca_field_name', $fieldArray) ||
                 array_key_exists('new_tca_field_type', $fieldArray)
