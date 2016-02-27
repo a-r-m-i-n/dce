@@ -269,7 +269,7 @@ class AfterSaveHook
             && in_array($table, array('tx_dce_domain_model_dce', 'tx_dce_domain_model_dcefield'))
             && in_array($status, array('update', 'new'))
         ) {
-            $pObj->clear_cacheCmd('all');
+            $pObj->clear_cacheCmd('system');
         }
     }
 
