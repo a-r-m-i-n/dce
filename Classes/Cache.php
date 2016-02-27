@@ -6,9 +6,9 @@ namespace ArminVieweg\Dce;
  *  |
  *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Generates "ext_localconf.php" and "ext_tables.php" located

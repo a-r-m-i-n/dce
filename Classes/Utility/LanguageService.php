@@ -15,7 +15,7 @@ namespace ArminVieweg\Dce\Utility;
 class LanguageService
 {
     /**
-     * Initiliazes LanguageObject if necessary
+     * Initializes LanguageObject if necessary
      *
      * @return void
      */

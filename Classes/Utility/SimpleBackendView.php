@@ -9,7 +9,6 @@ namespace ArminVieweg\Dce\Utility;
 use ArminVieweg\Dce\Components\DceContainer\ContainerFactory;
 use ArminVieweg\Dce\Domain\Model\Dce;
 use ArminVieweg\Dce\Domain\Model\DceField;
-use TYPO3\CMS\Backend\View\PageLayoutView;
 use TYPO3\CMS\Core\Resource\ProcessedFile;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -21,7 +20,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class SimpleBackendView
 {
-
     /**
      * Returns configured rendered field value
      *

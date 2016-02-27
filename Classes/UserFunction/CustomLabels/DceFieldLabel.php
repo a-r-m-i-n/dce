@@ -16,7 +16,6 @@ use ArminVieweg\Dce\Utility\LanguageService;
  */
 class DceFieldLabel
 {
-
     /**
      * User function to get custom labels for DCE fields
      * to show available variable name after title.

@@ -21,7 +21,9 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  */
 class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
-    /** @var \ArminVieweg\Dce\Domain\Model\Dce[]  */
+    /**
+     * @var \ArminVieweg\Dce\Domain\Model\Dce[]
+     */
     protected static $dceInstanceCache = array();
 
     /**

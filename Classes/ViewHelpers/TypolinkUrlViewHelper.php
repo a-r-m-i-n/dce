@@ -18,8 +18,7 @@ class TypolinkUrlViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVie
     /**
      * Create a typolink and returns just the URL
      *
-     * @param string $parameter Parameter string, which can be handled by
-     *                          typolink functionality
+     * @param string $parameter Parameter string, which can be handled by typolink functionality
      * @return string url
      */
     public function render($parameter)

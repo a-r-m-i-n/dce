@@ -18,7 +18,6 @@ namespace ArminVieweg\Dce\Utility;
  */
 class ForbiddenUtility
 {
-
     /**
      * If these post methods are missing, rendering fluid template in
      * backend context fails. Don't know why, but this works.

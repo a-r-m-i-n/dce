@@ -17,13 +17,11 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  */
 class DceModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
-
     /**
      * @var \ArminVieweg\Dce\Domain\Repository\DceRepository
      * @inject
      */
     protected $dceRepository;
-
 
     /**
      * Index Action

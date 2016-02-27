@@ -17,7 +17,6 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  */
 class DatabaseUtility
 {
-
     /**
      * Returns a valid DatabaseConnection object that is connected and ready
      * to be used static

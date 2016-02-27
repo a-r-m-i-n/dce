@@ -14,7 +14,6 @@ namespace ArminVieweg\Dce\UserFunction\CustomFieldValidation;
  */
 class NoLeadingNumberValidator extends AbstractFieldValidator
 {
-
     /**
      * PHP Validation to disallow leading numbers
      *

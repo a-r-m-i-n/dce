@@ -6,7 +6,6 @@ namespace ArminVieweg\Dce\UserFunction\CustomLabels;
  *  |
  *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
-use ArminVieweg\Dce\Domain\Model\DceField;
 use ArminVieweg\Dce\Domain\Repository\DceRepository;
 
 /**

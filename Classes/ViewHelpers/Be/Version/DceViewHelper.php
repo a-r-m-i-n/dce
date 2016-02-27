@@ -15,7 +15,6 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
  */
 class DceViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper
 {
-
     /**
      * Returns the current version of DCE
      *

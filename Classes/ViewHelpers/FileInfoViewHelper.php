@@ -24,7 +24,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class FileInfoViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
-
     /**
      * @var \TYPO3\CMS\Core\Resource\FileRepository
      */

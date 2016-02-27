@@ -18,7 +18,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
-
     /**
      * DCE Repository
      *
@@ -34,7 +33,6 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      * @inject
      */
     protected $typoScriptUtility;
-
 
     /**
      * Initialize Action

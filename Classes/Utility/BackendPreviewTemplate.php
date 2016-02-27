@@ -6,7 +6,6 @@ namespace ArminVieweg\Dce\Utility;
  *  |
  *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
-use ArminVieweg\Dce\Utility\DatabaseUtility;
 
 /**
  * BackendPreviewTemplate utility
