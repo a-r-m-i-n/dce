@@ -243,6 +243,27 @@ class AfterSaveHook
             }
         }
 
+        // Adds or removes *containerflag from simple backend view, when container is en- or disabled
+        if ($table === 'tx_dce_domain_model_dce' && $status === 'update' || $status === 'new') {
+            if (array_key_exists('enable_container', $fieldArray)) {
+                if ($fieldArray['enable_container'] === '1') {
+                    $items = GeneralUtility::trimExplode(',', $fieldArray['backend_view_bodytext'], true);
+                    $items[] = '*containerflag';
+                } else {
+                    $items = GeneralUtility::trimExplode(',', $fieldArray['backend_view_bodytext'], true);
+                    $items = ArrayUtility::removeArrayEntryByValue($items, '*containerflag');
+                    \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($items, 'items removed');
+                }
+                DatabaseUtility::getDatabaseConnection()->exec_UPDATEquery(
+                    'tx_dce_domain_model_dce',
+                    'uid=' . $this->uid,
+                    array(
+                        'backend_view_bodytext' => implode(',', $items)
+                    )
+                );
+            }
+        }
+
         // Clear cache if dce or dcefield has been created or updated
         if ($this->extConfiguration['disableAutoClearCache'] == 0
             && in_array($table, array('tx_dce_domain_model_dce', 'tx_dce_domain_model_dcefield'))
