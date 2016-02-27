@@ -79,7 +79,6 @@
 			<label index="mapToIndexColumn">Mappe auf Index-Spalte (tx_dce_index, mediumtext)</label>
 			<label index="newcol">Erstelle neue Spalte (in tt_content)</label>
 			<label index="chooseExistingField">Oder wähle ein bestehendes Feld</label>
-
 		</languageKey>
 	</data>
 </T3locallang>
