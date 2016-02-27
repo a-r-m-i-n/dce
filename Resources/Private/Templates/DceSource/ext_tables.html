@@ -46,7 +46,33 @@ $GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'][] = array(
 
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['dce_{f:if(condition:"{dce.uid}", then:"dceuid{dce.uid}", else:"dce_{dce.identifier}")}'] = 'pi_flexform';
 $GLOBALS['TCA']['tt_content']['columns']['pi_flexform']['config']['ds'][',dce_{f:if(condition:"{dce.uid}", then:"dceuid{dce.uid}", else:"dce_{dce.identifier}")}'] = '<f:render partial="FlexFormsXML" arguments="{dce:dce}"></f:render>';
-$GLOBALS['TCA']['tt_content']['types']['dce_{f:if(condition:"{dce.uid}", then:"dceuid{dce.uid}", else:"dce_{dce.identifier}")}']['showitem'] = 'CType,--palette--;;dce_palette_{dce.uid},pi_flexform; ;<f:if condition="{dce.show_access_tab}">,--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access, --palette--;LLL:EXT:cms/locallang_ttc.xml:palette.visibility;visibility, --palette--;LLL:EXT:cms/locallang_ttc.xml:palette.access;access</f:if><f:if condition="{dce:be.version.typo3(returnInt:'1')} >= 6000000"><f:if condition="{dce.show_category_tab}">,--div--;LLL:EXT:lang/locallang_tca.xlf:sys_category.tabs.category,categories</f:if></f:if>,--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.extended<f:if condition="{dce:be.extensionIsInstalled(key:'gridelements')}">,tx_gridelements_container,tx_gridelements_columns</f:if>';
+$GLOBALS['TCA']['tt_content']['types']['dce_{f:if(condition:"{dce.uid}", then:"dceuid{dce.uid}", else:"dce_{dce.identifier}")}']['showitem'] = '<dce:format.tiny>
+	CType,
+	--palette--;;dce_palette_{dce.uid},
+	pi_flexform,
+	<f:if condition="{dce.show_access_tab}">
+		<f:if condition="{dce:be.version.typo3(returnInt:'1')} >= 7006000">
+			<f:then>
+				--div--;LLL:EXT:lang/locallang_tca.xlf:be_users.tabs.access,
+				--palette--;LLL:EXT:lang/locallang_tca.xlf:pages.palettes.visibility;visibility,
+				--palette--;LLL:EXT:lang/locallang_tca.xlf:be_users.tabs.access;access,
+			</f:then>
+			<f:else>
+				--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,
+				--palette--;LLL:EXT:cms/locallang_ttc.xml:palette.visibility;visibility,
+				--palette--;LLL:EXT:cms/locallang_ttc.xml:palette.access;access,
+			</f:else>
+		</f:if>
+	</f:if>
+	<f:if condition="{dce.show_category_tab}">
+		--div--;LLL:EXT:lang/locallang_tca.xlf:sys_category.tabs.category,
+		categories,
+	</f:if>
+	--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.extended
+	<f:if condition="{dce:be.extensionIsInstalled(key:'gridelements')}">
+		,tx_gridelements_container,tx_gridelements_columns
+	</f:if>
+</dce:format.tiny>';
 <f:if condition="{dce.palette_fields}">
 	$GLOBALS['TCA']['tt_content']['palettes']['dce_palette_{dce.uid}']['canNotCollapse'] = true;
 	$GLOBALS['TCA']['tt_content']['palettes']['dce_palette_{dce.uid}']['showitem'] = '{dce.palette_fields}';
