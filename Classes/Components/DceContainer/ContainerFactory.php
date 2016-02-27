@@ -77,7 +77,9 @@ class ContainerFactory
         $sortColumn = $GLOBALS['TCA']['tt_content']['ctrl']['sortby'];
         $where = 'pid = ' . $contentObject['pid'] .
                  ' AND colPos = ' . $contentObject['colPos'] .
-                 ' AND ' . $sortColumn . ' >= ' . $contentObject[$sortColumn] .
+                 ' AND ' . $sortColumn . ' > ' . $contentObject[$sortColumn] .
+                 ' AND tx_dce_new_container = 0' .
+                 ' AND uid != ' . $contentObject['uid'] .
                  DatabaseUtility::getEnabledFields('tt_content');
 
         $rawContentElements = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
@@ -87,6 +89,7 @@ class ContainerFactory
             '',
             $sortColumn . ' asc'
         );
+        array_unshift($rawContentElements, $contentObject);
 
         $resolvedContentElements = static::resolveShortcutElements($rawContentElements);
 
@@ -134,6 +137,10 @@ class ContainerFactory
     public static function getFirstContentObjectInContainer(Dce $dce)
     {
         $contentObject = $dce->getContentObject();
+        if ($contentObject['tx_dce_new_container'] === '1') {
+            return $contentObject;
+        }
+
         $sortColumn = $GLOBALS['TCA']['tt_content']['ctrl']['sortby'];
         $where = 'pid = ' . $contentObject['pid'] .
             ' AND colPos = ' . $contentObject['colPos'] .
@@ -147,10 +154,12 @@ class ContainerFactory
             '',
             $sortColumn . ' desc'
         );
-        $resolvedContentElements = static::resolveShortcutElements($rawContentElements);
+
+        $rawContentElementsRespectingNewContainerFlag = static::checkForContainerFlag($rawContentElements);
+        $resolvedContentElements = static::resolveShortcutElements($rawContentElementsRespectingNewContainerFlag);
+
         $lastContentObject = $dce->getContentObject();
         foreach ($resolvedContentElements as $contentElement) {
-            //\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($resolvedContentElements);
             if ($contentElement['CType'] !== 'dce_dceuid' . $dce->getUid()) {
                 return $lastContentObject;
             }
@@ -185,5 +194,21 @@ class ContainerFactory
             }
         }
         return $resolvedContentElements;
+    }
+
+    /**
+     * @param array $rawContentElements
+     * @return array
+     */
+    private static function checkForContainerFlag(array $rawContentElements)
+    {
+        $filteredContentElements = array();
+        foreach ($rawContentElements as $rawContentElement) {
+            $filteredContentElements[] = $rawContentElement;
+            if ($rawContentElement['tx_dce_new_container'] === '1') {
+                break;
+            }
+        }
+        return $filteredContentElements;
     }
 }

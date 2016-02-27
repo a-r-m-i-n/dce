@@ -289,9 +289,6 @@ class Cache
             if (!in_array('colPos', $paletteFields)) {
                 $paletteFields[] = 'colPos';
             }
-            if (!in_array('tx_gridelements_container', $paletteFields)) {
-                $paletteFields[] = 'tx_gridelements_container ';
-            }
             $dces[$key]['palette_fields'] = implode(', ', $paletteFields);
         }
         return $dces;

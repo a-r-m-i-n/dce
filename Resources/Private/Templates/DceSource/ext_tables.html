@@ -47,7 +47,7 @@ $GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'][] = array(
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['dce_{f:if(condition:"{dce.uid}", then:"dceuid{dce.uid}", else:"dce_{dce.identifier}")}'] = 'pi_flexform';
 $GLOBALS['TCA']['tt_content']['columns']['pi_flexform']['config']['ds'][',dce_{f:if(condition:"{dce.uid}", then:"dceuid{dce.uid}", else:"dce_{dce.identifier}")}'] = '<f:render partial="FlexFormsXML" arguments="{dce:dce}"></f:render>';
 $GLOBALS['TCA']['tt_content']['types']['dce_{f:if(condition:"{dce.uid}", then:"dceuid{dce.uid}", else:"dce_{dce.identifier}")}']['showitem'] = '<dce:format.tiny>
-	CType,
+	--palette--;;dce_palette_{dce.uid}_head,
 	--palette--;;dce_palette_{dce.uid},
 	pi_flexform,
 	<f:if condition="{dce.show_access_tab}">
@@ -69,13 +69,23 @@ $GLOBALS['TCA']['tt_content']['types']['dce_{f:if(condition:"{dce.uid}", then:"d
 		categories,
 	</f:if>
 	--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.extended
+</dce:format.tiny>';
+
+	$GLOBALS['TCA']['tt_content']['palettes']['dce_palette_{dce.uid}_head']['canNotCollapse'] = true;
+	$GLOBALS['TCA']['tt_content']['palettes']['dce_palette_{dce.uid}_head']['showitem'] = '<dce:format.tiny>
+		CType
+		<f:if condition="{dce.enable_container}">
+			,tx_dce_new_container
+		</f:if>
+	</dce:format.tiny>';
+<f:if condition="{dce.palette_fields}">
+	$GLOBALS['TCA']['tt_content']['palettes']['dce_palette_{dce.uid}']['canNotCollapse'] = true;
+	$GLOBALS['TCA']['tt_content']['palettes']['dce_palette_{dce.uid}']['showitem'] = '<dce:format.tiny>
+	{dce.palette_fields}
 	<f:if condition="{dce:be.extensionIsInstalled(key:'gridelements')}">
 		,tx_gridelements_container,tx_gridelements_columns
 	</f:if>
-</dce:format.tiny>';
-<f:if condition="{dce.palette_fields}">
-	$GLOBALS['TCA']['tt_content']['palettes']['dce_palette_{dce.uid}']['canNotCollapse'] = true;
-	$GLOBALS['TCA']['tt_content']['palettes']['dce_palette_{dce.uid}']['showitem'] = '{dce.palette_fields}';
+	</dce:format.tiny>';
 </f:if>
 
 </f:if>

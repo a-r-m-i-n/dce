@@ -132,5 +132,6 @@ CREATE TABLE tx_dce_domain_model_dcefield (
 #
 CREATE TABLE tt_content (
 	tx_dce_dce int(11) DEFAULT '0' NOT NULL,
-	tx_dce_index mediumtext
+	tx_dce_index mediumtext,
+	tx_dce_new_container tinyint(4) unsigned DEFAULT '0' NOT NULL
 );

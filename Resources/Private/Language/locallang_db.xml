@@ -123,6 +123,7 @@
 			<label index="tx_dce_formeval_lowerCamelCase">The value have to be formated as lowerCamelCase. Changed input from '%s' to '%s'.</label>
 
 			<label index="tt_content.tx_dce_dce">DCE</label>
+			<label index="tt_content.tx_dce_new_container">Start new DCE container</label>
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="wizardIcon.default">Standard TYPO3-Icons</label>
@@ -209,6 +210,8 @@
 			<label index="tx_dce_formeval_headline">Eingabe '%s' ungültig</label>
 			<label index="tx_dce_formeval_noLeadingNumber">Der Wert darf nicht mit Nummern beginnen. Eingabe wurde von '%s' nach '%s' geändert.</label>
 			<label index="tx_dce_formeval_lowerCamelCase">Der Wert muss nach lowerCamelCase formatiet sein. Eingabe wurde von '%s' nach '%s' geändert.</label>
+
+			<label index="tt_content.tx_dce_new_container">Neuen DCE-Container bilden</label>
 		</languageKey>
 	</data>
 </T3locallang>

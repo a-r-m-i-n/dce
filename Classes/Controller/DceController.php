@@ -74,9 +74,8 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             }
             $container = ContainerFactory::makeContainer($dce);
             return $container->render();
-        } else {
-            ContainerFactory::clearContentElementsToSkip();
         }
+        ContainerFactory::clearContentElementsToSkip();
 
         if ($dce->getEnableDetailpage()
             && intval($contentObject['uid']) === intval(GeneralUtility::_GP($dce->getDetailpageIdentifier()))

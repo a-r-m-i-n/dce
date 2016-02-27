@@ -28,6 +28,12 @@ $newTtContentColumns = array(
             'type' => 'passthrough',
         ),
     ),
+    'tx_dce_new_container' => array(
+        'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tt_content.tx_dce_new_container',
+        'config' => array(
+            'type' => 'check',
+        ),
+    ),
 );
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('tt_content', $newTtContentColumns);
