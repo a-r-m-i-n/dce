@@ -86,6 +86,7 @@
 
 			<label index="tx_dce_domain_model_dce.container">DCE Container</label>
 			<label index="tx_dce_domain_model_dce.enableContainer">Enable DCE container</label>
+			<label index="tx_dce_domain_model_dce.containerItemLimit">Container item limit</label>
 			<label index="tx_dce_domain_model_dce.containerTemplate">DCE container template (fluid)</label>
 			<label index="tx_dce_domain_model_dce.containerTemplateFile">DCE container template file (fluid)</label>
 
@@ -175,6 +176,7 @@
 
 			<label index="tx_dce_domain_model_dce.container">DCE-Container</label>
 			<label index="tx_dce_domain_model_dce.enableContainer">Aktiviere DCE-Container</label>
+			<label index="tx_dce_domain_model_dce.containerItemLimit">Limit von Elementen im Container</label>
 			<label index="tx_dce_domain_model_dce.containerTemplate">DCE-Container-Template (Fluid)</label>
 			<label index="tx_dce_domain_model_dce.containerTemplateFile">DCE-Container-Template-Datei (Fluid)</label>
 

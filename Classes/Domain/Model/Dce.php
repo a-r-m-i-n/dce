@@ -148,6 +148,9 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /** @var bool */
     protected $enableContainer = false;
 
+    /** @var int */
+    protected $containerItemLimit = 0;
+
     /** @var string */
     protected $containerTemplateType = '';
 
@@ -639,6 +642,27 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setEnableContainer($enableContainer)
     {
         $this->enableContainer = $enableContainer;
+    }
+
+    /**
+     * Get ContainerLimit
+     *
+     * @return int
+     */
+    public function getContainerItemLimit()
+    {
+        return $this->containerItemLimit;
+    }
+
+    /**
+     * Set ContainerLimit
+     *
+     * @param int $containerItemLimit
+     * @return void
+     */
+    public function setContainerItemLimit($containerItemLimit)
+    {
+        $this->containerItemLimit = $containerItemLimit;
     }
 
     /**

@@ -52,7 +52,7 @@ $dceTca = array(
         '0' => array(
             'showitem' => '--palette--;;general_header,fields,initCustomJs,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.template,template_type,template_content;;;fixed-font:enable-tab,template_file,
-			--div--;' . $ll . 'tx_dce_domain_model_dce.container,enable_container,container_identifier,container_template_type,container_template,container_template_file,
+			--div--;' . $ll . 'tx_dce_domain_model_dce.container,enable_container,container_item_limit,container_identifier,container_template_type,container_template,container_template_file,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.backendTemplate,use_simple_backend_view,backend_view_header,backend_view_bodytext,preview_template_type,header_preview,header_preview_template_file,bodytext_preview,bodytext_preview_template_file,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.wizard,wizard_icon,wizard_custom_icon,wizard_enable,wizard_category,wizard_description,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.detailpage,enable_detailpage,detailpage_identifier,detailpage_template_type,detailpage_template,detailpage_template_file,
@@ -62,7 +62,7 @@ $dceTca = array(
         '1' => array(
             'showitem' => '--palette--;;general_header,fields,initCustomJs,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.template,template_content;;;fixed-font:enable-tab,template_file,
-			--div--;' . $ll . 'tx_dce_domain_model_dce.container,enable_container,container_identifier,container_template_type,container_template,container_template_file,
+			--div--;' . $ll . 'tx_dce_domain_model_dce.container,enable_container,container_item_limit,container_identifier,container_template_type,container_template,container_template_file,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.backendTemplate,use_simple_backend_view,backend_view_header,backend_view_bodytext,preview_template_type,header_preview,header_preview_template_file,bodytext_preview,bodytext_preview_template_file,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.wizard,wizard_icon,wizard_custom_icon,wizard_enable,wizard_category,wizard_description,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.detailpage,enable_detailpage,detailpage_identifier,detailpage_template,detailpage_template_file,
@@ -544,6 +544,16 @@ $dceTca = array(
             'label' => $ll . 'tx_dce_domain_model_dce.enableContainer',
             'config' => array(
                 'type' => 'check',
+            ),
+        ),
+        'container_item_limit' => array(
+            'exclude' => 0,
+            'label' => $ll . 'tx_dce_domain_model_dce.containerItemLimit',
+            'config' => array(
+                'type' => 'input',
+                'eval' => 'int,required',
+                'default' => 0,
+                'size' => 2,
             ),
         ),
         'container_template_type' => array(

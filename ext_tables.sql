@@ -44,6 +44,7 @@ CREATE TABLE tx_dce_domain_model_dce (
 	detailpage_template_file varchar(255) DEFAULT '' NOT NULL,
 
 	enable_container tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	container_item_limit int(11) DEFAULT '0' NOT NULL,
 	container_template_type varchar(255) DEFAULT '' NOT NULL,
 	container_template text,
 	container_template_file varchar(255) DEFAULT '' NOT NULL,

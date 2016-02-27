@@ -87,7 +87,8 @@ class ContainerFactory
             'tt_content',
             $where,
             '',
-            $sortColumn . ' asc'
+            $sortColumn . ' asc',
+            $dce->getContainerItemLimit() ? $dce->getContainerItemLimit() - 1 : ''
         );
         array_unshift($rawContentElements, $contentObject);
 
@@ -159,7 +160,10 @@ class ContainerFactory
         $resolvedContentElements = static::resolveShortcutElements($rawContentElementsRespectingNewContainerFlag);
 
         $lastContentObject = $dce->getContentObject();
-        foreach ($resolvedContentElements as $contentElement) {
+        foreach ($resolvedContentElements as $index => $contentElement) {
+            if ($dce->getContainerItemLimit() && $dce->getContainerItemLimit() - 1 == $index) {
+                return $lastContentObject;
+            }
             if ($contentElement['CType'] !== 'dce_dceuid' . $dce->getUid()) {
                 return $lastContentObject;
             }
