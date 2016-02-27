@@ -98,24 +98,14 @@ class SimpleBackendView
      */
     protected function getFieldLabel(DceField $field)
     {
-        $fieldTitle = $GLOBALS['LANG']->sL($field->getTitle());
-
-        // TODO: Write class for getting settings from pageTS
-        $cropLength = 10;
-        $pageTs = \TYPO3\CMS\Backend\Utility\BackendUtility::getPagesTSconfig(GeneralUtility::_GP('id'));
-        if (isset($pageTs['tx_dce.']['defaults.']['simpleBackendView.']['titleCropLength'])) {
-            $cropLength = $pageTs['tx_dce.']['defaults.']['simpleBackendView.']['titleCropLength'];
-        }
-
-        // TODO: Write class for getting settings from pageTS
-        $cropString = '';
-        if (isset($pageTs['tx_dce.']['defaults.']['simpleBackendView.']['titleCropAppendix'])) {
-            $cropString = $pageTs['tx_dce.']['defaults.']['simpleBackendView.']['titleCropAppendix'];
-        }
-
         /** @var \TYPO3\CMS\Core\Charset\CharsetConverter $charsetConverter */
         $charsetConverter = GeneralUtility::makeInstance('TYPO3\CMS\Core\Charset\CharsetConverter');
-        return $charsetConverter->crop('utf-8', $fieldTitle, $cropLength, $cropString);
+        return $charsetConverter->crop(
+            'utf-8',
+            $GLOBALS['LANG']->sL($field->getTitle()),
+            PageTS::get('tx_dce.defaults.simpleBackendView.titleCropLength', 10),
+            PageTS::get('tx_dce.defaults.simpleBackendView.titleCropAppendix', '...')
+        );
     }
 
     /**
@@ -187,19 +177,6 @@ class SimpleBackendView
             'uid'
         );
 
-        // TODO: Write class for getting settings from pageTS
-        $imageWidth = '50c';
-        $pageTs = \TYPO3\CMS\Backend\Utility\BackendUtility::getPagesTSconfig(GeneralUtility::_GP('id'));
-        if (isset($pageTs['tx_dce.']['defaults.']['simpleBackendView.']['imageWidth'])) {
-            $imageWidth = $pageTs['tx_dce.']['defaults.']['simpleBackendView.']['imageWidth'];
-        }
-        // TODO: Write class for getting settings from pageTS
-        $imageHeight = '50c';
-        $pageTs = \TYPO3\CMS\Backend\Utility\BackendUtility::getPagesTSconfig(GeneralUtility::_GP('id'));
-        if (isset($pageTs['tx_dce.']['defaults.']['simpleBackendView.']['imageHeight'])) {
-            $imageHeight = $pageTs['tx_dce.']['defaults.']['simpleBackendView.']['imageHeight'];
-        }
-
         $imageTags = array();
         foreach (array_keys($rows) as $fileReferenceUid) {
             $fileReference = ResourceFactory::getInstance()->getFileReferenceObject($fileReferenceUid, array());
@@ -208,8 +185,8 @@ class SimpleBackendView
                 continue;
             }
             $image = $fileObject->process(ProcessedFile::CONTEXT_IMAGECROPSCALEMASK, array(
-                'width' => $imageWidth,
-                'height' => $imageHeight
+                'width' => PageTS::get('tx_dce.defaults.simpleBackendView.imageWidth', '50c'),
+                'height' => PageTS::get('tx_dce.defaults.simpleBackendView.imageWidth', '50')
             ));
             $imageTags[] = '<img src="' . $image->getPublicUrl(true) . '" class="dceFieldImage">';
         }
@@ -227,8 +204,7 @@ class SimpleBackendView
         if (!$dce->getEnableContainer()) {
             return false;
         }
-        $pageTs = \TYPO3\CMS\Backend\Utility\BackendUtility::getPagesTSconfig(GeneralUtility::_GP('id'));
-        $colors = array_values($pageTs['tx_dce.']['defaults.']['simpleBackendView.']['containerGroupColors.']);
+        $colors = array_values(PageTS::get('tx_dce.defaults.simpleBackendView.containerGroupColors'));
 
         $firstContentElementInContainer = ContainerFactory::getFirstContentObjectInContainer($dce);
         return $colors[$firstContentElementInContainer['uid'] % count($colors)];
