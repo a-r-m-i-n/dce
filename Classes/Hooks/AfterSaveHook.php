@@ -265,11 +265,15 @@ class AfterSaveHook
         }
 
         // Clear cache if dce or dcefield has been created or updated
-        if ($this->extConfiguration['disableAutoClearCache'] == 0
-            && in_array($table, array('tx_dce_domain_model_dce', 'tx_dce_domain_model_dcefield'))
-            && in_array($status, array('update', 'new'))
+        if (in_array($table, array('tx_dce_domain_model_dce', 'tx_dce_domain_model_dcefield')) &&
+            in_array($status, array('update', 'new'))
         ) {
-            $pObj->clear_cacheCmd('system');
+            if ($this->extConfiguration['disableAutoClearCache'] == 0) {
+                $pObj->clear_cacheCmd('system');
+            }
+            if ($this->extConfiguration['disableAutoClearFrontendCache'] == 0) {
+                $pObj->clear_cacheCmd('pages');
+            }
         }
     }
 

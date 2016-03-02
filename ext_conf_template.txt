@@ -1,8 +1,11 @@
 # cat=general/paths; type=input; label=Path of filebased DCEs: Path to filebased DCEs (very experimental, do not use!)
 filebasedDcePath =
 
-# cat=general/disable; type=boolean; label=Disable automatic clear cache: If enabled, the TYPO3 cache (all) will not get cleared automatically on changes of DCE. (not recommended)
+# cat=general/disable; type=boolean; label=Disable automatic clear cache: If enabled, the TYPO3 system cache will not get cleared automatically on changes of DCE. You need clear it manually on field configuration changes. (not recommended)
 disableAutoClearCache = 0
+
+# cat=general/disable; type=boolean; label=Disable automatic clear frontend cache: If enabled, the TYPO3 frontend cache will not get cleared automatically on changes of DCE. You need clear it manually on template changes.
+disableAutoClearFrontendCache = 0
 
 # cat=general/disable; type=boolean; label=Disable CodeMirror: If enabled, the textareas for field configuration and all DCE inline templates are not replaced by syntaxhighlighting code editor (CodeMirror)
 disableCodemirror = 0
