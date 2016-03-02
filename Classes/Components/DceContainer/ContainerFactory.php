@@ -78,7 +78,6 @@ class ContainerFactory
         $where = 'pid = ' . $contentObject['pid'] .
                  ' AND colPos = ' . $contentObject['colPos'] .
                  ' AND ' . $sortColumn . ' > ' . $contentObject[$sortColumn] .
-                 ' AND tx_dce_new_container = 0' .
                  ' AND uid != ' . $contentObject['uid'] .
                  DatabaseUtility::getEnabledFields('tt_content');
 
@@ -96,7 +95,10 @@ class ContainerFactory
 
         $contentElementsInContainer = array();
         foreach ($resolvedContentElements as $rawContentElement) {
-            if ($rawContentElement['CType'] !== 'dce_dceuid' . $dce->getUid()) {
+            if ($rawContentElement['CType'] !== 'dce_dceuid' . $dce->getUid() ||
+                ($contentObject['uid'] !== $rawContentElement['uid'] &&
+                    $rawContentElement['tx_dce_new_container'] === '1')
+            ) {
                 return $contentElementsInContainer;
             }
             $contentElementsInContainer[] = $rawContentElement;
