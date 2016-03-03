@@ -551,7 +551,7 @@ $dceTca = array(
             'label' => $ll . 'tx_dce_domain_model_dce.containerItemLimit',
             'config' => array(
                 'type' => 'input',
-                'eval' => 'int,required',
+                'eval' => 'num',
                 'default' => 0,
                 'size' => 2,
             ),
