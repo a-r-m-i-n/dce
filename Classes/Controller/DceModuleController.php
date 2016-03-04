@@ -48,7 +48,7 @@ class DceModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
         $this->view->assign('contentElements', $contentElements);
         $this->view->assign('dce', $dce);
         if ($perform) {
-            \ArminVieweg\Dce\Utility\BackendPreviewTemplate::performPreviewAutoupdateBatchOnDceChange($dce->getUid());
+            \ArminVieweg\Dce\Components\BackendPreviewTemplates\BackendPreviewTemplate::performPreviewAutoupdateBatchOnDceChange($dce->getUid());
             $this->view->assign('perform', true);
         }
     }
