@@ -11,9 +11,15 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
- * Generates "ext_localconf.php" and "ext_tables.php" located
- * in "typo3temp/Cache/Code/cache_dce/" which contains
- * the whole DCE configurations used by TYPO3.
+ * Cache Generator
+ *
+ * Creates ext_localconf.php and ext_tables.php in /typo3temp/Cache/Code/cache_dce
+ * Both files contain the whole DCE configuration used natively by TYPO3.
+ *
+ * Fluid Template Engine is used to render the files. You find the templates in
+ * EXT:dce/Resources/Private/Templates/DceSource/
+ *
+ * Flexform configuration is outsourced to partial.
  *
  * @package ArminVieweg\Dce
  */
@@ -34,22 +40,21 @@ class Cache
      */
     const CACHE_TYPE_EXTTABLES = 'ext_tables.php';
 
-
     /**
      * @var \ArminVieweg\Dce\Utility\FluidTemplate
      */
-    protected $fluidTemplateUtility;
+    protected $fluidTemplate;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->fluidTemplateUtility = GeneralUtility::makeInstance('ArminVieweg\Dce\Utility\FluidTemplate');
+        $this->fluidTemplate = GeneralUtility::makeInstance('ArminVieweg\Dce\Utility\FluidTemplate');
     }
 
     /**
-     * Create localconf
+     * Renders and saves ext_localconf.php contents
      *
      * @return void
      */
@@ -59,7 +64,7 @@ class Cache
             return;
         }
 
-        $this->fluidTemplateUtility->setTemplatePathAndFilename(
+        $this->fluidTemplate->setTemplatePathAndFilename(
             ExtensionManagementUtility::extPath('dce') . 'Resources/Private/Templates/DceSource/localconf.html'
         );
 
@@ -67,12 +72,12 @@ class Cache
         $staticDceUtility = GeneralUtility::makeInstance('ArminVieweg\Dce\Utility\StaticDce');
 
         $dces = array_merge($this->getDatabaseDce(), $staticDceUtility->getAll());
-        $this->fluidTemplateUtility->assign('dceArray', $dces);
-        $this->saveCacheData(self::CACHE_TYPE_EXTLOCALCONF, $this->fluidTemplateUtility->render());
+        $this->fluidTemplate->assign('dceArray', $dces);
+        $this->saveCacheData(self::CACHE_TYPE_EXTLOCALCONF, $this->fluidTemplate->render());
     }
 
     /**
-     * Create ext_tables
+     * Renders and saves ext_tables.php contents
      *
      * @return void
      */
@@ -82,7 +87,7 @@ class Cache
             return;
         }
 
-        $this->fluidTemplateUtility->setTemplatePathAndFilename(
+        $this->fluidTemplate->setTemplatePathAndFilename(
             ExtensionManagementUtility::extPath('dce') . 'Resources/Private/Templates/DceSource/ext_tables.html'
         );
 
@@ -94,13 +99,13 @@ class Cache
         if (ExtensionManagementUtility::isLoaded('gridelements')) {
             $dces = $this->ensureGridelementsFieldCompatibility($dces);
         }
-        $this->fluidTemplateUtility->assign('dceArray', $dces);
+        $this->fluidTemplate->assign('dceArray', $dces);
 
-        $this->fluidTemplateUtility->assign(
+        $this->fluidTemplate->assign(
             'dceFieldsWithNewTcaColumns',
             array_unique(\ArminVieweg\Dce\Utility\FlexformToTcaMapper::getDceFieldRowsWithNewTcaColumns())
         );
-        $this->saveCacheData(self::CACHE_TYPE_EXTTABLES, $this->fluidTemplateUtility->render());
+        $this->saveCacheData(self::CACHE_TYPE_EXTTABLES, $this->fluidTemplate->render());
     }
 
     /**
