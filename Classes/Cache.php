@@ -55,7 +55,10 @@ class Cache
      */
     public function createLocalconf()
     {
-        \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection();
+        if (!$this->isDatabaseValid()) {
+            return;
+        }
+
         $this->fluidTemplateUtility->setTemplatePathAndFilename(
             ExtensionManagementUtility::extPath('dce') . 'Resources/Private/Templates/DceSource/localconf.html'
         );
@@ -75,7 +78,10 @@ class Cache
      */
     public function createExtTables()
     {
-        \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection();
+        if (!$this->isDatabaseValid()) {
+            return;
+        }
+
         $this->fluidTemplateUtility->setTemplatePathAndFilename(
             ExtensionManagementUtility::extPath('dce') . 'Resources/Private/Templates/DceSource/ext_tables.html'
         );
@@ -95,6 +101,19 @@ class Cache
             array_unique(\ArminVieweg\Dce\Utility\FlexformToTcaMapper::getDceFieldRowsWithNewTcaColumns())
         );
         $this->saveCacheData(self::CACHE_TYPE_EXTTABLES, $this->fluidTemplateUtility->render());
+    }
+
+    /**
+     * Initializes database and checks if required DCE tables are present
+     *
+     * @return bool
+     */
+    protected function isDatabaseValid()
+    {
+        $db = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection();
+        return ($db->admin_get_fields('tx_dce_domain_model_dce') &&
+                $db->admin_get_fields('tx_dce_domain_model_dcefield')
+        );
     }
 
     /**
