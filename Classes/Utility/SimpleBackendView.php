@@ -21,6 +21,11 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class SimpleBackendView
 {
     /**
+     * @var string
+     */
+    protected static $lastContainerColor;
+
+    /**
      * Returns configured rendered field value
      *
      * @param Dce $dce
@@ -76,9 +81,10 @@ class SimpleBackendView
                 $content .= '<tr class="dceRow"><td class="dceFull" colspan="2">' .
                             LanguageService::sL($dce->getTitle()) . '</td></tr>';
             } elseif ($field === '*containerflag') {
-                if ($this->getContainerFlag($dce)) {
+                $containerFlag = $this->getContainerFlag($dce);
+                if ($containerFlag) {
                     $content = '<tr><td class="dce-container-flag" colspan="2" style="background-color: ' .
-                                $this->getContainerFlag($dce) . '"></td></tr>' . $content;
+                                $containerFlag . '"></td></tr>' . $content;
                 }
             } else {
                 $content .= '<tr class="dceRow"><td class="dceFieldTitle">' . $this->getFieldLabel($field) . '</td>' .
@@ -202,9 +208,11 @@ class SimpleBackendView
         if (!$dce->getEnableContainer()) {
             return false;
         }
-        $colors = array_values(PageTS::get('tx_dce.defaults.simpleBackendView.containerGroupColors'));
-
-        $firstContentElementInContainer = ContainerFactory::getFirstContentObjectInContainer($dce);
-        return $colors[$firstContentElementInContainer['uid'] % count($colors)];
+        if (ContainerFactory::checkContentElementForBeingRendered($dce->getContentObject())) {
+            return static::$lastContainerColor;
+        }
+        $container = ContainerFactory::makeContainer($dce);
+        static::$lastContainerColor = $container->getContainerColor();
+        return static::$lastContainerColor;
     }
 }

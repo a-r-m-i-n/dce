@@ -129,52 +129,6 @@ class ContainerFactory
     }
 
     /**
-     * Returns the first contentObject in container of given DCE.
-     *
-     * If $dce->getContentObject() === static::getFirstContentObjectInContainer() then
-     * the given DCE instance is already the first item in container.
-     *
-     * @param Dce $dce
-     * @return array
-     */
-    public static function getFirstContentObjectInContainer(Dce $dce)
-    {
-        $contentObject = $dce->getContentObject();
-        if ($contentObject['tx_dce_new_container'] === '1') {
-            return $contentObject;
-        }
-
-        $sortColumn = $GLOBALS['TCA']['tt_content']['ctrl']['sortby'];
-        $where = 'pid = ' . $contentObject['pid'] .
-            ' AND colPos = ' . $contentObject['colPos'] .
-            ' AND ' . $sortColumn . ' < ' . $contentObject[$sortColumn] .
-            DatabaseUtility::getEnabledFields('tt_content');
-
-        $rawContentElements = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
-            '*',
-            'tt_content',
-            $where,
-            '',
-            $sortColumn . ' desc'
-        );
-
-        $rawContentElementsRespectingNewContainerFlag = static::checkForContainerFlag($rawContentElements);
-        $resolvedContentElements = static::resolveShortcutElements($rawContentElementsRespectingNewContainerFlag);
-
-        $lastContentObject = $dce->getContentObject();
-        foreach ($resolvedContentElements as $index => $contentElement) {
-            if ($dce->getContainerItemLimit() && $dce->getContainerItemLimit() - 1 == $index) {
-                return $lastContentObject;
-            }
-            if ($contentElement['CType'] !== 'dce_dceuid' . $dce->getUid()) {
-                return $lastContentObject;
-            }
-            $lastContentObject = $contentElement;
-        }
-        return $lastContentObject;
-    }
-
-    /**
      * Resolves CType="shortcut" content elements
      *
      * @param array $rawContentElements array with tt_content rows
@@ -200,21 +154,5 @@ class ContainerFactory
             }
         }
         return $resolvedContentElements;
-    }
-
-    /**
-     * @param array $rawContentElements
-     * @return array
-     */
-    private static function checkForContainerFlag(array $rawContentElements)
-    {
-        $filteredContentElements = array();
-        foreach ($rawContentElements as $rawContentElement) {
-            $filteredContentElements[] = $rawContentElement;
-            if ($rawContentElement['tx_dce_new_container'] === '1') {
-                break;
-            }
-        }
-        return $filteredContentElements;
     }
 }

@@ -7,6 +7,7 @@ namespace ArminVieweg\Dce\Components\DceContainer;
  *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
 use ArminVieweg\Dce\Domain\Model\Dce;
+use ArminVieweg\Dce\Utility\PageTS;
 
 /**
  * Container
@@ -63,5 +64,18 @@ class Container
     {
         $this->view->assign('dces', $this->dces);
         return $this->view->render();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getContainerColor()
+    {
+        /** @var Dce $firstDce */
+        $firstDce = current($this->dces);
+        $contentObject = $firstDce->getContentObject();
+
+        $colors = array_values(PageTS::get('tx_dce.defaults.simpleBackendView.containerGroupColors'));
+        return $colors[$contentObject['uid'] % count($colors)];
     }
 }
