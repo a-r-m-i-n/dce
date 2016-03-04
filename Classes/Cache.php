@@ -103,7 +103,7 @@ class Cache
 
         $this->fluidTemplate->assign(
             'dceFieldsWithNewTcaColumns',
-            array_unique(\ArminVieweg\Dce\Utility\FlexformToTcaMapper::getDceFieldRowsWithNewTcaColumns())
+            array_unique(Components\FlexformToTcaMapper\Mapper::getDceFieldRowsWithNewTcaColumns())
         );
         $this->saveCacheData(self::CACHE_TYPE_EXTTABLES, $this->fluidTemplate->render());
     }

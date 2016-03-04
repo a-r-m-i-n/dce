@@ -210,7 +210,7 @@ class AfterSaveHook
         // Write flexform values to TCA, when enabled
         if ($table === 'tt_content' && $this->isDceContentElement($pObj)) {
             $this->checkAndUpdateDceRelationField();
-            \ArminVieweg\Dce\Utility\FlexformToTcaMapper::saveFlexformValuesToTca(
+            \ArminVieweg\Dce\Components\FlexformToTcaMapper\Mapper::saveFlexformValuesToTca(
                 $this->uid,
                 $this->fieldArray['pi_flexform']
             );
