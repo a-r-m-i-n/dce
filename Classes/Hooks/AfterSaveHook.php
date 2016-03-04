@@ -9,7 +9,6 @@ namespace ArminVieweg\Dce\Hooks;
 use ArminVieweg\Dce\Utility\BackendPreviewTemplate;
 use ArminVieweg\Dce\Utility\DatabaseUtility;
 use ArminVieweg\Dce\Utility\FlashMessage;
-use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
@@ -251,8 +250,14 @@ class AfterSaveHook
                     $items[] = '*containerflag';
                 } else {
                     $items = GeneralUtility::trimExplode(',', $fieldArray['backend_view_bodytext'], true);
-                    $items = ArrayUtility::removeArrayEntryByValue($items, '*containerflag');
-                    \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($items, 'items removed');
+                    if (!GeneralUtility::compat_version('7.6')) {
+                        $items = GeneralUtility::removeArrayEntryByValue($items, '*containerflag');
+                    } else {
+                        $items = \TYPO3\CMS\Core\Utility\ArrayUtility::removeArrayEntryByValue(
+                            $items,
+                            '*containerflag'
+                        );
+                    }
                 }
                 DatabaseUtility::getDatabaseConnection()->exec_UPDATEquery(
                     'tx_dce_domain_model_dce',
