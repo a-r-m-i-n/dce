@@ -1,5 +1,5 @@
 <?php
-namespace ArminVieweg\Dce\Utility;
+namespace ArminVieweg\Dce\Components\SimpleBackendView;
 
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is
  *  | free software and is licensed under GNU General Public License.
@@ -79,7 +79,7 @@ class SimpleBackendView
                 $content .= '<tr class="dceRow"><td class="dceFull" colspan="2"></td></tr>';
             } elseif ($field === '*dcetitle') {
                 $content .= '<tr class="dceRow"><td class="dceFull" colspan="2">' .
-                            LanguageService::sL($dce->getTitle()) . '</td></tr>';
+                            \ArminVieweg\Dce\Utility\LanguageService::sL($dce->getTitle()) . '</td></tr>';
             } elseif ($field === '*containerflag') {
                 $containerFlag = $this->getContainerFlag($dce);
                 if ($containerFlag) {
@@ -106,9 +106,9 @@ class SimpleBackendView
         $charsetConverter = GeneralUtility::makeInstance('TYPO3\CMS\Core\Charset\CharsetConverter');
         return $charsetConverter->crop(
             'utf-8',
-            LanguageService::sL($field->getTitle()),
-            PageTS::get('tx_dce.defaults.simpleBackendView.titleCropLength', 10),
-            PageTS::get('tx_dce.defaults.simpleBackendView.titleCropAppendix', '...')
+            \ArminVieweg\Dce\Utility\LanguageService::sL($field->getTitle()),
+            \ArminVieweg\Dce\Utility\PageTS::get('tx_dce.defaults.simpleBackendView.titleCropLength', 10),
+            \ArminVieweg\Dce\Utility\PageTS::get('tx_dce.defaults.simpleBackendView.titleCropAppendix', '...')
         );
     }
 
@@ -162,7 +162,7 @@ class SimpleBackendView
      */
     protected function getFalMediaPreview(DceField $field, array $row)
     {
-        $database = DatabaseUtility::getDatabaseConnection();
+        $database = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection();
         $fieldConfiuration = $field->getConfigurationAsArray();
 
         /** @var \TYPO3\CMS\Frontend\Page\PageRepository $pageRepository */
@@ -189,8 +189,8 @@ class SimpleBackendView
                 continue;
             }
             $image = $fileObject->process(ProcessedFile::CONTEXT_IMAGECROPSCALEMASK, array(
-                'width' => PageTS::get('tx_dce.defaults.simpleBackendView.imageWidth', '50c'),
-                'height' => PageTS::get('tx_dce.defaults.simpleBackendView.imageWidth', '50')
+                'width' => \ArminVieweg\Dce\Utility\PageTS::get('tx_dce.defaults.simpleBackendView.imageWidth', '50c'),
+                'height' => \ArminVieweg\Dce\Utility\PageTS::get('tx_dce.defaults.simpleBackendView.imageWidth', '50')
             ));
             $imageTags[] = '<img src="' . $image->getPublicUrl(true) . '" class="dceFieldImage">';
         }

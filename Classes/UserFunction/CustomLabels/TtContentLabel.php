@@ -52,7 +52,7 @@ class TtContentLabel
         }
 
         if ($dce->isUseSimpleBackendView()) {
-            $simpleBackendViewUtility = new \ArminVieweg\Dce\Utility\SimpleBackendView();
+            $simpleBackendViewUtility = new \ArminVieweg\Dce\Components\SimpleBackendView\SimpleBackendView();
             $parameter['title'] = $simpleBackendViewUtility->getSimpleBackendViewHeaderContent($dce, true);
         }
     }
