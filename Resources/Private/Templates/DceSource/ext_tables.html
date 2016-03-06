@@ -45,7 +45,7 @@ $GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'][] = array(
 </f:if>
 
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['dce_{f:if(condition:"{dce.uid}", then:"dceuid{dce.uid}", else:"dce_{dce.identifier}")}'] = 'pi_flexform';
-$GLOBALS['TCA']['tt_content']['columns']['pi_flexform']['config']['ds'][',dce_{f:if(condition:"{dce.uid}", then:"dceuid{dce.uid}", else:"dce_{dce.identifier}")}'] = '<f:render partial="FlexFormsXML" arguments="{dce:dce}"></f:render>';
+$GLOBALS['TCA']['tt_content']['columns']['pi_flexform']['config']['ds'][',dce_{f:if(condition:"{dce.uid}", then:"dceuid{dce.uid}", else:"dce_{dce.identifier}")}'] = '<dce:format.tiny><f:render partial="FlexFormsXML" arguments="{dce:dce}"></f:render></dce:format.tiny>';
 $GLOBALS['TCA']['tt_content']['types']['dce_{f:if(condition:"{dce.uid}", then:"dceuid{dce.uid}", else:"dce_{dce.identifier}")}']['showitem'] = '<dce:format.tiny>
 	--palette--;;dce_palette_{dce.uid}_head,
 	--palette--;;dce_palette_{dce.uid},
