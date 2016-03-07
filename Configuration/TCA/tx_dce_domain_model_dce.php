@@ -549,6 +549,7 @@ $dceTca = array(
         'container_item_limit' => array(
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dce.containerItemLimit',
+            'displayCond' => 'FIELD:enable_container:=:1',
             'config' => array(
                 'type' => 'input',
                 'eval' => 'num',
