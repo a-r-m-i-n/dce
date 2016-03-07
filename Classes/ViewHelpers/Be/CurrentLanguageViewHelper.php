@@ -14,7 +14,6 @@ namespace ArminVieweg\Dce\ViewHelpers\Be;
  */
 class CurrentLanguageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper
 {
-
     /**
      * Returns the current language key
      *

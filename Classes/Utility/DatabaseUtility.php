@@ -6,6 +6,9 @@ namespace ArminVieweg\Dce\Utility;
  *  |
  *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
+use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /**
  * Database utility
@@ -14,7 +17,6 @@ namespace ArminVieweg\Dce\Utility;
  */
 class DatabaseUtility
 {
-
     /**
      * Returns a valid DatabaseConnection object that is connected and ready
      * to be used static
@@ -43,5 +45,26 @@ class DatabaseUtility
             'uid = ' . $uid
         );
         return intval(substr($contentElement['CType'], strlen('dce_dceuid')));
+    }
+
+    /**
+     * Get enabledFields for given table name, respecting TYPO3_MODE. Includes deleteClause
+     *
+     * @param string $tableName
+     * @return string SQL where part containg enabled fields
+     */
+    public static function getEnabledFields($tableName)
+    {
+        if (TYPO3_MODE === 'BE') {
+            $enableFields = BackendUtility::BEenableFields($tableName) . BackendUtility::deleteClause($tableName);
+            return $enableFields;
+        } else {
+            /** @var $contentObjectRenderer ContentObjectRenderer */
+            $contentObjectRenderer = GeneralUtility::makeInstance(
+                'TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer'
+            );
+            $enableFields = $contentObjectRenderer->enableFields($tableName);
+            return $enableFields;
+        }
     }
 }

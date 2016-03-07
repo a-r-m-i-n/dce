@@ -148,7 +148,9 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getConfigurationAsArray()
     {
-        return \TYPO3\CMS\Core\Utility\GeneralUtility::xml2array($this->getConfiguration());
+        $configuration = '<dceFieldConfiguration>' . $this->getConfiguration() . '</dceFieldConfiguration>';
+        $configurationArray = \TYPO3\CMS\Core\Utility\GeneralUtility::xml2array($configuration);
+        return $configurationArray['dceFieldConfiguration'];
     }
 
     /**

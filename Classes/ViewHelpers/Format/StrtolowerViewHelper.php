@@ -14,7 +14,6 @@ namespace ArminVieweg\Dce\ViewHelpers\Format;
  */
 class StrtolowerViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
-
     /**
      * Performs strtolower on given subject
      *

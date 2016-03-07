@@ -47,3 +47,16 @@ table.dceSimpleBackendView tr:last-child td.dceFieldValue {
 img.dceFieldImage {
 	margin: 0 4px 4px 0;
 }
+
+.t3-page-ce-body {
+	position: relative;
+}
+
+.dce-container-flag {
+	width: 100%;
+	height: 4px;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	padding: 0 !important;
+}

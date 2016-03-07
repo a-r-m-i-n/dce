@@ -16,7 +16,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class ModuleLinkViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper
 {
-
     /**
      * Returns link to module
      *

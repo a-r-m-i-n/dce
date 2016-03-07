@@ -21,6 +21,10 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  */
 class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
+    /**
+     * @var \ArminVieweg\Dce\Domain\Model\Dce[]
+     */
+    protected static $dceInstanceCache = array();
 
     /**
      * Returns database DCEs and static DCEs as merged array
@@ -58,6 +62,9 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      */
     public function findAndBuildOneByUid($uid, $fieldList, $contentObject)
     {
+        if (array_key_exists($contentObject['uid'], static::$dceInstanceCache)) {
+            return static::$dceInstanceCache[$contentObject['uid']];
+        }
         $this->disableRespectOfEnableFields();
 
         if (is_numeric($uid)) {
@@ -79,6 +86,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
         $this->processFillingFields($dce, $fieldList);
         $dce->setContentObject($contentObject);
+        static::$dceInstanceCache[$contentObject['uid']] = $dce;
         return $dce;
     }
 
@@ -424,16 +432,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                 continue;
             }
             if (!$dceFieldConfiguration['dce_ignore_enablefields']) {
-                if (TYPO3_MODE === 'BE') {
-                    $enableFields = BackendUtility::BEenableFields($tableName) .
-                        BackendUtility::deleteClause($tableName);
-                } else {
-                    /** @var $contentObjectRenderer ContentObjectRenderer */
-                    $contentObjectRenderer = GeneralUtility::makeInstance(
-                        'TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer'
-                    );
-                    $enableFields = $contentObjectRenderer->enableFields($tableName);
-                }
+                $enableFields = DatabaseUtility::getEnabledFields($tableName);
             }
 
             $recordRows = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(

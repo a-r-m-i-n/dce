@@ -16,7 +16,6 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  */
 abstract class AbstractFieldValidator
 {
-
     /**
      * JavaScript validation
      *

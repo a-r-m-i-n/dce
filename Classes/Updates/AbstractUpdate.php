@@ -14,7 +14,6 @@ namespace ArminVieweg\Dce\Updates;
  */
 class AbstractUpdate extends \TYPO3\CMS\Install\Updates\AbstractUpdate
 {
-
     /**
      * Checks whether updates are required.
      *

@@ -14,7 +14,6 @@ namespace ArminVieweg\Dce\UserFunction\CustomFieldValidation;
  */
 class LowerCamelCaseValidator extends AbstractFieldValidator
 {
-
     /**
      * PHP Validation to check lowerCamelCase
      *

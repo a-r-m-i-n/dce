@@ -6,6 +6,7 @@ namespace ArminVieweg\Dce\Controller;
  *  |
  *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
+use ArminVieweg\Dce\Components\DceContainer\ContainerFactory;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -17,7 +18,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
-
     /**
      * DCE Repository
      *
@@ -33,7 +33,6 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      * @inject
      */
     protected $typoScriptUtility;
-
 
     /**
      * Initialize Action
@@ -66,6 +65,15 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             $this->settings,
             $contentObject
         );
+
+        if ($dce->getEnableContainer()) {
+            if (ContainerFactory::checkContentElementForBeingRendered($dce->getContentObject())) {
+                return '';
+            }
+            $container = ContainerFactory::makeContainer($dce);
+            return $container->render();
+        }
+        ContainerFactory::clearContentElementsToSkip();
 
         if ($dce->getEnableDetailpage()
             && intval($contentObject['uid']) === intval(GeneralUtility::_GP($dce->getDetailpageIdentifier()))

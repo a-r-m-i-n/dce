@@ -13,8 +13,10 @@
 			<label index="availableBaseVariables">Available base variables</label>
 			<label index="famousViewHelper">Famous viewhelper</label>
 			<label index="dceViewHelper">DCE viewhelper</label>
-			<label index="dceObject">DCE Object</label>
+			<label index="dceObject">DCE object</label>
 			<label index="dceObjectNode">{dce}</label>
+			<label index="dcesObject">Array of DCE objects</label>
+			<label index="dcesObjectNode">{dces}</label>
 			<label index="contentObject">Content Object (DCE instance)</label>
 			<label index="contentObjectNode">{contentObject}</label>
 			<label index="tsfeObject">TSFE object (TypoScriptFrontendController)</label>
@@ -33,6 +35,7 @@
 			<label index="section">Section</label>
 			<label index="dceTitle">*DCE title*</label>
 			<label index="empty">*Empty*</label>
+			<label index="containerflag">*Container Color*</label>
 			<label index="entry">entry</label>
 			<label index="entries">entries</label>
 			<label index="editDceOfThisContentElement">Edit DCE (on which this content element is based on)</label>
@@ -52,6 +55,7 @@
 			<label index="famousViewHelper">Meist verwendete Viewhelper</label>
 			<label index="dceViewHelper">DCE Viewhelper</label>
 			<label index="dceObject">DCE Objekt</label>
+			<label index="dcesObject">Sammlung von DCE Objekten</label>
 			<label index="contentObject">Content Objekt (DCE-Instanz)</label>
 			<label index="tsfeObject">TSFE Objekt (TypoScriptFrontendController)</label>
 			<label index="pageObject">Eigenschaften der aktuellen Seite</label>
@@ -66,6 +70,7 @@
 			<label index="section">Sektion</label>
 			<label index="dceTitle">*DCE-Titel*</label>
 			<label index="empty">*Leer*</label>
+			<label index="containerflag">*Container-Farbe*</label>
 			<label index="entry">Eintrag</label>
 			<label index="entries">Einträge</label>
 			<label index="editDceOfThisContentElement">Bearbeite DCE (auf welchem dieses Inhaltselement basiert)</label>
@@ -74,7 +79,6 @@
 			<label index="mapToIndexColumn">Mappe auf Index-Spalte (tx_dce_index, mediumtext)</label>
 			<label index="newcol">Erstelle neue Spalte (in tt_content)</label>
 			<label index="chooseExistingField">Oder wähle ein bestehendes Feld</label>
-
 		</languageKey>
 	</data>
 </T3locallang>

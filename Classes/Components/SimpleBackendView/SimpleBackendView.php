@@ -1,14 +1,14 @@
 <?php
-namespace ArminVieweg\Dce\Utility;
+namespace ArminVieweg\Dce\Components\SimpleBackendView;
 
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is
  *  | free software and is licensed under GNU General Public License.
  *  |
  *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
+use ArminVieweg\Dce\Components\DceContainer\ContainerFactory;
 use ArminVieweg\Dce\Domain\Model\Dce;
 use ArminVieweg\Dce\Domain\Model\DceField;
-use TYPO3\CMS\Backend\View\PageLayoutView;
 use TYPO3\CMS\Core\Resource\ProcessedFile;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -20,6 +20,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class SimpleBackendView
 {
+    /**
+     * @var string
+     */
+    protected static $lastContainerColor;
 
     /**
      * Returns configured rendered field value
@@ -68,21 +72,26 @@ class SimpleBackendView
             }
         }
 
-        $content = '<table class="dceSimpleBackendView"><tbody>';
+        $content = '';
         /** @var DceField|string $field */
         foreach ($fields as $field) {
             if ($field === '*empty') {
-                $content .= '<tr><td class="dceFull" colspan="2"></td></tr>';
+                $content .= '<tr class="dceRow"><td class="dceFull" colspan="2"></td></tr>';
             } elseif ($field === '*dcetitle') {
-                $content .= '<tr><td class="dceFull" colspan="2">' . $GLOBALS['LANG']->sL($dce->getTitle()) .
-                            '</td></tr>';
+                $content .= '<tr class="dceRow"><td class="dceFull" colspan="2">' .
+                            \ArminVieweg\Dce\Utility\LanguageService::sL($dce->getTitle()) . '</td></tr>';
+            } elseif ($field === '*containerflag') {
+                $containerFlag = $this->getContainerFlag($dce);
+                if ($containerFlag) {
+                    $content = '<tr><td class="dce-container-flag" colspan="2" style="background-color: ' .
+                                $containerFlag . '"></td></tr>' . $content;
+                }
             } else {
-                $content .= '<tr><td class="dceFieldTitle">' . $this->getFieldLabel($field) . '</td>' .
+                $content .= '<tr class="dceRow"><td class="dceFieldTitle">' . $this->getFieldLabel($field) . '</td>' .
                     '<td class="dceFieldValue">' . $this->renderDceFieldValue($field, $row) . '</td></tr>';
             }
         }
-        $content .= '</tbody></table>';
-        return $content;
+        return '<table class="dceSimpleBackendView"><tbody>' . $content . '</tbody></table>';
     }
 
     /**
@@ -93,24 +102,14 @@ class SimpleBackendView
      */
     protected function getFieldLabel(DceField $field)
     {
-        $fieldTitle = $GLOBALS['LANG']->sL($field->getTitle());
-
-        // TODO: Write class for getting settings from pageTS
-        $cropLength = 10;
-        $pageTs = \TYPO3\CMS\Backend\Utility\BackendUtility::getPagesTSconfig(GeneralUtility::_GP('id'));
-        if (isset($pageTs['tx_dce.']['defaults.']['simpleBackendView.']['titleCropLength'])) {
-            $cropLength = $pageTs['tx_dce.']['defaults.']['simpleBackendView.']['titleCropLength'];
-        }
-
-        // TODO: Write class for getting settings from pageTS
-        $cropString = '';
-        if (isset($pageTs['tx_dce.']['defaults.']['simpleBackendView.']['titleCropAppendix'])) {
-            $cropString = $pageTs['tx_dce.']['defaults.']['simpleBackendView.']['titleCropAppendix'];
-        }
-
         /** @var \TYPO3\CMS\Core\Charset\CharsetConverter $charsetConverter */
         $charsetConverter = GeneralUtility::makeInstance('TYPO3\CMS\Core\Charset\CharsetConverter');
-        return $charsetConverter->crop('utf-8', $fieldTitle, $cropLength, $cropString);
+        return $charsetConverter->crop(
+            'utf-8',
+            \ArminVieweg\Dce\Utility\LanguageService::sL($field->getTitle()),
+            \ArminVieweg\Dce\Utility\PageTS::get('tx_dce.defaults.simpleBackendView.titleCropLength', 10),
+            \ArminVieweg\Dce\Utility\PageTS::get('tx_dce.defaults.simpleBackendView.titleCropAppendix', '...')
+        );
     }
 
     /**
@@ -163,7 +162,7 @@ class SimpleBackendView
      */
     protected function getFalMediaPreview(DceField $field, array $row)
     {
-        $database = DatabaseUtility::getDatabaseConnection();
+        $database = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection();
         $fieldConfiuration = $field->getConfigurationAsArray();
 
         /** @var \TYPO3\CMS\Frontend\Page\PageRepository $pageRepository */
@@ -182,19 +181,6 @@ class SimpleBackendView
             'uid'
         );
 
-        // TODO: Write class for getting settings from pageTS
-        $imageWidth = '50c';
-        $pageTs = \TYPO3\CMS\Backend\Utility\BackendUtility::getPagesTSconfig(GeneralUtility::_GP('id'));
-        if (isset($pageTs['tx_dce.']['defaults.']['simpleBackendView.']['imageWidth'])) {
-            $imageWidth = $pageTs['tx_dce.']['defaults.']['simpleBackendView.']['imageWidth'];
-        }
-        // TODO: Write class for getting settings from pageTS
-        $imageHeight = '50c';
-        $pageTs = \TYPO3\CMS\Backend\Utility\BackendUtility::getPagesTSconfig(GeneralUtility::_GP('id'));
-        if (isset($pageTs['tx_dce.']['defaults.']['simpleBackendView.']['imageHeight'])) {
-            $imageHeight = $pageTs['tx_dce.']['defaults.']['simpleBackendView.']['imageHeight'];
-        }
-
         $imageTags = array();
         foreach (array_keys($rows) as $fileReferenceUid) {
             $fileReference = ResourceFactory::getInstance()->getFileReferenceObject($fileReferenceUid, array());
@@ -203,11 +189,30 @@ class SimpleBackendView
                 continue;
             }
             $image = $fileObject->process(ProcessedFile::CONTEXT_IMAGECROPSCALEMASK, array(
-                'width' => $imageWidth,
-                'height' => $imageHeight
+                'width' => \ArminVieweg\Dce\Utility\PageTS::get('tx_dce.defaults.simpleBackendView.imageWidth', '50c'),
+                'height' => \ArminVieweg\Dce\Utility\PageTS::get('tx_dce.defaults.simpleBackendView.imageWidth', '50')
             ));
             $imageTags[] = '<img src="' . $image->getPublicUrl(true) . '" class="dceFieldImage">';
         }
         return implode('', $imageTags);
+    }
+
+    /**
+     * Uses the uid of the first content object to get a color code
+     *
+     * @param Dce $dce
+     * @return int|bool color code or false if container is not enabled
+     */
+    protected function getContainerFlag(Dce $dce)
+    {
+        if (!$dce->getEnableContainer()) {
+            return false;
+        }
+        if (ContainerFactory::checkContentElementForBeingRendered($dce->getContentObject())) {
+            return static::$lastContainerColor;
+        }
+        $container = ContainerFactory::makeContainer($dce);
+        static::$lastContainerColor = $container->getContainerColor();
+        return static::$lastContainerColor;
     }
 }

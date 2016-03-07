@@ -16,14 +16,11 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class FalViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
-
     /**
      * Gets FileReference objects (FAL)
-     * Requires TYPO3 6.0 or greater.
      *
      * @param string $field Name of field in DCE
-     * @param array $contentObject Content object data array, which is stored
-     *                             in {contentObject} in dce template.
+     * @param array $contentObject Content object data array, which is stored in {contentObject} in dce template.
      * @param bool $localizeUid
      * @return array|string String or array with found media
      */

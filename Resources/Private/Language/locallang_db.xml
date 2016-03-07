@@ -84,6 +84,12 @@
 			<label index="tx_dce_domain_model_dce.detailpageTemplate">Detail page template (fluid)</label>
 			<label index="tx_dce_domain_model_dce.detailpageTemplateFile">Detail page template file (fluid)</label>
 
+			<label index="tx_dce_domain_model_dce.container">DCE Container</label>
+			<label index="tx_dce_domain_model_dce.enableContainer">Enable DCE container</label>
+			<label index="tx_dce_domain_model_dce.containerItemLimit">Container item limit</label>
+			<label index="tx_dce_domain_model_dce.containerTemplate">DCE container template (fluid)</label>
+			<label index="tx_dce_domain_model_dce.containerTemplateFile">DCE container template file (fluid)</label>
+
 			<label index="tx_dce_domain_model_dce.miscellaneous">Miscellaneous</label>
 			<label index="tx_dce_domain_model_dce.cacheDce">Cache DCE frontend plugin</label>
 			<label index="tx_dce_domain_model_dce.showAccessTab">Enable access tab in backend</label>
@@ -118,6 +124,7 @@
 			<label index="tx_dce_formeval_lowerCamelCase">The value have to be formated as lowerCamelCase. Changed input from '%s' to '%s'.</label>
 
 			<label index="tt_content.tx_dce_dce">DCE</label>
+			<label index="tt_content.tx_dce_new_container">Start new DCE container</label>
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="wizardIcon.default">Standard TYPO3-Icons</label>
@@ -167,6 +174,12 @@
 			<label index="tx_dce_domain_model_dce.detailpageTemplate">Detailseiten-Template (Fluid)</label>
 			<label index="tx_dce_domain_model_dce.detailpageTemplateFile">Detailseiten-Template-Datei (Fluid)</label>
 
+			<label index="tx_dce_domain_model_dce.container">DCE-Container</label>
+			<label index="tx_dce_domain_model_dce.enableContainer">Aktiviere DCE-Container</label>
+			<label index="tx_dce_domain_model_dce.containerItemLimit">Limit von Elementen im Container</label>
+			<label index="tx_dce_domain_model_dce.containerTemplate">DCE-Container-Template (Fluid)</label>
+			<label index="tx_dce_domain_model_dce.containerTemplateFile">DCE-Container-Template-Datei (Fluid)</label>
+
 			<label index="tx_dce_domain_model_dce.miscellaneous">Sonstiges</label>
 			<label index="tx_dce_domain_model_dce.cacheDce">DCE Frontend Plugin Cache aktivieren</label>
 			<label index="tx_dce_domain_model_dce.showAccessTab">Aktiviere "Zugriff" Tab im Backend</label>
@@ -199,6 +212,8 @@
 			<label index="tx_dce_formeval_headline">Eingabe '%s' ungültig</label>
 			<label index="tx_dce_formeval_noLeadingNumber">Der Wert darf nicht mit Nummern beginnen. Eingabe wurde von '%s' nach '%s' geändert.</label>
 			<label index="tx_dce_formeval_lowerCamelCase">Der Wert muss nach lowerCamelCase formatiet sein. Eingabe wurde von '%s' nach '%s' geändert.</label>
+
+			<label index="tt_content.tx_dce_new_container">Neuen DCE-Container bilden</label>
 		</languageKey>
 	</data>
 </T3locallang>

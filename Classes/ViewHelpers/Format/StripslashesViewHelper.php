@@ -18,8 +18,7 @@ class StripslashesViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractVi
      * Add slashes to a given string using the php function "stripslashes".
      *
      * @param string $subject To remove slashes to
-     * @param bool $performTrim If TRUE a trim will be made on subject before
-     *                          stripping slashes
+     * @param bool $performTrim If TRUE a trim will be made on subject before stripping slashes
      * @return string without slashes
      * @see http://www.php.net/manual/function.addcslashes.php
      */

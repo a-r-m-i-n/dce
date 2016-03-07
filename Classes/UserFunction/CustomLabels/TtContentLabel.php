@@ -6,7 +6,6 @@ namespace ArminVieweg\Dce\UserFunction\CustomLabels;
  *  |
  *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
-use ArminVieweg\Dce\Domain\Model\DceField;
 use ArminVieweg\Dce\Domain\Repository\DceRepository;
 
 /**
@@ -27,7 +26,6 @@ class TtContentLabel
     public function getLabel(&$parameter)
     {
         if (!is_string($parameter['row']['CType']) ||
-            !empty($parameter['row']['header']) ||
             !$this->isDceContentElement($parameter['row'])
         ) {
             $parameter['title'] = $parameter['row'][$GLOBALS['TCA']['tt_content']['ctrl']['label']];
@@ -54,7 +52,7 @@ class TtContentLabel
         }
 
         if ($dce->isUseSimpleBackendView()) {
-            $simpleBackendViewUtility = new \ArminVieweg\Dce\Utility\SimpleBackendView();
+            $simpleBackendViewUtility = new \ArminVieweg\Dce\Components\SimpleBackendView\SimpleBackendView();
             $parameter['title'] = $simpleBackendViewUtility->getSimpleBackendViewHeaderContent($dce, true);
         }
     }
