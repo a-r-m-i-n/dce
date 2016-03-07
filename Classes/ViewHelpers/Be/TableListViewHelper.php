@@ -14,7 +14,6 @@ namespace ArminVieweg\Dce\ViewHelpers\Be;
  */
 class TableListViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\TableListViewHelper
 {
-
     /**
      * @param string $tableName
      * @param array $fieldList

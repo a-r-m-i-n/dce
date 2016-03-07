@@ -6,6 +6,7 @@ namespace ArminVieweg\Dce\UserFunction;
  *  |
  *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
+use ArminVieweg\Dce\Utility\LanguageService;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
@@ -30,6 +31,9 @@ class ItemProcFunc
         if ($parameters['config']['size'] === 1) {
             $parameters['items'][] = array(LocalizationUtility::translate('empty', 'dce'), '*empty');
         }
+        if ($parameters['row']['enable_container']) {
+            $parameters['items'][] = array(LocalizationUtility::translate('containerflag', 'dce'), '*containerflag');
+        }
 
         $database = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection();
         $dceFields = $database->exec_SELECTgetRows(
@@ -41,7 +45,7 @@ class ItemProcFunc
         );
         if (!empty($dceFields)) {
             foreach ($dceFields as $dceField) {
-                $label = $GLOBALS['LANG']->sL($dceField['title']);
+                $label = LanguageService::sL($dceField['title']);
                 if ($dceField['type'] === '2') {
                     $label .= ' (' . LocalizationUtility::translate('section', 'dce') . ')';
                 }

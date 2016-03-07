@@ -66,8 +66,10 @@ class PageLayoutViewDrawItemHook implements \TYPO3\CMS\Backend\View\PageLayoutVi
         if ($dce->isUseSimpleBackendView()) {
             $this->addPageViewStylesheets();
 
-            /** @var \ArminVieweg\Dce\Utility\SimpleBackendView $simpleBackendViewUtility */
-            $simpleBackendViewUtility = GeneralUtility::makeInstance('ArminVieweg\Dce\Utility\SimpleBackendView');
+            /** @var \ArminVieweg\Dce\Components\SimpleBackendView\SimpleBackendView $simpleBackendViewUtility */
+            $simpleBackendViewUtility = GeneralUtility::makeInstance(
+                'ArminVieweg\Dce\Components\SimpleBackendView\SimpleBackendView'
+            );
             $drawItem = false;
             $headerContent = $parentObject->linkEditContent(
                 $simpleBackendViewUtility->getSimpleBackendViewHeaderContent($dce),

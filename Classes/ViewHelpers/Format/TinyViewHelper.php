@@ -14,9 +14,8 @@ namespace ArminVieweg\Dce\ViewHelpers\Format;
  */
 class TinyViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
-
     /**
-     * Make the given source tiny
+     * Make the given source tiny. Removes all whitespaces but spaces.
      *
      * @param string $subject Code to make tiny
      * @return string Tiny code

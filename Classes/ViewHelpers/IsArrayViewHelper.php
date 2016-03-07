@@ -14,12 +14,11 @@ namespace ArminVieweg\Dce\ViewHelpers;
  */
 class IsArrayViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
-
     /**
      * Checks if the given subject is an array
      *
      * @param mixed $subject to check if is array
-     * @return bool TRUE if given subject is an array, otherwise FALSE
+     * @return bool True if given subject is an array, otherwise false
      */
     public function render($subject = null)
     {

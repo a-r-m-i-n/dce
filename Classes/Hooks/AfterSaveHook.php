@@ -6,10 +6,9 @@ namespace ArminVieweg\Dce\Hooks;
  *  |
  *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
-use ArminVieweg\Dce\Utility\BackendPreviewTemplate;
+use ArminVieweg\Dce\Components\BackendPreviewTemplates\BackendPreviewTemplate;
 use ArminVieweg\Dce\Utility\DatabaseUtility;
 use ArminVieweg\Dce\Utility\FlashMessage;
-use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
@@ -208,9 +207,10 @@ class AfterSaveHook
         }
         $this->uid = $this->getUid($id, $table, $status, $pObj);
 
+        // Write flexform values to TCA, when enabled
         if ($table === 'tt_content' && $this->isDceContentElement($pObj)) {
             $this->checkAndUpdateDceRelationField();
-            \ArminVieweg\Dce\Utility\FlexformToTcaMapper::saveFlexformValuesToTca(
+            \ArminVieweg\Dce\Components\FlexformToTcaMapper\Mapper::saveFlexformValuesToTca(
                 $this->uid,
                 $this->fieldArray['pi_flexform']
             );
@@ -219,6 +219,7 @@ class AfterSaveHook
             }
         }
 
+        // When a DCE is disabled, also disable/hide the based content elements
         if ($table === 'tx_dce_domain_model_dce' && $status === 'update') {
             if (!isset($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceImportInProgress'])) {
                 if (array_key_exists('hidden', $fieldArray) && $fieldArray['hidden'] == '1') {
@@ -226,6 +227,8 @@ class AfterSaveHook
                 }
             }
         }
+
+        // Show hint when dcefield has been mapped to tca column
         if ($table === 'tx_dce_domain_model_dcefield' && $status === 'update') {
             if (array_key_exists('new_tca_field_name', $fieldArray) ||
                 array_key_exists('new_tca_field_type', $fieldArray)
@@ -239,12 +242,43 @@ class AfterSaveHook
             }
         }
 
+        // Adds or removes *containerflag from simple backend view, when container is en- or disabled
+        if ($table === 'tx_dce_domain_model_dce' && $status === 'update' || $status === 'new') {
+            if (array_key_exists('enable_container', $fieldArray)) {
+                if ($fieldArray['enable_container'] === '1') {
+                    $items = GeneralUtility::trimExplode(',', $fieldArray['backend_view_bodytext'], true);
+                    $items[] = '*containerflag';
+                } else {
+                    $items = GeneralUtility::trimExplode(',', $fieldArray['backend_view_bodytext'], true);
+                    if (!GeneralUtility::compat_version('7.6')) {
+                        $items = GeneralUtility::removeArrayEntryByValue($items, '*containerflag');
+                    } else {
+                        $items = \TYPO3\CMS\Core\Utility\ArrayUtility::removeArrayEntryByValue(
+                            $items,
+                            '*containerflag'
+                        );
+                    }
+                }
+                DatabaseUtility::getDatabaseConnection()->exec_UPDATEquery(
+                    'tx_dce_domain_model_dce',
+                    'uid=' . $this->uid,
+                    array(
+                        'backend_view_bodytext' => implode(',', $items)
+                    )
+                );
+            }
+        }
+
         // Clear cache if dce or dcefield has been created or updated
-        if ($this->extConfiguration['disableAutoClearCache'] == 0
-            && in_array($table, array('tx_dce_domain_model_dce', 'tx_dce_domain_model_dcefield'))
-            && in_array($status, array('update', 'new'))
+        if (in_array($table, array('tx_dce_domain_model_dce', 'tx_dce_domain_model_dcefield')) &&
+            in_array($status, array('update', 'new'))
         ) {
-            $pObj->clear_cacheCmd('all');
+            if ($this->extConfiguration['disableAutoClearCache'] == 0) {
+                $pObj->clear_cacheCmd('system');
+            }
+            if ($this->extConfiguration['disableAutoClearFrontendCache'] == 0) {
+                $pObj->clear_cacheCmd('pages');
+            }
         }
     }
 

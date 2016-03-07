@@ -14,7 +14,6 @@ namespace ArminVieweg\Dce\ViewHelpers\Format;
  */
 class WrapWithCurlyBracesViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
-
     /**
      * Returns the given string with encircling curly braces
      *

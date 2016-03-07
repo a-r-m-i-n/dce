@@ -14,7 +14,6 @@ namespace ArminVieweg\Dce\ViewHelpers\Be;
  */
 class ExtensionLoadedViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper
 {
-
     /**
      * Checks if extension with given key is loaded
      *

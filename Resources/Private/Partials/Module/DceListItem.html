@@ -56,6 +56,14 @@
                 <span>{dce.relatedContentElementRows -> f:count()}</span>
             </a>
         </td>
+        <td class="dceStats">
+            <f:if condition="{dce.enableContainer}">
+                <span class="label label-default label-darker">
+                    <span class="text-uppercase">{f:translate(key:'{lll}dceContainerEnabled')}</span>
+                    <f:if condition="{dce.containerItemLimit}">({f:translate(key:'{lll}limitedToItems', arguments:'{0:\'{dce.containerItemLimit}\'}')})</f:if>
+                </span>
+            </f:if>
+        </td>
         <td class="fieldStats">
             <span class="label label-default label-darker">{dce.fields -> f:count()} {f:translate(key:'{lll}fields')}</span>
             <f:if condition="{dce.hasTcaMappings}">

@@ -41,7 +41,10 @@
 			<label index="tcaplus">This DCE has fields which are mapped with TCA columns. Furthermore this DCE adds new columns to TCA and database!</label>
 			<label index="relatedContentElements">%s content elements existing, based on this DCE.</label>
 			<label index="usage">Usage (CEs)</label>
-			<label index="fieldStats">Field statistics</label>
+			<label index="fieldStats">Field infos</label>
+			<label index="dceStats">DCE infos</label>
+			<label index="dceContainerEnabled">Container</label>
+			<label index="limitedToItems">limited to %s items</label>
 
 			<label index="actions">Actions</label>
 			<label index="updatePreviewTemplates">Update Backend Preview Templates</label>
@@ -86,7 +89,10 @@
 			<label index="tcaplus">Dieses DCE besitzt Felder, die mit TCA-Spalten gemappt wurden. Darüberhinaus fügt es neue Spalten zum TCA und zur Datenbank hinzu.</label>
 			<label index="relatedContentElements">%s Inhaltselemente basierend auf diesem DCE gefunden.</label>
 			<label index="usage">Verwendung (CEs)</label>
-			<label index="fieldStats">Feldstatistiken</label>
+			<label index="fieldStats">DCE-Feld Infos</label>
+			<label index="dceStats">DCE Infos</label>
+			<label index="dceContainerEnabled">Container</label>
+			<label index="limitedToItems">begrenzt auf %s Elemente</label>
 
 			<label index="actions">Aktionen</label>
 			<label index="updatePreviewTemplates">Aktualisiere Backend Vorschau Templates</label>

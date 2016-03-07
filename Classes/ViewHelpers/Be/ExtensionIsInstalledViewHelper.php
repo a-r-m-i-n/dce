@@ -15,7 +15,6 @@ namespace ArminVieweg\Dce\ViewHelpers\Be;
  */
 class ExtensionIsInstalledViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper
 {
-
     /**
      * Returns TRUE if given extension is installed. Otherwise returns FALSE.
      *

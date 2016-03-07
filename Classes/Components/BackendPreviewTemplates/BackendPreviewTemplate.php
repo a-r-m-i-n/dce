@@ -1,12 +1,11 @@
 <?php
-namespace ArminVieweg\Dce\Utility;
+namespace ArminVieweg\Dce\Components\BackendPreviewTemplates;
 
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is
  *  | free software and is licensed under GNU General Public License.
  *  |
  *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
-use ArminVieweg\Dce\Utility\DatabaseUtility;
 
 /**
  * BackendPreviewTemplate utility
@@ -27,7 +26,7 @@ class BackendPreviewTemplate
     public static function performPreviewAutoupdateBatchOnDceChange($dceUid)
     {
         $uid = (int) $dceUid;
-        $dceRow = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
+        $dceRow = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
             '*',
             'tx_dce_domain_model_dce',
             'uid=' . $uid
@@ -36,7 +35,7 @@ class BackendPreviewTemplate
             return;
         }
 
-        $rows = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
+        $rows = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
             'uid',
             'tt_content',
             'CType="dce_dceuid' . $uid . '" AND deleted=0'
@@ -44,7 +43,7 @@ class BackendPreviewTemplate
         foreach ($rows as $row) {
             $fieldArray = static::generateDcePreview($row['uid']);
 
-            DatabaseUtility::getDatabaseConnection()->exec_UPDATEquery(
+            \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_UPDATEquery(
                 'tt_content',
                 'uid = ' .$row['uid'],
                 $fieldArray
@@ -64,7 +63,7 @@ class BackendPreviewTemplate
     {
         $settings = array(
             'contentElementUid' => $uid,
-            'dceUid' => DatabaseUtility::getDceUidByContentElementUid($uid),
+            'dceUid' => \ArminVieweg\Dce\Utility\DatabaseUtility::getDceUidByContentElementUid($uid),
         );
         return array(
             'header' => \ArminVieweg\Dce\Utility\Extbase::bootstrapControllerAction(

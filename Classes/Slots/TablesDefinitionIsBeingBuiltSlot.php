@@ -24,7 +24,7 @@ class TablesDefinitionIsBeingBuiltSlot
     public function extendTtContentTable(array $sqlStrings)
     {
         if ($this->checkRequiredFieldsExisting()) {
-            $sqlStrings[] = \ArminVieweg\Dce\Utility\FlexformToTcaMapper::getSql();
+            $sqlStrings[] = \ArminVieweg\Dce\Components\FlexformToTcaMapper\Mapper::getSql();
         }
         return array($sqlStrings);
     }

@@ -21,7 +21,6 @@ namespace ArminVieweg\Dce\Utility;
  */
 class TypoLinkCodecService
 {
-
     /**
      * Delimiter for TypoLink string parts
      *
