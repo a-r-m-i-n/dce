@@ -127,7 +127,9 @@ $boot = function ($extensionKey) {
         $dceCache = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('ArminVieweg\Dce\Cache');
         $dceCache->createLocalconf();
     }
-    require_once(PATH_site . \ArminVieweg\Dce\Cache::CACHE_PATH . \ArminVieweg\Dce\Cache::CACHE_TYPE_EXTLOCALCONF);
+    if (\ArminVieweg\Dce\Cache::cacheExists(\ArminVieweg\Dce\Cache::CACHE_TYPE_EXTLOCALCONF)) {
+        require_once(PATH_site . \ArminVieweg\Dce\Cache::CACHE_PATH . \ArminVieweg\Dce\Cache::CACHE_TYPE_EXTLOCALCONF);
+    }
 };
 
 $boot($_EXTKEY);
