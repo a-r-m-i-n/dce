@@ -164,16 +164,18 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             $dceField = $dce->getFieldByVariable($fieldVariable);
             if ($dceField) {
                 if (is_array($fieldValue)) {
-                    foreach ($fieldValue as $sectionFieldValues) {
+                    $i = 0;
+                    foreach ($fieldValue as $key => $sectionFieldValues) {
                         $sectionFieldValues = current($sectionFieldValues);
                         foreach ($sectionFieldValues as $sectionFieldVariable => $sectionFieldValue) {
                             $sectionField = $dceField->getSectionFieldByVariable($sectionFieldVariable);
                             if ($sectionField instanceof DceField) {
                                 $xmlIdent = $dce->getUid() . '-' . $dceField->getVariable() . '-' .
                                     $sectionField->getVariable();
-                                $this->fillFields($sectionField, $sectionFieldValue, $xmlIdent, true);
+                                $this->fillFields($sectionField, $sectionFieldValue, $xmlIdent, true, $i);
                             }
                         }
+                        $i++;
                     }
                 } else {
                     $xmlIdent = $dce->getUid() . '-' . $dceField->getVariable();
@@ -193,13 +195,15 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      * @param string $fieldValue
      * @param string $xmlIdentifier
      * @param bool $isSectionField
+     * @param int $sectionFieldIndex
      * @return void
      */
     protected function fillFields(
         DceField $dceField,
         $fieldValue,
         $xmlIdentifier,
-        $isSectionField = false
+        $isSectionField = false,
+        $sectionFieldIndex = 0
     ) {
 
         $xmlWrapping = 'xml-' . $xmlIdentifier;
@@ -229,9 +233,9 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             }
 
             if (isset($objects)) {
-                $sectionFieldValues[] = $objects;
+                $sectionFieldValues[$sectionFieldIndex] = $objects;
             } else {
-                $sectionFieldValues[] = $fieldValue;
+                $sectionFieldValues[$sectionFieldIndex] = $fieldValue;
             }
             $dceField->setValue($sectionFieldValues);
         }
