@@ -75,11 +75,12 @@ class ContainerFactory
     {
         $contentObject = $dce->getContentObject();
         $sortColumn = $GLOBALS['TCA']['tt_content']['ctrl']['sortby'];
+        $deleteColumn = $GLOBALS['TCA']['tt_content']['ctrl']['delete'];
         $where = 'pid = ' . $contentObject['pid'] .
                  ' AND colPos = ' . $contentObject['colPos'] .
                  ' AND ' . $sortColumn . ' > ' . $contentObject[$sortColumn] .
                  ' AND uid != ' . $contentObject['uid'] .
-                 DatabaseUtility::getEnabledFields('tt_content');
+                 ' AND ' . $deleteColumn . ' = 0';
 
         if (TYPO3_MODE === 'FE') {
             $where .= ' AND sys_language_uid = ' . $GLOBALS['TSFE']->sys_language_uid;

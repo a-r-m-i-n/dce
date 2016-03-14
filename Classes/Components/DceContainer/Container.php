@@ -52,7 +52,10 @@ class Container
      */
     public function addDce(Dce $dce)
     {
-        $this->dces[] = $dce;
+        $contentObject = $dce->getContentObject();
+        if ($contentObject['hidden'] == '0') {
+            $this->dces[] = $dce;
+        }
     }
 
     /**
