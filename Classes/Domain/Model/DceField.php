@@ -150,7 +150,10 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $configuration = '<dceFieldConfiguration>' . $this->getConfiguration() . '</dceFieldConfiguration>';
         $configurationArray = \TYPO3\CMS\Core\Utility\GeneralUtility::xml2array($configuration);
-        return $configurationArray['dceFieldConfiguration'];
+        if (array_key_exists('dceFieldConfiguration', $configurationArray)) {
+            return $configurationArray['dceFieldConfiguration'];
+        }
+        return $configurationArray;
     }
 
     /**
@@ -396,6 +399,7 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function isFal()
     {
         $configuration = $this->getConfigurationAsArray();
+        $configuration = $configuration['config'];
         return $configuration['type'] === 'inline' && $configuration['foreign_table'] === 'sys_file_reference';
     }
 }

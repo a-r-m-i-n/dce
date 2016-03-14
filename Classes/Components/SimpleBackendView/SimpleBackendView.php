@@ -163,7 +163,8 @@ class SimpleBackendView
     protected function getFalMediaPreview(DceField $field, array $row)
     {
         $database = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection();
-        $fieldConfiuration = $field->getConfigurationAsArray();
+        $fieldConfiguration = $field->getConfigurationAsArray();
+        $fieldConfiguration = $fieldConfiguration['config'];
 
         /** @var \TYPO3\CMS\Frontend\Page\PageRepository $pageRepository */
         $pageRepository = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Page\PageRepository');
@@ -172,7 +173,7 @@ class SimpleBackendView
             'sys_file_reference',
             'tablenames=' . $database->fullQuoteStr('tt_content', 'sys_file_reference') .
             ' AND uid_foreign=' . $row['uid'] . ' AND fieldname=' . $database->fullQuoteStr(
-                $fieldConfiuration['foreign_match_fields']['fieldname'],
+                $fieldConfiguration['foreign_match_fields']['fieldname'],
                 'sys_file_reference'
             ) . $pageRepository->enableFields('sys_file_reference', $pageRepository->showHiddenRecords),
             '',
