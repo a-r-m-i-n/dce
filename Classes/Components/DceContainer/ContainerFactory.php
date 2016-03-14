@@ -81,6 +81,10 @@ class ContainerFactory
                  ' AND uid != ' . $contentObject['uid'] .
                  DatabaseUtility::getEnabledFields('tt_content');
 
+        if (TYPO3_MODE === 'FE') {
+            $where .= ' AND sys_language_uid = ' . $GLOBALS['TSFE']->sys_language_uid;
+        }
+
         $rawContentElements = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
             '*',
             'tt_content',
