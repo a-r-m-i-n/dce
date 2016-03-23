@@ -52,7 +52,10 @@ class Container
      */
     public function addDce(Dce $dce)
     {
-        $this->dces[] = $dce;
+        $contentObject = $dce->getContentObject();
+        if ($contentObject['hidden'] == '0') {
+            $this->dces[] = $dce;
+        }
     }
 
     /**
@@ -67,13 +70,30 @@ class Container
     }
 
     /**
-     * @return mixed
+     * Get container color based on first container item.
+     * If record is translated the color of the l18n_parent is returned.
+     *
+     * @return string Hex color, e.g. "#ff0066"
      */
     public function getContainerColor()
     {
+        if (empty($this->dces)) {
+            return '#fff';
+        }
+
         /** @var Dce $firstDce */
         $firstDce = current($this->dces);
         $contentObject = $firstDce->getContentObject();
+        if ($contentObject['sys_language_uid'] !== '0') {
+            $originalRow = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
+                '*',
+                'tt_content',
+                'uid = ' . $contentObject['l18n_parent']
+            );
+            if ($originalRow) {
+                $contentObject = $originalRow;
+            }
+        }
 
         $colors = array_values(PageTS::get('tx_dce.defaults.simpleBackendView.containerGroupColors'));
         return $colors[$contentObject['uid'] % count($colors)];
