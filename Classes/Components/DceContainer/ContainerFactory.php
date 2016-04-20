@@ -60,7 +60,22 @@ class ContainerFactory
                 continue;
             }
             $container->addDce($dceInstance);
-            static::$contentElementsToSkip[] = $contentElement['uid'];
+
+            if (!in_array($contentElement['uid'], static::$contentElementsToSkip)) {
+                static::$contentElementsToSkip[] = $contentElement['uid'];
+            }
+
+            if (!empty($contentElement['l18n_parent']) &&
+                !in_array($contentElement['l18n_parent'], static::$contentElementsToSkip)
+            ) {
+                static::$contentElementsToSkip[] = $contentElement['l18n_parent'];
+            }
+
+            if (!empty($contentElement['_LOCALIZED_UID']) &&
+                !in_array($contentElement['_LOCALIZED_UID'], static::$contentElementsToSkip)
+            ) {
+                static::$contentElementsToSkip[] = $contentElement['_LOCALIZED_UID'];
+            }
         }
         return $container;
     }

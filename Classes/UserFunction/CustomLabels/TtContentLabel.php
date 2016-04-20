@@ -25,36 +25,35 @@ class TtContentLabel
      */
     public function getLabel(&$parameter)
     {
-        if (!is_string($parameter['row']['CType']) ||
-            !$this->isDceContentElement($parameter['row'])
+        if (is_string($parameter['row']['CType']) &&
+            $this->isDceContentElement($parameter['row'])
         ) {
-            $parameter['title'] = $parameter['row'][$GLOBALS['TCA']['tt_content']['ctrl']['label']];
-            return;
-        }
+            try {
+                /** @var \ArminVieweg\Dce\Domain\Model\Dce $dce */
+                $dce = \ArminVieweg\Dce\Utility\Extbase::bootstrapControllerAction(
+                    'ArminVieweg',
+                    'Dce',
+                    'Dce',
+                    'renderDce',
+                    'Dce',
+                    array(
+                        'contentElementUid' => $parameter['row']['uid'],
+                        'dceUid' => DceRepository::extractUidFromCtype($parameter['row']['CType'])
+                    ),
+                    true
+                );
+            } catch (\Exception $exception) {
+                $parameter['title'] = 'ERROR: ' . $exception->getMessage();
+                return;
+            }
 
-        try {
-            /** @var \ArminVieweg\Dce\Domain\Model\Dce $dce */
-            $dce = \ArminVieweg\Dce\Utility\Extbase::bootstrapControllerAction(
-                'ArminVieweg',
-                'Dce',
-                'Dce',
-                'renderDce',
-                'Dce',
-                array(
-                    'contentElementUid' => $parameter['row']['uid'],
-                    'dceUid' => DceRepository::extractUidFromCtype($parameter['row']['CType'])
-                ),
-                true
-            );
-        } catch (\Exception $exception) {
-            $parameter['title'] = 'ERROR: ' . $exception->getMessage();
-            return;
+            if ($dce->isUseSimpleBackendView()) {
+                $simpleBackendViewUtility = new \ArminVieweg\Dce\Components\SimpleBackendView\SimpleBackendView();
+                $parameter['title'] = $simpleBackendViewUtility->getSimpleBackendViewHeaderContent($dce, true);
+                return;
+            }
         }
-
-        if ($dce->isUseSimpleBackendView()) {
-            $simpleBackendViewUtility = new \ArminVieweg\Dce\Components\SimpleBackendView\SimpleBackendView();
-            $parameter['title'] = $simpleBackendViewUtility->getSimpleBackendViewHeaderContent($dce, true);
-        }
+        $parameter['title'] = $parameter['row'][$GLOBALS['TCA']['tt_content']['ctrl']['label']];
     }
 
     /**
