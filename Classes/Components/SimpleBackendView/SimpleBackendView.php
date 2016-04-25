@@ -68,7 +68,10 @@ class SimpleBackendView
             if (strpos($fieldIdentifier, '*') === 0) {
                 $fields[] = $fieldIdentifier;
             } else {
-                $fields[] = $dce->getFieldByVariable($fieldIdentifier);
+                $dceField = $dce->getFieldByVariable($fieldIdentifier);
+                if (!is_null($dceField)) {
+                    $fields[] = $dceField;
+                }
             }
         }
 
