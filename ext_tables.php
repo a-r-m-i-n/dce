@@ -67,7 +67,7 @@ $boot = function ($extensionKey) {
                 20 = #FF8700
             }
         }
-    ');
+    }');
 
     if (\TYPO3\CMS\Core\Utility\GeneralUtility::compat_version('7.6')) {
         /** @var \TYPO3\CMS\Core\Imaging\IconRegistry $iconRegistry */
