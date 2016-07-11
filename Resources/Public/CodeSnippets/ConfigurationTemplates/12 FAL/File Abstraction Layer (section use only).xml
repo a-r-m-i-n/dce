@@ -3,7 +3,7 @@
 	<internal_type>db</internal_type>
 	<appearance>
 		<elementBrowserType>file</elementBrowserType>
-		<elementBrowserAllowed>jpg,jpeg,png,gif</elementBrowserAllowed>
+		<elementBrowserAllowed>gif,jpg,jpeg,tif,tiff,bmp,pcx,tga,png,pdf,ai,svg</elementBrowserAllowed>
 	</appearance>
 	<allowed>sys_file</allowed>
 	<size>5</size>

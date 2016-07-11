@@ -14,7 +14,7 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  *
  * @package ArminVieweg\Dce
  */
-class ItemProcFunc
+class ItemsProcFunc
 {
     /**
      * Add DceFields to referenced $parameters['items'] array
