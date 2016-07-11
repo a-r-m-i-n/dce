@@ -61,8 +61,8 @@ class FluidTemplate
         \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection();
 
         $this->fluidTemplate = GeneralUtility::makeInstance('TYPO3\CMS\Fluid\View\StandaloneView');
-        $this->fluidTemplate->setLayoutRootPath(GeneralUtility::getFileAbsFileName(self::DEFAULT_DIRECTORY_LAYOUTS));
-        $this->fluidTemplate->setPartialRootPath(GeneralUtility::getFileAbsFileName(self::DEFAULT_DIRECTORY_PARTIALS));
+        $this->fluidTemplate->setLayoutRootPaths(array(GeneralUtility::getFileAbsFileName(self::DEFAULT_DIRECTORY_LAYOUTS)));
+        $this->fluidTemplate->setPartialRootPaths(array(GeneralUtility::getFileAbsFileName(self::DEFAULT_DIRECTORY_PARTIALS)));
     }
 
     /**
@@ -113,27 +113,27 @@ class FluidTemplate
     }
 
     /**
-     * Set the root path to the layouts.
+     * Set the root paths to the layouts.
      * If set, overrides the one determined from $this->layoutRootPathPattern
      *
-     * @param string $layoutRootPath Root path to the layouts. If set, overrides
+     * @param array $layoutRootPaths Root paths to the layouts. If set, overrides
      *                               the one determined from
      *                               $this->layoutRootPathPattern
      * @return void
      */
-    public function setLayoutRootPath($layoutRootPath)
+    public function setLayoutRootPaths($layoutRootPaths)
     {
-        $this->fluidTemplate->setLayoutRootPath($layoutRootPath);
+        $this->fluidTemplate->setLayoutRootPaths($layoutRootPaths);
     }
 
     /**
      * Sets the absolute path to the folder that contains Fluid partial files.
      *
-     * @param string $partialRootPath Fluid partial root path
+     * @param array $partialRootPaths Fluid partial root paths
      * @return void
      */
-    public function setPartialRootPath($partialRootPath)
+    public function setPartialRootPaths($partialRootPaths)
     {
-        $this->fluidTemplate->setPartialRootPath($partialRootPath);
+        $this->fluidTemplate->setPartialRootPaths($partialRootPaths);
     }
 }

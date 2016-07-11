@@ -1059,8 +1059,8 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
             }
         }
 
-        $fluidTemplate->setLayoutRootPath(File::getFilePath($this->getTemplateLayoutRootPath()));
-        $fluidTemplate->setPartialRootPath(File::getFilePath($this->getTemplatePartialRootPath()));
+        $fluidTemplate->setLayoutRootPaths(array(File::getFilePath($this->getTemplateLayoutRootPath())));
+        $fluidTemplate->setPartialRootPaths(array(File::getFilePath($this->getTemplatePartialRootPath())));
 
         if ($templateType !== self::TEMPLATE_FIELD_CONTAINER) {
             $fluidTemplate->assign('dce', $this);
