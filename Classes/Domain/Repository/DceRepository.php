@@ -128,6 +128,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                         $clonedSectionField = clone $sectionField;
                         $clonedSectionField->setValue(null);
                         $clonedSectionFields->attach($clonedSectionField);
+                        //TODO: Could be a bug here!
                         $field->setSectionFields($clonedSectionFields);
                     }
                 }

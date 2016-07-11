@@ -6,11 +6,13 @@ namespace ArminVieweg\Dce\XClass;
  *  |
  *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * XClass DataPreprocessor
  *
  * @package ArminVieweg\Dce
+ * @internal This class and its functionality has not been officially released. Do not use it!
  */
 class DataPreprocessor extends \TYPO3\CMS\Backend\Form\DataPreprocessor
 {
@@ -27,7 +29,7 @@ class DataPreprocessor extends \TYPO3\CMS\Backend\Form\DataPreprocessor
      */
     public function __construct()
     {
-        static::$staticDceUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('ArminVieweg\Dce\Utility\StaticDce');
+        static::$staticDceUtility = GeneralUtility::makeInstance('ArminVieweg\Dce\Utility\StaticDce');
     }
 
     public function fetchRecord($table, $idList, $operation)
@@ -39,7 +41,11 @@ class DataPreprocessor extends \TYPO3\CMS\Backend\Form\DataPreprocessor
             static::$staticDceConfiguration = array_merge($staticDceValues, array('uid' => $idList, 'type' => 1));
             $this->renderRecord($table, $idList, 0, static::$staticDceConfiguration);
             header('X-XSS-Protection: 0');
-        } elseif ($table === 'tx_dce_domain_model_dcefield' && !is_numeric($idList) && static::$staticDceConfiguration !== null) {
+
+        } elseif ($table === 'tx_dce_domain_model_dcefield' &&
+            !is_numeric($idList) &&
+            static::$staticDceConfiguration !== null
+        ) {
             if (isset(static::$staticDceConfiguration['fields'][$idList])) {
                 // Normal fields
                 $row = static::$staticDceConfiguration['fields'][$idList];
@@ -55,6 +61,7 @@ class DataPreprocessor extends \TYPO3\CMS\Backend\Form\DataPreprocessor
             }
             $row = $this->resetIndention(array_merge($row, array('uid' => $idList, 'variable' => $idList)));
             $this->renderRecord($table, $idList, 0, $row);
+
         } else {
             parent::fetchRecord($table, $idList, $operation);
         }

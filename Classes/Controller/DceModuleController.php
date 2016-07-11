@@ -6,6 +6,7 @@ namespace ArminVieweg\Dce\Controller;
  *  |
  *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
+use ArminVieweg\Dce\Components\BackendPreviewTemplates\BackendPreviewTemplate;
 use ArminVieweg\Dce\Utility\File;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
@@ -48,7 +49,7 @@ class DceModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
         $this->view->assign('contentElements', $contentElements);
         $this->view->assign('dce', $dce);
         if ($perform) {
-            \ArminVieweg\Dce\Components\BackendPreviewTemplates\BackendPreviewTemplate::performPreviewAutoupdateBatchOnDceChange($dce->getUid());
+            BackendPreviewTemplate::performPreviewAutoupdateBatchOnDceChange($dce->getUid());
             $this->view->assign('perform', true);
         }
     }

@@ -35,8 +35,12 @@ class CodemirrorField
         /** @var $fluidTemplate \ArminVieweg\Dce\Utility\FluidTemplate */
         $fluidTemplate = GeneralUtility::makeInstance('ArminVieweg\Dce\Utility\FluidTemplate');
 
-        $fluidTemplate->setLayoutRootPaths(array(GeneralUtility::getFileAbsFileName('EXT:dce/Resources/Private/Layouts/')));
-        $fluidTemplate->setPartialRootPaths(array(GeneralUtility::getFileAbsFileName('EXT:dce/Resources/Private/Partials/')));
+        $fluidTemplate->setLayoutRootPaths(
+            array(GeneralUtility::getFileAbsFileName('EXT:dce/Resources/Private/Layouts/'))
+        );
+        $fluidTemplate->setPartialRootPaths(
+            array(GeneralUtility::getFileAbsFileName('EXT:dce/Resources/Private/Partials/'))
+        );
         $fluidTemplate->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
             'EXT:dce/Resources/Private/Templates/DceUserFields/Codemirror.html'
         ));
