@@ -91,6 +91,8 @@ $boot = function ($extensionKey) {
         'ArminVieweg\Dce\Updates\MigrateDceFieldDatabaseRelationUpdate';
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceMigrateFlexformSheetIdentifierUpdate'] =
         'ArminVieweg\Dce\Updates\MigrateFlexformSheetIdentifierUpdate';
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceFixMalformedDceFieldVariableNamesUpdate'] =
+        'ArminVieweg\Dce\Updates\FixMalformedDceFieldVariableNamesUpdate';
 
 
     // Slot to extend SQL tables definitions

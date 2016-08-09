@@ -30,9 +30,10 @@ abstract class AbstractFieldValidator
      * PHP Validation
      *
      * @param string $value
+     * @param bool $silent When true no flash messages should get created
      * @return mixed
      */
-    public function evaluateFieldValue($value)
+    public function evaluateFieldValue($value, $silent = false)
     {
         return $value;
     }
