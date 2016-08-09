@@ -96,6 +96,9 @@ class MigrateOldNamespacesInFluidTemplateUpdate extends AbstractUpdate
     protected function doesFileTemplateRequiresUpdate(array $dceRow, $column)
     {
         $file = \ArminVieweg\Dce\Utility\File::getFilePath($dceRow[$column]);
+        if (empty($file)) {
+            return false;
+        }
         return $this->templateNeedUpdate(file_get_contents($file));
     }
 
