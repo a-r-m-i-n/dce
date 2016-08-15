@@ -93,16 +93,22 @@ class FixMalformedDceFieldVariableNamesUpdate extends AbstractUpdate
             );
 
             foreach ($contentElements as $contentElement) {
-                // Fix variable name in pi_flexform XML
+                $updatedFlexform = str_replace(
+                    array(
+                        '"settings.' . $malformedVariableName . '"', // Fix variable names
+                        '<field index="' . $malformedVariableName . '">' // Fix section field names
+                    ),
+                    array(
+                        '"settings.' . $this->fixVariableName($malformedVariableName) . '"',
+                        '<field index="' . $this->fixVariableName($malformedVariableName) . '">'
+                    ),
+                    $contentElement['pi_flexform']
+                );
                 $this->getDatabaseConnection()->exec_UPDATEquery(
                     'tt_content',
                     'uid=' . $contentElement['uid'],
                     array(
-                        'pi_flexform' => str_replace(
-                            '"settings.' . $malformedVariableName . '"',
-                            '"settings.' . $this->fixVariableName($malformedVariableName) . '"',
-                            $contentElement['pi_flexform']
-                        )
+                        'pi_flexform' => $updatedFlexform
                     )
                 );
                 $this->storeLastQuery($dbQueries);
