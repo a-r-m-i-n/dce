@@ -8,11 +8,9 @@ namespace ArminVieweg\Dce\Domain\Repository;
  */
 use ArminVieweg\Dce\Domain\Model\DceField;
 use ArminVieweg\Dce\Utility\DatabaseUtility;
-use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
-use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /**
  * DCE repository
@@ -472,12 +470,11 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                 'uid = ' . $uid . $enableFields
             );
 
+            $pageRepository = $GLOBALS['TSFE']->sys_page;
             if ($dceFieldConfiguration['dce_enable_autotranslation']) {
-                if (!$GLOBALS['TSFE']->sys_page instanceof \TYPO3\CMS\Frontend\Page\PageRepository) {
+                if (!$pageRepository instanceof \TYPO3\CMS\Frontend\Page\PageRepository) {
                     /** @var \TYPO3\CMS\Frontend\Page\PageRepository $pageRepository */
                     $pageRepository = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Page\PageRepository');
-                } else {
-                    $pageRepository = $GLOBALS['TSFE']->sys_page;
                 }
             }
             foreach ($recordRows as $row) {
