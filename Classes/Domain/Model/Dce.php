@@ -82,6 +82,13 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     protected $hidden = false;
 
+    /**
+     * When this DCE is located inside of a DceContainer this attribute contains its current position
+     *
+     * @var array|null
+     */
+    protected $containerIterator = null;
+
     /** @var int */
     protected $type = self::TYPE_DB;
 
@@ -160,7 +167,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /** @var string */
     protected $containerTemplateFile = '';
 
-    /** @var bool  */
+    /** @var bool */
     protected $wizardEnable = true;
 
     /** @var string */
@@ -211,6 +218,23 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setHidden($hidden)
     {
         $this->hidden = $hidden;
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getContainerIterator()
+    {
+        return $this->containerIterator;
+    }
+
+    /**
+     * @param array|null $containerIterator
+     * @return void
+     */
+    public function setContainerIterator($containerIterator)
+    {
+        $this->containerIterator = $containerIterator;
     }
 
     /**
@@ -1034,8 +1058,14 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getFluidStandaloneView($templateType)
     {
-        if (isset(self::$fluidTemplateCache[$this->getUid()][$templateType])) {
-            return self::$fluidTemplateCache[$this->getUid()][$templateType];
+        $cacheKey = $this->getUid();
+        if ($this->getEnableContainer()) {
+            $containerIterator = $this->getContainerIterator();
+            $cacheKey .= '-' . $containerIterator['index'];
+        }
+
+        if (isset(self::$fluidTemplateCache[$cacheKey][$templateType])) {
+            return self::$fluidTemplateCache[$cacheKey][$templateType];
         }
 
         $templateFields = $this->templateFields[$templateType];

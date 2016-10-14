@@ -41,7 +41,8 @@ class ContainerFactory
         );
 
         $contentElements = static::getContentElementsInContainer($dce);
-        foreach ($contentElements as $contentElement) {
+        $total = count($contentElements);
+        foreach ($contentElements as $index => $contentElement) {
             try {
                 /** @var \ArminVieweg\Dce\Domain\Model\Dce $dce */
                 $dceInstance = clone \ArminVieweg\Dce\Utility\Extbase::bootstrapControllerAction(
@@ -59,6 +60,7 @@ class ContainerFactory
             } catch (\Exception $exception) {
                 continue;
             }
+            $dceInstance->setContainerIterator(static::createContainerIteratorArray($index, $total));
             $container->addDce($dceInstance);
 
             if (!in_array($contentElement['uid'], static::$contentElementsToSkip)) {
@@ -174,5 +176,25 @@ class ContainerFactory
             }
         }
         return $resolvedContentElements;
+    }
+
+    /**
+     * Creates iteration array, like fluid's ForViewHelper does.
+     *
+     * @param int $index starting with 0
+     * @param int $total total amount of DCEs in container
+     * @return array
+     */
+    protected static function createContainerIteratorArray($index, $total)
+    {
+        return array(
+            'isOdd' => $index % 2 === 0,
+            'isEven' => $index % 2 !== 0,
+            'isFirst' => $index === 0,
+            'isLast' => $index === $total - 1,
+            'cycle' => $index + 1,
+            'index' => $index,
+            'total' => $total
+        );
     }
 }
