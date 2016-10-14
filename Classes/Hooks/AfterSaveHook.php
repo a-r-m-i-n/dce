@@ -214,9 +214,6 @@ class AfterSaveHook
                 $this->uid,
                 $this->fieldArray['pi_flexform']
             );
-            if (!isset($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceImportInProgress'])) {
-                $this->performPreviewAutoupdateOnContentElementSave();
-            }
         }
 
         // When a DCE is disabled, also disable/hide the based content elements
@@ -279,44 +276,6 @@ class AfterSaveHook
             if ($this->extConfiguration['disableAutoClearFrontendCache'] == 0) {
                 $pObj->clear_cacheCmd('pages');
             }
-        }
-    }
-
-    /**
-     * On save on content element, which based on dce, its preview texts become updated. If change is made in
-     * frontend context, they can not get rendered. Instead a message will appear, which informs the user in backend
-     * about this circumstance.
-     *
-     * @return void
-     * @deprecated Remove whole fluid-based backend templating in further versions
-     */
-    protected function performPreviewAutoupdateOnContentElementSave()
-    {
-        $dceUid = DatabaseUtility::getDceUidByContentElementUid($this->uid);
-        $dceRow = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
-            '*',
-            'tx_dce_domain_model_dce',
-            'uid=' . $dceUid
-        );
-        if (isset($dceRow['use_simple_backend_view']) && $dceRow['use_simple_backend_view'] === '1') {
-            return;
-        }
-        if (TYPO3_MODE === 'BE') {
-            $mergedFieldArray = array_merge($this->fieldArray, BackendPreviewTemplate::generateDcePreview($this->uid));
-            $this->dataHandler->updateDB('tt_content', $this->uid, $mergedFieldArray);
-        } else {
-            // Preview texts can not created in frontend context
-            $this->dataHandler->updateDB('tt_content', $this->uid, array_merge($this->fieldArray, array(
-                'header' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
-                    'contentElementCreatedByFrontendHeader',
-                    'dce'
-                ),
-                'bodytext' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
-                    'contentElementCreatedByFrontendBodytext',
-                    'dce',
-                    array(GeneralUtility::_GP('eID'))
-                ),
-            )));
         }
     }
 

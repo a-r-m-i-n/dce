@@ -27,6 +27,8 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     const TEMPLATE_FIELD_DETAILPAGE = 3;
     /** Identifier for dce container templates */
     const TEMPLATE_FIELD_CONTAINER = 4;
+    /** Identifier for backend template */
+    const TEMPLATE_FIELD_BACKEND_TEMPLATE = 5;
 
     /** Type for databased stored DCEs */
     const TYPE_DB = 0;
@@ -55,16 +57,6 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
             'inline' => 'template_content',
             'file' => 'template_file'
         ),
-        self::TEMPLATE_FIELD_HEADERPREVIEW => array(
-            'type' => 'preview_template_type',
-            'inline' => 'header_preview',
-            'file' => 'header_preview_template_file'
-        ),
-        self::TEMPLATE_FIELD_BODYTEXTPREVIEW => array(
-            'type' => 'preview_template_type',
-            'inline' => 'bodytext_preview',
-            'file' => 'bodytext_preview_template_file'
-        ),
         self::TEMPLATE_FIELD_DETAILPAGE => array(
             'type' => 'detailpage_template_type',
             'inline' => 'detailpage_template',
@@ -74,6 +66,11 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
             'type' => 'container_template_type',
             'inline' => 'container_template',
             'file' => 'container_template_file'
+        ),
+        self::TEMPLATE_FIELD_BACKEND_TEMPLATE => array(
+            'type' => 'backend_template_type',
+            'inline' => 'backend_template_content',
+            'file' => 'backend_template_file'
         )
     );
 
@@ -123,19 +120,13 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $backendViewBodytext = '';
 
     /** @var string */
-    protected $previewTemplateType = '';
+    protected $backendTemplateType = '';
 
     /** @var string */
-    protected $headerPreview = '';
+    protected $backendTemplateContent = '';
 
     /** @var string */
-    protected $headerPreviewTemplateFile = '';
-
-    /** @var string */
-    protected $bodytextPreview = '';
-
-    /** @var string */
-    protected $bodytextPreviewTemplateFile = '';
+    protected $backendTemplateFile = '';
 
     /** @var bool */
     protected $enableDetailpage = false;
@@ -484,86 +475,52 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return string
      */
-    public function getPreviewTemplateType()
+    public function getBackendTemplateType()
     {
-        return $this->previewTemplateType;
+        return $this->backendTemplateType;
     }
 
     /**
-     * @param string $previewTemplateType
+     * @param string $backendTemplateType
      * @return void
      */
-    public function setPreviewTemplateType($previewTemplateType)
+    public function setBackendTemplateType($backendTemplateType)
     {
-        $this->previewTemplateType = $previewTemplateType;
+        $this->backendTemplateType = $backendTemplateType;
     }
 
     /**
      * @return string
      */
-    public function getHeaderPreview()
+    public function getBackendTemplateContent()
     {
-        return $this->headerPreview;
+        return $this->backendTemplateContent;
     }
 
     /**
-     * @param string $headerPreview
+     * @param string $backendTemplateContent
      * @return void
      */
-    public function setHeaderPreview($headerPreview)
+    public function setBackendTemplateContent($backendTemplateContent)
     {
-        $this->headerPreview = $headerPreview;
+        $this->backendTemplateContent = $backendTemplateContent;
     }
 
     /**
      * @return string
      */
-    public function getHeaderPreviewTemplateFile()
+    public function getBackendTemplateFile()
     {
-        return $this->headerPreviewTemplateFile;
+        return $this->backendTemplateFile;
     }
 
     /**
-     * @param string $headerPreviewTemplateFile
+     * @param string $backendTemplateFile
      * @return void
      */
-    public function setHeaderPreviewTemplateFile($headerPreviewTemplateFile)
+    public function setBackendTemplateFile($backendTemplateFile)
     {
-        $this->headerPreviewTemplateFile = $headerPreviewTemplateFile;
-    }
-
-    /**
-     * @return string
-     */
-    public function getBodytextPreview()
-    {
-        return $this->bodytextPreview;
-    }
-
-    /**
-     * @param string $bodytextPreview
-     * @return void
-     */
-    public function setBodytextPreview($bodytextPreview)
-    {
-        $this->bodytextPreview = $bodytextPreview;
-    }
-
-    /**
-     * @return string
-     */
-    public function getBodytextPreviewTemplateFile()
-    {
-        return $this->bodytextPreviewTemplateFile;
-    }
-
-    /**
-     * @param string $bodytextPreviewTemplateFile
-     * @return void
-     */
-    public function setBodytextPreviewTemplateFile($bodytextPreviewTemplateFile)
-    {
-        $this->bodytextPreviewTemplateFile = $bodytextPreviewTemplateFile;
+        $this->backendTemplateFile = $backendTemplateFile;
     }
 
     /**
@@ -894,23 +851,21 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Renders the HeaderPreview output
+     * Renders the DCE Backend Template
      *
+     * @param string $section If set just 'header' or 'bodytext' part is returned
      * @return string rendered output
      */
-    public function renderHeaderPreview()
+    public function renderBackendTemplate($section = '')
     {
-        return $this->renderFluidTemplate(self::TEMPLATE_FIELD_HEADERPREVIEW);
-    }
+        $backendTemplateSeparator = '<dce-separator />';
 
-    /**
-     * Renders the BodytextPreview output
-     *
-     * @return string rendered output
-     */
-    public function renderBodytextPreview()
-    {
-        return $this->renderFluidTemplate(self::TEMPLATE_FIELD_BODYTEXTPREVIEW);
+        $fullBackendTemplate = $this->renderFluidTemplate(self::TEMPLATE_FIELD_BACKEND_TEMPLATE);
+        if (!empty($section)) {
+            $backendTemplateParts = GeneralUtility::trimExplode($backendTemplateSeparator, $fullBackendTemplate);
+            return $section === 'bodytext' ? $backendTemplateParts[1] : $backendTemplateParts[0];
+        }
+        return $fullBackendTemplate;
     }
 
     /**
@@ -923,11 +878,13 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $fluidTemplate = $this->getFluidStandaloneView($templateType);
 
-        $fluidTemplate->assign('contentObject', $this->getContentObject());
-
         $fields = $this->getFieldsAsArray();
-        $fluidTemplate->assign('field', $fields);
-        $fluidTemplate->assign('fields', $fields);
+        $variables = array(
+            'contentObject' => $this->getContentObject(),
+            'fields' => $fields,
+            'field' => $fields
+        );
+        $fluidTemplate->assignMultiple($variables);
 
         return trim($fluidTemplate->render());
     }

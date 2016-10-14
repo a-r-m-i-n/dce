@@ -63,28 +63,26 @@ class PageLayoutViewDrawItemHook implements \TYPO3\CMS\Backend\View\PageLayoutVi
             return;
         }
 
+        $drawItem = false;
         if ($dce->isUseSimpleBackendView()) {
             $this->addPageViewStylesheets();
 
-            /** @var \ArminVieweg\Dce\Components\SimpleBackendView\SimpleBackendView $simpleBackendViewUtility */
-            $simpleBackendViewUtility = GeneralUtility::makeInstance(
-                'ArminVieweg\Dce\Components\SimpleBackendView\SimpleBackendView'
+            /** @var \ArminVieweg\Dce\Components\BackendView\SimpleBackendView $simpleBackendView */
+            $simpleBackendView = GeneralUtility::makeInstance(
+                'ArminVieweg\Dce\Components\BackendView\SimpleBackendView'
             );
-            $drawItem = false;
+
             $headerContent = $parentObject->linkEditContent(
-                $simpleBackendViewUtility->getSimpleBackendViewHeaderContent($dce),
+                $simpleBackendView->getHeaderContent($dce),
                 $row
             );
             $itemContent .= $parentObject->linkEditContent(
-                $simpleBackendViewUtility->getSimpleBackendViewBodytextContent($dce, $row),
+                $simpleBackendView->getBodytextContent($dce, $row),
                 $row
             );
-            return;
-        }
-
-        if (strpos($row['CType'], 'dce_dceuid') !== false) {
-            $drawItem = false;
-            $itemContent .= $parentObject->linkEditContent($row['bodytext'], $row) . '<br />';
+        } else {
+            $headerContent = $parentObject->linkEditContent($dce->renderBackendTemplate('header'), $row);
+            $itemContent .= $parentObject->linkEditContent($dce->renderBackendTemplate('bodytext'), $row);
         }
     }
 

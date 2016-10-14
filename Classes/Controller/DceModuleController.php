@@ -43,22 +43,6 @@ class DceModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
      * @param bool $perform
      * @return void
      */
-    public function updatePreviewTemplatesAction(\ArminVieweg\Dce\Domain\Model\Dce $dce, $perform = false)
-    {
-        $contentElements = $this->dceRepository->findContentElementsBasedOnDce($dce);
-        $this->view->assign('contentElements', $contentElements);
-        $this->view->assign('dce', $dce);
-        if ($perform) {
-            BackendPreviewTemplate::performPreviewAutoupdateBatchOnDceChange($dce->getUid());
-            $this->view->assign('perform', true);
-        }
-    }
-
-    /**
-     * @param \ArminVieweg\Dce\Domain\Model\Dce $dce
-     * @param bool $perform
-     * @return void
-     */
     public function updateTcaMappingsAction(\ArminVieweg\Dce\Domain\Model\Dce $dce, $perform = false)
     {
         $contentElements = $this->dceRepository->findContentElementsBasedOnDce($dce);

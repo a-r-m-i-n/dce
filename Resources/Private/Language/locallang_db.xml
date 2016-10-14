@@ -72,11 +72,9 @@
 			<label index="tx_dce_domain_model_dce.partialRootPath">Fluid partial root path</label>
 
             <label index="tx_dce_domain_model_dce.backendTemplate">Backend Template</label>
-            <label index="tx_dce_domain_model_dce.previewTemplateType">Preview texts template type</label>
-            <label index="tx_dce_domain_model_dce.headerPreview">Header preview template (fluid)</label>
-            <label index="tx_dce_domain_model_dce.bodytextPreview">Bodytext preview template (fluid)</label>
-            <label index="tx_dce_domain_model_dce.headerPreviewTemplateFile">Header preview template file (fluid)</label>
-            <label index="tx_dce_domain_model_dce.bodytextPreviewTemplateFile">Bodytext preview template file (fluid)</label>
+            <label index="tx_dce_domain_model_dce.backendTemplateType">Backend template type</label>
+            <label index="tx_dce_domain_model_dce.backendTemplateContent">Backend template content (fluid)</label>
+            <label index="tx_dce_domain_model_dce.backendTemplateFile">Backend template file (fluid)</label>
 
 			<label index="tx_dce_domain_model_dce.detailpage">Detail page</label>
 			<label index="tx_dce_domain_model_dce.enableDetailpage">Enable detail page</label>
@@ -162,9 +160,9 @@
 			<label index="tx_dce_domain_model_dce.partialRootPath">Fluid Partial Root-Verzeichnis</label>
 
             <label index="tx_dce_domain_model_dce.backendTemplate">Backend Template</label>
-            <label index="tx_dce_domain_model_dce.previewTemplateType">Vorschau-Template-Typ</label>
-            <label index="tx_dce_domain_model_dce.headerPreview">Überschriften-Vorschau-Template (Fluid)</label>
-            <label index="tx_dce_domain_model_dce.bodytextPreview">Inhaltstext-Vorschau-Template (Fluid)</label>
+            <label index="tx_dce_domain_model_dce.backendTemplateType">Backend-Template-Typ</label>
+            <label index="tx_dce_domain_model_dce.backendTemplateContent">Backend-Template-Template (Fluid)</label>
+            <label index="tx_dce_domain_model_dce.backendTemplateFile">Backend-Template-Datei (Fluid)</label>
             <label index="tx_dce_domain_model_dce.headerPreviewTemplateFile">Überschriften-Vorschau-Template-Datei (Fluid)</label>
             <label index="tx_dce_domain_model_dce.bodytextPreviewTemplateFile">Inhaltstext-Vorschau-Template-Datei (Fluid)</label>
 

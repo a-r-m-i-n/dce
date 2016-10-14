@@ -1,5 +1,5 @@
 <?php
-namespace ArminVieweg\Dce\Components\SimpleBackendView;
+namespace ArminVieweg\Dce\Components\BackendView;
 
 /*  | This extension is part of the TYPO3 project. The TYPO3 project is
  *  | free software and is licensed under GNU General Public License.
@@ -32,7 +32,7 @@ class SimpleBackendView
      * @param bool $textOnly When true the return value is not wrapped by <strong>-tags
      * @return string
      */
-    public function getSimpleBackendViewHeaderContent(Dce $dce, $textOnly = false)
+    public function getHeaderContent(Dce $dce, $textOnly = false)
     {
         if ($dce->getBackendViewHeader() === '*empty') {
             return '';
@@ -61,7 +61,7 @@ class SimpleBackendView
      * @param array $row Content element row
      * @return string
      */
-    public function getSimpleBackendViewBodytextContent(Dce $dce, array $row)
+    public function getBodytextContent(Dce $dce, array $row)
     {
         $fields = array();
         foreach ($dce->getBackendViewBodytextArray() as $fieldIdentifier) {

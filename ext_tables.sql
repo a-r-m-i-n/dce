@@ -28,11 +28,11 @@ CREATE TABLE tx_dce_domain_model_dce (
 	use_simple_backend_view tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	backend_view_header varchar(255) DEFAULT '*dcetitle' NOT NULL,
 	backend_view_bodytext text,
-	preview_template_type varchar(255) DEFAULT '' NOT NULL,
-	header_preview text,
-	header_preview_template_file varchar(255) DEFAULT '' NOT NULL,
-	bodytext_preview text,
-	bodytext_preview_template_file varchar(255) DEFAULT '' NOT NULL,
+
+	backend_template_type varchar(255) DEFAULT '' NOT NULL,
+	backend_template_content text,
+	backend_template_file varchar(255) DEFAULT '' NOT NULL,
+
 	template_layout_root_path varchar(255) DEFAULT '' NOT NULL,
 	template_partial_root_path varchar(255) DEFAULT '' NOT NULL,
 	palette_fields text,

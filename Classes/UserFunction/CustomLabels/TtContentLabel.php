@@ -48,8 +48,11 @@ class TtContentLabel
             }
 
             if ($dce->isUseSimpleBackendView()) {
-                $simpleBackendViewUtility = new \ArminVieweg\Dce\Components\SimpleBackendView\SimpleBackendView();
-                $parameter['title'] = $simpleBackendViewUtility->getSimpleBackendViewHeaderContent($dce, true);
+                $simpleBackendViewUtility = new \ArminVieweg\Dce\Components\BackendView\SimpleBackendView();
+                $parameter['title'] = $simpleBackendViewUtility->getHeaderContent($dce, true);
+                return;
+            } else {
+                $parameter['title'] = trim(strip_tags($dce->renderBackendTemplate('header')));
                 return;
             }
         }
