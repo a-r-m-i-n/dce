@@ -28,7 +28,7 @@
 </f:if>
 <f:if condition="{dce.wizard_enable}">
 	<f:if condition="{dce.hasCustomWizardIcon}">
-		if (\TYPO3\CMS\Core\Utility\GeneralUtility::compat_version('7.6')) {
+		if (\TYPO3\CMS\Core\Utility\GeneralUtility::compat_version('7.6') && !empty('{dce.wizard_custom_icon}')) {
 		$iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\Imaging\IconRegistry');
 		$iconRegistry->registerIcon(
 		'ext-dce-{f:if(condition:"{dce.uid}", then:"dceuid{dce.uid}", else:"dce_{dce.identifier}")}-customwizardicon',
