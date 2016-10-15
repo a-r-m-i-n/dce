@@ -55,4 +55,7 @@
 		<localizationMode>select</localizationMode>
 		<localizeChildrenAtParentLocalization>1</localizeChildrenAtParentLocalization>
 	</behaviour>
+
+	<dce_load_schema>1</dce_load_schema>
+	<dce_get_fal_objects>1</dce_get_fal_objects>
 </config>

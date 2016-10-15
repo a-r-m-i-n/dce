@@ -84,7 +84,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $dce = clone $dce;
         $this->cloneFields($dce);
 
-        $this->processFillingFields($dce, $fieldList);
+        $this->processFillingFields($dce, $fieldList, is_array($contentObject) ? $contentObject : array());
         $dce->setContentObject($contentObject);
         static::$dceInstanceCache[$contentObject['uid']] = $dce;
         return $dce;
@@ -155,11 +155,11 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      * Walk through the fields and section fields to fill them
      *
      * @param \ArminVieweg\Dce\Domain\Model\Dce $dce
-     * @param array $fieldList Field list. Key must contain field variable,
-     *                         value its value.
+     * @param array $fieldList Field list. Key must contain field variable, value its value.
+     * @param array $contentObject
      * @return void
      */
-    protected function processFillingFields(\ArminVieweg\Dce\Domain\Model\Dce $dce, array $fieldList)
+    protected function processFillingFields(\ArminVieweg\Dce\Domain\Model\Dce $dce, array $fieldList, array $contentObject)
     {
         foreach ($fieldList as $fieldVariable => $fieldValue) {
             $dceField = $dce->getFieldByVariable($fieldVariable);
@@ -173,14 +173,21 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                             if ($sectionField instanceof DceField) {
                                 $xmlIdent = $dce->getUid() . '-' . $dceField->getVariable() . '-' .
                                     $sectionField->getVariable();
-                                $this->fillFields($sectionField, $sectionFieldValue, $xmlIdent, true, $i);
+                                $this->fillFields(
+                                    $sectionField,
+                                    $sectionFieldValue,
+                                    $xmlIdent,
+                                    true,
+                                    $contentObject,
+                                    $i)
+                                ;
                             }
                         }
                         $i++;
                     }
                 } else {
                     $xmlIdent = $dce->getUid() . '-' . $dceField->getVariable();
-                    $this->fillFields($dceField, $fieldValue, $xmlIdent, false);
+                    $this->fillFields($dceField, $fieldValue, $xmlIdent, false, $contentObject);
                 }
             }
         }
@@ -196,6 +203,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      * @param string $fieldValue
      * @param string $xmlIdentifier
      * @param bool $isSectionField
+     * @param array $contentObject
      * @param int $sectionFieldIndex
      * @return void
      */
@@ -204,6 +212,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $fieldValue,
         $xmlIdentifier,
         $isSectionField = false,
+        $contentObject = array(),
         $sectionFieldIndex = 0
     ) {
 
@@ -215,7 +224,11 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         if (is_array($dceFieldConfiguration)) {
             $dceFieldConfiguration = $dceFieldConfiguration['config'];
             if ($dceFieldConfiguration['dce_load_schema'] && $this->hasRelatedObjects($dceFieldConfiguration)) {
-                $objects = $this->createObjectsByFieldConfiguration($fieldValue, $dceFieldConfiguration);
+                $objects = $this->createObjectsByFieldConfiguration(
+                    $fieldValue,
+                    $dceFieldConfiguration,
+                    $contentObject['uid']
+                );
             }
             if (isset($objects) && $dceFieldConfiguration['dce_get_first']) {
                 $objects = current($objects);
@@ -364,9 +377,10 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      *
      * @param string $fieldValue Comma separated list of uids
      * @param array $dceFieldConfiguration
+     * @param int $contentUid Uid of content item (required by FAL)
      * @return array
      */
-    protected function createObjectsByFieldConfiguration($fieldValue, array $dceFieldConfiguration)
+    protected function createObjectsByFieldConfiguration($fieldValue, array $dceFieldConfiguration, $contentUid)
     {
         $objects = array();
 
@@ -391,9 +405,18 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             $className = str_replace('-', '_', $className);
             $className{0} = strtoupper($className{0});
         }
-
         if ($dceFieldConfiguration['dce_get_fal_objects'] && strtolower($className) === 'sys_file') {
             $className = 'TYPO3\CMS\Core\Resource\File';
+        }
+
+        if ($dceFieldConfiguration['dce_get_fal_objects'] && strtolower($className) === 'sys_file_reference') {
+            /** @var \TYPO3\CMS\Core\Resource\FileRepository $fileRepository */
+            $fileRepository = GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\FileRepository');
+            return $fileRepository->findByRelation(
+                'tt_content',
+                $dceFieldConfiguration['foreign_match_fields']['fieldname'],
+                $contentUid
+            );
         }
 
         if (strstr($className, '\\') === false) {
@@ -401,7 +424,6 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         } else {
             $repositoryName = str_replace('\\Model\\', '\\Repository\\', $className) . 'Repository';
         }
-
         if (strtolower($className) === 'sys_file_collection') {
             $specialClass = 'FileCollection';
             $className = 'TYPO3\CMS\Core\Resource\Collection\AbstractFileCollection';

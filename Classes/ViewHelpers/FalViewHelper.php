@@ -18,6 +18,7 @@ class FalViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
     /**
      * Gets FileReference objects (FAL)
+     * Do not use FAL Viewhelper for DCE images anymore. Just use it when you need to access e.g. tt_address FAL images.
      *
      * @param string $field Name of field in DCE
      * @param array $contentObject Content object data array, which is stored in {contentObject} in dce template.
