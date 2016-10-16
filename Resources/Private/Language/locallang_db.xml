@@ -94,6 +94,8 @@
 			<label index="tx_dce_domain_model_dce.showCategoryTab">Enable categories tab in backend</label>
 			<label index="tx_dce_domain_model_dce.hideDefaultCeWrap">Disables the "div.csc-default" wrapping</label>
 			<label index="tx_dce_domain_model_dce.paletteFields">DCE palette fields</label>
+			<label index="tx_dce_domain_model_dce.flexformLabel">Flexform label</label>
+			<label index="tx_dce_domain_model_dce.flexformLabel.default">Contents:</label>
 
 			<label index="tx_dce_domain_model_dce.useSimpleBackendView">Use simple backend view</label>
 			<label index="tx_dce_domain_model_dce.backendViewHeader">Header field (which field value should be used as header)</label>
@@ -184,6 +186,8 @@
 			<label index="tx_dce_domain_model_dce.showCategoryTab">Aktiviere "Kategorien" Tab im Backend</label>
 			<label index="tx_dce_domain_model_dce.hideDefaultCeWrap">Deaktiviere das "div.csc-default" Wrapping</label>
 			<label index="tx_dce_domain_model_dce.paletteFields">DCE Paletten-Felder</label>
+			<label index="tx_dce_domain_model_dce.flexformLabel">Flexform Label</label>
+			<label index="tx_dce_domain_model_dce.flexformLabel.default">Inhalte:</label>
 
 			<label index="tx_dce_domain_model_dce.useSimpleBackendView">Benutze einfache Backend-Ansicht</label>
 			<label index="tx_dce_domain_model_dce.backendViewHeader">Header-Feld (welcher Feldwert soll als Überschrift benutzt werden)</label>

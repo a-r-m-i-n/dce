@@ -54,6 +54,8 @@
 	}
 	}
 	mod.wizards.newContentElement.wizardItems.{dce.wizard_category}.show := addToList(dce_{f:if(condition:"{dce.uid}", then:"dceuid{dce.uid}", else:"dce_{dce.identifier}")})
+
+	TCEFORM.tt_content.pi_flexform.types.dce_{f:if(condition:"{dce.uid}", then:"dceuid{dce.uid}", else:"dce_{dce.identifier}")}.label = {dce.flexform_label}
 	');
 </f:if>
 </f:if>

@@ -56,7 +56,7 @@ $dceTca = array(
 			--div--;' . $ll . 'tx_dce_domain_model_dce.backendTemplate,use_simple_backend_view,backend_view_header,backend_view_bodytext,backend_template_type,backend_template_content,backend_template_file,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.wizard,wizard_icon,wizard_custom_icon,wizard_enable,wizard_category,wizard_description,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.detailpage,enable_detailpage,detailpage_identifier,detailpage_template_type,detailpage_template,detailpage_template_file,
-			--div--;' . $ll . 'tx_dce_domain_model_dce.miscellaneous,cache_dce,hide_default_ce_wrap,show_access_tab,show_category_tab,palette_fields,template_layout_root_path,template_partial_root_path'
+			--div--;' . $ll . 'tx_dce_domain_model_dce.miscellaneous,cache_dce,flexform_label,hide_default_ce_wrap,show_access_tab,show_category_tab,palette_fields,template_layout_root_path,template_partial_root_path'
         ),
         // Filebased DCE
         '1' => array(
@@ -66,7 +66,7 @@ $dceTca = array(
 			--div--;' . $ll . 'tx_dce_domain_model_dce.backendTemplate,use_simple_backend_view,backend_view_header,backend_view_bodytext,backend_template_type,backend_template_content,backend_template_file,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.wizard,wizard_icon,wizard_custom_icon,wizard_enable,wizard_category,wizard_description,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.detailpage,enable_detailpage,detailpage_identifier,detailpage_template,detailpage_template_file,
-			--div--;' . $ll . 'tx_dce_domain_model_dce.miscellaneous,cache_dce,hide_default_ce_wrap,show_access_tab,show_category_tab,palette_fields,template_layout_root_path,template_partial_root_path'
+			--div--;' . $ll . 'tx_dce_domain_model_dce.miscellaneous,cache_dce,flexform_label,hide_default_ce_wrap,show_access_tab,show_category_tab,palette_fields,template_layout_root_path,template_partial_root_path'
         ),
     ),
     'palettes' => array(
@@ -314,6 +314,16 @@ $dceTca = array(
             'config' => array(
                 'type' => 'check',
                 'default' => '0',
+            ),
+        ),
+        'flexform_label' => array(
+            'exclude' => 0,
+            'label' => $ll . 'tx_dce_domain_model_dce.flexformLabel',
+            'config' => array(
+                'type' => 'input',
+                'eval' => 'trim,required',
+                'default' => $ll . 'tx_dce_domain_model_dce.flexformLabel.default',
+                'size' => 30
             ),
         ),
 
