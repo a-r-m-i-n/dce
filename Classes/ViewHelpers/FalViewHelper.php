@@ -21,10 +21,12 @@ class FalViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
      *
      * @param string $field Name of field in DCE
      * @param array $contentObject Content object data array, which is stored in {contentObject} in dce template.
-     * @param bool $localizeUid
+     * @param bool $localizeUid If true the uid gets localized (in frontend context)
+     * @param string $tableName If you want to specify another table than tt_content
+     * @param int $uid If positive, it overwrites the (localized) uid from contentObject
      * @return array|string String or array with found media
      */
-    public function render($field, array $contentObject, $localizeUid = true)
+    public function render($field, array $contentObject, $localizeUid = true, $tableName = 'tt_content', $uid = 0)
     {
         $contentObjectUid = intval($contentObject['uid']);
         if ($localizeUid) {
@@ -33,9 +35,12 @@ class FalViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
             );
         }
 
+        if ($uid > 0) {
+            $contentObjectUid = $uid;
+        }
+
         /** @var \TYPO3\CMS\Frontend\Page\PageRepository $pageRepository */
         $pageRepository = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Page\PageRepository');
-        $tableName = 'tt_content';
         $rows = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
             'uid',
             'sys_file_reference',

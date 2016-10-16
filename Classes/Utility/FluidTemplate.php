@@ -61,8 +61,12 @@ class FluidTemplate
         \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection();
 
         $this->fluidTemplate = GeneralUtility::makeInstance('TYPO3\CMS\Fluid\View\StandaloneView');
-        $this->fluidTemplate->setLayoutRootPaths(array(GeneralUtility::getFileAbsFileName(self::DEFAULT_DIRECTORY_LAYOUTS)));
-        $this->fluidTemplate->setPartialRootPaths(array(GeneralUtility::getFileAbsFileName(self::DEFAULT_DIRECTORY_PARTIALS)));
+        $this->fluidTemplate->setLayoutRootPaths(
+            array(GeneralUtility::getFileAbsFileName(self::DEFAULT_DIRECTORY_LAYOUTS))
+        );
+        $this->fluidTemplate->setPartialRootPaths(
+            array(GeneralUtility::getFileAbsFileName(self::DEFAULT_DIRECTORY_PARTIALS))
+        );
     }
 
     /**

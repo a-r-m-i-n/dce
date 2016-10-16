@@ -370,9 +370,9 @@ class AfterSaveHook
      * Investigates the uid of entry
      *
      * @param $id
+     * @param $table
      * @param $status
      * @param $pObj
-     *
      * @return int
      */
     protected function getUid($id, $table, $status, $pObj)

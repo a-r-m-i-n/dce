@@ -26,6 +26,7 @@ class TableListViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\TableListViewH
      * @param bool $readOnly
      * @param bool $enableClickMenu
      * @param null $clickTitleMode
+     * @param bool $alternateBackgroundColors
      * @return string the rendered record list
      * @see localRecordList
      */

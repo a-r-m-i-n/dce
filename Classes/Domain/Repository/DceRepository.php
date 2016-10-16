@@ -128,6 +128,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                         $clonedSectionField = clone $sectionField;
                         $clonedSectionField->setValue(null);
                         $clonedSectionFields->attach($clonedSectionField);
+                        //TODO: Could be a bug here!
                         $field->setSectionFields($clonedSectionFields);
                     }
                 }
@@ -309,6 +310,10 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      */
     public static function extractUidFromCtype($cType)
     {
+        if (is_array($cType)) {
+            // For any reason the CType can be an array with one entry
+            $cType = reset($cType);
+        }
         if (strpos($cType, 'dceuid') === 0) {
             return intval(substr($cType, 6));
         }
