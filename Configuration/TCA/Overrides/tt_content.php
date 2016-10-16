@@ -10,31 +10,31 @@ if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
 
-$newTtContentColumns = array(
-    'tx_dce_dce' => array(
+$newTtContentColumns = [
+    'tx_dce_dce' => [
         'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tt_content.tx_dce_dce',
-        'config' => array(
+        'config' => [
             'type' => 'select',
             'foreign_table' => 'tx_dce_domain_model_dce',
-            'items' => array(
-                array('', ''),
-            ),
+            'items' => [
+                ['', ''],
+            ],
             'minitems' => 0,
             'maxitems' => 1,
-        ),
-    ),
-    'tx_dce_index' => array(
-        'config' => array(
+        ],
+    ],
+    'tx_dce_index' => [
+        'config' => [
             'type' => 'passthrough',
-        ),
-    ),
-    'tx_dce_new_container' => array(
+        ],
+    ],
+    'tx_dce_new_container' => [
         'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tt_content.tx_dce_new_container',
-        'config' => array(
+        'config' => [
             'type' => 'check',
-        ),
-    ),
-);
+        ],
+    ],
+];
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('tt_content', $newTtContentColumns);
 

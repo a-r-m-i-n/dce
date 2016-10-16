@@ -225,7 +225,7 @@ class Cache
 
         $tables = array_keys($databaseConnection->admin_get_tables());
         if (!in_array('tx_dce_domain_model_dce', $tables) || !in_array('tx_dce_domain_model_dcefield', $tables)) {
-            return array();
+            return [];
         }
 
         $res = $databaseConnection->exec_SELECTquery(
@@ -236,7 +236,7 @@ class Cache
             'sorting asc'
         );
 
-        $dce = array();
+        $dce = [];
         while (($row = $databaseConnection->sql_fetch_assoc($res))) {
             $res2 = $databaseConnection->exec_SELECTquery(
                 '*',
@@ -254,16 +254,16 @@ class Cache
                     'dce'
                 );
             }
-            $tabs = array(0 => array('title' => $generalTabLabel, 'variable' => 'tabGeneral', 'fields' => array()));
+            $tabs = [0 => ['title' => $generalTabLabel, 'variable' => 'tabGeneral', 'fields' => []]];
             $index = 0;
             while ($row2 = $databaseConnection->sql_fetch_assoc($res2)) {
                 if ($row2['type'] === '1') {
                     // Create new Tab
                     $index++;
-                    $tabs[$index] = array();
+                    $tabs[$index] = [];
                     $tabs[$index]['title'] = $row2['title'];
                     $tabs[$index]['variable'] = $row2['variable'];
-                    $tabs[$index]['fields'] = array();
+                    $tabs[$index]['fields'] = [];
                     continue;
                 } elseif ($row2['type'] === '2') {
                     $res3 = $databaseConnection->exec_SELECTquery(
@@ -274,7 +274,7 @@ class Cache
                         'sorting asc'
                     );
 
-                    $sectionFields = array();
+                    $sectionFields = [];
                     while (($row3 = $databaseConnection->sql_fetch_assoc($res3))) {
                         if ($row3['type'] === '0') {
                             // add fields of section to fields

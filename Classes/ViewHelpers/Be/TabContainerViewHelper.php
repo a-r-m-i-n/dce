@@ -27,7 +27,7 @@ class TabContainerViewHelper extends AbstractViewHelper implements ChildNodeAcce
      *
      * @var array<\TYPO3\CMS\Fluid\Core\Parser\SyntaxTree\AbstractNode>
      */
-    protected $childNodes = array();
+    protected $childNodes = [];
 
     /**
      * Setter for ChildNodes - as defined in ChildNodeAccessInterface
@@ -47,12 +47,12 @@ class TabContainerViewHelper extends AbstractViewHelper implements ChildNodeAcce
      */
     protected function getTabsDataArray()
     {
-        $tabs = array();
+        $tabs = [];
         foreach ($this->childNodes as $childNode) {
             if ($childNode instanceof \TYPO3\CMS\Fluid\Core\Parser\SyntaxTree\ViewHelperNode
                 && $childNode->getViewHelperClassName() === 'ArminVieweg\Dce\ViewHelpers\Be\TabViewHelper'
             ) {
-                $tab = array();
+                $tab = [];
                 $tab['content'] = $childNode->evaluate($this->getRenderingContext());
                 $tab['label'] = $this->getRenderingContext()
                     ->getViewHelperVariableContainer()

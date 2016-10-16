@@ -87,10 +87,10 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
         $this->storeLastQuery($dbQueries);
 
         foreach ($sectionFieldRelations as $sectionFieldRelation) {
-            $updateValues = array(
+            $updateValues = [
                 'parent_field' => $sectionFieldRelation['uid_local'],
                 'sorting' => $sectionFieldRelation['sorting']
-            );
+            ];
             $this->getDatabaseConnection()->exec_UPDATEquery(
                 'tx_dce_domain_model_dcefield',
                 'uid=' . $sectionFieldRelation['uid_foreign'],
@@ -106,10 +106,10 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
         );
         $this->storeLastQuery($dbQueries);
         foreach ($dceFieldRelations as $dceFieldRelation) {
-            $updateValues = array(
+            $updateValues = [
                 'parent_dce' => $dceFieldRelation['uid_local'],
                 'sorting' => $dceFieldRelation['sorting']
-            );
+            ];
             $this->getDatabaseConnection()->exec_UPDATEquery(
                 'tx_dce_domain_model_dcefield',
                 'uid=' . $dceFieldRelation['uid_foreign'],
@@ -121,7 +121,7 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
         $remainingDceFields = $this->getUpdatableDceFields();
         $this->storeLastQuery($dbQueries);
         if (count($remainingDceFields) > 0) {
-            $dceFieldUids = array();
+            $dceFieldUids = [];
             foreach ($remainingDceFields as $remainingDceField) {
                 $dceFieldUids[] = $remainingDceField['uid'];
             }
@@ -134,7 +134,7 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
             $this->getDatabaseConnection()->exec_UPDATEquery(
                 'tx_dce_domain_model_dcefield',
                 'uid IN (' . $dceFieldUids . ')',
-                array('deleted' => '1')
+                ['deleted' => '1']
             );
             $this->storeLastQuery($dbQueries);
         }

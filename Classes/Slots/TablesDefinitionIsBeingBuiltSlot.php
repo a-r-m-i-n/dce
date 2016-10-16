@@ -26,7 +26,7 @@ class TablesDefinitionIsBeingBuiltSlot
         if ($this->checkRequiredFieldsExisting()) {
             $sqlStrings[] = \ArminVieweg\Dce\Components\FlexformToTcaMapper\Mapper::getSql();
         }
-        return array($sqlStrings);
+        return [$sqlStrings];
     }
 
     /**

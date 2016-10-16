@@ -57,7 +57,7 @@ class FalViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 
         /** @var \TYPO3\CMS\Core\Resource\FileRepository $fileRepository */
         $fileRepository = GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\FileRepository');
-        $result = array();
+        $result = [];
         foreach ($rows as $referenceUid) {
             $result[] = $fileRepository->findFileReferenceByUid(intval($referenceUid['uid']));
         }

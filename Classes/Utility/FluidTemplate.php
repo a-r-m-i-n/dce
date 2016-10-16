@@ -30,7 +30,7 @@ class FluidTemplate
     /**
      * @var array with temporary files
      */
-    protected $temporaryFiles = array();
+    protected $temporaryFiles = [];
 
     /**
      * Constructor
@@ -51,10 +51,10 @@ class FluidTemplate
 
         $this->fluidTemplate = GeneralUtility::makeInstance('TYPO3\CMS\Fluid\View\StandaloneView');
         $this->fluidTemplate->setLayoutRootPaths(
-            array(GeneralUtility::getFileAbsFileName(self::DEFAULT_DIRECTORY_LAYOUTS))
+            [GeneralUtility::getFileAbsFileName(self::DEFAULT_DIRECTORY_LAYOUTS)]
         );
         $this->fluidTemplate->setPartialRootPaths(
-            array(GeneralUtility::getFileAbsFileName(self::DEFAULT_DIRECTORY_PARTIALS))
+            [GeneralUtility::getFileAbsFileName(self::DEFAULT_DIRECTORY_PARTIALS)]
         );
     }
 

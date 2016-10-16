@@ -13,8 +13,8 @@ if (!defined('TYPO3_MODE')) {
 $ll = 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:';
 $extensionPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('dce');
 
-$dceFieldTca = array(
-    'ctrl' => array(
+$dceFieldTca = [
+    'ctrl' => [
         'title' => $ll . 'tx_dce_domain_model_dcefield',
         'label' => 'title',
         'label_userFunc' => 'ArminVieweg\Dce\UserFunction\CustomLabels\DceFieldLabel->getLabel',
@@ -30,229 +30,229 @@ $dceFieldTca = array(
         'origUid' => 't3_origuid',
         'delete' => 'deleted',
         'sortby' => 'sorting',
-        'enablecolumns' => array(
+        'enablecolumns' => [
             'disabled' => 'hidden',
             'starttime' => 'starttime',
             'endtime' => 'endtime',
-        ),
+        ],
         'requestUpdate' => 'type,map_to',
         'type' => 'type',
         'typeicon_column' => 'type',
-        'typeicon_classes' => array(
+        'typeicon_classes' => [
             '0' => 'ext-dce-dcefield-type-element',
             '1' => 'ext-dce-dcefield-type-tab',
             '2' => 'ext-dce-dcefield-type-section'
-        ),
-    ),
-    'interface' => array(
+        ],
+    ],
+    'interface' => [
         'showRecordFieldList' => 'hidden,title,type,variable',
-    ),
-    'types' => array(
-        '0' => array(
+    ],
+    'types' => [
+        '0' => [
             'showitem' => '--palette--;;general_header,configuration;;;fixed-font:enable-tab,' .
                           '--palette--;;tca_options,parent_dce,parent_field'
-        ),
-        '1' => array(
+        ],
+        '1' => [
             'showitem' => '--palette--;;general_header,parent_dce'
-        ),
-        '2' => array(
+        ],
+        '2' => [
             'showitem' => '--palette--;;general_header,section_fields_tag,section_fields,parent_dce'
-        ),
-    ),
-    'palettes' => array(
-        'general_header' => array('showitem' => 'type,title,variable,hidden', 'canNotCollapse' => true),
-        'tca_options' => array('showitem' => 'map_to,new_tca_field_name,new_tca_field_type', 'canNotCollapse' => true)
-    ),
-    'columns' => array(
-        'sys_language_uid' => array(
+        ],
+    ],
+    'palettes' => [
+        'general_header' => ['showitem' => 'type,title,variable,hidden', 'canNotCollapse' => true],
+        'tca_options' => ['showitem' => 'map_to,new_tca_field_name,new_tca_field_type', 'canNotCollapse' => true]
+    ],
+    'columns' => [
+        'sys_language_uid' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.language',
-            'config' => array(
+            'config' => [
                 'type' => 'select',
                 'foreign_table' => 'sys_language',
                 'foreign_table_where' => 'ORDER BY sys_language.title',
-                'items' => array(
-                    array('LLL:EXT:lang/locallang_general.xml:LGL.allLanguages', -1),
-                    array('LLL:EXT:lang/locallang_general.xml:LGL.default_value', 0)
-                ),
-            ),
-        ),
-        'l10n_parent' => array(
+                'items' => [
+                    ['LLL:EXT:lang/locallang_general.xml:LGL.allLanguages', -1],
+                    ['LLL:EXT:lang/locallang_general.xml:LGL.default_value', 0]
+                ],
+            ],
+        ],
+        'l10n_parent' => [
             'displayCond' => 'FIELD:sys_language_uid:>:0',
             'exclude' => 1,
             'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.l18n_parent',
-            'config' => array(
+            'config' => [
                 'type' => 'select',
-                'items' => array(
-                    array('', 0),
-                ),
+                'items' => [
+                    ['', 0],
+                ],
                 'foreign_table' => 'tx_dce_domain_model_dcefield',
                 'foreign_table_where' => 'AND tx_dce_domain_model_dcefield.pid=###CURRENT_PID### ' .
                     'AND tx_dce_domain_model_dcefield.sys_language_uid IN (-1,0)',
-            ),
-        ),
-        'l10n_diffsource' => array(
-            'config' => array(
+            ],
+        ],
+        'l10n_diffsource' => [
+            'config' => [
                 'type' => 'passthrough',
-            ),
-        ),
-        't3ver_label' => array(
+            ],
+        ],
+        't3ver_label' => [
             'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.versionLabel',
-            'config' => array(
+            'config' => [
                 'type' => 'input',
                 'size' => 30,
                 'max' => 255,
-            )
-        ),
-        'hidden' => array(
+            ]
+        ],
+        'hidden' => [
             'exclude' => 1,
             'label' => $ll . 'tx_dce_domain_model_dcefield.hidden',
-            'config' => array(
+            'config' => [
                 'type' => 'check',
-            ),
-        ),
-        'sorting' => array(
+            ],
+        ],
+        'sorting' => [
             'label' => 'Sorting',
-            'config' => array(
+            'config' => [
                 'passthrough'
-            )
-        ),
-        'starttime' => array(
+            ]
+        ],
+        'starttime' => [
             'exclude' => 1,
             'l10n_mode' => 'mergeIfNotBlank',
             'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.starttime',
-            'config' => array(
+            'config' => [
                 'type' => 'input',
                 'size' => 13,
                 'max' => 20,
                 'eval' => 'datetime',
                 'checkbox' => 0,
                 'default' => 0,
-                'range' => array(
+                'range' => [
                     'lower' => mktime(0, 0, 0, date('m'), date('d'), date('Y'))
-                ),
-            ),
-        ),
-        'endtime' => array(
+                ],
+            ],
+        ],
+        'endtime' => [
             'exclude' => 1,
             'l10n_mode' => 'mergeIfNotBlank',
             'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.endtime',
-            'config' => array(
+            'config' => [
                 'type' => 'input',
                 'size' => 13,
                 'max' => 20,
                 'eval' => 'datetime',
                 'checkbox' => 0,
                 'default' => 0,
-                'range' => array(
+                'range' => [
                     'lower' => mktime(0, 0, 0, date('m'), date('d'), date('Y'))
-                ),
-            ),
-        ),
-        'type' => array(
+                ],
+            ],
+        ],
+        'type' => [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dcefield.type',
-            'config' => array(
+            'config' => [
                 'type' => 'select',
-                'items' => array(
-                    array($ll . 'tx_dce_domain_model_dcefield.type.element', 0),
-                    array($ll . 'tx_dce_domain_model_dcefield.type.tab', 1),
-                    array($ll . 'tx_dce_domain_model_dcefield.type.section', 2),
-                ),
-            ),
+                'items' => [
+                    [$ll . 'tx_dce_domain_model_dcefield.type.element', 0],
+                    [$ll . 'tx_dce_domain_model_dcefield.type.tab', 1],
+                    [$ll . 'tx_dce_domain_model_dcefield.type.section', 2],
+                ],
+            ],
             'displayCond' => 'FIELD:parent_field:=:0'
-        ),
-        'title' => array(
+        ],
+        'title' => [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dcefield.title',
-            'config' => array(
+            'config' => [
                 'type' => 'input',
                 'size' => 15,
                 'eval' => 'trim,required'
-            ),
-        ),
-        'variable' => array(
+            ],
+        ],
+        'variable' => [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dcefield.variable',
-            'config' => array(
+            'config' => [
                 'type' => 'input',
                 'size' => 15,
                 'eval' => 'trim,required,is_in,' .
                           'ArminVieweg\Dce\UserFunction\CustomFieldValidation\NoLeadingNumberValidator,' .
                           'ArminVieweg\Dce\UserFunction\CustomFieldValidation\LowerCamelCaseValidator',
                 'is_in' => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890_',
-            ),
-        ),
-        'configuration' => array(
+            ],
+        ],
+        'configuration' => [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dcefield.configuration',
-            'config' => array(
+            'config' => [
                 'type' => 'user',
                 'size' => '30',
                 'userFunc' => 'EXT:dce/Classes/UserFunction/UserFields/CodemirrorField.php:' .
                     'ArminVieweg\Dce\UserFunction\UserFields\CodemirrorField->getCodemirrorField',
-                'parameters' => array(
+                'parameters' => [
                     'mode' => 'xml',
                     'showTemplates' => true,
-                )
-            ),
-        ),
-        'map_to' => array(
+                ]
+            ],
+        ],
+        'map_to' => [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dcefield.mapTo',
-            'config' => array(
+            'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'itemsProcFunc' => 'ArminVieweg\Dce\UserFunction\ItemsProcFunc->getAvailableTtContentColumns',
                 'size' => 1,
                 'minitems' => 0,
                 'maxitems' => 1
-            ),
+            ],
             'displayCond' => 'FIELD:parent_field:=:0'
-        ),
-        'new_tca_field_name' => array(
+        ],
+        'new_tca_field_name' => [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dcefield.newTcaFieldName',
-            'config' => array(
+            'config' => [
                 'type' => 'input',
                 'eval' => 'trim,required,lower'
-            ),
-            'displayCond' => array(
-                'AND' => array(
+            ],
+            'displayCond' => [
+                'AND' => [
                     'FIELD:parent_field:=:0',
                     'FIELD:map_to:=:*newcol'
-                )
-            ),
-        ),
-        'new_tca_field_type' => array(
+                ]
+            ],
+        ],
+        'new_tca_field_type' => [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dcefield.newTcaFieldType',
-            'config' => array(
+            'config' => [
                 'type' => 'input',
                 'default' => 'auto',
                 'eval' => 'trim,required'
-            ),
-            'displayCond' => array(
-                'AND' => array(
+            ],
+            'displayCond' => [
+                'AND' => [
                     'FIELD:parent_field:=:0',
                     'FIELD:map_to:=:*newcol'
-                )
-            ),
-        ),
-        'section_fields' => array(
+                ]
+            ],
+        ],
+        'section_fields' => [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dcefield.section_fields',
-            'config' => array(
+            'config' => [
                 'type' => 'inline',
                 'foreign_table' => 'tx_dce_domain_model_dcefield',
                 'foreign_sortby' => 'sorting',
                 'foreign_field' => 'parent_field',
-                'foreign_record_defaults' => array(
+                'foreign_record_defaults' => [
                     'parent_field' => -1
-                ),
+                ],
                 'minitems' => 0,
                 'maxitems' => 999,
-                'appearance' => array(
+                'appearance' => [
                     'collapseAll' => 0,
                     'expandSingle' => 0,
                     'levelLinksPosition' => 'bottom',
@@ -261,39 +261,39 @@ $dceFieldTca = array(
                     'showRemovedLocalizationRecords' => 1,
                     'showAllLocalizationLink' => 1,
                     'showSynchronizationLink' => 1,
-                    'enabledControls' => array(
+                    'enabledControls' => [
                         'info' => false,
                         'dragdrop' => true,
                         'sort' => true
-                    )
-                ),
-            ),
-        ),
-        'section_fields_tag' => array(
+                    ]
+                ],
+            ],
+        ],
+        'section_fields_tag' => [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dcefield.section_fields_tag',
-            'config' => array(
+            'config' => [
                 'type' => 'input',
                 'size' => 15,
                 'eval' => 'trim,required'
-            ),
-        ),
-        'parent_dce' => array(
+            ],
+        ],
+        'parent_dce' => [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dcefield.parent_dce',
-            'config' => array(
+            'config' => [
                 'type' => 'passthrough',
-            ),
-        ),
-        'parent_field' => array(
+            ],
+        ],
+        'parent_field' => [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dcefield.parent_field',
-            'config' => array(
+            'config' => [
                 'type' => 'passthrough',
                 'default' => 0
-            ),
-        ),
-    ),
-);
+            ],
+        ],
+    ],
+];
 
 return $dceFieldTca;

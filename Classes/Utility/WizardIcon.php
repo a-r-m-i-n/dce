@@ -26,19 +26,19 @@ class WizardIcon
     {
         $identifiers = self::getIconIdentifiers();
 
-        $items = array();
+        $items = [];
         foreach ($identifiers as $identifier) {
-            $items[] = array(
+            $items[] = [
                 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:wizardIcon.' . $identifier,
                 $identifier,
                 $identifier
-            );
+            ];
         }
 
         if ($withExtraRowForCustomIcon) {
             $ll = 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:';
-            $items[] = array($ll . 'wizardIcon.custom', '--div--');
-            $items[] = array($ll . 'wizardIcon.customIcon', 'custom');
+            $items[] = [$ll . 'wizardIcon.custom', '--div--'];
+            $items[] = [$ll . 'wizardIcon.customIcon', 'custom'];
         }
         return $items;
     }
@@ -50,7 +50,7 @@ class WizardIcon
      */
     public static function getIconIdentifiers()
     {
-        return array(
+        return [
             'content-header',
             'content-textpic',
             'content-bullets',
@@ -63,6 +63,6 @@ class WizardIcon
             'content-elements-login',
             'content-elements-mailform',
             'content-plugin'
-        );
+        ];
     }
 }

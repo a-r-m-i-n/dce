@@ -38,7 +38,7 @@ class DataPreprocessor extends \TYPO3\CMS\Backend\Form\DataPreprocessor
             // DCE record
             $realIdentifier = substr($idList, 4);
             $staticDceValues = static::$staticDceUtility->getStaticDceData($realIdentifier);
-            static::$staticDceConfiguration = array_merge($staticDceValues, array('uid' => $idList, 'type' => 1));
+            static::$staticDceConfiguration = array_merge($staticDceValues, ['uid' => $idList, 'type' => 1]);
             $this->renderRecord($table, $idList, 0, static::$staticDceConfiguration);
             header('X-XSS-Protection: 0');
 
@@ -59,7 +59,7 @@ class DataPreprocessor extends \TYPO3\CMS\Backend\Form\DataPreprocessor
                     }
                 }
             }
-            $row = $this->resetIndention(array_merge($row, array('uid' => $idList, 'variable' => $idList)));
+            $row = $this->resetIndention(array_merge($row, ['uid' => $idList, 'variable' => $idList]));
             $this->renderRecord($table, $idList, 0, $row);
 
         } else {
@@ -83,7 +83,7 @@ class DataPreprocessor extends \TYPO3\CMS\Backend\Form\DataPreprocessor
                     $smallestDifference = $difference;
                 }
             }
-            $lines = array();
+            $lines = [];
             foreach (explode("\n", $row['configuration']) as $configurationLine) {
                 $lines[] = substr($configurationLine, $smallestDifference);
             }

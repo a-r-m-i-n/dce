@@ -63,7 +63,7 @@ class SimpleBackendView
      */
     public function getBodytextContent(Dce $dce, array $row)
     {
-        $fields = array();
+        $fields = [];
         foreach ($dce->getBackendViewBodytextArray() as $fieldIdentifier) {
             if (strpos($fieldIdentifier, '*') === 0) {
                 $fields[] = $fieldIdentifier;
@@ -185,17 +185,17 @@ class SimpleBackendView
             'uid'
         );
 
-        $imageTags = array();
+        $imageTags = [];
         foreach (array_keys($rows) as $fileReferenceUid) {
-            $fileReference = ResourceFactory::getInstance()->getFileReferenceObject($fileReferenceUid, array());
+            $fileReference = ResourceFactory::getInstance()->getFileReferenceObject($fileReferenceUid, []);
             $fileObject = $fileReference->getOriginalFile();
             if ($fileObject->isMissing()) {
                 continue;
             }
-            $image = $fileObject->process(ProcessedFile::CONTEXT_IMAGECROPSCALEMASK, array(
+            $image = $fileObject->process(ProcessedFile::CONTEXT_IMAGECROPSCALEMASK, [
                 'width' => \ArminVieweg\Dce\Utility\PageTS::get('tx_dce.defaults.simpleBackendView.imageWidth', '50c'),
                 'height' => \ArminVieweg\Dce\Utility\PageTS::get('tx_dce.defaults.simpleBackendView.imageWidth', '50')
-            ));
+            ]);
             $imageTags[] = '<img src="' . $image->getPublicUrl(true) . '" class="dceFieldImage">';
         }
         return implode('', $imageTags);

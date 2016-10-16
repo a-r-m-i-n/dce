@@ -52,7 +52,7 @@ class DceFieldLabel
             if (is_numeric($parameter['row']['parent_field'])) {
                 $parentFieldRow = $this->getDceFieldRecordByUid($parameter['row']['parent_field']);
             } else {
-                $parentFieldRow = array('variable' => $parameter['parent']['uid']);
+                $parentFieldRow = ['variable' => $parameter['parent']['uid']];
             }
             $parameter['title'] = $parameter['row']['title'] . ' <i style="font-weight: normal">{field.' .
                 $parentFieldRow['variable'] . '.n.' . $parameter['row']['variable'] . '}';

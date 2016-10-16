@@ -38,41 +38,41 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @var array Cache for fluid instances
      */
-    static protected $fluidTemplateCache = array();
+    static protected $fluidTemplateCache = [];
 
     /**
      * @var array Cache for DceFields
      */
-    static protected $fieldsCache = array();
+    static protected $fieldsCache = [];
 
     /**
      * @var array Cache for content element rows
      */
-    static protected $contentElementRowsCache = array();
+    static protected $contentElementRowsCache = [];
 
     /** @var array database field names of columns for different types of templates */
-    protected $templateFields = array(
-        self::TEMPLATE_FIELD_DEFAULT => array(
+    protected $templateFields = [
+        self::TEMPLATE_FIELD_DEFAULT => [
             'type' => 'template_type',
             'inline' => 'template_content',
             'file' => 'template_file'
-        ),
-        self::TEMPLATE_FIELD_DETAILPAGE => array(
+        ],
+        self::TEMPLATE_FIELD_DETAILPAGE => [
             'type' => 'detailpage_template_type',
             'inline' => 'detailpage_template',
             'file' => 'detailpage_template_file'
-        ),
-        self::TEMPLATE_FIELD_CONTAINER => array(
+        ],
+        self::TEMPLATE_FIELD_CONTAINER => [
             'type' => 'container_template_type',
             'inline' => 'container_template',
             'file' => 'container_template_file'
-        ),
-        self::TEMPLATE_FIELD_BACKEND_TEMPLATE => array(
+        ],
+        self::TEMPLATE_FIELD_BACKEND_TEMPLATE => [
             'type' => 'backend_template_type',
             'inline' => 'backend_template_content',
             'file' => 'backend_template_file'
-        )
-    );
+        ]
+    ];
 
     /**
      * @var bool
@@ -174,7 +174,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $wizardCustomIcon = '';
 
     /** @var array */
-    protected $_contentObject = array();
+    protected $_contentObject = [];
 
 
     /**
@@ -875,11 +875,11 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $fluidTemplate = $this->getFluidStandaloneView($templateType);
 
         $fields = $this->getFieldsAsArray();
-        $variables = array(
+        $variables = [
             'contentObject' => $this->getContentObject(),
             'fields' => $fields,
             'field' => $fields
-        );
+        ];
         $fluidTemplate->assignMultiple($variables);
 
         return trim($fluidTemplate->render());
@@ -896,7 +896,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         if (array_key_exists($contentObject['uid'], static::$fieldsCache)) {
             return static::$fieldsCache[$contentObject['uid']];
         }
-        $fields = array();
+        $fields = [];
         /** @var $field \ArminVieweg\Dce\Domain\Model\DceField */
         foreach ($this->getFields() as $field) {
             if ($field->isTab()) {
@@ -1026,8 +1026,8 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
             }
         }
 
-        $fluidTemplate->setLayoutRootPaths(array(File::getFilePath($this->getTemplateLayoutRootPath())));
-        $fluidTemplate->setPartialRootPaths(array(File::getFilePath($this->getTemplatePartialRootPath())));
+        $fluidTemplate->setLayoutRootPaths([File::getFilePath($this->getTemplateLayoutRootPath())]);
+        $fluidTemplate->setPartialRootPaths([File::getFilePath($this->getTemplatePartialRootPath())]);
 
         if ($templateType !== self::TEMPLATE_FIELD_CONTAINER) {
             $fluidTemplate->assign('dce', $this);

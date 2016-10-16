@@ -18,7 +18,7 @@ class StaticDce
     /**
      * @var array
      */
-    static protected $extConfiguration = array();
+    static protected $extConfiguration = [];
 
     /**
      * @var \ArminVieweg\Dce\Utility\TypoScript
@@ -49,14 +49,11 @@ class StaticDce
                 'dce'
             );
         }
-        $tabs = array(0 => array('title' => $generalTabLabel, 'fields' => array()));
+        $tabs = [0 => ['title' => $generalTabLabel, 'fields' => []]];
         $index = 0;
         foreach ($configurationArray['tx_dce']['static']['fields'] as $variable => $field) {
             if ($field['type'] === '1') {
-                $tabs[++$index] = array(
-                    'title' => $field['title'],
-                    'fields' => array()
-                );
+                $tabs[++$index] = ['title' => $field['title'], 'fields' => []];
                 continue;
             }
             $tabs[$index]['fields'][$variable] = $field;
@@ -191,10 +188,10 @@ class StaticDce
         if (empty(self::$extConfiguration['filebasedDcePath'])
             || !is_dir(PATH_site . self::$extConfiguration['filebasedDcePath'])
         ) {
-            return array();
+            return [];
         }
 
-        $staticDces = array();
+        $staticDces = [];
         $path = PATH_site . self::$extConfiguration['filebasedDcePath'];
         foreach (scandir($path) as $folder) {
             if ($folder === '.' || $folder === '..') {

@@ -18,9 +18,9 @@ class ClearCachePostHook
      * @var array Defines after which cache clearing the DCE cache
      *            should get cleared as well
      */
-    protected $clearedCacheTypes = array(
+    protected $clearedCacheTypes = [
         'all', 'temp_cached', 'system'
-    );
+    ];
 
 
     /**

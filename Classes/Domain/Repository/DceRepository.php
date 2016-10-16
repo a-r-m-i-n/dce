@@ -24,7 +24,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     /**
      * @var \ArminVieweg\Dce\Domain\Model\Dce[]
      */
-    protected static $dceInstanceCache = array();
+    protected static $dceInstanceCache = [];
 
     /**
      * Returns database DCEs and static DCEs as merged array
@@ -44,7 +44,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             $querySettings->setIgnoreEnableFields(true);
             $this->setDefaultQuerySettings($querySettings);
         }
-        $this->setDefaultOrderings(array('sorting' => QueryInterface::ORDER_ASCENDING));
+        $this->setDefaultOrderings(['sorting' => QueryInterface::ORDER_ASCENDING]);
         $databaseDces = $this->findAll()->toArray();
         return array_merge($databaseDces, $staticDces);
     }
@@ -84,7 +84,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $dce = clone $dce;
         $this->cloneFields($dce);
 
-        $this->processFillingFields($dce, $fieldList, is_array($contentObject) ? $contentObject : array());
+        $this->processFillingFields($dce, $fieldList, is_array($contentObject) ? $contentObject : []);
         $dce->setContentObject($contentObject);
         static::$dceInstanceCache[$contentObject['uid']] = $dce;
         return $dce;
@@ -212,7 +212,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $fieldValue,
         $xmlIdentifier,
         $isSectionField = false,
-        $contentObject = array(),
+        $contentObject = [],
         $sectionFieldIndex = 0
     ) {
 
@@ -243,7 +243,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         } else {
             $sectionFieldValues = $dceField->getValue();
             if (!is_array($sectionFieldValues)) {
-                $sectionFieldValues = array();
+                $sectionFieldValues = [];
             }
 
             if (isset($objects)) {
@@ -264,12 +264,12 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     protected function getDceFieldsByRecord(array $record)
     {
         $flexformData = $record['pi_flexform_data'];
-        $this->temporaryDceProperties = array();
+        $this->temporaryDceProperties = [];
         if (is_array($flexformData)) {
             $this->getVdefValues($flexformData);
             return $this->temporaryDceProperties;
         }
-        return array();
+        return [];
     }
 
     /**
@@ -291,7 +291,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                 $caller->temporaryDceProperties[substr($arrayKey, 9)] = $value;
             } elseif (is_array($value) && array_key_exists('el', $value)) {
                 $propertyName = substr($key, 9);
-                $values = array();
+                $values = [];
                 $i = 1;
                 if (is_array(current($value))) {
                     foreach (current($value) as $entry) {
@@ -301,7 +301,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                                 foreach ($entry as $k => $v) {
                                     $entry[$k] = $v['vDEF'];
                                 }
-                                $values[$i++] = array('container_' . $propertyName => $entry);
+                                $values[$i++] = ['container_' . $propertyName => $entry];
                             }
                         }
                     }
@@ -365,7 +365,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      */
     protected function hasRelatedObjects(array $fieldConfiguration)
     {
-        return in_array($fieldConfiguration['type'], array('group', 'inline', 'select'))
+        return in_array($fieldConfiguration['type'], ['group', 'inline', 'select'])
         && (($fieldConfiguration['type'] === 'select' && !empty($fieldConfiguration['foreign_table']))
             || ($fieldConfiguration['type'] === 'inline' && !empty($fieldConfiguration['foreign_table']))
             || ($fieldConfiguration['type'] === 'group' && !empty($fieldConfiguration['allowed'])));
@@ -382,7 +382,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      */
     protected function createObjectsByFieldConfiguration($fieldValue, array $dceFieldConfiguration, $contentUid)
     {
-        $objects = array();
+        $objects = [];
 
         if ($dceFieldConfiguration['type'] === 'group') {
             $className = $dceFieldConfiguration['allowed'];

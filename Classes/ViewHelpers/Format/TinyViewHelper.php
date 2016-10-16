@@ -40,6 +40,6 @@ class TinyViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
         if ($subject === null) {
             $subject = $this->renderChildren();
         }
-        return str_replace(array("\r", "\n", "\t"), '', $subject);
+        return str_replace(["\r", "\n", "\t"], '', $subject);
     }
 }

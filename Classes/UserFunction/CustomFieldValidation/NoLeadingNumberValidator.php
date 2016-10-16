@@ -30,8 +30,8 @@ class NoLeadingNumberValidator extends AbstractFieldValidator
             }
             if (!$silent) {
                 $this->addFlashMessage(
-                    $this->translate('tx_dce_formeval_noLeadingNumber', array($value, $matches[1])),
-                    $this->translate('tx_dce_formeval_headline', array($value)),
+                    $this->translate('tx_dce_formeval_noLeadingNumber', [$value, $matches[1]]),
+                    $this->translate('tx_dce_formeval_headline', [$value]),
                     \TYPO3\CMS\Core\Messaging\FlashMessage::NOTICE
                 );
             }

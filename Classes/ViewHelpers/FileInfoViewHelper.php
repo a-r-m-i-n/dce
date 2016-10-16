@@ -32,7 +32,7 @@ class FileInfoViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
     /**
      * @var array
      */
-    protected static $files = array();
+    protected static $files = [];
 
     /**
      * Returns file info

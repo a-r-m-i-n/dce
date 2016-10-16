@@ -30,7 +30,7 @@ class Container
     /**
      * @var Dce[]
      */
-    protected $dces = array();
+    protected $dces = [];
 
     /**
      * Container constructor

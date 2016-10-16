@@ -36,10 +36,10 @@ class TtContentLabel
                     'Dce',
                     'renderDce',
                     'Dce',
-                    array(
+                    [
                         'contentElementUid' => $parameter['row']['uid'],
                         'dceUid' => DceRepository::extractUidFromCtype($parameter['row']['CType'])
-                    ),
+                    ],
                     true
                 );
             } catch (\Exception $exception) {

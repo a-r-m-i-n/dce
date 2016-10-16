@@ -19,7 +19,7 @@ class CodemirrorField
     /**
      * @var array Field parameters
      */
-    protected $parameter = array();
+    protected $parameter = [];
 
     /**
      * @param $parameter
@@ -36,10 +36,10 @@ class CodemirrorField
         $fluidTemplate = GeneralUtility::makeInstance('ArminVieweg\Dce\Utility\FluidTemplate');
 
         $fluidTemplate->setLayoutRootPaths(
-            array(GeneralUtility::getFileAbsFileName('EXT:dce/Resources/Private/Layouts/'))
+            [GeneralUtility::getFileAbsFileName('EXT:dce/Resources/Private/Layouts/')]
         );
         $fluidTemplate->setPartialRootPaths(
-            array(GeneralUtility::getFileAbsFileName('EXT:dce/Resources/Private/Partials/'))
+            [GeneralUtility::getFileAbsFileName('EXT:dce/Resources/Private/Partials/')]
         );
         $fluidTemplate->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
             'EXT:dce/Resources/Private/Templates/DceUserFields/Codemirror.html'
@@ -78,7 +78,7 @@ class CodemirrorField
      */
     protected function getAvailableFields()
     {
-        $fields = array();
+        $fields = [];
 
         $rowFields = $this->parameter['row']['fields'];
         if (!empty($rowFields)) {
@@ -101,7 +101,7 @@ class CodemirrorField
 							ORDER BY sorting asc
 						');
 
-                        $sectionFields = array();
+                        $sectionFields = [];
                         while (($row2 = $db->sql_fetch_assoc($res2))) {
                             $sectionFields[] = $row2;
                         }
@@ -125,7 +125,7 @@ class CodemirrorField
         $templates = array_flip($templates);
 
         foreach (array_keys($templates) as $key) {
-            $files = array();
+            $files = [];
             foreach (GeneralUtility::getFilesInDir($path . $key) as $file) {
                 $filename = preg_replace('/(.*)\.xml/i', '$1', $file);
                 $files[$filename] = file_get_contents($path . $key . '/' . $file);
@@ -166,7 +166,7 @@ class CodemirrorField
     {
         $files = GeneralUtility::getFilesInDir($path);
 
-        $viewHelpers = array();
+        $viewHelpers = [];
         foreach ($files as $file) {
             $name = preg_replace('/(.*)\.html/i', '$1', $file);
             $value = file_get_contents($path . $file);

@@ -27,12 +27,12 @@ class ItemsProcFunc
         if (!isset($parameters['row']['uid']) || !is_numeric($parameters['row']['uid'])) {
             return;
         }
-        $parameters['items'][] = array(LocalizationUtility::translate('dceTitle', 'dce'), '*dcetitle');
+        $parameters['items'][] = [LocalizationUtility::translate('dceTitle', 'dce'), '*dcetitle'];
         if ($parameters['config']['size'] === 1) {
-            $parameters['items'][] = array(LocalizationUtility::translate('empty', 'dce'), '*empty');
+            $parameters['items'][] = [LocalizationUtility::translate('empty', 'dce'), '*empty'];
         }
         if ($parameters['row']['enable_container']) {
-            $parameters['items'][] = array(LocalizationUtility::translate('containerflag', 'dce'), '*containerflag');
+            $parameters['items'][] = [LocalizationUtility::translate('containerflag', 'dce'), '*containerflag'];
         }
 
         $database = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection();
@@ -49,7 +49,7 @@ class ItemsProcFunc
                 if ($dceField['type'] === '2') {
                     $label .= ' (' . LocalizationUtility::translate('section', 'dce') . ')';
                 }
-                $parameters['items'][] = array($label, $dceField['variable']);
+                $parameters['items'][] = [$label, $dceField['variable']];
             }
         }
     }
@@ -62,7 +62,7 @@ class ItemsProcFunc
      */
     public function getAvailableTtContentColumns(array &$parameters)
     {
-        $excludedColumns = array(
+        $excludedColumns = [
             'uid',
             'pid',
             'CType',
@@ -76,19 +76,19 @@ class ItemsProcFunc
             't3ver_label',
             'tx_dce_dce',
             'tx_dce_index'
-        );
+        ];
         $tcaColumns = $GLOBALS['TCA']['tt_content']['columns'];
         $dbColumns = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->admin_get_fields('tt_content');
 
-        $parameters['items'][] = array(LocalizationUtility::translate('chooseOption', 'dce'), '--div--');
-        $parameters['items'][] = array(LocalizationUtility::translate('noMapping', 'dce'), '');
-        $parameters['items'][] = array(LocalizationUtility::translate('mapToIndexColumn', 'dce'), 'tx_dce_index');
-        $parameters['items'][] = array(LocalizationUtility::translate('newcol', 'dce'), '*newcol');
-        $parameters['items'][] = array(LocalizationUtility::translate('chooseExistingField', 'dce'), '--div--');
+        $parameters['items'][] = [LocalizationUtility::translate('chooseOption', 'dce'), '--div--'];
+        $parameters['items'][] = [LocalizationUtility::translate('noMapping', 'dce'), ''];
+        $parameters['items'][] = [LocalizationUtility::translate('mapToIndexColumn', 'dce'), 'tx_dce_index'];
+        $parameters['items'][] = [LocalizationUtility::translate('newcol', 'dce'), '*newcol'];
+        $parameters['items'][] = [LocalizationUtility::translate('chooseExistingField', 'dce'), '--div--'];
         foreach ($tcaColumns as $name => $column) {
             if (!in_array($name, $excludedColumns) && !empty($dbColumns[$name]['Type'])) {
                 $columnInfo = '"' . $dbColumns[$name]['Type'] . '"';
-                $parameters['items'][] = array($name . ' - ' . $columnInfo . '', $name);
+                $parameters['items'][] = [$name . ' - ' . $columnInfo . '', $name];
             }
         }
     }

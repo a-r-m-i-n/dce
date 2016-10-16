@@ -20,7 +20,7 @@ class PageTS
     /**
      * @var array
      */
-    protected static $pageTsContent = array();
+    protected static $pageTsContent = [];
 
     /**
      * Returns value of given path in pageTS of current page.

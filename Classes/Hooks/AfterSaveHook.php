@@ -26,10 +26,10 @@ class AfterSaveHook
     protected $uid = 0;
 
     /** @var array all properties of current record */
-    protected $fieldArray = array();
+    protected $fieldArray = [];
 
     /** @var array extension settings */
-    protected $extConfiguration = array();
+    protected $extConfiguration = [];
 
 
     /**
@@ -90,12 +90,12 @@ class AfterSaveHook
 
             unset($newValues['identifier']);
 
-            $fields = array();
+            $fields = [];
             foreach (GeneralUtility::trimExplode(',', $newValues['fields'], true) as $fieldId) {
                 $fieldSettings = $datamap['tx_dce_domain_model_dcefield'][$fieldId];
 
                 if (intval($fieldSettings['type']) === 2) {
-                    $sectionFields = array();
+                    $sectionFields = [];
                     $sectionFieldIds = GeneralUtility::trimExplode(',', $fieldSettings['section_fields'], true);
                     foreach ($sectionFieldIds as $sectionFieldId) {
                         $sectionFieldVariable = $datamap['tx_dce_domain_model_dcefield'][$sectionFieldId]['variable'];
@@ -140,7 +140,7 @@ class AfterSaveHook
 
             file_put_contents($dceFolderPath . 'Dce.ts', $dceTypoScript);
 
-            $cObj->datamap = array();
+            $cObj->datamap = [];
 
             $saveOnly = GeneralUtility::_GP('_savedok_x') && GeneralUtility::_GP('_savedok_y');
             if ($saveOnly === true && $renamed === true) {
@@ -199,7 +199,7 @@ class AfterSaveHook
     ) {
         $this->extConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dce']);
         $this->dataHandler = $pObj;
-        $this->fieldArray = array();
+        $this->fieldArray = [];
         foreach ($fieldArray as $key => $value) {
             if (!empty($key)) {
                 $this->fieldArray[$key] = $value;
@@ -254,16 +254,16 @@ class AfterSaveHook
                 DatabaseUtility::getDatabaseConnection()->exec_UPDATEquery(
                     'tx_dce_domain_model_dce',
                     'uid=' . $this->uid,
-                    array(
+                    [
                         'backend_view_bodytext' => implode(',', $items)
-                    )
+                    ]
                 );
             }
         }
 
         // Clear cache if dce or dcefield has been created or updated
-        if (in_array($table, array('tx_dce_domain_model_dce', 'tx_dce_domain_model_dcefield')) &&
-            in_array($status, array('update', 'new'))
+        if (in_array($table, ['tx_dce_domain_model_dce', 'tx_dce_domain_model_dcefield']) &&
+            in_array($status, ['update', 'new'])
         ) {
             if ($this->extConfiguration['disableAutoClearCache'] == 0) {
                 $pObj->clear_cacheCmd('system');
@@ -287,7 +287,7 @@ class AfterSaveHook
         $res = DatabaseUtility::getDatabaseConnection()->exec_SELECTquery('uid', 'tt_content', $whereStatement);
         $updatedContentElementsCount = 0;
         while (($row = DatabaseUtility::getDatabaseConnection()->sql_fetch_assoc($res))) {
-            $this->dataHandler->updateDB('tt_content', $row['uid'], array('hidden' => 1));
+            $this->dataHandler->updateDB('tt_content', $row['uid'], ['hidden' => 1]);
             $updatedContentElementsCount++;
         }
 
@@ -299,7 +299,7 @@ class AfterSaveHook
         $message = LocalizationUtility::translate(
             $pathToLocallang . 'hideContentElementsBasedOnDce',
             'Dce',
-            array('count' => $updatedContentElementsCount)
+            ['count' => $updatedContentElementsCount]
         );
         FlashMessage::add(
             $message,
@@ -355,9 +355,9 @@ class AfterSaveHook
     {
         $row = $this->dataHandler->recordInfo('tt_content', $this->uid, 'CType,tx_dce_dce');
         if (empty($row['tx_dce_dce'])) {
-            $this->dataHandler->updateDB('tt_content', $this->uid, array(
+            $this->dataHandler->updateDB('tt_content', $this->uid, [
                 'tx_dce_dce' => \ArminVieweg\Dce\Domain\Repository\DceRepository::extractUidFromCtype($row['CType'])
-            ));
+            ]);
         }
     }
 }

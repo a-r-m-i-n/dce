@@ -42,7 +42,7 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     public function initializeAction()
     {
         if ($this->settings === null) {
-            $this->settings = array();
+            $this->settings = [];
         }
         $this->settings = $this->typoScriptUtility->renderConfigurationArray($this->settings);
     }
@@ -147,7 +147,7 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         );
         $flexform = GeneralUtility::xml2array($row['pi_flexform']);
 
-        $this->temporaryDceProperties = array();
+        $this->temporaryDceProperties = [];
         if (is_array($flexform)) {
             $this->dceRepository->getVdefValues($flexform, $this);
         }

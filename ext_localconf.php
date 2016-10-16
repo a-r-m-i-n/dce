@@ -53,14 +53,14 @@ $boot = function ($extensionKey) {
 
 
     // DataPreprocessor XClass
-    $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Backend\\Form\\DataPreprocessor'] = array(
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Backend\\Form\\DataPreprocessor'] = [
         'className' => 'ArminVieweg\Dce\XClass\DataPreprocessor',
-    );
+    ];
 
     // LiveSearch XClass
-    $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Backend\\Search\\LiveSearch\\LiveSearch'] = array(
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Backend\\Search\\LiveSearch\\LiveSearch'] = [
         'className' => 'ArminVieweg\Dce\XClass\LiveSearch',
-    );
+    ];
 
     // User conditions
     require_once($extensionPath . 'Classes/UserConditions/user_dceOnCurrentPage.php');
@@ -106,12 +106,12 @@ $boot = function ($extensionKey) {
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
         'ArminVieweg.' . $extensionKey,
         'Dce',
-        array(
+        [
             'Dce' => 'renderDce'
-        ),
-        array(
+        ],
+        [
             'Dce' => ''
-        )
+        ]
     );
 
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['extbase']['extensions']['Dce']['modules']

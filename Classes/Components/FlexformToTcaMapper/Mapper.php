@@ -23,7 +23,7 @@ class Mapper
      */
     public static function getSql()
     {
-        $fields = array();
+        $fields = [];
         foreach (static::getDceFieldMappings() as $fieldName => $fieldType) {
             $fields[] = $fieldName . ' ' . $fieldType;
         }
@@ -44,7 +44,7 @@ class Mapper
         );
 
         if ($rows === null) {
-            return array();
+            return [];
         }
         return $rows;
     }
@@ -56,7 +56,7 @@ class Mapper
      */
     protected static function getDceFieldMappings()
     {
-        $fieldMappings = array();
+        $fieldMappings = [];
         foreach (static::getDceFieldRowsWithNewTcaColumns() as $dceFieldRow) {
             if ($dceFieldRow['new_tca_field_type'] === 'auto') {
                 $fieldMappings[$dceFieldRow['new_tca_field_name']] = static::getAutoFieldType($dceFieldRow);
@@ -116,7 +116,7 @@ class Mapper
         }
 
         /** @var array $fieldToTcaMappings */
-        $fieldToTcaMappings = array();
+        $fieldToTcaMappings = [];
         foreach ($dceFieldsWithMapping as $dceField) {
             $mapTo = $dceField['map_to'];
             if ($mapTo === '*newcol') {
@@ -125,7 +125,7 @@ class Mapper
             $fieldToTcaMappings[$dceField['variable']] = $mapTo;
         }
 
-        $updateData = array();
+        $updateData = [];
         $flatFlexFormData = \TYPO3\CMS\Core\Utility\ArrayUtility::flatten($flexFormArray);
         foreach ($flatFlexFormData as $key => $value) {
             $fieldName = preg_replace('/.*settings\.(.*?)\.vDEF$/', '$1', $key);

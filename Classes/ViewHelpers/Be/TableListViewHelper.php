@@ -32,7 +32,7 @@ class TableListViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\TableListViewH
      */
     public function render(
         $tableName,
-        array $fieldList = array(),
+        array $fieldList = [],
         $storagePid = null,
         $levels = 0,
         $filter = '',

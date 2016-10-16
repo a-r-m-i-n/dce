@@ -67,9 +67,9 @@ class FixMalformedDceFieldVariableNamesUpdate extends AbstractUpdate
             $this->getDatabaseConnection()->exec_UPDATEquery(
                 'tx_dce_domain_model_dcefield',
                 'uid=' . $malformedDceField['uid'],
-                array(
+                [
                     'variable' => $this->fixVariableName($malformedVariableName)
-                )
+                ]
             );
             $this->storeLastQuery($dbQueries);
 
@@ -94,22 +94,22 @@ class FixMalformedDceFieldVariableNamesUpdate extends AbstractUpdate
 
             foreach ($contentElements as $contentElement) {
                 $updatedFlexform = str_replace(
-                    array(
+                    [
                         '"settings.' . $malformedVariableName . '"', // Fix variable names
                         '<field index="' . $malformedVariableName . '">' // Fix section field names
-                    ),
-                    array(
+                    ],
+                    [
                         '"settings.' . $this->fixVariableName($malformedVariableName) . '"',
                         '<field index="' . $this->fixVariableName($malformedVariableName) . '">'
-                    ),
+                    ],
                     $contentElement['pi_flexform']
                 );
                 $this->getDatabaseConnection()->exec_UPDATEquery(
                     'tt_content',
                     'uid=' . $contentElement['uid'],
-                    array(
+                    [
                         'pi_flexform' => $updatedFlexform
-                    )
+                    ]
                 );
                 $this->storeLastQuery($dbQueries);
             }
@@ -137,7 +137,7 @@ class FixMalformedDceFieldVariableNamesUpdate extends AbstractUpdate
         $lowerCamelCaseValidator = $this->getLowerCamelCaseValidator();
         $noLeadingNumberValidator = $this->getNoLeadingNumberValidator();
 
-        $malformedDceFields = array();
+        $malformedDceFields = [];
         foreach ($dceFieldRows as $dceFieldRow) {
             if ($lowerCamelCaseValidator->evaluateFieldValue($dceFieldRow['variable'], true) !== $dceFieldRow['variable'] ||
                 $noLeadingNumberValidator->evaluateFieldValue($dceFieldRow['variable'], true) !== $dceFieldRow['variable']
@@ -203,7 +203,7 @@ class FixMalformedDceFieldVariableNamesUpdate extends AbstractUpdate
      */
     protected function flattenArray(array $array, $prefix = '', $delimiter = '.')
     {
-        $flatArray = array();
+        $flatArray = [];
         foreach ($array as $key => $value) {
             // Ensure there is no trailling dot:
             $key = rtrim($key, '.');

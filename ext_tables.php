@@ -30,15 +30,15 @@ $boot = function ($extensionKey) {
         'tools',
         'dceModule',
         '',
-        array(
+        [
             'DceModule' => 'index,hallOfFame,updateTcaMappings',
             'Dce' => 'renderPreview'
-        ),
-        array(
+        ],
+        [
             'access' => 'user,group',
             'icon' => $extensionIconPath,
             'labels' => 'LLL:EXT:' . $extensionKey . '/Resources/Private/Language/locallang_mod.xml',
-        )
+        ]
     );
 
     // Register PageTS defaults
@@ -72,28 +72,28 @@ $boot = function ($extensionKey) {
     $iconRegistry->registerIcon(
         'ext-dce-dce-type-databased',
         'TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider',
-        array('source' => 'EXT:dce/Resources/Public/Icons/tx_dce_domain_model_dce_databased.png')
+        ['source' => 'EXT:dce/Resources/Public/Icons/tx_dce_domain_model_dce_databased.png']
     );
     $iconRegistry->registerIcon(
         'ext-dce-dce-type-filebased',
         'TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider',
-        array('source' => 'EXT:dce/Resources/Public/Icons/tx_dce_domain_model_dce_filebased.png')
+        ['source' => 'EXT:dce/Resources/Public/Icons/tx_dce_domain_model_dce_filebased.png']
     );
     // DCE Field Type Icons
     $iconRegistry->registerIcon(
         'ext-dce-dcefield-type-element',
         'TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider',
-        array('source' => 'EXT:dce/Resources/Public/Icons/tx_dce_domain_model_dcefield_element.png')
+        ['source' => 'EXT:dce/Resources/Public/Icons/tx_dce_domain_model_dcefield_element.png']
     );
     $iconRegistry->registerIcon(
         'ext-dce-dcefield-type-tab',
         'TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider',
-        array('source' => 'EXT:dce/Resources/Public/Icons/tx_dce_domain_model_dcefield_tab.png')
+        ['source' => 'EXT:dce/Resources/Public/Icons/tx_dce_domain_model_dcefield_tab.png']
     );
     $iconRegistry->registerIcon(
         'ext-dce-dcefield-type-section',
         'TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider',
-        array('source' => 'EXT:dce/Resources/Public/Icons/tx_dce_domain_model_dcefield_section.png')
+        ['source' => 'EXT:dce/Resources/Public/Icons/tx_dce_domain_model_dcefield_section.png']
     );
 };
 

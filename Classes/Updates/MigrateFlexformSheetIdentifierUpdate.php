@@ -68,22 +68,22 @@ class MigrateFlexformSheetIdentifierUpdate extends AbstractUpdate
         $this->getDatabaseConnection()->store_lastBuiltQuery = true;
 
         $tabsWithoutIdentifier = $this->getUpdatableDceFields();
-        $tabsGroupedByDce = array();
+        $tabsGroupedByDce = [];
         foreach ($tabsWithoutIdentifier as $tabRow) {
             $tabRow['variable'] = 'tab' . $this->convertFieldTitleToVariable($tabRow['title']);
             $this->getDatabaseConnection()->exec_UPDATEquery(
                 'tx_dce_domain_model_dcefield',
                 'uid=' . $tabRow['uid'],
-                array(
+                [
                     'variable' => $tabRow['variable']
-                )
+                ]
             );
             $this->storeLastQuery($dbQueries);
 
             if (!isset($tabsGroupedByDce[$tabRow['parent_dce']])) {
-                $tabsGroupedByDce[$tabRow['parent_dce']] = array();
+                $tabsGroupedByDce[$tabRow['parent_dce']] = [];
                 if ($tabRow['sorting'] !== '1') {
-                    $tabsGroupedByDce[$tabRow['parent_dce']][] = array('variable' => 'tabGeneral');
+                    $tabsGroupedByDce[$tabRow['parent_dce']][] = ['variable' => 'tabGeneral'];
                 }
             }
             $tabsGroupedByDce[$tabRow['parent_dce']][] = $tabRow;
@@ -102,7 +102,7 @@ class MigrateFlexformSheetIdentifierUpdate extends AbstractUpdate
             foreach ($contentElements as $contentElement) {
                 $flexformData = GeneralUtility::xml2array($contentElement['pi_flexform']);
                 $i = 0;
-                $newFlexformData = array('data' => array());
+                $newFlexformData = ['data' => []];
                 if (!empty($flexformData['data'])) {
                     foreach ($flexformData['data'] as $sheetIdentifier => $sheetData) {
                         if ($i === 0) {
@@ -123,9 +123,9 @@ class MigrateFlexformSheetIdentifierUpdate extends AbstractUpdate
                 $this->getDatabaseConnection()->exec_UPDATEquery(
                     'tt_content',
                     'uid=' . $contentElement['uid'],
-                    array(
+                    [
                         'pi_flexform' => $flexFormTools->flexArray2Xml($newFlexformData, true)
-                    )
+                    ]
                 );
                 $this->storeLastQuery($dbQueries);
             }
@@ -134,7 +134,7 @@ class MigrateFlexformSheetIdentifierUpdate extends AbstractUpdate
         $updatableContentElements = $this->getUpdatableContentElements();
         foreach ($updatableContentElements as $contentElement) {
             $flexformData = GeneralUtility::xml2array($contentElement['pi_flexform']);
-            $newFlexformData = array('data' => array());
+            $newFlexformData = ['data' => []];
             if (!empty($flexformData['data'])) {
                 foreach ($flexformData['data'] as $sheetIdentifier => $sheetData) {
                     if ($sheetIdentifier === 'sheet0') {
@@ -147,9 +147,9 @@ class MigrateFlexformSheetIdentifierUpdate extends AbstractUpdate
             $this->getDatabaseConnection()->exec_UPDATEquery(
                 'tt_content',
                 'uid=' . $contentElement['uid'],
-                array(
+                [
                     'pi_flexform' => $flexFormTools->flexArray2Xml($newFlexformData, true)
-                )
+                ]
             );
             $this->storeLastQuery($dbQueries);
         }

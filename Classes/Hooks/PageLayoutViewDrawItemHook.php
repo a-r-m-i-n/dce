@@ -52,10 +52,10 @@ class PageLayoutViewDrawItemHook implements \TYPO3\CMS\Backend\View\PageLayoutVi
                 'Dce',
                 'renderDce',
                 'Dce',
-                array(
+                [
                     'contentElementUid' => $row['uid'],
                     'dceUid' => $dceUid
-                ),
+                ],
                 true
             );
         } catch (\Exception $exception) {

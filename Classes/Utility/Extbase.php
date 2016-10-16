@@ -33,19 +33,19 @@ class Extbase
         $controller,
         $action = 'index',
         $pluginName = 'Pi1',
-        $settings = array(),
+        $settings = [],
         $compressedObject = false
     ) {
         $bootstrap = new \TYPO3\CMS\Extbase\Core\Bootstrap();
         $bootstrap->cObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
-        $configuration = array(
+        $configuration = [
             'vendorName' => $vendorName,
             'extensionName' => $extensionName,
             'controller' => $controller,
             'action' => $action,
             'pluginName' => $pluginName,
             'settings' => $settings
-        );
+        ];
         \ArminVieweg\Dce\Utility\ForbiddenUtility::setExtbaseRelatedPostParameters($controller, $action);
         $extbaseReturnValue = $bootstrap->run('', $configuration);
         unset($bootstrap);

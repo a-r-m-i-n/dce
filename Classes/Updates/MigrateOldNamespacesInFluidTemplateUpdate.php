@@ -171,9 +171,9 @@ class MigrateOldNamespacesInFluidTemplateUpdate extends AbstractUpdate
             return (bool) $this->getDatabaseConnection()->exec_UPDATEquery(
                 'tx_dce_domain_model_dce',
                 'uid = ' . (int) $dceRow['uid'],
-                array(
+                [
                     $column => $updatedTemplateContent
-                )
+                ]
             );
         }
         return null;

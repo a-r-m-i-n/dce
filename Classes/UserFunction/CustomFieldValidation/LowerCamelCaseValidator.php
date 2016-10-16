@@ -32,8 +32,8 @@ class LowerCamelCaseValidator extends AbstractFieldValidator
 
         if ($originalValue !== $value && !empty($value) && !$silent) {
             $this->addFlashMessage(
-                $this->translate('tx_dce_formeval_lowerCamelCase', array($originalValue, $value)),
-                $this->translate('tx_dce_formeval_headline', array($value)),
+                $this->translate('tx_dce_formeval_lowerCamelCase', [$originalValue, $value]),
+                $this->translate('tx_dce_formeval_headline', [$value]),
                 \TYPO3\CMS\Core\Messaging\FlashMessage::NOTICE
             );
         }

@@ -1,15 +1,15 @@
 {namespace dce=ArminVieweg\Dce\ViewHelpers}<?php
 
-$GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'][] = array(
+$GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'][] = [
 	0 => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce_long',
 	1 => '--div--'
-);
+];
 
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('tt_content', array(
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('tt_content', [
 <f:for each="{dceFieldsWithNewTcaColumns}" as="dceField">
-	'{dceField.new_tca_field_name}' => array('label' => '', 'config' => array('type' => 'passthrough')),
+	'{dceField.new_tca_field_name}' => ['label' => '', 'config' => ['type' => 'passthrough']],
 </f:for>
-));
+]);
 <f:for each="{dceArray}" as="dce">
 <f:if condition="{dce.hidden} == 0">
 	///////////////////////////////////////////////////// {f:if(condition:"{dce.uid}", then:"uid: {dce.uid}", else:"identifier: {dce.identifier}")} ///
@@ -17,11 +17,11 @@ $GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'][] = array(
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTcaSelectItem(
 	'tt_content',
 	'CType',
-	array(
+	[
 		'{dce.title -> dce:format.addcslashes()}',
 		'{f:if(condition:"{dce.uid}", then:"dce_dceuid{dce.uid}", else:"dce_{dce.identifier}")}',
 		'<f:if condition="{dce.hasCustomWizardIcon}"><f:then>ext-dce-dceuid{dce.uid}-customwizardicon</f:then><f:else>{dce.wizard_icon}</f:else></f:if>'
-	)
+	]
 );
 
 $GLOBALS['TCA']['tt_content']['ctrl']['typeicon_classes']['{f:if(condition:"{dce.uid}", then:"dce_dceuid{dce.uid}", else:"dce_{dce.identifier}")}'] =
@@ -66,9 +66,9 @@ $GLOBALS['TCA']['tt_content']['types']['dce_{f:if(condition:"{dce.uid}", then:"d
 </f:for>
 
 // global definitions
-$GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'][] = array(
+$GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'][] = [
 	0 => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.miscellaneous',
 	1 => '--div--'
-);
+];
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('mod.wizards.newContentElement.wizardItems.dce.header = LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce_long');

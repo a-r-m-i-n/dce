@@ -97,7 +97,7 @@ class TypoScript
                 } else {
                     if ($key === 'configuration') {
                         $valueLines = explode("\n", $value);
-                        $indentedValueLines = array();
+                        $indentedValueLines = [];
                         foreach ($valueLines as $valueLine) {
                             $indentedValueLines[] = str_repeat("\t", $tab) . $valueLine;
                         }
@@ -144,7 +144,7 @@ class TypoScript
     public function renderConfigurationArray(array $settings)
     {
         $settings = $this->enhanceSettingsWithTypoScript($this->makeConfigurationArrayRenderable($settings));
-        $result = array();
+        $result = [];
 
         foreach ($settings as $key => $value) {
             if (substr($key, -1) === '.') {
@@ -202,7 +202,7 @@ class TypoScript
      */
     protected function makeConfigurationArrayRenderable(array $configuration)
     {
-        $dottedConfiguration = array();
+        $dottedConfiguration = [];
         foreach ($configuration as $key => $value) {
             if (is_array($value)) {
                 if (array_key_exists('_typoScriptNodeValue', $value)) {

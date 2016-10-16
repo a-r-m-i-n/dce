@@ -5,13 +5,13 @@
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
 	'ArminVieweg.dce',
 	'{f:if(condition:"{dce.uid}", then:"dceuid{dce.uid}", else:"dce_{dce.identifier}")}',
-	array(
+	[
 		'Dce' => 'show',
-	),
-	array(
+	],
+	[
 		<f:if condition="{dce.cache_dce}"><f:then></f:then>
             <f:else>'Dce' => 'show'</f:else></f:if>
-	),
+	],
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
 );
 
@@ -33,7 +33,7 @@ if (!empty('{dce.wizard_custom_icon}')) {
 	$iconRegistry->registerIcon(
 		'ext-dce-{f:if(condition:"{dce.uid}", then:"dceuid{dce.uid}", else:"dce_{dce.identifier}")}-customwizardicon',
 		'TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider',
-		array('source' => '{dce.wizard_custom_icon}')
+		['source' => '{dce.wizard_custom_icon}']
 	);
 }
 	</f:if>

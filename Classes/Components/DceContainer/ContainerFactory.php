@@ -23,7 +23,7 @@ class ContainerFactory
      *
      * @var array
      */
-    protected static $contentElementsToSkip = array();
+    protected static $contentElementsToSkip = [];
 
     /**
      * @param Dce $dce
@@ -51,10 +51,10 @@ class ContainerFactory
                     'Dce',
                     'renderDce',
                     'Dce',
-                    array(
+                    [
                         'contentElementUid' => $contentElement['uid'],
                         'dceUid' => $dce->getUid()
-                    ),
+                    ],
                     true
                 );
             } catch (\Exception $exception) {
@@ -118,7 +118,7 @@ class ContainerFactory
 
         $resolvedContentElements = static::resolveShortcutElements($rawContentElements);
 
-        $contentElementsInContainer = array();
+        $contentElementsInContainer = [];
         foreach ($resolvedContentElements as $rawContentElement) {
             if ($rawContentElement['CType'] !== 'dce_dceuid' . $dce->getUid() ||
                 ($contentObject['uid'] !== $rawContentElement['uid'] &&
@@ -150,7 +150,7 @@ class ContainerFactory
      */
     public static function clearContentElementsToSkip()
     {
-        static::$contentElementsToSkip = array();
+        static::$contentElementsToSkip = [];
     }
 
     /**
@@ -161,7 +161,7 @@ class ContainerFactory
      */
     protected static function resolveShortcutElements(array $rawContentElements)
     {
-        $resolvedContentElements = array();
+        $resolvedContentElements = [];
         foreach ($rawContentElements as $rawContentElement) {
             if ($rawContentElement['CType'] === 'shortcut') {
                 $linkedContentElements = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
@@ -190,7 +190,7 @@ class ContainerFactory
      */
     protected static function createContainerIteratorArray($index, $total)
     {
-        return array(
+        return [
             'isOdd' => $index % 2 === 0,
             'isEven' => $index % 2 !== 0,
             'isFirst' => $index === 0,
@@ -198,6 +198,6 @@ class ContainerFactory
             'cycle' => $index + 1,
             'index' => $index,
             'total' => $total
-        );
+        ];
     }
 }
