@@ -14,6 +14,21 @@ namespace ArminVieweg\Dce\ViewHelpers\Format;
  */
 class TinyViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
+
+    /**
+     * We accept value and children interchangeably, thus we must disable children escaping.
+     *
+     * @var bool
+     */
+    protected $escapeChildren = false;
+
+    /**
+     * If we decode, we must not encode again after that.
+     *
+     * @var bool
+     */
+    protected $escapeOutput = false;
+
     /**
      * Make the given source tiny. Removes all whitespaces but spaces.
      *

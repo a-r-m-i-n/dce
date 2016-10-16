@@ -1,4 +1,5 @@
 {namespace dce=ArminVieweg\Dce\ViewHelpers}
+{namespace core=TYPO3\CMS\Core\ViewHelpers}
 <f:alias map="{lll: 'LLL:EXT:dce/Resources/Private/Language/locallang_mod.xml:'}">
     <tr class="{f:if(condition:'{dce.uid}', then:'db', else:'file')}">
         <td class="listEntry">
@@ -52,7 +53,7 @@
         </td>
         <td class="usage">
             <a href="{f:render(partial:'Module/DceInfoLink', arguments:'{dce:dce}')}" title="{f:translate(key:'{lll}relatedContentElements', arguments:'{0:\'{dce.relatedContentElementRows -> f:count()}\'}')}">
-                <f:be.buttons.icon icon="mimetypes-x-content-text-picture" />
+                <core:icon identifier="mimetypes-x-content-text-picture" />
                 <span>{dce.relatedContentElementRows -> f:count()}</span>
             </a>
         </td>

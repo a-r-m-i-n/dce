@@ -41,12 +41,11 @@ class DceFieldLabel
                 } else {
                     // Standard field
                     $parameter['title'] = LanguageService::sL($parameter['row']['title']) .
-                        ' <i style="font-weight: normal">{field.' . $parameter['row']['variable'] . '}</i>';
+                        ' - {field.' . $parameter['row']['variable'] . '}';
                 }
             } else {
                 $parameter['title'] = LanguageService::sL($parameter['row']['title']) .
-                    ' <i style="font-weight: normal">{field.' . $parameter['row']['variable'] .
-                    '.<span style="color: blue;">n</span>}</i>';
+                    ' - {field.' . $parameter['row']['variable'] . '.n}';
             }
         } else {
             // Section child field
@@ -56,8 +55,7 @@ class DceFieldLabel
                 $parentFieldRow = array('variable' => $parameter['parent']['uid']);
             }
             $parameter['title'] = $parameter['row']['title'] . ' <i style="font-weight: normal">{field.' .
-                $parentFieldRow['variable'] . '.<span style="color: blue;">n.</span>' .
-                $parameter['row']['variable'] . '}</i>';
+                $parentFieldRow['variable'] . '.n.' . $parameter['row']['variable'] . '}';
         }
     }
 
