@@ -47,9 +47,6 @@
 			<label index="limitedToItems">limited to %s items</label>
 
 			<label index="actions">Actions</label>
-			<label index="updatePreviewTemplates">Update Backend Preview Templates</label>
-			<label index="updatePreviewTemplatesMessage">You have %s content elements based on this DCE. Rendering the double amount of fluid templates may take a while.</label>
-			<label index="updatePreviewTemplatesDone">Backend preview templates has been updated successfully.</label>
 			<label index="updateTcaMappings">Update TCA Mappings</label>
 			<label index="updateTcaMappingsMessage">You have %s content elements based on this DCE. Do you want to continue updating all TCA mappings?</label>
 			<label index="updateTcaMappingsDone">TCA mappings has been updated successfully.</label>
@@ -95,9 +92,6 @@
 			<label index="limitedToItems">begrenzt auf %s Elemente</label>
 
 			<label index="actions">Aktionen</label>
-			<label index="updatePreviewTemplates">Aktualisiere Backend Vorschau Templates</label>
-			<label index="updatePreviewTemplatesMessage">Es gibt %s Inhaltselemente basierend auf diesem DCE. Das Rendern der doppelten Anzahl an Fluid-Templates kann einen Moment dauern.</label>
-			<label index="updatePreviewTemplatesDone">Backend Vorschau Templates wurden erfolgreich aktualisiert.</label>
 			<label index="updateTcaMappings">Aktualisiere TCA Mappings</label>
 			<label index="updateTcaMappingsMessage">Es gibt %s Inhaltselemente basierend auf diesem DCE. Sollen die TCA Mappings der Inhaltselemente aktualisiert werden?</label>
 			<label index="updateTcaMappingsDone">TCA Mappings wurden erfolgreich aktualisiert.</label>

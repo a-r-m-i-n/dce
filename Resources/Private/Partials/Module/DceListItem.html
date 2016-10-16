@@ -76,30 +76,12 @@
         </td>
         <td>
             <div class="pull-right">
-                <f:if condition="{dce.hasActions}">
-                    <div class="btn-group align-right">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <f:translate key="{lll}actions" /> <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <f:if condition="{dce.useSimpleBackendView}">
-                                    <f:then><a class="disabled" href="#"><f:translate key="{lll}updatePreviewTemplates" /></a></f:then>
-                                    <f:else><f:link.action action="updatePreviewTemplates" arguments="{dce:dce}"><f:translate key="{lll}updatePreviewTemplates" /></f:link.action></f:else>
-                                </f:if>
-                            </li>
-                            <li>
-                                <f:if condition="{dce.hasTcaMappings}">
-                                    <f:then><f:link.action action="updateTcaMappings" arguments="{dce:dce}"><f:translate key="{lll}updateTcaMappings" /></f:link.action></f:then>
-                                    <f:else><a class="disabled" href="#"><f:translate key="{lll}updateTcaMappings" /></a></f:else>
-                                </f:if>
-                            </li>
-                        </ul>
-                    </div>
+                <f:if condition="{dce.hasTcaMappings}">
+                    <f:link.action class="btn btn-default" action="updateTcaMappings" arguments="{dce:dce}"><f:translate key="{lll}updateTcaMappings" /></f:link.action>
                 </f:if>
                 <f:if condition="{dce.uid}">
-                    <f:then><a href="{f:render(partial:'Module/OpenDce', arguments:'{uid:\'{dce.uid}\'}')}" class="btn btn-default"><span class="fa fa-edit"></span> {f:translate(key:'{lll}edit')}</a></f:then>
-                    <f:else><a href="{f:render(partial:'Module/OpenStaticDce', arguments:'{identifier:\'{dce.identifier}\'}')}" class="btn btn-default"><span class="fa fa-edit"></span> {f:translate(key:'{lll}edit')}</a></f:else>
+                    <f:then><a href="{f:render(partial:'Module/OpenDce', arguments:'{uid:\'{dce.uid}\'}')}" class="btn btn-primary"><span class="fa fa-edit"></span> {f:translate(key:'{lll}edit')}</a></f:then>
+                    <f:else><a href="{f:render(partial:'Module/OpenStaticDce', arguments:'{identifier:\'{dce.identifier}\'}')}" class="btn btn-primary"><span class="fa fa-edit"></span> {f:translate(key:'{lll}edit')}</a></f:else>
                 </f:if>
             </div>
         </td>

@@ -34,7 +34,7 @@ $boot = function ($extensionKey) {
         'dceModule',
         '',
         array(
-            'DceModule' => 'index,hallOfFame,updatePreviewTemplates,updateTcaMappings',
+            'DceModule' => 'index,hallOfFame,updateTcaMappings',
             'Dce' => 'renderPreview'
         ),
         array(
