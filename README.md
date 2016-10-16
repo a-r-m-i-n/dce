@@ -40,7 +40,6 @@ When you develop locally you need to map the the `/var/www/dce` folder to the lo
 
 Three local domains are shipped and pointing to their targets in */var/www/vhosts*:
 
-* http://62.dce.vagrant | [/typo3](http://62.dce.vagrant/typo3) |  [/typo3/install](http://62.dce.vagrant/typo3/install)
 * http://7.dce.vagrant | [/typo3](http://7.dce.vagrant/typo3) |  [/typo3/install](http://7.dce.vagrant/typo3/install)
 * http://devmaster.dce.vagrant | [/typo3](http://devmaster.dce.vagrant/typo3) |  [/typo3/install](http://devmaster.dce.vagrant/typo3/install)
  

@@ -246,15 +246,10 @@ class AfterSaveHook
                     $items = GeneralUtility::trimExplode(',', $fieldArray['backend_view_bodytext'], true);
                     $items[] = '*containerflag';
                 } else {
-                    $items = GeneralUtility::trimExplode(',', $fieldArray['backend_view_bodytext'], true);
-                    if (!GeneralUtility::compat_version('7.6')) {
-                        $items = GeneralUtility::removeArrayEntryByValue($items, '*containerflag');
-                    } else {
-                        $items = \TYPO3\CMS\Core\Utility\ArrayUtility::removeArrayEntryByValue(
-                            $items,
-                            '*containerflag'
-                        );
-                    }
+                    $items = \TYPO3\CMS\Core\Utility\ArrayUtility::removeArrayEntryByValue(
+                        GeneralUtility::trimExplode(',', $fieldArray['backend_view_bodytext'], true),
+                        '*containerflag'
+                    );
                 }
                 DatabaseUtility::getDatabaseConnection()->exec_UPDATEquery(
                     'tx_dce_domain_model_dce',

@@ -13,36 +13,19 @@ $GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'][] = array(
 <f:for each="{dceArray}" as="dce">
 <f:if condition="{dce.hidden} == 0">
 	///////////////////////////////////////////////////// {f:if(condition:"{dce.uid}", then:"uid: {dce.uid}", else:"identifier: {dce.identifier}")} ///
-	<f:if condition="{dce:be.version.typo3(returnInt:'1')} < 7006000">
-		<f:then>
-\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-	'ArminVieweg.dce',
-	'{f:if(condition:"{dce.uid}", then:"dceuid{dce.uid}", else:"dce_{dce.identifier}")}',
-	'{dce.title -> dce:format.addcslashes()}',
-	''
-);
-		</f:then>
-		<f:else>
+
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTcaSelectItem(
 	'tt_content',
 	'CType',
 	array(
 		'{dce.title -> dce:format.addcslashes()}',
 		'{f:if(condition:"{dce.uid}", then:"dce_dceuid{dce.uid}", else:"dce_{dce.identifier}")}',
-		'<f:if condition="{dce.hasCustomWizardIcon}"><f:then>ext-dce-dceuid{dce.uid}-customwizardicon</f:then><f:else>{dce:be.contentElementWizardIconPath()}{dce.wizard_icon}</f:else></f:if>'
+		'<f:if condition="{dce.hasCustomWizardIcon}"><f:then>ext-dce-dceuid{dce.uid}-customwizardicon</f:then><f:else>{dce.wizard_icon}</f:else></f:if>'
 	)
 );
-		</f:else>
-	</f:if>
 
-<f:if condition="{dce:be.version.typo3(returnInt:'1')} >= 7006000">
-	<f:then>
-		$GLOBALS['TCA']['tt_content']['ctrl']['typeicon_classes']['{f:if(condition:"{dce.uid}", then:"dce_dceuid{dce.uid}", else:"dce_{dce.identifier}")}'] =
-		'<f:if condition="{dce.hasCustomWizardIcon}"><f:then>ext-dce-dceuid{dce.uid}-customwizardicon</f:then><f:else>{dce:be.contentElementWizardIconPath()}{dce.wizard_icon}</f:else></f:if>';
-	</f:then>
-	<f:else>
-	</f:else>
-</f:if>
+$GLOBALS['TCA']['tt_content']['ctrl']['typeicon_classes']['{f:if(condition:"{dce.uid}", then:"dce_dceuid{dce.uid}", else:"dce_{dce.identifier}")}'] =
+'<f:if condition="{dce.hasCustomWizardIcon}"><f:then>ext-dce-dceuid{dce.uid}-customwizardicon</f:then><f:else>{dce.wizard_icon}</f:else></f:if>';
 
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['dce_{f:if(condition:"{dce.uid}", then:"dceuid{dce.uid}", else:"dce_{dce.identifier}")}'] = 'pi_flexform';
 $GLOBALS['TCA']['tt_content']['columns']['pi_flexform']['config']['ds'][',dce_{f:if(condition:"{dce.uid}", then:"dceuid{dce.uid}", else:"dce_{dce.identifier}")}'] = '<dce:format.tiny><f:render partial="FlexFormsXML" arguments="{dce:dce}"></f:render></dce:format.tiny>';
@@ -51,18 +34,9 @@ $GLOBALS['TCA']['tt_content']['types']['dce_{f:if(condition:"{dce.uid}", then:"d
 	--palette--;;dce_palette_{dce.uid},
 	pi_flexform,
 	<f:if condition="{dce.show_access_tab}">
-		<f:if condition="{dce:be.version.typo3(returnInt:'1')} >= 7006000">
-			<f:then>
-				--div--;LLL:EXT:lang/locallang_tca.xlf:be_users.tabs.access,
-				--palette--;LLL:EXT:lang/locallang_tca.xlf:pages.palettes.visibility;visibility,
-				--palette--;LLL:EXT:lang/locallang_tca.xlf:be_users.tabs.access;access,
-			</f:then>
-			<f:else>
-				--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access,
-				--palette--;LLL:EXT:cms/locallang_ttc.xml:palette.visibility;visibility,
-				--palette--;LLL:EXT:cms/locallang_ttc.xml:palette.access;access,
-			</f:else>
-		</f:if>
+		--div--;LLL:EXT:lang/locallang_tca.xlf:be_users.tabs.access,
+		--palette--;LLL:EXT:lang/locallang_tca.xlf:pages.palettes.visibility;visibility,
+		--palette--;LLL:EXT:lang/locallang_tca.xlf:be_users.tabs.access;access,
 	</f:if>
 	<f:if condition="{dce.show_category_tab}">
 		--div--;LLL:EXT:lang/locallang_tca.xlf:sys_category.tabs.category,

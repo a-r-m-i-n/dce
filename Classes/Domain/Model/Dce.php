@@ -789,10 +789,6 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         if ($this->getWizardIcon() === 'custom') {
             return $this->getWizardCustomIcon();
         }
-        if (!\TYPO3\CMS\Core\Utility\GeneralUtility::compat_version('7.4')) {
-            // TODO: Remove this when TYPO3 6.2 is outdated
-            return 'typo3/sysext/t3skin/icons/gfx/c_wiz/' . $this->getWizardIcon() . '.gif';
-        }
         return $this->getWizardIcon();
     }
 

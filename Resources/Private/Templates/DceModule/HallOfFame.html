@@ -3,11 +3,6 @@
 <f:layout name="Backend" />
 <f:section name="functions">
 	<dce:be.includeCssFile path="{f:uri.resource(path:'Css/dceModule.css', extensionName: 'dce')}" />
-	<f:if condition="{dce:be.version.typo3(returnInt:'1')} < 7000000">
-		<dce:be.includeCssFile path="{f:uri.resource(path:'Css/Contrib/bootstrap.min.css', extensionName: 'dce')}" />
-		<dce:be.includeCssFile path="{f:uri.resource(path:'Css/Contrib/bootstrap-theme.min.css', extensionName: 'dce')}" />
-		<dce:be.includeCssFile path="{f:uri.resource(path:'Css/dceModule62.css', extensionName: 'dce')}" />
-	</f:if>
 </f:section>
 <f:section name="buttons">
 	<h4 class="dceHeader">

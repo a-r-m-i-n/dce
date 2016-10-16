@@ -602,26 +602,6 @@ $dceTca = array(
     ),
 );
 
-if (!\TYPO3\CMS\Core\Utility\GeneralUtility::compat_version('7.4')) {
-    $dceTca['columns']['wizard_category']['config']['items'] = array(
-        array($ll . 'tx_dce_domain_model_dce', '--div--'),
-        array($ll . 'tx_dce_domain_model_dce_long', 'dce'),
-        array($ll . 'typo3_default_categories', '--div--'),
-        array('LLL:EXT:cms/layout/locallang_db_new_content_el.xml:common', 'common'),
-        array('LLL:EXT:cms/layout/locallang_db_new_content_el.xml:special', 'special'),
-        array('LLL:EXT:cms/layout/locallang_db_new_content_el.xml:forms', 'forms'),
-        array('LLL:EXT:cms/layout/locallang_db_new_content_el.xml:plugins', 'plugins'),
-    );
-}
-
-if (!\TYPO3\CMS\Core\Utility\GeneralUtility::compat_version('7.6')) {
-    unset($dceTca['ctrl']['typeicon_classes']);
-    $dceTca['ctrl']['typeicons'] = array(
-        '0' => $extensionPath . 'Resources/Public/Icons/tx_dce_domain_model_dce_databased.png',
-        '1' => $extensionPath . 'Resources/Public/Icons/tx_dce_domain_model_dce_filebased.png',
-    );
-}
-
 if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('css_styled_content')) {
     //hide_default_ce_wrap
     $dceTca['columns']['hide_default_ce_wrap'] = array(

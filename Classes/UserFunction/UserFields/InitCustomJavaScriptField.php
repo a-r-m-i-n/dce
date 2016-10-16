@@ -28,9 +28,8 @@ class InitCustomJavaScriptField
 
         // Include JavaScripts
         $pageRenderer->addJsFile($extPath . 'Resources/Public/JavaScript/InitializeCodemirror.js');
-        if (GeneralUtility::compat_version('7.6')) {
-            $pageRenderer->addJsFile($extPath . 'Resources/Public/JavaScript/EnhanceIrre.js');
-        }
+        $pageRenderer->addJsFile($extPath . 'Resources/Public/JavaScript/EnhanceIrre.js');
+
 
         // Include Styles
         $pageRenderer->addCssFile($extPath . 'Resources/Public/JavaScript/Contrib/codemirror/lib/codemirror.css');

@@ -48,14 +48,8 @@ $boot = function ($extensionKey) {
     }
 
     // DocHeader buttons hook
-    if (\TYPO3\CMS\Core\Utility\GeneralUtility::compat_version('7.6')) {
-        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['Backend\Template\Components\ButtonBar']['getButtonsHook']['Dce'] =
-            'ArminVieweg\Dce\Hooks\DocHeaderButtonsHook->addDcePopupButton';
-    } else {
-        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['typo3/template.php']['docHeaderButtonsHook'][] =
-            'EXT:' . $extensionKey . '/Classes/Hooks/DocHeaderButtonsHook.php:' .
-            'ArminVieweg\\Dce\\Hooks\\DocHeaderButtonsHook->addDcePopupButton62';
-    }
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['Backend\Template\Components\ButtonBar']['getButtonsHook']['Dce'] =
+        'ArminVieweg\Dce\Hooks\DocHeaderButtonsHook->addDcePopupButton';
 
 
     // DataPreprocessor XClass

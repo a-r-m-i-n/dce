@@ -23,9 +23,6 @@ $boot = function ($extensionKey) {
 
 
     $extensionIconPath = 'EXT:' . $extensionKey . '/Resources/Public/Icons/ext_icon.svg';
-    if (!\TYPO3\CMS\Core\Utility\GeneralUtility::compat_version('7.6')) {
-        $extensionIconPath = 'EXT:' . $extensionKey . '/ext_icon.png';
-    }
 
     // Register backend module
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
@@ -69,37 +66,35 @@ $boot = function ($extensionKey) {
         }
     }');
 
-    if (\TYPO3\CMS\Core\Utility\GeneralUtility::compat_version('7.6')) {
-        /** @var \TYPO3\CMS\Core\Imaging\IconRegistry $iconRegistry */
-        $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\Imaging\IconRegistry');
-        // DCE Type Icons
-        $iconRegistry->registerIcon(
-            'ext-dce-dce-type-databased',
-            'TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider',
-            array('source' => 'EXT:dce/Resources/Public/Icons/tx_dce_domain_model_dce_databased.png')
-        );
-        $iconRegistry->registerIcon(
-            'ext-dce-dce-type-filebased',
-            'TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider',
-            array('source' => 'EXT:dce/Resources/Public/Icons/tx_dce_domain_model_dce_filebased.png')
-        );
-        // DCE Field Type Icons
-        $iconRegistry->registerIcon(
-            'ext-dce-dcefield-type-element',
-            'TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider',
-            array('source' => 'EXT:dce/Resources/Public/Icons/tx_dce_domain_model_dcefield_element.png')
-        );
-        $iconRegistry->registerIcon(
-            'ext-dce-dcefield-type-tab',
-            'TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider',
-            array('source' => 'EXT:dce/Resources/Public/Icons/tx_dce_domain_model_dcefield_tab.png')
-        );
-        $iconRegistry->registerIcon(
-            'ext-dce-dcefield-type-section',
-            'TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider',
-            array('source' => 'EXT:dce/Resources/Public/Icons/tx_dce_domain_model_dcefield_section.png')
-        );
-    }
+    /** @var \TYPO3\CMS\Core\Imaging\IconRegistry $iconRegistry */
+    $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\Imaging\IconRegistry');
+    // DCE Type Icons
+    $iconRegistry->registerIcon(
+        'ext-dce-dce-type-databased',
+        'TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider',
+        array('source' => 'EXT:dce/Resources/Public/Icons/tx_dce_domain_model_dce_databased.png')
+    );
+    $iconRegistry->registerIcon(
+        'ext-dce-dce-type-filebased',
+        'TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider',
+        array('source' => 'EXT:dce/Resources/Public/Icons/tx_dce_domain_model_dce_filebased.png')
+    );
+    // DCE Field Type Icons
+    $iconRegistry->registerIcon(
+        'ext-dce-dcefield-type-element',
+        'TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider',
+        array('source' => 'EXT:dce/Resources/Public/Icons/tx_dce_domain_model_dcefield_element.png')
+    );
+    $iconRegistry->registerIcon(
+        'ext-dce-dcefield-type-tab',
+        'TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider',
+        array('source' => 'EXT:dce/Resources/Public/Icons/tx_dce_domain_model_dcefield_tab.png')
+    );
+    $iconRegistry->registerIcon(
+        'ext-dce-dcefield-type-section',
+        'TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider',
+        array('source' => 'EXT:dce/Resources/Public/Icons/tx_dce_domain_model_dcefield_section.png')
+    );
 };
 
 $boot($_EXTKEY);

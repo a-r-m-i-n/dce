@@ -21,25 +21,6 @@
 			<label index="wizardIcon.content-elements-login">Login</label>
 			<label index="wizardIcon.content-elements-mailform">Mail</label>
 			<label index="wizardIcon.content-plugin">Plugin</label>
-			<!-- For 6.2 Only -->
-			<label index="wizardIcon.regular_text">Regular Text</label>
-			<label index="wizardIcon.text_image_right">Text/Image right</label>
-			<label index="wizardIcon.text_image_below">Text/Image below</label>
-			<label index="wizardIcon.bullet_list">Bullets</label>
-			<label index="wizardIcon.div">Div</label>
-			<label index="wizardIcon.filelinks">Uploads</label>
-			<label index="wizardIcon.mailform">Mail</label>
-			<label index="wizardIcon.html">Html</label>
-			<label index="wizardIcon.shortcut">Shortcut</label>
-			<label index="wizardIcon.multimedia">Multimedia</label>
-			<label index="wizardIcon.sitemap2">Sitemap 2</label>
-			<label index="wizardIcon.sitemap">Sitemap</label>
-			<label index="wizardIcon.images_only">Images</label>
-			<label index="wizardIcon.login_form">Login</label>
-			<label index="wizardIcon.searchform">Search</label>
-			<label index="wizardIcon.table">Table</label>
-			<label index="wizardIcon.user_defined">Plugin</label>
-			<!-- / For 6.2 Only -->
 
 			<label index="typo3_default_categories">TYPO3 default categories</label>
 			<label index="common_textImage2_title">Text &amp; Images 2</label>

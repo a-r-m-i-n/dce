@@ -25,16 +25,13 @@ class WizardIcon
     public static function getTcaListItems($withExtraRowForCustomIcon = true)
     {
         $identifiers = self::getIconIdentifiers();
-        if (!GeneralUtility::compat_version('7.6')) {
-            $identifiers = self::getIconIdentifiersFor62();
-        }
 
         $items = array();
         foreach ($identifiers as $identifier) {
             $items[] = array(
                 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:wizardIcon.' . $identifier,
                 $identifier,
-                !GeneralUtility::compat_version('7.6') ? 'c_wiz/' . $identifier . '.gif' : $identifier
+                $identifier
             );
         }
 
@@ -66,33 +63,6 @@ class WizardIcon
             'content-elements-login',
             'content-elements-mailform',
             'content-plugin'
-        );
-    }
-
-    /**
-     * @return array
-     * @deprecated Will be removed when 6.2 support runs out
-     */
-    public static function getIconIdentifiersFor62()
-    {
-        return array(
-            'regular_text',
-            'text_image_right',
-            'text_image_below',
-            'bullet_list',
-            'div',
-            'filelinks',
-            'mailform',
-            'html',
-            'shortcut',
-            'multimedia',
-            'sitemap2',
-            'sitemap',
-            'images_only',
-            'login_form',
-            'searchform',
-            'table',
-            'user_defined'
         );
     }
 }

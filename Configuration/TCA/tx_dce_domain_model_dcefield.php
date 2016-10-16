@@ -296,12 +296,4 @@ $dceFieldTca = array(
     ),
 );
 
-if (!\TYPO3\CMS\Core\Utility\GeneralUtility::compat_version('7.6')) {
-    unset($dceFieldTca['ctrl']['typeicon_classes']);
-    $dceFieldTca['ctrl']['typeicons'] = array(
-        '0' => $extensionPath . 'Resources/Public/Icons/tx_dce_domain_model_dcefield_element.png',
-        '1' => $extensionPath . 'Resources/Public/Icons/tx_dce_domain_model_dcefield_tab.png',
-        '2' => $extensionPath . 'Resources/Public/Icons/tx_dce_domain_model_dcefield_section.png',
-    );
-}
 return $dceFieldTca;
