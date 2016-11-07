@@ -60,6 +60,27 @@ class DceModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
     }
 
     /**
+     * Clears Caches Action
+     *
+     * @return void
+     */
+    public function clearCachesAction()
+    {
+        /** @var \TYPO3\CMS\Core\DataHandling\DataHandler $dataHandler */
+        $dataHandler = $this->objectManager->get(\TYPO3\CMS\Core\DataHandling\DataHandler::class);
+        $dataHandler->start([], []);
+        $dataHandler->clear_cacheCmd('system');
+        $dataHandler->clear_cacheCmd('pages');
+        $translateKey = 'LLL:EXT:dce/Resources/Private/Language/locallang_mod.xml:';
+        $this->addFlashMessage(
+            LocalizationUtility::translate($translateKey . 'clearCachesFlashMessage', 'dce'),
+            LocalizationUtility::translate($translateKey . 'clearCaches', 'dce')
+        );
+        $this->redirect('index');
+        return;
+    }
+
+    /**
      * Hall of fame Action
      *
      * @return void

@@ -18,6 +18,7 @@
 				<div class="nav-group">
 					<a href="{f:render(partial:'Module/NewDceLink') -> dce:format.tiny()}" class="btn btn-primary">{f:translate(key:'{lll}createNewDce')}</a>
 					<a href="{f:uri.page(additionalParams:'{M:\'web_list\', id:\'0\', table:\'tx_dce_domain_model_dce\', imagemode:\'1\'}')}" class="btn btn-default">{f:translate(key:'{lll}goToListView')}</a>
+					<f:link.action action="clearCaches" class="btn btn-default">{f:translate(key:'{lll}clearCaches')}</f:link.action>
 				</div>
 
 				<div class="nav-group">
