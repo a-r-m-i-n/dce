@@ -27,7 +27,10 @@ class Mapper
         foreach (static::getDceFieldMappings() as $fieldName => $fieldType) {
             $fields[] = $fieldName . ' ' . $fieldType;
         }
-        return 'CREATE TABLE tt_content (' . PHP_EOL . implode(',' . PHP_EOL, $fields) . PHP_EOL . ');';
+        if (!empty($fields)) {
+            return 'CREATE TABLE tt_content (' . PHP_EOL . implode(',' . PHP_EOL, $fields) . PHP_EOL . ');';
+        }
+        return '';
     }
 
     /**
