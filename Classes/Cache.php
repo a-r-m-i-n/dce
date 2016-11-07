@@ -28,7 +28,7 @@ class Cache
     /**
      * Path of DCE cache files
      */
-    const CACHE_PATH = 'typo3temp/Cache/Code/cache_dce/';
+    const CACHE_PATH = 'typo3temp/var/Cache/Code/cache_dce/';
 
     /**
      * Filename for cache type ext_localconf
