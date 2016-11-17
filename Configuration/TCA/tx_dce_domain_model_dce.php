@@ -34,7 +34,7 @@ $dceTca = [
             'endtime' => 'endtime',
         ],
         'copyAfterDuplFields' => 'fields',
-        'requestUpdate' => 'wizard_enable,wizard_icon,template_type,preview_template_type,use_simple_backend_view,' .
+        'requestUpdate' => 'wizard_enable,wizard_icon,template_type,backend_template_type,use_simple_backend_view,' .
                            'backend_view_header,enable_detailpage,detailpage_template_type,' .
                            'enable_container,container_template_type',
         'type' => 'type',
