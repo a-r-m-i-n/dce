@@ -54,6 +54,8 @@
 
             <label index="tx_dce_domain_model_dce.backendTemplate">Backend Template</label>
             <label index="tx_dce_domain_model_dce.backendTemplateType">Backend template type</label>
+            <label index="tx_dce_domain_model_dce.backendTemplateType.file">File</label>
+            <label index="tx_dce_domain_model_dce.backendTemplateType.inline">Inline</label>
             <label index="tx_dce_domain_model_dce.backendTemplateContent">Backend template content (fluid)</label>
             <label index="tx_dce_domain_model_dce.backendTemplateFile">Backend template file (fluid)</label>
 
@@ -144,6 +146,8 @@
 
             <label index="tx_dce_domain_model_dce.backendTemplate">Backend Template</label>
             <label index="tx_dce_domain_model_dce.backendTemplateType">Backend-Template-Typ</label>
+			<label index="tx_dce_domain_model_dce.backendTemplateType.file">Datei</label>
+			<label index="tx_dce_domain_model_dce.backendTemplateType.inline">Inline</label>
             <label index="tx_dce_domain_model_dce.backendTemplateContent">Backend-Template-Template (Fluid)</label>
             <label index="tx_dce_domain_model_dce.backendTemplateFile">Backend-Template-Datei (Fluid)</label>
             <label index="tx_dce_domain_model_dce.headerPreviewTemplateFile">Überschriften-Vorschau-Template-Datei (Fluid)</label>
