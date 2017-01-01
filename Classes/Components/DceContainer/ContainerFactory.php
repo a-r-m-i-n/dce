@@ -102,6 +102,12 @@ class ContainerFactory
                  ' AND (endtime >= ' . (int) $GLOBALS['SIM_ACCESS_TIME'] . ' OR endtime = 0)';
         // TODO: Still not checking current frontend user permission if set
 
+        if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('gridelements')
+            && $contentObject['tx_gridelements_container'] != '0'
+        ) {
+            $where .= ' AND tx_gridelements_container = ' . $contentObject['tx_gridelements_container'];
+        }
+
         if (TYPO3_MODE === 'FE') {
             $where .= ' AND sys_language_uid = ' . $GLOBALS['TSFE']->sys_language_uid;
         }
