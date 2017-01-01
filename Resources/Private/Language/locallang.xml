@@ -74,6 +74,7 @@
 			<label index="entry">Eintrag</label>
 			<label index="entries">Einträge</label>
 			<label index="editDceOfThisContentElement">Bearbeite DCE (auf welchem dieses Inhaltselement basiert)</label>
+
 			<label index="chooseOption">Wähle eine Option</label>
 			<label index="noMapping">Feld nicht mappen</label>
 			<label index="mapToIndexColumn">Mappe auf Index-Spalte (tx_dce_index, mediumtext)</label>

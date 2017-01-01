@@ -110,7 +110,10 @@ class ItemsProcFunc
             'tx_impexp_origuid',
             't3ver_label',
             'tx_dce_dce',
-            'tx_dce_index'
+            'tx_dce_index',
+            'categories',
+            'assets',
+            'media'
         ];
         $tcaColumns = $GLOBALS['TCA']['tt_content']['columns'];
         $dbColumns = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->admin_get_fields('tt_content');

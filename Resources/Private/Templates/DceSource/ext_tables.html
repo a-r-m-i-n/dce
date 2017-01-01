@@ -38,6 +38,10 @@ $GLOBALS['TCA']['tt_content']['types']['dce_{f:if(condition:"{dce.uid}", then:"d
 		--palette--;LLL:EXT:lang/locallang_tca.xlf:pages.palettes.visibility;visibility,
 		--palette--;LLL:EXT:lang/locallang_tca.xlf:be_users.tabs.access;access,
 	</f:if>
+	<f:if condition="{dce.show_media_tab}">
+		--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,
+		assets,
+	</f:if>
 	<f:if condition="{dce.show_category_tab}">
 		--div--;LLL:EXT:lang/locallang_tca.xlf:sys_category.tabs.category,
 		categories,

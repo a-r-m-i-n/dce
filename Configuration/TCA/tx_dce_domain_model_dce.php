@@ -56,7 +56,8 @@ $dceTca = [
 			--div--;' . $ll . 'tx_dce_domain_model_dce.backendTemplate,use_simple_backend_view,backend_view_header,backend_view_bodytext,backend_template_type,backend_template_content,backend_template_file,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.wizard,wizard_icon,wizard_custom_icon,wizard_enable,wizard_category,wizard_description,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.detailpage,enable_detailpage,detailpage_identifier,detailpage_template_type,detailpage_template,detailpage_template_file,
-			--div--;' . $ll . 'tx_dce_domain_model_dce.miscellaneous,cache_dce,flexform_label,hide_default_ce_wrap,show_access_tab,show_category_tab,palette_fields,template_layout_root_path,template_partial_root_path'
+			--div--;' . $ll . 'tx_dce_domain_model_dce.miscellaneous,cache_dce,flexform_label,hide_default_ce_wrap,
+                --palette--;' . $ll . 'tx_dce_domain_model_dce.contentRelationsPalette;content_relations,palette_fields,template_layout_root_path,template_partial_root_path'
         ],
         // Filebased DCE
         '1' => [
@@ -71,6 +72,7 @@ $dceTca = [
     ],
     'palettes' => [
         'general_header' => ['showitem' => 'title,type,hidden', 'canNotCollapse' => true],
+        'content_relations' => ['showitem' => 'show_access_tab,show_media_tab,show_category_tab', 'canNotCollapse' => true],
     ],
     'columns' => [
         'initCustomJs' => [
@@ -311,6 +313,14 @@ $dceTca = [
         'show_category_tab' => [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dce.showCategoryTab',
+            'config' => [
+                'type' => 'check',
+                'default' => '0',
+            ],
+        ],
+        'show_media_tab' => [
+            'exclude' => 0,
+            'label' => $ll . 'tx_dce_domain_model_dce.showMediaTab',
             'config' => [
                 'type' => 'check',
                 'default' => '0',
@@ -619,6 +629,9 @@ if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('css_styled_con
             'default' => '0',
         ]
     ];
+}
+if (!\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('fluid_styled_content')) {
+    $dceTca['palettes']['content_relations']['showitem'] = 'show_access_tab,show_category_tab';
 }
 
 return $dceTca;

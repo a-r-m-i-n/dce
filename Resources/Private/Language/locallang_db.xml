@@ -73,8 +73,12 @@
 
 			<label index="tx_dce_domain_model_dce.miscellaneous">Miscellaneous</label>
 			<label index="tx_dce_domain_model_dce.cacheDce">Cache DCE frontend plugin</label>
-			<label index="tx_dce_domain_model_dce.showAccessTab">Enable access tab in backend</label>
-			<label index="tx_dce_domain_model_dce.showCategoryTab">Enable categories tab in backend</label>
+
+			<label index="tx_dce_domain_model_dce.contentRelationsPalette">Content element relations:</label>
+			<label index="tx_dce_domain_model_dce.showAccessTab">Enable access tab</label>
+			<label index="tx_dce_domain_model_dce.showCategoryTab">Enable categories tab</label>
+			<label index="tx_dce_domain_model_dce.showMediaTab">Enable media tab</label>
+
 			<label index="tx_dce_domain_model_dce.hideDefaultCeWrap">Disables the "div.csc-default" wrapping</label>
 			<label index="tx_dce_domain_model_dce.paletteFields">DCE palette fields</label>
 			<label index="tx_dce_domain_model_dce.flexformLabel">Flexform label</label>
@@ -167,8 +171,12 @@
 
 			<label index="tx_dce_domain_model_dce.miscellaneous">Sonstiges</label>
 			<label index="tx_dce_domain_model_dce.cacheDce">DCE Frontend Plugin Cache aktivieren</label>
-			<label index="tx_dce_domain_model_dce.showAccessTab">Aktiviere "Zugriff" Tab im Backend</label>
-			<label index="tx_dce_domain_model_dce.showCategoryTab">Aktiviere "Kategorien" Tab im Backend</label>
+
+			<label index="tx_dce_domain_model_dce.contentRelationsPalette">Inhaltselement-Relationen:</label>
+			<label index="tx_dce_domain_model_dce.showAccessTab">Blende "Zugriff" Tab ein</label>
+			<label index="tx_dce_domain_model_dce.showCategoryTab">Blende "Kategorien" Tab ein</label>
+			<label index="tx_dce_domain_model_dce.showMediaTab">Blende "Medien" Tab ein</label>
+
 			<label index="tx_dce_domain_model_dce.hideDefaultCeWrap">Deaktiviere das "div.csc-default" Wrapping</label>
 			<label index="tx_dce_domain_model_dce.paletteFields">DCE Paletten-Felder</label>
 			<label index="tx_dce_domain_model_dce.flexformLabel">Flexform Label</label>
