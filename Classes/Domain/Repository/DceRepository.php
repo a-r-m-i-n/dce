@@ -83,7 +83,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $this->cloneFields($dce);
 
         $this->processFillingFields($dce, $fieldList, is_array($contentObject) ? $contentObject : []);
-        $dce->setContentObject($contentObject);
+        $dce->setContentObject($this->resolveContentObjectRelations($contentObject));
         static::$dceInstanceCache[$contentObject['uid']] = $dce;
         return $dce;
     }
@@ -509,5 +509,52 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             }
         }
         return $objects;
+    }
+
+    /**
+     * Resolves relations of tt_content row record stored in {contentObject}
+     * It resolves: media, assets and categories
+     *
+     * @param array $contentObjectArray which contains
+     * @return array Processed content object array
+     */
+    protected function resolveContentObjectRelations(array $contentObjectArray)
+    {
+        /** @var \TYPO3\CMS\Core\Resource\FileRepository $fileRepository */
+        $fileRepository = GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\FileRepository');
+        $databaseConnection = DatabaseUtility::getDatabaseConnection();
+        $processedContentObject = $contentObjectArray;
+
+        // Resolve media field
+        $processedContentObject['media'] = $fileRepository->findByRelation(
+            'tt_content',
+            'media',
+            $contentObjectArray['uid']
+        );
+
+        // Resolve assets field (if fluid_styled_content is installed)
+        if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('fluid_styled_content')) {
+            $processedContentObject['assets'] = $fileRepository->findByRelation(
+                'tt_content',
+                'assets',
+                $contentObjectArray['uid']
+            );
+        }
+
+        // Resolve categories
+        if (array_key_exists('categories', $processedContentObject)) {
+            /** @var \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager */
+            $objectManager = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
+            /** @var \TYPO3\CMS\Extbase\Domain\Repository\CategoryRepository $categoryRepository */
+            $categoryRepository = $objectManager->get(\TYPO3\CMS\Extbase\Domain\Repository\CategoryRepository::class);
+
+            $res = $databaseConnection->exec_SELECT_mm_query('sys_category.uid', 'sys_category',
+                'sys_category_record_mm', 'tt_content', '');
+            $processedContentObject['categories'] = [];
+            while (($categoryRow = $databaseConnection->sql_fetch_assoc($res))) {
+                $processedContentObject['categories'][] = $categoryRepository->findByUid($categoryRow['uid']);
+            }
+        }
+        return $processedContentObject;
     }
 }
