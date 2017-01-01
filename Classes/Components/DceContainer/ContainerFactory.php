@@ -97,7 +97,10 @@ class ContainerFactory
                  ' AND colPos = ' . $contentObject['colPos'] .
                  ' AND ' . $sortColumn . ' > ' . $contentObject[$sortColumn] .
                  ' AND uid != ' . $contentObject['uid'] .
-                 ' AND ' . $deleteColumn . ' = 0';
+                 ' AND ' . $deleteColumn . ' = 0' .
+                 ' AND (starttime <= ' . (int) $GLOBALS['SIM_ACCESS_TIME'] . ' OR starttime = 0)' .
+                 ' AND (endtime >= ' . (int) $GLOBALS['SIM_ACCESS_TIME'] . ' OR endtime = 0)';
+        // TODO: Still not checking current frontend user permission if set
 
         if (TYPO3_MODE === 'FE') {
             $where .= ' AND sys_language_uid = ' . $GLOBALS['TSFE']->sys_language_uid;
