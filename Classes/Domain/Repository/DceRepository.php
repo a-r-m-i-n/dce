@@ -83,7 +83,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $this->cloneFields($dce);
 
         $this->processFillingFields($dce, $fieldList, is_array($contentObject) ? $contentObject : []);
-        $dce->setContentObject($this->resolveContentObjectRelations($contentObject));
+        $dce->setContentObject(is_array($contentObject) ? $this->resolveContentObjectRelations($contentObject) : []);
         static::$dceInstanceCache[$contentObject['uid']] = $dce;
         return $dce;
     }
