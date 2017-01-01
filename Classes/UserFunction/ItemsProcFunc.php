@@ -55,12 +55,12 @@ class ItemsProcFunc
     }
 
     /**
-     * Add available tt_content columns to $parameters['items'] array
+     * Add available tt_content columns for TCA mapping to $parameters['items'] array
      *
      * @param array $parameters Referenced parameter array
      * @return void
      */
-    public function getAvailableTtContentColumns(array &$parameters)
+    public function getAvailableTtContentColumnsForTcaMapping(array &$parameters)
     {
         $excludedColumns = [
             'uid',
@@ -85,10 +85,46 @@ class ItemsProcFunc
         $parameters['items'][] = [LocalizationUtility::translate('mapToIndexColumn', 'dce'), 'tx_dce_index'];
         $parameters['items'][] = [LocalizationUtility::translate('newcol', 'dce'), '*newcol'];
         $parameters['items'][] = [LocalizationUtility::translate('chooseExistingField', 'dce'), '--div--'];
-        foreach ($tcaColumns as $name => $column) {
-            if (!in_array($name, $excludedColumns) && !empty($dbColumns[$name]['Type'])) {
-                $columnInfo = '"' . $dbColumns[$name]['Type'] . '"';
-                $parameters['items'][] = [$name . ' - ' . $columnInfo . '', $name];
+        foreach ($tcaColumns as $fieldName => $column) {
+            if (!in_array($fieldName, $excludedColumns) && !empty($dbColumns[$fieldName]['Type'])) {
+                $columnInfo = '"' . $dbColumns[$fieldName]['Type'] . '"';
+                $parameters['items'][] = [$fieldName . ' - ' . $columnInfo . '', $fieldName];
+            }
+        }
+    }
+
+    /**
+     * Add available tt_content columns for palette fields to given $parameters['items'] array
+     *
+     * @param array $parameters
+     * @return void
+     */
+    public function getAvailableTtContentColumnsForPaletteFields(array &$parameters)
+    {
+        $excludedColumns = [
+            'uid',
+            'pid',
+            'CType',
+            'editlock',
+            'pi_flexform',
+            'tx_impexp_origuid',
+            't3ver_label',
+            'tx_dce_dce',
+            'tx_dce_index'
+        ];
+        $tcaColumns = $GLOBALS['TCA']['tt_content']['columns'];
+        $dbColumns = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->admin_get_fields('tt_content');
+
+        $parameters['items'][] = ['--linebreak--', '--linebreak--'];
+        foreach ($tcaColumns as $fieldName => $column) {
+            if (!in_array($fieldName, $excludedColumns) && !empty($dbColumns[$fieldName]['Type'])) {
+                $label = trim($GLOBALS['LANG']->sL($tcaColumns[$fieldName]['label']), ': ');
+                if (empty($label)) {
+                    $label = $fieldName;
+                } else {
+                    $label .= ' (' . $fieldName . ')';
+                }
+                $parameters['items'][] = [$label, $fieldName];
             }
         }
     }
