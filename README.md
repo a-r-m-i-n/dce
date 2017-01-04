@@ -4,7 +4,7 @@
 DCE is an extension for the CMS TYPO3, which creates easily and fast *dynamic content elements*. It is an alternative to flexible content elements (FCE) but without need of TemplaVoila (TV). Based on Extbase and Fluid.
 
 ## How to contrubite? ##
-Just fork this repository and create a pull request to - and this is **important** - the develop branch. Please also describe why you've submitted you patch, if it regards to a ticket, a link would be great. If you have any questions feel free to contact me.
+Just fork this repository and create a pull request to the **master** branch. Please also describe why you've submitted you patch, if it regards to a ticket, a link would be great. If you have any questions feel free to contact me.
 
 ## DCE Vagrant setup  ##
 The DCE extension provides a vagrant setup which builds a local virtual machine, using the tools VirtualBox and Vagrant.
