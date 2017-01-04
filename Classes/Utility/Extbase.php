@@ -47,7 +47,11 @@ class Extbase
             'settings' => $settings
         ];
         \ArminVieweg\Dce\Utility\ForbiddenUtility::setExtbaseRelatedPostParameters($controller, $action);
+
+        $previousValue = $GLOBALS['TYPO3_CONF_VARS']['FE']['pageNotFoundOnCHashError'];
+        $GLOBALS['TYPO3_CONF_VARS']['FE']['pageNotFoundOnCHashError'] = false;
         $extbaseReturnValue = $bootstrap->run('', $configuration);
+        $GLOBALS['TYPO3_CONF_VARS']['FE']['pageNotFoundOnCHashError'] = $previousValue;
         unset($bootstrap);
 
         if ($compressedObject) {
