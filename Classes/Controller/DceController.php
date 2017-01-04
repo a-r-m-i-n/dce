@@ -66,20 +66,27 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             $contentObject
         );
 
+        if ($dce->getEnableDetailpage())
+        {
+            $detailUid = intval(GeneralUtility::_GP($dce->getDetailpageIdentifier()));
+        	if ($detailUid) {
+        		// populate all elements to skip
+        		ContainerFactory::makeContainer($dce);
+        		if (intval($contentObject['uid']) === $detailUid) {
+        			return $dce->renderDetailpage();
+        		}
+        		return '<!--render detail-->'; //output needed for content slide
+        	}
+        }
         if ($dce->getEnableContainer()) {
             if (ContainerFactory::checkContentElementForBeingRendered($dce->getContentObject())) {
-                return '';
+                return '<!--render container-->'; //output needed for content slide
             }
             $container = ContainerFactory::makeContainer($dce);
             return $container->render();
         }
         ContainerFactory::clearContentElementsToSkip();
 
-        if ($dce->getEnableDetailpage()
-            && intval($contentObject['uid']) === intval(GeneralUtility::_GP($dce->getDetailpageIdentifier()))
-        ) {
-            return $dce->renderDetailpage();
-        }
         return $dce->render();
     }
 
@@ -100,7 +107,8 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         $dce = clone $this->dceRepository->findAndBuildOneByUid(
             $uid,
             $this->settings,
-            $contentObject
+            $contentObject,
+        	true
         );
 
         if ($previewType === 'header') {

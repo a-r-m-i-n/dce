@@ -140,12 +140,17 @@ class ContainerFactory
     /**
      * Checks if DCE content element should be skipped instead of rendered.
      *
-     * @param array $contentElementRow
+     * @param array|int $contentElement
      * @return bool Returns true when this content element has been rendered already
      */
-    public static function checkContentElementForBeingRendered(array $contentElementRow)
+    public static function checkContentElementForBeingRendered($contentElement)
     {
-        return in_array($contentElementRow['uid'], static::$contentElementsToSkip);
+    	if (is_array($contentElement)) {
+	        return in_array($contentElement['uid'], static::$contentElementsToSkip);
+        } else if(is_integer($contentElement)) {
+            return in_array($contentElement, static::$contentElementsToSkip);
+        }
+        return false;
     }
 
     /**
@@ -170,15 +175,23 @@ class ContainerFactory
         $resolvedContentElements = [];
         foreach ($rawContentElements as $rawContentElement) {
             if ($rawContentElement['CType'] === 'shortcut') {
-                $linkedContentElements = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
-                    '*',
-                    'tt_content',
-                    'uid IN (' . $rawContentElement['records'] . ')',
-                    '',
-                    $GLOBALS['TCA']['tt_content']['ctrl']['sortby'] . ' asc'
-                );
-                foreach ($linkedContentElements as $linkedContentElement) {
-                    $resolvedContentElements[] = $linkedContentElement;
+            	// resolve records stored with "table_name:uid"
+                $aLinked = explode(",", $rawContentElement['records']);
+                foreach ( $aLinked as $sLinkedEl){
+                	$iPos = strrpos($sLinkedEl, "_");
+                	$table = ($iPos!==false) ? substr($sLinkedEl, 0 , $iPos) : 'tt_content';
+                	$uid = ($iPos!==false) ? substr($sLinkedEl, $iPos+1) : '0';
+
+                    $linkedContentElements = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
+                    	'*',
+                    	$table,
+                    	'uid = ' . $uid,
+                    	'',
+                    	$GLOBALS['TCA'][$table]['ctrl']['sortby'] . ' asc'
+                	);
+                    foreach ($linkedContentElements as $linkedContentElement) {
+                    	$resolvedContentElements[] = $linkedContentElement;
+                    }
                 }
             } else {
                 $resolvedContentElements[] = $rawContentElement;

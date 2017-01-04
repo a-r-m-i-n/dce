@@ -55,12 +55,12 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      * @param int $uid
      * @param array $fieldList
      * @param array $contentObject
+     * @param bool $doNotCache If true forces to not use the internal cache
      * @return \ArminVieweg\Dce\Domain\Model\Dce
-     * @throws \UnexpectedValueException
      */
-    public function findAndBuildOneByUid($uid, $fieldList, $contentObject)
+    public function findAndBuildOneByUid($uid, $fieldList, $contentObject, $doNotCache = false)
     {
-        if (array_key_exists($contentObject['uid'], static::$dceInstanceCache)) {
+        if (!$doNotCache && array_key_exists($contentObject['uid'], static::$dceInstanceCache)) {
             return static::$dceInstanceCache[$contentObject['uid']];
         }
         $this->disableRespectOfEnableFields();
