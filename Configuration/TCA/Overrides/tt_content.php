@@ -14,13 +14,7 @@ $newTtContentColumns = [
     'tx_dce_dce' => [
         'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tt_content.tx_dce_dce',
         'config' => [
-            'type' => 'select',
-            'foreign_table' => 'tx_dce_domain_model_dce',
-            'items' => [
-                ['', ''],
-            ],
-            'minitems' => 0,
-            'maxitems' => 1,
+            'type' => 'passthrough',
         ],
     ],
     'tx_dce_index' => [

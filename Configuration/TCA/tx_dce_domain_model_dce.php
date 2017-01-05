@@ -23,8 +23,7 @@ $dceTca = [
         'crdate' => 'crdate',
         'cruser_id' => 'cruser_id',
         'dividers2tabs' => true,
-        'versioningWS' => 2,
-        'versioning_followPages' => true,
+        'versioningWS' => true,
         'origUid' => 't3_origuid',
         'delete' => 'deleted',
         'sortby' => 'sorting',
@@ -72,6 +71,7 @@ $dceTca = [
             'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.language',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectSingle',
                 'foreign_table' => 'sys_language',
                 'foreign_table_where' => 'ORDER BY sys_language.title',
                 'items' => [
@@ -86,6 +86,7 @@ $dceTca = [
             'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.l18n_parent',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectSingle',
                 'items' => [
                     ['', 0],
                 ],
@@ -164,6 +165,7 @@ $dceTca = [
             'displayCond' => 'FIELD:wizard_enable:REQ:true',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectSingle',
                 'items' => [
                     [$ll . 'tx_dce_domain_model_dce', '--div--'],
                     [$ll . 'tx_dce_domain_model_dce_long', 'dce'],
@@ -190,6 +192,7 @@ $dceTca = [
             'label' => $ll . 'tx_dce_domain_model_dce.wizardIcon',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectSingle',
                 'minitems' => 1,
                 'maxitems' => 1,
                 'items' => \ArminVieweg\Dce\Utility\WizardIcon::getTcaListItems(),
@@ -215,6 +218,7 @@ $dceTca = [
             'label' => $ll . 'tx_dce_domain_model_dce.templateType',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectSingle',
                 'items' => [
                     [$ll . 'tx_dce_domain_model_dce.templateType.inline', 'inline'],
                     [$ll . 'tx_dce_domain_model_dce.templateType.file', 'file'],
@@ -338,6 +342,7 @@ $dceTca = [
             'label' => $ll . 'tx_dce_domain_model_dce.backendTemplateType',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectSingle',
                 'items' => [
                     [$ll . 'tx_dce_domain_model_dce.backendTemplateType.inline', 'inline'],
                     [$ll . 'tx_dce_domain_model_dce.backendTemplateType.file', 'file'],
@@ -436,6 +441,7 @@ $dceTca = [
             'displayCond' => 'FIELD:enable_detailpage:=:1',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectSingle',
                 'items' => [
                     [$ll . 'tx_dce_domain_model_dce.templateType.inline', 'inline'],
                     [$ll . 'tx_dce_domain_model_dce.templateType.file', 'file'],
@@ -510,6 +516,7 @@ $dceTca = [
             'displayCond' => 'FIELD:enable_container:=:1',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectSingle',
                 'items' => [
                     [$ll . 'tx_dce_domain_model_dce.templateType.inline', 'inline'],
                     [$ll . 'tx_dce_domain_model_dce.templateType.file', 'file'],
@@ -564,10 +571,6 @@ $dceTca = [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dce.paletteFields',
             'config' => [
-                //'type' => 'input',
-                //'eval' => 'trim,is_in',
-                //'is_in' => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890-_, ',
-                //'default' => 'sys_language_uid, l18n_parent, colPos, spaceBefore, spaceAfter, section_frame, hidden',
                 'type' => 'select',
                 'renderType' => 'selectMultipleSideBySide',
                 'itemsProcFunc' => 'ArminVieweg\Dce\UserFunction\ItemsProcFunc->getAvailableTtContentColumnsForPaletteFields',

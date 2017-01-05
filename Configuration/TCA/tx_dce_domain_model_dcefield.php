@@ -25,8 +25,7 @@ $dceFieldTca = [
         'crdate' => 'crdate',
         'cruser_id' => 'cruser_id',
         'dividers2tabs' => true,
-        'versioningWS' => 2,
-        'versioning_followPages' => true,
+        'versioningWS' => true,
         'origUid' => 't3_origuid',
         'delete' => 'deleted',
         'sortby' => 'sorting',
@@ -69,6 +68,7 @@ $dceFieldTca = [
             'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.language',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectSingle',
                 'foreign_table' => 'sys_language',
                 'foreign_table_where' => 'ORDER BY sys_language.title',
                 'items' => [
@@ -83,6 +83,7 @@ $dceFieldTca = [
             'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.l18n_parent',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectSingle',
                 'items' => [
                     ['', 0],
                 ],
@@ -154,6 +155,7 @@ $dceFieldTca = [
             'label' => $ll . 'tx_dce_domain_model_dcefield.type',
             'config' => [
                 'type' => 'select',
+                'renderType' => 'selectSingle',
                 'items' => [
                     [$ll . 'tx_dce_domain_model_dcefield.type.element', 0],
                     [$ll . 'tx_dce_domain_model_dcefield.type.tab', 1],
