@@ -6,7 +6,6 @@ namespace ArminVieweg\Dce\Hooks;
  *  |
  *  | (c) 2012-2017 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
-use ArminVieweg\Dce\Components\BackendPreviewTemplates\BackendPreviewTemplate;
 use ArminVieweg\Dce\Utility\DatabaseUtility;
 use ArminVieweg\Dce\Utility\FlashMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;

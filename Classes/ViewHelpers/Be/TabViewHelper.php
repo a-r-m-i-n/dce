@@ -7,7 +7,7 @@ namespace ArminVieweg\Dce\ViewHelpers\Be;
  *  | (c) 2012 Benjamin Schulte <benj@minschulte.de>
  *  |     2012-2017 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
-use TYPO3\CMS\Fluid\Core\Rendering\RenderingContext;
+use TYPO3\CMS\Fluid\Core\Rendering\RenderingContextInterface;
 
 /**
  * This class provides the usage of backend tabs inside of backend container.
@@ -24,17 +24,17 @@ use TYPO3\CMS\Fluid\Core\Rendering\RenderingContext;
 class TabViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
     /**
-     * @var RenderingContext
+     * @var RenderingContextInterface
      */
     protected $renderingContext;
 
     /**
      * Sets the rendering context which needs to be passed on to child nodes.
      *
-     * @param RenderingContext $renderingContext the rendering context to use
+     * @param RenderingContextInterface $renderingContext the rendering context to use
      * @return void
      */
-    public function setRenderingContext(RenderingContext $renderingContext)
+    public function setRenderingContext(RenderingContextInterface $renderingContext)
     {
         parent::setRenderingContext($renderingContext);
         $this->renderingContext = $renderingContext;

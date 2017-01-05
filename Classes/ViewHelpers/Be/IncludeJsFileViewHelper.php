@@ -8,7 +8,7 @@ namespace ArminVieweg\Dce\ViewHelpers\Be;
  */
 
 /**
- * This view helper adds js file to pagerenderer
+ * This view helper adds js file to page renderer
  *
  * @package ArminVieweg\Dce
  */

@@ -51,7 +51,7 @@ class DatabaseUtility
      * Get enabledFields for given table name, respecting TYPO3_MODE. Includes deleteClause
      *
      * @param string $tableName
-     * @return string SQL where part containg enabled fields
+     * @return string SQL where part containing enabled fields
      */
     public static function getEnabledFields($tableName)
     {

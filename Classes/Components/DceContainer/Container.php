@@ -36,7 +36,6 @@ class Container
      * Container constructor
      *
      * @param Dce $firstDceInContainer
-     * @return Container
      */
     public function __construct(Dce $firstDceInContainer)
     {

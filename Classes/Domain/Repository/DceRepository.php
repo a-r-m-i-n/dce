@@ -119,14 +119,13 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             $field = clone $field;
             if ($field->getType() === DceField::TYPE_ELEMENT || $field->getType() === DceField::TYPE_SECTION) {
                 if ($field->getSectionFields()) {
-                    /** @var $clonedFields \TYPO3\CMS\Extbase\Persistence\ObjectStorage */
+                    /** @var $clonedSectionFields \TYPO3\CMS\Extbase\Persistence\ObjectStorage */
                     $clonedSectionFields = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Persistence\ObjectStorage');
                     foreach ($field->getSectionFields() as $sectionField) {
                         /** @var $clonedSectionField DceField */
                         $clonedSectionField = clone $sectionField;
                         $clonedSectionField->setValue(null);
                         $clonedSectionFields->attach($clonedSectionField);
-                        //TODO: Could be a bug here!
                         $field->setSectionFields($clonedSectionFields);
                     }
                 }

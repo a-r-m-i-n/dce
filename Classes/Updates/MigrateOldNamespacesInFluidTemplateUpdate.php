@@ -6,7 +6,6 @@ namespace ArminVieweg\Dce\Updates;
  *  |
  *  | (c) 2012-2017 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
-use TYPO3\CMS\Core\Database\DatabaseConnection;
 
 /**
  * Migrates old namespaces in fluid templates

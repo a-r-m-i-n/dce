@@ -46,8 +46,10 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /** @var string */
     protected $newTcaFieldType = '';
 
-    /** @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\ArminVieweg\Dce\Domain\Model\DceField> */
-    protected $sectionFields;
+    /**
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\ArminVieweg\Dce\Domain\Model\DceField>
+     */
+    protected $sectionFields = null;
 
     /**
      * @var \ArminVieweg\Dce\Domain\Model\Dce
@@ -260,7 +262,7 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * @return DceField[]
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\ArminVieweg\Dce\Domain\Model\DceField>
      */
     public function getSectionFields()
     {

@@ -50,7 +50,9 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     static protected $contentElementRowsCache = [];
 
-    /** @var array database field names of columns for different types of templates */
+    /**
+     * @var array Database field names of columns for different types of templates
+     */
     protected $templateFields = [
         self::TEMPLATE_FIELD_DEFAULT => [
             'type' => 'template_type',
@@ -75,9 +77,9 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     ];
 
     /**
-     * @var bool
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\ArminVieweg\Dce\Domain\Model\DceField>
      */
-    protected $hidden = false;
+    protected $fields = null;
 
     /**
      * When this DCE is located inside of a DceContainer this attribute contains its current position
@@ -89,11 +91,11 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /** @var int */
     protected $type = self::TYPE_DB;
 
+    /** @var bool */
+    protected $hidden = false;
+
     /** @var string */
     protected $title = '';
-
-    /** @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\ArminVieweg\Dce\Domain\Model\DceField> */
-    protected $fields = null;
 
     /** @var string */
     protected $templateType = '';
@@ -349,7 +351,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Gets objectStorage with fields
      *
-     * @return DceField[]
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\ArminVieweg\Dce\Domain\Model\DceField>
      */
     public function getFields()
     {
@@ -801,6 +803,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getFieldByVariable($variable)
     {
+        /** @var DceField $field */
         foreach ($this->getFields() as $field) {
             if ($field->getVariable() === $variable) {
                 return $field;

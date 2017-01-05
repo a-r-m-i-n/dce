@@ -179,8 +179,8 @@ class FixMalformedDceFieldVariableNamesUpdate extends AbstractUpdate
     /**
      * Fix given variable name
      *
-     * @param string $variableName e.g. '4DeineMudda'
-     * @return string 'deineMudda'
+     * @param string $variableName e.g. "4ExampleValue"
+     * @return string "exampleValue"
      */
     protected function fixVariableName($variableName)
     {

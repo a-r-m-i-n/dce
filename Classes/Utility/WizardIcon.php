@@ -6,7 +6,6 @@ namespace ArminVieweg\Dce\Utility;
  *  |
  *  | (c) 2012-2017 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Utility for wizard icons

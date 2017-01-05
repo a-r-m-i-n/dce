@@ -6,7 +6,6 @@ namespace ArminVieweg\Dce\Controller;
  *  |
  *  | (c) 2012-2017 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
-use ArminVieweg\Dce\Components\BackendPreviewTemplates\BackendPreviewTemplate;
 use ArminVieweg\Dce\Utility\File;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 

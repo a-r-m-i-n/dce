@@ -46,6 +46,7 @@ class DataPreprocessor extends \TYPO3\CMS\Backend\Form\DataPreprocessor
             !is_numeric($idList) &&
             static::$staticDceConfiguration !== null
         ) {
+            $row = [];
             if (isset(static::$staticDceConfiguration['fields'][$idList])) {
                 // Normal fields
                 $row = static::$staticDceConfiguration['fields'][$idList];

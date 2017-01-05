@@ -6,7 +6,6 @@ namespace ArminVieweg\Dce\ViewHelpers\Be\Version;
  *  |
  *  | (c) 2012-2017 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 /**
  * Gets the current TYPO3 version

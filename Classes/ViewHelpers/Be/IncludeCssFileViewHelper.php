@@ -8,14 +8,14 @@ namespace ArminVieweg\Dce\ViewHelpers\Be;
  */
 
 /**
- * This view helper adds css file to pagerenderer
+ * This view helper adds css file to page renderer
  *
  * @package ArminVieweg\Dce
  */
 class IncludeCssFileViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper
 {
     /**
-     * Adds css file to pagerenderer
+     * Adds css file to page renderer
      *
      * @param string $path to css file
      * @return void
