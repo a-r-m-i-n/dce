@@ -1,6 +1,3 @@
-# cat=general/paths; type=input; label=Path of filebased DCEs: Path to filebased DCEs (very experimental, do not use!)
-filebasedDcePath =
-
 # cat=general/disable; type=boolean; label=Disable automatic clear cache: If enabled, the TYPO3 system cache will not get cleared automatically on changes of DCE. You need clear it manually on field configuration changes. (not recommended)
 disableAutoClearCache = 0
 

@@ -117,7 +117,7 @@ class DocHeaderButtonsHook
     }
 
     /**
-     * Returns the uid (or identifier) of DCE of given content element
+     * Returns the uid of DCE of given content element
      *
      * @param int $contentUid uid of content element
      * @return bool|int|string

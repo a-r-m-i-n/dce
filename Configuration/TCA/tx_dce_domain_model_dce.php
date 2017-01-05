@@ -37,19 +37,12 @@ $dceTca = [
         'requestUpdate' => 'wizard_enable,wizard_icon,template_type,backend_template_type,use_simple_backend_view,' .
                            'backend_view_header,enable_detailpage,detailpage_template_type,' .
                            'enable_container,container_template_type',
-        'type' => 'type',
-        'typeicon_column' => 'type',
-        'typeicon_classes' => [
-            '0' => 'ext-dce-dce-type-databased',
-            '1' => 'ext-dce-dce-type-filebased',
-        ],
     ],
     'interface' => [
         'showRecordFieldList' => 'hidden,title,type',
     ],
     'types' => [
-        // Database DCE
-        '0' => [
+        1 => [
             'showitem' => '--palette--;;general_header,fields,initCustomJs,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.template,template_type,template_content;;;fixed-font:enable-tab,template_file,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.container,enable_container,container_item_limit,container_identifier,container_template_type,container_template,container_template_file,
@@ -58,20 +51,10 @@ $dceTca = [
 			--div--;' . $ll . 'tx_dce_domain_model_dce.detailpage,enable_detailpage,detailpage_identifier,detailpage_template_type,detailpage_template,detailpage_template_file,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.miscellaneous,cache_dce,flexform_label,hide_default_ce_wrap,
                 --palette--;' . $ll . 'tx_dce_domain_model_dce.contentRelationsPalette;content_relations,palette_fields,template_layout_root_path,template_partial_root_path'
-        ],
-        // Filebased DCE
-        '1' => [
-            'showitem' => '--palette--;;general_header,fields,initCustomJs,
-			--div--;' . $ll . 'tx_dce_domain_model_dce.template,template_content;;;fixed-font:enable-tab,template_file,
-			--div--;' . $ll . 'tx_dce_domain_model_dce.container,enable_container,container_item_limit,container_identifier,container_template_type,container_template,container_template_file,
-			--div--;' . $ll . 'tx_dce_domain_model_dce.backendTemplate,use_simple_backend_view,backend_view_header,backend_view_bodytext,backend_template_type,backend_template_content,backend_template_file,
-			--div--;' . $ll . 'tx_dce_domain_model_dce.wizard,wizard_icon,wizard_custom_icon,wizard_enable,wizard_category,wizard_description,
-			--div--;' . $ll . 'tx_dce_domain_model_dce.detailpage,enable_detailpage,detailpage_identifier,detailpage_template,detailpage_template_file,
-			--div--;' . $ll . 'tx_dce_domain_model_dce.miscellaneous,cache_dce,flexform_label,hide_default_ce_wrap,show_access_tab,show_category_tab,palette_fields,template_layout_root_path,template_partial_root_path'
-        ],
+        ]
     ],
     'palettes' => [
-        'general_header' => ['showitem' => 'title,type,hidden', 'canNotCollapse' => true],
+        'general_header' => ['showitem' => 'title,hidden', 'canNotCollapse' => true],
         'content_relations' => ['showitem' => 'show_access_tab,show_media_tab,show_category_tab', 'canNotCollapse' => true],
     ],
     'columns' => [
@@ -129,28 +112,6 @@ $dceTca = [
             'label' => $ll . 'tx_dce_domain_model_dce.hidden',
             'config' => [
                 'type' => 'check',
-            ],
-        ],
-        'type' => [
-            'exclude' => 0,
-            'label' => $ll . 'tx_dce_domain_model_dce.type',
-            'config' => [
-                'type' => 'select',
-                'items' => [
-                    [$ll . 'tx_dce_domain_model_dce.type.databased', 0],
-                    [$ll . 'tx_dce_domain_model_dce.type.filebased', 1],
-                ],
-                'readOnly' => true,
-            ],
-        ],
-        'identifier' => [
-            'exclude' => 0,
-            'label' => $ll . 'tx_dce_domain_model_dce.identifier',
-            'config' => [
-                'type' => 'input',
-                'size' => 30,
-                'eval' => 'trim,required',
-                'default' => 'dce_'
             ],
         ],
         'title' => [

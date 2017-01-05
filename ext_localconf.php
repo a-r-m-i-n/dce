@@ -51,12 +51,6 @@ $boot = function ($extensionKey) {
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['Backend\Template\Components\ButtonBar']['getButtonsHook']['Dce'] =
         'ArminVieweg\Dce\Hooks\DocHeaderButtonsHook->addDcePopupButton';
 
-
-    // DataPreprocessor XClass
-    $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Backend\\Form\\DataPreprocessor'] = [
-        'className' => 'ArminVieweg\Dce\XClass\DataPreprocessor',
-    ];
-
     // LiveSearch XClass
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Backend\\Search\\LiveSearch\\LiveSearch'] = [
         'className' => 'ArminVieweg\Dce\XClass\LiveSearch',

@@ -12,24 +12,24 @@ $GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'][] = [
 ]);
 <f:for each="{dceArray}" as="dce">
 <f:if condition="{dce.hidden} == 0">
-	///////////////////////////////////////////////////// {f:if(condition:"{dce.uid}", then:"uid: {dce.uid}", else:"identifier: {dce.identifier}")} ///
+	///////////////////////////////////////////////////// uid: {dce.uid} ///
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTcaSelectItem(
 	'tt_content',
 	'CType',
 	[
 		'{dce.title -> dce:format.addcslashes()}',
-		'{f:if(condition:"{dce.uid}", then:"dce_dceuid{dce.uid}", else:"dce_{dce.identifier}")}',
+		'dce_dceuid{dce.uid}',
 		'<f:if condition="{dce.hasCustomWizardIcon}"><f:then>ext-dce-dceuid{dce.uid}-customwizardicon</f:then><f:else>{dce.wizard_icon}</f:else></f:if>'
 	]
 );
 
-$GLOBALS['TCA']['tt_content']['ctrl']['typeicon_classes']['{f:if(condition:"{dce.uid}", then:"dce_dceuid{dce.uid}", else:"dce_{dce.identifier}")}'] =
+$GLOBALS['TCA']['tt_content']['ctrl']['typeicon_classes']['dce_dceuid{dce.uid}'] =
 '<f:if condition="{dce.hasCustomWizardIcon}"><f:then>ext-dce-dceuid{dce.uid}-customwizardicon</f:then><f:else>{dce.wizard_icon}</f:else></f:if>';
 
-$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['dce_{f:if(condition:"{dce.uid}", then:"dceuid{dce.uid}", else:"dce_{dce.identifier}")}'] = 'pi_flexform';
-$GLOBALS['TCA']['tt_content']['columns']['pi_flexform']['config']['ds'][',dce_{f:if(condition:"{dce.uid}", then:"dceuid{dce.uid}", else:"dce_{dce.identifier}")}'] = '<dce:format.tiny><f:render partial="FlexFormsXML" arguments="{dce:dce}"></f:render></dce:format.tiny>';
-$GLOBALS['TCA']['tt_content']['types']['dce_{f:if(condition:"{dce.uid}", then:"dceuid{dce.uid}", else:"dce_{dce.identifier}")}']['showitem'] = '<dce:format.tiny>
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['dce_dceuid{dce.uid}'] = 'pi_flexform';
+$GLOBALS['TCA']['tt_content']['columns']['pi_flexform']['config']['ds'][',dce_dceuid{dce.uid}'] = '<dce:format.tiny><f:render partial="FlexFormsXML" arguments="{dce:dce}"></f:render></dce:format.tiny>';
+$GLOBALS['TCA']['tt_content']['types']['dce_dceuid{dce.uid}']['showitem'] = '<dce:format.tiny>
 	--palette--;;dce_palette_{dce.uid}_head,
 	--palette--;;dce_palette_{dce.uid},
 	pi_flexform,

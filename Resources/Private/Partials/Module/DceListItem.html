@@ -3,10 +3,7 @@
 <f:alias map="{lll: 'LLL:EXT:dce/Resources/Private/Language/locallang_mod.xml:'}">
     <tr class="{f:if(condition:'{dce.uid}', then:'db', else:'file')}">
         <td class="listEntry">
-            <f:if condition="{dce.uid}">
-                <f:then><a href="{f:render(partial:'Module/OpenDce', arguments:'{uid:\'{dce.uid}\'}') -> dce:format.tiny()}" class="overlayLink"></a></f:then>
-                <f:else><a href="{f:render(partial:'Module/OpenStaticDce', arguments:'{identifier:\'{dce.identifier}\'}')} -> dce:format.tiny()" class="overlayLink"></a></f:else>
-            </f:if>
+            <a href="{f:render(partial:'Module/OpenDce', arguments:'{uid:\'{dce.uid}\'}') -> dce:format.tiny()}" class="overlayLink"></a>
 
 			<f:render partial="Module/ListItem/TypeIcon" arguments="{dce:dce}" />
 
@@ -76,10 +73,7 @@
                 <f:if condition="{dce.hasTcaMappings}">
                     <f:link.action class="btn btn-default" action="updateTcaMappings" arguments="{dce:dce}"><f:translate key="{lll}updateTcaMappings" /></f:link.action>
                 </f:if>
-                <f:if condition="{dce.uid}">
-                    <f:then><a href="{f:render(partial:'Module/OpenDce', arguments:'{uid:\'{dce.uid}\'}') -> dce:format.tiny()}" class="btn btn-primary"><span class="fa fa-edit"></span> {f:translate(key:'{lll}edit')}</a></f:then>
-                    <f:else><a href="{f:render(partial:'Module/OpenStaticDce', arguments:'{identifier:\'{dce.identifier}\'}') -> dce:format.tiny()}" class="btn btn-primary"><span class="fa fa-edit"></span> {f:translate(key:'{lll}edit')}</a></f:else>
-                </f:if>
+                <a href="{f:render(partial:'Module/OpenDce', arguments:'{uid:\'{dce.uid}\'}') -> dce:format.tiny()}" class="btn btn-primary"><span class="fa fa-edit"></span> {f:translate(key:'{lll}edit')}</a>
             </div>
         </td>
     </tr>

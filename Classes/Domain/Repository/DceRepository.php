@@ -32,10 +32,6 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      */
     public function findAllAndStatics($includeHidden = false)
     {
-        /** @var \ArminVieweg\Dce\Utility\StaticDce $staticDceUtility */
-        $staticDceUtility = GeneralUtility::makeInstance('ArminVieweg\Dce\Utility\StaticDce');
-        $staticDces = $staticDceUtility->getAll();
-
         if ($includeHidden) {
             /** @var \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings $querySettings */
             $querySettings = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings');
@@ -43,8 +39,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             $this->setDefaultQuerySettings($querySettings);
         }
         $this->setDefaultOrderings(['sorting' => QueryInterface::ORDER_ASCENDING]);
-        $databaseDces = $this->findAll()->toArray();
-        return array_merge($databaseDces, $staticDces);
+        return $this->findAll()->toArray();
     }
 
     /**
@@ -65,19 +60,11 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         }
         $this->disableRespectOfEnableFields();
 
-        if (is_numeric($uid)) {
-            /** @var $dce \ArminVieweg\Dce\Domain\Model\Dce */
-            $dce = $this->findByUid($uid);
-        } else {
-            /** @var \ArminVieweg\Dce\Utility\StaticDce $staticDceUtility */
-            $staticDceUtility = GeneralUtility::makeInstance('ArminVieweg\Dce\Utility\StaticDce');
-            $dce = $staticDceUtility->getStaticDceModel($uid);
-        }
+        /** @var $dce \ArminVieweg\Dce\Domain\Model\Dce */
+        $dce = $this->findByUid($uid);
+
         if (get_class($dce) !== 'ArminVieweg\Dce\Domain\Model\Dce') {
-            if (is_int($uid)) {
-                throw new \UnexpectedValueException('No DCE found with uid "' . $uid . '".', 1328613288);
-            }
-            throw new \UnexpectedValueException('No static DCE found with identifier "' . $uid . '".', 1328613289);
+            throw new \UnexpectedValueException('No DCE found with uid "' . $uid . '".', 1328613288);
         }
         $dce = clone $dce;
         $this->cloneFields($dce);

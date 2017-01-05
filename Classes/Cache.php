@@ -68,11 +68,7 @@ class Cache
             ExtensionManagementUtility::extPath('dce') . 'Resources/Private/Templates/DceSource/localconf.html'
         );
 
-        /** @var \ArminVieweg\Dce\Utility\StaticDce $staticDceUtility */
-        $staticDceUtility = GeneralUtility::makeInstance('ArminVieweg\Dce\Utility\StaticDce');
-
-        $dces = array_merge($this->getDatabaseDce(), $staticDceUtility->getAll());
-        $this->fluidTemplate->assign('dceArray', $dces);
+        $this->fluidTemplate->assign('dceArray', $this->getDatabaseDce());
         $this->saveCacheData(self::CACHE_TYPE_EXTLOCALCONF, $this->fluidTemplate->render());
     }
 
@@ -91,11 +87,7 @@ class Cache
             ExtensionManagementUtility::extPath('dce') . 'Resources/Private/Templates/DceSource/ext_tables.html'
         );
 
-        /** @var \ArminVieweg\Dce\Utility\StaticDce $staticDceUtility */
-        $staticDceUtility = GeneralUtility::makeInstance('ArminVieweg\Dce\Utility\StaticDce');
-
-        $dces = array_merge($this->getDatabaseDce(), $staticDceUtility->getAll(true));
-
+        $dces = $this->getDatabaseDce();
         if (ExtensionManagementUtility::isLoaded('gridelements')) {
             $dces = $this->ensureGridelementsFieldCompatibility($dces);
         }

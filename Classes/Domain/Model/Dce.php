@@ -30,11 +30,6 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /** Identifier for backend template */
     const TEMPLATE_FIELD_BACKEND_TEMPLATE = 5;
 
-    /** Type for databased stored DCEs */
-    const TYPE_DB = 0;
-    /** Type for filebased DCEs */
-    const TYPE_FILE = 1;
-
     /**
      * @var array Cache for fluid instances
      */
@@ -87,9 +82,6 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var array|null
      */
     protected $containerIterator = null;
-
-    /** @var int */
-    protected $type = self::TYPE_DB;
 
     /** @var bool */
     protected $hidden = false;
@@ -228,22 +220,6 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setContainerIterator($containerIterator)
     {
         $this->containerIterator = $containerIterator;
-    }
-
-    /**
-     * @return int
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
-     * @param int $type
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
     }
 
     /**
