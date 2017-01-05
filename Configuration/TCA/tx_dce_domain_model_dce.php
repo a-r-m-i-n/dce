@@ -63,8 +63,7 @@ $dceTca = [
             'label' => '',
             'config' => [
                 'type' => 'user',
-                'userFunc' => 'EXT:dce/Classes/UserFunction/UserFields/InitCustomJavaScriptField.php:' .
-                    'ArminVieweg\Dce\UserFunction\UserFields\InitCustomJavaScriptField->init'
+                'userFunc' => 'ArminVieweg\Dce\UserFunction\UserFields\InitCustomJavaScriptField->init'
             ]
         ],
         'sys_language_uid' => [
@@ -233,8 +232,7 @@ $dceTca = [
             'config' => [
                 'type' => 'user',
                 'size' => '30',
-                'userFunc' => 'EXT:dce/Classes/UserFunction/UserFields/CodemirrorField.php:' .
-                    'ArminVieweg\Dce\UserFunction\UserFields\CodemirrorField->getCodemirrorField',
+                'userFunc' => 'ArminVieweg\Dce\UserFunction\UserFields\CodemirrorField->getCodemirrorField',
                 'parameters' => [
                     'mode' => 'htmlmixed',
                     'showTemplates' => false,
@@ -363,8 +361,7 @@ $dceTca = [
             'config' => [
                 'type' => 'user',
                 'size' => '30',
-                'userFunc' => 'EXT:dce/Classes/UserFunction/UserFields/CodemirrorField.php:' .
-                    'ArminVieweg\Dce\UserFunction\UserFields\CodemirrorField->getCodemirrorField',
+                'userFunc' => 'ArminVieweg\Dce\UserFunction\UserFields\CodemirrorField->getCodemirrorField',
                 'parameters' => [
                     'mode' => 'htmlmixed',
                     'showTemplates' => false,
@@ -461,8 +458,7 @@ $dceTca = [
             'config' => [
                 'type' => 'user',
                 'size' => '30',
-                'userFunc' => 'EXT:dce/Classes/UserFunction/UserFields/CodemirrorField.php:' .
-                    'ArminVieweg\Dce\UserFunction\UserFields\CodemirrorField->getCodemirrorField',
+                'userFunc' => 'ArminVieweg\Dce\UserFunction\UserFields\CodemirrorField->getCodemirrorField',
                 'parameters' => [
                     'mode' => 'htmlmixed',
                     'showTemplates' => false,
@@ -536,8 +532,7 @@ $dceTca = [
             'config' => [
                 'type' => 'user',
                 'size' => '30',
-                'userFunc' => 'EXT:dce/Classes/UserFunction/UserFields/CodemirrorField.php:' .
-                    'ArminVieweg\Dce\UserFunction\UserFields\CodemirrorField->getCodemirrorField',
+                'userFunc' => 'ArminVieweg\Dce\UserFunction\UserFields\CodemirrorField->getCodemirrorField',
                 'parameters' => [
                     'mode' => 'htmlmixed',
                     'doNotShowFields' => true,

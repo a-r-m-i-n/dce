@@ -191,8 +191,7 @@ $dceFieldTca = [
             'config' => [
                 'type' => 'user',
                 'size' => '30',
-                'userFunc' => 'EXT:dce/Classes/UserFunction/UserFields/CodemirrorField.php:' .
-                    'ArminVieweg\Dce\UserFunction\UserFields\CodemirrorField->getCodemirrorField',
+                'userFunc' => 'ArminVieweg\Dce\UserFunction\UserFields\CodemirrorField->getCodemirrorField',
                 'parameters' => [
                     'mode' => 'xml',
                     'showTemplates' => true,

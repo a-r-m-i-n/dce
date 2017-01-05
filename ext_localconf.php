@@ -19,32 +19,27 @@ $boot = function ($extensionKey) {
 
     // ImportExport Hooks
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/impexp/class.tx_impexp.php']['before_setRelation']['dce'] =
-        'EXT:' . $extensionKey . '/Classes/Hooks/ImportExportHook.php:' .
         'ArminVieweg\\Dce\\Hooks\\ImportExportHook->beforeSetRelation';
 
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/impexp/class.tx_impexp.php']['before_writeRecordsRecords']['dce'] =
-        'EXT:' . $extensionKey . '/Classes/Hooks/ImportExportHook.php:' .
         'ArminVieweg\\Dce\\Hooks\\ImportExportHook->beforeWriteRecordsRecords';
 
     // PageLayoutView DrawItem Hook for DCE content elements
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['tt_content_drawItem']['dce'] =
-        'EXT:' . $extensionKey . '/Classes/Hooks/PageLayoutViewDrawItemHook.php:' .
         'ArminVieweg\\Dce\\Hooks\\PageLayoutViewDrawItemHook';
 
     // Clear cache hook
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc']['dce'] =
-        'EXT:' . $extensionKey . '/Classes/Hooks/ClearCachePostHook.php:' .
         'ArminVieweg\\Dce\\Hooks\\ClearCachePostHook->clearDceCache';
 
     // Make edit form access check hook
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['typo3/alt_doc.php']['makeEditForm_accessCheck']['dce'] =
-        'EXT:' . $extensionKey . '/Classes/Hooks/MakeEditFormAccessCheckHook.php:' .
         'ArminVieweg\\Dce\\Hooks\\MakeEditFormAccessCheckHook->checkAccess';
 
     // Register ke_search hook to be able to index DCE frontend output
     if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('ke_search')) {
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['ke_search']['modifyContentFromContentElement'][] =
-            'EXT:' . $extensionKey . '/Classes/Hooks/KeSearchHook.php:ArminVieweg\\Dce\\Hooks\\KeSearchHook';
+            'ArminVieweg\\Dce\\Hooks\\KeSearchHook';
     }
 
     // DocHeader buttons hook
