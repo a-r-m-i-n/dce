@@ -11,7 +11,7 @@ if (!defined('TYPO3_MODE')) {
 }
 
 $ll = 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:';
-$extensionPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('dce');
+$extensionPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath('dce');
 
 $dceTca = [
     'ctrl' => [
@@ -32,6 +32,7 @@ $dceTca = [
             'starttime' => 'starttime',
             'endtime' => 'endtime',
         ],
+        'iconfile' => $extensionPath . 'Resources/Public/Icons/ext_icon.png',
         'copyAfterDuplFields' => 'fields',
         'requestUpdate' => 'wizard_enable,wizard_icon,template_type,backend_template_type,use_simple_backend_view,' .
                            'backend_view_header,enable_detailpage,detailpage_template_type,' .

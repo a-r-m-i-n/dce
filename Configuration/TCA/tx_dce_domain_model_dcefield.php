@@ -11,7 +11,7 @@ if (!defined('TYPO3_MODE')) {
 }
 
 $ll = 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:';
-$extensionPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('dce');
+$extensionPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath('dce');
 
 $dceFieldTca = [
     'ctrl' => [

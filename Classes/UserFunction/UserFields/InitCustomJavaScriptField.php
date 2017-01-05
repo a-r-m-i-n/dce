@@ -24,7 +24,11 @@ class InitCustomJavaScriptField
     {
         /** @var \TYPO3\CMS\Core\Page\PageRenderer $pageRenderer */
         $pageRenderer = GeneralUtility::makeInstance('TYPO3\CMS\Core\Page\PageRenderer');
-        $extPath = ExtensionManagementUtility::extRelPath('dce');
+        $extPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath('dce');
+
+        if (isset($_SERVER['SCRIPT_NAME'])) {
+            $extPath = str_repeat('../', substr_count(dirname($_SERVER['SCRIPT_NAME']), '/')) . $extPath;
+        }
 
         // Include JavaScripts
         $pageRenderer->addJsFile($extPath . 'Resources/Public/JavaScript/InitializeCodemirror.js');
