@@ -194,7 +194,9 @@ class AfterSaveHook
      */
     protected function isDceContentElement(\TYPO3\CMS\Core\DataHandling\DataHandler $pObj)
     {
-        $datamap = reset(reset($pObj->datamap));
+        $datamap = $pObj->datamap;
+        $datamap = reset($datamap);
+        $datamap = reset($datamap);
         return (strpos($datamap['CType'], 'dce_dceuid') !== false);
     }
 
