@@ -115,7 +115,7 @@ $dceFieldTca = [
         'sorting' => [
             'label' => 'Sorting',
             'config' => [
-                'passthrough'
+                'type' => 'passthrough',
             ]
         ],
         'starttime' => [
