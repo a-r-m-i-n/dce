@@ -34,7 +34,7 @@ class DocHeaderButtonsHook
             /** @var \TYPO3\CMS\Core\Imaging\IconFactory $iconFactory */
             $iconFactory = GeneralUtility::makeInstance('TYPO3\CMS\Core\Imaging\IconFactory');
             $button = $buttonBar->makeLinkButton();
-            $button->setIcon($iconFactory->getIcon('ext-dce-dce-type-databased', Icon::SIZE_SMALL));
+            $button->setIcon($iconFactory->getIcon('ext-dce-dce', Icon::SIZE_SMALL));
             $button->setTitle(LocalizationUtility::translate('editDceOfThisContentElement', 'dce'));
             $button->setOnClick(
                 'window.open(\'' . $this->getDceEditLink($contentUid) . '\', \'editDcePopup\', ' .

@@ -68,6 +68,12 @@ $boot = function ($extensionKey) {
 
     /** @var \TYPO3\CMS\Core\Imaging\IconRegistry $iconRegistry */
     $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\Imaging\IconRegistry');
+    // DCE Icon
+    $iconRegistry->registerIcon(
+        'ext-dce-dce',
+        'TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider',
+        ['source' => 'EXT:dce/Resources/Public/Icons/ext_icon.png']
+    );
     // DCE Field Type Icons
     $iconRegistry->registerIcon(
         'ext-dce-dcefield-type-element',
