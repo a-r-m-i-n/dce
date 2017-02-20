@@ -43,7 +43,7 @@ $dceTca = [
     ],
     'types' => [
         1 => [
-            'showitem' => '--palette--;;general_header,fields,initCustomJs,
+            'showitem' => '--palette--;;general_header,fields,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.template,template_type,template_content;;;fixed-font:enable-tab,template_file,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.container,enable_container,container_item_limit,container_identifier,container_template_type,container_template,container_template_file,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.backendTemplate,use_simple_backend_view,backend_view_header,backend_view_bodytext,backend_template_type,backend_template_content,backend_template_file,
@@ -58,14 +58,6 @@ $dceTca = [
         'content_relations' => ['showitem' => 'show_access_tab,show_media_tab,show_category_tab', 'canNotCollapse' => true],
     ],
     'columns' => [
-        'initCustomJs' => [
-            'exclude' => 0,
-            'label' => '',
-            'config' => [
-                'type' => 'user',
-                'userFunc' => 'ArminVieweg\Dce\UserFunction\UserFields\InitCustomJavaScriptField->init'
-            ]
-        ],
         'sys_language_uid' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.language',

@@ -11,13 +11,14 @@ TYPO3.dce.codemirrorCycle = TYPO3.dce.codemirrorCycle || 0;
  * @param {string} mode
  * @return void
  */
-function initCodeMirrorEditor($textarea, mode) {
+TYPO3.dce.initCodeMirrorEditor = function($textarea, mode) {
 	var $ = TYPO3.jQuery;
+	var textarea = $textarea;
 	require([
 		"../typo3conf/ext/dce/Resources/Public/JavaScript/Contrib/codemirror/lib/codemirror",
 		"../typo3conf/ext/dce/Resources/Public/JavaScript/Contrib/codemirror/mode/htmlmixed/htmlmixed"
 	], function(CodeMirror) {
-		var editor = CodeMirror.fromTextArea($textarea.get(0), {
+		var editor = CodeMirror.fromTextArea(textarea.get(0), {
 			mode: mode,
 			indentUnit: 4,
 			tabSize: 4,
@@ -66,4 +67,4 @@ function initCodeMirrorEditor($textarea, mode) {
 			}
 		});
 	});
-}
+};

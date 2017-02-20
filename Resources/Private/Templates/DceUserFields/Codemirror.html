@@ -1,4 +1,11 @@
 {namespace dce=ArminVieweg\Dce\ViewHelpers}
+
+<dce:be.includeJsFile path="{f:uri.resource(path:'JavaScript/InitializeCodemirror.js', extensionName:'dce')}" />
+<dce:be.includeJsFile path="{f:uri.resource(path:'JavaScript/EnhanceIrre.js', extensionName:'dce')}" />
+
+<dce:be.includeCssFile path="{f:uri.resource(path:'JavaScript/Contrib/codemirror/lib/codemirror.css', extensionName:'dce')}" />
+<dce:be.includeCssFile path="{f:uri.resource(path:'Css/custom_codemirror.css', extensionName:'dce')}" />
+
 <div id="dceConfigurationWizard">
 	<f:if condition="{disableCodemirror}">
 		<f:then></f:then>
@@ -22,7 +29,7 @@
 	<f:then></f:then>
 	<f:else>
 		<script type="text/javascript">
-			initCodeMirrorEditor(TYPO3.jQuery('#codemirror_{uniqueIdentifier}'), '{parameters.mode}');
+			TYPO3.dce.initCodeMirrorEditor(TYPO3.jQuery('#codemirror_{uniqueIdentifier}'), '{parameters.mode}');
 		</script>
 	</f:else>
 </f:if>
