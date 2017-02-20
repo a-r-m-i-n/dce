@@ -8,6 +8,7 @@ namespace ArminVieweg\Dce\Utility;
  */
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\StringUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /**
@@ -44,6 +45,10 @@ class DatabaseUtility
             'tt_content',
             'uid = ' . $uid
         );
+
+        if (!StringUtility::beginsWith($contentElement['CType'], 'dce_dceuid')) {
+            return 0;
+        }
         return intval(substr($contentElement['CType'], strlen('dce_dceuid')));
     }
 
