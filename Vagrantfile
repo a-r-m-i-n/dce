@@ -54,14 +54,6 @@ Vagrant.configure("2") do |config|
   SHELL
 
 
-
-
-  config.vm.provider "virtualbox" do |v|
-      v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
-      v.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
-  end
-
-
 # Initial setup
 # sudo LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php > /dev/null  2>&1
 # sudo apt-get -qq update
