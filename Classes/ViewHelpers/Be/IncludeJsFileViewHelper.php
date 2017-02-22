@@ -8,22 +8,32 @@ namespace ArminVieweg\Dce\ViewHelpers\Be;
  */
 
 /**
- * This view helper adds js file to page renderer
+ * This view helper adds inline javascript
  *
  * @package ArminVieweg\Dce
  */
 class IncludeJsFileViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper
 {
     /**
-     * Adds js file to PageRenderer
+     * Plain HTML should be returned, no output escaping allowed
+     *
+     * @var bool
+     */
+    protected $escapeOutput = false;
+
+    /**
+     * Load js file and put contents to inline <script> tag
      *
      * @param string $path to js file
-     * @return void
+     * @return string
      */
     public function render($path)
     {
-        /** @var \TYPO3\CMS\Core\Page\PageRenderer $pageRenderer */
-        $pageRenderer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\Page\PageRenderer');
-        $pageRenderer->addJsFile($path);
+        $absPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($path);
+        if ($absPath) {
+            $contents = file_get_contents($absPath);
+            return '<script type="text/javascript">' . $contents . '</script>';
+        }
+        return '<script type="text/javascript">console.error("File ' . $path . ' not found.")</script>';
     }
 }

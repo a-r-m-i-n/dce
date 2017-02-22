@@ -1,10 +1,9 @@
 {namespace dce=ArminVieweg\Dce\ViewHelpers}
 
-<dce:be.includeJsFile path="{f:uri.resource(path:'JavaScript/InitializeCodemirror.js', extensionName:'dce')}" />
-<dce:be.includeJsFile path="{f:uri.resource(path:'JavaScript/EnhanceIrre.js', extensionName:'dce')}" />
+<dce:be.includeJsFile path="EXT:dce/Resources/Public/JavaScript/InitializeCodemirror.js" />
 
-<dce:be.includeCssFile path="{f:uri.resource(path:'JavaScript/Contrib/codemirror/lib/codemirror.css', extensionName:'dce')}" />
-<dce:be.includeCssFile path="{f:uri.resource(path:'Css/custom_codemirror.css', extensionName:'dce')}" />
+<dce:be.includeCssFile path="EXT:dce/Resources/Public/JavaScript/Contrib/codemirror/lib/codemirror.css" />
+<dce:be.includeCssFile path="EXT:dce/Resources/Public/Css/custom_codemirror.css" />
 
 <div id="dceConfigurationWizard">
 	<f:if condition="{disableCodemirror}">
