@@ -54,8 +54,8 @@ class DceFieldLabel
             } else {
                 $parentFieldRow = ['variable' => $parameter['parent']['uid']];
             }
-            $parameter['title'] = $parameter['row']['title'] . ' <i style="font-weight: normal">{field.' .
-                $parentFieldRow['variable'] . '.n.' . $parameter['row']['variable'] . '}';
+            $parameter['title'] = $parameter['row']['title'] .
+                ' - {field.' . $parentFieldRow['variable'] . '.n.' . $parameter['row']['variable'] . '}';
         }
     }
 
