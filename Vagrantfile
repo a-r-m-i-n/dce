@@ -18,7 +18,7 @@ Vagrant.configure("2") do |config|
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
-  config.vm.network "private_network", ip: "192.168.0.100"
+  config.vm.network "private_network", ip: "192.168.56.150"
 
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
@@ -46,11 +46,17 @@ Vagrant.configure("2") do |config|
 
 
   config.vm.provision "shell", inline: <<-SHELL
-  	sudo rm -Rf /var/www/html/*
-  	composer create-project instituteweb/iw_master --no-dev /var/www/html
-  	rm /var/www/html/
-  	composer require arminvieweg/dce:"dev-master" --working-dir /var/www/html
+    sudo cd /var/www/html
+    sudo rm -Rf *
+    composer require typo3/cms:"^8.6"
+    composer require arminvieweg/dce:"dev-master"
 
+    sudo chown -R vagrant /var/www/html
+    sudo chgrp -R www-data /var/www/html
+    sudo chmod -R 0755 /var/www/html
+    sudo chmod -R g+w /var/www/html
+
+    touch FIRST_INSTALL
   SHELL
 
 
