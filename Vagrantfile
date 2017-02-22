@@ -18,7 +18,7 @@ Vagrant.configure("2") do |config|
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
-  config.vm.network "private_network", ip: "192.168.56.150"
+  config.vm.network "private_network", ip: "192.168.0.100"
 
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
@@ -43,43 +43,5 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", run: "always", inline: <<-SHELL
   	sudo composer self-update
   SHELL
-
-
-  config.vm.provision "shell", inline: <<-SHELL
-    sudo cd /var/www/html
-    sudo rm -Rf *
-    composer require typo3/cms:"^8.6"
-    composer require arminvieweg/dce:"dev-master"
-
-    sudo chown -R vagrant /var/www/html
-    sudo chgrp -R www-data /var/www/html
-    sudo chmod -R 0755 /var/www/html
-    sudo chmod -R g+w /var/www/html
-
-    touch FIRST_INSTALL
-  SHELL
-
-
-# Initial setup
-# sudo LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php > /dev/null  2>&1
-# sudo apt-get -qq update
-# sudo apt-get -qq install apache2
-# sudo apt-get -qq install python-software-properties software-properties-common
-# sudo apt-get -qq install php7.0
-# sudo apt-get -qq install php7.0-mysql php7.0-zip php7.0-gd php7.0-common php7.0-mcrypt php7.0-curl php7.0-xml php7.0-soap
-# export DEBIAN_FRONTEND=noninteractive
-# sudo -E apt-get -y -q install mysql-server
-# sudo apt-get -qq install mysql-client
-# sudo apt-get -qq install imagemagick
-# sudo apt-get -qq install curl
-# sudo apt-get -qq install git
-# curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
-#
-# sudo echo "max_execution_time = 360" >> /etc/php/7.0/apache2/php.ini
-# sudo echo "max_input_vars = 1500" >> /etc/php/7.0/apache2/php.ini
-# sudo echo "max_execution_time = 360" >> /etc/php/7.0/cli/php.ini
-# sudo echo "max_input_vars = 1500" >> /etc/php/7.0/cli/php.ini
-# sudo service apache2 restart
-
 
 end
