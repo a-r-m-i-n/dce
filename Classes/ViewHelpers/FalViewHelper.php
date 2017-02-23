@@ -26,6 +26,7 @@ class FalViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
      * @param string $tableName If you want to specify another table than tt_content
      * @param int $uid If positive, it overwrites the (localized) uid from contentObject
      * @return array|string String or array with found media
+     * @see \ArminVieweg\Dce\Domain\Repository\DceRepository::createObjectsByFieldConfiguration:396
      */
     public function render($field, array $contentObject, $localizeUid = true, $tableName = 'tt_content', $uid = 0)
     {

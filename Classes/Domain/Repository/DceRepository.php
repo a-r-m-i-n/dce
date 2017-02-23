@@ -211,7 +211,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                 $objects = $this->createObjectsByFieldConfiguration(
                     $fieldValue,
                     $dceFieldConfiguration,
-                    $contentObject['uid']
+                    $contentObject
                 );
             }
             if (isset($objects) && $dceFieldConfiguration['dce_get_first']) {
@@ -361,10 +361,10 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      *
      * @param string $fieldValue Comma separated list of uids
      * @param array $dceFieldConfiguration
-     * @param int $contentUid Uid of content item (required by FAL)
+     * @param array $contentObject Content object (required by FAL viewhelper)
      * @return array
      */
-    protected function createObjectsByFieldConfiguration($fieldValue, array $dceFieldConfiguration, $contentUid)
+    protected function createObjectsByFieldConfiguration($fieldValue, array $dceFieldConfiguration, $contentObject)
     {
         $objects = [];
 
@@ -394,12 +394,12 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         }
 
         if ($dceFieldConfiguration['dce_get_fal_objects'] && strtolower($className) === 'sys_file_reference') {
-            /** @var \TYPO3\CMS\Core\Resource\FileRepository $fileRepository */
-            $fileRepository = GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\FileRepository');
-            return $fileRepository->findByRelation(
-                'tt_content',
+            $falViewHelper = new \ArminVieweg\Dce\ViewHelpers\FalViewHelper();
+            return $falViewHelper->render(
                 $dceFieldConfiguration['foreign_match_fields']['fieldname'],
-                $contentUid
+                $contentObject,
+                $dceFieldConfiguration['dce_enable_autotranslation'] === false ? false : true,
+                'tt_content'
             );
         }
 
