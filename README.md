@@ -17,7 +17,7 @@ If you have any questions feel free to contact me.
 
 
 ## Vagrant setup
-A Vagrantfile is shipped with DCE. Open http://192.168.0.100 (default IP address) in your browser after you've performed a 
+A Vagrantfile is shipped with DCE. Open http://127.0.0.1:8080 in your browser after you've performed a 
 ```
 vagrant up
 ```
@@ -31,8 +31,8 @@ and has preinstalled:
 - Imagemagick
 - Git
 - Composer (with auto self-update on vagrant up)
-- TYPO3 8.x
-- DCE dev-master
+- TYPO3 8.7 LTS
+- DCE (dev-master)
 
 ## Deployer tasks
 Also DCE provides a few deployer tasks which help to work on DCE within the vagrant machine.
@@ -45,7 +45,7 @@ $ composer global require deployer/deployer jasonlewis/resource-watcher
 Changed current directory to C:/Users/xxx/AppData/Roaming/Composer
 ```
 Assuming you've added the *C:/Users/xxx/AppData/Roaming/Composer/vendor/bin* directory to your PATH variable, 
-you can now use the tasks. Maybe you have to restart all opened CLIs. This is a windows example.
+you can now use the tasks. Maybe you have to restart all opened CLIs.
 
 ### Call a deployer task
 To call a deployer task you just need to type
@@ -60,13 +60,16 @@ The most important tasks are:
 
 #### dep set-up
 This is useful, when you want a clean fresh installation of DCE.
-It executes the tasks **clear** and **upload**.
+It executes the tasks **require**, **clear** and **upload**.
+
+#### dep require
+Requires dce extension on remote TYPO3.
 
 #### dep clear
 Clears the configured `deploy_paths`, which means removing the whole directory.
 
 #### dep upload
-Uploads all files except the excluded ones (`exclude_from_upload`).
+Uploads all local files except the excluded ones (`exclude_from_upload`).
 
 #### dep watch
 File watcher registers every change of any file in your project and uploads them 

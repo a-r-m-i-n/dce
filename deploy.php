@@ -17,13 +17,15 @@ set('exclude_from_upload', [
 
 set('bin/rm', 'rm -Rf ');
 set('bin/touch', 'touch ');
+set('bin/composer:require', 'composer require arminvieweg/dce:"dev-master" --no-ansi -n');
 set('bin/composer:install', 'composer install --no-ansi -n');
 set('bin/composer:update', 'composer update --no-ansi -n');
 
-server('vagrant', '192.168.0.100')
+server('vagrant', '127.0.0.1', 2222)
     ->user('vagrant')
     ->password('vagrant')
-    ->set('deploy_path', ['/var/www/html/typo3conf/ext/dce']);
+    ->set('htdocs', '/var/www/html')
+    ->set('deploy_paths', ['/var/www/html/typo3conf/ext/dce']);
 
 // Tasks
 
@@ -93,18 +95,30 @@ task('upload', function (){
 });
 
 desc('Clears configured deploy paths.');
-task('clear', function() {
-    forEachDeployPath(function($deployPath) {
+task('clear', function () {
+    forEachDeployPath(function ($deployPath) {
         writeln('Clearing <info>' . $deployPath . '</info>');
         run(get('bin/rm') . $deployPath);
     });
 });
 
+desc('Requires dce extension with composer on remote!');
+task('require', function () {
+    writeln('Performing <info>' . get('bin/composer:require') . '</info>');
+    cd(get('htdocs'));
+    run(get('bin/composer:require'));
+});
+
 desc('Initial setup. Clears all configured deploy paths first before uploading all project files.');
 task('set-up', [
+    'require',
     'clear',
     'upload'
 ]);
+
+task('test', function () {
+    writeln(run('pwd')->getOutput());
+});
 
 
 // Functions
