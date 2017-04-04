@@ -8,7 +8,8 @@
 
 $EM_CONF[$_EXTKEY] = array(
     'title' => 'Dynamic Content Elements (DCE)',
-    'description' => 'DCE is an extension for the CMS TYPO3, which creates easily and fast dynamic content elements. It is an alternative to flexible content elements (FCE) but without need of TemplaVoila (TV). Based on Extbase and Fluid.',
+    'description' => 'Best flexform based content elements since 2012. With TCA mapping feature, simple backend view ' .
+        'and many more features which makes it easy to create own content element types.',
     'category' => 'Backend',
     'shy' => 0,
     'version' => '1.4.2',

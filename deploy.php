@@ -30,7 +30,7 @@ server('vagrant', '127.0.0.1', 2222)
 // Tasks
 
 desc('If running it watches files (respecting "exclude_from_upload" config) and uploads or deletes them on remote.');
-task('watch:upload', function(){
+task('watch:upload', function () {
     // /!\ Info
     // /!\ Requires installed composer package: "jasonlewis/resource-watcher" before run deployer (`dep watch`)
     $files = new \Illuminate\Filesystem\Filesystem;
@@ -39,32 +39,32 @@ task('watch:upload', function(){
     $watcher = new \JasonLewis\ResourceWatcher\Watcher($tracker, $files);
     $listener = $watcher->watch(getcwd());
 
-    $listener->modify(function($resource, $path) {
+    $listener->modify(function ($resource, $path) {
         $relativePath = getRelativePath($path);
         if (isValidFile($path)) {
             if (input()->getOption('verbose')) {
                 writeln('File modified <info>' . $path . '</info>');
             }
-            forEachDeployPath(function($deployPath) use ($path, $relativePath) {
+            forEachDeployPath(function ($deployPath) use ($path, $relativePath) {
                 upload($path, $deployPath . '/' . $relativePath);
             });
         }
     });
-    $listener->create(function($resource, $path) {
+    $listener->create(function ($resource, $path) {
         $relativePath = getRelativePath($path);
         if (isValidFile($path)) {
             if (input()->getOption('verbose')) {
                 writeln('New file <info>' . $path . '</info>');
             }
-            forEachDeployPath(function($deployPath) use ($path, $relativePath) {
+            forEachDeployPath(function ($deployPath) use ($path, $relativePath) {
                 upload($path, $deployPath . '/' . $relativePath);
             });
         }
     });
-    $listener->delete(function($resource, $path) {
+    $listener->delete(function ($resource, $path) {
         $relativePath = getRelativePath($path);
         if (isValidFile($path)) {
-            forEachDeployPath(function($deployPath) use ($path, $relativePath) {
+            forEachDeployPath(function ($deployPath) use ($path, $relativePath) {
                 writeln('Delete file <info>' . $deployPath . '/' . $relativePath . '</info>');
                 run(get('bin/rm') . $deployPath . '/' . $relativePath);
             });
@@ -79,15 +79,18 @@ task('watch', [
 ]);
 
 desc('Full uploads of local project files (without excluded files).');
-task('upload', function (){
-    $directory = new \RecursiveDirectoryIterator(getcwd(), \FilesystemIterator::FOLLOW_SYMLINKS | \FilesystemIterator::SKIP_DOTS);
+task('upload', function () {
+    $directory = new \RecursiveDirectoryIterator(
+        getcwd(),
+        \FilesystemIterator::FOLLOW_SYMLINKS | \FilesystemIterator::SKIP_DOTS
+    );
     $files = new \RecursiveIteratorIterator($directory);
     /** @var \SplFileInfo $file */
     foreach ($files as $file) {
         $path = $file->getPathname();
         $relativePath = substr($path, strlen(getcwd()) + 1);
         if (isValidFile($file->getPathname())) {
-            forEachDeployPath(function($deployPath) use ($path, $relativePath) {
+            forEachDeployPath(function ($deployPath) use ($path, $relativePath) {
                 upload($path, $deployPath . '/' . $relativePath);
             });
         }
