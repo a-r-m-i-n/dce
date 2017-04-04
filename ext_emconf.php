@@ -12,7 +12,7 @@ $EM_CONF[$_EXTKEY] = [
         'and much more features which makes it super easy to create own content element types.',
     'category' => 'Backend',
     'shy' => 0,
-    'version' => '1.4.2',
+    'version' => '1.4.3',
     'dependencies' => 'extbase,fluid',
     'conflicts' => '',
     'priority' => '',
