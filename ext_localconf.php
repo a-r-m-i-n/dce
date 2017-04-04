@@ -47,9 +47,17 @@ $boot = function ($extensionKey) {
         'ArminVieweg\Dce\Hooks\DocHeaderButtonsHook->addDcePopupButton';
 
     // LiveSearch XClass
-    $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Backend\\Search\\LiveSearch\\LiveSearch'] = [
-        'className' => 'ArminVieweg\Dce\XClass\LiveSearch',
-    ];
+    if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_branch) <
+        \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger('8.0.0')
+    ) {
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Backend\\Search\\LiveSearch\\LiveSearch'] = [
+            'className' => 'ArminVieweg\Dce\XClass\LiveSearchCompatibility',
+        ];
+    } else {
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Backend\\Search\\LiveSearch\\LiveSearch'] = [
+            'className' => 'ArminVieweg\Dce\XClass\LiveSearch',
+        ];
+    }
 
     // User conditions
     require_once($extensionPath . 'Classes/UserConditions/user_dceOnCurrentPage.php');

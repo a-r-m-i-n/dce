@@ -6,26 +6,25 @@ namespace ArminVieweg\Dce\XClass;
  *  |
  *  | (c) 2012-2017 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
-use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 
 /**
  * XClass LiveSearch
+ * for TYPO3 7.6
  *
  * @package ArminVieweg\Dce
  */
-class LiveSearch extends \TYPO3\CMS\Backend\Search\LiveSearch\LiveSearch
+class LiveSearchCompatibility extends \TYPO3\CMS\Backend\Search\LiveSearch\LiveSearch
 {
     /**
      * Includes DCE content elements to CTypes which should get search by field "bodytext"
      *
-     * @param QueryBuilder $queryBuilder
      * @param string $tableName
      * @param array $fieldsToSearchWithin
      * @return mixed|string
      */
-    protected function makeQuerySearchByTable(QueryBuilder &$queryBuilder, $tableName, array $fieldsToSearchWithin)
+    protected function makeQuerySearchByTable($tableName, array $fieldsToSearchWithin)
     {
-        $data = parent::makeQuerySearchByTable($queryBuilder, $tableName, $fieldsToSearchWithin);
+        $data = parent::makeQuerySearchByTable($tableName, $fieldsToSearchWithin);
         $searchString = 'CType=\'text\' OR CType=\'textpic\'';
         $dceAppendix = ' OR CType LIKE \'dce_%\'';
         if (strpos($data, $searchString) !== false) {
