@@ -78,6 +78,15 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
     public function performUpdate(array &$dbQueries, &$customMessages)
     {
         $this->getDatabaseConnection()->store_lastBuiltQuery = true;
+        $availableDces = $this->getDatabaseConnection()->exec_SELECTgetRows(
+            'uid',
+            'tx_dce_domain_model_dce',
+            'deleted = 0',
+            '',
+            '',
+            '',
+            'uid'
+        );
         $sectionFieldRelations = $this->getDatabaseConnection()->exec_SELECTgetRows(
             '*',
             $this->getSourceTableNameForSectionField(),
@@ -105,6 +114,9 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
         );
         $this->storeLastQuery($dbQueries);
         foreach ($dceFieldRelations as $dceFieldRelation) {
+            if (!array_key_exists($dceFieldRelation['uid_local'], $availableDces)) {
+                continue;
+            }
             $updateValues = [
                 'parent_dce' => $dceFieldRelation['uid_local'],
                 'sorting' => $dceFieldRelation['sorting']
