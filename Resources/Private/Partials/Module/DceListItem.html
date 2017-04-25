@@ -71,9 +71,9 @@
         <td>
             <div class="pull-right">
                 <f:if condition="{dce.hasTcaMappings}">
-                    <f:link.action class="btn btn-default" action="updateTcaMappings" arguments="{dce:dce}"><f:translate key="{lll}updateTcaMappings" /></f:link.action>
+                    <f:link.action class="btn btn-default btn-large" action="updateTcaMappings" arguments="{dce:dce}"><f:translate key="{lll}updateTcaMappings" /></f:link.action>
                 </f:if>
-                <a href="{f:render(partial:'Module/OpenDce', arguments:'{uid:\'{dce.uid}\'}') -> dce:format.tiny()}" class="btn btn-primary"><span class="fa fa-edit"></span> {f:translate(key:'{lll}edit')}</a>
+                <a href="{f:render(partial:'Module/OpenDce', arguments:'{uid:\'{dce.uid}\'}') -> dce:format.tiny()}" class="btn btn-primary btn-wide">{f:translate(key:'{lll}edit')}</a>
             </div>
         </td>
     </tr>

@@ -10,6 +10,11 @@
 	color: #fff !important;
 }
 
+.btn-wide {
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
 .typo3-fullDoc {
 	overflow-x: hidden;
 }
