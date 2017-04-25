@@ -22,59 +22,31 @@ A Vagrantfile is shipped with DCE. Open http://127.0.0.1:8080 in your browser af
 vagrant up
 ```
 
-It uses the [ArminVieweg/trusty64-lamp](https://atlas.hashicorp.com/ArminVieweg/boxes/trusty64-lamp) box 
-and has preinstalled:
+On Windows you need to install the vagrant plugin WinNFSd before you can vagrant up:
+```
+vagrant plugin install vagrant-winnfsd
+```
+
+Your files are automatically uploaded to `/var/www/html/typo3conf/ext/dce`.
+**Caution! Files are synched!** Deleting files in machine will also delete them on host machine.
+
+
+The used box [ArminVieweg/trusty64-lamp](https://atlas.hashicorp.com/ArminVieweg/boxes/trusty64-lamp) contains:
 
 - Apache2
-- PHP 7 & 5.6 *(need to switch manually by changing symlinks in Apache2's mods dir)* 
+- PHP 7.0 & 5.6 *(need to switch manually by changing symlinks in Apache2's mods dir)* 
 - mysql-server & mysql-client
 - Imagemagick
 - Git
 - Composer (with auto self-update on vagrant up)
 - TYPO3 8.7 LTS
-- DCE (dev-master)
+- jigal/**t3adminer** extension (as [composer package](https://packagist.org/packages/jigal/t3adminer))
 
-## Deployer tasks
-Also DCE provides a few deployer tasks which help to work on DCE within the vagrant machine.
+### Credentials
 
-To use these tasks install deployer and the package [jasonlewis/resource-watcher](https://packagist.org/packages/jasonlewis/resource-watcher)
-globally using composer:
+**For TYPO3:** *admin* / *password* (also install tool password)
+**For Database:** *root* / - (no password set)
+**For SSH:** *vagrant* / *vagrant*
 
-```
-$ composer global require deployer/deployer jasonlewis/resource-watcher
-Changed current directory to C:/Users/xxx/AppData/Roaming/Composer
-```
-Assuming you've added the *C:/Users/xxx/AppData/Roaming/Composer/vendor/bin* directory to your PATH variable, 
-you can now use the tasks. Maybe you have to restart all opened CLIs.
+**TYPO3 path:** `/var/www/html/` (uses composer, you can update with `composer update`).
 
-### Call a deployer task
-To call a deployer task you just need to type
-```
-$ cd /path/to/dce
-$ dep list
-```
-First you have to switch to a directory which contain the deploy.php file (vagrant machine is pre-configured).
-This command shows you call available commands/tasks with short description.
-
-The most important tasks are:
-
-#### dep set-up
-This is useful, when you want a clean fresh installation of DCE.
-It executes the tasks **require**, **clear** and **upload**.
-
-#### dep require
-Requires dce extension on remote TYPO3.
-
-#### dep clear
-Clears the configured `deploy_paths`, which means removing the whole directory.
-
-#### dep upload
-Uploads all local files except the excluded ones (`exclude_from_upload`).
-
-#### dep watch
-File watcher registers every change of any file in your project and uploads them 
-(also respecting `exclude_from_upload` option) to remote. Also deleting files. Very convenient.
-
-Demo:
-
-![Deployer File Watcher](https://i.imgur.com/sWOZndn.gif)
