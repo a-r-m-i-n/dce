@@ -37,7 +37,7 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     /**
      * @var array
      */
-    protected $temporaryDceProperties = [];
+    public $temporaryDceProperties = [];
 
     /**
      * Initialize Action
