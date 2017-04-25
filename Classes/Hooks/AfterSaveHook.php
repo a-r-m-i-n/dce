@@ -56,6 +56,8 @@ class AfterSaveHook
         return $fieldSettings['variable'];
     }
 
+    // @codingStandardsIgnoreStart
+
     /**
      * Hook action
      *
@@ -151,6 +153,8 @@ class AfterSaveHook
             }
         }
     }
+
+    // @codingStandardsIgnoreEnd
 
     /**
      * Disables content elements based on this deactivated DCE. Also display flash message

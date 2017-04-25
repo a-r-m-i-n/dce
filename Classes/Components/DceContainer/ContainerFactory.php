@@ -145,9 +145,9 @@ class ContainerFactory
      */
     public static function checkContentElementForBeingRendered($contentElement)
     {
-    	if (is_array($contentElement)) {
-	        return in_array($contentElement['uid'], static::$contentElementsToSkip);
-        } else if(is_integer($contentElement)) {
+        if (is_array($contentElement)) {
+            return in_array($contentElement['uid'], static::$contentElementsToSkip);
+        } elseif (is_integer($contentElement)) {
             return in_array($contentElement, static::$contentElementsToSkip);
         }
         return false;
@@ -175,22 +175,22 @@ class ContainerFactory
         $resolvedContentElements = [];
         foreach ($rawContentElements as $rawContentElement) {
             if ($rawContentElement['CType'] === 'shortcut') {
-            	// resolve records stored with "table_name:uid"
+                // resolve records stored with "table_name:uid"
                 $aLinked = explode(",", $rawContentElement['records']);
-                foreach ( $aLinked as $sLinkedEl){
-                	$iPos = strrpos($sLinkedEl, "_");
-                	$table = ($iPos!==false) ? substr($sLinkedEl, 0 , $iPos) : 'tt_content';
-                	$uid = ($iPos!==false) ? substr($sLinkedEl, $iPos+1) : '0';
+                foreach ($aLinked as $sLinkedEl) {
+                    $iPos = strrpos($sLinkedEl, "_");
+                    $table = ($iPos !== false) ? substr($sLinkedEl, 0, $iPos) : 'tt_content';
+                    $uid = ($iPos !== false) ? substr($sLinkedEl, $iPos + 1) : '0';
 
                     $linkedContentElements = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
-                    	'*',
-                    	$table,
-                    	'uid = ' . $uid,
-                    	'',
-                    	$GLOBALS['TCA'][$table]['ctrl']['sortby'] . ' asc'
-                	);
+                        '*',
+                        $table,
+                        'uid = ' . $uid,
+                        '',
+                        $GLOBALS['TCA'][$table]['ctrl']['sortby'] . ' asc'
+                    );
                     foreach ($linkedContentElements as $linkedContentElement) {
-                    	$resolvedContentElements[] = $linkedContentElement;
+                        $resolvedContentElements[] = $linkedContentElement;
                     }
                 }
             } else {

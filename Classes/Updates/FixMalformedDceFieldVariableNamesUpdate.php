@@ -43,7 +43,7 @@ class FixMalformedDceFieldVariableNamesUpdate extends AbstractUpdate
             'update malformed variable names in fluid templates! But it updates the DceField record and all ' .
             'tt_content records based on this DCE.<br>' .
             'Caution! Please make sure that you\'ve migrated the mm-relation of dce fields to 1:n ' .
-            'before executing this update wizard.<br><br>';;
+            'before executing this update wizard.<br><br>';
 
         return count($malformedDceFields) > 0;
     }
@@ -139,9 +139,9 @@ class FixMalformedDceFieldVariableNamesUpdate extends AbstractUpdate
 
         $malformedDceFields = [];
         foreach ($dceFieldRows as $dceFieldRow) {
-            if ($lowerCamelCaseValidator->evaluateFieldValue($dceFieldRow['variable'], true) !== $dceFieldRow['variable'] ||
-                $noLeadingNumberValidator->evaluateFieldValue($dceFieldRow['variable'], true) !== $dceFieldRow['variable']
-            ) {
+            $evalLowerCamelCase = $lowerCamelCaseValidator->evaluateFieldValue($dceFieldRow['variable'], true);
+            $evalNoLeadingNumber = $noLeadingNumberValidator->evaluateFieldValue($dceFieldRow['variable'], true);
+            if ($evalLowerCamelCase !== $dceFieldRow['variable'] || $evalNoLeadingNumber !== $dceFieldRow['variable']) {
                 $malformedDceFields[] = $dceFieldRow;
             }
         }
@@ -210,7 +210,10 @@ class FixMalformedDceFieldVariableNamesUpdate extends AbstractUpdate
             if (!is_array($value)) {
                 $flatArray[$prefix . $key] = $value;
             } else {
-                $flatArray = array_merge($flatArray, $this->flattenArray($value, $prefix . $key . $delimiter, $delimiter));
+                $flatArray = array_merge(
+                    $flatArray,
+                    $this->flattenArray($value, $prefix . $key . $delimiter, $delimiter)
+                );
             }
         }
         return $flatArray;

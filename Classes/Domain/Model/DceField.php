@@ -15,23 +15,31 @@ namespace ArminVieweg\Dce\Domain\Model;
  */
 class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
-    /** Field Type: Element */
+    /* Field Type: Element */
     const TYPE_ELEMENT = 0;
-    /** Field Type: Tab */
+    /* Field Type: Tab */
     const TYPE_TAB = 1;
-    /** Field Type: Section */
+    /* Field Type: Section */
     const TYPE_SECTION = 2;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $type;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $title = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $variable = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $configuration = '';
 
     /**
@@ -40,10 +48,14 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     protected $mapTo = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $newTcaFieldName = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $newTcaFieldType = '';
 
     /**
@@ -61,8 +73,10 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     protected $parentField;
 
-    /** @var string */
-    protected $_value = '';
+    /**
+     * @var string not persisted
+     */
+    protected $value = '';
 
     /**
      * Constructor
@@ -238,7 +252,7 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getValue()
     {
-        return $this->_value;
+        return $this->value;
     }
 
     /**
@@ -247,7 +261,7 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function setValue($value)
     {
-        $this->_value = $value;
+        $this->value = $value;
     }
 
     /**

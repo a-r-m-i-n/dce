@@ -143,8 +143,11 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      * @param array $contentObject
      * @return void
      */
-    protected function processFillingFields(\ArminVieweg\Dce\Domain\Model\Dce $dce, array $fieldList, array $contentObject)
-    {
+    protected function processFillingFields(
+        \ArminVieweg\Dce\Domain\Model\Dce $dce,
+        array $fieldList,
+        array $contentObject
+    ) {
         foreach ($fieldList as $fieldVariable => $fieldValue) {
             $dceField = $dce->getFieldByVariable($fieldVariable);
             if ($dceField) {
@@ -163,8 +166,8 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                                     $xmlIdent,
                                     true,
                                     $contentObject,
-                                    $i)
-                                ;
+                                    $i
+                                );
                             }
                         }
                         $i++;
@@ -534,8 +537,13 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             /** @var \TYPO3\CMS\Extbase\Domain\Repository\CategoryRepository $categoryRepository */
             $categoryRepository = $objectManager->get(\TYPO3\CMS\Extbase\Domain\Repository\CategoryRepository::class);
 
-            $res = $databaseConnection->exec_SELECT_mm_query('sys_category.uid', 'sys_category',
-                'sys_category_record_mm', 'tt_content', '');
+            $res = $databaseConnection->exec_SELECT_mm_query(
+                'sys_category.uid',
+                'sys_category',
+                'sys_category_record_mm',
+                'tt_content',
+                ''
+            );
             $processedContentObject['categories'] = [];
             while (($categoryRow = $databaseConnection->sql_fetch_assoc($res))) {
                 $processedContentObject['categories'][] = $categoryRepository->findByUid($categoryRow['uid']);

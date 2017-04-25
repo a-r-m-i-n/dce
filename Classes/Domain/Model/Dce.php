@@ -17,17 +17,17 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
-    /** Identifier for default DCE templates */
+    /* Identifier for: "default DCE templates" */
     const TEMPLATE_FIELD_DEFAULT = 0;
-    /** Identifier for header preview templates */
+    /* Identifier for: "header preview templates" */
     const TEMPLATE_FIELD_HEADERPREVIEW = 1;
-    /** Identifier for bodytext preview templates */
+    /* Identifier for: "bodytext preview templates" */
     const TEMPLATE_FIELD_BODYTEXTPREVIEW = 2;
-    /** Identifier for detail page templates */
+    /* Identifier for: "detail page templates" */
     const TEMPLATE_FIELD_DETAILPAGE = 3;
-    /** Identifier for dce container templates */
+    /* Identifier for: "dce container templates" */
     const TEMPLATE_FIELD_CONTAINER = 4;
-    /** Identifier for backend template */
+    /* Identifier for: "backend template" */
     const TEMPLATE_FIELD_BACKEND_TEMPLATE = 5;
 
     /**
@@ -83,92 +83,149 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     protected $containerIterator = null;
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $hidden = false;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $title = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $templateType = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $templateContent = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $templateFile = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $templateLayoutRootPath = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $templatePartialRootPath = '';
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $useSimpleBackendView = false;
 
-    /** @var string */
+    /** @var string
+     */
     protected $backendViewHeader = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $backendViewBodytext = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $backendTemplateType = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $backendTemplateContent = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $backendTemplateFile = '';
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $enableDetailpage = false;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $detailpageIdentifier = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $detailpageTemplateType = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $detailpageTemplate = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $detailpageTemplateFile = '';
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $enableContainer = false;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $containerItemLimit = 0;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $containerTemplateType = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $containerTemplate = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $containerTemplateFile = '';
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $wizardEnable = true;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $wizardCategory = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $wizardDescription = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $wizardIcon = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $wizardCustomIcon = '';
 
-    /** @var array */
-    protected $_contentObject = [];
+    /**
+     * @var array not persisted
+     */
+    protected $contentObject = [];
 
 
     /**
@@ -793,7 +850,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getContentObject()
     {
-        return $this->_contentObject;
+        return $this->contentObject;
     }
 
     /**
@@ -802,7 +859,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function setContentObject($contentObject)
     {
-        $this->_contentObject = $contentObject;
+        $this->contentObject = $contentObject;
     }
 
     /**
