@@ -6,6 +6,7 @@ namespace ArminVieweg\Dce\Utility;
  *  |
  *  | (c) 2012-2017 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Utility class for file handling (especially FAL support in TYPO3 6.0)
@@ -15,29 +16,29 @@ namespace ArminVieweg\Dce\Utility;
 class File
 {
     /**
-     * Converts given file path to absolute or relative file path. If FAL reference is given (eg. "file:123") it will be
-     * interpret to real existing file path. It also performs getFileAbsFileName when the $absolute parameter is true,
-     * which allows you to use links like: "EXT:extension_key/path/to/file"
+     * Resolves path to file.
      *
-     * @param string $file Filename (eg. "fileadmin/file.html") or FAL reference (eg. "file:123")
-     * @param bool $absolute If TRUE the given file path will be converted to absolute path.
-     * @return string File path (absolute or relative)
+     * @param string $file Supports relative paths, EXT: paths, file: paths and t3:// paths.
+     * @return string Resolved path to file
      */
-    public static function getFilePath($file, $absolute = true)
+    public static function get($file)
     {
         $filePath = $file;
-        if (\TYPO3\CMS\Core\Utility\GeneralUtility::isFirstPartOfStr($file, 'file:')) {
+        if (GeneralUtility::isFirstPartOfStr($filePath, 'file:')) {
             $combinedIdentifier = substr($file, 5);
             $resourceFactory = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance();
 
             $fileOrFolder = $resourceFactory->retrieveFileOrFolderObject($combinedIdentifier);
             $filePath = $fileOrFolder->getPublicUrl();
-        }
+        } elseif (GeneralUtility::isFirstPartOfStr($filePath, 't3://')) {
+            /** @var \TYPO3\CMS\Core\LinkHandling\LinkService $linkService */
+            $linkService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\LinkHandling\LinkService::class);
 
-        if ($absolute === true) {
-            return \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($filePath);
+            /** @var \TYPO3\CMS\Core\Resource\File $file */
+            $resolvedFile = $linkService->resolveByStringRepresentation($filePath)['file'];
+            $filePath = $resolvedFile->getPublicUrl();
         }
-        return $filePath;
+        return GeneralUtility::getFileAbsFileName($filePath);
     }
 
     /**
@@ -49,8 +50,7 @@ class File
      */
     public static function openJsonFile($file)
     {
-        $filePath = self::getFilePath($file, true);
-        $content = file_get_contents($filePath);
+        $content = file_get_contents(self::get($file));
         return json_decode($content, true);
     }
 }

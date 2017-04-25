@@ -6,6 +6,7 @@ namespace ArminVieweg\Dce\UserFunction\UserFields;
  *  |
  *  | (c) 2012-2017 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
+use ArminVieweg\Dce\Utility\File;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -36,12 +37,12 @@ class CodemirrorField
         $fluidTemplate = GeneralUtility::makeInstance('ArminVieweg\Dce\Utility\FluidTemplate');
 
         $fluidTemplate->setLayoutRootPaths(
-            [GeneralUtility::getFileAbsFileName('EXT:dce/Resources/Private/Layouts/')]
+            [File::get('EXT:dce/Resources/Private/Layouts/')]
         );
         $fluidTemplate->setPartialRootPaths(
-            [GeneralUtility::getFileAbsFileName('EXT:dce/Resources/Private/Partials/')]
+            [File::get('EXT:dce/Resources/Private/Partials/')]
         );
-        $fluidTemplate->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
+        $fluidTemplate->setTemplatePathAndFilename(File::get(
             'EXT:dce/Resources/Private/Templates/DceUserFields/Codemirror.html'
         ));
 

@@ -6,6 +6,7 @@ namespace ArminVieweg\Dce\Updates;
  *  |
  *  | (c) 2012-2017 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
+use ArminVieweg\Dce\Utility\File;
 
 /**
  * Migrates old namespaces in fluid templates
@@ -94,7 +95,7 @@ class MigrateOldNamespacesInFluidTemplateUpdate extends AbstractUpdate
      */
     protected function doesFileTemplateRequiresUpdate(array $dceRow, $column)
     {
-        $file = \ArminVieweg\Dce\Utility\File::getFilePath($dceRow[$column]);
+        $file = File::get($dceRow[$column]);
         if (empty($file)) {
             return false;
         }
@@ -187,7 +188,7 @@ class MigrateOldNamespacesInFluidTemplateUpdate extends AbstractUpdate
      */
     protected function updateFileTemplate(array $dceRow, $column)
     {
-        $file = \ArminVieweg\Dce\Utility\File::getFilePath($dceRow[$column]);
+        $file = File::get($dceRow[$column]);
         if (!is_writeable($file)) {
             return false;
         }

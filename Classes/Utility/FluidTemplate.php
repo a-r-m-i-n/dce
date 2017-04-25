@@ -51,10 +51,10 @@ class FluidTemplate
 
         $this->fluidTemplate = GeneralUtility::makeInstance('TYPO3\CMS\Fluid\View\StandaloneView');
         $this->fluidTemplate->setLayoutRootPaths(
-            [GeneralUtility::getFileAbsFileName(self::DEFAULT_DIRECTORY_LAYOUTS)]
+            [File::get(self::DEFAULT_DIRECTORY_LAYOUTS)]
         );
         $this->fluidTemplate->setPartialRootPaths(
-            [GeneralUtility::getFileAbsFileName(self::DEFAULT_DIRECTORY_PARTIALS)]
+            [File::get(self::DEFAULT_DIRECTORY_PARTIALS)]
         );
     }
 

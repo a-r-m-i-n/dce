@@ -1053,7 +1053,8 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
             $fluidTemplate->setTemplateSource($this->$inlineTemplateGetter() . ' ');
         } else {
             $fileTemplateGetter = 'get' . ucfirst(GeneralUtility::underscoredToLowerCamelCase($templateFields['file']));
-            $filePath = File::getFilePath($this->$fileTemplateGetter());
+            $filePath = File::get($this->$fileTemplateGetter());
+
             if (!file_exists($filePath)) {
                 $fluidTemplate->setTemplateSource('');
             } else {
@@ -1062,8 +1063,8 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
             }
         }
 
-        $fluidTemplate->setLayoutRootPaths([File::getFilePath($this->getTemplateLayoutRootPath())]);
-        $fluidTemplate->setPartialRootPaths([File::getFilePath($this->getTemplatePartialRootPath())]);
+        $fluidTemplate->setLayoutRootPaths([File::get($this->getTemplateLayoutRootPath())]);
+        $fluidTemplate->setPartialRootPaths([File::get($this->getTemplatePartialRootPath())]);
 
         if ($templateType !== self::TEMPLATE_FIELD_CONTAINER) {
             $fluidTemplate->assign('dce', $this);

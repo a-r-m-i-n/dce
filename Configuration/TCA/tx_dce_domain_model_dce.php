@@ -241,12 +241,17 @@ $dceTca = [
             'label' => $ll . 'tx_dce_domain_model_dce.templateFile',
             'displayCond' => 'FIELD:template_type:IN:file',
             'config' => [
-                'type' => 'group',
-                'internal_type' => 'file_reference',
-                'allowed' => 'html,htm',
-                'size' => 1,
-                'maxitems' => 1,
-                'minitems' => 0,
+                'type' => 'input',
+                'renderType' => 'inputLink',
+                'size' => 30,
+                'fieldControl' => [
+                    'linkPopup' => [
+                        'options' => [
+                            'blindLinkOptions' => 'page,folder,url,mail,spec',
+                            'blindLinkFields' => 'title,target,class,params'
+                        ]
+                    ]
+                ]
             ],
         ],
         'cache_dce' => [
@@ -379,12 +384,17 @@ $dceTca = [
                 ]
             ],
             'config' => [
-                'type' => 'group',
-                'internal_type' => 'file_reference',
-                'allowed' => 'html,htm',
-                'size' => 1,
-                'maxitems' => 1,
-                'minitems' => 0,
+                'type' => 'input',
+                'renderType' => 'inputLink',
+                'size' => 30,
+                'fieldControl' => [
+                    'linkPopup' => [
+                        'options' => [
+                            'blindLinkOptions' => 'page,folder,url,mail,spec',
+                            'blindLinkFields' => 'title,target,class,params'
+                        ]
+                    ]
+                ],
             ],
         ],
         'template_layout_root_path' => [

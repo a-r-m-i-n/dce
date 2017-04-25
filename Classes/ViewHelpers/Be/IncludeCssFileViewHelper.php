@@ -6,6 +6,7 @@ namespace ArminVieweg\Dce\ViewHelpers\Be;
  *  |
  *  | (c) 2012-2017 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
+use ArminVieweg\Dce\Utility\File;
 
 /**
  * This view helper adds inline css
@@ -29,7 +30,7 @@ class IncludeCssFileViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractB
      */
     public function render($path)
     {
-        $absPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($path);
+        $absPath = File::get($path);
         if ($absPath) {
             $contents = file_get_contents($absPath);
             return '<style>' . $contents . '</style>';
