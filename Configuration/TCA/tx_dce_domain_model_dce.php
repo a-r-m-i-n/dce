@@ -195,13 +195,9 @@ $dceTca = [
             'label' => $ll . 'tx_dce_domain_model_dce.wizardCustomIcon',
             'displayCond' => 'FIELD:wizard_icon:IN:custom',
             'config' => [
-                'type' => 'group',
-                'internal_type' => 'file_reference',
-                'allowed' => 'gif,png,svg,jpg',
-                'size' => 1,
-                'maxitems' => 1,
-                'minitems' => 0,
-                'show_thumbs' => true
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'required',
             ],
         ],
         'template_type' => [
@@ -244,6 +240,7 @@ $dceTca = [
                 'type' => 'input',
                 'renderType' => 'inputLink',
                 'size' => 30,
+                'eval' => 'required',
                 'fieldControl' => [
                     'linkPopup' => [
                         'options' => [
@@ -377,16 +374,11 @@ $dceTca = [
         'backend_template_file' => [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dce.backendTemplateFile',
-            'displayCond' => [
-                'AND' => [
-                    'FIELD:use_simple_backend_view:!=:1',
-                    'FIELD:backend_template_type:IN:file'
-                ]
-            ],
             'config' => [
                 'type' => 'input',
                 'renderType' => 'inputLink',
                 'size' => 30,
+                'eval' => 'required',
                 'fieldControl' => [
                     'linkPopup' => [
                         'options' => [
@@ -395,6 +387,12 @@ $dceTca = [
                         ]
                     ]
                 ],
+            ],
+            'displayCond' => [
+                'AND' => [
+                    'FIELD:use_simple_backend_view:!=:1',
+                    'FIELD:backend_template_type:IN:file'
+                ]
             ],
         ],
         'template_layout_root_path' => [
@@ -475,19 +473,25 @@ $dceTca = [
         'detailpage_template_file' => [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dce.detailpageTemplateFile',
+            'config' => [
+                'type' => 'input',
+                'renderType' => 'inputLink',
+                'size' => 30,
+                'eval' => 'required',
+                'fieldControl' => [
+                    'linkPopup' => [
+                        'options' => [
+                            'blindLinkOptions' => 'page,folder,url,mail,spec',
+                            'blindLinkFields' => 'title,target,class,params'
+                        ]
+                    ]
+                ],
+            ],
             'displayCond' => [
                 'AND' => [
                     'FIELD:enable_detailpage:=:1',
                     'FIELD:detailpage_template_type:IN:file'
                 ]
-            ],
-            'config' => [
-                'type' => 'group',
-                'internal_type' => 'file_reference',
-                'allowed' => 'html,htm',
-                'size' => 1,
-                'maxitems' => 1,
-                'minitems' => 0,
             ],
         ],
         'enable_container' => [
@@ -549,19 +553,25 @@ $dceTca = [
         'container_template_file' => [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dce.containerTemplateFile',
+            'config' => [
+                'type' => 'input',
+                'renderType' => 'inputLink',
+                'size' => 30,
+                'eval' => 'required',
+                'fieldControl' => [
+                    'linkPopup' => [
+                        'options' => [
+                            'blindLinkOptions' => 'page,folder,url,mail,spec',
+                            'blindLinkFields' => 'title,target,class,params'
+                        ]
+                    ]
+                ],
+            ],
             'displayCond' => [
                 'AND' => [
                     'FIELD:enable_container:=:1',
                     'FIELD:container_template_type:IN:file'
                 ]
-            ],
-            'config' => [
-                'type' => 'group',
-                'internal_type' => 'file_reference',
-                'allowed' => 'html,htm',
-                'size' => 1,
-                'maxitems' => 1,
-                'minitems' => 0,
             ],
         ],
         'palette_fields' => [

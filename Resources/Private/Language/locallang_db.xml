@@ -34,7 +34,7 @@
 			<label index="tx_dce_domain_model_dce.fields">Fields</label>
 			<label index="tx_dce_domain_model_dce.wizard">Icon &amp; Wizard</label>
 			<label index="tx_dce_domain_model_dce.wizardIcon">DCE icon</label>
-			<label index="tx_dce_domain_model_dce.wizardCustomIcon">DCE custom icon (24x24 pixel)</label>
+			<label index="tx_dce_domain_model_dce.wizardCustomIcon">DCE custom icon (relative or EXT: path to icon, 24x24 pixel)</label>
 			<label index="tx_dce_domain_model_dce.wizardEnable">Show DCE in content element Wizard</label>
 			<label index="tx_dce_domain_model_dce.wizardCategory">Wizard category</label>
 			<label index="tx_dce_domain_model_dce.wizardDescription">Wizard description</label>
@@ -126,7 +126,7 @@
 			<label index="tx_dce_domain_model_dce.fields">Felder</label>
 			<label index="tx_dce_domain_model_dce.wizard">Icon &amp; Wizard</label>
 			<label index="tx_dce_domain_model_dce.wizardIcon">DCE Icon</label>
-			<label index="tx_dce_domain_model_dce.wizardCustomIcon">Benutzerdefiniertes DCE Icon (24x24 Pixel)</label>
+			<label index="tx_dce_domain_model_dce.wizardCustomIcon">Benutzerdefiniertes DCE Icon (relativer oder EXT: Pfad zum Icon, 24x24 Pixel)</label>
 			<label index="tx_dce_domain_model_dce.wizardEnable">Zeige DCE in Wizard zum Anlegen neuer Content-Elemente</label>
 			<label index="tx_dce_domain_model_dce.wizardCategory">Wizard Kategorie</label>
 			<label index="tx_dce_domain_model_dce.wizardDescription">Wizard Beschreibung</label>
