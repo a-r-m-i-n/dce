@@ -32,6 +32,8 @@ Vagrant.configure("2") do |config|
   # Run once (install DCE in /var/www/html)
   config.vm.provision "shell", inline: <<-SHELL
     cd /var/www/html
+    chmod 2775 . ./typo3conf ./typo3conf/ext
+
     php -r '$f=json_decode(file_get_contents($argv[1]),true);$f["autoload"]["psr-4"][$argv[2]]=$argv[3];file_put_contents($argv[1],json_encode($f,448)."\n");' composer.json "ArminVieweg\\\\Dce\\\\" typo3conf/ext/dce/Classes/
     composer dump -o
     php typo3/cli_dispatch.phpsh extbase extension:install dce
@@ -59,8 +61,9 @@ Vagrant.configure("2") do |config|
     composer dump -o
     php typo3/cli_dispatch.phpsh extbase extension:install dce
 
-    sudo chown -R vagrant /var/www/html76
-    sudo chgrp -R www-data /var/www/html76
+    chmod 2775 . ./typo3conf ./typo3conf/ext
+    chown -R vagrant .
+    chgrp -R www-data .
   SHELL
 
   # Run always
