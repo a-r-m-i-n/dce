@@ -1,55 +1,40 @@
 <?php
 namespace ArminVieweg\Dce\ViewHelpers;
 
-/*  | This extension is part of the TYPO3 project. The TYPO3 project is
- *  | free software and is licensed under GNU General Public License.
+/*  | This extension is made for TYPO3 CMS and is licensed
+ *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2017 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
-use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 
 /**
  * This view helper handles parameter strings using typolink function of TYPO3.
  * It creates the whole <a>-Tag.
  *
  * @package ArminVieweg\Dce
+ * @deprecated Removed in next major version
  */
-class TypolinkViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class TypolinkViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Link\TypolinkViewHelper
 {
     /**
-     * Create a typolink.
+     * Render
      *
-     * @param string $parameter Parameter string, which can be handled by
-     *                          typolink functionality
-     * @param string $subject Link text
-     * @param string $class If set, overrides given class in parameter string.
-     * @param string $target If set, overrides given target in parameter string.
-     * @param string $title If set, overrides given title in parameter string.
-     * @return string Rendered HTML <a>-tag
+     * @param array $arguments
+     * @param \Closure $renderChildrenClosure
+     * @param RenderingContextInterface $renderingContext
+     * @return mixed|string
+     * @throws \InvalidArgumentException
+     * @throws \UnexpectedValueException
      */
-    public function render($parameter, $subject = null, $class = null, $target = null, $title = null)
-    {
-        if ($subject === null) {
-            $subject = $this->renderChildren();
-        }
-
-        /** @var $cObj \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer */
-        $cObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
-        if (!is_null($class) || !is_null($target) || !is_null($title)) {
-            /** @var \ArminVieweg\Dce\Utility\TypoLinkCodecService $TypoLinkCodecService */
-            $typoLinkCodecService = GeneralUtility::makeInstance('ArminVieweg\Dce\Utility\TypoLinkCodecService');
-            $typolinkParameterParts = $typoLinkCodecService->decode($parameter);
-            if (!is_null($class)) {
-                $typolinkParameterParts['class'] = $class;
-            }
-            if (!is_null($target)) {
-                $typolinkParameterParts['target'] = $target;
-            }
-            if (!is_null($title)) {
-                $typolinkParameterParts['title'] = $title;
-            }
-            $parameter = $typoLinkCodecService->encode($typolinkParameterParts);
-        }
-        return $cObj->getTypoLink($subject, $parameter);
+    public static function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    ) {
+        \TYPO3\CMS\Core\Utility\GeneralUtility::deprecationLog(
+            'Do not use dce:typolink() viewhelper anymore. Use f:link.typolink() instead.'
+        );
+        return parent::renderStatic($arguments, $renderChildrenClosure, $renderingContext);
     }
 }

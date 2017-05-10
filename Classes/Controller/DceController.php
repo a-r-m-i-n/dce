@@ -1,11 +1,12 @@
 <?php
 namespace ArminVieweg\Dce\Controller;
 
-/*  | This extension is part of the TYPO3 project. The TYPO3 project is
- *  | free software and is licensed under GNU General Public License.
+/*  | This extension is made for TYPO3 CMS and is licensed
+ *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2017 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
+use ArminVieweg\Dce\Components\DceContainer\ContainerFactory;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -17,7 +18,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
-
     /**
      * DCE Repository
      *
@@ -34,6 +34,10 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     protected $typoScriptUtility;
 
+    /**
+     * @var array
+     */
+    public $temporaryDceProperties = [];
 
     /**
      * Initialize Action
@@ -43,7 +47,7 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     public function initializeAction()
     {
         if ($this->settings === null) {
-            $this->settings = array();
+            $this->settings = [];
         }
         $this->settings = $this->typoScriptUtility->renderConfigurationArray($this->settings);
     }
@@ -67,11 +71,26 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             $contentObject
         );
 
-        if ($dce->getEnableDetailpage()
-            && intval($contentObject['uid']) === intval(GeneralUtility::_GP($dce->getDetailpageIdentifier()))
-        ) {
-            return $dce->renderDetailpage();
+        if ($dce->getEnableDetailpage()) {
+            $detailUid = intval(GeneralUtility::_GP($dce->getDetailpageIdentifier()));
+            if ($detailUid) {
+                // populate all elements to skip
+                ContainerFactory::makeContainer($dce);
+                if (intval($contentObject['uid']) === $detailUid) {
+                    return $dce->renderDetailpage();
+                }
+                return '<!--render detail-->'; //output needed for content slide
+            }
         }
+        if ($dce->getEnableContainer()) {
+            if (ContainerFactory::checkContentElementForBeingRendered($dce->getContentObject())) {
+                return '<!--render container-->'; //output needed for content slide
+            }
+            $container = ContainerFactory::makeContainer($dce);
+            return $container->render();
+        }
+        ContainerFactory::clearContentElementsToSkip();
+
         return $dce->render();
     }
 
@@ -92,7 +111,8 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         $dce = clone $this->dceRepository->findAndBuildOneByUid(
             $uid,
             $this->settings,
-            $contentObject
+            $contentObject,
+            true
         );
 
         if ($previewType === 'header') {
@@ -139,7 +159,7 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         );
         $flexform = GeneralUtility::xml2array($row['pi_flexform']);
 
-        $this->temporaryDceProperties = array();
+        $this->temporaryDceProperties = [];
         if (is_array($flexform)) {
             $this->dceRepository->getVdefValues($flexform, $this);
         }

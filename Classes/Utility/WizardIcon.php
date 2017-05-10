@@ -1,12 +1,11 @@
 <?php
 namespace ArminVieweg\Dce\Utility;
 
-/*  | This extension is part of the TYPO3 project. The TYPO3 project is
- *  | free software and is licensed under GNU General Public License.
+/*  | This extension is made for TYPO3 CMS and is licensed
+ *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2017 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Utility for wizard icons
@@ -25,23 +24,20 @@ class WizardIcon
     public static function getTcaListItems($withExtraRowForCustomIcon = true)
     {
         $identifiers = self::getIconIdentifiers();
-        if (!GeneralUtility::compat_version('7.6')) {
-            $identifiers = self::getIconIdentifiersFor62();
-        }
 
-        $items = array();
+        $items = [];
         foreach ($identifiers as $identifier) {
-            $items[] = array(
+            $items[] = [
                 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:wizardIcon.' . $identifier,
                 $identifier,
-                !GeneralUtility::compat_version('7.6') ? 'c_wiz/' . $identifier . '.gif' : $identifier
-            );
+                $identifier
+            ];
         }
 
         if ($withExtraRowForCustomIcon) {
             $ll = 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:';
-            $items[] = array($ll . 'wizardIcon.custom', '--div--');
-            $items[] = array($ll . 'wizardIcon.customIcon', 'custom');
+            $items[] = [$ll . 'wizardIcon.custom', '--div--'];
+            $items[] = [$ll . 'wizardIcon.customIcon', 'custom'];
         }
         return $items;
     }
@@ -53,7 +49,7 @@ class WizardIcon
      */
     public static function getIconIdentifiers()
     {
-        return array(
+        return [
             'content-header',
             'content-textpic',
             'content-bullets',
@@ -66,33 +62,6 @@ class WizardIcon
             'content-elements-login',
             'content-elements-mailform',
             'content-plugin'
-        );
-    }
-
-    /**
-     * @return array
-     * @deprecated Will be removed when 6.2 support runs out
-     */
-    public static function getIconIdentifiersFor62()
-    {
-        return array(
-            'regular_text',
-            'text_image_right',
-            'text_image_below',
-            'bullet_list',
-            'div',
-            'filelinks',
-            'mailform',
-            'html',
-            'shortcut',
-            'multimedia',
-            'sitemap2',
-            'sitemap',
-            'images_only',
-            'login_form',
-            'searchform',
-            'table',
-            'user_defined'
-        );
+        ];
     }
 }

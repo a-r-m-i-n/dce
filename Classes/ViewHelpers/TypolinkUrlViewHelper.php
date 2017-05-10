@@ -1,33 +1,37 @@
 <?php
 namespace ArminVieweg\Dce\ViewHelpers;
 
-/*  | This extension is part of the TYPO3 project. The TYPO3 project is
- *  | free software and is licensed under GNU General Public License.
+/*  | This extension is made for TYPO3 CMS and is licensed
+ *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2017 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 
 /**
  * This view helper handles parameter strings using typolink function of TYPO3.
  * It returns just the URL.
  *
  * @package ArminVieweg\Dce
+ * @deprecated Removed in next major version
  */
-class TypolinkUrlViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class TypolinkUrlViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Uri\TypolinkViewHelper
 {
     /**
-     * Create a typolink and returns just the URL
+     * @param array $arguments
+     * @param \Closure $renderChildrenClosure
+     * @param RenderingContextInterface $renderingContext
      *
-     * @param string $parameter Parameter string, which can be handled by
-     *                          typolink functionality
-     * @return string url
+     * @return string
      */
-    public function render($parameter)
-    {
-        /** @var $cObj \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer */
-        $cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-            'TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer'
+    public static function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    ) {
+        \TYPO3\CMS\Core\Utility\GeneralUtility::deprecationLog(
+            'Do not use dce:typolinkUrl() viewhelper anymore. Use f:uri.typolink() instead.'
         );
-        return $cObj->getTypoLink_URL($parameter);
+        return parent::renderStatic($arguments, $renderChildrenClosure, $renderingContext);
     }
 }

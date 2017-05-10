@@ -1,11 +1,15 @@
 <?php
 namespace ArminVieweg\Dce\Utility;
 
-/*  | This extension is part of the TYPO3 project. The TYPO3 project is
- *  | free software and is licensed under GNU General Public License.
+/*  | This extension is made for TYPO3 CMS and is licensed
+ *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2017 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
+use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\StringUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /**
  * Database utility
@@ -14,7 +18,6 @@ namespace ArminVieweg\Dce\Utility;
  */
 class DatabaseUtility
 {
-
     /**
      * Returns a valid DatabaseConnection object that is connected and ready
      * to be used static
@@ -42,6 +45,31 @@ class DatabaseUtility
             'tt_content',
             'uid = ' . $uid
         );
+
+        if (!StringUtility::beginsWith($contentElement['CType'], 'dce_dceuid')) {
+            return 0;
+        }
         return intval(substr($contentElement['CType'], strlen('dce_dceuid')));
+    }
+
+    /**
+     * Get enabledFields for given table name, respecting TYPO3_MODE. Includes deleteClause
+     *
+     * @param string $tableName
+     * @return string SQL where part containing enabled fields
+     */
+    public static function getEnabledFields($tableName)
+    {
+        if (TYPO3_MODE === 'BE') {
+            $enableFields = BackendUtility::BEenableFields($tableName) . BackendUtility::deleteClause($tableName);
+            return $enableFields;
+        } else {
+            /** @var $contentObjectRenderer ContentObjectRenderer */
+            $contentObjectRenderer = GeneralUtility::makeInstance(
+                'TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer'
+            );
+            $enableFields = $contentObjectRenderer->enableFields($tableName);
+            return $enableFields;
+        }
     }
 }

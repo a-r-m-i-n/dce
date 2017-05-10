@@ -21,25 +21,6 @@
 			<label index="wizardIcon.content-elements-login">Login</label>
 			<label index="wizardIcon.content-elements-mailform">Mail</label>
 			<label index="wizardIcon.content-plugin">Plugin</label>
-			<!-- For 6.2 Only -->
-			<label index="wizardIcon.regular_text">Regular Text</label>
-			<label index="wizardIcon.text_image_right">Text/Image right</label>
-			<label index="wizardIcon.text_image_below">Text/Image below</label>
-			<label index="wizardIcon.bullet_list">Bullets</label>
-			<label index="wizardIcon.div">Div</label>
-			<label index="wizardIcon.filelinks">Uploads</label>
-			<label index="wizardIcon.mailform">Mail</label>
-			<label index="wizardIcon.html">Html</label>
-			<label index="wizardIcon.shortcut">Shortcut</label>
-			<label index="wizardIcon.multimedia">Multimedia</label>
-			<label index="wizardIcon.sitemap2">Sitemap 2</label>
-			<label index="wizardIcon.sitemap">Sitemap</label>
-			<label index="wizardIcon.images_only">Images</label>
-			<label index="wizardIcon.login_form">Login</label>
-			<label index="wizardIcon.searchform">Search</label>
-			<label index="wizardIcon.table">Table</label>
-			<label index="wizardIcon.user_defined">Plugin</label>
-			<!-- / For 6.2 Only -->
 
 			<label index="typo3_default_categories">TYPO3 default categories</label>
 			<label index="common_textImage2_title">Text &amp; Images 2</label>
@@ -48,16 +29,12 @@
 			<label index="tx_dce_domain_model_dce">DCE</label>
 			<label index="tx_dce_domain_model_dce_long">Dynamic Content Elements</label>
 			<label index="tx_dce_domain_model_dce.hidden">Inactive</label>
-			<label index="tx_dce_domain_model_dce.type">Type</label>
-			<label index="tx_dce_domain_model_dce.type.databased">Database based</label>
-			<label index="tx_dce_domain_model_dce.type.filebased">File based</label>
-			<label index="tx_dce_domain_model_dce.identifier">Identifier</label>
 			<label index="tx_dce_domain_model_dce.title">Title</label>
 			<label index="tx_dce_domain_model_dce.category">Category</label>
 			<label index="tx_dce_domain_model_dce.fields">Fields</label>
 			<label index="tx_dce_domain_model_dce.wizard">Icon &amp; Wizard</label>
 			<label index="tx_dce_domain_model_dce.wizardIcon">DCE icon</label>
-			<label index="tx_dce_domain_model_dce.wizardCustomIcon">DCE custom icon (24x24 pixel)</label>
+			<label index="tx_dce_domain_model_dce.wizardCustomIcon">DCE custom icon (relative or EXT: path to icon, 24x24 pixel)</label>
 			<label index="tx_dce_domain_model_dce.wizardEnable">Show DCE in content element Wizard</label>
 			<label index="tx_dce_domain_model_dce.wizardCategory">Wizard category</label>
 			<label index="tx_dce_domain_model_dce.wizardDescription">Wizard description</label>
@@ -72,11 +49,11 @@
 			<label index="tx_dce_domain_model_dce.partialRootPath">Fluid partial root path</label>
 
             <label index="tx_dce_domain_model_dce.backendTemplate">Backend Template</label>
-            <label index="tx_dce_domain_model_dce.previewTemplateType">Preview texts template type</label>
-            <label index="tx_dce_domain_model_dce.headerPreview">Header preview template (fluid)</label>
-            <label index="tx_dce_domain_model_dce.bodytextPreview">Bodytext preview template (fluid)</label>
-            <label index="tx_dce_domain_model_dce.headerPreviewTemplateFile">Header preview template file (fluid)</label>
-            <label index="tx_dce_domain_model_dce.bodytextPreviewTemplateFile">Bodytext preview template file (fluid)</label>
+            <label index="tx_dce_domain_model_dce.backendTemplateType">Backend template type</label>
+            <label index="tx_dce_domain_model_dce.backendTemplateType.file">File</label>
+            <label index="tx_dce_domain_model_dce.backendTemplateType.inline">Inline</label>
+            <label index="tx_dce_domain_model_dce.backendTemplateContent">Backend template content (fluid)</label>
+            <label index="tx_dce_domain_model_dce.backendTemplateFile">Backend template file (fluid)</label>
 
 			<label index="tx_dce_domain_model_dce.detailpage">Detail page</label>
 			<label index="tx_dce_domain_model_dce.enableDetailpage">Enable detail page</label>
@@ -84,12 +61,24 @@
 			<label index="tx_dce_domain_model_dce.detailpageTemplate">Detail page template (fluid)</label>
 			<label index="tx_dce_domain_model_dce.detailpageTemplateFile">Detail page template file (fluid)</label>
 
+			<label index="tx_dce_domain_model_dce.container">DCE Container</label>
+			<label index="tx_dce_domain_model_dce.enableContainer">Enable DCE container</label>
+			<label index="tx_dce_domain_model_dce.containerItemLimit">Container item limit</label>
+			<label index="tx_dce_domain_model_dce.containerTemplate">DCE container template (fluid)</label>
+			<label index="tx_dce_domain_model_dce.containerTemplateFile">DCE container template file (fluid)</label>
+
 			<label index="tx_dce_domain_model_dce.miscellaneous">Miscellaneous</label>
 			<label index="tx_dce_domain_model_dce.cacheDce">Cache DCE frontend plugin</label>
-			<label index="tx_dce_domain_model_dce.showAccessTab">Enable access tab in backend</label>
-			<label index="tx_dce_domain_model_dce.showCategoryTab">Enable categories tab in backend</label>
+
+			<label index="tx_dce_domain_model_dce.contentRelationsPalette">Content element relations:</label>
+			<label index="tx_dce_domain_model_dce.showAccessTab">Enable access tab</label>
+			<label index="tx_dce_domain_model_dce.showCategoryTab">Enable categories tab</label>
+			<label index="tx_dce_domain_model_dce.showMediaTab">Enable media tab</label>
+
 			<label index="tx_dce_domain_model_dce.hideDefaultCeWrap">Disables the "div.csc-default" wrapping</label>
 			<label index="tx_dce_domain_model_dce.paletteFields">DCE palette fields</label>
+			<label index="tx_dce_domain_model_dce.flexformLabel">Flexform label</label>
+			<label index="tx_dce_domain_model_dce.flexformLabel.default">Contents:</label>
 
 			<label index="tx_dce_domain_model_dce.useSimpleBackendView">Use simple backend view</label>
 			<label index="tx_dce_domain_model_dce.backendViewHeader">Header field (which field value should be used as header)</label>
@@ -118,6 +107,7 @@
 			<label index="tx_dce_formeval_lowerCamelCase">The value have to be formated as lowerCamelCase. Changed input from '%s' to '%s'.</label>
 
 			<label index="tt_content.tx_dce_dce">DCE</label>
+			<label index="tt_content.tx_dce_new_container">Start new DCE container</label>
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="wizardIcon.default">Standard TYPO3-Icons</label>
@@ -131,16 +121,12 @@
 			<label index="tx_dce_domain_model_dce">DCE</label>
 			<label index="tx_dce_domain_model_dce_long">Dynamische Content-Elemente</label>
             <label index="tx_dce_domain_model_dce.hidden">Inaktiv</label>
-            <label index="tx_dce_domain_model_dce.type">Typ</label>
-			<label index="tx_dce_domain_model_dce.type.databased">Datenbankbasiert</label>
-			<label index="tx_dce_domain_model_dce.type.filebased">Dateibasiert</label>
-            <label index="tx_dce_domain_model_dce.identifier">Identifikator</label>
 			<label index="tx_dce_domain_model_dce.title">Titel</label>
 			<label index="tx_dce_domain_model_dce.category">Kategorie</label>
 			<label index="tx_dce_domain_model_dce.fields">Felder</label>
 			<label index="tx_dce_domain_model_dce.wizard">Icon &amp; Wizard</label>
 			<label index="tx_dce_domain_model_dce.wizardIcon">DCE Icon</label>
-			<label index="tx_dce_domain_model_dce.wizardCustomIcon">Benutzerdefiniertes DCE Icon (24x24 Pixel)</label>
+			<label index="tx_dce_domain_model_dce.wizardCustomIcon">Benutzerdefiniertes DCE Icon (relativer oder EXT: Pfad zum Icon, 24x24 Pixel)</label>
 			<label index="tx_dce_domain_model_dce.wizardEnable">Zeige DCE in Wizard zum Anlegen neuer Content-Elemente</label>
 			<label index="tx_dce_domain_model_dce.wizardCategory">Wizard Kategorie</label>
 			<label index="tx_dce_domain_model_dce.wizardDescription">Wizard Beschreibung</label>
@@ -155,9 +141,11 @@
 			<label index="tx_dce_domain_model_dce.partialRootPath">Fluid Partial Root-Verzeichnis</label>
 
             <label index="tx_dce_domain_model_dce.backendTemplate">Backend Template</label>
-            <label index="tx_dce_domain_model_dce.previewTemplateType">Vorschau-Template-Typ</label>
-            <label index="tx_dce_domain_model_dce.headerPreview">Überschriften-Vorschau-Template (Fluid)</label>
-            <label index="tx_dce_domain_model_dce.bodytextPreview">Inhaltstext-Vorschau-Template (Fluid)</label>
+            <label index="tx_dce_domain_model_dce.backendTemplateType">Backend-Template-Typ</label>
+			<label index="tx_dce_domain_model_dce.backendTemplateType.file">Datei</label>
+			<label index="tx_dce_domain_model_dce.backendTemplateType.inline">Inline</label>
+            <label index="tx_dce_domain_model_dce.backendTemplateContent">Backend-Template-Template (Fluid)</label>
+            <label index="tx_dce_domain_model_dce.backendTemplateFile">Backend-Template-Datei (Fluid)</label>
             <label index="tx_dce_domain_model_dce.headerPreviewTemplateFile">Überschriften-Vorschau-Template-Datei (Fluid)</label>
             <label index="tx_dce_domain_model_dce.bodytextPreviewTemplateFile">Inhaltstext-Vorschau-Template-Datei (Fluid)</label>
 
@@ -167,12 +155,24 @@
 			<label index="tx_dce_domain_model_dce.detailpageTemplate">Detailseiten-Template (Fluid)</label>
 			<label index="tx_dce_domain_model_dce.detailpageTemplateFile">Detailseiten-Template-Datei (Fluid)</label>
 
+			<label index="tx_dce_domain_model_dce.container">DCE-Container</label>
+			<label index="tx_dce_domain_model_dce.enableContainer">Aktiviere DCE-Container</label>
+			<label index="tx_dce_domain_model_dce.containerItemLimit">Limit von Elementen im Container</label>
+			<label index="tx_dce_domain_model_dce.containerTemplate">DCE-Container-Template (Fluid)</label>
+			<label index="tx_dce_domain_model_dce.containerTemplateFile">DCE-Container-Template-Datei (Fluid)</label>
+
 			<label index="tx_dce_domain_model_dce.miscellaneous">Sonstiges</label>
 			<label index="tx_dce_domain_model_dce.cacheDce">DCE Frontend Plugin Cache aktivieren</label>
-			<label index="tx_dce_domain_model_dce.showAccessTab">Aktiviere "Zugriff" Tab im Backend</label>
-			<label index="tx_dce_domain_model_dce.showCategoryTab">Aktiviere "Kategorien" Tab im Backend</label>
+
+			<label index="tx_dce_domain_model_dce.contentRelationsPalette">Inhaltselement-Relationen:</label>
+			<label index="tx_dce_domain_model_dce.showAccessTab">Blende "Zugriff" Tab ein</label>
+			<label index="tx_dce_domain_model_dce.showCategoryTab">Blende "Kategorien" Tab ein</label>
+			<label index="tx_dce_domain_model_dce.showMediaTab">Blende "Medien" Tab ein</label>
+
 			<label index="tx_dce_domain_model_dce.hideDefaultCeWrap">Deaktiviere das "div.csc-default" Wrapping</label>
 			<label index="tx_dce_domain_model_dce.paletteFields">DCE Paletten-Felder</label>
+			<label index="tx_dce_domain_model_dce.flexformLabel">Flexform Label</label>
+			<label index="tx_dce_domain_model_dce.flexformLabel.default">Inhalte:</label>
 
 			<label index="tx_dce_domain_model_dce.useSimpleBackendView">Benutze einfache Backend-Ansicht</label>
 			<label index="tx_dce_domain_model_dce.backendViewHeader">Header-Feld (welcher Feldwert soll als Überschrift benutzt werden)</label>
@@ -199,6 +199,8 @@
 			<label index="tx_dce_formeval_headline">Eingabe '%s' ungültig</label>
 			<label index="tx_dce_formeval_noLeadingNumber">Der Wert darf nicht mit Nummern beginnen. Eingabe wurde von '%s' nach '%s' geändert.</label>
 			<label index="tx_dce_formeval_lowerCamelCase">Der Wert muss nach lowerCamelCase formatiet sein. Eingabe wurde von '%s' nach '%s' geändert.</label>
+
+			<label index="tt_content.tx_dce_new_container">Neuen DCE-Container bilden</label>
 		</languageKey>
 	</data>
 </T3locallang>

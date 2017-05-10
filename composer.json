@@ -1,14 +1,12 @@
 {
 	"name": "arminvieweg/dce",
 	"type": "typo3-cms-extension",
-	"description": "DCE is an extension for the CMS TYPO3, which creates easily and fast dynamic content elements. It is an alternative to flexible content elements (FCE) but without need of TemplaVoila (TV). Based on Extbase and Fluid.",
-	"version": "1.2.5-dev",
-	"homepage": "http://typo3.org",
-	"license": [
-		"GPL-2.0+"
-	],
+	"description": "Best flexform based content elements since 2012. With TCA mapping feature, simple backend view and much more features which makes it super easy to create own content element types.",
+	"version": "1.4.5",
+	"homepage": "https://www.facebook.com/TYPO3.DCE.Extension/",
+	"license": "GPL-2.0+",
 	"require": {
-		"typo3/cms-core": ">=6.2.0,<8.0"
+		"typo3/cms-core": ">=7.6.0,<9.0"
 	},
 	"autoload": {
 		"psr-4": {

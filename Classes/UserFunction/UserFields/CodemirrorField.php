@@ -1,11 +1,12 @@
 <?php
 namespace ArminVieweg\Dce\UserFunction\UserFields;
 
-/*  | This extension is part of the TYPO3 project. The TYPO3 project is
- *  | free software and is licensed under GNU General Public License.
+/*  | This extension is made for TYPO3 CMS and is licensed
+ *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2017 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
+use ArminVieweg\Dce\Utility\File;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -19,7 +20,7 @@ class CodemirrorField
     /**
      * @var array Field parameters
      */
-    protected $parameter = array();
+    protected $parameter = [];
 
     /**
      * @param $parameter
@@ -35,9 +36,13 @@ class CodemirrorField
         /** @var $fluidTemplate \ArminVieweg\Dce\Utility\FluidTemplate */
         $fluidTemplate = GeneralUtility::makeInstance('ArminVieweg\Dce\Utility\FluidTemplate');
 
-        $fluidTemplate->setLayoutRootPath(GeneralUtility::getFileAbsFileName('EXT:dce/Resources/Private/Layouts/'));
-        $fluidTemplate->setPartialRootPath(GeneralUtility::getFileAbsFileName('EXT:dce/Resources/Private/Partials/'));
-        $fluidTemplate->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
+        $fluidTemplate->setLayoutRootPaths(
+            [File::get('EXT:dce/Resources/Private/Layouts/')]
+        );
+        $fluidTemplate->setPartialRootPaths(
+            [File::get('EXT:dce/Resources/Private/Partials/')]
+        );
+        $fluidTemplate->setTemplatePathAndFilename(File::get(
             'EXT:dce/Resources/Private/Templates/DceUserFields/Codemirror.html'
         ));
 
@@ -51,7 +56,13 @@ class CodemirrorField
         $fluidTemplate->assign('disableCodemirror', $extConfiguration['disableCodemirror']);
 
         if ($parameter['fieldConf']['config']['parameters']['mode'] === 'htmlmixed') {
-            $fluidTemplate->assign('availableFields', $this->getAvailableFields());
+            if (!(bool) $parameter['fieldConf']['config']['parameters']['doNotShowFields']) {
+                $fluidTemplate->assign('availableFields', $this->getAvailableFields());
+            }
+            $fluidTemplate->assign(
+                'showFields',
+                !(bool) $parameter['fieldConf']['config']['parameters']['doNotShowFields']
+            );
             $fluidTemplate->assign('famousViewHelpers', $this->getFamousViewHelpers());
             $fluidTemplate->assign('dceViewHelpers', $this->getDceViewHelpers());
         } else {
@@ -68,7 +79,7 @@ class CodemirrorField
      */
     protected function getAvailableFields()
     {
-        $fields = array();
+        $fields = [];
 
         $rowFields = $this->parameter['row']['fields'];
         if (!empty($rowFields)) {
@@ -91,7 +102,7 @@ class CodemirrorField
 							ORDER BY sorting asc
 						');
 
-                        $sectionFields = array();
+                        $sectionFields = [];
                         while (($row2 = $db->sql_fetch_assoc($res2))) {
                             $sectionFields[] = $row2;
                         }
@@ -115,7 +126,7 @@ class CodemirrorField
         $templates = array_flip($templates);
 
         foreach (array_keys($templates) as $key) {
-            $files = array();
+            $files = [];
             foreach (GeneralUtility::getFilesInDir($path . $key) as $file) {
                 $filename = preg_replace('/(.*)\.xml/i', '$1', $file);
                 $files[$filename] = file_get_contents($path . $key . '/' . $file);
@@ -156,7 +167,7 @@ class CodemirrorField
     {
         $files = GeneralUtility::getFilesInDir($path);
 
-        $viewHelpers = array();
+        $viewHelpers = [];
         foreach ($files as $file) {
             $name = preg_replace('/(.*)\.html/i', '$1', $file);
             $value = file_get_contents($path . $file);

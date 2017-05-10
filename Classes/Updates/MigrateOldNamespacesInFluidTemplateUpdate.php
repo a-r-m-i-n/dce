@@ -1,12 +1,12 @@
 <?php
 namespace ArminVieweg\Dce\Updates;
 
-/*  | This extension is part of the TYPO3 project. The TYPO3 project is
- *  | free software and is licensed under GNU General Public License.
+/*  | This extension is made for TYPO3 CMS and is licensed
+ *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2017 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
-use TYPO3\CMS\Core\Database\DatabaseConnection;
+use ArminVieweg\Dce\Utility\File;
 
 /**
  * Migrates old namespaces in fluid templates
@@ -95,7 +95,10 @@ class MigrateOldNamespacesInFluidTemplateUpdate extends AbstractUpdate
      */
     protected function doesFileTemplateRequiresUpdate(array $dceRow, $column)
     {
-        $file = \ArminVieweg\Dce\Utility\File::getFilePath($dceRow[$column]);
+        $file = File::get($dceRow[$column]);
+        if (empty($file)) {
+            return false;
+        }
         return $this->templateNeedUpdate(file_get_contents($file));
     }
 
@@ -168,9 +171,9 @@ class MigrateOldNamespacesInFluidTemplateUpdate extends AbstractUpdate
             return (bool) $this->getDatabaseConnection()->exec_UPDATEquery(
                 'tx_dce_domain_model_dce',
                 'uid = ' . (int) $dceRow['uid'],
-                array(
+                [
                     $column => $updatedTemplateContent
-                )
+                ]
             );
         }
         return null;
@@ -185,7 +188,7 @@ class MigrateOldNamespacesInFluidTemplateUpdate extends AbstractUpdate
      */
     protected function updateFileTemplate(array $dceRow, $column)
     {
-        $file = \ArminVieweg\Dce\Utility\File::getFilePath($dceRow[$column]);
+        $file = File::get($dceRow[$column]);
         if (!is_writeable($file)) {
             return false;
         }
@@ -193,7 +196,10 @@ class MigrateOldNamespacesInFluidTemplateUpdate extends AbstractUpdate
         $templateContent = file_get_contents($file);
         if ($this->templateNeedUpdate($templateContent)) {
             $updatedTemplateContent = $this->performTemplateUpdates($templateContent);
-            return (bool) file_put_contents(PATH_site . $file, $updatedTemplateContent);
+            if (!file_exists($file)) {
+                $file = PATH_site . $file;
+            }
+            return (bool) file_put_contents($file, $updatedTemplateContent);
         }
         return null;
     }

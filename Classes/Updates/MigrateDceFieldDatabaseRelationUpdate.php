@@ -1,12 +1,11 @@
 <?php
 namespace ArminVieweg\Dce\Updates;
 
-/*  | This extension is part of the TYPO3 project. The TYPO3 project is
- *  | free software and is licensed under GNU General Public License.
+/*  | This extension is made for TYPO3 CMS and is licensed
+ *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2017 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
-use TYPO3\CMS\Core\Database\DatabaseConnection;
 
 /**
  * Migrate m:n-relation of dce fields to 1:n-relation
@@ -79,6 +78,15 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
     public function performUpdate(array &$dbQueries, &$customMessages)
     {
         $this->getDatabaseConnection()->store_lastBuiltQuery = true;
+        $availableDces = $this->getDatabaseConnection()->exec_SELECTgetRows(
+            'uid',
+            'tx_dce_domain_model_dce',
+            'deleted = 0',
+            '',
+            '',
+            '',
+            'uid'
+        );
         $sectionFieldRelations = $this->getDatabaseConnection()->exec_SELECTgetRows(
             '*',
             $this->getSourceTableNameForSectionField(),
@@ -87,10 +95,10 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
         $this->storeLastQuery($dbQueries);
 
         foreach ($sectionFieldRelations as $sectionFieldRelation) {
-            $updateValues = array(
+            $updateValues = [
                 'parent_field' => $sectionFieldRelation['uid_local'],
                 'sorting' => $sectionFieldRelation['sorting']
-            );
+            ];
             $this->getDatabaseConnection()->exec_UPDATEquery(
                 'tx_dce_domain_model_dcefield',
                 'uid=' . $sectionFieldRelation['uid_foreign'],
@@ -106,10 +114,13 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
         );
         $this->storeLastQuery($dbQueries);
         foreach ($dceFieldRelations as $dceFieldRelation) {
-            $updateValues = array(
+            if (!array_key_exists($dceFieldRelation['uid_local'], $availableDces)) {
+                continue;
+            }
+            $updateValues = [
                 'parent_dce' => $dceFieldRelation['uid_local'],
                 'sorting' => $dceFieldRelation['sorting']
-            );
+            ];
             $this->getDatabaseConnection()->exec_UPDATEquery(
                 'tx_dce_domain_model_dcefield',
                 'uid=' . $dceFieldRelation['uid_foreign'],
@@ -121,7 +132,7 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
         $remainingDceFields = $this->getUpdatableDceFields();
         $this->storeLastQuery($dbQueries);
         if (count($remainingDceFields) > 0) {
-            $dceFieldUids = array();
+            $dceFieldUids = [];
             foreach ($remainingDceFields as $remainingDceField) {
                 $dceFieldUids[] = $remainingDceField['uid'];
             }
@@ -134,7 +145,7 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
             $this->getDatabaseConnection()->exec_UPDATEquery(
                 'tx_dce_domain_model_dcefield',
                 'uid IN (' . $dceFieldUids . ')',
-                array('deleted' => '1')
+                ['deleted' => '1']
             );
             $this->storeLastQuery($dbQueries);
         }

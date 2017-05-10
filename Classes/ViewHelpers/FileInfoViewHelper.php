@@ -1,10 +1,10 @@
 <?php
 namespace ArminVieweg\Dce\ViewHelpers;
 
-/*  | This extension is part of the TYPO3 project. The TYPO3 project is
- *  | free software and is licensed under GNU General Public License.
+/*  | This extension is made for TYPO3 CMS and is licensed
+ *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2017 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -24,7 +24,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class FileInfoViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
-
     /**
      * @var \TYPO3\CMS\Core\Resource\FileRepository
      */
@@ -33,7 +32,7 @@ class FileInfoViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
     /**
      * @var array
      */
-    protected static $files = array();
+    protected static $files = [];
 
     /**
      * Returns file info

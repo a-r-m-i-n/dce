@@ -1,15 +1,13 @@
 <?php
 namespace ArminVieweg\Dce\Hooks;
 
-/*  | This extension is part of the TYPO3 project. The TYPO3 project is
- *  | free software and is licensed under GNU General Public License.
+/*  | This extension is made for TYPO3 CMS and is licensed
+ *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2017 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
-use ArminVieweg\Dce\Utility\BackendPreviewTemplate;
 use ArminVieweg\Dce\Utility\DatabaseUtility;
 use ArminVieweg\Dce\Utility\FlashMessage;
-use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
@@ -27,133 +25,11 @@ class AfterSaveHook
     protected $uid = 0;
 
     /** @var array all properties of current record */
-    protected $fieldArray = array();
+    protected $fieldArray = [];
 
     /** @var array extension settings */
-    protected $extConfiguration = array();
+    protected $extConfiguration = [];
 
-
-    /**
-     * @param \TYPO3\CMS\Core\DataHandling\DataHandler $cObj
-     * @return void
-     */
-    public function processDatamap_beforeStart(\TYPO3\CMS\Core\DataHandling\DataHandler $cObj)
-    {
-        if (array_key_exists('tx_dce_domain_model_dce', $cObj->datamap)) {
-            $this->extConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dce']);
-            $datamap = $cObj->datamap;
-
-            $dceIdentifier = reset(array_keys($datamap['tx_dce_domain_model_dce']));
-            if (is_numeric($dceIdentifier) || strpos($dceIdentifier, 'NEW') === 0) {
-                return;
-            }
-
-            $path = $this->extConfiguration['filebasedDcePath'];
-            if (substr($path, -1) !== DIRECTORY_SEPARATOR) {
-                $path .= DIRECTORY_SEPARATOR;
-            }
-            $newValues = reset($datamap['tx_dce_domain_model_dce']);
-            $newIdentifier = $newValues['identifier'];
-            $dceFolderPath = PATH_site . $path . $newIdentifier . DIRECTORY_SEPARATOR;
-
-            /** @var \ArminVieweg\Dce\Utility\StaticDce $staticDceUtility */
-            $staticDceUtility = GeneralUtility::makeInstance('ArminVieweg\Dce\Utility\StaticDce');
-
-            $realDceIdentifier = substr($dceIdentifier, 4);
-            $oldValues = $staticDceUtility->getStaticDceData($realDceIdentifier);
-
-            if (!empty($oldValues)) {
-                $oldIdentifier = $oldValues['identifier'];
-            }
-
-            $renamed = false;
-            if (isset($oldIdentifier) && $oldIdentifier !== $newIdentifier) {
-                if (file_exists($dceFolderPath)) {
-                    \ArminVieweg\Dce\Utility\FlashMessage::add(
-                        'Another static DCE with name "' . $newIdentifier . '" already exists.',
-                        'Renaming failed',
-                        \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR
-                    );
-                    $newIdentifier = $oldIdentifier;
-                    $dceFolderPath = PATH_site . $path . $newIdentifier . DIRECTORY_SEPARATOR;
-                } else {
-                    // Rename
-                    rename(PATH_site . $path . $oldIdentifier . DIRECTORY_SEPARATOR, $dceFolderPath);
-                    $renamed = true;
-                }
-            } else {
-                // Create
-                if (!file_exists($dceFolderPath) && !is_dir($dceFolderPath)) {
-                    mkdir($dceFolderPath, 0777, true);
-                    GeneralUtility::fixPermissions($dceFolderPath);
-                }
-            }
-
-            unset($newValues['identifier']);
-
-            $fields = array();
-            foreach (GeneralUtility::trimExplode(',', $newValues['fields'], true) as $fieldId) {
-                $fieldSettings = $datamap['tx_dce_domain_model_dcefield'][$fieldId];
-
-                if (intval($fieldSettings['type']) === 2) {
-                    $sectionFields = array();
-                    $sectionFieldIds = GeneralUtility::trimExplode(',', $fieldSettings['section_fields'], true);
-                    foreach ($sectionFieldIds as $sectionFieldId) {
-                        $sectionFieldVariable = $datamap['tx_dce_domain_model_dcefield'][$sectionFieldId]['variable'];
-                        if ($sectionFieldId !== $sectionFieldVariable) {
-                            $sectionFields[$sectionFieldVariable] =
-                                $datamap['tx_dce_domain_model_dcefield'][$sectionFieldId];
-                        } else {
-                            $sectionFields[$sectionFieldId] = $datamap['tx_dce_domain_model_dcefield'][$sectionFieldId];
-                        }
-                    }
-                    $fieldSettings['section_fields'] = $sectionFields;
-                }
-
-                if ($fieldId !== $fieldSettings['variable']) {
-                    $fields[$this->getVariableNameFromFieldSettings($fieldSettings)] = $fieldSettings;
-                } else {
-                    $fields[$fieldId] = $fieldSettings;
-                }
-            }
-
-            $newValues['fields'] = $fields;
-
-            file_put_contents($dceFolderPath . 'Frontend.html', $newValues['template_content']);
-            file_put_contents($dceFolderPath . 'BackendHeader.html', $newValues['header_preview']);
-            file_put_contents($dceFolderPath . 'BackendBodytext.html', $newValues['bodytext_preview']);
-            file_put_contents($dceFolderPath . 'Detailpage.html', $newValues['detailpage_template']);
-
-            GeneralUtility::fixPermissions($dceFolderPath, true);
-
-            unset($newValues['type']);
-            unset($newValues['template_type']);
-            unset($newValues['template_content']);
-            unset($newValues['detailpage_template_type']);
-            unset($newValues['detailpage_template']);
-            unset($newValues['preview_template_type']);
-            unset($newValues['header_preview']);
-            unset($newValues['bodytext_preview']);
-
-            /** @var \ArminVieweg\Dce\Utility\TypoScript $typoScriptUtility */
-            $typoScriptUtility = GeneralUtility::makeInstance('ArminVieweg\Dce\Utility\TypoScript');
-            $dceTypoScript = $typoScriptUtility->convertArrayToTypoScript($newValues, 'tx_dce.static');
-
-            file_put_contents($dceFolderPath . 'Dce.ts', $dceTypoScript);
-
-            $cObj->datamap = array();
-
-            $saveOnly = GeneralUtility::_GP('_savedok_x') && GeneralUtility::_GP('_savedok_y');
-            if ($saveOnly === true && $renamed === true) {
-                ob_clean();
-                header(
-                    'Location: alt_doc.php?edit[tx_dce_domain_model_dce][dce_' . $newIdentifier .
-                    ']=edit&returnUrl=' . urlencode(GeneralUtility::_GP('returnUrl'))
-                );
-                die;
-            }
-        }
-    }
 
     /**
      * If variable in given fieldSettings is set, it will be returned.
@@ -180,6 +56,8 @@ class AfterSaveHook
         return $fieldSettings['variable'];
     }
 
+    // @codingStandardsIgnoreStart
+
     /**
      * Hook action
      *
@@ -200,7 +78,7 @@ class AfterSaveHook
     ) {
         $this->extConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dce']);
         $this->dataHandler = $pObj;
-        $this->fieldArray = array();
+        $this->fieldArray = [];
         foreach ($fieldArray as $key => $value) {
             if (!empty($key)) {
                 $this->fieldArray[$key] = $value;
@@ -208,17 +86,16 @@ class AfterSaveHook
         }
         $this->uid = $this->getUid($id, $table, $status, $pObj);
 
+        // Write flexform values to TCA, when enabled
         if ($table === 'tt_content' && $this->isDceContentElement($pObj)) {
             $this->checkAndUpdateDceRelationField();
-            \ArminVieweg\Dce\Utility\FlexformToTcaMapper::saveFlexformValuesToTca(
+            \ArminVieweg\Dce\Components\FlexformToTcaMapper\Mapper::saveFlexformValuesToTca(
                 $this->uid,
                 $this->fieldArray['pi_flexform']
             );
-            if (!isset($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceImportInProgress'])) {
-                $this->performPreviewAutoupdateOnContentElementSave();
-            }
         }
 
+        // When a DCE is disabled, also disable/hide the based content elements
         if ($table === 'tx_dce_domain_model_dce' && $status === 'update') {
             if (!isset($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceImportInProgress'])) {
                 if (array_key_exists('hidden', $fieldArray) && $fieldArray['hidden'] == '1') {
@@ -226,6 +103,8 @@ class AfterSaveHook
                 }
             }
         }
+
+        // Show hint when dcefield has been mapped to tca column
         if ($table === 'tx_dce_domain_model_dcefield' && $status === 'update') {
             if (array_key_exists('new_tca_field_name', $fieldArray) ||
                 array_key_exists('new_tca_field_type', $fieldArray)
@@ -239,52 +118,43 @@ class AfterSaveHook
             }
         }
 
+        // Adds or removes *containerflag from simple backend view, when container is en- or disabled
+        if ($table === 'tx_dce_domain_model_dce' && $status === 'update' || $status === 'new') {
+            if (array_key_exists('enable_container', $fieldArray)) {
+                if ($fieldArray['enable_container'] === '1') {
+                    $items = GeneralUtility::trimExplode(',', $fieldArray['backend_view_bodytext'], true);
+                    $items[] = '*containerflag';
+                } else {
+                    $items = \TYPO3\CMS\Core\Utility\ArrayUtility::removeArrayEntryByValue(
+                        GeneralUtility::trimExplode(',', $fieldArray['backend_view_bodytext'], true),
+                        '*containerflag'
+                    );
+                }
+                DatabaseUtility::getDatabaseConnection()->exec_UPDATEquery(
+                    'tx_dce_domain_model_dce',
+                    'uid=' . $this->uid,
+                    [
+                        'backend_view_bodytext' => implode(',', $items)
+                    ]
+                );
+            }
+        }
+
         // Clear cache if dce or dcefield has been created or updated
-        if ($this->extConfiguration['disableAutoClearCache'] == 0
-            && in_array($table, array('tx_dce_domain_model_dce', 'tx_dce_domain_model_dcefield'))
-            && in_array($status, array('update', 'new'))
+        if (in_array($table, ['tx_dce_domain_model_dce', 'tx_dce_domain_model_dcefield']) &&
+            in_array($status, ['update', 'new'])
         ) {
-            $pObj->clear_cacheCmd('all');
+            if ($this->extConfiguration['disableAutoClearCache'] == 0) {
+                \ArminVieweg\Dce\Cache::clear();
+            }
+            // TODO: Deprecated remove in next major version (also in ext_conf_template.txt)
+            if ($this->extConfiguration['disableAutoClearFrontendCache'] == 0) {
+                $pObj->clear_cacheCmd('pages');
+            }
         }
     }
 
-    /**
-     * On save on content element, which based on dce, its preview texts become updated. If change is made in
-     * frontend context, they can not get rendered. Instead a message will appear, which informs the user in backend
-     * about this circumstance.
-     *
-     * @return void
-     * @deprecated Remove whole fluid-based backend templating in further versions
-     */
-    protected function performPreviewAutoupdateOnContentElementSave()
-    {
-        $dceUid = DatabaseUtility::getDceUidByContentElementUid($this->uid);
-        $dceRow = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
-            '*',
-            'tx_dce_domain_model_dce',
-            'uid=' . $dceUid
-        );
-        if (isset($dceRow['use_simple_backend_view']) && $dceRow['use_simple_backend_view'] === '1') {
-            return;
-        }
-        if (TYPO3_MODE === 'BE') {
-            $mergedFieldArray = array_merge($this->fieldArray, BackendPreviewTemplate::generateDcePreview($this->uid));
-            $this->dataHandler->updateDB('tt_content', $this->uid, $mergedFieldArray);
-        } else {
-            // Preview texts can not created in frontend context
-            $this->dataHandler->updateDB('tt_content', $this->uid, array_merge($this->fieldArray, array(
-                'header' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
-                    'contentElementCreatedByFrontendHeader',
-                    'dce'
-                ),
-                'bodytext' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
-                    'contentElementCreatedByFrontendBodytext',
-                    'dce',
-                    array(GeneralUtility::_GP('eID'))
-                ),
-            )));
-        }
-    }
+    // @codingStandardsIgnoreEnd
 
     /**
      * Disables content elements based on this deactivated DCE. Also display flash message
@@ -299,7 +169,7 @@ class AfterSaveHook
         $res = DatabaseUtility::getDatabaseConnection()->exec_SELECTquery('uid', 'tt_content', $whereStatement);
         $updatedContentElementsCount = 0;
         while (($row = DatabaseUtility::getDatabaseConnection()->sql_fetch_assoc($res))) {
-            $this->dataHandler->updateDB('tt_content', $row['uid'], array('hidden' => 1));
+            $this->dataHandler->updateDB('tt_content', $row['uid'], ['hidden' => 1]);
             $updatedContentElementsCount++;
         }
 
@@ -311,7 +181,7 @@ class AfterSaveHook
         $message = LocalizationUtility::translate(
             $pathToLocallang . 'hideContentElementsBasedOnDce',
             'Dce',
-            array('count' => $updatedContentElementsCount)
+            ['count' => $updatedContentElementsCount]
         );
         FlashMessage::add(
             $message,
@@ -328,7 +198,9 @@ class AfterSaveHook
      */
     protected function isDceContentElement(\TYPO3\CMS\Core\DataHandling\DataHandler $pObj)
     {
-        $datamap = reset(reset($pObj->datamap));
+        $datamap = $pObj->datamap;
+        $datamap = reset($datamap);
+        $datamap = reset($datamap);
         return (strpos($datamap['CType'], 'dce_dceuid') !== false);
     }
 
@@ -336,9 +208,9 @@ class AfterSaveHook
      * Investigates the uid of entry
      *
      * @param $id
+     * @param $table
      * @param $status
      * @param $pObj
-     *
      * @return int
      */
     protected function getUid($id, $table, $status, $pObj)
@@ -367,9 +239,9 @@ class AfterSaveHook
     {
         $row = $this->dataHandler->recordInfo('tt_content', $this->uid, 'CType,tx_dce_dce');
         if (empty($row['tx_dce_dce'])) {
-            $this->dataHandler->updateDB('tt_content', $this->uid, array(
+            $this->dataHandler->updateDB('tt_content', $this->uid, [
                 'tx_dce_dce' => \ArminVieweg\Dce\Domain\Repository\DceRepository::extractUidFromCtype($row['CType'])
-            ));
+            ]);
         }
     }
 }

@@ -1,10 +1,10 @@
 <?php
 namespace ArminVieweg\Dce\Utility;
 
-/*  | This extension is part of the TYPO3 project. The TYPO3 project is
- *  | free software and is licensed under GNU General Public License.
+/*  | This extension is made for TYPO3 CMS and is licensed
+ *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2017 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -33,21 +33,26 @@ class Extbase
         $controller,
         $action = 'index',
         $pluginName = 'Pi1',
-        $settings = array(),
+        $settings = [],
         $compressedObject = false
     ) {
         $bootstrap = new \TYPO3\CMS\Extbase\Core\Bootstrap();
         $bootstrap->cObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
-        $configuration = array(
+        $configuration = [
             'vendorName' => $vendorName,
             'extensionName' => $extensionName,
             'controller' => $controller,
             'action' => $action,
             'pluginName' => $pluginName,
             'settings' => $settings
-        );
+        ];
         \ArminVieweg\Dce\Utility\ForbiddenUtility::setExtbaseRelatedPostParameters($controller, $action);
+
+        $previousValue = $GLOBALS['TYPO3_CONF_VARS']['FE']['pageNotFoundOnCHashError'];
+        $GLOBALS['TYPO3_CONF_VARS']['FE']['pageNotFoundOnCHashError'] = false;
         $extbaseReturnValue = $bootstrap->run('', $configuration);
+        $GLOBALS['TYPO3_CONF_VARS']['FE']['pageNotFoundOnCHashError'] = $previousValue;
+        unset($bootstrap);
 
         if ($compressedObject) {
             return unserialize(gzuncompress($extbaseReturnValue));

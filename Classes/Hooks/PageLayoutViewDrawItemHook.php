@@ -1,10 +1,10 @@
 <?php
 namespace ArminVieweg\Dce\Hooks;
 
-/*  | This extension is part of the TYPO3 project. The TYPO3 project is
- *  | free software and is licensed under GNU General Public License.
+/*  | This extension is made for TYPO3 CMS and is licensed
+ *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2017 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
 use ArminVieweg\Dce\Utility\DatabaseUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
@@ -52,10 +52,10 @@ class PageLayoutViewDrawItemHook implements \TYPO3\CMS\Backend\View\PageLayoutVi
                 'Dce',
                 'renderDce',
                 'Dce',
-                array(
+                [
                     'contentElementUid' => $row['uid'],
                     'dceUid' => $dceUid
-                ),
+                ],
                 true
             );
         } catch (\Exception $exception) {
@@ -63,26 +63,26 @@ class PageLayoutViewDrawItemHook implements \TYPO3\CMS\Backend\View\PageLayoutVi
             return;
         }
 
+        $drawItem = false;
         if ($dce->isUseSimpleBackendView()) {
             $this->addPageViewStylesheets();
 
-            /** @var \ArminVieweg\Dce\Utility\SimpleBackendView $simpleBackendViewUtility */
-            $simpleBackendViewUtility = GeneralUtility::makeInstance('ArminVieweg\Dce\Utility\SimpleBackendView');
-            $drawItem = false;
+            /** @var \ArminVieweg\Dce\Components\BackendView\SimpleBackendView $simpleBackendView */
+            $simpleBackendView = GeneralUtility::makeInstance(
+                'ArminVieweg\Dce\Components\BackendView\SimpleBackendView'
+            );
+
             $headerContent = $parentObject->linkEditContent(
-                $simpleBackendViewUtility->getSimpleBackendViewHeaderContent($dce),
+                $simpleBackendView->getHeaderContent($dce),
                 $row
             );
             $itemContent .= $parentObject->linkEditContent(
-                $simpleBackendViewUtility->getSimpleBackendViewBodytextContent($dce, $row),
+                $simpleBackendView->getBodytextContent($dce, $row),
                 $row
             );
-            return;
-        }
-
-        if (strpos($row['CType'], 'dce_dceuid') !== false) {
-            $drawItem = false;
-            $itemContent .= $parentObject->linkEditContent($row['bodytext'], $row) . '<br />';
+        } else {
+            $headerContent = $parentObject->linkEditContent($dce->renderBackendTemplate('header'), $row);
+            $itemContent .= $parentObject->linkEditContent($dce->renderBackendTemplate('bodytext'), $row);
         }
     }
 
@@ -96,10 +96,8 @@ class PageLayoutViewDrawItemHook implements \TYPO3\CMS\Backend\View\PageLayoutVi
         if ($this->stylesAdded) {
             return;
         }
-        /** @var \TYPO3\CMS\Backend\Template\DocumentTemplate $mediumDocumentTemplate */
-        $mediumDocumentTemplate = GeneralUtility::makeInstance('TYPO3\CMS\Backend\Template\DocumentTemplate');
-        /** @var \TYPO3\CMS\Core\Page\PageRenderer $pr */
-        $pageRenderer = $mediumDocumentTemplate->getPageRenderer();
+        /** @var \TYPO3\CMS\Core\Page\PageRenderer $pageRenderer */
+        $pageRenderer = GeneralUtility::makeInstance('TYPO3\CMS\Core\Page\PageRenderer');
         $pageRenderer->addCssInlineBlock(
             'DcePageLayoutStyles',
             file_get_contents(ExtensionManagementUtility::extPath('dce') . 'Resources/Public/Css/dceInstance.css')

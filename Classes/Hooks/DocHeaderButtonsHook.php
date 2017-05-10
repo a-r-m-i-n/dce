@@ -1,13 +1,12 @@
 <?php
 namespace ArminVieweg\Dce\Hooks;
 
-/*  | This extension is part of the TYPO3 project. The TYPO3 project is
- *  | free software and is licensed under GNU General Public License.
+/*  | This extension is made for TYPO3 CMS and is licensed
+ *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2017 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
 use TYPO3\CMS\Core\Imaging\Icon;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
@@ -35,7 +34,7 @@ class DocHeaderButtonsHook
             /** @var \TYPO3\CMS\Core\Imaging\IconFactory $iconFactory */
             $iconFactory = GeneralUtility::makeInstance('TYPO3\CMS\Core\Imaging\IconFactory');
             $button = $buttonBar->makeLinkButton();
-            $button->setIcon($iconFactory->getIcon('ext-dce-dce-type-databased', Icon::SIZE_SMALL));
+            $button->setIcon($iconFactory->getIcon('ext-dce-dce', Icon::SIZE_SMALL));
             $button->setTitle(LocalizationUtility::translate('editDceOfThisContentElement', 'dce'));
             $button->setOnClick(
                 'window.open(\'' . $this->getDceEditLink($contentUid) . '\', \'editDcePopup\', ' .
@@ -60,9 +59,6 @@ class DocHeaderButtonsHook
         }
 
         $returnUrl = 'sysext/backend/Resources/Private/Templates/Close.html';
-        if (!GeneralUtility::compat_version('7.4')) {
-            $returnUrl = 'close.html';
-        }
         return \TYPO3\CMS\Backend\Utility\BackendUtility::getModuleUrl(
             'record_edit',
             GeneralUtility::explodeUrl2Array('edit[tx_dce_domain_model_dce][' . $dceIdent . ']=edit' .
@@ -113,15 +109,15 @@ class DocHeaderButtonsHook
             return null;
         }
 
-        $contentUid = intval(current(array_keys($editGetParameters)));
+        $contentUid = current(array_keys($editGetParameters));
         if ($editGetParameters[$contentUid] !== 'edit') {
             return null;
         }
-        return $contentUid;
+        return (int) trim($contentUid, ',');
     }
 
     /**
-     * Returns the uid (or identifier) of DCE of given content element
+     * Returns the uid of DCE of given content element
      *
      * @param int $contentUid uid of content element
      * @return bool|int|string
@@ -133,64 +129,5 @@ class DocHeaderButtonsHook
         $contentRecord = $tceMain->recordInfo('tt_content', $contentUid, 'CType');
         $cType = current($contentRecord);
         return \ArminVieweg\Dce\Domain\Repository\DceRepository::extractUidFromCtype($cType);
-    }
-
-    /**
-     * Adds a new button to docheader. This affects just DCE instances.
-     * The button will be not visible if the current backend user is
-     * no administrator.
-     *
-     * @param array $params
-     * @return void
-     * @deprecated Will get removed when 6.2 support is running out
-     */
-    public function addDcePopupButton62(array &$params)
-    {
-        if (!$this->isButtonVisible()) {
-            return;
-        }
-
-        $contentUid = $this->getContentUid();
-        $dceUid = $this->getDceUid($contentUid);
-        if ($dceUid !== false) {
-            $buttonCode = $this->generateButtonHtmlCode($dceUid);
-            $params['markers']['BUTTONLIST_LEFT'] .= $buttonCode . $this->getCustomStylesheet();
-        }
-    }
-
-    /**
-     * Adds stylesheet when editing dce instance. Not nice solved, but it works.
-     *
-     * @return string
-     * @deprecated Will get removed when 6.2 support is running out
-     */
-    protected function getCustomStylesheet()
-    {
-        $file = ExtensionManagementUtility::extPath('dce') . 'Resources/Public/Css/dceInstance.css';
-        $content = file_get_contents($file);
-        return '<style type="text/css">' . $content . '</style>';
-    }
-
-    /**
-     * Generate button html code
-     *
-     * @param int $dceUid
-     * @return string
-     * @deprecated Will get removed when 6.2 support is running out
-     */
-    protected function generateButtonHtmlCode($dceUid)
-    {
-        $returnUrl = 'sysext/backend/Resources/Private/Templates/Close.html';
-        if (!GeneralUtility::compat_version('7.4')) {
-            $returnUrl = 'close.html';
-        }
-        $linkToDce = 'alt_doc.php?&returnUrl=' . $returnUrl . '&edit[tx_dce_domain_model_dce][' . $dceUid . ']=edit';
-
-        $pathToImage = ExtensionManagementUtility::extRelPath('dce') . 'Resources/Public/Icons/ext_icon.png';
-        $titleTag = LocalizationUtility::translate('dcePopupButtonTitle', 'Dce');
-
-        return '<div class="buttongroup"><a href="#" class="dcePopupButton" onclick="window.open(\'' . $linkToDce .
-            '\', \'editDcePopup\', \'height=600,width=820,status=0,menubar=0,scrollbars=1\')"><img src="' .
-            $pathToImage . '" alt="" title="' . $titleTag . '" /></a></div>';
     }
 }

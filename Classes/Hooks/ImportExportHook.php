@@ -1,10 +1,10 @@
 <?php
 namespace ArminVieweg\Dce\Hooks;
 
-/*  | This extension is part of the TYPO3 project. The TYPO3 project is
- *  | free software and is licensed under GNU General Public License.
+/*  | This extension is made for TYPO3 CMS and is licensed
+ *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2017 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
 
 /**
@@ -28,16 +28,16 @@ class ImportExportHook
 
         /** @var \TYPO3\CMS\Core\DataHandling\DataHandler $tceMain */
         $tceMain = $params['tce'];
-        $tceMain->start(array(), array());
+        $tceMain->start([], []);
 
         if (array_key_exists('tt_content', $data)) {
             foreach ($data['tt_content'] as $ttContentUid => $ttContentUpdatedFields) {
                 if (array_key_exists('tx_dce_dce', $ttContentUpdatedFields)) {
                     $dceUid = intval(substr($ttContentUpdatedFields['tx_dce_dce'], strlen('tx_dce_domain_model_dce_')));
-                    $tceMain->updateDB('tt_content', $ttContentUid, array(
+                    $tceMain->updateDB('tt_content', $ttContentUid, [
                         'CType' => \ArminVieweg\Dce\Domain\Repository\DceRepository::convertUidToCtype($dceUid),
                         'tx_dce_dce' => $dceUid
-                    ));
+                    ]);
                 }
             }
         }

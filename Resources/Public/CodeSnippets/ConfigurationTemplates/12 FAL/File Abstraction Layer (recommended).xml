@@ -13,7 +13,7 @@
 		<config>
 			<appearance>
 				<elementBrowserType>file</elementBrowserType>
-				<elementBrowserAllowed>gif,jpg,jpeg,tif,tiff,bmp,pcx,tga,png,pdf,ai</elementBrowserAllowed>
+				<elementBrowserAllowed>gif,jpg,jpeg,tif,tiff,bmp,pcx,tga,png,pdf,ai,svg</elementBrowserAllowed>
 			</appearance>
 		</config>
 	</foreign_selector_fieldTcaOverride>
@@ -55,4 +55,7 @@
 		<localizationMode>select</localizationMode>
 		<localizeChildrenAtParentLocalization>1</localizeChildrenAtParentLocalization>
 	</behaviour>
+
+	<dce_load_schema>1</dce_load_schema>
+	<dce_get_fal_objects>1</dce_get_fal_objects>
 </config>

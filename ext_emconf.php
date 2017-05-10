@@ -1,17 +1,18 @@
 <?php
 
-/*  | This extension is part of the TYPO3 project. The TYPO3 project is
- *  | free software and is licensed under GNU General Public License.
+/*  | This extension is made for TYPO3 CMS and is licensed
+ *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2017 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
 
-$EM_CONF[$_EXTKEY] = array(
+// @codingStandardsIgnoreStart
+$EM_CONF[$_EXTKEY] = [
     'title' => 'Dynamic Content Elements (DCE)',
-    'description' => 'DCE is an extension for the CMS TYPO3, which creates easily and fast dynamic content elements. It is an alternative to flexible content elements (FCE) but without need of TemplaVoila (TV). Based on Extbase and Fluid.',
+    'description' => 'Best flexform based content elements since 2012. With TCA mapping feature, simple backend view and much more features which makes it super easy to create own content element types.',
     'category' => 'Backend',
     'shy' => 0,
-    'version' => '1.2.5-dev',
+    'version' => '1.4.5',
     'dependencies' => 'extbase,fluid',
     'conflicts' => '',
     'priority' => '',
@@ -28,12 +29,13 @@ $EM_CONF[$_EXTKEY] = array(
     'author_company' => '',
     'CGLcompliance' => '',
     'CGLcompliance_note' => '',
-    'constraints' => array(
-        'depends' => array(
-            'typo3' => '6.2.0-7.6.99',
-        ),
-        'conflicts' => array(),
-        'suggests' => array(),
-    ),
-    'suggests' => array(),
-);
+    'constraints' => [
+        'depends' => [
+            'typo3' => '7.6.0-8.9.99',
+        ],
+        'conflicts' => [],
+        'suggests' => [],
+    ],
+    'suggests' => [],
+];
+// @codingStandardsIgnoreEnd

@@ -1,12 +1,11 @@
 <?php
 namespace ArminVieweg\Dce\UserFunction\CustomLabels;
 
-/*  | This extension is part of the TYPO3 project. The TYPO3 project is
- *  | free software and is licensed under GNU General Public License.
+/*  | This extension is made for TYPO3 CMS and is licensed
+ *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2017 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
-use ArminVieweg\Dce\Domain\Model\DceField;
 use ArminVieweg\Dce\Domain\Repository\DceRepository;
 
 /**
@@ -26,37 +25,38 @@ class TtContentLabel
      */
     public function getLabel(&$parameter)
     {
-        if (!is_string($parameter['row']['CType']) ||
-            !empty($parameter['row']['header']) ||
-            !$this->isDceContentElement($parameter['row'])
+        if ((is_string($parameter['row']['CType']) || is_array($parameter['row']['CType'])) &&
+            $this->isDceContentElement($parameter['row'])
         ) {
-            $parameter['title'] = $parameter['row'][$GLOBALS['TCA']['tt_content']['ctrl']['label']];
-            return;
-        }
+            try {
+                /** @var \ArminVieweg\Dce\Domain\Model\Dce $dce */
+                $dce = \ArminVieweg\Dce\Utility\Extbase::bootstrapControllerAction(
+                    'ArminVieweg',
+                    'Dce',
+                    'Dce',
+                    'renderDce',
+                    'Dce',
+                    [
+                        'contentElementUid' => $parameter['row']['uid'],
+                        'dceUid' => DceRepository::extractUidFromCtype($parameter['row']['CType'])
+                    ],
+                    true
+                );
+            } catch (\Exception $exception) {
+                $parameter['title'] = 'ERROR: ' . $exception->getMessage();
+                return;
+            }
 
-        try {
-            /** @var \ArminVieweg\Dce\Domain\Model\Dce $dce */
-            $dce = \ArminVieweg\Dce\Utility\Extbase::bootstrapControllerAction(
-                'ArminVieweg',
-                'Dce',
-                'Dce',
-                'renderDce',
-                'Dce',
-                array(
-                    'contentElementUid' => $parameter['row']['uid'],
-                    'dceUid' => DceRepository::extractUidFromCtype($parameter['row']['CType'])
-                ),
-                true
-            );
-        } catch (\Exception $exception) {
-            $parameter['title'] = 'ERROR: ' . $exception->getMessage();
-            return;
+            if ($dce->isUseSimpleBackendView()) {
+                $simpleBackendViewUtility = new \ArminVieweg\Dce\Components\BackendView\SimpleBackendView();
+                $parameter['title'] = $simpleBackendViewUtility->getHeaderContent($dce, true);
+                return;
+            } else {
+                $parameter['title'] = trim(strip_tags($dce->renderBackendTemplate('header')));
+                return;
+            }
         }
-
-        if ($dce->isUseSimpleBackendView()) {
-            $simpleBackendViewUtility = new \ArminVieweg\Dce\Utility\SimpleBackendView();
-            $parameter['title'] = $simpleBackendViewUtility->getSimpleBackendViewHeaderContent($dce, true);
-        }
+        $parameter['title'] = $parameter['row'][$GLOBALS['TCA']['tt_content']['ctrl']['label']];
     }
 
     /**
@@ -67,6 +67,11 @@ class TtContentLabel
      */
     protected function isDceContentElement(array $row)
     {
-        return strpos($row['CType'], 'dce_dceuid') !== false;
+        $cType = $row['CType'];
+        if (is_array($cType)) {
+            // For any reason the CType can be an array with one entry
+            $cType = reset($cType);
+        }
+        return strpos($cType, 'dce_dceuid') !== false;
     }
 }

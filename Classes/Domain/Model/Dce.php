@@ -1,10 +1,10 @@
 <?php
 namespace ArminVieweg\Dce\Domain\Model;
 
-/*  | This extension is part of the TYPO3 project. The TYPO3 project is
- *  | free software and is licensed under GNU General Public License.
+/*  | This extension is made for TYPO3 CMS and is licensed
+ *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2017 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
 use ArminVieweg\Dce\Utility\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -17,144 +17,215 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
-    /** Identifier for default DCE templates */
+    /* Identifier for: "default DCE templates" */
     const TEMPLATE_FIELD_DEFAULT = 0;
-    /** Identifier for header preview templates */
+    /* Identifier for: "header preview templates" */
     const TEMPLATE_FIELD_HEADERPREVIEW = 1;
-    /** Identifier for bodytext preview templates */
+    /* Identifier for: "bodytext preview templates" */
     const TEMPLATE_FIELD_BODYTEXTPREVIEW = 2;
-    /** Identifier for detail page templates */
+    /* Identifier for: "detail page templates" */
     const TEMPLATE_FIELD_DETAILPAGE = 3;
-
-    /** Type for databased stored DCEs */
-    const TYPE_DB = 0;
-    /** Type for filebased DCEs */
-    const TYPE_FILE = 1;
+    /* Identifier for: "dce container templates" */
+    const TEMPLATE_FIELD_CONTAINER = 4;
+    /* Identifier for: "backend template" */
+    const TEMPLATE_FIELD_BACKEND_TEMPLATE = 5;
 
     /**
      * @var array Cache for fluid instances
      */
-    static protected $fluidTemplateCache = array();
+    static protected $fluidTemplateCache = [];
 
     /**
      * @var array Cache for DceFields
      */
-    static protected $fieldsCache = array();
+    static protected $fieldsCache = [];
 
     /**
      * @var array Cache for content element rows
      */
-    static protected $contentElementRowsCache = array();
+    static protected $contentElementRowsCache = [];
 
-    /** @var array database field names of columns for different types of templates */
-    protected $templateFields = array(
-        self::TEMPLATE_FIELD_DEFAULT => array(
+    /**
+     * @var array Database field names of columns for different types of templates
+     */
+    protected $templateFields = [
+        self::TEMPLATE_FIELD_DEFAULT => [
             'type' => 'template_type',
             'inline' => 'template_content',
             'file' => 'template_file'
-        ),
-        self::TEMPLATE_FIELD_HEADERPREVIEW => array(
-            'type' => 'preview_template_type',
-            'inline' => 'header_preview',
-            'file' => 'header_preview_template_file'
-        ),
-        self::TEMPLATE_FIELD_BODYTEXTPREVIEW => array(
-            'type' => 'preview_template_type',
-            'inline' => 'bodytext_preview',
-            'file' => 'bodytext_preview_template_file'
-        ),
-        self::TEMPLATE_FIELD_DETAILPAGE => array(
+        ],
+        self::TEMPLATE_FIELD_DETAILPAGE => [
             'type' => 'detailpage_template_type',
             'inline' => 'detailpage_template',
             'file' => 'detailpage_template_file'
-        ),
-    );
+        ],
+        self::TEMPLATE_FIELD_CONTAINER => [
+            'type' => 'container_template_type',
+            'inline' => 'container_template',
+            'file' => 'container_template_file'
+        ],
+        self::TEMPLATE_FIELD_BACKEND_TEMPLATE => [
+            'type' => 'backend_template_type',
+            'inline' => 'backend_template_content',
+            'file' => 'backend_template_file'
+        ]
+    ];
+
+    /**
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\ArminVieweg\Dce\Domain\Model\DceField>
+     */
+    protected $fields = null;
+
+    /**
+     * When this DCE is located inside of a DceContainer this attribute contains its current position
+     *
+     * @var array|null
+     */
+    protected $containerIterator = null;
 
     /**
      * @var bool
      */
     protected $hidden = false;
 
-    /** @var int */
-    protected $type = self::TYPE_DB;
-
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $title = '';
 
-    /** @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\ArminVieweg\Dce\Domain\Model\DceField> */
-    protected $fields = null;
-
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $templateType = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $templateContent = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $templateFile = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $templateLayoutRootPath = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $templatePartialRootPath = '';
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $useSimpleBackendView = false;
 
-    /** @var string */
+    /** @var string
+     */
     protected $backendViewHeader = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $backendViewBodytext = '';
 
-    /** @var string */
-    protected $previewTemplateType = '';
+    /**
+     * @var string
+     */
+    protected $backendTemplateType = '';
 
-    /** @var string */
-    protected $headerPreview = '';
+    /**
+     * @var string
+     */
+    protected $backendTemplateContent = '';
 
-    /** @var string */
-    protected $headerPreviewTemplateFile = '';
+    /**
+     * @var string
+     */
+    protected $backendTemplateFile = '';
 
-    /** @var string */
-    protected $bodytextPreview = '';
-
-    /** @var string */
-    protected $bodytextPreviewTemplateFile = '';
-
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $enableDetailpage = false;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $detailpageIdentifier = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $detailpageTemplateType = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $detailpageTemplate = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $detailpageTemplateFile = '';
 
-    /** @var bool  */
+    /**
+     * @var bool
+     */
+    protected $enableContainer = false;
+
+    /**
+     * @var int
+     */
+    protected $containerItemLimit = 0;
+
+    /**
+     * @var string
+     */
+    protected $containerTemplateType = '';
+
+    /**
+     * @var string
+     */
+    protected $containerTemplate = '';
+
+    /**
+     * @var string
+     */
+    protected $containerTemplateFile = '';
+
+    /**
+     * @var bool
+     */
     protected $wizardEnable = true;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $wizardCategory = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $wizardDescription = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $wizardIcon = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $wizardCustomIcon = '';
 
-    /** @var array */
-    protected $_contentObject = array();
+    /**
+     * @var array not persisted
+     */
+    protected $contentObject = [];
 
 
     /**
@@ -192,19 +263,20 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * @return int
+     * @return array|null
      */
-    public function getType()
+    public function getContainerIterator()
     {
-        return $this->type;
+        return $this->containerIterator;
     }
 
     /**
-     * @param int $type
+     * @param array|null $containerIterator
+     * @return void
      */
-    public function setType($type)
+    public function setContainerIterator($containerIterator)
     {
-        $this->type = $type;
+        $this->containerIterator = $containerIterator;
     }
 
     /**
@@ -312,7 +384,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Gets objectStorage with fields
      *
-     * @return DceField[]
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\ArminVieweg\Dce\Domain\Model\DceField>
      */
     public function getFields()
     {
@@ -438,86 +510,52 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return string
      */
-    public function getPreviewTemplateType()
+    public function getBackendTemplateType()
     {
-        return $this->previewTemplateType;
+        return $this->backendTemplateType;
     }
 
     /**
-     * @param string $previewTemplateType
+     * @param string $backendTemplateType
      * @return void
      */
-    public function setPreviewTemplateType($previewTemplateType)
+    public function setBackendTemplateType($backendTemplateType)
     {
-        $this->previewTemplateType = $previewTemplateType;
+        $this->backendTemplateType = $backendTemplateType;
     }
 
     /**
      * @return string
      */
-    public function getHeaderPreview()
+    public function getBackendTemplateContent()
     {
-        return $this->headerPreview;
+        return $this->backendTemplateContent;
     }
 
     /**
-     * @param string $headerPreview
+     * @param string $backendTemplateContent
      * @return void
      */
-    public function setHeaderPreview($headerPreview)
+    public function setBackendTemplateContent($backendTemplateContent)
     {
-        $this->headerPreview = $headerPreview;
+        $this->backendTemplateContent = $backendTemplateContent;
     }
 
     /**
      * @return string
      */
-    public function getHeaderPreviewTemplateFile()
+    public function getBackendTemplateFile()
     {
-        return $this->headerPreviewTemplateFile;
+        return $this->backendTemplateFile;
     }
 
     /**
-     * @param string $headerPreviewTemplateFile
+     * @param string $backendTemplateFile
      * @return void
      */
-    public function setHeaderPreviewTemplateFile($headerPreviewTemplateFile)
+    public function setBackendTemplateFile($backendTemplateFile)
     {
-        $this->headerPreviewTemplateFile = $headerPreviewTemplateFile;
-    }
-
-    /**
-     * @return string
-     */
-    public function getBodytextPreview()
-    {
-        return $this->bodytextPreview;
-    }
-
-    /**
-     * @param string $bodytextPreview
-     * @return void
-     */
-    public function setBodytextPreview($bodytextPreview)
-    {
-        $this->bodytextPreview = $bodytextPreview;
-    }
-
-    /**
-     * @return string
-     */
-    public function getBodytextPreviewTemplateFile()
-    {
-        return $this->bodytextPreviewTemplateFile;
-    }
-
-    /**
-     * @param string $bodytextPreviewTemplateFile
-     * @return void
-     */
-    public function setBodytextPreviewTemplateFile($bodytextPreviewTemplateFile)
-    {
-        $this->bodytextPreviewTemplateFile = $bodytextPreviewTemplateFile;
+        $this->backendTemplateFile = $backendTemplateFile;
     }
 
     /**
@@ -603,6 +641,95 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setDetailpageTemplateFile($detailpageTemplateFile)
     {
         $this->detailpageTemplateFile = $detailpageTemplateFile;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getEnableContainer()
+    {
+        return $this->enableContainer;
+    }
+
+    /**
+     * @param bool $enableContainer
+     * @return void
+     */
+    public function setEnableContainer($enableContainer)
+    {
+        $this->enableContainer = $enableContainer;
+    }
+
+    /**
+     * Get ContainerLimit
+     *
+     * @return int
+     */
+    public function getContainerItemLimit()
+    {
+        return $this->containerItemLimit;
+    }
+
+    /**
+     * Set ContainerLimit
+     *
+     * @param int $containerItemLimit
+     * @return void
+     */
+    public function setContainerItemLimit($containerItemLimit)
+    {
+        $this->containerItemLimit = $containerItemLimit;
+    }
+
+    /**
+     * @return string
+     */
+    public function getContainerTemplateType()
+    {
+        return $this->containerTemplateType;
+    }
+
+    /**
+     * @param string $containerTemplateType
+     * @return void
+     */
+    public function setContainerTemplateType($containerTemplateType)
+    {
+        $this->containerTemplateType = $containerTemplateType;
+    }
+
+    /**
+     * @return string
+     */
+    public function getContainerTemplate()
+    {
+        return $this->containerTemplate;
+    }
+
+    /**
+     * @param string $containerTemplate
+     * @return void
+     */
+    public function setContainerTemplate($containerTemplate)
+    {
+        $this->containerTemplate = $containerTemplate;
+    }
+
+    /**
+     * @return string
+     */
+    public function getContainerTemplateFile()
+    {
+        return $this->containerTemplateFile;
+    }
+
+    /**
+     * @param string $containerTemplateFile
+     * @return void
+     */
+    public function setContainerTemplateFile($containerTemplateFile)
+    {
+        $this->containerTemplateFile = $containerTemplateFile;
     }
 
     /**
@@ -697,10 +824,6 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         if ($this->getWizardIcon() === 'custom') {
             return $this->getWizardCustomIcon();
         }
-        if (!\TYPO3\CMS\Core\Utility\GeneralUtility::compat_version('7.4')) {
-            // TODO: Remove this when TYPO3 6.2 is outdated
-            return 'typo3/sysext/t3skin/icons/gfx/c_wiz/' . $this->getWizardIcon() . '.gif';
-        }
         return $this->getWizardIcon();
     }
 
@@ -709,10 +832,11 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * If not found, returns NULL.
      *
      * @param string $variable
-     * @return NULL|DceField
+     * @return null|DceField
      */
     public function getFieldByVariable($variable)
     {
+        /** @var DceField $field */
         foreach ($this->getFields() as $field) {
             if ($field->getVariable() === $variable) {
                 return $field;
@@ -726,7 +850,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getContentObject()
     {
-        return $this->_contentObject;
+        return $this->contentObject;
     }
 
     /**
@@ -735,7 +859,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function setContentObject($contentObject)
     {
-        $this->_contentObject = $contentObject;
+        $this->contentObject = $contentObject;
     }
 
     /**
@@ -759,23 +883,21 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Renders the HeaderPreview output
+     * Renders the DCE Backend Template
      *
+     * @param string $section If set just 'header' or 'bodytext' part is returned
      * @return string rendered output
      */
-    public function renderHeaderPreview()
+    public function renderBackendTemplate($section = '')
     {
-        return $this->renderFluidTemplate(self::TEMPLATE_FIELD_HEADERPREVIEW);
-    }
+        $backendTemplateSeparator = '<dce-separator />';
 
-    /**
-     * Renders the BodytextPreview output
-     *
-     * @return string rendered output
-     */
-    public function renderBodytextPreview()
-    {
-        return $this->renderFluidTemplate(self::TEMPLATE_FIELD_BODYTEXTPREVIEW);
+        $fullBackendTemplate = $this->renderFluidTemplate(self::TEMPLATE_FIELD_BACKEND_TEMPLATE);
+        if (!empty($section)) {
+            $backendTemplateParts = GeneralUtility::trimExplode($backendTemplateSeparator, $fullBackendTemplate);
+            return $section === 'bodytext' ? $backendTemplateParts[1] : $backendTemplateParts[0];
+        }
+        return $fullBackendTemplate;
     }
 
     /**
@@ -788,11 +910,13 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $fluidTemplate = $this->getFluidStandaloneView($templateType);
 
-        $fluidTemplate->assign('contentObject', $this->getContentObject());
-
         $fields = $this->getFieldsAsArray();
-        $fluidTemplate->assign('field', $fields);
-        $fluidTemplate->assign('fields', $fields);
+        $variables = [
+            'contentObject' => $this->getContentObject(),
+            'fields' => $fields,
+            'field' => $fields
+        ];
+        $fluidTemplate->assignMultiple($variables);
 
         return trim($fluidTemplate->render());
     }
@@ -808,7 +932,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         if (array_key_exists($contentObject['uid'], static::$fieldsCache)) {
             return static::$fieldsCache[$contentObject['uid']];
         }
-        $fields = array();
+        $fields = [];
         /** @var $field \ArminVieweg\Dce\Domain\Model\DceField */
         foreach ($this->getFields() as $field) {
             if ($field->isTab()) {
@@ -867,22 +991,6 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Returns true if this DCE has some actions which can be performed
-     *
-     * @return bool
-     */
-    public function getHasActions()
-    {
-        if (!$this->getUseSimpleBackendView()) {
-            return !$this->getHidden();
-        }
-        if ($this->getHasTcaMappings()) {
-            return !$this->getHidden();
-        }
-        return false;
-    }
-
-    /**
      * Magic PHP method.
      * Checks if called and not existing method begins with "get". If yes, extract the part behind the get.
      * If a method in $this exists which matches this part, it will be called. Otherwise it will be searched in
@@ -902,7 +1010,14 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
             $field = $this->getFieldByVariable($variable);
             if ($field instanceof DceField) {
-                return $field->getValue();
+                if ($field->isSection()) {
+                    $fieldsArray = $this->getFieldsAsArray();
+                    if (array_key_exists($variable, $fieldsArray)) {
+                        return $fieldsArray[$variable];
+                    }
+                } else {
+                    return $field->getValue();
+                }
             }
         }
         return null;
@@ -914,10 +1029,16 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param int $templateType
      * @return \TYPO3\CMS\Fluid\View\StandaloneView
      */
-    protected function getFluidStandaloneView($templateType)
+    public function getFluidStandaloneView($templateType)
     {
-        if (isset(self::$fluidTemplateCache[$this->getUid()][$templateType])) {
-            return self::$fluidTemplateCache[$this->getUid()][$templateType];
+        $cacheKey = $this->getUid();
+        if ($this->getEnableContainer()) {
+            $containerIterator = $this->getContainerIterator();
+            $cacheKey .= '-' . $containerIterator['index'];
+        }
+
+        if (isset(self::$fluidTemplateCache[$cacheKey][$templateType])) {
+            return self::$fluidTemplateCache[$cacheKey][$templateType];
         }
 
         $templateFields = $this->templateFields[$templateType];
@@ -932,7 +1053,8 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
             $fluidTemplate->setTemplateSource($this->$inlineTemplateGetter() . ' ');
         } else {
             $fileTemplateGetter = 'get' . ucfirst(GeneralUtility::underscoredToLowerCamelCase($templateFields['file']));
-            $filePath = File::getFilePath($this->$fileTemplateGetter());
+            $filePath = File::get($this->$fileTemplateGetter());
+
             if (!file_exists($filePath)) {
                 $fluidTemplate->setTemplateSource('');
             } else {
@@ -941,10 +1063,12 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
             }
         }
 
-        $fluidTemplate->setLayoutRootPath(File::getFilePath($this->getTemplateLayoutRootPath()));
-        $fluidTemplate->setPartialRootPath(File::getFilePath($this->getTemplatePartialRootPath()));
+        $fluidTemplate->setLayoutRootPaths([File::get($this->getTemplateLayoutRootPath())]);
+        $fluidTemplate->setPartialRootPaths([File::get($this->getTemplatePartialRootPath())]);
 
-        $fluidTemplate->assign('dce', $this);
+        if ($templateType !== self::TEMPLATE_FIELD_CONTAINER) {
+            $fluidTemplate->assign('dce', $this);
+        }
 
         if (TYPO3_MODE === 'FE' && isset($GLOBALS['TSFE'])) {
             $fluidTemplate->assign('TSFE', $GLOBALS['TSFE']);

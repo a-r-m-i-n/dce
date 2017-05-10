@@ -1,10 +1,10 @@
 <?php
 namespace ArminVieweg\Dce\Utility;
 
-/*  | This extension is part of the TYPO3 project. The TYPO3 project is
- *  | free software and is licensed under GNU General Public License.
+/*  | This extension is made for TYPO3 CMS and is licensed
+ *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2017 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
@@ -97,7 +97,7 @@ class TypoScript
                 } else {
                     if ($key === 'configuration') {
                         $valueLines = explode("\n", $value);
-                        $indentedValueLines = array();
+                        $indentedValueLines = [];
                         foreach ($valueLines as $valueLine) {
                             $indentedValueLines[] = str_repeat("\t", $tab) . $valueLine;
                         }
@@ -144,7 +144,7 @@ class TypoScript
     public function renderConfigurationArray(array $settings)
     {
         $settings = $this->enhanceSettingsWithTypoScript($this->makeConfigurationArrayRenderable($settings));
-        $result = array();
+        $result = [];
 
         foreach ($settings as $key => $value) {
             if (substr($key, -1) === '.') {
@@ -202,7 +202,7 @@ class TypoScript
      */
     protected function makeConfigurationArrayRenderable(array $configuration)
     {
-        $dottedConfiguration = array();
+        $dottedConfiguration = [];
         foreach ($configuration as $key => $value) {
             if (is_array($value)) {
                 if (array_key_exists('_typoScriptNodeValue', $value)) {

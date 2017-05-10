@@ -1,10 +1,10 @@
 <?php
-namespace ArminVieweg\Dce\Utility;
+namespace ArminVieweg\Dce\Components\FlexformToTcaMapper;
 
-/*  | This extension is part of the TYPO3 project. The TYPO3 project is
- *  | free software and is licensed under GNU General Public License.
+/*  | This extension is made for TYPO3 CMS and is licensed
+ *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2017 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -14,7 +14,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  *
  * @package ArminVieweg\Dce
  */
-class FlexformToTcaMapper
+class Mapper
 {
     /**
      * Returns SQL to add new fields in tt_content
@@ -23,11 +23,14 @@ class FlexformToTcaMapper
      */
     public static function getSql()
     {
-        $fields = array();
+        $fields = [];
         foreach (static::getDceFieldMappings() as $fieldName => $fieldType) {
             $fields[] = $fieldName . ' ' . $fieldType;
         }
-        return 'CREATE TABLE tt_content (' . PHP_EOL . implode(',' . PHP_EOL, $fields) . PHP_EOL . ');';
+        if (!empty($fields)) {
+            return 'CREATE TABLE tt_content (' . PHP_EOL . implode(',' . PHP_EOL, $fields) . PHP_EOL . ');';
+        }
+        return '';
     }
 
     /**
@@ -37,14 +40,14 @@ class FlexformToTcaMapper
      */
     public static function getDceFieldRowsWithNewTcaColumns()
     {
-        $rows = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
+        $rows = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
             '*',
             'tx_dce_domain_model_dcefield',
             'map_to="*newcol" AND deleted=0 AND type=0 AND new_tca_field_name!="" AND new_tca_field_type!=""'
         );
 
         if ($rows === null) {
-            return array();
+            return [];
         }
         return $rows;
     }
@@ -56,7 +59,7 @@ class FlexformToTcaMapper
      */
     protected static function getDceFieldMappings()
     {
-        $fieldMappings = array();
+        $fieldMappings = [];
         foreach (static::getDceFieldRowsWithNewTcaColumns() as $dceFieldRow) {
             if ($dceFieldRow['new_tca_field_type'] === 'auto') {
                 $fieldMappings[$dceFieldRow['new_tca_field_name']] = static::getAutoFieldType($dceFieldRow);
@@ -100,8 +103,8 @@ class FlexformToTcaMapper
      */
     public static function saveFlexformValuesToTca($uid, $piFlexform)
     {
-        $dceUid = DatabaseUtility::getDceUidByContentElementUid($uid);
-        $dceFieldsWithMapping = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
+        $dceUid = \ArminVieweg\Dce\Utility\DatabaseUtility::getDceUidByContentElementUid($uid);
+        $dceFieldsWithMapping = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
             '*',
             'tx_dce_domain_model_dcefield',
             'parent_dce=' . $dceUid . ' AND map_to!="" AND deleted=0'
@@ -116,7 +119,7 @@ class FlexformToTcaMapper
         }
 
         /** @var array $fieldToTcaMappings */
-        $fieldToTcaMappings = array();
+        $fieldToTcaMappings = [];
         foreach ($dceFieldsWithMapping as $dceField) {
             $mapTo = $dceField['map_to'];
             if ($mapTo === '*newcol') {
@@ -125,7 +128,7 @@ class FlexformToTcaMapper
             $fieldToTcaMappings[$dceField['variable']] = $mapTo;
         }
 
-        $updateData = array();
+        $updateData = [];
         $flatFlexFormData = \TYPO3\CMS\Core\Utility\ArrayUtility::flatten($flexFormArray);
         foreach ($flatFlexFormData as $key => $value) {
             $fieldName = preg_replace('/.*settings\.(.*?)\.vDEF$/', '$1', $key);
@@ -139,14 +142,14 @@ class FlexformToTcaMapper
         }
 
         if (!empty($updateData)) {
-            $updateStatus = DatabaseUtility::getDatabaseConnection()->exec_UPDATEquery(
+            $updateStatus = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_UPDATEquery(
                 'tt_content',
                 'uid=' . $uid,
                 $updateData
             );
             if (!$updateStatus) {
                 \ArminVieweg\Dce\Utility\FlashMessage::add(
-                    DatabaseUtility::getDatabaseConnection()->sql_error(),
+                    \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->sql_error(),
                     'Flexform to TCA mapping failure',
                     \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR
                 );

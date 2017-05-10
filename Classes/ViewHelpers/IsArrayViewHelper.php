@@ -1,10 +1,10 @@
 <?php
 namespace ArminVieweg\Dce\ViewHelpers;
 
-/*  | This extension is part of the TYPO3 project. The TYPO3 project is
- *  | free software and is licensed under GNU General Public License.
+/*  | This extension is made for TYPO3 CMS and is licensed
+ *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2017 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
 
 /**
@@ -14,12 +14,11 @@ namespace ArminVieweg\Dce\ViewHelpers;
  */
 class IsArrayViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
-
     /**
      * Checks if the given subject is an array
      *
      * @param mixed $subject to check if is array
-     * @return bool TRUE if given subject is an array, otherwise FALSE
+     * @return bool True if given subject is an array, otherwise false
      */
     public function render($subject = null)
     {

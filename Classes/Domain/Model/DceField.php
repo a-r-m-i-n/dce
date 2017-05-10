@@ -1,10 +1,10 @@
 <?php
 namespace ArminVieweg\Dce\Domain\Model;
 
-/*  | This extension is part of the TYPO3 project. The TYPO3 project is
- *  | free software and is licensed under GNU General Public License.
+/*  | This extension is made for TYPO3 CMS and is licensed
+ *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2017 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
 
 /**
@@ -15,23 +15,31 @@ namespace ArminVieweg\Dce\Domain\Model;
  */
 class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
-    /** Field Type: Element */
+    /* Field Type: Element */
     const TYPE_ELEMENT = 0;
-    /** Field Type: Tab */
+    /* Field Type: Tab */
     const TYPE_TAB = 1;
-    /** Field Type: Section */
+    /* Field Type: Section */
     const TYPE_SECTION = 2;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $type;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $title = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $variable = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $configuration = '';
 
     /**
@@ -40,14 +48,20 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     protected $mapTo = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $newTcaFieldName = '';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $newTcaFieldType = '';
 
-    /** @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\ArminVieweg\Dce\Domain\Model\DceField> */
-    protected $sectionFields;
+    /**
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\ArminVieweg\Dce\Domain\Model\DceField>
+     */
+    protected $sectionFields = null;
 
     /**
      * @var \ArminVieweg\Dce\Domain\Model\Dce
@@ -59,8 +73,10 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     protected $parentField;
 
-    /** @var string */
-    protected $_value = '';
+    /**
+     * @var string not persisted
+     */
+    protected $value = '';
 
     /**
      * Constructor
@@ -148,7 +164,12 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getConfigurationAsArray()
     {
-        return \TYPO3\CMS\Core\Utility\GeneralUtility::xml2array($this->getConfiguration());
+        $configuration = '<dceFieldConfiguration>' . $this->getConfiguration() . '</dceFieldConfiguration>';
+        $configurationArray = \TYPO3\CMS\Core\Utility\GeneralUtility::xml2array($configuration);
+        if (array_key_exists('dceFieldConfiguration', $configurationArray)) {
+            return $configurationArray['dceFieldConfiguration'];
+        }
+        return $configurationArray;
     }
 
     /**
@@ -231,7 +252,7 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getValue()
     {
-        return $this->_value;
+        return $this->value;
     }
 
     /**
@@ -240,7 +261,7 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function setValue($value)
     {
-        $this->_value = $value;
+        $this->value = $value;
     }
 
     /**
@@ -255,7 +276,7 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * @return DceField[]
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\ArminVieweg\Dce\Domain\Model\DceField>
      */
     public function getSectionFields()
     {
@@ -394,6 +415,7 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function isFal()
     {
         $configuration = $this->getConfigurationAsArray();
+        $configuration = $configuration['config'];
         return $configuration['type'] === 'inline' && $configuration['foreign_table'] === 'sys_file_reference';
     }
 }

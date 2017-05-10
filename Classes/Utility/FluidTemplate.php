@@ -1,10 +1,10 @@
 <?php
 namespace ArminVieweg\Dce\Utility;
 
-/*  | This extension is part of the TYPO3 project. The TYPO3 project is
- *  | free software and is licensed under GNU General Public License.
+/*  | This extension is made for TYPO3 CMS and is licensed
+ *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2017 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
 use TYPO3\CMS\Fluid\View\AbstractTemplateView;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -30,7 +30,7 @@ class FluidTemplate
     /**
      * @var array with temporary files
      */
-    protected $temporaryFiles = array();
+    protected $temporaryFiles = [];
 
     /**
      * Constructor
@@ -47,19 +47,15 @@ class FluidTemplate
      */
     protected function init()
     {
-        // Add extbase_object to cacheConfigurations
-        $cacheConfigurations = array_merge(
-            $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'],
-            array('extbase_object' => array())
-        );
-        GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Cache\\CacheManager')
-            ->setCacheConfigurations($cacheConfigurations);
-
         \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection();
 
         $this->fluidTemplate = GeneralUtility::makeInstance('TYPO3\CMS\Fluid\View\StandaloneView');
-        $this->fluidTemplate->setLayoutRootPath(GeneralUtility::getFileAbsFileName(self::DEFAULT_DIRECTORY_LAYOUTS));
-        $this->fluidTemplate->setPartialRootPath(GeneralUtility::getFileAbsFileName(self::DEFAULT_DIRECTORY_PARTIALS));
+        $this->fluidTemplate->setLayoutRootPaths(
+            [File::get(self::DEFAULT_DIRECTORY_LAYOUTS)]
+        );
+        $this->fluidTemplate->setPartialRootPaths(
+            [File::get(self::DEFAULT_DIRECTORY_PARTIALS)]
+        );
     }
 
     /**
@@ -110,27 +106,27 @@ class FluidTemplate
     }
 
     /**
-     * Set the root path to the layouts.
+     * Set the root paths to the layouts.
      * If set, overrides the one determined from $this->layoutRootPathPattern
      *
-     * @param string $layoutRootPath Root path to the layouts. If set, overrides
+     * @param array $layoutRootPaths Root paths to the layouts. If set, overrides
      *                               the one determined from
      *                               $this->layoutRootPathPattern
      * @return void
      */
-    public function setLayoutRootPath($layoutRootPath)
+    public function setLayoutRootPaths($layoutRootPaths)
     {
-        $this->fluidTemplate->setLayoutRootPath($layoutRootPath);
+        $this->fluidTemplate->setLayoutRootPaths($layoutRootPaths);
     }
 
     /**
      * Sets the absolute path to the folder that contains Fluid partial files.
      *
-     * @param string $partialRootPath Fluid partial root path
+     * @param array $partialRootPaths Fluid partial root paths
      * @return void
      */
-    public function setPartialRootPath($partialRootPath)
+    public function setPartialRootPaths($partialRootPaths)
     {
-        $this->fluidTemplate->setPartialRootPath($partialRootPath);
+        $this->fluidTemplate->setPartialRootPaths($partialRootPaths);
     }
 }

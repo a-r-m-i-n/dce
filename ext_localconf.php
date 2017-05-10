@@ -1,9 +1,9 @@
 <?php
 
-/*  | This extension is part of the TYPO3 project. The TYPO3 project is
- *  | free software and is licensed under GNU General Public License.
+/*  | This extension is made for TYPO3 CMS and is licensed
+ *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2017 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
 
 if (!defined('TYPO3_MODE')) {
@@ -19,54 +19,45 @@ $boot = function ($extensionKey) {
 
     // ImportExport Hooks
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/impexp/class.tx_impexp.php']['before_setRelation']['dce'] =
-        'EXT:' . $extensionKey . '/Classes/Hooks/ImportExportHook.php:' .
         'ArminVieweg\\Dce\\Hooks\\ImportExportHook->beforeSetRelation';
 
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/impexp/class.tx_impexp.php']['before_writeRecordsRecords']['dce'] =
-        'EXT:' . $extensionKey . '/Classes/Hooks/ImportExportHook.php:' .
         'ArminVieweg\\Dce\\Hooks\\ImportExportHook->beforeWriteRecordsRecords';
 
     // PageLayoutView DrawItem Hook for DCE content elements
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['tt_content_drawItem']['dce'] =
-        'EXT:' . $extensionKey . '/Classes/Hooks/PageLayoutViewDrawItemHook.php:' .
         'ArminVieweg\\Dce\\Hooks\\PageLayoutViewDrawItemHook';
 
     // Clear cache hook
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc']['dce'] =
-        'EXT:' . $extensionKey . '/Classes/Hooks/ClearCachePostHook.php:' .
         'ArminVieweg\\Dce\\Hooks\\ClearCachePostHook->clearDceCache';
 
     // Make edit form access check hook
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['typo3/alt_doc.php']['makeEditForm_accessCheck']['dce'] =
-        'EXT:' . $extensionKey . '/Classes/Hooks/MakeEditFormAccessCheckHook.php:' .
         'ArminVieweg\\Dce\\Hooks\\MakeEditFormAccessCheckHook->checkAccess';
 
     // Register ke_search hook to be able to index DCE frontend output
     if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('ke_search')) {
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['ke_search']['modifyContentFromContentElement'][] =
-            'EXT:' . $extensionKey . '/Classes/Hooks/KeSearchHook.php:ArminVieweg\\Dce\\Hooks\\KeSearchHook';
+            'ArminVieweg\\Dce\\Hooks\\KeSearchHook';
     }
 
     // DocHeader buttons hook
-    if (\TYPO3\CMS\Core\Utility\GeneralUtility::compat_version('7.6')) {
-        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['Backend\Template\Components\ButtonBar']['getButtonsHook']['Dce'] =
-            'ArminVieweg\Dce\Hooks\DocHeaderButtonsHook->addDcePopupButton';
-    } else {
-        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['typo3/template.php']['docHeaderButtonsHook'][] =
-            'EXT:' . $extensionKey . '/Classes/Hooks/DocHeaderButtonsHook.php:' .
-            'ArminVieweg\\Dce\\Hooks\\DocHeaderButtonsHook->addDcePopupButton62';
-    }
-
-
-    // DataPreprocessor XClass
-    $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Backend\\Form\\DataPreprocessor'] = array(
-        'className' => 'ArminVieweg\Dce\XClass\DataPreprocessor',
-    );
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['Backend\Template\Components\ButtonBar']['getButtonsHook']['Dce'] =
+        'ArminVieweg\Dce\Hooks\DocHeaderButtonsHook->addDcePopupButton';
 
     // LiveSearch XClass
-    $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Backend\\Search\\LiveSearch\\LiveSearch'] = array(
-        'className' => 'ArminVieweg\Dce\XClass\LiveSearch',
-    );
+    if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_branch) <
+        \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger('8.0.0')
+    ) {
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Backend\\Search\\LiveSearch\\LiveSearch'] = [
+            'className' => 'ArminVieweg\Dce\XClass\LiveSearchCompatibility',
+        ];
+    } else {
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Backend\\Search\\LiveSearch\\LiveSearch'] = [
+            'className' => 'ArminVieweg\Dce\XClass\LiveSearch',
+        ];
+    }
 
     // User conditions
     require_once($extensionPath . 'Classes/UserConditions/user_dceOnCurrentPage.php');
@@ -91,6 +82,8 @@ $boot = function ($extensionKey) {
         'ArminVieweg\Dce\Updates\MigrateDceFieldDatabaseRelationUpdate';
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceMigrateFlexformSheetIdentifierUpdate'] =
         'ArminVieweg\Dce\Updates\MigrateFlexformSheetIdentifierUpdate';
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceFixMalformedDceFieldVariableNamesUpdate'] =
+        'ArminVieweg\Dce\Updates\FixMalformedDceFieldVariableNamesUpdate';
 
 
     // Slot to extend SQL tables definitions
@@ -110,12 +103,12 @@ $boot = function ($extensionKey) {
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
         'ArminVieweg.' . $extensionKey,
         'Dce',
-        array(
+        [
             'Dce' => 'renderDce'
-        ),
-        array(
-            'Dce' => 'renderDce'
-        )
+        ],
+        [
+            'Dce' => ''
+        ]
     );
 
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['extbase']['extensions']['Dce']['modules']
@@ -127,7 +120,9 @@ $boot = function ($extensionKey) {
         $dceCache = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('ArminVieweg\Dce\Cache');
         $dceCache->createLocalconf();
     }
-    require_once(PATH_site . \ArminVieweg\Dce\Cache::CACHE_PATH . \ArminVieweg\Dce\Cache::CACHE_TYPE_EXTLOCALCONF);
+    if (\ArminVieweg\Dce\Cache::cacheExists(\ArminVieweg\Dce\Cache::CACHE_TYPE_EXTLOCALCONF)) {
+        require_once(PATH_site . \ArminVieweg\Dce\Cache::CACHE_PATH . \ArminVieweg\Dce\Cache::CACHE_TYPE_EXTLOCALCONF);
+    }
 };
 
 $boot($_EXTKEY);

@@ -1,10 +1,10 @@
 <?php
 namespace ArminVieweg\Dce\ViewHelpers;
 
-/*  | This extension is part of the TYPO3 project. The TYPO3 project is
- *  | free software and is licensed under GNU General Public License.
+/*  | This extension is made for TYPO3 CMS and is licensed
+ *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2017 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
 use ArminVieweg\Dce\Utility\DatabaseUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -16,18 +16,19 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class FalViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
-
     /**
      * Gets FileReference objects (FAL)
-     * Requires TYPO3 6.0 or greater.
+     * Do not use FAL Viewhelper for DCE images anymore. Just use it when you need to access e.g. tt_address FAL images.
      *
      * @param string $field Name of field in DCE
-     * @param array $contentObject Content object data array, which is stored
-     *                             in {contentObject} in dce template.
-     * @param bool $localizeUid
+     * @param array $contentObject Content object data array, which is stored in {contentObject} in dce template.
+     * @param bool $localizeUid If true the uid gets localized (in frontend context)
+     * @param string $tableName If you want to specify another table than tt_content
+     * @param int $uid If positive, it overwrites the (localized) uid from contentObject
      * @return array|string String or array with found media
+     * @see \ArminVieweg\Dce\Domain\Repository\DceRepository::createObjectsByFieldConfiguration:396
      */
-    public function render($field, array $contentObject, $localizeUid = true)
+    public function render($field, array $contentObject, $localizeUid = true, $tableName = 'tt_content', $uid = 0)
     {
         $contentObjectUid = intval($contentObject['uid']);
         if ($localizeUid) {
@@ -36,9 +37,12 @@ class FalViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
             );
         }
 
+        if ($uid > 0) {
+            $contentObjectUid = $uid;
+        }
+
         /** @var \TYPO3\CMS\Frontend\Page\PageRepository $pageRepository */
         $pageRepository = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Page\PageRepository');
-        $tableName = 'tt_content';
         $rows = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
             'uid',
             'sys_file_reference',
@@ -54,7 +58,7 @@ class FalViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 
         /** @var \TYPO3\CMS\Core\Resource\FileRepository $fileRepository */
         $fileRepository = GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\FileRepository');
-        $result = array();
+        $result = [];
         foreach ($rows as $referenceUid) {
             $result[] = $fileRepository->findFileReferenceByUid(intval($referenceUid['uid']));
         }

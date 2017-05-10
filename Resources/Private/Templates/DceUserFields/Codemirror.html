@@ -1,4 +1,10 @@
 {namespace dce=ArminVieweg\Dce\ViewHelpers}
+
+<dce:be.includeJsFile path="EXT:dce/Resources/Public/JavaScript/InitializeCodemirror.js" />
+
+<dce:be.includeCssFile path="EXT:dce/Resources/Public/JavaScript/Contrib/codemirror/lib/codemirror.css" />
+<dce:be.includeCssFile path="EXT:dce/Resources/Public/Css/custom_codemirror.css" />
+
 <div id="dceConfigurationWizard">
 	<f:if condition="{disableCodemirror}">
 		<f:then></f:then>
@@ -8,7 +14,7 @@
 					<f:render partial="ConfigurationEditor/AvailableTemplates" arguments="{uniqueIdentifier:uniqueIdentifier, availableTemplates:availableTemplates}"  />
 				</f:then>
 				<f:else>
-					<f:render partial="ConfigurationEditor/AvailableVariables" arguments="{uniqueIdentifier:uniqueIdentifier, availableFields:availableFields, famousViewHelpers:famousViewHelpers, dceViewHelpers:dceViewHelpers}"  />
+					<f:render partial="ConfigurationEditor/AvailableVariables" arguments="{showFields:showFields,uniqueIdentifier:uniqueIdentifier, availableFields:availableFields, famousViewHelpers:famousViewHelpers, dceViewHelpers:dceViewHelpers}"  />
 				</f:else>
 			</f:if>
 		</f:else>
@@ -22,7 +28,7 @@
 	<f:then></f:then>
 	<f:else>
 		<script type="text/javascript">
-			initCodeMirrorEditor(TYPO3.jQuery('#codemirror_{uniqueIdentifier}'), '{parameters.mode}');
+			TYPO3.dce.initCodeMirrorEditor(TYPO3.jQuery('#codemirror_{uniqueIdentifier}'), '{parameters.mode}');
 		</script>
 	</f:else>
 </f:if>

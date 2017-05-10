@@ -1,12 +1,13 @@
 <?php
 namespace ArminVieweg\Dce\UserFunction\CustomLabels;
 
-/*  | This extension is part of the TYPO3 project. The TYPO3 project is
- *  | free software and is licensed under GNU General Public License.
+/*  | This extension is made for TYPO3 CMS and is licensed
+ *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2016 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2017 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
 use ArminVieweg\Dce\Domain\Model\DceField;
+use ArminVieweg\Dce\Utility\LanguageService;
 
 /**
  * Extends TCA label of fields with variable key
@@ -15,7 +16,6 @@ use ArminVieweg\Dce\Domain\Model\DceField;
  */
 class DceFieldLabel
 {
-
     /**
      * User function to get custom labels for DCE fields
      * to show available variable name after title.
@@ -30,34 +30,32 @@ class DceFieldLabel
     public function getLabel(&$parameter)
     {
         if (!isset($parameter['row']['variable']) || empty($parameter['row']['variable'])) {
-            $parameter['title'] = $GLOBALS['LANG']->sL($parameter['row']['title']);
+            $parameter['title'] = LanguageService::sL($parameter['row']['title']);
             return;
         }
         if (!$this->isSectionChildField($parameter)) {
             if (!$this->isSectionField($parameter)) {
                 if ($this->isTab($parameter)) {
                     // Tab
-                    $parameter['title'] = $GLOBALS['LANG']->sL($parameter['row']['title']);
+                    $parameter['title'] = LanguageService::sL($parameter['row']['title']);
                 } else {
                     // Standard field
-                    $parameter['title'] = $GLOBALS['LANG']->sL($parameter['row']['title']) .
-                        ' <i style="font-weight: normal">{field.' . $parameter['row']['variable'] . '}</i>';
+                    $parameter['title'] = LanguageService::sL($parameter['row']['title']) .
+                        ' - {field.' . $parameter['row']['variable'] . '}';
                 }
             } else {
-                $parameter['title'] = $GLOBALS['LANG']->sL($parameter['row']['title']) .
-                    ' <i style="font-weight: normal">{field.' . $parameter['row']['variable'] .
-                    '.<span style="color: blue;">n</span>}</i>';
+                $parameter['title'] = LanguageService::sL($parameter['row']['title']) .
+                    ' - {field.' . $parameter['row']['variable'] . '.n}';
             }
         } else {
             // Section child field
             if (is_numeric($parameter['row']['parent_field'])) {
                 $parentFieldRow = $this->getDceFieldRecordByUid($parameter['row']['parent_field']);
             } else {
-                $parentFieldRow = array('variable' => $parameter['parent']['uid']);
+                $parentFieldRow = ['variable' => $parameter['parent']['uid']];
             }
-            $parameter['title'] = $parameter['row']['title'] . ' <i style="font-weight: normal">{field.' .
-                $parentFieldRow['variable'] . '.<span style="color: blue;">n.</span>' .
-                $parameter['row']['variable'] . '}</i>';
+            $parameter['title'] = $parameter['row']['title'] .
+                ' - {field.' . $parentFieldRow['variable'] . '.n.' . $parameter['row']['variable'] . '}';
         }
     }
 
@@ -69,7 +67,7 @@ class DceFieldLabel
      */
     public function getLabelDce(&$parameter)
     {
-        $parameter['title'] = $GLOBALS['LANG']->sL($parameter['row']['title']);
+        $parameter['title'] = LanguageService::sL($parameter['row']['title']);
     }
 
     /**
