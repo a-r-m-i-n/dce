@@ -80,7 +80,6 @@ class CodemirrorField
     protected function getAvailableFields()
     {
         $fields = [];
-
         $rowFields = $this->parameter['row']['fields'];
         if (!empty($rowFields)) {
             $db = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection();
@@ -181,7 +180,6 @@ class CodemirrorField
         return $viewHelpers;
     }
 
-
     /**
      * Checks if given snippet name contains a version number.
      * If not this method will return true.
@@ -195,7 +193,8 @@ class CodemirrorField
      * @param string $snippetName Name of snippet which may contain TYPO3 version number (in braces)
      * @return bool True if no version number in snippet name or given version number fits current TYPO3 version
      */
-    protected function checkSnippetNameForVersionConstraintAndCurrentVersion($snippetName) {
+    protected function checkSnippetNameForVersionConstraintAndCurrentVersion($snippetName)
+    {
         preg_match('/\((\d\.\d)\)/i', $snippetName, $matches);
         return empty($matches) || !empty($matches) && TYPO3_branch === $matches[1];
     }
