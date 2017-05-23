@@ -63,6 +63,9 @@ $GLOBALS['TCA']['tt_content']['types']['dce_dceuid{dce.uid}']['showitem'] = '<dc
 	<f:if condition="{dce:be.extensionIsInstalled(key:'gridelements')}">
 		,tx_gridelements_container,tx_gridelements_columns
 	</f:if>
+	<f:if condition="{dce:be.extensionIsInstalled(key:'flux')}">
+		,tx_flux_column,tx_flux_parent
+	</f:if>
 	</dce:format.tiny>';
 </f:if>
 
