@@ -12,7 +12,7 @@ $EM_CONF[$_EXTKEY] = [
     'description' => 'Best flexform based content elements since 2012. With TCA mapping feature, simple backend view and much more features which makes it super easy to create own content element types.',
     'category' => 'Backend',
     'shy' => 0,
-    'version' => '1.4.5',
+    'version' => '1.4.7',
     'dependencies' => 'extbase,fluid',
     'conflicts' => '',
     'priority' => '',
@@ -37,5 +37,8 @@ $EM_CONF[$_EXTKEY] = [
         'suggests' => [],
     ],
     'suggests' => [],
+    'autoload' => [
+        'psr-4' => ['ArminVieweg\\Dce\\' => 'Classes']
+    ],
 ];
 // @codingStandardsIgnoreEnd

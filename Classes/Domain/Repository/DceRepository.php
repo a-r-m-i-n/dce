@@ -542,11 +542,16 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                 'sys_category',
                 'sys_category_record_mm',
                 'tt_content',
-                ''
+                'AND sys_category_record_mm.tablenames="tt_content" ' .
+                'AND sys_category_record_mm.fieldname="categories" ' .
+                'AND sys_category_record_mm.uid_foreign=' . $contentObjectArray['uid']
             );
             $processedContentObject['categories'] = [];
             while (($categoryRow = $databaseConnection->sql_fetch_assoc($res))) {
-                $processedContentObject['categories'][] = $categoryRepository->findByUid($categoryRow['uid']);
+                $category = $categoryRepository->findByUid($categoryRow['uid']);
+                if ($category instanceof \TYPO3\CMS\Extbase\Domain\Model\Category) {
+                    $processedContentObject['categories'][] = $categoryRepository->findByUid($categoryRow['uid']);
+                }
             }
         }
         return $processedContentObject;
