@@ -2,11 +2,11 @@
 	"name": "arminvieweg/dce",
 	"type": "typo3-cms-extension",
 	"description": "Best flexform based content elements since 2012. With TCA mapping feature, simple backend view and much more features which makes it super easy to create own content element types.",
-	"version": "1.4.7",
+	"version": "1.4.8",
 	"homepage": "https://www.facebook.com/TYPO3.DCE.Extension/",
 	"license": "GPL-2.0+",
 	"require": {
-		"typo3/cms-core": ">=7.6.0,<9.0"
+		"typo3/cms-core": "^7.6 || ^8.7"
 	},
 	"autoload": {
 		"psr-4": {
@@ -14,6 +14,7 @@
 		}
 	},
 	"replace": {
-		"dce": "*"
+		"dce": "*",
+		"typo3-ter/dce": "*"
 	}
 }

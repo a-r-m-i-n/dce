@@ -12,7 +12,7 @@ $EM_CONF[$_EXTKEY] = [
     'description' => 'Best flexform based content elements since 2012. With TCA mapping feature, simple backend view and much more features which makes it super easy to create own content element types.',
     'category' => 'Backend',
     'shy' => 0,
-    'version' => '1.4.7',
+    'version' => '1.4.8',
     'dependencies' => 'extbase,fluid',
     'conflicts' => '',
     'priority' => '',
@@ -31,7 +31,7 @@ $EM_CONF[$_EXTKEY] = [
     'CGLcompliance_note' => '',
     'constraints' => [
         'depends' => [
-            'typo3' => '7.6.0-8.9.99',
+            'typo3' => '7.6.0-8.7.99',
         ],
         'conflicts' => [],
         'suggests' => [],
