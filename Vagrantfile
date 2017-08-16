@@ -102,7 +102,7 @@ Vagrant.configure("2") do |config|
     #{addComposerRequirement} "typo3/cms-lowlevel" "^7.6"
     #{addComposerRequirement} "typo3/cms-reports" "^7.6"
     #{addComposerRequirement} "typo3/cms-rsaauth" "^7.6"
-    #{addComposerRequirement} "typo3/cms-rte-ckeditor" "^7.6"
+    #{addComposerRequirement} "typo3/cms-rtehtmlarea" "^7.6"
     #{addComposerRequirement} "typo3/cms-saltedpasswords" "^7.6"
     #{addComposerRequirement} "typo3/cms-scheduler" "^7.6"
     #{addComposerRequirement} "typo3/cms-setup" "^7.6"
