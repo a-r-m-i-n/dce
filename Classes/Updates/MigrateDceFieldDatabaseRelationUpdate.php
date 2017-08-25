@@ -87,6 +87,7 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
             '',
             'uid'
         );
+
         $sectionFieldRelations = $this->getDatabaseConnection()->exec_SELECTgetRows(
             '*',
             $this->getSourceTableNameForSectionField(),
@@ -107,6 +108,7 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
             $this->storeLastQuery($dbQueries);
         }
 
+        
         $dceFieldRelations = $this->getDatabaseConnection()->exec_SELECTgetRows(
             'DISTINCT A.uid_local, A.uid_foreign',
             $this->getSourceTableNameForDceField().' A, '.$this->getSourceTableNameForDceField().' B',
@@ -138,6 +140,30 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
                     );
                     $dceFieldInsertUid = $this->getDatabaseConnection()->sql_insert_id();
                     $this->storeLastQuery($dbQueries);
+
+
+                    if((int) $dceField['type'] == 2)
+                    {
+                        $dceSectionFields = $this->getDatabaseConnection()->exec_SELECTgetRows(
+                            'B.*',
+                            'tx_dce_dcefield_sectionfields_mm A INNER JOIN tx_dce_domain_model_dcefield B ON (A.uid_foreign=B.uid)',
+                            'A.uid_local='.$dceField['uid'],
+                            '',
+                            ''
+                        );
+                        $this->storeLastQuery($dbQueries);
+                        foreach($dceSectionFields as $dceSectionField)
+                        {
+                            $dceSectionFieldData = $dceSectionField;
+                            $dceSectionFieldData['parent_field'] = $dceFieldInsertUid;
+                            unset($dceSectionFieldData['uid']);
+                            $this->getDatabaseConnection()->exec_INSERTquery(
+                                'tx_dce_domain_model_dcefield',
+                                $dceSectionFieldData
+                            );
+                            $this->storeLastQuery($dbQueries);
+                        }
+                    }
 
                     $this->getDatabaseConnection()->exec_UPDATEquery(
                         $this->getSourceTableNameForDceField(),
