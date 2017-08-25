@@ -108,6 +108,51 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
         }
 
         $dceFieldRelations = $this->getDatabaseConnection()->exec_SELECTgetRows(
+            'DISTINCT A.uid_local, A.uid_foreign',
+            $this->getSourceTableNameForDceField().' A, '.$this->getSourceTableNameForDceField().' B',
+            'A.uid_foreign=B.uid_foreign AND A.uid_local != B.uid_local',
+            '',
+            'A.uid_foreign ASC'
+        );
+        $this->storeLastQuery($dbQueries);
+        $dceFieldUid = 0;
+        foreach($dceFieldRelations as $dceFieldRelation)
+        {
+            if($dceFieldUid == $dceFieldRelation['uid_foreign'])
+            {
+                $dceFields = $this->getDatabaseConnection()->exec_SELECTgetRows(
+                    '*',
+                    'tx_dce_domain_model_dcefield',
+                    'uid='.$dceFieldRelation['uid_foreign'],
+                    '',
+                    ''
+                );
+                $this->storeLastQuery($dbQueries);
+                foreach($dceFields as $dceField)
+                {
+                    $dceFieldData = $dceField;
+                    unset($dceFieldData['uid']);
+                    $this->getDatabaseConnection()->exec_INSERTquery(
+                        'tx_dce_domain_model_dcefield',
+                        $dceFieldData
+                    );
+                    $dceFieldInsertUid = $this->getDatabaseConnection()->sql_insert_id();
+                    $this->storeLastQuery($dbQueries);
+
+                    $this->getDatabaseConnection()->exec_UPDATEquery(
+                        $this->getSourceTableNameForDceField(),
+                        'uid_local=' . $dceFieldRelation['uid_local'].' AND uid_foreign='.$dceFieldRelation['uid_foreign'],
+                        array(
+                            'uid_foreign' => $dceFieldInsertUid
+                        )
+                    );
+                    $this->storeLastQuery($dbQueries);
+                }
+            }
+            $dceFieldUid = $dceFieldRelation['uid_foreign'];
+        }
+
+        $dceFieldRelations = $this->getDatabaseConnection()->exec_SELECTgetRows(
             '*',
             $this->getSourceTableNameForDceField(),
             '1'
