@@ -7,6 +7,7 @@ namespace ArminVieweg\Dce\UserFunction\CustomLabels;
  *  | (c) 2012-2017 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
 use ArminVieweg\Dce\Domain\Repository\DceRepository;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Extends TCA label of fields with variable key
@@ -48,7 +49,8 @@ class TtContentLabel
             }
 
             if ($dce->isUseSimpleBackendView()) {
-                $simpleBackendViewUtility = new \ArminVieweg\Dce\Components\BackendView\SimpleBackendView();
+                $objectManager = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
+                $simpleBackendViewUtility = $objectManager->get(\ArminVieweg\Dce\Components\BackendView\SimpleBackendView::class);
                 $parameter['title'] = $simpleBackendViewUtility->getHeaderContent($dce, true);
                 return;
             } else {
