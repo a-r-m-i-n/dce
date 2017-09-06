@@ -43,6 +43,20 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     }
 
     /**
+     * Returns a DCE from the instance cache
+     *
+     * @param integer $uid Content object uid
+     * @return \ArminVieweg\Dce\Domain\Model\Dce
+     */
+    public function findInCacheByContentObjectUid($uid)
+    {
+        if (array_key_exists($uid, static::$dceInstanceCache)) {
+            return static::$dceInstanceCache[$uid];
+        }
+        return null;
+    }
+
+    /**
      * Finds and build a DCE. The given uid loads the DCE structure and the
      * fieldList triggers the fillFields which gives the dce its contents
      * and values.

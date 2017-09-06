@@ -131,6 +131,7 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     public function renderDceAction($uid = null, $contentElementUid = null)
     {
+        $returnFromCache = isset($this->settings['returnFromCache']) ?: false;
         $uid = !is_null($uid) ? $uid : intval($this->settings['dceUid']);
         $contentElementUid = !is_null($contentElementUid) ? $contentElementUid : $this->settings['contentElementUid'];
         $contentObject = $this->getContentObject($contentElementUid);
@@ -141,7 +142,11 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             $this->settings,
             $contentObject
         );
-        return gzcompress(serialize($dce));
+        if ($returnFromCache) {
+            return null;
+        } else {
+            return gzcompress(serialize($dce));
+        }
     }
 
     /**

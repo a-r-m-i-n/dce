@@ -38,9 +38,10 @@ class TtContentLabel
                     'Dce',
                     [
                         'contentElementUid' => $parameter['row']['uid'],
-                        'dceUid' => DceRepository::extractUidFromCtype($parameter['row']['CType'])
+                        'dceUid' => DceRepository::extractUidFromCtype($parameter['row']['CType']),
+                        'returnFromCache' => true,
                     ],
-                    true
+                    false
                 );
             } catch (\Exception $exception) {
                 $parameter['title'] = 'ERROR: ' . $exception->getMessage();
