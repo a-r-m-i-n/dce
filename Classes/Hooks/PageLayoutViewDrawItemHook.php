@@ -57,7 +57,7 @@ class PageLayoutViewDrawItemHook implements \TYPO3\CMS\Backend\View\PageLayoutVi
                     'dceUid' => $dceUid,
                     'returnFromCache' => true,
                 ],
-                false
+                true
             );
         } catch (\Exception $exception) {
             $headerContent = '<strong class="text-danger">' . $exception->getMessage() .'</strong>';
