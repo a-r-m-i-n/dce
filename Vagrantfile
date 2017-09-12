@@ -35,6 +35,12 @@ Vagrant.configure("2") do |config|
   end
 
   # Provider Scripts
+  # Run always
+  config.vm.provision "shell", run: "always", inline: <<-SHELL
+    cd ~
+  	sudo composer self-update --no-progress
+  SHELL
+
   # Run once (install TYPO3 8.7 LTS in /var/www/html)
   config.vm.provision "shell", inline: <<-SHELL
     cd /var/www/html
@@ -137,12 +143,6 @@ Vagrant.configure("2") do |config|
     a2enconf adminer
     echo "Restarting apache2..."
     service apache2 restart
-  SHELL
-
-  # Run always
-  config.vm.provision "shell", run: "always", inline: <<-SHELL
-    cd ~
-  	sudo composer self-update --no-progress
   SHELL
 
 end
