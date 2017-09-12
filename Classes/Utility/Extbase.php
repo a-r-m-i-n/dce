@@ -50,14 +50,18 @@ class Extbase
 
         $previousValue = $GLOBALS['TYPO3_CONF_VARS']['FE']['pageNotFoundOnCHashError'];
         $GLOBALS['TYPO3_CONF_VARS']['FE']['pageNotFoundOnCHashError'] = false;
-        $extbaseReturnValue = $bootstrap->run('', $configuration);
-        $GLOBALS['TYPO3_CONF_VARS']['FE']['pageNotFoundOnCHashError'] = $previousValue;
-        unset($bootstrap);
         if ($settings['returnFromCache']) {
             $objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
             $dceRepository = $objectManager->get('ArminVieweg\Dce\Domain\Repository\DceRepository');
             $extbaseReturnValue = $dceRepository->findInCacheByContentObjectUid($settings['contentElementUid']);
         }
+        if (!$settings['returnFromCache'] || is_null($extbaseReturnValue)) {
+            $extbaseReturnValue = $bootstrap->run('', $configuration);
+        }
+        $GLOBALS['TYPO3_CONF_VARS']['FE']['pageNotFoundOnCHashError'] = $previousValue;
+        unset($bootstrap);
+
+
         if ($compressedObject) {
             return unserialize(gzuncompress($extbaseReturnValue));
         }
