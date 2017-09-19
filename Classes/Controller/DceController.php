@@ -157,12 +157,10 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             'tt_content',
             'uid = ' . (int) $contentElementUid
         );
-        $flexform = GeneralUtility::xml2array($row['pi_flexform']);
 
-        $this->temporaryDceProperties = [];
-        if (is_array($flexform)) {
-            $this->dceRepository->getVdefValues($flexform, $this);
-        }
+        $flexFormService = $this->objectManager->get('TYPO3\CMS\Extbase\Service\FlexFormService');
+        $flexData = $flexFormService->convertFlexFormContentToArray($row['pi_flexform'], 'lDEF', 'vDEF');
+        $this->temporaryDceProperties = $flexData['settings'];
         return $this->temporaryDceProperties;
     }
 
