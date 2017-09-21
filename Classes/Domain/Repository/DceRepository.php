@@ -176,6 +176,12 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                     $i = 0;
                     foreach ($fieldValue as $key => $sectionFieldValues) {
                         $sectionFieldValues = current($sectionFieldValues);
+                        
+                        // Check if $sectionFieldValues is empty - if so, go to next
+                        if(empty($sectionFieldValues)) {
+                            continue;
+                        }
+                        
                         foreach ($sectionFieldValues as $sectionFieldVariable => $sectionFieldValue) {
                             $sectionField = $dceField->getSectionFieldByVariable($sectionFieldVariable);
                             if ($sectionField instanceof DceField) {
