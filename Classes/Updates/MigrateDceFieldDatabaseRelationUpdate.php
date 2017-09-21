@@ -53,7 +53,7 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
                     '<ul style="margin-top: 10px; margin-bottom: 10px;">' .
                     '<li>tx_dce_dce_dcefield_mm</li>' .
                     '<li>zzz_deleted_tx_dce_dce_dcefield_mm</li>' .
-                    '</ul><ul>'.
+                    '</ul><ul>' .
                     '<li>tx_dce_dcefield_sectionfields_mm</li>' .
                     '<li>zzz_deleted_tx_dce_dcefield_sectionfields_mm</li>' .
                     '</ul></div>';
@@ -108,30 +108,27 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
             $this->storeLastQuery($dbQueries);
         }
 
-        
+
         $dceFieldRelations = $this->getDatabaseConnection()->exec_SELECTgetRows(
             'DISTINCT A.uid_local, A.uid_foreign',
-            $this->getSourceTableNameForDceField().' A, '.$this->getSourceTableNameForDceField().' B',
+            $this->getSourceTableNameForDceField() . ' A, ' . $this->getSourceTableNameForDceField() . ' B',
             'A.uid_foreign=B.uid_foreign AND A.uid_local != B.uid_local',
             '',
             'A.uid_foreign ASC'
         );
         $this->storeLastQuery($dbQueries);
         $dceFieldUid = 0;
-        foreach($dceFieldRelations as $dceFieldRelation)
-        {
-            if($dceFieldUid == $dceFieldRelation['uid_foreign'])
-            {
+        foreach ($dceFieldRelations as $dceFieldRelation) {
+            if ($dceFieldUid == $dceFieldRelation['uid_foreign']) {
                 $dceFields = $this->getDatabaseConnection()->exec_SELECTgetRows(
                     '*',
                     'tx_dce_domain_model_dcefield',
-                    'uid='.$dceFieldRelation['uid_foreign'],
+                    'uid=' . $dceFieldRelation['uid_foreign'],
                     '',
                     ''
                 );
                 $this->storeLastQuery($dbQueries);
-                foreach($dceFields as $dceField)
-                {
+                foreach ($dceFields as $dceField) {
                     $dceFieldData = $dceField;
                     unset($dceFieldData['uid']);
                     $this->getDatabaseConnection()->exec_INSERTquery(
@@ -142,18 +139,17 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
                     $this->storeLastQuery($dbQueries);
 
 
-                    if((int) $dceField['type'] == 2)
-                    {
+                    if ((int)$dceField['type'] == 2) {
                         $dceSectionFields = $this->getDatabaseConnection()->exec_SELECTgetRows(
                             'B.*',
-                            'tx_dce_dcefield_sectionfields_mm A INNER JOIN tx_dce_domain_model_dcefield B ON (A.uid_foreign=B.uid)',
-                            'A.uid_local='.$dceField['uid'],
+                            'tx_dce_dcefield_sectionfields_mm A INNER JOIN tx_dce_domain_model_dcefield B ' .
+                            'ON (A.uid_foreign=B.uid)',
+                            'A.uid_local=' . $dceField['uid'],
                             '',
                             ''
                         );
                         $this->storeLastQuery($dbQueries);
-                        foreach($dceSectionFields as $dceSectionField)
-                        {
+                        foreach ($dceSectionFields as $dceSectionField) {
                             $dceSectionFieldData = $dceSectionField;
                             $dceSectionFieldData['parent_field'] = $dceFieldInsertUid;
                             unset($dceSectionFieldData['uid']);
@@ -167,7 +163,8 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
 
                     $this->getDatabaseConnection()->exec_UPDATEquery(
                         $this->getSourceTableNameForDceField(),
-                        'uid_local=' . $dceFieldRelation['uid_local'].' AND uid_foreign='.$dceFieldRelation['uid_foreign'],
+                        'uid_local=' . $dceFieldRelation['uid_local'] .
+                        ' AND uid_foreign=' . $dceFieldRelation['uid_foreign'],
                         array(
                             'uid_foreign' => $dceFieldInsertUid
                         )
@@ -210,8 +207,8 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
             $dceFieldUids = implode(',', $dceFieldUids);
 
             $customMessages[] = 'After the update ' . count($remainingDceFields) . ' remain without parent value. ' .
-                                'This means, no MM relation was existing for these fields. So they were lost in the ' .
-                                'past anyway. Setting deleted=1 to these fields. (uids: ' . $dceFieldUids . ')';
+                'This means, no MM relation was existing for these fields. So they were lost in the ' .
+                'past anyway. Setting deleted=1 to these fields. (uids: ' . $dceFieldUids . ')';
 
             $this->getDatabaseConnection()->exec_UPDATEquery(
                 'tx_dce_domain_model_dcefield',

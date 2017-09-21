@@ -80,35 +80,36 @@ class DatabaseUtility
      * @return \ArminVieweg\Dce\Domain\Model\Dce The constructed DCE object
      */
     public static function getDceObjectForContentElement($contentElement)
-	{
-		// Make this method more comfortable:
-		// Retrieve content element record if only UID is given.
-		if (is_numeric($contentElement)) {
-			$contentElement = BackendUtility::getRecord('tt_content', $contentElement);
-		}
+    {
+        // Make this method more comfortable:
+        // Retrieve content element record if only UID is given.
+        if (is_numeric($contentElement)) {
+            $contentElement = BackendUtility::getRecord('tt_content', $contentElement);
+        }
 
-		// If "pi_flexform" field is not set in the passed contenet element record
-		// retrieve the whole tt_content record
-		if (!isset($contentElement['pi_flexform'])) {
-			$contentElement = BackendUtility::getRecord('tt_content', $contentElement['uid']);
-		}
+        // If "pi_flexform" field is not set in the passed contenet element record
+        // retrieve the whole tt_content record
+        if (!isset($contentElement['pi_flexform'])) {
+            $contentElement = BackendUtility::getRecord('tt_content', $contentElement['uid']);
+        }
 
-		// Make instance of "DceRepository" and "FlexFormService"
-		$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
-		$dceRepository = $objectManager->get('ArminVieweg\Dce\Domain\Repository\DceRepository');
-		$flexFormService = $objectManager->get('TYPO3\CMS\Extbase\Service\FlexFormService');
+        // Make instance of "DceRepository" and "FlexFormService"
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+        /** @var \ArminVieweg\Dce\Domain\Repository\DceRepository $dceRepository */
+        $dceRepository = $objectManager->get('ArminVieweg\Dce\Domain\Repository\DceRepository');
+        /** @var \TYPO3\CMS\Extbase\Service\FlexFormService $flexFormService */
+        $flexFormService = $objectManager->get('TYPO3\CMS\Extbase\Service\FlexFormService');
 
-		// Convert flexform XML to array
-		$flexData = $flexFormService->convertFlexFormContentToArray($contentElement['pi_flexform'], 'lDEF', 'vDEF');
+        // Convert flexform XML to array
+        $flexData = $flexFormService->convertFlexFormContentToArray($contentElement['pi_flexform'], 'lDEF', 'vDEF');
 
-		// Retrieve DCE domain model object
-		$dceUid = self::getDceUidByContentElementUid($contentElement['uid']);
-		$dce = $dceRepository->findAndBuildOneByUid(
-			$dceUid,
-			$flexData['settings'],
-			$contentElement
-		);
-		return $dce;
+        // Retrieve DCE domain model object
+        $dceUid = self::getDceUidByContentElementUid($contentElement['uid']);
+        $dce = $dceRepository->findAndBuildOneByUid(
+            $dceUid,
+            $flexData['settings'],
+            $contentElement
+        );
+        return $dce;
     }
-
 }

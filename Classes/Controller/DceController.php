@@ -160,8 +160,7 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
         $flexFormService = $this->objectManager->get('TYPO3\CMS\Extbase\Service\FlexFormService');
         $flexData = $flexFormService->convertFlexFormContentToArray($row['pi_flexform'], 'lDEF', 'vDEF');
-        $this->temporaryDceProperties = $flexData['settings'];
-        return $this->temporaryDceProperties;
+        return $flexData['settings'];
     }
 
     /**

@@ -6,7 +6,8 @@ namespace ArminVieweg\Dce\UserFunction\CustomLabels;
  *  |
  *  | (c) 2012-2017 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
-use ArminVieweg\Dce\Domain\Repository\DceRepository;
+use ArminVieweg\Dce\Components\BackendView\SimpleBackendView;
+use ArminVieweg\Dce\Utility\DatabaseUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -31,7 +32,7 @@ class TtContentLabel
         ) {
             try {
                 /** @var \ArminVieweg\Dce\Domain\Model\Dce $dce */
-                $dce = \ArminVieweg\Dce\Utility\DatabaseUtility::getDceObjectForContentElement($parameter['row']['uid']);
+                $dce = DatabaseUtility::getDceObjectForContentElement($parameter['row']['uid']);
             } catch (\Exception $exception) {
                 $parameter['title'] = 'ERROR: ' . $exception->getMessage();
                 return;
@@ -39,7 +40,8 @@ class TtContentLabel
 
             if ($dce->isUseSimpleBackendView()) {
                 $objectManager = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
-                $simpleBackendViewUtility = $objectManager->get(\ArminVieweg\Dce\Components\BackendView\SimpleBackendView::class);
+                /** @var SimpleBackendView $simpleBackendViewUtility */
+                $simpleBackendViewUtility = $objectManager->get(SimpleBackendView::class);
                 $parameter['title'] = $simpleBackendViewUtility->getHeaderContent($dce, true);
                 return;
             } else {

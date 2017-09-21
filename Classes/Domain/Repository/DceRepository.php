@@ -178,26 +178,24 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                         $sectionFieldValues = current($sectionFieldValues);
                         
                         // Check if $sectionFieldValues is empty - if so, go to next
-                        if(empty($sectionFieldValues)) {
-                            continue;
-                        }
-                        
-                        foreach ($sectionFieldValues as $sectionFieldVariable => $sectionFieldValue) {
-                            $sectionField = $dceField->getSectionFieldByVariable($sectionFieldVariable);
-                            if ($sectionField instanceof DceField) {
-                                $xmlIdent = $dce->getUid() . '-' . $dceField->getVariable() . '-' .
-                                    $sectionField->getVariable();
-                                $this->fillFields(
-                                    $sectionField,
-                                    $sectionFieldValue,
-                                    $xmlIdent,
-                                    true,
-                                    $contentObject,
-                                    $i
-                                );
+                        if (!empty($sectionFieldValues)) {
+                            foreach ($sectionFieldValues as $sectionFieldVariable => $sectionFieldValue) {
+                                $sectionField = $dceField->getSectionFieldByVariable($sectionFieldVariable);
+                                if ($sectionField instanceof DceField) {
+                                    $xmlIdent = $dce->getUid() . '-' . $dceField->getVariable() . '-' .
+                                        $sectionField->getVariable();
+                                    $this->fillFields(
+                                        $sectionField,
+                                        $sectionFieldValue,
+                                        $xmlIdent,
+                                        true,
+                                        $contentObject,
+                                        $i
+                                    );
+                                }
                             }
+                            $i++;
                         }
-                        $i++;
                     }
                 } else {
                     $xmlIdent = $dce->getUid() . '-' . $dceField->getVariable();
@@ -277,9 +275,10 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      */
     protected function getDceFieldsByRecord(array $record)
     {
-        $flexformData = $this->flexFormService->convertFlexFormContentToArray($record['pi_flexform'], 'lDEF', 'vDEF');
-        $this->temporaryDceProperties = isset($flexformData['settings']) && is_array($flexformData['settings']) ? $flexformData['settings'] : [];
-        return $this->temporaryDceProperties;
+        $flexformData = static::$flexFormService->convertFlexFormContentToArray($record['pi_flexform'], 'lDEF', 'vDEF');
+        return isset($flexformData['settings']) && is_array($flexformData['settings'])
+            ? $flexformData['settings']
+            : [];
     }
 
     /**
@@ -290,11 +289,13 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      * @param Object $caller
      * @param NULL|string $arrayKey
      * @return void
-	 * @deprecated Use "FlexFormService" class instead.
+     * @deprecated Use "FlexFormService" class instead.
      */
     public function getVdefValues(array $array, $caller = null, $arrayKey = null)
     {
-        throw new \Exception('Deprecated: use "FlexFormService" class instead');
+        GeneralUtility::deprecationLog(
+            __CLASS__ . '::' . __METHOD__ . ' is deprecated. Use "FlexFormService" class instead'
+        );
     }
 
     /**
