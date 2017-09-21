@@ -19,6 +19,13 @@ use TYPO3\CMS\Extbase\Persistence\QueryInterface;
  */
 class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
+
+    /**
+     * @var \TYPO3\CMS\Extbase\Service\FlexFormService
+     * @inject
+     */
+    protected static $flexFormService = null;
+
     /**
      * @var \ArminVieweg\Dce\Domain\Model\Dce[]
      */
@@ -264,13 +271,9 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      */
     protected function getDceFieldsByRecord(array $record)
     {
-        $flexformData = $record['pi_flexform_data'];
-        $this->temporaryDceProperties = [];
-        if (is_array($flexformData)) {
-            $this->getVdefValues($flexformData);
-            return $this->temporaryDceProperties;
-        }
-        return [];
+        $flexformData = $this->flexFormService->convertFlexFormContentToArray($record['pi_flexform'], 'lDEF', 'vDEF');
+        $this->temporaryDceProperties = isset($flexformData['settings']) && is_array($flexformData['settings']) ? $flexformData['settings'] : [];
+        return $this->temporaryDceProperties;
     }
 
     /**
@@ -281,37 +284,11 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      * @param Object $caller
      * @param NULL|string $arrayKey
      * @return void
+	 * @deprecated Use "FlexFormService" class instead.
      */
     public function getVdefValues(array $array, $caller = null, $arrayKey = null)
     {
-        if ($caller === null) {
-            $caller = $this;
-        }
-        foreach ($array as $key => $value) {
-            if ($key === 'vDEF') {
-                $caller->temporaryDceProperties[substr($arrayKey, 9)] = $value;
-            } elseif (is_array($value) && array_key_exists('el', $value)) {
-                $propertyName = substr($key, 9);
-                $values = [];
-                $i = 1;
-                if (is_array(current($value))) {
-                    foreach (current($value) as $entry) {
-                        if (is_array($entry)) {
-                            $entry = $entry['container_' . $propertyName]['el'];
-                            if (is_array($entry)) {
-                                foreach ($entry as $k => $v) {
-                                    $entry[$k] = $v['vDEF'];
-                                }
-                                $values[$i++] = ['container_' . $propertyName => $entry];
-                            }
-                        }
-                    }
-                }
-                $caller->temporaryDceProperties[$propertyName] = $values;
-            } elseif (is_array($value)) {
-                $this->getVdefValues($value, $caller, $key);
-            }
-        }
+        throw new \Exception('Deprecated: use "FlexFormService" class instead');
     }
 
     /**
@@ -494,8 +471,6 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                     }
                 }
 
-                // Add field with converted flexform_data (as array)
-                $row['pi_flexform_data'] = GeneralUtility::xml2array($row['pi_flexform']);
                 // Add field with tableName
                 $row['_table'] = $tableName;
 

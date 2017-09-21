@@ -30,19 +30,7 @@ class TtContentLabel
         ) {
             try {
                 /** @var \ArminVieweg\Dce\Domain\Model\Dce $dce */
-                $dce = \ArminVieweg\Dce\Utility\Extbase::bootstrapControllerAction(
-                    'ArminVieweg',
-                    'Dce',
-                    'Dce',
-                    'renderDce',
-                    'Dce',
-                    [
-                        'contentElementUid' => $parameter['row']['uid'],
-                        'dceUid' => DceRepository::extractUidFromCtype($parameter['row']['CType']),
-                        'returnFromCache' => true,
-                    ],
-                    true
-                );
+                $dce = \ArminVieweg\Dce\Utility\DatabaseUtility::getDceObjectForContentElement($parameter['row']['uid']);
             } catch (\Exception $exception) {
                 $parameter['title'] = 'ERROR: ' . $exception->getMessage();
                 return;

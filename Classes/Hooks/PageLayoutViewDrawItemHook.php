@@ -46,19 +46,7 @@ class PageLayoutViewDrawItemHook implements \TYPO3\CMS\Backend\View\PageLayoutVi
 
         try {
             /** @var \ArminVieweg\Dce\Domain\Model\Dce $dce */
-            $dce = \ArminVieweg\Dce\Utility\Extbase::bootstrapControllerAction(
-                'ArminVieweg',
-                'Dce',
-                'Dce',
-                'renderDce',
-                'Dce',
-                [
-                    'contentElementUid' => $row['uid'],
-                    'dceUid' => $dceUid,
-                    'returnFromCache' => true,
-                ],
-                true
-            );
+            $dce = \ArminVieweg\Dce\Utility\DatabaseUtility::getDceObjectForContentElement($row['uid']);
         } catch (\Exception $exception) {
             $headerContent = '<strong class="text-danger">' . $exception->getMessage() .'</strong>';
             return;
