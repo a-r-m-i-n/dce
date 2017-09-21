@@ -368,6 +368,8 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     {
         $objects = [];
 
+        $objectManager = new \TYPO3\CMS\Extbase\Object\ObjectManager();
+
         if ($dceFieldConfiguration['type'] === 'group') {
             $className = $dceFieldConfiguration['allowed'];
             $tableNames = GeneralUtility::trimExplode(',', $dceFieldConfiguration['allowed'], true);
@@ -394,7 +396,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         }
 
         if ($dceFieldConfiguration['dce_get_fal_objects'] && strtolower($className) === 'sys_file_reference') {
-            $falViewHelper = new \ArminVieweg\Dce\ViewHelpers\FalViewHelper();
+            $falViewHelper = $objectManager->get(\ArminVieweg\Dce\ViewHelpers\FalViewHelper::class);
             return $falViewHelper->render(
                 $dceFieldConfiguration['foreign_match_fields']['fieldname'],
                 $contentObject,
@@ -416,7 +418,6 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
         if (class_exists($className) && class_exists($repositoryName)) {
             // Extbase object found
-            $objectManager = new \TYPO3\CMS\Extbase\Object\ObjectManager();
             /** @var $repository \TYPO3\CMS\Extbase\Persistence\Repository */
             $repository = $objectManager->get($repositoryName);
 
