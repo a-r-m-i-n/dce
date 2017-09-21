@@ -48,7 +48,7 @@
 			<localize>1</localize>
 		</enabledControls>
 
-		<createNewRelationLinkTitle>LLL:EXT:cms/locallang_ttc.xlf:images.addFileReference</createNewRelationLinkTitle>
+		<createNewRelationLinkTitle>LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference</createNewRelationLinkTitle>
 	</appearance>
 
 	<behaviour>
