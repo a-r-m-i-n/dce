@@ -4,4 +4,5 @@
 	<cols>30</cols>
 	<eval>trim,required</eval>
 	<enableRichtext>1</enableRichtext>
+	<richtextConfiguration>default</richtextConfiguration>
 </config>
