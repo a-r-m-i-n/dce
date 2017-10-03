@@ -166,9 +166,10 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      */
     protected function processFillingFields(
         \ArminVieweg\Dce\Domain\Model\Dce $dce,
-        array $fieldList,
+        array $fieldList = null,
         array $contentObject
     ) {
+        $fieldList = $fieldList ?: [];
         foreach ($fieldList as $fieldVariable => $fieldValue) {
             $dceField = $dce->getFieldByVariable($fieldVariable);
             if ($dceField) {
