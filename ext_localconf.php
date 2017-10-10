@@ -32,10 +32,6 @@ $boot = function ($extensionKey) {
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc']['dce'] =
         'ArminVieweg\\Dce\\Hooks\\ClearCachePostHook->clearDceCache';
 
-    // Make edit form access check hook
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['typo3/alt_doc.php']['makeEditForm_accessCheck']['dce'] =
-        'ArminVieweg\\Dce\\Hooks\\MakeEditFormAccessCheckHook->checkAccess';
-
     // Register ke_search hook to be able to index DCE frontend output
     if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('ke_search')) {
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['ke_search']['modifyContentFromContentElement'][] =
