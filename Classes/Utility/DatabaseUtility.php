@@ -77,10 +77,13 @@ class DatabaseUtility
      * Creates DCE domain object for a given content element
      *
      * @param array|integer $contentElement The content element database record (or UID)
-     * @return \ArminVieweg\Dce\Domain\Model\Dce The constructed DCE object
+     * @return \ArminVieweg\Dce\Domain\Model\Dce|null The constructed DCE object or null
      */
     public static function getDceObjectForContentElement($contentElement)
     {
+        if (is_string($contentElement) && strpos($contentElement, 'NEW') === 0) {
+            throw new \InvalidArgumentException('This is a new content element, can\'t create DCE instance from it.');
+        }
         // Make this method more comfortable:
         // Retrieve content element record if only UID is given.
         if (is_numeric($contentElement)) {
