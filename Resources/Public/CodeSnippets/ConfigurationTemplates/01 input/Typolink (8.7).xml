@@ -6,10 +6,10 @@
 	<softref>typolink,typolink_tag,images,url</softref>
 	<fieldControl>
 		<linkPopup>
-			<option>
+			<options>
 				<!--<blindLinkOptions>file,mail,page,spec,url</blindLinkOptions>-->
 				<!--<blindLinkFields>class,params,target,title</blindLinkFields>-->
-			</option>
+			</options>
 		</linkPopup>
 	</fieldControl>
 </config>
