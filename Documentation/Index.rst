@@ -30,7 +30,7 @@ Dynamic Content Elements (DCE)
 		contentelements,FCE
 
 	:Copyright:
-		2012-2017
+		2012-2018
 
 	:Author:
 		Armin Ruediger Vieweg

@@ -4,7 +4,7 @@ namespace ArminVieweg\Dce\UserFunction;
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2017 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2018 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
 use ArminVieweg\Dce\Utility\LanguageService;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
