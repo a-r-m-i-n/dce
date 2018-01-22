@@ -28,10 +28,6 @@ $boot = function ($extensionKey) {
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['tt_content_drawItem']['dce'] =
         'ArminVieweg\\Dce\\Hooks\\PageLayoutViewDrawItemHook';
 
-    // Clear cache hook
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc']['dce'] =
-        'ArminVieweg\\Dce\\Hooks\\ClearCachePostHook->clearDceCache';
-
     // Register ke_search hook to be able to index DCE frontend output
     if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('ke_search')) {
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['ke_search']['modifyContentFromContentElement'][] =
@@ -110,15 +106,9 @@ $boot = function ($extensionKey) {
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['extbase']['extensions']['Dce']['modules']
         = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['extbase']['extensions']['Dce']['plugins'];
 
-    // Include cached ext_localconf
-    if (!\ArminVieweg\Dce\Cache::cacheExists(\ArminVieweg\Dce\Cache::CACHE_TYPE_EXTLOCALCONF)) {
-        /** @var $dceCache \ArminVieweg\Dce\Cache */
-        $dceCache = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('ArminVieweg\Dce\Cache');
-        $dceCache->createLocalconf();
-    }
-    if (\ArminVieweg\Dce\Cache::cacheExists(\ArminVieweg\Dce\Cache::CACHE_TYPE_EXTLOCALCONF)) {
-        require_once(PATH_site . \ArminVieweg\Dce\Cache::CACHE_PATH . \ArminVieweg\Dce\Cache::CACHE_TYPE_EXTLOCALCONF);
-    }
+    // Register DCEs
+    $cache = new \ArminVieweg\Dce\Injector();
+    $cache->injectPluginConfiguration();
 };
 
 $boot($_EXTKEY);

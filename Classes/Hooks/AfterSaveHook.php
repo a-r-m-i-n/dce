@@ -144,9 +144,6 @@ class AfterSaveHook
         if (in_array($table, ['tx_dce_domain_model_dce', 'tx_dce_domain_model_dcefield']) &&
             in_array($status, ['update', 'new'])
         ) {
-            if ($this->extConfiguration['disableAutoClearCache'] == 0) {
-                \ArminVieweg\Dce\Cache::clear();
-            }
             // TODO: Deprecated remove in next major version (also in ext_conf_template.txt)
             if ($this->extConfiguration['disableAutoClearFrontendCache'] == 0) {
                 $pObj->clear_cacheCmd('pages');

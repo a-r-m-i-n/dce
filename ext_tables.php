@@ -11,17 +11,6 @@ if (!defined('TYPO3_MODE')) {
 }
 
 $boot = function ($extensionKey) {
-    // Include cached ext_tables
-    if (!\ArminVieweg\Dce\Cache::cacheExists(\ArminVieweg\Dce\Cache::CACHE_TYPE_EXTTABLES)) {
-        /** @var $dceCache \ArminVieweg\Dce\Cache */
-        $dceCache = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('ArminVieweg\Dce\Cache');
-        $dceCache->createExtTables();
-    }
-    if (\ArminVieweg\Dce\Cache::cacheExists(\ArminVieweg\Dce\Cache::CACHE_TYPE_EXTTABLES)) {
-        require_once(PATH_site . \ArminVieweg\Dce\Cache::CACHE_PATH . \ArminVieweg\Dce\Cache::CACHE_TYPE_EXTTABLES);
-    }
-
-
     $extensionIconPath = 'EXT:' . $extensionKey . '/Resources/Public/Icons/ext_icon.svg';
 
     // Register backend module

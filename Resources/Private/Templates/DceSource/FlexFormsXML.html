@@ -10,7 +10,7 @@
 					<sheet.{tab.variable}>
 						<ROOT>
 							<TCEforms>
-								<sheetTitle>{tab.title}</sheetTitle>
+								<sheetTitle>{tab.title -> dce:format.cdata()}</sheetTitle>
 							</TCEforms>
 							<type>array</type>
 							<el>
@@ -18,18 +18,18 @@
 									<f:if condition="{field.type} == 2">
 										<f:then>
 											<settings.{field.variable}>
-												<title>{field.title}</title>
+												<title>{field.title -> dce:format.cdata()}</title>
 												<tx_templavoila>
-													<title>{field.title}</title>
+													<title>{field.title -> dce:format.cdata()}</title>
 												</tx_templavoila>
 												<section>1</section>
 												<type>array</type>
 												<el>
 													<container_{field.variable}>
 														<type>array</type>
-														<title>{field.section_fields_tag}</title>
+														<title>{field.section_fields_tag -> dce:format.cdata()}</title>
 														<tx_templavoila>
-															<title>{field.section_fields_tag}</title>
+															<title>{field.section_fields_tag -> dce:format.cdata()}</title>
 														</tx_templavoila>
 														<el>
 															<f:for each="{field.section_fields}" as="sectionField">
@@ -48,7 +48,7 @@
 										<f:else>
 											<settings.{field.variable}>
 													<TCEforms>
-															<label>{field.title}</label>
+															<label>{field.title -> dce:format.cdata()}</label>
 															{field.configuration -> f:format.raw()}
 													</TCEforms>
 											</settings.{field.variable}>

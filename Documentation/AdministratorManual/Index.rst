@@ -130,18 +130,7 @@ Caching
 Backend Cache
 """""""""""""
 
-In order that the DCE can be used in the TYPO3 backend correspondent entries must exist in the ext_localconf.php and ext_tables.php.
-
-For this purpose the DCE extension has its own caching, that behaves like the system cache. In the directory typo3temp two new files are cached:
-
-1. /typo3temp/Cache/Code/cache_dce/ext_localconf.php
-2. /typo3temp/Cache/Code/cache_dce/ext_tables.php
-
-These files are automatically deleted when the system cache is cleared. The system cache must be activated in install or be enabled by setting development environment.
-
-Furthermore the DCE cache is cleared by every saving of a DCE. With this the changes of a DCE (e.g. add a new field) are directly shown in the backend. This behavior can be disabled by a setting in the extension (with the extension manager).
-
-By the way: For the creation of the DCE cache the Fluid template engine is used, which now creates PHP and XML code instead of HTML code according of the settings that was made in the DCE.
+Since DCE 1.5 all generated code is stored in cache mechanisms configured in TYPO3.
 
 Frontend Cache
 """"""""""""""
