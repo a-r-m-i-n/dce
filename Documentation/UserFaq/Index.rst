@@ -12,18 +12,39 @@ FAQ
 ===
 
 
-How to get the first image of a FAL image list?
+How to access to FAL images?
 -----------------------------------------------
+
+You can simply iterate over the variable you've defined for the FAL field. Usage of old FAL viewhelper is not necessary
+anymore. But you need to, add these two lines to the field configuration:
 
 ::
 
-    <f:for each="{dce:fal(field:'picture', contentObject:contentObject)}" as="fileReference" iteration="iterator">
-        <f:if condition="{iterator.isFirst}">
-            <f:image src="{fileReference.uid}" alt="" treatIdAsReference="1" width="200px"/>
-        </f:if>
+    <dce_load_schema>1</dce_load_schema>
+    <dce_get_fal_objects>1</dce_get_fal_objects>
+
+
+In your fluid template you can simply use the images like this:
+
+::
+
+    <f:for each="{field.myImages}" as="image" iteration="iterator">
+        <f:image image="{image}" />
     </f:for>
 
-The loop run through the complete FAL image list, but only the first element is issued.
+If you want to output the only the first image you can use this one liner:
+
+::
+
+    <f:image image="{field.myImages.0}" />
+
+
+Also the following tt_content fields (selectable in DCE options) are automatically resolved to an array of models,
+for easy usage in fluid template:
+
+- media
+- categories
+- assets
 
 
 
@@ -92,6 +113,18 @@ You can access the fields of a section by iterating over the section elements:
 	</f:for>
 
 
+How to use FAL within sections?
+-------------------------------
+
+Checkout this wiki article: https://forge.typo3.org/projects/extension-dce/wiki/How_to_use_FAL_within_sections
+
+
+How to use link property for FAL images?
+----------------------------------------
+
+Checkout this wiki article: https://forge.typo3.org/projects/extension-dce/wiki/How_to_link_your_FAL_images
+
+
 How to translate fields in the BE?
 ----------------------------------
 
@@ -137,25 +170,19 @@ You have to enclose the RTE field with the format.html ViewHelper to get the HTM
 
 	<f:format.html>{field.rteField}</f:format.html>
 
+You can also use the inline notation:
+
+::
+
+    {field.rteField -> f:format.html()}
+
+
 
 How to access variables of other DCE elements?
 ----------------------------------------------
 
 You can access directly the TypoScript with {tsSetup.lib.xyz.value} .
 
-
-How to output an image that is selected via FAL in the BE?
-----------------------------------------------------------
-
-If you choose "Type:inline File Absraction Layer" as element for FAL images it is important to write the field name in the FlexForm: *<fieldname>rightImage</fieldname>*. The same name must be written in the Fluid template:
-
-::
-
-	<f:for each="{dce:fal(field:'rightImage', contentObject:contentObject)}" as="fileReference">
-		<dce:image src="{fileReference.uid}" alt="" treatIdAsReference="1" />
-	</f:for>
-
-This outputs all images. It is important to use the dce:image viewhelper, because the original one has problems with the image path in backend context.
 
 How to migrate old image fields to new FAL fields?
 --------------------------------------------------
@@ -173,7 +200,6 @@ Furthermore these filenames are inside of an FlexformXML, so the steps of a conv
 4. Replace filename with uid of FAL record
 5. Save the tt_content record and update the field configuration
 
-If you want to support such migration tool, just get in touch with me (armin (at) v.ieweg.de).
 
 How to create a dynamic content like an accordion?
 --------------------------------------------------
@@ -182,7 +208,6 @@ How to create a dynamic content like an accordion?
 - Add a section
 - Add an element in the section, this will be the tab element of which you can add as many as you want.
 - In the template tab point to an own layout (accordionLayout), which is a simple HTML file.
-
 
 The template tab looks like this:
 
@@ -215,6 +240,17 @@ The link to changeover to the detail page looks like this:
 Where detailUid is the value of the field "Detail page identifier (get parameter)" you have set on the "Detail page" tab.
 
 
+How to wrap my content elements with a container?
+-------------------------------------------------
+
+Sometimes you need a wrapping element in HTML template, for all content elements from same type. We recommend to use
+gridelements, because it brings columns to content elements which are structured in database.
+
+You can also use the DCE feature "DCE Container", which simulates a container for certain content elements in a row,
+based on the same DCE. This article tells you more: https://forge.typo3.org/projects/extension-dce/wiki/DCE_Container
+
+
+
 How to add content elements to my DCE
 -------------------------------------
 
@@ -231,3 +267,13 @@ If you enable DCEs to be visible in content wizard, they can be grouped in a new
 ::
 
 	mod.wizards.newContentElement.wizardItems.dce.header = Whatever you want
+
+
+How to update DCE from (very) old versions?
+-------------------------------------------
+
+Checkout these links:
+
+- https://forge.typo3.org/projects/extension-dce/wiki/Updating-DCE-0x-to-1x
+- https://forge.typo3.org/projects/extension-dce/wiki/Updating-DCE-from-version-below-12
+
