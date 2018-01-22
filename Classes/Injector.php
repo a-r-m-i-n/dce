@@ -69,14 +69,19 @@ class Injector
                 [
                     addcslashes($dce['title'], "'"),
                     'dce_dceuid' . $dce['uid'],
-                    $dce['hasCustomWizardIcon'] ? 'ext-dce-dceuid' . $dce['uid'] . '-customwizardicon' : $dce['wizard_icon'],
+                    $dce['hasCustomWizardIcon']
+                        ? 'ext-dce-dceuid' . $dce['uid'] . '-customwizardicon'
+                        : $dce['wizard_icon'],
                 ]
             );
 
             $GLOBALS['TCA']['tt_content']['ctrl']['typeicon_classes']['dce_dceuid' . $dce['uid']] =
-                $dce['hasCustomWizardIcon'] ? 'ext-dce-dceuid' . $dce['uid'] . '-customwizardicon' : $dce['wizard_icon'];
+                $dce['hasCustomWizardIcon']
+                    ? 'ext-dce-dceuid' . $dce['uid'] . '-customwizardicon'
+                    : $dce['wizard_icon'];
 
-            $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['dce_dceuid' . $dce['uid']] = 'pi_flexform';
+            $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['dce_dceuid' . $dce['uid']] =
+                'pi_flexform';
             $GLOBALS['TCA']['tt_content']['columns']['pi_flexform']['config']['ds'][',dce_dceuid' . $dce['uid']] =
                 $this->renderFlexformXml($dce);
 
@@ -199,7 +204,6 @@ class Injector
                 TCEFORM.tt_content.pi_flexform.types.dce_dceuid' . $dce['uid'] . '.label = ' . $dce['flexform_label']
                 );
             }
-
         }
     }
 
@@ -252,7 +256,7 @@ class Injector
      */
     protected function getDatabaseDces()
     {
-        /** @var $databaseConnection \TYPO3\CMS\Dbal\Database\DatabaseConnection */
+        /** @var $databaseConnection \TYPO3\CMS\Core\Database\DatabaseConnection */
         $databaseConnection = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection();
 
         $tables = array_keys($databaseConnection->admin_get_tables());
