@@ -43,6 +43,9 @@ Vagrant.configure("2") do |config|
 
   # Run once (install TYPO3 8.7 LTS in /var/www/html)
   config.vm.provision "shell", inline: <<-SHELL
+    cd ~
+    ./enable-php/7.0.sh
+
     cd /var/www/html
     echo "{}" > composer.json
 
