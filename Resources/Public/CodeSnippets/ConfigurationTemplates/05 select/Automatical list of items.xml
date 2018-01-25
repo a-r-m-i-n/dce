@@ -1,10 +1,10 @@
 <config>
 	<type>select</type>
 	<!-- uncomment this, if you want to add an empty option before -->
-	<!-- <items type='array'>
-		<numIndex index='0' type='array'>
-			<numIndex index='0'></numIndex>
-			<numIndex index='1'></numIndex>
+	<!-- <items type="array">
+		<numIndex index="0" type="array">
+			<numIndex index="0"></numIndex>
+			<numIndex index="1"></numIndex>
 		</numIndex>
 	</items> -->
 	<foreign_table>pages</foreign_table>

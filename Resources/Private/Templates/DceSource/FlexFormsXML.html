@@ -36,7 +36,7 @@
 																<{sectionField.variable}>
 																	<TCEforms>
 																		<label>{sectionField.title}</label>
-																		{sectionField.configuration -> f:format.raw()}
+																		{sectionField.configuration -> dce:format.replace(search:'\'', replace:'"') -> f:format.raw()}
 																	</TCEforms>
 																</{sectionField.variable}>
 															</f:for>
@@ -49,7 +49,7 @@
 											<settings.{field.variable}>
 													<TCEforms>
 															<label>{field.title -> dce:format.cdata()}</label>
-															{field.configuration -> f:format.raw()}
+															{field.configuration  -> dce:format.replace(search:'\'', replace:'"') -> f:format.raw()}
 													</TCEforms>
 											</settings.{field.variable}>
 										</f:else>
