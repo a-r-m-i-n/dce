@@ -168,15 +168,14 @@ Lets have a look at the default template code and explain the parts.
 ::
 
 	{namespace dce=ArminVieweg\Dce\ViewHelpers}
-	<f:layout name="Default" />
-
-	<f:section name="main">
+	<div class="dce">
 		Your template goes here...
-	</f:section>
+	</dce>
 
 In the first line the namespace for the DCE ViewHelpers is defined. This should not be removed.
 
-With the 2nd line this individual template is included in the main template "Default". You will find the main template "Default" at this place: *typo3conf/ext/dce/Resources/Private/Layouts/Default.html* with this content:
+It is recommended to not use layouts here. If you want to use a fluid layout, don't name it "Default".
+This breaks with fluid_styled_content.
 
 ::
 
@@ -184,11 +183,9 @@ With the 2nd line this individual template is included in the main template "Def
 		<f:render section="main" />
 	</div>
 
-If you want to get rid of the div container you can use the layout "None" instead of "Default".
 
-The individual template with all your HTML code and CSS classes must be inside the section "main", it should replace the dummy line 5 ("Your template goes here...").
-
-With the select box in the "Template content (fluid)" section you can insert variables and ViewHelpers into the template. The selected variable or ViewHelper is inserted at the current cursor position in the template.
+With the select box in the "Template content (fluid)" section you can insert variables and ViewHelpers into the template.
+The selected variable or ViewHelper is inserted at the current cursor position in the template.
 
 Dynamic parts in fluid template
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

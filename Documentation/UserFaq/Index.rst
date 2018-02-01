@@ -32,7 +32,7 @@ In your fluid template you can simply use the images like this:
         <f:image image="{image}" />
     </f:for>
 
-If you want to output the only the first image you can use this one liner:
+If you want to output only the first image you can use this one liner:
 
 ::
 
@@ -40,7 +40,7 @@ If you want to output the only the first image you can use this one liner:
 
 
 Also the following tt_content fields (selectable in DCE options) are automatically resolved to an array of models,
-for easy usage in fluid template:
+for easy usage in fluid template (**{contentObject.xxx}**):
 
 - media
 - categories
@@ -51,7 +51,8 @@ for easy usage in fluid template:
 Am I also able to use file collections?
 ---------------------------------------
 
-Since version 0.11.x of DCE you are. Just add a group field, set allowed tablename to "sys_file_collection" and add the **dce_load_schema** option.
+Since version 0.11.x of DCE you are. Just add a group field, set allowed tablename to "sys_file_collection" and add the
+**dce_load_schema** option.
 
 Example field configuration:
 

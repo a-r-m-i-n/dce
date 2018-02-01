@@ -225,11 +225,10 @@ $dceTca = [
                     'showTemplates' => false,
                 ],
                 'default' => '{namespace dce=ArminVieweg\Dce\ViewHelpers}
-<f:layout name="Default" />
-
-<f:section name="main">
-	Your template goes here...
-</f:section>',
+<div class="dce">
+    Your template goes here...
+</div>
+',
             ],
         ],
         'template_file' => [
@@ -463,11 +462,10 @@ $dceTca = [
                     'showTemplates' => false,
                 ],
                 'default' => '{namespace dce=ArminVieweg\Dce\ViewHelpers}
-<f:layout name="Default" />
-
-<f:section name="main">
+<div class="dce dce-detailpage">
 	Your detailpage template goes here...
-</f:section>',
+</div>
+',
             ],
         ],
         'detailpage_template_file' => [

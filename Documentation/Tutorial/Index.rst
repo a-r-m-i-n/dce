@@ -59,20 +59,16 @@ Now go to the template tab, you will see a default template in the "Template con
 ::
 
 	{namespace dce=ArminVieweg\Dce\ViewHelpers}
-	<f:layout name="Default" />
-
-	<f:section name="main">
+	<div class="dce">
 		Your template goes here...
-	</f:section>
+	</dce>
 
 Replace the text "Your template goes here..." with the fluid code to display the title, the first image and a link to the detail view.
 
 ::
 
 	{namespace dce=ArminVieweg\Dce\ViewHelpers}
-	<f:layout name="Default" />
-
-	<f:section name="main">
+	<div class="dce">
 		Gallery: {field.galleryName}<br />
 		<br />
 		<f:for each="{dce:fal(field:'pictures', contentObject:contentObject)}" as="fileReference" iteration="iterator">
@@ -83,7 +79,7 @@ Replace the text "Your template goes here..." with the fluid code to display the
 		<br />
 		<f:link.page pageUid="{page.uid}" additionalParams="{detailUid: '{contentObject.uid}'}">Detail</f:link.page>
 		<hr />
-	</f:section>
+	</dce>
 
 The select box helps you to create the fluid template. When you select an entry from the select box the corresponding code is inserted at the actual cursor position. So it is easy to insert the correct variable names into the fluid template.
 
@@ -94,9 +90,7 @@ The complete "Detail page template (fluid)" should be this:
 ::
 
 	{namespace dce=ArminVieweg\Dce\ViewHelpers}
-	<f:layout name="Default" />
-
-	<f:section name="main">
+	<div class="dce">
 		Gallery: {field.galleryName}<br />
 		Description:<br />
 		<f:format.html>{field.description}</f:format.html><br />
@@ -106,6 +100,6 @@ The complete "Detail page template (fluid)" should be this:
 		</f:for>
 		<br />
 		<f:link.page pageUid="{page.uid}">Back</f:link.page>
-	</f:section>
+	</dce>
 
 After saving your new content element, it is ready to use (even for content editors). It is always located in the CTYPE-dropdown box of new tt_content items. It is also possible to add an option to the create page content wizard, you have to enable the option "Show DCE in content element Wizard" on the wizard tab sheet for this integration.
