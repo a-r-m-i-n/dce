@@ -34,14 +34,17 @@ class SimpleBackendView
      */
     public function getHeaderContent(Dce $dce, $textOnly = false)
     {
+        /** @var \TYPO3\CMS\Lang\LanguageService $lang */
+        $lang = $GLOBALS['LANG'];
+
         if ($dce->getBackendViewHeader() === '*empty') {
             return '';
         }
         if ($dce->getBackendViewHeader() === '*dcetitle') {
             if ($textOnly) {
-                return $dce->getTitle();
+                return $lang->sL($dce->getTitle());
             }
-            return '<strong class="dceHeader">' . $dce->getTitle() . '</strong>';
+            return '<strong class="dceHeader">' . $lang->sL($dce->getTitle()) . '</strong>';
         }
 
         $field = $dce->getFieldByVariable($dce->getBackendViewHeader());
