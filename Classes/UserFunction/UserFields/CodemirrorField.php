@@ -33,15 +33,10 @@ class CodemirrorField
 
         $this->parameter = $parameter;
 
-        /** @var $fluidTemplate \ArminVieweg\Dce\Utility\FluidTemplate */
-        $fluidTemplate = GeneralUtility::makeInstance('ArminVieweg\Dce\Utility\FluidTemplate');
-
-        $fluidTemplate->setLayoutRootPaths(
-            [File::get('EXT:dce/Resources/Private/Layouts/')]
-        );
-        $fluidTemplate->setPartialRootPaths(
-            [File::get('EXT:dce/Resources/Private/Partials/')]
-        );
+        /** @var \TYPO3\CMS\Fluid\View\StandaloneView $fluidTemplate */
+        $fluidTemplate = GeneralUtility::makeInstance(\TYPO3\CMS\Fluid\View\StandaloneView::class);
+        $fluidTemplate->setLayoutRootPaths([File::get('EXT:dce/Resources/Private/Layouts/')]);
+        $fluidTemplate->setPartialRootPaths([File::get('EXT:dce/Resources/Private/Partials/')]);
         $fluidTemplate->setTemplatePathAndFilename(File::get(
             'EXT:dce/Resources/Private/Templates/DceUserFields/Codemirror.html'
         ));

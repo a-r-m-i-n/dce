@@ -19,19 +19,6 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 class Injector
 {
     /**
-     * @var \ArminVieweg\Dce\Utility\FluidTemplate
-     */
-    protected $fluidTemplate;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->fluidTemplate = GeneralUtility::makeInstance('ArminVieweg\Dce\Utility\FluidTemplate');
-    }
-
-    /**
      * Injects TCA
      * Call this in Configuration/TCA/Overrides/tt_content.php
      *
@@ -226,11 +213,15 @@ class Injector
      */
     public function renderFlexformXml(array $singleDceArray)
     {
-        $this->fluidTemplate->setTemplatePathAndFilename(
+        /** @var \TYPO3\CMS\Fluid\View\StandaloneView $fluidTemplate */
+        $fluidTemplate = GeneralUtility::makeInstance(\TYPO3\CMS\Fluid\View\StandaloneView::class);
+        $fluidTemplate->setLayoutRootPaths([Utility\File::get('EXT:dce/Resources/Private/Layouts/')]);
+        $fluidTemplate->setPartialRootPaths([Utility\File::get('EXT:dce/Resources/Private/Partials/')]);
+        $fluidTemplate->setTemplatePathAndFilename(
             ExtensionManagementUtility::extPath('dce') . 'Resources/Private/Templates/DceSource/FlexFormsXML.html'
         );
-        $this->fluidTemplate->assign('dce', $singleDceArray);
-        return $this->fluidTemplate->render();
+        $fluidTemplate->assign('dce', $singleDceArray);
+        return $fluidTemplate->render();
     }
 
     /**
