@@ -92,15 +92,17 @@ class ContainerFactory
     {
         $contentObject = $dce->getContentObject();
         $sortColumn = $GLOBALS['TCA']['tt_content']['ctrl']['sortby'];
-        $deleteColumn = $GLOBALS['TCA']['tt_content']['ctrl']['delete'];
         $where = 'pid = ' . $contentObject['pid'] .
                  ' AND colPos = ' . $contentObject['colPos'] .
                  ' AND ' . $sortColumn . ' > ' . $contentObject[$sortColumn] .
-                 ' AND uid != ' . $contentObject['uid'] .
-                 ' AND ' . $deleteColumn . ' = 0' .
-                 ' AND (starttime <= ' . (int) $GLOBALS['SIM_ACCESS_TIME'] . ' OR starttime = 0)' .
-                 ' AND (endtime >= ' . (int) $GLOBALS['SIM_ACCESS_TIME'] . ' OR endtime = 0)';
-        // TODO: Still not checking current frontend user permission if set
+                 ' AND uid != ' . $contentObject['uid'];
+
+        if (TYPO3_MODE === 'FE') {
+            $where .= ' AND sys_language_uid = ' . $GLOBALS['TSFE']->sys_language_uid;
+            $where .= DatabaseUtility::getEnabledFields('tt_content');
+        } else {
+            $where .= \TYPO3\CMS\Backend\Utility\BackendUtility::deleteClause('tt_content');
+        }
 
         if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('gridelements')
             && $contentObject['tx_gridelements_container'] != '0'
