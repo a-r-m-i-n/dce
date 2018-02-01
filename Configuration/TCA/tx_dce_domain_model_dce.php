@@ -111,7 +111,7 @@ $dceTca = [
             'label' => $ll . 'tx_dce_domain_model_dce.title',
             'config' => [
                 'type' => 'input',
-                'size' => 15,
+                'size' => 30,
                 'eval' => 'trim,required',
             ],
         ],
