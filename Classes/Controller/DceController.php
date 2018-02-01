@@ -84,7 +84,7 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         }
         if ($dce->getEnableContainer()) {
             if (ContainerFactory::checkContentElementForBeingRendered($dce->getContentObject())) {
-                return '<!--render container-->'; //output needed for content slide
+                return '';
             }
             $container = ContainerFactory::makeContainer($dce);
             return $container->render();

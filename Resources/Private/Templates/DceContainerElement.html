@@ -1,0 +1,16 @@
+<f:if condition="{content}">
+    <f:then>
+        <div id="c{data.uid}" class="frame frame-{data.frame_class} frame-type-{data.CType} frame-layout-{data.layout}{f:if(condition: data.space_before_class, then: ' frame-space-before-{data.space_before_class}')}{f:if(condition: data.space_after_class, then: ' frame-space-after-{data.space_after_class}')}">
+            {content -> f:format.raw()}
+        </div>
+    </f:then>
+    <f:else>
+        <f:alias map="{cObjectContent: '{f:cObject(typoscriptObjectPath:\'tt_content.{data.CType}.20\', data:data, table:\'tt_content\')}'}">
+            <f:if condition="{cObjectContent}">
+                <div id="c{data.uid}" class="frame frame-{data.frame_class} frame-type-{data.CType} frame-layout-{data.layout}{f:if(condition: data.space_before_class, then: ' frame-space-before-{data.space_before_class}')}{f:if(condition: data.space_after_class, then: ' frame-space-after-{data.space_after_class}')} dce-container">
+                    {cObjectContent -> f:format.raw()}
+                </div>
+            </f:if>
+        </f:alias>
+    </f:else>
+</f:if>

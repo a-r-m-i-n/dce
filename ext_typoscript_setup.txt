@@ -6,3 +6,5 @@ tt_content.stdWrap.innerWrap.cObject.default.stdWrap.if {
 	isInList.field = CType
 	negate = 1
 }
+
+lib.contentElement.templateRootPaths.1 = EXT:dce/Resources/Private/Templates

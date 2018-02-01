@@ -174,6 +174,16 @@ class Injector
                 );
             }
 
+            if ($dce['enable_container'] && ExtensionManagementUtility::isLoaded('fluid_styled_content')) {
+                \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
+                    'dce',
+                    'setup',
+                    '# Change fluid_styled_content template name for DCE with uid ' . $dce['uid'] . '
+                     tt_content.dce_dceuid' . $dce['uid'] . '.templateName = DceContainerElement',
+                    43
+                );
+            }
+
             if ($dce['wizard_enable']) {
                 if ($dce['hasCustomWizardIcon'] && !empty($dce['wizard_custom_icon'])) {
                     $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
