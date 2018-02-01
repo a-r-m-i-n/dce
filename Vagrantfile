@@ -41,11 +41,13 @@ Vagrant.configure("2") do |config|
   	sudo composer self-update --no-progress
   SHELL
 
+  config.vm.provision "shell", inline: <<-SHELL
+    cd /home/vagrant
+    ./enable-php/7.0.sh
+  SHELL
+
   # Run once (install TYPO3 8.7 LTS in /var/www/html)
   config.vm.provision "shell", inline: <<-SHELL
-    cd ~
-    ./enable-php/7.0.sh
-
     cd /var/www/html
     echo "{}" > composer.json
 

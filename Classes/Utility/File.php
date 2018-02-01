@@ -20,6 +20,7 @@ class File
      *
      * @param string $file Supports relative paths, EXT: paths, file: paths and t3:// paths.
      * @return string Resolved path to file
+     * @throws
      */
     public static function get($file)
     {
@@ -34,7 +35,7 @@ class File
             /** @var \TYPO3\CMS\Core\LinkHandling\LinkService $linkService */
             $linkService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\LinkHandling\LinkService::class);
 
-            /** @var \TYPO3\CMS\Core\Resource\File $file */
+            /** @var \TYPO3\CMS\Core\Resource\File $resolvedFile */
             $resolvedFile = $linkService->resolveByStringRepresentation($filePath)['file'];
             $filePath = $resolvedFile->getPublicUrl();
         }
