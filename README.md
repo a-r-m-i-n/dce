@@ -17,36 +17,26 @@ If you have any questions feel free to contact me.
 
 
 ## Vagrant setup
-A Vagrantfile is shipped with DCE. Open http://127.0.0.1:8080 in your browser after you've performed a 
-```
-vagrant up
-```
+A Vagrantfile is shipped with DCE. Required plugins are installed on initial `vagrant up`.
 
-On Windows you need to install the vagrant plugin WinNFSd before you can vagrant up:
-```
-vagrant plugin install vagrant-winnfsd
-```
+Uses the vagrant box:
+ [ArminVieweg/ubuntu-xenial64-lamp](https://app.vagrantup.com/ArminVieweg/boxes/ubuntu-xenial64-lamp)
 
-Your files are automatically uploaded to `/var/www/html/typo3conf/ext/dce`.
-**Caution! Files are synched!** Deleting files in machine will also delete them on host machine.
+Also the provider scripts, shipped in Vagrantfile, use [typo3_console](https://github.com/helhum/typo3_console)
+to install a blank TYPO3 installation (with DCE already installs ;-)).  
 
+Your files are automatically uploaded to `/var/www/html/typo3conf/ext/dce` and `/var/www/html76/typo3conf/ext/dce`.
 
-The used box [ArminVieweg/trusty64-lamp](https://atlas.hashicorp.com/ArminVieweg/boxes/trusty64-lamp) contains:
-
-- Apache2
-- PHP 7.0 & 5.6 *(need to switch manually by changing symlinks in Apache2's mods dir)* 
-- mysql-server & mysql-client
-- Imagemagick
-- Git
-- Composer (with auto self-update on vagrant up)
-- TYPO3 8.7 LTS
-- jigal/**t3adminer** extension (as [composer package](https://packagist.org/packages/jigal/t3adminer))
+**Caution! Files are synced!** Deleting files in machine will also delete them on host machine!
 
 ### Credentials
 
-**For TYPO3:** *admin* / *password* (also install tool password)
-**For Database:** *root* / - (no password set)
-**For SSH:** *vagrant* / *vagrant*
+* **URL TYPO3 8.7:** http://localhost:8080/typo3
+* **URL TYPO3 7.6:** http://localhost:8080/76/typo3
 
-**TYPO3 path:** `/var/www/html/` (uses composer, you can update with `composer update`).
+* **For TYPO3:** *admin* / *password* (also install tool password)
+* **For Database:** *root* / - (no password set)
+* **For SSH:** *vagrant* / *vagrant*
 
+* **TYPO3 8.7 path:** `/var/www/html/` (uses composer, you can update with `composer update`).
+* **TYPO3 7.6 path:** `/var/www/html/7.6` (uses composer, you can update with `composer update`).

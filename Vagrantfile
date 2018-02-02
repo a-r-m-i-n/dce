@@ -1,9 +1,18 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# Requires to perform this first once:
-#  (windows only) `vagrant plugin install vagrant-winnfsd`
-#  `vagrant plugin install vagrant-bindfs`
+# Install required vagrant plugins
+if Vagrant::Util::Platform.windows? then
+    unless Vagrant.has_plugin?("vagrant-winnfsd")
+        system "vagrant plugin install vagrant-winnfsd"
+    end
+end
+unless Vagrant.has_plugin?("vagrant-bindfs")
+    system "vagrant plugin install vagrant-bindfs"
+end
+unless Vagrant.has_plugin?("vagrant-triggers")
+    system "vagrant plugin install vagrant-triggers"
+end
 
 Vagrant.configure("2") do |config|
   # PHP Helper to modify composer.json
@@ -28,6 +37,12 @@ Vagrant.configure("2") do |config|
     force_group:  "www-data",
     perms:        "u=rwX:g=rwX:o=rD"
   }
+
+  if Vagrant::Util::Platform.windows? then
+    config.trigger.after :up, :good_exit => [0, 1] do
+      run "explorer http://localhost:8080/typo3"
+    end
+  end
 
   config.vm.provider "virtualbox" do |vb|
     vb.memory = 4096
