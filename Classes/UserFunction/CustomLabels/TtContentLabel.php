@@ -42,8 +42,11 @@ class TtContentLabel
                 $objectManager = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
                 /** @var SimpleBackendView $simpleBackendViewUtility */
                 $simpleBackendViewUtility = $objectManager->get(SimpleBackendView::class);
-                $parameter['title'] = $simpleBackendViewUtility->getHeaderContent($dce, true);
-                return;
+                $headerContent = $simpleBackendViewUtility->getHeaderContent($dce, true);
+                if (!empty($headerContent)) {
+                    $parameter['title'] = $headerContent;
+                    return;
+                }
             } else {
                 $parameter['title'] = trim(strip_tags($dce->renderBackendTemplate('header')));
                 return;
