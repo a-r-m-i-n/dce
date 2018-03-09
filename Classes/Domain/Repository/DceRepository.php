@@ -398,13 +398,36 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         }
 
         if ($dceFieldConfiguration['dce_get_fal_objects'] && strtolower($className) === 'sys_file_reference') {
-            $falViewHelper = $objectManager->get(\ArminVieweg\Dce\ViewHelpers\FalViewHelper::class);
-            return $falViewHelper->render(
-                $dceFieldConfiguration['foreign_match_fields']['fieldname'],
-                $contentObject,
-                $dceFieldConfiguration['dce_enable_autotranslation'] === false ? false : true,
-                'tt_content'
+            $contentObjectUid = intval(
+                $contentObject['_LOCALIZED_UID'] != null ? $contentObject['_LOCALIZED_UID'] : $contentObject['uid']
             );
+            if (TYPO3_MODE === 'FE') {
+                $fileRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\FileRepository::class);
+                $fileReferences = $fileRepository->findByRelation('tt_content', $dceFieldConfiguration['foreign_match_fields']['fieldname'], $contentObjectUid);
+            } else {
+                /** @var $relationHandler \TYPO3\CMS\Core\Database\RelationHandler */
+                $relationHandler = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\RelationHandler::class);
+                $relationHandler->start(
+                    '', 'sys_file_reference', '', $contentObjectUid, 'tt_content',
+                    $dceFieldConfiguration
+                );
+                if (!empty($relationHandler->tableArray['sys_file_reference'])) {
+                    $referenceUids = $relationHandler->tableArray['sys_file_reference'];
+                }
+                if (!empty($referenceUids)) {
+                    /** @var \TYPO3\CMS\Core\Resource\ResourceFactory $fileFactory */
+                    $fileFactory = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\ResourceFactory::class);
+                    foreach ($referenceUids as $referenceUid) {
+                        $fileReferenceData = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecordWSOL('sys_file_reference', $referenceUid);
+                        if ($fileReferenceData) {
+                            if($fileReferenceData['t3ver_label']!='DELETED!' && $fileReferenceData['hidden']!='1' && $fileReferenceData['deleted']!='1') {
+                                $fileReferences[] = $fileFactory->createFileReferenceObject($fileReferenceData);
+                            }
+                        }
+                    }
+                }
+            }
+            return $fileReferences;
         }
 
         if (strstr($className, '\\') === false) {
