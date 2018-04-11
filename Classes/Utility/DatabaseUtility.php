@@ -87,13 +87,25 @@ class DatabaseUtility
         // Make this method more comfortable:
         // Retrieve content element record if only UID is given.
         if (is_numeric($contentElement)) {
-            $contentElement = BackendUtility::getRecordWSOL('tt_content', $contentElement);
+            $contentElement = BackendUtility::getRecordWSOL(
+                'tt_content',
+                $contentElement,
+                '*',
+                '',
+                false
+            );
         }
 
         // If "pi_flexform" field is not set in the passed contenet element record
         // retrieve the whole tt_content record
         if (!isset($contentElement['pi_flexform'])) {
-            $contentElement = BackendUtility::getRecordWSOL('tt_content', $contentElement['uid']);
+            $contentElement = BackendUtility::getRecordWSOL(
+                'tt_content',
+                $contentElement['uid'],
+                '*',
+                '',
+                false
+            );
         }
 
         // Make instance of "DceRepository" and "FlexFormService"
