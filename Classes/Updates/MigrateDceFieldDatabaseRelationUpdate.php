@@ -72,7 +72,7 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
      * Performs the accordant updates.
      *
      * @param array &$dbQueries Queries done in this update
-     * @param mixed &$customMessages Custom messages
+     * @param string|array &$customMessages Custom messages
      * @return bool Whether everything went smoothly or not
      */
     public function performUpdate(array &$dbQueries, &$customMessages)
@@ -206,9 +206,15 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
             }
             $dceFieldUids = implode(',', $dceFieldUids);
 
-            $customMessages[] = 'After the update ' . count($remainingDceFields) . ' remain without parent value. ' .
+            $message = 'After the update ' . count($remainingDceFields) . ' remain without parent value. ' .
                 'This means, no MM relation was existing for these fields. So they were lost in the ' .
                 'past anyway. Setting deleted=1 to these fields. (uids: ' . $dceFieldUids . ')';
+
+            if (is_array($customMessages)) {
+                $customMessages[] = $message;
+            } else {
+                $customMessages = $message;
+            }
 
             $this->getDatabaseConnection()->exec_UPDATEquery(
                 'tx_dce_domain_model_dcefield',

@@ -52,7 +52,7 @@ class FixMalformedDceFieldVariableNamesUpdate extends AbstractUpdate
      * Performs the accordant updates.
      *
      * @param array &$dbQueries Queries done in this update
-     * @param mixed &$customMessages Custom messages
+     * @param string|array &$customMessages Custom messages
      * @return bool Whether everything went smoothly or not
      * @TODO Refactor me
      */

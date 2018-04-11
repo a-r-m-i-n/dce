@@ -29,7 +29,7 @@ class AbstractUpdate extends \TYPO3\CMS\Install\Updates\AbstractUpdate
      * Performs the accordant updates.
      *
      * @param array &$dbQueries Queries done in this update
-     * @param mixed &$customMessages Custom messages
+     * @param string|array &$customMessages TYPO3 7.6 uses an array, 8.7 uses a string
      * @return bool Whether everything went smoothly or not
      */
     public function performUpdate(array &$dbQueries, &$customMessages)
