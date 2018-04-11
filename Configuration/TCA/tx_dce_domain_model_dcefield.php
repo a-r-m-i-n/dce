@@ -48,8 +48,13 @@ $dceFieldTca = [
     ],
     'types' => [
         '0' => [
-            'showitem' => '--palette--;;general_header,configuration;;;fixed-font:enable-tab,' .
-                          '--palette--;;tca_options,parent_dce,parent_field'
+            'showitem' => '--palette--;;general_header,configuration,' .
+                          '--palette--;;tca_options,parent_dce,parent_field',
+            'columnsOverrides' => array(
+                'configuration' => array(
+                    'defaultExtras' => 'fixed-font:enable-tab',
+                ),
+            ),
         ],
         '1' => [
             'showitem' => '--palette--;;general_header,parent_dce'
