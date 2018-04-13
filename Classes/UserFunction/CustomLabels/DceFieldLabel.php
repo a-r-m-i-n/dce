@@ -54,7 +54,7 @@ class DceFieldLabel
             } else {
                 $parentFieldRow = ['variable' => $parameter['parent']['uid']];
             }
-            $parameter['title'] = $parameter['row']['title'] .
+            $parameter['title'] = LanguageService::sL($parameter['row']['title']) .
                 ' - {field.' . $parentFieldRow['variable'] . '.n.' . $parameter['row']['variable'] . '}';
         }
     }

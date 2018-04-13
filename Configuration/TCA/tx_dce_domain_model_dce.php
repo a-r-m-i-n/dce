@@ -16,6 +16,7 @@ $dceTca = [
     'ctrl' => [
         'title' => $ll . 'tx_dce_domain_model_dce',
         'label' => 'title',
+        'label_userFunc' => 'ArminVieweg\Dce\UserFunction\CustomLabels\DceFieldLabel->getLabelDce',
         'adminOnly' => 1,
         'rootLevel' => 1,
         'tstamp' => 'tstamp',
