@@ -50,11 +50,11 @@ $dceFieldTca = [
         '0' => [
             'showitem' => '--palette--;;general_header,configuration,' .
                           '--palette--;;tca_options,parent_dce,parent_field',
-            'columnsOverrides' => array(
-                'configuration' => array(
+            'columnsOverrides' => [
+                'configuration' => [
                     'defaultExtras' => 'fixed-font:enable-tab',
-                ),
-            ),
+                ],
+            ],
         ],
         '1' => [
             'showitem' => '--palette--;;general_header,parent_dce'
@@ -209,7 +209,8 @@ $dceFieldTca = [
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
-                'itemsProcFunc' => 'ArminVieweg\Dce\UserFunction\ItemsProcFunc->getAvailableTtContentColumnsForTcaMapping',
+                'itemsProcFunc' => ArminVieweg\Dce\UserFunction\ItemsProcFunc::class .
+                                    '->getAvailableTtContentColumnsForTcaMapping',
                 'size' => 1,
                 'minitems' => 0,
                 'maxitems' => 1

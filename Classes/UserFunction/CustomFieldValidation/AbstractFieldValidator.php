@@ -78,7 +78,7 @@ abstract class AbstractFieldValidator
      * @param array $arguments optional arguments
      * @return string Translated text
      */
-    protected function translate($key, array $arguments = array())
+    protected function translate($key, array $arguments = [])
     {
         return LocalizationUtility::translate(
             'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:' . $key,

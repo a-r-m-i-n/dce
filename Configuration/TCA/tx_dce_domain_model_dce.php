@@ -44,22 +44,34 @@ $dceTca = [
         1 => [
             'showitem' => '--palette--;;general_header,fields,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.template,template_type,template_content,template_file,
-			--div--;' . $ll . 'tx_dce_domain_model_dce.container,enable_container,container_item_limit,container_identifier,container_template_type,container_template,container_template_file,
-			--div--;' . $ll . 'tx_dce_domain_model_dce.backendTemplate,use_simple_backend_view,backend_view_header,backend_view_bodytext,backend_template_type,backend_template_content,backend_template_file,
-			--div--;' . $ll . 'tx_dce_domain_model_dce.wizard,wizard_icon,wizard_custom_icon,wizard_enable,wizard_category,wizard_description,
-			--div--;' . $ll . 'tx_dce_domain_model_dce.detailpage,enable_detailpage,detailpage_identifier,detailpage_template_type,detailpage_template,detailpage_template_file,
+			--div--;' . $ll . 'tx_dce_domain_model_dce.container,enable_container,container_item_limit,' .
+                              'container_identifier,container_template_type,container_template,container_template_file,
+			--div--;' . $ll . 'tx_dce_domain_model_dce.backendTemplate,use_simple_backend_view,backend_view_header,' .
+                              'backend_view_bodytext,backend_template_type,backend_template_content,
+                               backend_template_file,
+			--div--;' . $ll . 'tx_dce_domain_model_dce.wizard,wizard_icon,wizard_custom_icon,wizard_enable,' .
+                               'wizard_category,wizard_description,
+			--div--;' . $ll . 'tx_dce_domain_model_dce.detailpage,enable_detailpage,detailpage_identifier,' .
+                              'detailpage_template_type,detailpage_template,detailpage_template_file,
 			--div--;' . $ll . 'tx_dce_domain_model_dce.miscellaneous,cache_dce,flexform_label,hide_default_ce_wrap,
-                --palette--;' . $ll . 'tx_dce_domain_model_dce.contentRelationsPalette;content_relations,palette_fields,template_layout_root_path,template_partial_root_path',
-            'columnsOverrides' => array(
-                'template_content' => array(
+                --palette--;' . $ll . 'tx_dce_domain_model_dce.contentRelationsPalette;content_relations,' .
+                                      'palette_fields,template_layout_root_path,template_partial_root_path',
+            'columnsOverrides' => [
+                'template_content' => [
                     'defaultExtras' => 'fixed-font:enable-tab',
-                ),
-            ),
+                ],
+            ],
         ]
     ],
     'palettes' => [
-        'general_header' => ['showitem' => 'title,hidden', 'canNotCollapse' => true],
-        'content_relations' => ['showitem' => 'show_access_tab,show_media_tab,show_category_tab', 'canNotCollapse' => true],
+        'general_header' => [
+            'showitem' => 'title,hidden',
+            'canNotCollapse' => true
+        ],
+        'content_relations' => [
+            'showitem' => 'show_access_tab,show_media_tab,show_category_tab',
+            'canNotCollapse' => true
+        ],
     ],
     'columns' => [
         'sys_language_uid' => [
@@ -583,7 +595,8 @@ $dceTca = [
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectMultipleSideBySide',
-                'itemsProcFunc' => 'ArminVieweg\Dce\UserFunction\ItemsProcFunc->getAvailableTtContentColumnsForPaletteFields',
+                'itemsProcFunc' => ArminVieweg\Dce\UserFunction\ItemsProcFunc::class .
+                                    '->getAvailableTtContentColumnsForPaletteFields',
                 'size' => 10,
                 'default' => 'sys_language_uid,l18n_parent,colPos,spaceBefore,spaceAfter,section_frame,hidden',
                 'minitems' => 0,

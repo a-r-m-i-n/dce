@@ -165,9 +165,9 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
                         $this->getSourceTableNameForDceField(),
                         'uid_local=' . $dceFieldRelation['uid_local'] .
                         ' AND uid_foreign=' . $dceFieldRelation['uid_foreign'],
-                        array(
+                        [
                             'uid_foreign' => $dceFieldInsertUid
-                        )
+                        ]
                     );
                     $this->storeLastQuery($dbQueries);
                 }

@@ -40,4 +40,3 @@ if (!isset($GLOBALS['TCA']['tt_content']['ctrl']['label_userFunc'])) {
 // TCA generation
 $cache = new \ArminVieweg\Dce\Injector();
 $cache->injectTca();
-

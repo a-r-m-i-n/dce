@@ -23,7 +23,7 @@ class Extbase
      * @param string $controller Name of controller, in UpperCamelCase
      * @param string $action Optional name of action, in lowerCamelCase (without 'Action' suffix). Default is 'index'.
      * @param string $pluginName Optional name of plugin. Default is 'Pi1'.
-     * @param array $settings Optional array of settings to use in controller and fluid template. Default is array().
+     * @param array $settings Optional array of settings to use in controller and fluid template. Default is array.
      * @param bool $compressedObject When true a compressed, serialized object is expected from Extbase return value.
      * @return mixed output of controller's action
      */
