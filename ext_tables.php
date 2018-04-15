@@ -55,6 +55,12 @@ $boot = function ($extensionKey) {
         }
     }');
 
+    if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('linkvalidator')) {
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
+            'mod.linkvalidator.searchFields.tt_content := addToList(pi_flexform)'
+        );
+    }
+
     /** @var \TYPO3\CMS\Core\Imaging\IconRegistry $iconRegistry */
     $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\Imaging\IconRegistry');
     // DCE Icon

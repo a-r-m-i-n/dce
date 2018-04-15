@@ -109,6 +109,19 @@ $boot = function ($extensionKey) {
     // Register DCEs
     $cache = new \ArminVieweg\Dce\Injector();
     $cache->injectPluginConfiguration();
+
+    if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('linkvalidator')) {
+        /** @var \TYPO3\CMS\Extbase\SignalSlot\Dispatcher $signalSlotDispatcher */
+        $signalSlotDispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+            \TYPO3\CMS\Extbase\SignalSlot\Dispatcher::class
+        );
+        $signalSlotDispatcher->connect(
+            \TYPO3\CMS\Linkvalidator\LinkAnalyzer::class,
+            'beforeAnalyzeRecord',
+            \ArminVieweg\Dce\Slots\LinkAnalyserSlot::class,
+            'beforeAnalyzeRecord'
+        );
+    }
 };
 
 $boot($_EXTKEY);
