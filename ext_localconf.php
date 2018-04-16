@@ -135,6 +135,9 @@ $boot = function ($extensionKey) {
             }
         }
     }');
+
+    // Global namespace
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['dce'] = ['ArminVieweg\\Dce\\ViewHelpers'];
 };
 
 $boot($_EXTKEY);

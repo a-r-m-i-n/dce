@@ -247,8 +247,7 @@ $dceTca = [
                     'mode' => 'htmlmixed',
                     'showTemplates' => false,
                 ],
-                'default' => '{namespace dce=ArminVieweg\Dce\ViewHelpers}
-<div class="dce">
+                'default' => '<div class="dce">
     Your template goes here...
 </div>
 ',
@@ -381,9 +380,7 @@ $dceTca = [
                     'mode' => 'htmlmixed',
                     'showTemplates' => false,
                 ],
-                'default' => '
-{namespace dce=ArminVieweg\Dce\ViewHelpers}
-<f:layout name="BackendTemplate" />
+                'default' => '<f:layout name="BackendTemplate" />
 
 <f:section name="header">
 	<strong>{dce.title}</strong><br>
@@ -484,8 +481,7 @@ $dceTca = [
                     'mode' => 'htmlmixed',
                     'showTemplates' => false,
                 ],
-                'default' => '{namespace dce=ArminVieweg\Dce\ViewHelpers}
-<div class="dce dce-detailpage">
+                'default' => '<div class="dce dce-detailpage">
 	Your detailpage template goes here...
 </div>
 ',
@@ -563,8 +559,7 @@ $dceTca = [
                     'mode' => 'htmlmixed',
                     'doNotShowFields' => true,
                 ],
-                'default' => '{namespace dce=ArminVieweg\Dce\ViewHelpers}
-<f:layout name="DefaultContainer" />
+                'default' => '<f:layout name="DefaultContainer" />
 
 <f:section name="main">
 	<f:render partial="Container/Dces" arguments="{dces:dces}" />

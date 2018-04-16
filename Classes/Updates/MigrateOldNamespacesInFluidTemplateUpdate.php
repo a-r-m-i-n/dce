@@ -16,7 +16,9 @@ class MigrateOldNamespacesInFluidTemplateUpdate extends AbstractUpdate
     /** Old DCE namespace (before 1.0) */
     const NAMESPACE_OLD = '{namespace dce=Tx_Dce_ViewHelpers}';
     /** New DCE namespace (since 1.0) */
-    const NAMESPACE_NEW = '{namespace dce=ArminVieweg\Dce\ViewHelpers}';
+    const NAMESPACE_OLD2 = '{namespace dce=ArminVieweg\Dce\ViewHelpers}';
+    /** New DCE namespace (since 1.7) */
+    const NAMESPACE_NEW = '';
 
     /**
      * @var string
@@ -110,6 +112,7 @@ class MigrateOldNamespacesInFluidTemplateUpdate extends AbstractUpdate
     protected function templateNeedUpdate($templateContent)
     {
         return strpos($templateContent, self::NAMESPACE_OLD) !== false ||
+                strpos($templateContent, self::NAMESPACE_OLD2) !== false ||
                 strpos($templateContent, 'dce:format.raw') !== false ||
                 strpos($templateContent, 'dce:image') !== false  ||
                 strpos($templateContent, 'dce:uri.image') !== false ;
@@ -208,9 +211,13 @@ class MigrateOldNamespacesInFluidTemplateUpdate extends AbstractUpdate
      * @param string $templateContent
      * @return string
      */
-    protected function performTemplateUpdates($templateContent)
+    protected function performTemplateUpdates($templateContent) : string
     {
-        $content = str_replace(self::NAMESPACE_OLD, self::NAMESPACE_NEW, $templateContent);
+        $content = str_replace(
+            [self::NAMESPACE_OLD, self::NAMESPACE_OLD2],
+            [self::NAMESPACE_NEW, self::NAMESPACE_NEW],
+            $templateContent
+        );
         $content = str_replace('dce:format.raw', 'f:format.raw', $content);
         $content = str_replace('dce:image', 'f:image', $content);
         $content = str_replace('dce:uri.image', 'f:uri.image', $content);
