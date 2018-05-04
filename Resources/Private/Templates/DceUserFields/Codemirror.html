@@ -1,4 +1,4 @@
-{namespace dce=ArminVieweg\Dce\ViewHelpers}
+{namespace dce=T3\Dce\ViewHelpers}
 
 <dce:be.includeJsFile path="EXT:dce/Resources/Public/JavaScript/InitializeCodemirror.js" />
 
@@ -28,7 +28,7 @@
 	<f:then></f:then>
 	<f:else>
 		<script type="text/javascript">
-			TYPO3.dce.initCodeMirrorEditor(TYPO3.jQuery('#codemirror_{uniqueIdentifier}'), '{parameters.mode}');
+            TYPO3.dce.initCodeMirrorEditor(TYPO3.jQuery('#codemirror_{uniqueIdentifier}'), '{parameters.mode}');
 		</script>
 	</f:else>
 </f:if>
