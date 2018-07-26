@@ -12,9 +12,6 @@ end
 unless Vagrant.has_plugin?("vagrant-hostmanager")
     system "vagrant plugin install vagrant-hostmanager"
 end
-unless Vagrant.has_plugin?("vagrant-triggers")
-    system "vagrant plugin install vagrant-triggers"
-end
 
 Vagrant.configure("2") do |config|
     # Base configuration
@@ -23,12 +20,6 @@ Vagrant.configure("2") do |config|
     staticIpAddress = "192.168.13.37"
     httpPortForwardingHost = "8080"
     config.vm.hostname = "dce.vagrant"
-
-    if Vagrant::Util::Platform.windows? then
-        config.trigger.after :up, :good_exit => [0, 1] do
-            run "explorer http://#{config.vm.hostname}"
-        end
-    end
 
 	config.ssh.insert_key = false
 
@@ -65,14 +56,8 @@ Vagrant.configure("2") do |config|
     addComposerAutoloader = 'php -r \'$f=json_decode(file_get_contents($argv[1]),true);$f["autoload"]["psr-4"][$argv[2]]=$argv[3];file_put_contents($argv[1],json_encode($f,448)."\n");\' composer.json'
     addComposerRepo = 'php -r \'$f=json_decode(file_get_contents($argv[1]),true);$f["repositories"][]=["type"=>$argv[2],"url" =>$argv[3]];file_put_contents($argv[1], json_encode($f,448)."\n");\' composer.json'
 
-    # Run always
-    config.vm.provision "shell", run: "always", name: "composer-update", inline: <<-SHELL
-        cd ~
-        composer self-update --no-progress
-    SHELL
-
     # Run once (install TYPO3 after composer install)
-    config.vm.provision "shell", run: "once", name: "typo3-install", inline: <<-SHELL
+    config.vm.provision "shell", run: "once", name: "install-typo3", inline: <<-SHELL
         cd /var/www/html
 
         echo "Creating /var/www/html/composer.json..."
@@ -99,7 +84,7 @@ Vagrant.configure("2") do |config|
 
         composer install --no-progress
 
-        vendor/bin/typo3cms install:setup --force --database-user-name "root" --database-user-password "" --database-host-name "localhost" --database-name "typo3" --database-port "3306" --database-socket "" --admin-user-name "admin" --admin-password "password" --site-name "DCE Dev Environment" --site-setup-type "site" --use-existing-database 0
+        vendor/bin/typo3cms install:setup --force --database-user-name "root" --database-user-password "root" --database-host-name "localhost" --database-name "typo3" --database-port "3306" --database-socket "" --admin-user-name "admin" --admin-password "password" --site-name "DCE Dev Environment" --site-setup-type "site" --use-existing-database 0
         vendor/bin/typo3cms cache:flush
 
         echo "Fixing permissions..."
@@ -113,7 +98,7 @@ Vagrant.configure("2") do |config|
     SHELL
 
     # Run once (Add /adminer alias)
-    config.vm.provision "shell", run: "once", name:"adminer-install", inline: <<-SHELL
+    config.vm.provision "shell", run: "once", name:"install-adminer", inline: <<-SHELL
         echo "Installing adminer..."
         composer require vrana/adminer -d /home/vagrant/.composer/ -o --no-progress
         ln -s /home/vagrant/.composer/vendor/vrana/adminer/adminer /var/www/adminer
@@ -122,6 +107,13 @@ Vagrant.configure("2") do |config|
         a2enconf adminer
         echo "Restarting apache2..."
         service apache2 restart
+    SHELL
+
+    # Run always
+    config.vm.provision "shell", run: "always", name: "startup", inline: <<-SHELL
+        cd ~
+        composer self-update --no-progress
+        echo "DCE Dev Environment is ready to use: http://dce.vagrant"
     SHELL
 
 end
