@@ -124,6 +124,7 @@ CREATE TABLE tx_dce_domain_model_dcefield (
 
 	PRIMARY KEY (uid),
 	KEY parent (pid),
+	KEY parent_dce (parent_dce),
 	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
 	KEY language (l10n_parent,sys_language_uid)
 );
