@@ -20,30 +20,24 @@ class ThisUrlViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHe
     {
         parent::initializeArguments();
         $this->registerArgument('showHost', 'boolean', 'If TRUE the hostname will be included');
-        $this->registerArgument('showRequestedUri', 'boolean', 'If TRUE the requested uri will be included');
+        $this->registerArgument('showRequestedUri', 'boolean', 'If TRUE the requested uri will be included', false, true);
         $this->registerArgument('urlencode', 'boolean', 'If TRUE the whole result will be URI encoded');
     }
 
     /**
-     * @param array $arguments
-     * @param \Closure $renderChildrenClosure
-     * @param RenderingContextInterface $renderingContext
      * @return string
      */
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ) {
+    public function render()
+    {
         $url = '';
-        if ($arguments['showHost']) {
+        if ($this->arguments['showHost']) {
             $url .= ($_SERVER['HTTPS']) ? 'https://' : 'http://';
             $url .= $_SERVER['SERVER_NAME'];
         }
-        if ($arguments['showRequestedUri']) {
+        if ($this->arguments['showRequestedUri']) {
             $url .= $_SERVER['REQUEST_URI'];
         }
-        if ($arguments['urlencode']) {
+        if ($this->arguments['urlencode']) {
             $url = urlencode($url);
         }
         return $url;
