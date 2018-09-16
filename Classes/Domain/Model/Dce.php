@@ -873,6 +873,16 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
+     * Alias for render method
+     *
+     * @return string
+     */
+    public function getRender()
+    {
+        return $this->render();
+    }
+
+    /**
      * Renders the DCE detail page output
      *
      * @return string rendered output
