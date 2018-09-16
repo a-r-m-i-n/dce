@@ -124,7 +124,7 @@ Vagrant.configure("2") do |config|
         composer require vrana/adminer --no-progress --no-suggest --no-interaction
     SHELL
     config.vm.provision "shell", run: "once", privileged: true, name: "setup-adminer-root", inline: <<-SHELL
-        echo -e "Alias /adminer \"/var/www/adminer/\"\n<Directory \"/var/www/adminer/\">\nOrder allow,deny\nAllow from all\nRequire all granted\n</Directory>" > /etc/apache2/conf-available/adminer.conf
+        echo -e "Alias /adminer \"/var/www/adminer/vendor/vrana/adminer/adminer/\"\n<Directory \"/var/www/adminer/vendor/vrana/adminer/adminer/\">\nOrder allow,deny\nAllow from all\nRequire all granted\n</Directory>" > /etc/apache2/conf-available/adminer.conf
         a2enconf adminer
     SHELL
 
