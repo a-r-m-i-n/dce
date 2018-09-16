@@ -12,7 +12,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 /**
  * Receives FAL FileReference objects
  *
- * @package ArminVieweg\Dce
+ * @TODO Consider to remove it
  */
 class FalViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {

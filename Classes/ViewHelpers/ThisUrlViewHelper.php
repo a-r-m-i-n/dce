@@ -6,37 +6,46 @@ namespace ArminVieweg\Dce\ViewHelpers;
  *  |
  *  | (c) 2012-2018 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 
 /**
- * This view helper returns the url of current page
- *
- * @package ArminVieweg\Dce
+ * Returns the url of current page
  */
-class ThisUrlViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class ThisUrlViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
     /**
-     * Returns the current url
-     *
-     * @param bool $showHost If TRUE the hostname will be included
-     * @param bool $showRequestedUri If TRUE the requested uri will be included
-     * @param bool $urlencode If TRUE the whole result will be URI encoded
-     * @return string url
+     * @return void
      */
-    public function render($showHost = true, $showRequestedUri = true, $urlencode = false)
+    public function initializeArguments()
     {
-        $url = '';
+        parent::initializeArguments();
+        $this->registerArgument('showHost', 'boolean', 'If TRUE the hostname will be included');
+        $this->registerArgument('showRequestedUri', 'boolean', 'If TRUE the requested uri will be included');
+        $this->registerArgument('urlencode', 'boolean', 'If TRUE the whole result will be URI encoded');
+    }
 
-        if ($showHost) {
+    /**
+     * @param array $arguments
+     * @param \Closure $renderChildrenClosure
+     * @param RenderingContextInterface $renderingContext
+     * @return string
+     */
+    public static function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    ) {
+        $url = '';
+        if ($arguments['showHost']) {
             $url .= ($_SERVER['HTTPS']) ? 'https://' : 'http://';
             $url .= $_SERVER['SERVER_NAME'];
         }
-        if ($showRequestedUri) {
+        if ($arguments['showRequestedUri']) {
             $url .= $_SERVER['REQUEST_URI'];
         }
-        if ($urlencode) {
+        if ($arguments['urlencode']) {
             $url = urlencode($url);
         }
-
         return $url;
     }
 }

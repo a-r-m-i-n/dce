@@ -20,7 +20,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  *     </f:for>
  * </f:for>
  *
- * @package ArminVieweg\Dce
+ * @TODO Consider to remove it
  */
 class FileInfoViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {

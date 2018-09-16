@@ -6,39 +6,46 @@ namespace ArminVieweg\Dce\ViewHelpers\Format;
  *  |
  *  | (c) 2012-2018 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 
 /**
- * Tiny Viewhelper
- *
- * @package ArminVieweg\Dce
+ * Removes new lines and tabs from given subject.
  */
-class TinyViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class TinyViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
-
     /**
-     * We accept value and children interchangeably, thus we must disable children escaping.
-     *
-     * @var bool
+     * @var bool We accept value and children interchangeably, thus we must disable children escaping.
      */
     protected $escapeChildren = false;
 
     /**
-     * If we decode, we must not encode again after that.
-     *
-     * @var bool
+     * @var bool If we decode, we must not encode again after that.
      */
     protected $escapeOutput = false;
 
     /**
-     * Make the given source tiny. Removes all whitespaces but spaces.
-     *
-     * @param string $subject Code to make tiny
-     * @return string Tiny code
+     * @return void
      */
-    public function render($subject = null)
+    public function initializeArguments()
     {
+        parent::initializeArguments();
+        $this->registerArgument('subject', 'string', 'The subject');
+    }
+
+    /**
+     * @param array $arguments
+     * @param \Closure $renderChildrenClosure
+     * @param RenderingContextInterface $renderingContext
+     * @return string
+     */
+    public static function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    ) {
+        $subject = $arguments['subject'];
         if ($subject === null) {
-            $subject = $this->renderChildren();
+            $subject = (string) $renderChildrenClosure();
         }
         return str_replace(["\r", "\n", "\t"], '', $subject);
     }

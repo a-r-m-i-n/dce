@@ -6,28 +6,38 @@ namespace ArminVieweg\Dce\ViewHelpers;
  *  |
  *  | (c) 2012-2018 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 
 /**
- * Returns the given index of an array.
- *
- * @package ArminVieweg\Dce
+ * Returns the given index of an array (subject).
  */
-class ArrayGetIndexViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class ArrayGetIndexViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
     /**
-     * Returns the value of the given index in the given array. To make sure the indexes are numeric the array will be
-     * converted. Named array keys will be overwritten by ascending index numbers (starting with 0).
-     *
-     * @param array $subject The array to get the value of
-     * @param int|string $index Index of array. May be int or string. Default is zero (0).
-     * @return mixed The value of the given array index
+     * @return void
      */
-    public function render(array $subject = null, $index = 0)
+    public function initializeArguments()
     {
+        parent::initializeArguments();
+        $this->registerArgument('subject', 'array', 'The subject');
+        $this->registerArgument('index', 'integer', 'The numeric index of item you want to return', false, 0);
+    }
+
+    /**
+     * @param array $arguments
+     * @param \Closure $renderChildrenClosure
+     * @param RenderingContextInterface $renderingContext
+     * @return string
+     */
+    public static function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    ) {
+        $subject = $arguments['subject'];
         if ($subject === null) {
-            $subject = $this->renderChildren();
+            $subject = $renderChildrenClosure();
         }
-        $subject = array_values($subject);
-        return $subject[$index];
+        return array_values($subject)[$arguments['index']];
     }
 }

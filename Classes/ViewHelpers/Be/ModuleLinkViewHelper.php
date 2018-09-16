@@ -8,24 +8,43 @@ namespace ArminVieweg\Dce\ViewHelpers\Be;
  */
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 
 /**
  * This view helper returns a link to module in TYPO3 backend
  *
  * @package ArminVieweg\Dce
  */
-class ModuleLinkViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper
+class ModuleLinkViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
+
     /**
-     * Returns link to module
+     * Initialize arguments.
      *
-     * @param string $module Name of module
-     * @param string $parameter eg.: "edit[tx_dce_domain_model_dce][1]=edit&returnUrl="
-     * @return string URL to backend module
+     * @throws \TYPO3Fluid\Fluid\Core\ViewHelper\Exception
      */
-    public function render($module, $parameter)
+    public function initializeArguments()
     {
-        $parameters = GeneralUtility::explodeUrl2Array($parameter);
-        return BackendUtility::getModuleUrl($module, $parameters);
+        parent::initializeArguments();
+        $this->registerArgument('module', 'string', 'Name of module');
+        $this->registerArgument('parameter', 'string', 'Query string');
     }
+
+    /**
+     * Resolve user name from backend user id.
+     *
+     * @param array $arguments
+     * @param \Closure $renderChildrenClosure
+     * @param RenderingContextInterface $renderingContext
+     * @return string Created module link
+     */
+    public static function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    ) {
+        $parameters = GeneralUtility::explodeUrl2Array($arguments['parameter']);
+        return BackendUtility::getModuleUrl($arguments['module'], $parameters);
+    }
+
 }

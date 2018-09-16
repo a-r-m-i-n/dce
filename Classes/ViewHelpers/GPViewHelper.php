@@ -6,25 +6,37 @@ namespace ArminVieweg\Dce\ViewHelpers;
  *  |
  *  | (c) 2012-2018 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 
 /**
  * GP viewhelper which returns get or post variables using _GP method of TYPO3\CMS\Core\Utility\GeneralUtility.
  * Never use this viewhelper for direct output!! This would provoke XSS (Cross site scripting).
- *
- * @package ArminVieweg\Dce
  */
-class GPViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class GPViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
     /**
-     * Returns get or post variable by given subject
-     *
-     * @param string $subject Name of variable to get
-     * @return string Value of requested get or post variable.  Don't output it directly! (XSS risk)
+     * @return void
      */
-    public function render($subject = null)
+    public function initializeArguments()
     {
+        parent::initializeArguments();
+        $this->registerArgument('subject', 'string', 'The subject');
+    }
+
+    /**
+     * @param array $arguments
+     * @param \Closure $renderChildrenClosure
+     * @param RenderingContextInterface $renderingContext
+     * @return string
+     */
+    public static function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    ) {
+        $subject = $arguments['subject'];
         if ($subject === null) {
-            $subject = $this->renderChildren();
+            $subject = $renderChildrenClosure();
         }
         return \TYPO3\CMS\Core\Utility\GeneralUtility::_GP($subject);
     }

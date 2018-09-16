@@ -6,29 +6,41 @@ namespace ArminVieweg\Dce\ViewHelpers;
  *  |
  *  | (c) 2012-2018 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 
 /**
- * Explode viewhelper which uses the trimExplode method of
- * \TYPO3\CMS\Core\Utility\GeneralUtility
- *
- * @package ArminVieweg\Dce
+ * Explode viewhelper which uses the trimExplode method of \TYPO3\CMS\Core\Utility\GeneralUtility
  */
-class ExplodeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class ExplodeViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
     /**
-     * Splits a string to an array.
-     *
-     * @param string $subject String to explode.
-     * @param string $delimiter Char or string to split the string into pieces. Default is a comma sign(,).
-     * @param bool $removeEmpty If TRUE empty items will be removed.
-     * @return array Exploded parts
+     * @return void
      */
-    public function render($subject = null, $delimiter = ',', $removeEmpty = true)
+    public function initializeArguments()
     {
+        parent::initializeArguments();
+        $this->registerArgument('subject', 'string', 'The subject');
+        $this->registerArgument('delimiter', 'string', '', false, ',');
+        $this->registerArgument('removeEmpty', 'boolean', '', false, true);
+    }
+
+    /**
+     * @param array $arguments
+     * @param \Closure $renderChildrenClosure
+     * @param RenderingContextInterface $renderingContext
+     * @return array
+     */
+    public static function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    ) {
+        $subject = $arguments['subject'];
         if ($subject === null) {
-            $subject = $this->renderChildren();
+            $subject = $renderChildrenClosure();
         }
 
+        $delimiter = $arguments['delimiter'];
         switch ($delimiter) {
             case '\n':
                 $delimiter = "\n";
@@ -44,6 +56,10 @@ class ExplodeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHel
                 break;
             default:
         }
-        return \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode($delimiter, $subject, $removeEmpty);
+        return \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(
+            $delimiter,
+            $subject,
+            $arguments['removeEmpty']
+        );
     }
 }

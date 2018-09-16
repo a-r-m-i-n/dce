@@ -6,27 +6,38 @@ namespace ArminVieweg\Dce\ViewHelpers\Format;
  *  |
  *  | (c) 2012-2018 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 
 /**
- * Addcslashes Viewhelper
- *
- * @package ArminVieweg\Dce
+ * Escapes charlist in given subject
  */
-class AddcslashesViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class AddcslashesViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
     /**
-     * Add slashes to a given string using the php function "addcslashes".
-     *
-     * @param string $subject To add slashes to
-     * @param string $charlist A list of characters to be escaped
-     * @return string with slashes
-     * @see http://www.php.net/manual/function.addcslashes.php
+     * @return void
      */
-    public function render($subject = null, $charlist = "'")
+    public function initializeArguments()
     {
+        parent::initializeArguments();
+        $this->registerArgument('subject', 'string', 'The subject');
+        $this->registerArgument('charlist', 'string', 'A list of characters to be escaped', false, "'");
+    }
+
+    /**
+     * @param array $arguments
+     * @param \Closure $renderChildrenClosure
+     * @param RenderingContextInterface $renderingContext
+     * @return string
+     */
+    public static function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    ) {
+        $subject = $arguments['subject'];
         if ($subject === null) {
-            $subject = $this->renderChildren();
+            $subject = (string) $renderChildrenClosure();
         }
-        return addcslashes($subject, $charlist);
+        return addcslashes($subject, $arguments['charlist']);
     }
 }

@@ -6,23 +6,34 @@ namespace ArminVieweg\Dce\ViewHelpers\Be\Version;
  *  |
  *  | (c) 2012-2018 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 
 /**
  * Gets the current TYPO3 version
- *
- * @package ArminVieweg\Dce
  */
-class Typo3ViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper
+class Typo3ViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
     /**
-     * Returns the current TYPO3 version
-     *
-     * @param bool $returnInt Returns the version number as integer if true
-     * @return string Current TYPO3 version
+     * @return void
      */
-    public function render($returnInt = false)
+    public function initializeArguments()
     {
-        if ($returnInt) {
+        parent::initializeArguments();
+        $this->registerArgument('returnInt', 'boolean', 'Returns the version number as integer if true', false, false);
+    }
+
+    /**
+     * @param array $arguments
+     * @param \Closure $renderChildrenClosure
+     * @param RenderingContextInterface $renderingContext
+     * @return string
+     */
+    public static function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    ) {
+        if ($arguments['returnInt']) {
             return \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
         }
         return TYPO3_version;

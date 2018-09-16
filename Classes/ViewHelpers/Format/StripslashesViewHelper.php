@@ -6,28 +6,43 @@ namespace ArminVieweg\Dce\ViewHelpers\Format;
  *  |
  *  | (c) 2012-2018 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 
 /**
- * Stripslashes Viewhelper
- *
- * @package ArminVieweg\Dce
+ * Strips slashes from given subject
  */
-class StripslashesViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class StripslashesViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
     /**
-     * Add slashes to a given string using the php function "stripslashes".
-     *
-     * @param string $subject To remove slashes to
-     * @param bool $performTrim If TRUE a trim will be made on subject before stripping slashes
-     * @return string without slashes
-     * @see http://www.php.net/manual/function.addcslashes.php
+     * @return void
      */
-    public function render($subject = null, $performTrim = false)
+    public function initializeArguments()
     {
+        parent::initializeArguments();
+        $this->registerArgument('subject', 'string', 'The subject');
+        $this->registerArgument(
+            'performTrim',
+            'boolean',
+            'If TRUE a trim will be made on subject before stripping slashes'
+        );
+    }
+
+    /**
+     * @param array $arguments
+     * @param \Closure $renderChildrenClosure
+     * @param RenderingContextInterface $renderingContext
+     * @return string
+     */
+    public static function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    ) {
+        $subject = $arguments['subject'];
         if ($subject === null) {
-            $subject = $this->renderChildren();
+            $subject = (string) $renderChildrenClosure();
         }
-        if ($performTrim === true) {
+        if ($arguments['performTrim'] === true) {
             $subject = trim($subject);
         }
         return stripslashes($subject);
