@@ -19,10 +19,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  *         Width: <dce:fileInfo fileUid="{imageUid}" attribute="width" />px
  *     </f:for>
  * </f:for>
- *
- * @TODO Consider to remove it
  */
-class FileInfoViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class FileInfoViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
     /**
      * @var \TYPO3\CMS\Core\Resource\FileRepository
@@ -35,28 +33,36 @@ class FileInfoViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
     protected static $files = [];
 
     /**
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('$fileUid', 'integer', 'Uid of file to get attributes of', true);
+        $this->registerArgument('attribute', 'string', 'Name of attribute to return', true);
+    }
+
+    /**
      * Returns file info
      * Merges meta data of with properties of file. Properties have got higher
      * priority.
      *
-     * @param int $fileUid Uid of file to get attributes of
-     * @param string $attribute Name of attribute to return
      * @return string
      * @throws \Exception
      */
-    public function render($fileUid, $attribute)
+    public function render()
     {
-        $file = $this->getFile($fileUid);
+        $file = $this->getFile($this->arguments['fileUid']);
         $properties = array_merge($file->_getMetaData(), $file->getProperties());
-        if (!array_key_exists($attribute, $properties)) {
+        if (!array_key_exists($this->arguments['attribute'], $properties)) {
             throw new \Exception(
-                'Given file in DCE\'s fileInfo view helper has no attribute named "' . $attribute . '". ' .
-                'Most common, available attributes are: title,description,alternative,width,height,name,' .
+                'Given file in DCE\'s fileInfo view helper has no attribute named "' . $this->arguments['attribute'] .
+                '". Most common, available attributes are: title,description,alternative,width,height,name,' .
                 'extension,size,uid',
                 1429046106
             );
         }
-        return $properties[$attribute];
+        return $properties[$this->arguments['attribute']];
     }
 
     /**

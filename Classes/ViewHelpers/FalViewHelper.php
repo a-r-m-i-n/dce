@@ -11,34 +11,39 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Receives FAL FileReference objects
- *
- * @TODO Consider to remove it
  */
-class FalViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class FalViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
+    /**
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('field', 'string', 'Name of field in DCE', true);
+        $this->registerArgument('contentObject', 'array', 'Content object data array, which is stored in {contentObject} in dce template.', true);
+        $this->registerArgument('localizedUid', 'boolean', 'If true the uid gets localized (in frontend context)', false, true);
+        $this->registerArgument('tableName', 'string', 'If you want to specify another table than tt_content', false, 'tt_content');
+        $this->registerArgument('uid', 'integer', 'If positive, it overwrites the (localized) uid from contentObject', false, 0);
+    }
+
     /**
      * Gets FileReference objects (FAL)
      * Do not use FAL Viewhelper for DCE images anymore. Just use it when you need to access e.g. tt_address FAL images.
      *
-     * @param string $field Name of field in DCE
-     * @param array $contentObject Content object data array, which is stored in {contentObject} in dce template.
-     * @param bool $localizeUid If true the uid gets localized (in frontend context)
-     * @param string $tableName If you want to specify another table than tt_content
-     * @param int $uid If positive, it overwrites the (localized) uid from contentObject
      * @return array|string String or array with found media
-     * @see \ArminVieweg\Dce\Domain\Repository\DceRepository::createObjectsByFieldConfiguration:396
      */
-    public function render($field, array $contentObject, $localizeUid = true, $tableName = 'tt_content', $uid = 0)
+    public function render()
     {
-        $contentObjectUid = intval($contentObject['uid']);
-        if ($localizeUid) {
-            $contentObjectUid = intval(
-                $contentObject['_LOCALIZED_UID'] != null ? $contentObject['_LOCALIZED_UID'] : $contentObject['uid']
-            );
+        $contentObjectUid = (int) $this->arguments['contentObject']['uid'];
+        if ($this->arguments['localizeUid']) {
+            $contentObjectUid = (int) $this->arguments['contentObject']['_LOCALIZED_UID'] !== null
+                ? $this->arguments['contentObject']['_LOCALIZED_UID']
+                : $this->arguments['contentObject']['uid'];
         }
 
-        if ($uid > 0) {
-            $contentObjectUid = $uid;
+        if ($this->arguments['uid'] > 0) {
+            $contentObjectUid = $this->arguments['uid'];
         }
 
         /** @var \TYPO3\CMS\Frontend\Page\PageRepository $pageRepository */
@@ -46,9 +51,9 @@ class FalViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
         $rows = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
             'uid',
             'sys_file_reference',
-            'tablenames=' . DatabaseUtility::getDatabaseConnection()->fullQuoteStr($tableName) .
+            'tablenames=' . DatabaseUtility::getDatabaseConnection()->fullQuoteStr($this->arguments['tableName']) .
             ' AND uid_foreign=' . $contentObjectUid .
-            ' AND fieldname=' . DatabaseUtility::getDatabaseConnection()->fullQuoteStr($field) .
+            ' AND fieldname=' . DatabaseUtility::getDatabaseConnection()->fullQuoteStr($this->arguments['field']) .
             $pageRepository->enableFields('sys_file_reference', $pageRepository->showHiddenRecords),
             '',
             'sorting_foreign',
@@ -60,7 +65,7 @@ class FalViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
         $fileRepository = GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\FileRepository');
         $result = [];
         foreach ($rows as $referenceUid) {
-            $result[] = $fileRepository->findFileReferenceByUid(intval($referenceUid['uid']));
+            $result[] = $fileRepository->findFileReferenceByUid((int) $referenceUid['uid']);
         }
         return $result;
     }
