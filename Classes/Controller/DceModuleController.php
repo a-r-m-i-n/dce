@@ -50,7 +50,7 @@ class DceModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
         if ($perform) {
             foreach ($contentElements as $contentElement) {
                 \ArminVieweg\Dce\Components\FlexformToTcaMapper\Mapper::saveFlexformValuesToTca(
-                    $contentElement['uid'],
+                    $contentElement,
                     $contentElement['pi_flexform']
                 );
             }

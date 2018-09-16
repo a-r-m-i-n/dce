@@ -622,19 +622,4 @@ if (!\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('fluid_styled_
     $dceTca['palettes']['content_relations']['showitem'] = 'show_access_tab,show_category_tab';
 }
 
-if (!\TYPO3\CMS\Core\Utility\GeneralUtility::compat_version('8.0')) {
-    $oldFileReferenceTcaConfig = [
-        'type' => 'group',
-        'internal_type' => 'file_reference',
-        'allowed' => 'html,htm',
-        'size' => 1,
-        'maxitems' => 1,
-        'minitems' => 0,
-    ];
-    $dceTca['columns']['container_template_file']['config'] = $oldFileReferenceTcaConfig;
-    $dceTca['columns']['template_file']['config'] = $oldFileReferenceTcaConfig;
-    $dceTca['columns']['backend_template_file']['config'] = $oldFileReferenceTcaConfig;
-    $dceTca['columns']['detailpage_template_file']['config'] = $oldFileReferenceTcaConfig;
-}
-
 return $dceTca;

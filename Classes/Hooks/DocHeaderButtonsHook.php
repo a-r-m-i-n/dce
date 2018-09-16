@@ -58,7 +58,7 @@ class DocHeaderButtonsHook
             $dceIdent = 'dce_' . $dceIdent;
         }
 
-        $returnUrl = 'sysext/backend/Resources/Private/Templates/Close.html';
+        $returnUrl = 'sysext/backend/Resources/Public/Html/Close.html';
         return \TYPO3\CMS\Backend\Utility\BackendUtility::getModuleUrl(
             'record_edit',
             GeneralUtility::explodeUrl2Array('edit[tx_dce_domain_model_dce][' . $dceIdent . ']=edit' .

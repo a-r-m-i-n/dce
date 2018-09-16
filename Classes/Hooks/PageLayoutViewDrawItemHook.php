@@ -39,7 +39,7 @@ class PageLayoutViewDrawItemHook implements \TYPO3\CMS\Backend\View\PageLayoutVi
         &$itemContent,
         array &$row
     ) {
-        $dceUid = DatabaseUtility::getDceUidByContentElementUid($row['uid']);
+        $dceUid = DatabaseUtility::getDceUidByContentElementRow($row);
         if ($dceUid === 0) {
             return;
         }

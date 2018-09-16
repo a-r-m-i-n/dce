@@ -35,21 +35,15 @@ class DatabaseUtility
     /**
      * Gets dce uid by content element uid
      *
-     * @param int $uid of tt_content record
+     * @param array $row of tt_content record
      * @return int uid of DCE used for this content element
      */
-    public static function getDceUidByContentElementUid($uid)
+    public static function getDceUidByContentElementRow(array $row)
     {
-        $contentElement = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
-            'CType',
-            'tt_content',
-            'uid = ' . $uid
-        );
-
-        if (!StringUtility::beginsWith($contentElement['CType'], 'dce_dceuid')) {
+        if (!StringUtility::beginsWith($row['CType'], 'dce_dceuid')) {
             return 0;
         }
-        return intval(substr($contentElement['CType'], strlen('dce_dceuid')));
+        return (int) substr($row['CType'], \strlen('dce_dceuid'));
     }
 
     /**
@@ -119,7 +113,7 @@ class DatabaseUtility
         $flexData = $flexFormService->convertFlexFormContentToArray($contentElement['pi_flexform'], 'lDEF', 'vDEF');
 
         // Retrieve DCE domain model object
-        $dceUid = self::getDceUidByContentElementUid($contentElement['uid']);
+        $dceUid = self::getDceUidByContentElementRow($contentElement);
         $dce = $dceRepository->findAndBuildOneByUid(
             $dceUid,
             $flexData['settings'],

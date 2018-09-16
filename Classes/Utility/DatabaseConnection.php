@@ -124,15 +124,19 @@ class DatabaseConnection implements \TYPO3\CMS\Core\SingletonInterface
      */
     public function exec_SELECTgetRows($select_fields, $from_table, $where_clause, $groupBy = '', $orderBy = '', $limit = '', $uidIndexField = '')
     {
-        $queryBuilder = $this->getQueryBuilderForTable($from_table);
-        $query = $queryBuilder
-            ->select($select_fields)
-            ->where($where_clause);
-
         $tables = GeneralUtility::trimExplode(',', $from_table, true);
+        if (\count($tables) > 1) {
+            $from_table = $tables[0];
+        }
+
+        $queryBuilder = $this->getQueryBuilderForTable($from_table);
+        $query = $queryBuilder->select($select_fields);
+
         foreach ($tables as $fromTable) {
             $query->from($fromTable);
         }
+
+        $query->where($where_clause);
 
         if ($groupBy) {
             $query->groupBy([$groupBy]);

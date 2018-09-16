@@ -97,13 +97,13 @@ class Mapper
      * Check if DceFields has been mapped with TCA columns
      * and writes values to columns in database, if so.
      *
-     * @param int $uid
+     * @param array $row
      * @param string $piFlexform
      * @return void
      */
-    public static function saveFlexformValuesToTca($uid, $piFlexform)
+    public static function saveFlexformValuesToTca(array $row, $piFlexform)
     {
-        $dceUid = \ArminVieweg\Dce\Utility\DatabaseUtility::getDceUidByContentElementUid($uid);
+        $dceUid = \ArminVieweg\Dce\Utility\DatabaseUtility::getDceUidByContentElementRow($row);
         $dceFieldsWithMapping = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
             '*',
             'tx_dce_domain_model_dcefield',
@@ -144,12 +144,12 @@ class Mapper
         if (!empty($updateData)) {
             $updateStatus = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_UPDATEquery(
                 'tt_content',
-                'uid=' . $uid,
+                'uid=' . $row['uid'],
                 $updateData
             );
             if (!$updateStatus) {
                 \ArminVieweg\Dce\Utility\FlashMessage::add(
-                    'Can\'t update tt_content item with uid ' . $uid,
+                    'Can\'t update tt_content item with uid ' . $row['uid'],
                     'Flexform to TCA mapping failure',
                     \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR
                 );
