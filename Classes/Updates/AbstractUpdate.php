@@ -6,6 +6,7 @@ namespace ArminVieweg\Dce\Updates;
  *  |
  *  | (c) 2012-2018 Armin Ruediger Vieweg <armin@v.ieweg.de>
  */
+use ArminVieweg\Dce\Utility\DatabaseConnection;
 
 /**
  * Migrate m:n-relation of dce fields to 1:n-relation
@@ -45,14 +46,14 @@ class AbstractUpdate extends \TYPO3\CMS\Install\Updates\AbstractUpdate
      */
     protected function storeLastQuery(&$dbQueries)
     {
-        $dbQueries[] = $this->getDatabaseConnection()->debug_lastBuiltQuery;
+        $dbQueries[] = $this->getDatabaseConnection()->debug_lastBuiltQuery();
     }
 
     /**
-     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+     * @return DatabaseConnection
      */
     protected function getDatabaseConnection()
     {
-        return $GLOBALS['TYPO3_DB'];
+        return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(DatabaseConnection::class);
     }
 }

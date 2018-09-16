@@ -172,16 +172,13 @@ class SimpleBackendView
         $fieldConfiguration = $field->getConfigurationAsArray();
         $fieldConfiguration = $fieldConfiguration['config'];
 
-        /** @var \TYPO3\CMS\Frontend\Page\PageRepository $pageRepository */
-        $pageRepository = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Page\PageRepository');
         $rows = $database->exec_SELECTgetRows(
             'uid',
             'sys_file_reference',
-            'tablenames=' . $database->fullQuoteStr('tt_content', 'sys_file_reference') .
-            ' AND uid_foreign=' . $row['uid'] . ' AND fieldname=' . $database->fullQuoteStr(
-                $fieldConfiguration['foreign_match_fields']['fieldname'],
-                'sys_file_reference'
-            ) . $pageRepository->enableFields('sys_file_reference', $pageRepository->showHiddenRecords),
+            'tablenames=' . $database->fullQuoteStr('tt_content') .
+            ' AND uid_foreign=' . $row['uid'] . ' AND fieldname=' .
+            $database->fullQuoteStr($fieldConfiguration['foreign_match_fields']['fieldname']) .
+            ' AND sys_file_reference.deleted = 0 AND sys_file_reference.hidden = 0',
             '',
             'sorting_foreign',
             '',

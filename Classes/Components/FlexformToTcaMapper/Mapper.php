@@ -149,7 +149,7 @@ class Mapper
             );
             if (!$updateStatus) {
                 \ArminVieweg\Dce\Utility\FlashMessage::add(
-                    \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->sql_error(),
+                    'Can\'t update tt_content item with uid ' . $uid,
                     'Flexform to TCA mapping failure',
                     \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR
                 );

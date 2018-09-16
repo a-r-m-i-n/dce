@@ -32,6 +32,11 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     protected static $dceInstanceCache = [];
 
     /**
+     * @var Typo3QuerySettings
+     */
+    private static $defaultQuerySettingsInstance;
+
+    /**
      * Returns database DCEs and static DCEs as merged array
      *
      * @param bool $includeHidden
@@ -150,10 +155,12 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      */
     protected function disableRespectOfEnableFields()
     {
-        /** @var $querySettings Typo3QuerySettings */
-        $querySettings = $this->objectManager->get('TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings');
-        $querySettings->setIgnoreEnableFields(true)->setIncludeDeleted(true);
-        $this->setDefaultQuerySettings($querySettings);
+        if (!self::$defaultQuerySettingsInstance) {
+            /** @var $querySettings Typo3QuerySettings */
+            self::$defaultQuerySettingsInstance = GeneralUtility::makeInstance(Typo3QuerySettings::class);
+            self::$defaultQuerySettingsInstance->setIgnoreEnableFields(true)->setIncludeDeleted(true);
+        }
+        $this->setDefaultQuerySettings(self::$defaultQuerySettingsInstance);
     }
 
     /**
@@ -584,7 +591,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                 'AND sys_category_record_mm.uid_foreign=' . $contentObjectArray['uid']
             );
             $processedContentObject['categories'] = [];
-            while (($categoryRow = $databaseConnection->sql_fetch_assoc($res))) {
+            foreach ($res as $categoryRow) {
                 $category = $categoryRepository->findByUid($categoryRow['uid']);
                 if ($category instanceof \TYPO3\CMS\Extbase\Domain\Model\Category) {
                     $processedContentObject['categories'][] = $categoryRepository->findByUid($categoryRow['uid']);

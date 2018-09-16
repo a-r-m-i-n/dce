@@ -56,7 +56,7 @@ class AfterSaveHook
         return $fieldSettings['variable'];
     }
 
-    // @codingStandardsIgnoreStart
+    // phpcs:disable
 
     /**
      * Hook action
@@ -151,7 +151,7 @@ class AfterSaveHook
         }
     }
 
-    // @codingStandardsIgnoreEnd
+    // phpcs:enable
 
     /**
      * Disables content elements based on this deactivated DCE. Also display flash message
@@ -163,9 +163,9 @@ class AfterSaveHook
     protected function hideContentElementsBasedOnDce()
     {
         $whereStatement = 'CType="dce_dceuid' . $this->uid . '" AND deleted=0 AND hidden=0';
-        $res = DatabaseUtility::getDatabaseConnection()->exec_SELECTquery('uid', 'tt_content', $whereStatement);
         $updatedContentElementsCount = 0;
-        while (($row = DatabaseUtility::getDatabaseConnection()->sql_fetch_assoc($res))) {
+        $res = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows('uid', 'tt_content', $whereStatement);
+        foreach ($res as $row) {
             $this->dataHandler->updateDB('tt_content', $row['uid'], ['hidden' => 1]);
             $updatedContentElementsCount++;
         }

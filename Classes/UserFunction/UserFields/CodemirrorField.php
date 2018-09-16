@@ -86,20 +86,16 @@ class CodemirrorField
                 'variable asc'
             );
 
-            if (is_array($rows)) {
+            if (\is_array($rows)) {
                 foreach ($rows as $row) {
                     if ($row['type'] === '2') {
-                        $res2 = $db->sql_query('
-							SELECT title, variable
-							FROM tx_dce_domain_model_dcefield
-							WHERE deleted=0 AND parent_field=' . $row['uid'] . '
-							ORDER BY sorting asc
-						');
-
-                        $sectionFields = [];
-                        while (($row2 = $db->sql_fetch_assoc($res2))) {
-                            $sectionFields[] = $row2;
-                        }
+                        $sectionFields = $db->exec_SELECTgetRows(
+                            'title, variable',
+                            'tx_dce_domain_model_dcefield',
+                            'deleted=0 AND parent_field=' . $row['uid'],
+                            '',
+                            'sorting asc'
+                        );
                         $row['hasSectionFields'] = true;
                         $row['sectionFields'] = $sectionFields;
                     }

@@ -31,20 +31,20 @@ class KeSearchHook
             return;
         }
 
-        $dceFieldsWithMappingsAmount = DatabaseUtility::getDatabaseConnection()->exec_SELECTcountRows(
+        $dceFieldsWithMappingsAmount = \count(DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
             'uid',
             'tx_dce_domain_model_dcefield',
             'parent_dce=' . $dceUid . ' AND map_to="tx_dce_index" AND deleted=0 AND hidden=0'
-        );
+        ));
         if (!$dceFieldsWithMappingsAmount) {
             return;
         }
 
-        $fullRow = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
+        $fullRow = \count(DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
             '*',
             'tt_content',
             'uid=' . $row['uid']
-        );
+        ));
         if ($fullRow['tx_dce_index']) {
             $bodytext = $fullRow['tx_dce_index'];
         }

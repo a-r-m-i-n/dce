@@ -225,19 +225,6 @@ class Injector
     }
 
     /**
-     * Initializes database and checks if required DCE tables are present
-     *
-     * @return bool
-     */
-    protected function isDatabaseValid()
-    {
-        $db = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection();
-        return ($db->admin_get_fields('tx_dce_domain_model_dce') &&
-                $db->admin_get_fields('tx_dce_domain_model_dcefield')
-        );
-    }
-
-    /**
      * Returns all available DCE as array with this format
      * (just most important fields listed):
      *
@@ -257,15 +244,15 @@ class Injector
      */
     protected function getDatabaseDces()
     {
-        /** @var $databaseConnection \TYPO3\CMS\Core\Database\DatabaseConnection */
+        /** @var $databaseConnection \ArminVieweg\Dce\Utility\DatabaseConnection */
         $databaseConnection = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection();
 
-        $tables = array_keys($databaseConnection->admin_get_tables());
+        $tables = $databaseConnection->admin_get_tables();
         if (!in_array('tx_dce_domain_model_dce', $tables) || !in_array('tx_dce_domain_model_dcefield', $tables)) {
             return [];
         }
 
-        $res = $databaseConnection->exec_SELECTquery(
+        $res = $databaseConnection->exec_SELECTgetRows(
             '*',
             'tx_dce_domain_model_dce',
             'deleted=0 AND pid=0',
@@ -274,8 +261,8 @@ class Injector
         );
 
         $dces = [];
-        while (($row = $databaseConnection->sql_fetch_assoc($res))) {
-            $res2 = $databaseConnection->exec_SELECTquery(
+        foreach ($res as $row) {
+            $res2 = $databaseConnection->exec_SELECTgetRows(
                 '*',
                 'tx_dce_domain_model_dcefield',
                 'parent_dce = ' . $row['uid'] . ' AND deleted=0 AND hidden=0',
@@ -283,17 +270,9 @@ class Injector
                 'sorting asc'
             );
 
-            if (TYPO3_MODE === 'FE') {
-                $generalTabLabel = LocalizationUtility::translate('generaltab', 'dce');
-            } else {
-                $generalTabLabel = LocalizationUtility::translate(
-                    'LLL:EXT:dce/Resources/Private/Language/locallang.xml:generaltab',
-                    'dce'
-                );
-            }
-            $tabs = [0 => ['title' => $generalTabLabel, 'variable' => 'tabGeneral', 'fields' => []]];
+            $tabs = [0 => ['title' => 'LLL:EXT:dce/Resources/Private/Language/locallang.xml:generaltab', 'variable' => 'tabGeneral', 'fields' => []]];
             $index = 0;
-            while ($row2 = $databaseConnection->sql_fetch_assoc($res2)) {
+            foreach ($res2 as $row2) {
                 if ($row2['type'] === '1') {
                     // Create new Tab
                     $index++;
@@ -303,7 +282,7 @@ class Injector
                     $tabs[$index]['fields'] = [];
                     continue;
                 } elseif ($row2['type'] === '2') {
-                    $res3 = $databaseConnection->exec_SELECTquery(
+                    $res3 = $databaseConnection->exec_SELECTgetRows(
                         '*',
                         'tx_dce_domain_model_dcefield',
                         'parent_field = ' . $row2['uid'] . ' AND deleted=0 AND hidden=0',
@@ -312,7 +291,7 @@ class Injector
                     );
 
                     $sectionFields = [];
-                    while (($row3 = $databaseConnection->sql_fetch_assoc($res3))) {
+                    foreach ($res3 as $row3) {
                         if ($row3['type'] === '0') {
                             // add fields of section to fields
                             $sectionFields[] = $row3;

@@ -22,7 +22,7 @@ class DatabaseUtility
      * Returns a valid DatabaseConnection object that is connected and ready
      * to be used static
      *
-     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+     * @return DatabaseConnection
      */
     public static function getDatabaseConnection()
     {
