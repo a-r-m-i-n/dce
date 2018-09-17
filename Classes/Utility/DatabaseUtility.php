@@ -13,23 +13,17 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /**
  * Database utility
- *
- * @package ArminVieweg\Dce
  */
 class DatabaseUtility
 {
     /**
-     * Returns a valid DatabaseConnection object that is connected and ready
-     * to be used static
+     * Returns a custom DatabaseConnection object, which uses Doctrine DBAL API under the hood.
      *
      * @return DatabaseConnection
      */
     public static function getDatabaseConnection()
     {
-        if (!$GLOBALS['TYPO3_DB']) {
-            \TYPO3\CMS\Core\Core\Bootstrap::getInstance()->initializeTypo3DbGlobal();
-        }
-        return $GLOBALS['TYPO3_DB'];
+        return GeneralUtility::makeInstance(DatabaseConnection::class);
     }
 
     /**
