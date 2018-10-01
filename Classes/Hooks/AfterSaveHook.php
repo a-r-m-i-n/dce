@@ -90,7 +90,7 @@ class AfterSaveHook
         if ($table === 'tt_content' && $this->isDceContentElement($pObj)) {
             $this->checkAndUpdateDceRelationField();
             \ArminVieweg\Dce\Components\FlexformToTcaMapper\Mapper::saveFlexformValuesToTca(
-                $this->uid,
+                ['CType' => 'dce_dceuid' . $this->getDceUid($pObj)],
                 $this->fieldArray['pi_flexform']
             );
         }
@@ -199,6 +199,20 @@ class AfterSaveHook
         $datamap = reset($datamap);
         $datamap = reset($datamap);
         return (strpos($datamap['CType'], 'dce_dceuid') !== false);
+    }
+
+    /**
+     * Get tx_dce_dce of current tt_content pObj instance
+     *
+     * @param \TYPO3\CMS\Core\DataHandling\DataHandler $pObj
+     * @return int
+     */
+    protected function getDceUid(\TYPO3\CMS\Core\DataHandling\DataHandler $pObj) : int
+    {
+        $datamap = $pObj->datamap;
+        $datamap = reset($datamap);
+        $datamap = reset($datamap);
+        return (int) $datamap['tx_dce_dce'];
     }
 
     /**

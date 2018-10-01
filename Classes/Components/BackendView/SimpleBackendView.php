@@ -173,12 +173,11 @@ class SimpleBackendView
         $fieldConfiguration = $fieldConfiguration['config'];
 
         $rows = $database->exec_SELECTgetRows(
-            'uid',
+            '*',
             'sys_file_reference',
-            'tablenames=' . $database->fullQuoteStr('tt_content') .
-            ' AND uid_foreign=' . $row['uid'] . ' AND fieldname=' .
-            $database->fullQuoteStr($fieldConfiguration['foreign_match_fields']['fieldname']) .
-            ' AND sys_file_reference.deleted = 0 AND sys_file_reference.hidden = 0',
+            'tablenames="tt_content" AND uid_foreign=' . $row['uid'] . ' AND fieldname="' .
+            stripslashes($fieldConfiguration['foreign_match_fields']['fieldname']) .
+            '" AND sys_file_reference.deleted = 0 AND sys_file_reference.hidden = 0',
             '',
             'sorting_foreign',
             '',
