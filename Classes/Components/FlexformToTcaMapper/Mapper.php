@@ -40,11 +40,15 @@ class Mapper
      */
     public static function getDceFieldRowsWithNewTcaColumns()
     {
-        $rows = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
-            '*',
-            'tx_dce_domain_model_dcefield',
-            'map_to="*newcol" AND deleted=0 AND type=0 AND new_tca_field_name!="" AND new_tca_field_type!=""'
-        );
+        try {
+            $rows = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
+                '*',
+                'tx_dce_domain_model_dcefield',
+                'map_to="*newcol" AND deleted=0 AND type=0 AND new_tca_field_name!="" AND new_tca_field_type!=""'
+            );
+        } catch (\Doctrine\DBAL\Exception\TableNotFoundException $exception) {
+            return [];
+        }
 
         if ($rows === null) {
             return [];
