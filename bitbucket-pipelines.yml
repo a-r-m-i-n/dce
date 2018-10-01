@@ -1,9 +1,19 @@
-image: arminvieweg/php-code-checks:latest
+image: composer/composer:latest
 
 pipelines:
   default:
-    - step:
-        script:
-          - phploc ./Classes
-          - phpmd ./Classes text cleancode,design,codesize,naming,unusedcode --ignore-violations-on-exit
-          - phpcs --extensions=php --standard=PSR2 ./Classes ./*.php
+  - step:
+      caches:
+      - composer
+      - global-vendor
+      - vendor
+      script:
+      - composer global require phploc/phploc:"^4.0" squizlabs/php_codesniffer:"^3.3" phpmd/phpmd:"^2.6"
+      - /composer/vendor/bin/phploc .
+      - /composer/vendor/bin/phpmd . text cleancode,design,codesize,naming,unusedcode --ignore-violations-on-exit
+      - /composer/vendor/bin/phpcs --extensions=php --standard=PSR2 .
+
+definitions:
+  caches:
+    global-vendor: /composer
+    vendor: vendor
