@@ -4,7 +4,7 @@ namespace ArminVieweg\Dce\Domain\Repository;
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2018 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2018 Armin Vieweg <armin@v.ieweg.de>
  */
 use ArminVieweg\Dce\Domain\Model\DceField;
 use ArminVieweg\Dce\Utility\DatabaseUtility;
@@ -30,6 +30,11 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      * @var \ArminVieweg\Dce\Domain\Model\Dce[]
      */
     protected static $dceInstanceCache = [];
+
+    /**
+     * @var Typo3QuerySettings
+     */
+    private static $defaultQuerySettingsInstance;
 
     /**
      * Returns database DCEs and static DCEs as merged array
@@ -90,7 +95,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $dce = clone $dce;
         $this->cloneFields($dce);
 
-        $this->processFillingFields($dce, $fieldList, is_array($contentObject) ? $contentObject : []);
+        $this->processFillingFields($dce, is_array($contentObject) ? $contentObject : [], $fieldList);
         $dce->setContentObject(is_array($contentObject) ? $this->resolveContentObjectRelations($contentObject) : []);
         static::$dceInstanceCache[$contentObject['uid']] = $dce;
         return $dce;
@@ -150,10 +155,12 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      */
     protected function disableRespectOfEnableFields()
     {
-        /** @var $querySettings Typo3QuerySettings */
-        $querySettings = $this->objectManager->get('TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings');
-        $querySettings->setIgnoreEnableFields(true)->setIncludeDeleted(true);
-        $this->setDefaultQuerySettings($querySettings);
+        if (!self::$defaultQuerySettingsInstance) {
+            /** @var $querySettings Typo3QuerySettings */
+            self::$defaultQuerySettingsInstance = GeneralUtility::makeInstance(Typo3QuerySettings::class);
+            self::$defaultQuerySettingsInstance->setIgnoreEnableFields(true)->setIncludeDeleted(true);
+        }
+        $this->setDefaultQuerySettings(self::$defaultQuerySettingsInstance);
     }
 
     /**
@@ -166,8 +173,8 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      */
     protected function processFillingFields(
         \ArminVieweg\Dce\Domain\Model\Dce $dce,
-        array $fieldList = null,
-        array $contentObject
+        array $contentObject,
+        array $fieldList = null
     ) {
         $fieldList = $fieldList ?: [];
         foreach ($fieldList as $fieldVariable => $fieldValue) {
@@ -584,7 +591,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                 'AND sys_category_record_mm.uid_foreign=' . $contentObjectArray['uid']
             );
             $processedContentObject['categories'] = [];
-            while (($categoryRow = $databaseConnection->sql_fetch_assoc($res))) {
+            foreach ($res as $categoryRow) {
                 $category = $categoryRepository->findByUid($categoryRow['uid']);
                 if ($category instanceof \TYPO3\CMS\Extbase\Domain\Model\Category) {
                     $processedContentObject['categories'][] = $categoryRepository->findByUid($categoryRow['uid']);

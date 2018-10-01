@@ -4,7 +4,7 @@ namespace ArminVieweg\Dce\UserConditions;
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2018 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2018 Armin Vieweg <armin@v.ieweg.de>
  */
 
 /**
@@ -27,9 +27,9 @@ function user_dceOnCurrentPage($dceUid)
     if (isset($GLOBALS['TSFE']->page['content_from_pid']) && $GLOBALS['TSFE']->page['content_from_pid'] > 0) {
         $currentPageUid = $GLOBALS['TSFE']->page['content_from_pid'];
     }
-    return (bool) \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTcountRows(
+    return \count(\ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
         'uid',
         'tt_content',
         'pid=' . $currentPageUid . ' AND CType="dce_dceuid' . (int) $dceUid . '"'
-    ) > 0;
+    )) > 0;
 }

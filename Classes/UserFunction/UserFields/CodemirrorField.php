@@ -4,7 +4,7 @@ namespace ArminVieweg\Dce\UserFunction\UserFields;
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2018 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2018 Armin Vieweg <armin@v.ieweg.de>
  */
 use ArminVieweg\Dce\Utility\File;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
@@ -86,20 +86,16 @@ class CodemirrorField
                 'variable asc'
             );
 
-            if (is_array($rows)) {
+            if (\is_array($rows)) {
                 foreach ($rows as $row) {
                     if ($row['type'] === '2') {
-                        $res2 = $db->sql_query('
-							SELECT title, variable
-							FROM tx_dce_domain_model_dcefield
-							WHERE deleted=0 AND parent_field=' . $row['uid'] . '
-							ORDER BY sorting asc
-						');
-
-                        $sectionFields = [];
-                        while (($row2 = $db->sql_fetch_assoc($res2))) {
-                            $sectionFields[] = $row2;
-                        }
+                        $sectionFields = $db->exec_SELECTgetRows(
+                            '*',
+                            'tx_dce_domain_model_dcefield',
+                            'deleted=0 AND parent_field=' . $row['uid'],
+                            '',
+                            'sorting asc'
+                        );
                         $row['hasSectionFields'] = true;
                         $row['sectionFields'] = $sectionFields;
                     }
@@ -123,9 +119,7 @@ class CodemirrorField
             $files = [];
             foreach (GeneralUtility::getFilesInDir($path . $key) as $file) {
                 $filename = preg_replace('/(.*)\.xml/i', '$1', $file);
-                if ($this->checkSnippetNameForVersionConstraintAndCurrentVersion($filename)) {
-                    $files[$filename] = file_get_contents($path . $key . '/' . $file);
-                }
+                $files[$filename] = file_get_contents($path . $key . '/' . $file);
             }
             $keyNoNumber = preg_replace('/.*? (.*)/i', '$1', $key);
 
@@ -162,35 +156,13 @@ class CodemirrorField
     protected function getViewhelpers($path)
     {
         $files = GeneralUtility::getFilesInDir($path);
-
         $viewHelpers = [];
         foreach ($files as $file) {
             $name = preg_replace('/(.*)\.html/i', '$1', $file);
-            if ($this->checkSnippetNameForVersionConstraintAndCurrentVersion($name)) {
-                $value = file_get_contents($path . $file);
-                $viewHelpers[$name] = $value;
-            }
+            $value = file_get_contents($path . $file);
+            $viewHelpers[$name] = $value;
         }
         ksort($viewHelpers);
         return $viewHelpers;
-    }
-
-    /**
-     * Checks if given snippet name contains a version number.
-     * If not this method will return true.
-     *
-     * If it contains a version number (e.g. "Cool Snippet (7.6)") it is checking this version number
-     * against GeneralUtility::compat_version and return its return value.
-     *
-     * So if version number in snippet name is 8.7 but the current TYPO3 version is 7.6, the method
-     * will return false. In case it's TYPO3 8.7 it would return true.
-     *
-     * @param string $snippetName Name of snippet which may contain TYPO3 version number (in braces)
-     * @return bool True if no version number in snippet name or given version number fits current TYPO3 version
-     */
-    protected function checkSnippetNameForVersionConstraintAndCurrentVersion($snippetName)
-    {
-        preg_match('/\((\d\.\d)\)/i', $snippetName, $matches);
-        return empty($matches) || !empty($matches) && TYPO3_branch === $matches[1];
     }
 }

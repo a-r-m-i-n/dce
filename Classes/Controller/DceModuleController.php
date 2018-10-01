@@ -4,7 +4,7 @@ namespace ArminVieweg\Dce\Controller;
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2018 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2018 Armin Vieweg <armin@v.ieweg.de>
  */
 use ArminVieweg\Dce\Utility\File;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
@@ -50,7 +50,7 @@ class DceModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
         if ($perform) {
             foreach ($contentElements as $contentElement) {
                 \ArminVieweg\Dce\Components\FlexformToTcaMapper\Mapper::saveFlexformValuesToTca(
-                    $contentElement['uid'],
+                    $contentElement,
                     $contentElement['pi_flexform']
                 );
             }

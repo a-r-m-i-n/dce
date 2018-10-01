@@ -13,7 +13,7 @@ conf.py:
   - - Index
     - dce.tex
     - 'Dynamic Content Elements (DCE)'
-    - Armin Ruediger Vieweg
+    - Armin Vieweg
     - manual
   latex_elements:
     papersize: a4paper

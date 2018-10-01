@@ -4,7 +4,7 @@ namespace ArminVieweg\Dce\Domain\Model;
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2018 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2018 Armin Vieweg <armin@v.ieweg.de>
  */
 use ArminVieweg\Dce\Utility\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -870,6 +870,16 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function render()
     {
         return $this->renderFluidTemplate();
+    }
+
+    /**
+     * Alias for render method
+     *
+     * @return string
+     */
+    public function getRender()
+    {
+        return $this->render();
     }
 
     /**

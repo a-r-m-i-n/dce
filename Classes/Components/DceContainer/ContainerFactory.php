@@ -4,7 +4,7 @@ namespace ArminVieweg\Dce\Components\DceContainer;
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2018 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2018 Armin Vieweg <armin@v.ieweg.de>
  */
 use ArminVieweg\Dce\Domain\Model\Dce;
 use ArminVieweg\Dce\Utility\DatabaseUtility;
@@ -130,7 +130,7 @@ class ContainerFactory
         foreach ($resolvedContentElements as $rawContentElement) {
             if ($rawContentElement['CType'] !== 'dce_dceuid' . $dce->getUid() ||
                 ($contentObject['uid'] !== $rawContentElement['uid'] &&
-                    $rawContentElement['tx_dce_new_container'] === '1')
+                    $rawContentElement['tx_dce_new_container'] === 1)
             ) {
                 return $contentElementsInContainer;
             }

@@ -4,7 +4,7 @@ namespace ArminVieweg\Dce\Hooks;
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2018 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2018 Armin Vieweg <armin@v.ieweg.de>
  */
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -58,7 +58,7 @@ class DocHeaderButtonsHook
             $dceIdent = 'dce_' . $dceIdent;
         }
 
-        $returnUrl = 'sysext/backend/Resources/Private/Templates/Close.html';
+        $returnUrl = 'sysext/backend/Resources/Public/Html/Close.html';
         return \TYPO3\CMS\Backend\Utility\BackendUtility::getModuleUrl(
             'record_edit',
             GeneralUtility::explodeUrl2Array('edit[tx_dce_domain_model_dce][' . $dceIdent . ']=edit' .

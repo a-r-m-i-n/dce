@@ -4,7 +4,7 @@ namespace ArminVieweg\Dce\Hooks;
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2018 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2018 Armin Vieweg <armin@v.ieweg.de>
  */
 use ArminVieweg\Dce\Utility\DatabaseUtility;
 use ArminVieweg\Dce\Utility\FlashMessage;
@@ -56,7 +56,7 @@ class AfterSaveHook
         return $fieldSettings['variable'];
     }
 
-    // @codingStandardsIgnoreStart
+    // phpcs:disable
 
     /**
      * Hook action
@@ -90,7 +90,7 @@ class AfterSaveHook
         if ($table === 'tt_content' && $this->isDceContentElement($pObj)) {
             $this->checkAndUpdateDceRelationField();
             \ArminVieweg\Dce\Components\FlexformToTcaMapper\Mapper::saveFlexformValuesToTca(
-                $this->uid,
+                ['CType' => 'dce_dceuid' . $this->getDceUid($pObj)],
                 $this->fieldArray['pi_flexform']
             );
         }
@@ -151,7 +151,7 @@ class AfterSaveHook
         }
     }
 
-    // @codingStandardsIgnoreEnd
+    // phpcs:enable
 
     /**
      * Disables content elements based on this deactivated DCE. Also display flash message
@@ -163,9 +163,9 @@ class AfterSaveHook
     protected function hideContentElementsBasedOnDce()
     {
         $whereStatement = 'CType="dce_dceuid' . $this->uid . '" AND deleted=0 AND hidden=0';
-        $res = DatabaseUtility::getDatabaseConnection()->exec_SELECTquery('uid', 'tt_content', $whereStatement);
         $updatedContentElementsCount = 0;
-        while (($row = DatabaseUtility::getDatabaseConnection()->sql_fetch_assoc($res))) {
+        $res = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows('uid', 'tt_content', $whereStatement);
+        foreach ($res as $row) {
             $this->dataHandler->updateDB('tt_content', $row['uid'], ['hidden' => 1]);
             $updatedContentElementsCount++;
         }
@@ -199,6 +199,20 @@ class AfterSaveHook
         $datamap = reset($datamap);
         $datamap = reset($datamap);
         return (strpos($datamap['CType'], 'dce_dceuid') !== false);
+    }
+
+    /**
+     * Get tx_dce_dce of current tt_content pObj instance
+     *
+     * @param \TYPO3\CMS\Core\DataHandling\DataHandler $pObj
+     * @return int
+     */
+    protected function getDceUid(\TYPO3\CMS\Core\DataHandling\DataHandler $pObj) : int
+    {
+        $datamap = $pObj->datamap;
+        $datamap = reset($datamap);
+        $datamap = reset($datamap);
+        return (int) $datamap['tx_dce_dce'];
     }
 
     /**

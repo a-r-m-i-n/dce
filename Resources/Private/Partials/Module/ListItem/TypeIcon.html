@@ -3,13 +3,13 @@
 <div class="typeicon">
 	<f:if condition="{dce.wizardIcon} == 'custom'">
 		<f:then>
-			<f:image src="{dce.selectedWizardIconPath}" width="32c" height="32" />
+			<img src="{dce.selectedWizardIconPath}" width="32c" height="32" />
 		</f:then>
 		<f:else>
 			<c:icon identifier="{dce.selectedWizardIconPath}" size="default" />
 		</f:else>
 	</f:if>
 	<div class="overlay bg-pink">
-		<f:image src="{f:uri.resource(path:'Icons/ext_icon_white.png')}" />
+		<img src="{f:uri.resource(path:'Icons/ext_icon_white.png')}" />
 	</div>
 </div>

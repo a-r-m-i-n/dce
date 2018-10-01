@@ -3,7 +3,7 @@
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2018 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2018 Armin Vieweg <armin@v.ieweg.de>
  */
 
 if (!defined('TYPO3_MODE')) {
@@ -620,21 +620,6 @@ if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('css_styled_con
 }
 if (!\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('fluid_styled_content')) {
     $dceTca['palettes']['content_relations']['showitem'] = 'show_access_tab,show_category_tab';
-}
-
-if (!\TYPO3\CMS\Core\Utility\GeneralUtility::compat_version('8.0')) {
-    $oldFileReferenceTcaConfig = [
-        'type' => 'group',
-        'internal_type' => 'file_reference',
-        'allowed' => 'html,htm',
-        'size' => 1,
-        'maxitems' => 1,
-        'minitems' => 0,
-    ];
-    $dceTca['columns']['container_template_file']['config'] = $oldFileReferenceTcaConfig;
-    $dceTca['columns']['template_file']['config'] = $oldFileReferenceTcaConfig;
-    $dceTca['columns']['backend_template_file']['config'] = $oldFileReferenceTcaConfig;
-    $dceTca['columns']['detailpage_template_file']['config'] = $oldFileReferenceTcaConfig;
 }
 
 return $dceTca;

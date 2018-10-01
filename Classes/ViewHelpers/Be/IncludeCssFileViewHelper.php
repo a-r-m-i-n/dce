@@ -4,16 +4,17 @@ namespace ArminVieweg\Dce\ViewHelpers\Be;
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2018 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2018 Armin Vieweg <armin@v.ieweg.de>
  */
 use ArminVieweg\Dce\Utility\File;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 
 /**
  * This view helper adds inline css
  *
  * @package ArminVieweg\Dce
  */
-class IncludeCssFileViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper
+class IncludeCssFileViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
     /**
      * Plain HTML should be returned, no output escaping allowed
@@ -23,18 +24,32 @@ class IncludeCssFileViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractB
     protected $escapeOutput = false;
 
     /**
-     * Load css file and put contents to inline <style> tag
+     * Initialize arguments.
      *
-     * @param string $path to css file
-     * @return string <style> HTML tag
+     * @throws \TYPO3Fluid\Fluid\Core\ViewHelper\Exception
      */
-    public function render($path)
+    public function initializeArguments()
     {
-        $absPath = File::get($path);
+        parent::initializeArguments();
+        $this->registerArgument('path', 'string', 'Path to css file');
+    }
+
+    /**
+     * @param array $arguments
+     * @param \Closure $renderChildrenClosure
+     * @param RenderingContextInterface $renderingContext
+     * @return string
+     */
+    public static function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    ) {
+        $absPath = File::get($arguments['path']);
         if ($absPath) {
             $contents = file_get_contents($absPath);
             return '<style>' . $contents . '</style>';
         }
-        return '<script type="text/javascript">console.error("File ' . $path . ' not found.")</script>';
+        return '<script type="text/javascript">console.error("File ' . $arguments['path'] . ' not found.")</script>';
     }
 }
