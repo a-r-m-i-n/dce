@@ -1,7 +1,0 @@
-<config>
-	<type>text</type>
-	<rows>5</rows>
-	<cols>30</cols>
-	<eval>trim,required</eval>
-</config>
-<defaultExtras>richtext[*]:rte_transform[mode=ts_css]</defaultExtras>
