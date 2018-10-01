@@ -33,7 +33,7 @@ Dynamic Content Elements (DCE)
 		2012-2018
 
 	:Author:
-		Armin Ruediger Vieweg
+		Armin Vieweg
 
 	:Email:
 		armin@v.ieweg.de

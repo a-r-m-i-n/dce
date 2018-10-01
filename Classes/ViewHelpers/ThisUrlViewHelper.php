@@ -4,9 +4,8 @@ namespace ArminVieweg\Dce\ViewHelpers;
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2018 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2018 Armin Vieweg <armin@v.ieweg.de>
  */
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 
 /**
  * Returns the url of current page
@@ -20,7 +19,13 @@ class ThisUrlViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHe
     {
         parent::initializeArguments();
         $this->registerArgument('showHost', 'boolean', 'If TRUE the hostname will be included');
-        $this->registerArgument('showRequestedUri', 'boolean', 'If TRUE the requested uri will be included', false, true);
+        $this->registerArgument(
+            'showRequestedUri',
+            'boolean',
+            'If TRUE the requested uri will be included',
+            false,
+            true
+        );
         $this->registerArgument('urlencode', 'boolean', 'If TRUE the whole result will be URI encoded');
     }
 

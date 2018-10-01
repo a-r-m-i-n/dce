@@ -4,7 +4,7 @@ namespace ArminVieweg\Dce\ViewHelpers;
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2018 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2018 Armin Vieweg <armin@v.ieweg.de>
  */
 use ArminVieweg\Dce\Utility\DatabaseUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -21,10 +21,33 @@ class FalViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
     {
         parent::initializeArguments();
         $this->registerArgument('field', 'string', 'Name of field in DCE', true);
-        $this->registerArgument('contentObject', 'array', 'Content object data array, which is stored in {contentObject} in dce template.', true);
-        $this->registerArgument('localizedUid', 'boolean', 'If true the uid gets localized (in frontend context)', false, true);
-        $this->registerArgument('tableName', 'string', 'If you want to specify another table than tt_content', false, 'tt_content');
-        $this->registerArgument('uid', 'integer', 'If positive, it overwrites the (localized) uid from contentObject', false, 0);
+        $this->registerArgument(
+            'contentObject',
+            'array',
+            'Content object data array, which is stored in {contentObject} in dce template.',
+            true
+        );
+        $this->registerArgument(
+            'localizedUid',
+            'boolean',
+            'If true the uid gets localized (in frontend context)',
+            false,
+            true
+        );
+        $this->registerArgument(
+            'tableName',
+            'string',
+            'If you want to specify another table than tt_content',
+            false,
+            'tt_content'
+        );
+        $this->registerArgument(
+            'uid',
+            'integer',
+            'If positive, it overwrites the (localized) uid from contentObject',
+            false,
+            0
+        );
     }
 
     /**

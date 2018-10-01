@@ -4,7 +4,7 @@ namespace ArminVieweg\Dce\Domain\Repository;
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2018 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2018 Armin Vieweg <armin@v.ieweg.de>
  */
 use ArminVieweg\Dce\Domain\Model\DceField;
 use ArminVieweg\Dce\Utility\DatabaseUtility;
@@ -95,7 +95,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $dce = clone $dce;
         $this->cloneFields($dce);
 
-        $this->processFillingFields($dce, $fieldList, is_array($contentObject) ? $contentObject : []);
+        $this->processFillingFields($dce, is_array($contentObject) ? $contentObject : [], $fieldList);
         $dce->setContentObject(is_array($contentObject) ? $this->resolveContentObjectRelations($contentObject) : []);
         static::$dceInstanceCache[$contentObject['uid']] = $dce;
         return $dce;
@@ -173,8 +173,8 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      */
     protected function processFillingFields(
         \ArminVieweg\Dce\Domain\Model\Dce $dce,
-        array $fieldList = null,
-        array $contentObject
+        array $contentObject,
+        array $fieldList = null
     ) {
         $fieldList = $fieldList ?: [];
         foreach ($fieldList as $fieldVariable => $fieldValue) {

@@ -4,7 +4,7 @@ namespace ArminVieweg\Dce\ViewHelpers\Be;
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2018 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2018 Armin Vieweg <armin@v.ieweg.de>
  */
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -46,5 +46,4 @@ class ModuleLinkViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractVie
         $parameters = GeneralUtility::explodeUrl2Array($arguments['parameter']);
         return BackendUtility::getModuleUrl($arguments['module'], $parameters);
     }
-
 }

@@ -3,7 +3,7 @@
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2018 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2018 Armin Vieweg <armin@v.ieweg.de>
  */
 
 // phpcs:disable
@@ -24,7 +24,7 @@ $EM_CONF[$_EXTKEY] = [
     'modify_tables' => 'tt_content',
     'clearcacheonload' => 1,
     'lockType' => '',
-    'author' => 'Armin Ruediger Vieweg',
+    'author' => 'Armin Vieweg',
     'author_email' => 'armin@v.ieweg.de',
     'author_company' => '',
     'CGLcompliance' => '',

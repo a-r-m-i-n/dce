@@ -11,7 +11,11 @@ use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\StringUtility;
 
+// phpcs:disable
+
 /**
+ * Very basic backport of old DatabaseConnection ($GLOBALS['TYPO3_DB'])
+ * based on Doctrine DBAL
  */
 class DatabaseConnection implements \TYPO3\CMS\Core\SingletonInterface
 {
@@ -322,3 +326,4 @@ class DatabaseConnection implements \TYPO3\CMS\Core\SingletonInterface
         return true;
     }
 }
+// phpcs:enable

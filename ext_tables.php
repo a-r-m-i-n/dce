@@ -3,7 +3,7 @@
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2018 Armin Ruediger Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2018 Armin Vieweg <armin@v.ieweg.de>
  */
 
 if (!defined('TYPO3_MODE')) {
@@ -62,27 +62,27 @@ $boot = function ($extensionKey) {
     }
 
     /** @var \TYPO3\CMS\Core\Imaging\IconRegistry $iconRegistry */
-    $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\Imaging\IconRegistry');
+    $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);
     // DCE Icon
     $iconRegistry->registerIcon(
         'ext-dce-dce',
-        'TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider',
+        \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
         ['source' => 'EXT:dce/Resources/Public/Icons/ext_icon.png']
     );
     // DCE Field Type Icons
     $iconRegistry->registerIcon(
         'ext-dce-dcefield-type-element',
-        'TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider',
+        \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
         ['source' => 'EXT:dce/Resources/Public/Icons/tx_dce_domain_model_dcefield_element.png']
     );
     $iconRegistry->registerIcon(
         'ext-dce-dcefield-type-tab',
-        'TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider',
+        \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
         ['source' => 'EXT:dce/Resources/Public/Icons/tx_dce_domain_model_dcefield_tab.png']
     );
     $iconRegistry->registerIcon(
         'ext-dce-dcefield-type-section',
-        'TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider',
+        \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
         ['source' => 'EXT:dce/Resources/Public/Icons/tx_dce_domain_model_dcefield_section.png']
     );
 };

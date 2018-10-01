@@ -5,6 +5,13 @@
     "version": "1.6.0-dev",
     "homepage": "https://www.facebook.com/TYPO3.DCE.Extension/",
     "license": "GPL-2.0+",
+    "authors": [
+        {
+            "name": "Armin Vieweg",
+            "role": "Lead Developer",
+            "email": "armin@v.ieweg.de"
+        }
+    ],
     "require": {
         "typo3/cms-core": "^8.7 || ^9.4"
     },
