@@ -130,7 +130,7 @@ class ContainerFactory
         foreach ($resolvedContentElements as $rawContentElement) {
             if ($rawContentElement['CType'] !== 'dce_dceuid' . $dce->getUid() ||
                 ($contentObject['uid'] !== $rawContentElement['uid'] &&
-                    $rawContentElement['tx_dce_new_container'] === '1')
+                    $rawContentElement['tx_dce_new_container'] === 1)
             ) {
                 return $contentElementsInContainer;
             }
