@@ -74,9 +74,9 @@ class FalViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
         $rows = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
             'uid',
             'sys_file_reference',
-            'tablenames=' . DatabaseUtility::getDatabaseConnection()->fullQuoteStr($this->arguments['tableName']) .
-            ' AND uid_foreign=' . $contentObjectUid .
-            ' AND fieldname=' . DatabaseUtility::getDatabaseConnection()->fullQuoteStr($this->arguments['field']) .
+            'tablenames="' . DatabaseUtility::getDatabaseConnection()->fullQuoteStr($this->arguments['tableName']) .
+            '" AND uid_foreign=' . $contentObjectUid . ' AND fieldname="' .
+            DatabaseUtility::getDatabaseConnection()->fullQuoteStr($this->arguments['field']) . '" ' .
             $pageRepository->enableFields('sys_file_reference', $pageRepository->showHiddenRecords),
             '',
             'sorting_foreign',
