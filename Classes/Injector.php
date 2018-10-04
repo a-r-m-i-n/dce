@@ -8,7 +8,6 @@ namespace ArminVieweg\Dce;
  */
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * DCE Injector
@@ -73,22 +72,22 @@ class Injector
                 $this->renderFlexformXml($dce);
 
             $showAccessTabCode = $dce['show_access_tab']
-                ? '--div--;LLL:EXT:lang/locallang_tca.xlf:be_users.tabs.access,
-           --palette--;LLL:EXT:lang/locallang_tca.xlf:pages.palettes.visibility;visibility,
-           --palette--;LLL:EXT:lang/locallang_tca.xlf:be_users.tabs.access;access,'
+                ? '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,
+                  --palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access;access,'
                 : '';
             $showMediaTabCode = $dce['show_media_tab']
                 ? '--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,assets,'
                 : '';
             $showCategoryTabCode = $dce['show_category_tab']
-                ? '--div--;LLL:EXT:lang/locallang_tca.xlf:sys_category.tabs.category,categories,'
+                ? '--div--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_category.tabs.category,' .
+                  'categories,'
                 : '';
 
-            $GLOBALS['TCA']['tt_content']['types']['dce_dceuid' . $dce['uid'] . '']['showitem'] = '
-	--palette--;;dce_palette_' . $dce['uid'] . '_head,
-	--palette--;;dce_palette_' . $dce['uid'] . ',
-	pi_flexform,' . $showAccessTabCode . $showMediaTabCode . $showCategoryTabCode . '
-	--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.extended';
+            $GLOBALS['TCA']['tt_content']['types']['dce_dceuid' . $dce['uid'] . '']['showitem'] =
+                '--palette--;;dce_palette_' . $dce['uid'] . '_head,
+                --palette--;;dce_palette_' . $dce['uid'] . ',
+                pi_flexform,' . $showAccessTabCode . $showMediaTabCode . $showCategoryTabCode . '
+                --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xml:tabs.extended';
 
             $GLOBALS['TCA']['tt_content']['palettes']['dce_palette_' . $dce['uid'] . '_head']['canNotCollapse'] = true;
 
