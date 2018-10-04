@@ -11,8 +11,6 @@ use ArminVieweg\Dce\Utility\DatabaseUtility;
 /**
  * Class TablesDefinitionIsBeingBuiltSlot
  * Signal defined in \TYPO3\CMS\Install\Service\SqlExpectedSchemaService
- *
- * @package ArminVieweg\Dce
  */
 class TablesDefinitionIsBeingBuiltSlot
 {
@@ -20,6 +18,7 @@ class TablesDefinitionIsBeingBuiltSlot
      *
      * @param array $sqlStrings
      * @return array
+     * @throws \Doctrine\DBAL\DBALException
      */
     public function extendTtContentTable(array $sqlStrings)
     {
@@ -33,15 +32,15 @@ class TablesDefinitionIsBeingBuiltSlot
      * Checks if required fields are already in database.
      *
      * @return bool
+     * @throws \Doctrine\DBAL\DBALException
      */
     protected function checkRequiredFieldsExisting()
     {
-        return true;
-//        $dbFields = DatabaseUtility::getDatabaseConnection()->admin_get_fields('tx_dce_domain_model_dcefield');
-//        $dbFieldNames = array_keys($dbFields);
-//
-//        return in_array('map_to', $dbFieldNames) &&
-//               in_array('new_tca_field_name', $dbFieldNames) &&
-//               in_array('new_tca_field_type', $dbFieldNames);
+        $dbFields = DatabaseUtility::getDatabaseConnection()->admin_get_fields('tx_dce_domain_model_dcefield');
+        $dbFieldNames = array_keys($dbFields);
+
+        return \in_array('map_to', $dbFieldNames, true) &&
+               \in_array('new_tca_field_name', $dbFieldNames, true) &&
+               \in_array('new_tca_field_type', $dbFieldNames, true);
     }
 }
