@@ -90,7 +90,7 @@ class DatabaseConnection implements \TYPO3\CMS\Core\SingletonInterface
 
         $fields = [];
         foreach ($connection->getSchemaManager()->listTableColumns($tableName) as $column) {
-            $fields[] = $column->getName();
+            $fields[$column->getName()] = $column->getName();
         }
         return $fields;
     }
