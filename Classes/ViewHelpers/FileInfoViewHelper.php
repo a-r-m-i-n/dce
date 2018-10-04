@@ -96,9 +96,9 @@ class FileInfoViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewH
             return self::$fileRepository;
         }
         /** @var \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager */
-        $objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+        $objectManager = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
         /** @var \TYPO3\CMS\Core\Resource\FileRepository $fileRepository */
-        self::$fileRepository = $objectManager->get('TYPO3\CMS\Core\Resource\FileRepository');
+        self::$fileRepository = $objectManager->get(\TYPO3\CMS\Core\Resource\FileRepository::class);
         return self::$fileRepository;
     }
 }

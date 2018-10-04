@@ -11,8 +11,6 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * Abstract class for DCE form validators
- *
- * @package ArminVieweg\Dce
  */
 abstract class AbstractFieldValidator
 {
@@ -50,16 +48,16 @@ abstract class AbstractFieldValidator
      */
     protected function addFlashMessage($message, $title = '', $severity = \TYPO3\CMS\Core\Messaging\FlashMessage::OK)
     {
-        if (!is_string($message)) {
+        if (!\is_string($message)) {
             throw new \InvalidArgumentException(
-                'The flash message must be string, ' . gettype($message) . ' given.',
+                'The flash message must be string, ' . \gettype($message) . ' given.',
                 1243258395
             );
         }
 
         /** @var \TYPO3\CMS\Core\Messaging\FlashMessage $message */
         $message = GeneralUtility::makeInstance(
-            'TYPO3\CMS\Core\Messaging\FlashMessage',
+            \TYPO3\CMS\Core\Messaging\FlashMessage::class,
             $message,
             $title,
             $severity,
@@ -67,7 +65,7 @@ abstract class AbstractFieldValidator
         );
 
         /** @var $flashMessageService \TYPO3\CMS\Core\Messaging\FlashMessageService */
-        $flashMessageService = GeneralUtility::makeInstance('TYPO3\CMS\Core\Messaging\FlashMessageService');
+        $flashMessageService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Messaging\FlashMessageService::class);
         $flashMessageService->getMessageQueueByIdentifier()->addMessage($message);
     }
 

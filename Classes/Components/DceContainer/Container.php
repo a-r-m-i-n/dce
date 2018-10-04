@@ -12,8 +12,6 @@ use ArminVieweg\Dce\Utility\PageTS;
 /**
  * Container
  * The DCE Container
- *
- * @package ArminVieweg\Dce
  */
 class Container
 {
@@ -95,6 +93,6 @@ class Container
         }
 
         $colors = array_values(PageTS::get('tx_dce.defaults.simpleBackendView.containerGroupColors'));
-        return $colors[$contentObject['uid'] % count($colors)];
+        return $colors[$contentObject['uid'] % \count($colors)];
     }
 }

@@ -37,6 +37,6 @@ class IsArrayViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHe
         if ($subject === null) {
             $subject = $renderChildrenClosure();
         }
-        return is_array($subject);
+        return \is_array($subject);
     }
 }

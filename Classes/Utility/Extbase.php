@@ -10,8 +10,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Utility class for the greatest and only existing extension-framework for TYPO3
- *
- * @package ArminVieweg\Dce
  */
 class Extbase
 {
@@ -37,7 +35,7 @@ class Extbase
         $compressedObject = false
     ) {
         $bootstrap = new \TYPO3\CMS\Extbase\Core\Bootstrap();
-        $bootstrap->cObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
+        $bootstrap->cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
         $configuration = [
             'vendorName' => $vendorName,
             'extensionName' => $extensionName,
@@ -51,11 +49,11 @@ class Extbase
         $previousValue = $GLOBALS['TYPO3_CONF_VARS']['FE']['pageNotFoundOnCHashError'];
         $GLOBALS['TYPO3_CONF_VARS']['FE']['pageNotFoundOnCHashError'] = false;
         if ($settings['returnFromCache']) {
-            $objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
-            $dceRepository = $objectManager->get('ArminVieweg\Dce\Domain\Repository\DceRepository');
+            $objectManager = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
+            $dceRepository = $objectManager->get(\ArminVieweg\Dce\Domain\Repository\DceRepository::class);
             $extbaseReturnValue = $dceRepository->findInCacheByContentObjectUid($settings['contentElementUid']);
         }
-        if (!$settings['returnFromCache'] || is_null($extbaseReturnValue)) {
+        if (!$settings['returnFromCache'] || $extbaseReturnValue === null) {
             $extbaseReturnValue = $bootstrap->run('', $configuration);
         }
         $GLOBALS['TYPO3_CONF_VARS']['FE']['pageNotFoundOnCHashError'] = $previousValue;

@@ -70,7 +70,7 @@ class FalViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
         }
 
         /** @var \TYPO3\CMS\Frontend\Page\PageRepository $pageRepository */
-        $pageRepository = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Page\PageRepository');
+        $pageRepository = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Page\PageRepository::class);
         $rows = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
             'uid',
             'sys_file_reference',
@@ -85,7 +85,7 @@ class FalViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
         );
 
         /** @var \TYPO3\CMS\Core\Resource\FileRepository $fileRepository */
-        $fileRepository = GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\FileRepository');
+        $fileRepository = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\FileRepository::class);
         $result = [];
         foreach ($rows as $referenceUid) {
             $result[] = $fileRepository->findFileReferenceByUid((int) $referenceUid['uid']);

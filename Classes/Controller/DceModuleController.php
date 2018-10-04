@@ -12,8 +12,6 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 /**
  * DCE Module Controller
  * Provides the backend DCE module, for faster and easier access to DCEs.
- *
- * @package ArminVieweg\Dce
  */
 class DceModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
@@ -41,6 +39,7 @@ class DceModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
      * @param \ArminVieweg\Dce\Domain\Model\Dce $dce
      * @param bool $perform
      * @return void
+     * @throws \TYPO3\CMS\Core\Exception
      */
     public function updateTcaMappingsAction(\ArminVieweg\Dce\Domain\Model\Dce $dce, $perform = false)
     {
@@ -62,6 +61,8 @@ class DceModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
      * Clears Caches Action
      *
      * @return void
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
      */
     public function clearCachesAction()
     {

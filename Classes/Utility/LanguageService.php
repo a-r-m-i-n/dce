@@ -9,8 +9,6 @@ namespace ArminVieweg\Dce\Utility;
 
 /**
  * LanguageService utility
- *
- * @package ArminVieweg\Dce
  */
 class LanguageService
 {

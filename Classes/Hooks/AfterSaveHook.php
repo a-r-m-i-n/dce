@@ -13,8 +13,6 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * AfterSave Hook
- *
- * @package ArminVieweg\Dce
  */
 class AfterSaveHook
 {
@@ -66,8 +64,8 @@ class AfterSaveHook
      * @param $id
      * @param array $fieldArray
      * @param \TYPO3\CMS\Core\DataHandling\DataHandler $pObj
-     *
      * @return void
+     * @throws \TYPO3\CMS\Core\Exception
      */
     public function processDatamap_afterDatabaseOperations(
         $status,
@@ -141,8 +139,8 @@ class AfterSaveHook
         }
 
         // Clear cache if dce or dcefield has been created or updated
-        if (in_array($table, ['tx_dce_domain_model_dce', 'tx_dce_domain_model_dcefield']) &&
-            in_array($status, ['update', 'new'])
+        if (\in_array($table, ['tx_dce_domain_model_dce', 'tx_dce_domain_model_dcefield']) &&
+            \in_array($status, ['update', 'new'])
         ) {
             // TODO: Deprecated remove in next major version (also in ext_conf_template.txt)
             if ($this->extConfiguration['disableAutoClearFrontendCache'] == 0) {
@@ -159,6 +157,7 @@ class AfterSaveHook
      * will not get re-enabled when enabling the DCE again.
      *
      * @return void
+     * @throws \TYPO3\CMS\Core\Exception
      */
     protected function hideContentElementsBasedOnDce()
     {
@@ -239,7 +238,7 @@ class AfterSaveHook
                 }
             }
         }
-        return intval($uid);
+        return (int) $uid;
     }
 
     /**

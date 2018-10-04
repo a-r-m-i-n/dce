@@ -11,8 +11,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Utility for Flash Messages
- *
- * @package ArminVieweg\Dce
  */
 class FlashMessage
 {
@@ -32,13 +30,13 @@ class FlashMessage
     {
         if (static::$flashMessageQueue === null) {
             /** @var $flashMessageService FlashMessageService */
-            $flashMessageService = GeneralUtility::makeInstance('TYPO3\CMS\Core\Messaging\FlashMessageService');
+            $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
             static::$flashMessageQueue = $flashMessageService->getMessageQueueByIdentifier();
         }
 
         /** @var \TYPO3\CMS\Core\Messaging\FlashMessage $flashMessage */
         $flashMessage = GeneralUtility::makeInstance(
-            'TYPO3\CMS\Core\Messaging\FlashMessage',
+            \TYPO3\CMS\Core\Messaging\FlashMessage::class,
             htmlspecialchars($message),
             $title,
             $severity,

@@ -9,8 +9,6 @@ namespace ArminVieweg\Dce\Utility;
 
 /**
  * Utility for wizard icons
- *
- * @package ArminVieweg\Dce
  */
 class WizardIcon
 {

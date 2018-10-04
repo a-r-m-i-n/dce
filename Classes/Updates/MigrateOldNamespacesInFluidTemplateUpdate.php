@@ -10,8 +10,6 @@ use ArminVieweg\Dce\Utility\File;
 
 /**
  * Migrates old namespaces in fluid templates
- *
- * @package ArminVieweg\Dce
  */
 class MigrateOldNamespacesInFluidTemplateUpdate extends AbstractUpdate
 {

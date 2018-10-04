@@ -6,6 +6,7 @@ namespace ArminVieweg\Dce\Domain\Repository;
  *  |
  *  | (c) 2012-2018 Armin Vieweg <armin@v.ieweg.de>
  */
+use ArminVieweg\Dce\Domain\Model\Dce;
 use ArminVieweg\Dce\Domain\Model\DceField;
 use ArminVieweg\Dce\Utility\DatabaseUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -14,8 +15,6 @@ use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 
 /**
  * DCE repository
- *
- * @package ArminVieweg\Dce
  */
 class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
@@ -27,7 +26,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     protected static $flexFormService = null;
 
     /**
-     * @var \ArminVieweg\Dce\Domain\Model\Dce[]
+     * @var Dce[]
      */
     protected static $dceInstanceCache = [];
 
@@ -42,11 +41,11 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      * @param bool $includeHidden
      * @return array
      */
-    public function findAllAndStatics($includeHidden = false)
+    public function findAllAndStatics($includeHidden = false) : array
     {
         if ($includeHidden) {
             /** @var \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings $querySettings */
-            $querySettings = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings');
+            $querySettings = GeneralUtility::makeInstance(Typo3QuerySettings::class);
             $querySettings->setIgnoreEnableFields(true);
             $this->setDefaultQuerySettings($querySettings);
         }
@@ -58,7 +57,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      * Returns a DCE from the instance cache
      *
      * @param integer $uid Content object uid
-     * @return \ArminVieweg\Dce\Domain\Model\Dce
+     * @return Dce|null
      */
     public function findInCacheByContentObjectUid($uid)
     {
@@ -77,26 +76,26 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      * @param array $fieldList
      * @param array $contentObject
      * @param bool $doNotCache If true forces to not use the internal cache
-     * @return \ArminVieweg\Dce\Domain\Model\Dce
+     * @return Dce
      */
-    public function findAndBuildOneByUid($uid, $fieldList, $contentObject, $doNotCache = false)
+    public function findAndBuildOneByUid($uid, $fieldList, $contentObject, $doNotCache = false) : Dce
     {
         if (!$doNotCache && array_key_exists($contentObject['uid'], static::$dceInstanceCache)) {
             return static::$dceInstanceCache[$contentObject['uid']];
         }
         $this->disableRespectOfEnableFields();
 
-        /** @var $dce \ArminVieweg\Dce\Domain\Model\Dce */
+        /** @var $dce Dce */
         $dce = $this->findByUid($uid);
 
-        if (get_class($dce) !== 'ArminVieweg\Dce\Domain\Model\Dce') {
+        if (!$dce instanceof \ArminVieweg\Dce\Domain\Model\Dce) {
             throw new \UnexpectedValueException('No DCE found with uid "' . $uid . '".', 1328613288);
         }
         $dce = clone $dce;
         $this->cloneFields($dce);
 
-        $this->processFillingFields($dce, is_array($contentObject) ? $contentObject : [], $fieldList);
-        $dce->setContentObject(is_array($contentObject) ? $this->resolveContentObjectRelations($contentObject) : []);
+        $this->processFillingFields($dce, \is_array($contentObject) ? $contentObject : [], $fieldList);
+        $dce->setContentObject(\is_array($contentObject) ? $this->resolveContentObjectRelations($contentObject) : []);
         static::$dceInstanceCache[$contentObject['uid']] = $dce;
         return $dce;
     }
@@ -104,10 +103,10 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     /**
      * Returns content element rows based on given DCE object
      *
-     * @param \ArminVieweg\Dce\Domain\Model\Dce $dce
-     * @return array|NULL
+     * @param Dce $dce
+     * @return array|null
      */
-    public function findContentElementsBasedOnDce(\ArminVieweg\Dce\Domain\Model\Dce $dce)
+    public function findContentElementsBasedOnDce(Dce $dce)
     {
         return DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
             '*',
@@ -120,20 +119,22 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      * Clones the fields of a dce separately, because cloning the dce just
      * refers the fields
      *
-     * @param \ArminVieweg\Dce\Domain\Model\Dce $dce
+     * @param Dce $dce
      * @return void
      */
     protected function cloneFields($dce)
     {
         /** @var $clonedFields \TYPO3\CMS\Extbase\Persistence\ObjectStorage */
-        $clonedFields = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Persistence\ObjectStorage');
+        $clonedFields = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Persistence\ObjectStorage::class);
         /** @var $field DceField */
         foreach ($dce->getFields() as $field) {
             $field = clone $field;
             if ($field->getType() === DceField::TYPE_ELEMENT || $field->getType() === DceField::TYPE_SECTION) {
                 if ($field->getSectionFields()) {
                     /** @var $clonedSectionFields \TYPO3\CMS\Extbase\Persistence\ObjectStorage */
-                    $clonedSectionFields = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Persistence\ObjectStorage');
+                    $clonedSectionFields = GeneralUtility::makeInstance(
+                        \TYPO3\CMS\Extbase\Persistence\ObjectStorage::class
+                    );
                     foreach ($field->getSectionFields() as $sectionField) {
                         /** @var $clonedSectionField DceField */
                         $clonedSectionField = clone $sectionField;
@@ -166,13 +167,13 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     /**
      * Walk through the fields and section fields to fill them
      *
-     * @param \ArminVieweg\Dce\Domain\Model\Dce $dce
+     * @param Dce $dce
      * @param array $fieldList Field list. Key must contain field variable, value its value.
      * @param array $contentObject
      * @return void
      */
     protected function processFillingFields(
-        \ArminVieweg\Dce\Domain\Model\Dce $dce,
+        Dce $dce,
         array $contentObject,
         array $fieldList = null
     ) {
@@ -180,7 +181,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         foreach ($fieldList as $fieldVariable => $fieldValue) {
             $dceField = $dce->getFieldByVariable($fieldVariable);
             if ($dceField) {
-                if (is_array($fieldValue)) {
+                if (\is_array($fieldValue)) {
                     $i = 0;
                     foreach ($fieldValue as $key => $sectionFieldValues) {
                         $sectionFieldValues = current($sectionFieldValues);
@@ -241,7 +242,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             '<' . $xmlWrapping . '>' . $dceField->getConfiguration() . '</' . $xmlWrapping . '>'
         );
 
-        if (is_array($dceFieldConfiguration)) {
+        if (\is_array($dceFieldConfiguration)) {
             $dceFieldConfiguration = $dceFieldConfiguration['config'];
             if ($dceFieldConfiguration['dce_load_schema'] && $this->hasRelatedObjects($dceFieldConfiguration)) {
                 $objects = $this->createObjectsByFieldConfiguration(
@@ -262,7 +263,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             }
         } else {
             $sectionFieldValues = $dceField->getValue();
-            if (!is_array($sectionFieldValues)) {
+            if (!\is_array($sectionFieldValues)) {
                 $sectionFieldValues = [];
             }
 
@@ -284,7 +285,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     protected function getDceFieldsByRecord(array $record)
     {
         $flexformData = static::$flexFormService->convertFlexFormContentToArray($record['pi_flexform'], 'lDEF', 'vDEF');
-        return isset($flexformData['settings']) && is_array($flexformData['settings'])
+        return isset($flexformData['settings']) && \is_array($flexformData['settings'])
             ? $flexformData['settings']
             : [];
     }
@@ -295,7 +296,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      *
      * @param array $array flexform data array
      * @param Object $caller
-     * @param NULL|string $arrayKey
+     * @param string|null $arrayKey
      * @return void
      * @deprecated Use "FlexFormService" class instead.
      */
@@ -310,21 +311,21 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      * Extracts and returns the uid from given DCE CType.
      * Returns FALSE if CType is not a DCE one.
      *
-     * @param string $cType
+     * @param string|array $cType
      * @return int|string|bool
      * @static
      */
     public static function extractUidFromCtype($cType)
     {
-        if (is_array($cType)) {
+        if (\is_array($cType)) {
             // For any reason the CType can be an array with one entry
             $cType = reset($cType);
         }
         if (strpos($cType, 'dceuid') === 0) {
-            return intval(substr($cType, 6));
+            return (int) substr($cType, 6);
         }
         if (strpos($cType, 'dce_dceuid') === 0) {
-            return intval(substr($cType, 10));
+            return (int) substr($cType, 10);
         }
         if (strpos($cType, 'dce_') === 0) {
             return substr($cType, 4);
@@ -342,7 +343,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      */
     public static function convertUidToCtype($uid)
     {
-        $uid = intval($uid);
+        $uid = (int) $uid;
         if ($uid === 0) {
             return false;
         }
@@ -358,7 +359,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      */
     protected function hasRelatedObjects(array $fieldConfiguration)
     {
-        return in_array($fieldConfiguration['type'], ['group', 'inline', 'select'])
+        return \in_array($fieldConfiguration['type'], ['group', 'inline', 'select'])
         && (($fieldConfiguration['type'] === 'select' && !empty($fieldConfiguration['foreign_table']))
             || ($fieldConfiguration['type'] === 'inline' && !empty($fieldConfiguration['foreign_table']))
             || ($fieldConfiguration['type'] === 'group' && !empty($fieldConfiguration['allowed'])));
@@ -401,13 +402,11 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             $className{0} = strtoupper($className{0});
         }
         if ($dceFieldConfiguration['dce_get_fal_objects'] && strtolower($className) === 'sys_file') {
-            $className = 'TYPO3\CMS\Core\Resource\File';
+            $className = \TYPO3\CMS\Core\Resource\File::class;
         }
 
         if ($dceFieldConfiguration['dce_get_fal_objects'] && strtolower($className) === 'sys_file_reference') {
-            $contentObjectUid = intval(
-                $contentObject['_LOCALIZED_UID'] != null ? $contentObject['_LOCALIZED_UID'] : $contentObject['uid']
-            );
+            $contentObjectUid = (int) ($contentObject['_LOCALIZED_UID'] ?? $contentObject['uid']);
             if (TYPO3_MODE === 'FE') {
                 $fileRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
                     \TYPO3\CMS\Core\Resource\FileRepository::class
@@ -460,8 +459,8 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         }
         if (strtolower($className) === 'sys_file_collection') {
             $specialClass = 'FileCollection';
-            $className = 'TYPO3\CMS\Core\Resource\Collection\AbstractFileCollection';
-            $repositoryName = 'TYPO3\CMS\Core\Resource\FileCollectionRepository';
+            $className = \TYPO3\CMS\Core\Resource\Collection\AbstractFileCollection::class;
+            $repositoryName = \TYPO3\CMS\Core\Resource\FileCollectionRepository::class;
         }
 
         if (class_exists($className) && class_exists($repositoryName)) {
@@ -483,7 +482,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         foreach (GeneralUtility::trimExplode(',', $fieldValue, true) as $uid) {
             $enableFields = '';
 
-            if (count($tableNames) === 1) {
+            if (\count($tableNames) === 1) {
                 $uid = (int) $uid;
                 $tableName = $tableNames[0];
             } else {
@@ -509,7 +508,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             if ($dceFieldConfiguration['dce_enable_autotranslation']) {
                 if (!$pageRepository instanceof \TYPO3\CMS\Frontend\Page\PageRepository) {
                     /** @var \TYPO3\CMS\Frontend\Page\PageRepository $pageRepository */
-                    $pageRepository = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Page\PageRepository');
+                    $pageRepository = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Page\PageRepository::class);
                 }
             }
             foreach ($recordRows as $row) {
@@ -554,7 +553,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     protected function resolveContentObjectRelations(array $contentObjectArray)
     {
         /** @var \TYPO3\CMS\Core\Resource\FileRepository $fileRepository */
-        $fileRepository = GeneralUtility::makeInstance('TYPO3\CMS\Core\Resource\FileRepository');
+        $fileRepository = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\FileRepository::class);
         $databaseConnection = DatabaseUtility::getDatabaseConnection();
         $processedContentObject = $contentObjectArray;
 

@@ -12,8 +12,6 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 /**
  * DCE Injector
  * Injects code (configuration) for configured DCEs dynamically
- *
- * @package ArminVieweg\Dce
  */
 class Injector
 {
@@ -22,6 +20,7 @@ class Injector
      * Call this in Configuration/TCA/Overrides/tt_content.php
      *
      * @return void
+     * @throws \Doctrine\DBAL\DBALException
      */
     public function injectTca()
     {
@@ -31,7 +30,7 @@ class Injector
         ];
 
         $fieldRowsWithNewColumns = Components\FlexformToTcaMapper\Mapper::getDceFieldRowsWithNewTcaColumns();
-        if (count($fieldRowsWithNewColumns) > 0) {
+        if (\count($fieldRowsWithNewColumns) > 0) {
             $newColumns = [];
             foreach ($fieldRowsWithNewColumns as $fieldRow) {
                 $newColumns[$fieldRow['new_tca_field_name']] = ['label' => '', 'config' => ['type' => 'passthrough']];
@@ -116,6 +115,7 @@ class Injector
      * Call this in ext_localconf.php
      *
      * @return void
+     * @throws \Doctrine\DBAL\DBALException
      */
     public function injectPluginConfiguration()
     {
@@ -177,7 +177,7 @@ class Injector
                     );
                     $iconRegistry->registerIcon(
                         'ext-dce-dceuid' . $dce['uid'] . '-customwizardicon',
-                        'TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider',
+                        \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
                         ['source' => $dce['wizard_custom_icon']]
                     );
                 }
@@ -240,6 +240,7 @@ class Injector
      *    |_ ...
      *
      * @return array with DCE -> containing tabs -> containing fields
+     * @throws \Doctrine\DBAL\DBALException
      */
     protected function getDatabaseDces()
     {
@@ -247,7 +248,7 @@ class Injector
         $databaseConnection = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection();
 
         $tables = $databaseConnection->admin_get_tables();
-        if (!in_array('tx_dce_domain_model_dce', $tables) || !in_array('tx_dce_domain_model_dcefield', $tables)) {
+        if (!\in_array('tx_dce_domain_model_dce', $tables) || !\in_array('tx_dce_domain_model_dcefield', $tables)) {
             return [];
         }
 
@@ -309,7 +310,7 @@ class Injector
                     $tabs[$index]['fields'][] = $row2;
                 }
             }
-            if (count($tabs[0]['fields']) === 0) {
+            if (\count($tabs[0]['fields']) === 0) {
                 unset($tabs[0]);
             }
 
@@ -335,7 +336,7 @@ class Injector
     {
         foreach ($dces as $key => $dceRow) {
             $paletteFields = GeneralUtility::trimExplode(',', $dceRow['palette_fields'], true);
-            if (!in_array('colPos', $paletteFields)) {
+            if (!\in_array('colPos', $paletteFields)) {
                 $paletteFields[] = 'colPos';
             }
             $dces[$key]['palette_fields'] = implode(', ', $paletteFields);

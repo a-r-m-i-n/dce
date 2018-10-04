@@ -12,8 +12,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Utility for TypoScript
- *
- * @package ArminVieweg\Dce
  */
 class TypoScript
 {
@@ -62,7 +60,7 @@ class TypoScript
     public function parseTypoScriptString($typoScriptString, $returnPlainArray = false)
     {
         /** @var \TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser $typoScriptParser */
-        $typoScriptParser = GeneralUtility::makeInstance('TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser');
+        $typoScriptParser = GeneralUtility::makeInstance(\TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser::class);
         $typoScriptParser->parse($typoScriptString);
         if ($returnPlainArray === false) {
             return $typoScriptParser->setup;
@@ -91,7 +89,7 @@ class TypoScript
         }
         $tab++;
         foreach ($typoScriptArray as $key => $value) {
-            if (!is_array($value)) {
+            if (!\is_array($value)) {
                 if (strpos($value, "\n") === false) {
                     $typoScript .= str_repeat("\t", ($tab === 0) ? $tab : $tab - 1) . $key . ' = ' . $value . "\n";
                 } else {
@@ -181,7 +179,7 @@ class TypoScript
         );
         $typoscript = $typoscript['plugin.'][$extkey . '.']['settings.'];
         foreach ($settings as $key => $setting) {
-            if ($setting === '' && is_array($typoscript) && array_key_exists($key, $typoscript)) {
+            if ($setting === '' && \is_array($typoscript) && array_key_exists($key, $typoscript)) {
                 $settings[$key] = $typoscript[$key];
             }
         }
@@ -204,7 +202,7 @@ class TypoScript
     {
         $dottedConfiguration = [];
         foreach ($configuration as $key => $value) {
-            if (is_array($value)) {
+            if (\is_array($value)) {
                 if (array_key_exists('_typoScriptNodeValue', $value)) {
                     $dottedConfiguration[$key] = $value['_typoScriptNodeValue'];
                 }

@@ -10,8 +10,6 @@ namespace ArminVieweg\Dce\Domain\Model;
 /**
  * Model for DCE fields. Contains configuration of fields and fetched values.
  * These fields are part of the DCE model.
- *
- * @package ArminVieweg\Dce
  */
 class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
@@ -272,7 +270,7 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function hasSectionFields()
     {
         $sectionFields = $this->getSectionFields();
-        return isset($sectionFields) && count($sectionFields) > 0;
+        return isset($sectionFields) && \count($sectionFields) > 0;
     }
 
     /**

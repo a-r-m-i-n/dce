@@ -9,8 +9,6 @@ namespace ArminVieweg\Dce\Domain\Repository;
 
 /**
  * DCE field repository
- *
- * @package ArminVieweg\Dce
  */
 class DceFieldRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {

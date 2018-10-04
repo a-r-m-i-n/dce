@@ -9,8 +9,6 @@ namespace ArminVieweg\Dce\UserFunction\CustomFieldValidation;
 
 /**
  * TCA custom validator which checks lowerCamelCase.
- *
- * @package ArminVieweg\Dce
  */
 class LowerCamelCaseValidator extends AbstractFieldValidator
 {

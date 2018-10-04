@@ -9,8 +9,6 @@ namespace ArminVieweg\Dce\Updates;
 
 /**
  * Migrate m:n-relation of dce fields to 1:n-relation
- *
- * @package ArminVieweg\Dce
  */
 class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
 {
@@ -24,6 +22,7 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
      *
      * @param string &$description The description for the update
      * @return bool Whether an update is required (TRUE) or not (FALSE)
+     * @throws \Doctrine\DBAL\DBALException
      */
     public function checkForUpdate(&$description)
     {
@@ -42,11 +41,11 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
 
         // Get updatable dce fields
         $updatableDceFields = $this->getUpdatableDceFields();
-        if (count($updatableDceFields) > 0) {
+        if (\count($updatableDceFields) > 0) {
             // Check of source table is existing
             $dceFieldTableName = $this->getSourceTableNameForDceField();
             $secionFieldTableName = $this->getSourceTableNameForSectionField();
-            if (is_null($dceFieldTableName) || is_null($secionFieldTableName)) {
+            if ($dceFieldTableName === null || $secionFieldTableName === null) {
                 $description = '<div class="alert alert-danger"><strong>FATAL ERROR</strong><br> ' .
                     'The script was not able to find source tables!!! ' .
                     'Two of these tables are missing (one of each group): <ul>' .
@@ -60,7 +59,7 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
                 return true;
             }
             $description = '<div class="alert alert-info">' .
-                'You have <b>' . count($updatableDceFields) . ' dce fields</b> which need to get updated. ' .
+                'You have <b>' . \count($updatableDceFields) . ' dce fields</b> which need to get updated. ' .
                 'The old relations are taking from <em>' . $dceFieldTableName .
                 '</em> and <em>' . $secionFieldTableName . '</em> table.' . '</div>';
             return true;
@@ -74,6 +73,7 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
      * @param array &$dbQueries Queries done in this update
      * @param string|array &$customMessages Custom messages
      * @return bool Whether everything went smoothly or not
+     * @throws \Doctrine\DBAL\DBALException
      */
     public function performUpdate(array &$dbQueries, &$customMessages)
     {
@@ -199,18 +199,18 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
 
         $remainingDceFields = $this->getUpdatableDceFields();
         $this->storeLastQuery($dbQueries);
-        if (count($remainingDceFields) > 0) {
+        if (\count($remainingDceFields) > 0) {
             $dceFieldUids = [];
             foreach ($remainingDceFields as $remainingDceField) {
                 $dceFieldUids[] = $remainingDceField['uid'];
             }
             $dceFieldUids = implode(',', $dceFieldUids);
 
-            $message = 'After the update ' . count($remainingDceFields) . ' remain without parent value. ' .
+            $message = 'After the update ' . \count($remainingDceFields) . ' remain without parent value. ' .
                 'This means, no MM relation was existing for these fields. So they were lost in the ' .
                 'past anyway. Setting deleted=1 to these fields. (uids: ' . $dceFieldUids . ')';
 
-            if (is_array($customMessages)) {
+            if (\is_array($customMessages)) {
                 $customMessages[] = $message;
             } else {
                 $customMessages = $message;
@@ -244,7 +244,8 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
      * Get source table name for DceField. If no source table existing
      * the method returns null. Otherwise the table name.
      *
-     * @return null|string
+     * @return string|null
+     * @throws \Doctrine\DBAL\DBALException
      */
     protected function getSourceTableNameForDceField()
     {
@@ -264,7 +265,8 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
      * Get source table name for Section Field. If no source table existing
      * the method returns null. Otherwise the table name.
      *
-     * @return null|string
+     * @return string|null
+     * @throws \Doctrine\DBAL\DBALException
      */
     protected function getSourceTableNameForSectionField()
     {

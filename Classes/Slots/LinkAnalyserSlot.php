@@ -10,8 +10,6 @@ use TYPO3\CMS\Linkvalidator\LinkAnalyzer;
 
 /**
  * Class LinkAnalyserSlot
- *
- * @package ArminVieweg\Dce
  */
 class LinkAnalyserSlot
 {
@@ -38,10 +36,10 @@ class LinkAnalyserSlot
             foreach ($flexformData as $fieldValue) {
                 if (!empty($fieldValue) && !is_numeric($fieldValue)) {
                     // Check for typolink (string, without new lines or < > signs)
-                    if (is_string($fieldValue) &&
+                    if (\is_string($fieldValue) &&
                         strpos($fieldValue, "\n") === false &&
-                        strpos($fieldValue, "<") === false &&
-                        strpos($fieldValue, ">") === false
+                        strpos($fieldValue, '<') === false &&
+                        strpos($fieldValue, '>') === false
                     ) {
                         $fieldValue = '<a href="' . $fieldValue . '">Typolink</a>';
                     }

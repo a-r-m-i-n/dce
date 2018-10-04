@@ -9,8 +9,6 @@ namespace ArminVieweg\Dce\UserFunction\CustomFieldValidation;
 
 /**
  * TCA custom validator which checks the input and disallows leading numbers.
- *
- * @package ArminVieweg\Dce
  */
 class NoLeadingNumberValidator extends AbstractFieldValidator
 {

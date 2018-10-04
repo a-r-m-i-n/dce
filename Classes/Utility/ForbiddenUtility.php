@@ -13,8 +13,6 @@ namespace ArminVieweg\Dce\Utility;
  * like this stuff, so I've excluded this file from checks.
  *
  * Never put code in here! And if you do, you should feel really bad!
- *
- * @package ArminVieweg\Dce
  */
 class ForbiddenUtility
 {

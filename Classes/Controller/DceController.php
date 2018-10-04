@@ -13,8 +13,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 /**
  * DCE Controller
  * Handles the output of content element based on DCEs in front- and backend.
- *
- * @package ArminVieweg\Dce
  */
 class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
@@ -72,11 +70,11 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         );
 
         if ($dce->getEnableDetailpage()) {
-            $detailUid = intval(GeneralUtility::_GP($dce->getDetailpageIdentifier()));
+            $detailUid = (int) GeneralUtility::_GP($dce->getDetailpageIdentifier());
             if ($detailUid) {
                 // populate all elements to skip
                 ContainerFactory::makeContainer($dce);
-                if (intval($contentObject['uid']) === $detailUid) {
+                if ((int) $contentObject['uid'] === $detailUid) {
                     return $dce->renderDetailpage();
                 }
                 return '<!--render detail-->'; //output needed for content slide
@@ -99,9 +97,9 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      *
      * @return string
      */
-    public function renderPreviewAction()
+    public function renderPreviewAction() : string
     {
-        $uid = intval($this->settings['dceUid']);
+        $uid = (int) $this->settings['dceUid'];
         $contentObject = $this->getContentObject($this->settings['contentElementUid']);
         $previewType = $this->settings['previewType'];
 
@@ -129,10 +127,10 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      * @param int|null $contentElementUid Uid of content element (tt_content)
      * @return string Serialized, (gz)compressed DCE model
      */
-    public function renderDceAction($uid = null, $contentElementUid = null)
+    public function renderDceAction($uid = null, $contentElementUid = null) : string
     {
-        $uid = !is_null($uid) ? $uid : intval($this->settings['dceUid']);
-        $contentElementUid = !is_null($contentElementUid) ? $contentElementUid : $this->settings['contentElementUid'];
+        $uid = $uid ?? (int) $this->settings['dceUid'];
+        $contentElementUid = $contentElementUid ?? $this->settings['contentElementUid'];
         $contentObject = $this->getContentObject($contentElementUid);
 
         $this->settings = $this->simulateContentElementSettings($this->settings['contentElementUid']);
@@ -150,7 +148,7 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      * @param int $contentElementUid
      * @return array
      */
-    protected function simulateContentElementSettings($contentElementUid)
+    protected function simulateContentElementSettings($contentElementUid) : array
     {
         $row = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
             'pi_flexform',
@@ -167,7 +165,7 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      * Returns an array with properties of content element with given uid
      *
      * @param int $uid of content element to get
-     * @return array with all properties of given content element uid
+     * @return array|bool|null with all properties of given content element uid
      */
     protected function getContentObject($uid)
     {

@@ -11,8 +11,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * PageTS utility
- *
- * @package ArminVieweg\Dce
  */
 class PageTS
 {
@@ -44,6 +42,6 @@ class PageTS
         } catch (\Exception $e) {
             return $default;
         }
-        return !is_null($default) && empty($value) ? $default : $value;
+        return $default !== null && empty($value) ? $default : $value;
     }
 }

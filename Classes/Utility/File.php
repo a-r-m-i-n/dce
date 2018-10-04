@@ -10,8 +10,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Utility class for file handling (especially FAL support in TYPO3 6.0)
- *
- * @package ArminVieweg\Dce
  */
 class File
 {

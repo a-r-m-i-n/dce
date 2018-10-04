@@ -11,8 +11,6 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * ItemProfFunc UserFunctions
- *
- * @package ArminVieweg\Dce
  */
 class ItemsProcFunc
 {
@@ -59,6 +57,7 @@ class ItemsProcFunc
      *
      * @param array $parameters Referenced parameter array
      * @return void
+     * @throws \Doctrine\DBAL\DBALException
      */
     public function getAvailableTtContentColumnsForTcaMapping(array &$parameters)
     {
@@ -86,7 +85,7 @@ class ItemsProcFunc
         $parameters['items'][] = [LocalizationUtility::translate('newcol', 'dce'), '*newcol'];
         $parameters['items'][] = [LocalizationUtility::translate('chooseExistingField', 'dce'), '--div--'];
         foreach ($tcaColumns as $fieldName => $column) {
-            if (!in_array($fieldName, $excludedColumns) && !empty($dbColumns[$fieldName]['Type'])) {
+            if (!\in_array($fieldName, $excludedColumns) && !empty($dbColumns[$fieldName]['Type'])) {
                 $columnInfo = '"' . $dbColumns[$fieldName]['Type'] . '"';
                 $parameters['items'][] = [$fieldName . ' - ' . $columnInfo . '', $fieldName];
             }
@@ -98,6 +97,7 @@ class ItemsProcFunc
      *
      * @param array $parameters
      * @return void
+     * @throws \Doctrine\DBAL\DBALException
      */
     public function getAvailableTtContentColumnsForPaletteFields(array &$parameters)
     {
@@ -120,7 +120,7 @@ class ItemsProcFunc
 
         $parameters['items'][] = ['--linebreak--', '--linebreak--'];
         foreach ($tcaColumns as $fieldName => $column) {
-            if (!in_array($fieldName, $excludedColumns) && !empty($dbColumns[$fieldName]['Type'])) {
+            if (!\in_array($fieldName, $excludedColumns) && !empty($dbColumns[$fieldName]['Type'])) {
                 $label = trim($GLOBALS['LANG']->sL($tcaColumns[$fieldName]['label']), ': ');
                 if (empty($label)) {
                     $label = $fieldName;

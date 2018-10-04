@@ -54,7 +54,7 @@ class DatabaseUtility
         } else {
             /** @var $contentObjectRenderer ContentObjectRenderer */
             $contentObjectRenderer = GeneralUtility::makeInstance(
-                'TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer'
+                ContentObjectRenderer::class
             );
             $enableFields = $contentObjectRenderer->enableFields($tableName);
             return $enableFields;
@@ -69,7 +69,7 @@ class DatabaseUtility
      */
     public static function getDceObjectForContentElement($contentElement)
     {
-        if (is_string($contentElement) && strpos($contentElement, 'NEW') === 0) {
+        if (\is_string($contentElement) && strpos($contentElement, 'NEW') === 0) {
             throw new \InvalidArgumentException('This is a new content element, can\'t create DCE instance from it.');
         }
         // Make this method more comfortable:
@@ -97,9 +97,11 @@ class DatabaseUtility
         }
 
         // Make instance of "DceRepository" and "FlexFormService"
-        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+            \TYPO3\CMS\Extbase\Object\ObjectManager::class
+        );
         /** @var \ArminVieweg\Dce\Domain\Repository\DceRepository $dceRepository */
-        $dceRepository = $objectManager->get('ArminVieweg\Dce\Domain\Repository\DceRepository');
+        $dceRepository = $objectManager->get(\ArminVieweg\Dce\Domain\Repository\DceRepository::class);
         /** @var \TYPO3\CMS\Extbase\Service\FlexFormService $flexFormService */
         $flexFormService = $objectManager->get('TYPO3\CMS\Extbase\Service\FlexFormService');
 

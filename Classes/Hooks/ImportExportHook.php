@@ -9,8 +9,6 @@ namespace ArminVieweg\Dce\Hooks;
 
 /**
  * Import/Export Hook
- *
- * @package ArminVieweg\Dce
  */
 class ImportExportHook
 {
@@ -33,7 +31,7 @@ class ImportExportHook
         if (array_key_exists('tt_content', $data)) {
             foreach ($data['tt_content'] as $ttContentUid => $ttContentUpdatedFields) {
                 if (array_key_exists('tx_dce_dce', $ttContentUpdatedFields)) {
-                    $dceUid = intval(substr($ttContentUpdatedFields['tx_dce_dce'], strlen('tx_dce_domain_model_dce_')));
+                    $dceUid = (int) substr($ttContentUpdatedFields['tx_dce_dce'], \strlen('tx_dce_domain_model_dce_'));
                     $tceMain->updateDB('tt_content', $ttContentUid, [
                         'CType' => \ArminVieweg\Dce\Domain\Repository\DceRepository::convertUidToCtype($dceUid),
                         'tx_dce_dce' => $dceUid

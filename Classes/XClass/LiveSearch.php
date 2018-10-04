@@ -10,8 +10,6 @@ use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 
 /**
  * XClass LiveSearch
- *
- * @package ArminVieweg\Dce
  */
 class LiveSearch extends \TYPO3\CMS\Backend\Search\LiveSearch\LiveSearch
 {

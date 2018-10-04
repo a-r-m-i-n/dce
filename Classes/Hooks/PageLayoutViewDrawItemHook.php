@@ -12,8 +12,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * PageLayoutView DrawItem Hook for DCE content elements
- *
- * @package ArminVieweg\Dce
  */
 class PageLayoutViewDrawItemHook implements \TYPO3\CMS\Backend\View\PageLayoutViewDrawItemHookInterface
 {
@@ -31,6 +29,7 @@ class PageLayoutViewDrawItemHook implements \TYPO3\CMS\Backend\View\PageLayoutVi
      * @param $itemContent
      * @param array $row #
      * @return void
+     * @throws \TYPO3\CMS\Core\Resource\Exception\ResourceDoesNotExistException
      */
     public function preProcess(
         \TYPO3\CMS\Backend\View\PageLayoutView &$parentObject,
@@ -58,7 +57,7 @@ class PageLayoutViewDrawItemHook implements \TYPO3\CMS\Backend\View\PageLayoutVi
 
             /** @var \ArminVieweg\Dce\Components\BackendView\SimpleBackendView $simpleBackendView */
             $simpleBackendView = GeneralUtility::makeInstance(
-                'ArminVieweg\Dce\Components\BackendView\SimpleBackendView'
+                \ArminVieweg\Dce\Components\BackendView\SimpleBackendView::class
             );
 
             $headerContent = $parentObject->linkEditContent(
@@ -86,7 +85,7 @@ class PageLayoutViewDrawItemHook implements \TYPO3\CMS\Backend\View\PageLayoutVi
             return;
         }
         /** @var \TYPO3\CMS\Core\Page\PageRenderer $pageRenderer */
-        $pageRenderer = GeneralUtility::makeInstance('TYPO3\CMS\Core\Page\PageRenderer');
+        $pageRenderer = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\PageRenderer::class);
         $pageRenderer->addCssInlineBlock(
             'DcePageLayoutStyles',
             file_get_contents(ExtensionManagementUtility::extPath('dce') . 'Resources/Public/Css/dceInstance.css')

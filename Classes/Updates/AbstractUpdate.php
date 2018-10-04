@@ -10,8 +10,6 @@ use ArminVieweg\Dce\Utility\DatabaseConnection;
 
 /**
  * Migrate m:n-relation of dce fields to 1:n-relation
- *
- * @package ArminVieweg\Dce
  */
 class AbstractUpdate extends \TYPO3\CMS\Install\Updates\AbstractUpdate
 {

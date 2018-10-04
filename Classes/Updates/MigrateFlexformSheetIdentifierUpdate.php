@@ -25,8 +25,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * The very first sheet has the identifier/variable "tabGeneral" by default.
  *
  * Please migrate the field database relations first, before executing this update!
- *
- * @package ArminVieweg\Dce
  */
 class MigrateFlexformSheetIdentifierUpdate extends AbstractUpdate
 {
@@ -46,13 +44,13 @@ class MigrateFlexformSheetIdentifierUpdate extends AbstractUpdate
         $tabsWithoutIdentifier = $this->getUpdatableDceFields();
         $contentElementsWithWrongXml = $this->getUpdatableContentElements();
 
-        $description .= 'There are <b>' . count($tabsWithoutIdentifier) . ' tab fields</b> without identifier and ' .
-                        '<b>' . count($contentElementsWithWrongXml) . ' content elements</b> with old xml structure ' .
+        $description .= 'There are <b>' . \count($tabsWithoutIdentifier) . ' tab fields</b> without identifier and ' .
+                        '<b>' . \count($contentElementsWithWrongXml) . ' content elements</b> with old xml structure ' .
                         'existing.<br>' .
                         'Caution! Please make sure that you\'ve migrated the mm-relation of dce fields to 1:n ' .
                         'before executing this update wizard.<br><br>';
 
-        return count($tabsWithoutIdentifier) > 0 || count($contentElementsWithWrongXml) > 0;
+        return \count($tabsWithoutIdentifier) > 0 || \count($contentElementsWithWrongXml) > 0;
     }
 
     /**
@@ -90,7 +88,7 @@ class MigrateFlexformSheetIdentifierUpdate extends AbstractUpdate
         }
 
         /** @var \TYPO3\CMS\Core\Configuration\FlexForm\FlexFormTools $flexFormTools */
-        $flexFormTools = GeneralUtility::makeInstance('TYPO3\CMS\Core\Configuration\FlexForm\FlexFormTools');
+        $flexFormTools = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Configuration\FlexForm\FlexFormTools::class);
         foreach ($tabsGroupedByDce as $dceUid => $tabs) {
             $contentElements = $this->getDatabaseConnection()->exec_SELECTgetRows(
                 '*',
@@ -195,7 +193,7 @@ class MigrateFlexformSheetIdentifierUpdate extends AbstractUpdate
     protected function convertFieldTitleToVariable($fieldTitle)
     {
         /** @var \TYPO3\CMS\Core\Charset\CharsetConverter $charsetConverter */
-        $charsetConverter = GeneralUtility::makeInstance('TYPO3\CMS\Core\Charset\CharsetConverter');
+        $charsetConverter = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Charset\CharsetConverter::class);
         $variable = $charsetConverter->specCharsToASCII('utf-8', $fieldTitle);
         $variable = preg_replace('/[^A-Z0-9]/i', '_', $variable);
         return GeneralUtility::underscoredToUpperCamelCase($variable);

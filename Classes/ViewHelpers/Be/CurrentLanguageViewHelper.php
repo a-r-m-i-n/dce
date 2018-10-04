@@ -10,8 +10,6 @@ use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 
 /**
  * Gets the current language key as string
- *
- * @package ArminVieweg\Dce
  */
 class CurrentLanguageViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {

@@ -9,8 +9,6 @@ namespace ArminVieweg\Dce\ViewHelpers\Be;
 
 /**
  * Table list view helper
- *
- * @package ArminVieweg\Dce
  */
 class TableListViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\TableListViewHelper
 {
@@ -45,7 +43,7 @@ class TableListViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\TableListViewH
         $alternateBackgroundColors = false
     ) {
 
-        if (!is_object($GLOBALS['SOBE'])) {
+        if (!\is_object($GLOBALS['SOBE'])) {
             $GLOBALS['SOBE'] = new \stdClass();
         }
         $this->getDocInstance();

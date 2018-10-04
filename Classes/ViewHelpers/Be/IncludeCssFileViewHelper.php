@@ -11,8 +11,6 @@ use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 
 /**
  * This view helper adds inline css
- *
- * @package ArminVieweg\Dce
  */
 class IncludeCssFileViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {

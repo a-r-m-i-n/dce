@@ -12,8 +12,6 @@ use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 
 /**
  * This view helper returns a link to module in TYPO3 backend
- *
- * @package ArminVieweg\Dce
  */
 class ModuleLinkViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {

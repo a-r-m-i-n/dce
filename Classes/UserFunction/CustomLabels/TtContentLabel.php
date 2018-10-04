@@ -12,8 +12,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Extends TCA label of fields with variable key
- *
- * @package ArminVieweg\Dce
  */
 class TtContentLabel
 {
@@ -27,7 +25,7 @@ class TtContentLabel
      */
     public function getLabel(&$parameter)
     {
-        if ((is_string($parameter['row']['CType']) || is_array($parameter['row']['CType'])) &&
+        if ((\is_string($parameter['row']['CType']) || \is_array($parameter['row']['CType'])) &&
             $this->isDceContentElement($parameter['row'])
         ) {
             try {
@@ -64,7 +62,7 @@ class TtContentLabel
     protected function isDceContentElement(array $row)
     {
         $cType = $row['CType'];
-        if (is_array($cType)) {
+        if (\is_array($cType)) {
             // For any reason the CType can be an array with one entry
             $cType = reset($cType);
         }

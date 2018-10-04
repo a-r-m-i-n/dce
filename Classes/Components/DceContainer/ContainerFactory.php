@@ -13,8 +13,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 /**
  * ContainerFactory
  * Builds DceContainers, which wrap grouped DCEs
- *
- * @package ArminVieweg\Dce
  */
 class ContainerFactory
 {
@@ -36,12 +34,12 @@ class ContainerFactory
 
         /** @var Container $container */
         $container = GeneralUtility::makeInstance(
-            'ArminVieweg\Dce\Components\DceContainer\Container',
+            \ArminVieweg\Dce\Components\DceContainer\Container::class,
             $dce
         );
 
         $contentElements = static::getContentElementsInContainer($dce);
-        $total = count($contentElements);
+        $total = \count($contentElements);
         foreach ($contentElements as $index => $contentElement) {
             try {
                 /** @var \ArminVieweg\Dce\Domain\Model\Dce $dce */
@@ -63,18 +61,18 @@ class ContainerFactory
             $dceInstance->setContainerIterator(static::createContainerIteratorArray($index, $total));
             $container->addDce($dceInstance);
 
-            if (!in_array($contentElement['uid'], static::$contentElementsToSkip)) {
+            if (!\in_array($contentElement['uid'], static::$contentElementsToSkip)) {
                 static::$contentElementsToSkip[] = $contentElement['uid'];
             }
 
             if (!empty($contentElement['l18n_parent']) &&
-                !in_array($contentElement['l18n_parent'], static::$contentElementsToSkip)
+                !\in_array($contentElement['l18n_parent'], static::$contentElementsToSkip)
             ) {
                 static::$contentElementsToSkip[] = $contentElement['l18n_parent'];
             }
 
             if (!empty($contentElement['_LOCALIZED_UID']) &&
-                !in_array($contentElement['_LOCALIZED_UID'], static::$contentElementsToSkip)
+                !\in_array($contentElement['_LOCALIZED_UID'], static::$contentElementsToSkip)
             ) {
                 static::$contentElementsToSkip[] = $contentElement['_LOCALIZED_UID'];
             }
@@ -88,7 +86,7 @@ class ContainerFactory
      * @param Dce $dce
      * @return array
      */
-    protected static function getContentElementsInContainer(Dce $dce)
+    protected static function getContentElementsInContainer(Dce $dce) : array
     {
         $contentObject = $dce->getContentObject();
         $sortColumn = $GLOBALS['TCA']['tt_content']['ctrl']['sortby'];
@@ -145,12 +143,12 @@ class ContainerFactory
      * @param array|int $contentElement
      * @return bool Returns true when this content element has been rendered already
      */
-    public static function checkContentElementForBeingRendered($contentElement)
+    public static function checkContentElementForBeingRendered($contentElement) : bool
     {
-        if (is_array($contentElement)) {
-            return in_array($contentElement['uid'], static::$contentElementsToSkip);
-        } elseif (is_integer($contentElement)) {
-            return in_array($contentElement, static::$contentElementsToSkip);
+        if (\is_array($contentElement)) {
+            return \in_array($contentElement['uid'], static::$contentElementsToSkip);
+        } elseif (\is_int($contentElement)) {
+            return \in_array($contentElement, static::$contentElementsToSkip);
         }
         return false;
     }
@@ -172,15 +170,15 @@ class ContainerFactory
      * @param array $rawContentElements array with tt_content rows
      * @return array
      */
-    protected static function resolveShortcutElements(array $rawContentElements)
+    protected static function resolveShortcutElements(array $rawContentElements) : array
     {
         $resolvedContentElements = [];
         foreach ($rawContentElements as $rawContentElement) {
             if ($rawContentElement['CType'] === 'shortcut') {
                 // resolve records stored with "table_name:uid"
-                $aLinked = explode(",", $rawContentElement['records']);
+                $aLinked = explode(',', $rawContentElement['records']);
                 foreach ($aLinked as $sLinkedEl) {
-                    $iPos = strrpos($sLinkedEl, "_");
+                    $iPos = strrpos($sLinkedEl, '_');
                     $table = ($iPos !== false) ? substr($sLinkedEl, 0, $iPos) : 'tt_content';
                     $uid = ($iPos !== false) ? substr($sLinkedEl, $iPos + 1) : '0';
 
@@ -209,7 +207,7 @@ class ContainerFactory
      * @param int $total total amount of DCEs in container
      * @return array
      */
-    protected static function createContainerIteratorArray($index, $total)
+    protected static function createContainerIteratorArray(int $index, int $total) : array
     {
         return [
             'isOdd' => $index % 2 === 0,

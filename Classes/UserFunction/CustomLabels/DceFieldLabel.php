@@ -11,8 +11,6 @@ use ArminVieweg\Dce\Utility\LanguageService;
 
 /**
  * Extends TCA label of fields with variable key
- *
- * @package ArminVieweg\Dce
  */
 class DceFieldLabel
 {
@@ -91,7 +89,7 @@ class DceFieldLabel
      */
     protected function isSectionField($parameter)
     {
-        return intval($parameter['row']['type'][0]) === DceField::TYPE_SECTION;
+        return (int) $parameter['row']['type'][0] === DceField::TYPE_SECTION;
     }
 
     /**
@@ -102,7 +100,7 @@ class DceFieldLabel
      */
     protected function isTab($parameter)
     {
-        return intval($parameter['row']['type'][0]) === DceField::TYPE_TAB;
+        return (int) $parameter['row']['type'][0] === DceField::TYPE_TAB;
     }
 
     /**
@@ -116,7 +114,7 @@ class DceFieldLabel
         return \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
             '*',
             'tx_dce_domain_model_dcefield',
-            'uid=' . intval($uid)
+            'uid=' . (int) $uid
         );
     }
 }

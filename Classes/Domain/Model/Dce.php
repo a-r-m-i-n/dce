@@ -12,8 +12,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 /**
  * Model for DCEs. This model contains all necessary informations
  * to render the content element in frontend.
- *
- * @package ArminVieweg\Dce
  */
 class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
@@ -829,10 +827,10 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     /**
      * Checks attached fields for given variable and returns the single field if found.
-     * If not found, returns NULL.
+     * If not found, returns null.
      *
      * @param string $variable
-     * @return null|DceField
+     * @return DceField|null
      */
     public function getFieldByVariable($variable)
     {
@@ -952,7 +950,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
                 /** @var $sectionField \ArminVieweg\Dce\Domain\Model\DceField */
                 foreach ($field->getSectionFields() as $sectionField) {
                     $sectionFieldValues = $sectionField->getValue();
-                    if (is_array($sectionFieldValues)) {
+                    if (\is_array($sectionFieldValues)) {
                         foreach ($sectionFieldValues as $i => $value) {
                             $fields[$field->getVariable()][$i][$sectionField->getVariable()] = $value;
                         }
@@ -1012,7 +1010,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function __call($name, array $arguments)
     {
-        if (substr($name, 0, 3) === 'get' && strlen($name) > 3) {
+        if (substr($name, 0, 3) === 'get' && \strlen($name) > 3) {
             $variable = lcfirst(substr($name, 3));
             if (method_exists($this, $variable)) {
                 return $this->$variable();
@@ -1055,7 +1053,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $typeGetter = 'get' . ucfirst(GeneralUtility::underscoredToLowerCamelCase($templateFields['type']));
 
         /** @var $fluidTemplate \TYPO3\CMS\Fluid\View\StandaloneView */
-        $fluidTemplate = GeneralUtility::makeInstance('TYPO3\CMS\Fluid\View\StandaloneView');
+        $fluidTemplate = GeneralUtility::makeInstance(\TYPO3\CMS\Fluid\View\StandaloneView::class);
         if ($this->$typeGetter() === 'inline') {
             $inlineTemplateGetter = 'get' . ucfirst(
                 GeneralUtility::underscoredToLowerCamelCase($templateFields['inline'])
@@ -1098,7 +1096,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Get content element rows based on this DCE
      *
-     * @return array|NULL
+     * @return array|null
      */
     public function getRelatedContentElementRows()
     {

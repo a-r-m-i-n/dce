@@ -12,8 +12,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Codemirror text area field
- *
- * @package ArminVieweg\Dce
  */
 class CodemirrorField
 {

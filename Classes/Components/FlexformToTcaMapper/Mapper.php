@@ -11,8 +11,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 /**
  * Class FlexformToTcaMapper
  * Get SQL for DCE fields which extend tt_content table.
- *
- * @package ArminVieweg\Dce
  */
 class Mapper
 {
@@ -104,6 +102,7 @@ class Mapper
      * @param array $row
      * @param string $piFlexform
      * @return void
+     * @throws \TYPO3\CMS\Core\Exception
      */
     public static function saveFlexformValuesToTca(array $row, $piFlexform)
     {
@@ -113,12 +112,12 @@ class Mapper
             'tx_dce_domain_model_dcefield',
             'parent_dce=' . $dceUid . ' AND map_to!="" AND deleted=0'
         );
-        if (count($dceFieldsWithMapping) === 0 || !isset($piFlexform) || empty($piFlexform)) {
+        if (\count($dceFieldsWithMapping) === 0 || !isset($piFlexform) || empty($piFlexform)) {
             return;
         }
 
         $flexFormArray = GeneralUtility::xml2array($piFlexform);
-        if (!is_array($flexFormArray)) {
+        if (!\is_array($flexFormArray)) {
             return;
         }
 

@@ -12,8 +12,6 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * Hook for DocHeaderButtons
- *
- * @package ArminVieweg\Dce
  */
 class DocHeaderButtonsHook
 {
@@ -32,7 +30,7 @@ class DocHeaderButtonsHook
         $contentUid = $this->getContentUid();
         if ($contentUid !== null) {
             /** @var \TYPO3\CMS\Core\Imaging\IconFactory $iconFactory */
-            $iconFactory = GeneralUtility::makeInstance('TYPO3\CMS\Core\Imaging\IconFactory');
+            $iconFactory = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconFactory::class);
             $button = $buttonBar->makeLinkButton();
             $button->setIcon($iconFactory->getIcon('ext-dce-dce', Icon::SIZE_SMALL));
             $button->setTitle(LocalizationUtility::translate('editDceOfThisContentElement', 'dce'));
@@ -77,7 +75,7 @@ class DocHeaderButtonsHook
         $contentUid = $this->getContentUid();
         if ($contentUid !== null && $GLOBALS['BE_USER']->isAdmin()) {
             /** @var $tceMain \TYPO3\CMS\Core\DataHandling\DataHandler */
-            $tceMain = GeneralUtility::makeInstance('TYPO3\CMS\Core\DataHandling\DataHandler');
+            $tceMain = GeneralUtility::makeInstance(\TYPO3\CMS\Core\DataHandling\DataHandler::class);
             $contentRecord = $tceMain->recordInfo('tt_content', $contentUid, 'CType');
             $cType = current($contentRecord);
             $dceUid = \ArminVieweg\Dce\Domain\Repository\DceRepository::extractUidFromCtype($cType);
@@ -89,12 +87,12 @@ class DocHeaderButtonsHook
     /**
      * Returns the get parameters, related to currently edited tt_content element
      *
-     * @return null|array
+     * @return array|null
      */
     protected function getEditGetParameters()
     {
         $editGetParam = GeneralUtility::_GP('edit');
-        return isset($editGetParam['tt_content']) ? $editGetParam['tt_content'] : null;
+        return $editGetParam['tt_content'] ?? null;
     }
 
     /**
@@ -105,7 +103,7 @@ class DocHeaderButtonsHook
     protected function getContentUid()
     {
         $editGetParameters = $this->getEditGetParameters();
-        if (!is_array($editGetParameters) || empty($editGetParameters)) {
+        if (!\is_array($editGetParameters) || empty($editGetParameters)) {
             return null;
         }
 
@@ -125,7 +123,7 @@ class DocHeaderButtonsHook
     protected function getDceUid($contentUid)
     {
         /** @var $tceMain \TYPO3\CMS\Core\DataHandling\DataHandler */
-        $tceMain = GeneralUtility::makeInstance('TYPO3\CMS\Core\DataHandling\DataHandler');
+        $tceMain = GeneralUtility::makeInstance(\TYPO3\CMS\Core\DataHandling\DataHandler::class);
         $contentRecord = $tceMain->recordInfo('tt_content', $contentUid, 'CType');
         $cType = current($contentRecord);
         return \ArminVieweg\Dce\Domain\Repository\DceRepository::extractUidFromCtype($cType);

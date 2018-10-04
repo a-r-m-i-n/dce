@@ -19,8 +19,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  *
  * This update checks if such fields exist and correct them in tt_content's pi_flexform column and in DceFields.
  * It does not correct the fluid templates for you!
- *
- * @package ArminVieweg\Dce
  */
 class FixMalformedDceFieldVariableNamesUpdate extends AbstractUpdate
 {
@@ -39,13 +37,13 @@ class FixMalformedDceFieldVariableNamesUpdate extends AbstractUpdate
     {
         $malformedDceFields = $this->getDceFieldsWithMalformedVariableNames();
 
-        $description .= 'Found <b>' . count($malformedDceFields) . ' malformed DceFields</b>! This update does not ' .
+        $description .= 'Found <b>' . \count($malformedDceFields) . ' malformed DceFields</b>! This update does not ' .
             'update malformed variable names in fluid templates! But it updates the DceField record and all ' .
             'tt_content records based on this DCE.<br>' .
             'Caution! Please make sure that you\'ve migrated the mm-relation of dce fields to 1:n ' .
             'before executing this update wizard.<br><br>';
 
-        return count($malformedDceFields) > 0;
+        return \count($malformedDceFields) > 0;
     }
 
     /**
@@ -157,7 +155,7 @@ class FixMalformedDceFieldVariableNamesUpdate extends AbstractUpdate
     {
         /** @var LowerCamelCaseValidator $lowerCamelCaseValidator */
         $lowerCamelCaseValidator = GeneralUtility::makeInstance(
-            'ArminVieweg\Dce\UserFunction\CustomFieldValidation\LowerCamelCaseValidator'
+            LowerCamelCaseValidator::class
         );
         return $lowerCamelCaseValidator;
     }
@@ -171,7 +169,7 @@ class FixMalformedDceFieldVariableNamesUpdate extends AbstractUpdate
     {
         /** @var NoLeadingNumberValidator $noLeadingNumberValidator */
         $noLeadingNumberValidator = GeneralUtility::makeInstance(
-            'ArminVieweg\Dce\UserFunction\CustomFieldValidation\NoLeadingNumberValidator'
+            NoLeadingNumberValidator::class
         );
         return $noLeadingNumberValidator;
     }
@@ -207,7 +205,7 @@ class FixMalformedDceFieldVariableNamesUpdate extends AbstractUpdate
         foreach ($array as $key => $value) {
             // Ensure there is no trailling dot:
             $key = rtrim($key, '.');
-            if (!is_array($value)) {
+            if (!\is_array($value)) {
                 $flatArray[$prefix . $key] = $value;
             } else {
                 $flatArray = array_merge(

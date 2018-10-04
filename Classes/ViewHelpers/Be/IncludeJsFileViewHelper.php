@@ -11,8 +11,6 @@ use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 
 /**
  * This view helper adds inline javascript
- *
- * @package ArminVieweg\Dce
  */
 class IncludeJsFileViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {

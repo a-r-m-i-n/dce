@@ -15,8 +15,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Simple backend view utility
- *
- * @package ArminVieweg\Dce
  */
 class SimpleBackendView
 {
@@ -32,7 +30,7 @@ class SimpleBackendView
      * @param bool $textOnly When true the return value is not wrapped by <strong>-tags
      * @return string
      */
-    public function getHeaderContent(Dce $dce, $textOnly = false)
+    public function getHeaderContent(Dce $dce, $textOnly = false) : string
     {
         /** @var \TYPO3\CMS\Lang\LanguageService $lang */
         $lang = $GLOBALS['LANG'];
@@ -63,8 +61,9 @@ class SimpleBackendView
      * @param Dce $dce
      * @param array $row Content element row
      * @return string
+     * @throws \TYPO3\CMS\Core\Resource\Exception\ResourceDoesNotExistException
      */
-    public function getBodytextContent(Dce $dce, array $row)
+    public function getBodytextContent(Dce $dce, array $row) : string
     {
         $fields = [];
         foreach ($dce->getBackendViewBodytextArray() as $fieldIdentifier) {
@@ -72,7 +71,7 @@ class SimpleBackendView
                 $fields[] = $fieldIdentifier;
             } else {
                 $dceField = $dce->getFieldByVariable($fieldIdentifier);
-                if (!is_null($dceField)) {
+                if ($dceField !== null) {
                     $fields[] = $dceField;
                 }
             }
@@ -106,10 +105,10 @@ class SimpleBackendView
      * @param DceField $field
      * @return string Cropped field label
      */
-    protected function getFieldLabel(DceField $field)
+    protected function getFieldLabel(DceField $field) : string
     {
         /** @var \TYPO3\CMS\Core\Charset\CharsetConverter $charsetConverter */
-        $charsetConverter = GeneralUtility::makeInstance('TYPO3\CMS\Core\Charset\CharsetConverter');
+        $charsetConverter = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Charset\CharsetConverter::class);
         return $charsetConverter->crop(
             'utf-8',
             \ArminVieweg\Dce\Utility\LanguageService::sL($field->getTitle()),
@@ -124,15 +123,16 @@ class SimpleBackendView
      * @param DceField $field
      * @param array $row Content element row
      * @return string Rendered DceField value for simple backend view
+     * @throws \TYPO3\CMS\Core\Resource\Exception\ResourceDoesNotExistException
      */
-    protected function renderDceFieldValue(DceField $field, array $row)
+    protected function renderDceFieldValue(DceField $field, array $row) : string
     {
         if ($field->isSection()) {
             $sectionRowAmount = 0;
             foreach ($field->getSectionFields() as $sectionField) {
                 $sectionFieldValue = $sectionField->getValue();
-                if (is_array($sectionFieldValue)) {
-                    $sectionRowAmount = count($sectionFieldValue);
+                if (\is_array($sectionFieldValue)) {
+                    $sectionRowAmount = \count($sectionFieldValue);
                 }
             }
             if ($sectionRowAmount === 1) {
@@ -147,13 +147,13 @@ class SimpleBackendView
             return $this->getFalMediaPreview($field, $row);
         }
 
-        if (is_array($field->getValue()) || $field->getValue() instanceof \Countable) {
-            if (count($field->getValue()) === 1) {
+        if (\is_array($field->getValue()) || $field->getValue() instanceof \Countable) {
+            if (\count($field->getValue()) === 1) {
                 $label = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('entry', 'dce');
             } else {
                 $label = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('entries', 'dce');
             }
-            return count($field->getValue()) . ' ' . $label;
+            return \count($field->getValue()) . ' ' . $label;
         }
 
         return $field->getValue();
@@ -165,8 +165,9 @@ class SimpleBackendView
      * @param DceField $field
      * @param array $row
      * @return string
+     * @throws \TYPO3\CMS\Core\Resource\Exception\ResourceDoesNotExistException
      */
-    protected function getFalMediaPreview(DceField $field, array $row)
+    protected function getFalMediaPreview(DceField $field, array $row) : string
     {
         $database = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection();
         $fieldConfiguration = $field->getConfigurationAsArray();
