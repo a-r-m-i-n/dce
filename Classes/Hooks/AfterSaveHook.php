@@ -6,6 +6,7 @@ namespace ArminVieweg\Dce\Hooks;
  *  |
  *  | (c) 2012-2018 Armin Vieweg <armin@v.ieweg.de>
  */
+use ArminVieweg\Dce\Domain\Repository\DceRepository;
 use ArminVieweg\Dce\Utility\DatabaseUtility;
 use ArminVieweg\Dce\Utility\FlashMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -88,7 +89,10 @@ class AfterSaveHook
         if ($table === 'tt_content' && $this->isDceContentElement($pObj)) {
             $this->checkAndUpdateDceRelationField();
             \ArminVieweg\Dce\Components\FlexformToTcaMapper\Mapper::saveFlexformValuesToTca(
-                ['CType' => 'dce_dceuid' . $this->getDceUid($pObj)],
+                [
+                    'uid' => $this->uid,
+                    'CType' => 'dce_dceuid' . $this->getDceUid($pObj)
+                ],
                 $this->fieldArray['pi_flexform']
             );
         }
@@ -211,7 +215,8 @@ class AfterSaveHook
         $datamap = $pObj->datamap;
         $datamap = reset($datamap);
         $datamap = reset($datamap);
-        return (int) $datamap['tx_dce_dce'];
+
+        return DceRepository::extractUidFromCtype($datamap['CType']);
     }
 
     /**
@@ -250,7 +255,7 @@ class AfterSaveHook
         $row = $this->dataHandler->recordInfo('tt_content', $this->uid, 'CType,tx_dce_dce');
         if (empty($row['tx_dce_dce'])) {
             $this->dataHandler->updateDB('tt_content', $this->uid, [
-                'tx_dce_dce' => \ArminVieweg\Dce\Domain\Repository\DceRepository::extractUidFromCtype($row['CType'])
+                'tx_dce_dce' => DceRepository::extractUidFromCtype($row['CType'])
             ]);
         }
     }
