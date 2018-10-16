@@ -34,13 +34,11 @@ class TablesDefinitionIsBeingBuiltSlot
      * @return bool
      * @throws \Doctrine\DBAL\DBALException
      */
-    protected function checkRequiredFieldsExisting()
+    protected function checkRequiredFieldsExisting() : bool
     {
         $dbFields = DatabaseUtility::getDatabaseConnection()->admin_get_fields('tx_dce_domain_model_dcefield');
-        $dbFieldNames = array_keys($dbFields);
-
-        return \in_array('map_to', $dbFieldNames, true) &&
-               \in_array('new_tca_field_name', $dbFieldNames, true) &&
-               \in_array('new_tca_field_type', $dbFieldNames, true);
+        return \array_key_exists('map_to', $dbFields) &&
+               \array_key_exists('new_tca_field_name', $dbFields) &&
+               \array_key_exists('new_tca_field_type', $dbFields);
     }
 }
