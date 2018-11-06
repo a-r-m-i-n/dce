@@ -419,8 +419,8 @@ $dceTca = [
             'label' => $ll . 'tx_dce_domain_model_dce.layoutRootPath',
             'config' => [
                 'type' => 'input',
-                'eval' => 'trim,required',
-                'default' => 'EXT:dce/Resources/Private/Layouts/',
+                'eval' => 'trim',
+                'default' => '',
             ],
         ],
         'template_partial_root_path' => [
@@ -428,8 +428,8 @@ $dceTca = [
             'label' => $ll . 'tx_dce_domain_model_dce.partialRootPath',
             'config' => [
                 'type' => 'input',
-                'eval' => 'trim,required',
-                'default' => 'EXT:dce/Resources/Private/Partials/',
+                'eval' => 'trim',
+                'default' => '',
             ],
         ],
         'enable_detailpage' => [

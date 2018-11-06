@@ -34,8 +34,8 @@ CREATE TABLE tx_dce_domain_model_dce (
 	backend_template_content text,
 	backend_template_file varchar(255) DEFAULT '' NOT NULL,
 
-	template_layout_root_path varchar(255) DEFAULT 'EXT:dce/Resources/Private/Layouts/' NOT NULL,
-	template_partial_root_path varchar(255) DEFAULT 'EXT:dce/Resources/Private/Partials/' NOT NULL,
+	template_layout_root_path varchar(255) DEFAULT '' NOT NULL,
+	template_partial_root_path varchar(255) DEFAULT '' NOT NULL,
 	palette_fields text,
 
 	enable_detailpage tinyint(4) unsigned DEFAULT '0' NOT NULL,

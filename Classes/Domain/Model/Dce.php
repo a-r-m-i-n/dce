@@ -1078,8 +1078,19 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
             }
         }
 
-        $fluidTemplate->setLayoutRootPaths([File::get($this->getTemplateLayoutRootPath())]);
-        $fluidTemplate->setPartialRootPaths([File::get($this->getTemplatePartialRootPath())]);
+        // Set layout root paths
+        $layoutRootPaths = ['EXT:dce/Resources/Private/Layouts/'];
+        if (!empty($this->getTemplateLayoutRootPath())) {
+            $layoutRootPaths[] = File::get($this->getTemplateLayoutRootPath());
+        }
+        $fluidTemplate->setLayoutRootPaths($layoutRootPaths);
+
+        // Set partial root paths
+        $partialRootPaths = ['EXT:dce/Resources/Private/Partials/'];
+        if (!empty($this->getTemplatePartialRootPath())) {
+            $partialRootPaths[] = File::get($this->getTemplatePartialRootPath());
+        }
+        $fluidTemplate->setPartialRootPaths($partialRootPaths);
 
         if ($templateType !== self::TEMPLATE_FIELD_CONTAINER) {
             $fluidTemplate->assign('dce', $this);
