@@ -21,22 +21,19 @@ class ContainerFactory
      *
      * @var array
      */
-    protected static $contentElementsToSkip = [];
+    protected static $toSkip = [];
 
     /**
      * @param Dce $dce
      * @return Container
      */
-    public static function makeContainer(Dce $dce)
+    public static function makeContainer(Dce $dce) : Container
     {
         $contentObject = $dce->getContentObject();
-        static::$contentElementsToSkip[] = $contentObject['uid'];
+        static::$toSkip[$contentObject['uid']][] = $contentObject['uid'];
 
         /** @var Container $container */
-        $container = GeneralUtility::makeInstance(
-            \ArminVieweg\Dce\Components\DceContainer\Container::class,
-            $dce
-        );
+        $container = GeneralUtility::makeInstance(Container::class, $dce);
 
         $contentElements = static::getContentElementsInContainer($dce);
         $total = \count($contentElements);
@@ -61,20 +58,20 @@ class ContainerFactory
             $dceInstance->setContainerIterator(static::createContainerIteratorArray($index, $total));
             $container->addDce($dceInstance);
 
-            if (!\in_array($contentElement['uid'], static::$contentElementsToSkip)) {
-                static::$contentElementsToSkip[] = $contentElement['uid'];
+            if (!\in_array($contentElement['uid'], static::$toSkip[$contentObject['uid']])) {
+                static::$toSkip[$contentObject['uid']][] = $contentElement['uid'];
             }
 
             if (!empty($contentElement['l18n_parent']) &&
-                !\in_array($contentElement['l18n_parent'], static::$contentElementsToSkip)
+                !\in_array($contentElement['l18n_parent'], static::$toSkip[$contentObject['uid']])
             ) {
-                static::$contentElementsToSkip[] = $contentElement['l18n_parent'];
+                static::$toSkip[$contentObject['uid']][] = $contentElement['l18n_parent'];
             }
 
             if (!empty($contentElement['_LOCALIZED_UID']) &&
-                !\in_array($contentElement['_LOCALIZED_UID'], static::$contentElementsToSkip)
+                !\in_array($contentElement['_LOCALIZED_UID'], static::$toSkip[$contentObject['uid']])
             ) {
-                static::$contentElementsToSkip[] = $contentElement['_LOCALIZED_UID'];
+                static::$toSkip[$contentObject['uid']][] = $contentElement['_LOCALIZED_UID'];
             }
         }
         return $container;
@@ -126,9 +123,10 @@ class ContainerFactory
 
         $contentElementsInContainer = [];
         foreach ($resolvedContentElements as $rawContentElement) {
-            if ($rawContentElement['CType'] !== 'dce_dceuid' . $dce->getUid() ||
-                ($contentObject['uid'] !== $rawContentElement['uid'] &&
-                    $rawContentElement['tx_dce_new_container'] === 1)
+            if (($contentObject['uid'] !== $rawContentElement['uid'] &&
+                 $rawContentElement['tx_dce_new_container'] === 1
+                )
+                || $rawContentElement['CType'] !== 'dce_dceuid' . $dce->getUid()
             ) {
                 return $contentElementsInContainer;
             }
@@ -145,10 +143,15 @@ class ContainerFactory
      */
     public static function checkContentElementForBeingRendered($contentElement) : bool
     {
+        $flattenContentElementsToSkip = iterator_to_array(
+            new \RecursiveIteratorIterator(new \RecursiveArrayIterator(static::$toSkip)),
+            false
+        );
         if (\is_array($contentElement)) {
-            return \in_array($contentElement['uid'], static::$contentElementsToSkip);
-        } elseif (\is_int($contentElement)) {
-            return \in_array($contentElement, static::$contentElementsToSkip);
+            return \in_array($contentElement['uid'], $flattenContentElementsToSkip);
+        }
+        if (\is_int($contentElement)) {
+            return \in_array($contentElement, $flattenContentElementsToSkip);
         }
         return false;
     }
@@ -157,11 +160,33 @@ class ContainerFactory
      * Clears the content elements to skip. This might be necessary if one page
      * should render the same content element twice (using reference e.g.).
      *
+     * @param int|array|null $contentElement
      * @return void
      */
-    public static function clearContentElementsToSkip()
+    public static function clearContentElementsToSkip($contentElement = null)
     {
-        static::$contentElementsToSkip = [];
+        if ($contentElement === null) {
+            static::$toSkip = [];
+        } else {
+            $groupContentElementsIndex = null;
+            foreach (static::$toSkip as $parentIndex => $groupedContentElementsToSkip) {
+                if (\is_array($contentElement)) {
+                    if (\end($groupedContentElementsToSkip) === $contentElement['uid']) {
+                        $groupContentElementsIndex = $parentIndex;
+                        break;
+                    }
+                } elseif (\is_int($contentElement)) {
+                    if (\end($groupedContentElementsToSkip) === $contentElement) {
+                        $groupContentElementsIndex = $parentIndex;
+                        break;
+                    }
+                }
+                reset($groupedContentElementsToSkip);
+            }
+            if ($groupContentElementsIndex !== null) {
+                unset(static::$toSkip[$groupContentElementsIndex]);
+            }
+        }
     }
 
     /**
