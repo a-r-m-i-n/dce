@@ -110,6 +110,31 @@ $boot = function ($extensionKey) {
             'beforeAnalyzeRecord'
         );
     }
+
+    // Register PageTS defaults
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('tx_dce.defaults {
+        simpleBackendView {
+            titleCropLength = 10
+            titleCropAppendix = ...
+
+            imageWidth = 50c
+            imageHeight = 50c
+
+            containerGroupColors {
+                10 = #0079BF
+                11 = #D29034
+                12 = #519839
+                13 = #B04632
+                14 = #838C91
+                15 = #CD5A91
+                16 = #4BBF6B
+                17 = #89609E
+                18 = #00AECC
+                19 = #ED2448
+                20 = #FF8700
+            }
+        }
+    }');
 };
 
 $boot($_EXTKEY);
