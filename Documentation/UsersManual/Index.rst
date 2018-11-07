@@ -324,19 +324,11 @@ Returns url of current page. Available options are: *showHost* (Default: ```1```
 
 **dce:typolink**
 
-This view helper handles parameter strings using typolink function of TYPO3. It creates the whole <a>-tag. Works perfectly with typolink wizard for input fields. Available option is: *parameter*. Example:
-::
-
-	<dce:typolink parameter="{field.url}">This is the link text</dce:typolink>
-
-Since DCE 1.1 it also supports the attributes: class, title and target. They overwrite the value set in parameter.
+This view helper is gone. Please use **f:link.typolink** instead.
 
 **dce:typolinkUrl**
 
-Same like *dce:typolink*. Returns just the URL (no <a>-tag). Example:
-::
-
-	{dce:typolinkUrl(parameter:'{field.url}')}
+Also not existing anymore. Please use **f:uri.typolink** instead.
 
 
 Wizard
