@@ -252,7 +252,7 @@ class Injector
             return [];
         }
 
-        $res = $databaseConnection->exec_SELECTgetRows(
+        $dceModelRows = $databaseConnection->exec_SELECTgetRows(
             '*',
             'tx_dce_domain_model_dce',
             'deleted=0 AND pid=0',
@@ -260,16 +260,40 @@ class Injector
             'sorting asc'
         );
 
-        $dces = [];
-        foreach ($res as $row) {
-            $res2 = $databaseConnection->exec_SELECTgetRows(
-                '*',
-                'tx_dce_domain_model_dcefield',
-                'parent_dce = ' . $row['uid'] . ' AND deleted=0 AND hidden=0',
-                '',
-                'sorting asc'
-            );
+        $dceFieldRows = $databaseConnection->exec_SELECTgetRows(
+            'tx_dce_domain_model_dcefield.*',
+            'tx_dce_domain_model_dcefield, tx_dce_domain_model_dce',
+            'tx_dce_domain_model_dcefield.deleted=0 AND tx_dce_domain_model_dcefield.pid=0 AND ' .
+                'tx_dce_domain_model_dce.deleted=0 AND tx_dce_domain_model_dce.pid=0 AND ' .
+                'tx_dce_domain_model_dce.uid=tx_dce_domain_model_dcefield.parent_dce',
+            '',
+            'tx_dce_domain_model_dce.sorting asc, tx_dce_domain_model_dcefield.sorting asc'
+        );
+        $dceFieldRowsByParentDce = [];
+        foreach ($dceFieldRows as $dceFieldRow) {
+            if (!isset($dceFieldRowsByParentDce[$dceFieldRow['parent_dce']])) {
+                $dceFieldRowsByParentDce[$dceFieldRow['parent_dce']] = [];
+            }
+            $dceFieldRowsByParentDce[$dceFieldRow['parent_dce']][] = $dceFieldRow;
+        }
 
+        $dceFieldRowsSortedByParentFields = $databaseConnection->exec_SELECTgetRows(
+            'tx_dce_domain_model_dcefield.*',
+            'tx_dce_domain_model_dcefield',
+            'tx_dce_domain_model_dcefield.deleted=0 AND tx_dce_domain_model_dcefield.hidden=0 AND parent_field > 0',
+            '',
+            'tx_dce_domain_model_dcefield.parent_field asc, tx_dce_domain_model_dcefield.sorting asc'
+        );
+        $dceFieldRowsByParentDceField = [];
+        foreach ($dceFieldRowsSortedByParentFields as $dceFieldRow) {
+            if (!isset($dceFieldRowsByParentDceField[$dceFieldRow['parent_field']])) {
+                $dceFieldRowsByParentDceField[$dceFieldRow['parent_field']] = [];
+            }
+            $dceFieldRowsByParentDceField[$dceFieldRow['parent_field']][] = $dceFieldRow;
+        }
+
+        $dces = [];
+        foreach ($dceModelRows as $row) {
             $tabs = [
                 0 => [
                 'title' => 'LLL:EXT:dce/Resources/Private/Language/locallang.xml:generaltab',
@@ -278,7 +302,7 @@ class Injector
                 ]
             ];
             $index = 0;
-            foreach ($res2 as $row2) {
+            foreach ((array) $dceFieldRowsByParentDce[$row['uid']] as $row2) {
                 if ($row2['type'] === '1') {
                     // Create new Tab
                     $index++;
@@ -287,17 +311,11 @@ class Injector
                     $tabs[$index]['variable'] = $row2['variable'];
                     $tabs[$index]['fields'] = [];
                     continue;
-                } elseif ($row2['type'] === '2') {
-                    $res3 = $databaseConnection->exec_SELECTgetRows(
-                        '*',
-                        'tx_dce_domain_model_dcefield',
-                        'parent_field = ' . $row2['uid'] . ' AND deleted=0 AND hidden=0',
-                        '',
-                        'sorting asc'
-                    );
+                }
 
+                if ($row2['type'] === '2') {
                     $sectionFields = [];
-                    foreach ($res3 as $row3) {
+                    foreach ((array) $dceFieldRowsByParentDceField[$row2['uid']] as $row3) {
                         if ($row3['type'] === '0') {
                             // add fields of section to fields
                             $sectionFields[] = $row3;
@@ -315,7 +333,7 @@ class Injector
             }
 
             $row['tabs'] = $tabs;
-            $row['hasCustomWizardIcon'] = ($row['wizard_icon'] === 'custom') ? true : false;
+            $row['hasCustomWizardIcon'] = $row['wizard_icon'] === 'custom';
             $dces[] = $row;
         }
 
