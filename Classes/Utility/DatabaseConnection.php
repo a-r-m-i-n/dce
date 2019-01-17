@@ -149,13 +149,13 @@ class DatabaseConnection implements \TYPO3\CMS\Core\SingletonInterface
         }
 
         if ($orderBy) {
-            $splitted = GeneralUtility::trimExplode(' ', $orderBy, true);
-            $sortBy = $splitted[0];
-            $direction = 'asc';
-            if (isset($splitted[1])) {
-                $direction = $splitted[1];
+            $orderByStatements = GeneralUtility::trimExplode(',', $orderBy, true);
+            foreach ($orderByStatements as $orderByStatement) {
+                $splitted = GeneralUtility::trimExplode(' ', $orderByStatement, true);
+                $sortBy = $splitted[0];
+                $direction = $splitted[1] ?? 'asc';
+                $query->addOrderBy($sortBy, $direction);
             }
-            $query->orderBy($sortBy, $direction);
         }
 
         if ($limit) {
