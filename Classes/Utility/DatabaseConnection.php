@@ -56,12 +56,7 @@ class DatabaseConnection implements \TYPO3\CMS\Core\SingletonInterface
      */
     protected function getQueryBuilderForTable(string $table) : QueryBuilder
     {
-        if (!array_key_exists($table, $this->queryBuilderStorage)) {
-            $this->queryBuilderStorage[$table] = $this->connectionPool->getQueryBuilderForTable($table);
-            $this->queryBuilderStorage[$table]->getRestrictions()->removeAll();
-        }
-        $this->lastUsedQueryBuilder = $this->queryBuilderStorage[$table];
-        return $this->queryBuilderStorage[$table];
+        return clone $this->connectionPool->getQueryBuilderForTable($table);
     }
 
     /**
@@ -71,8 +66,8 @@ class DatabaseConnection implements \TYPO3\CMS\Core\SingletonInterface
     public function admin_get_tables() : array
     {
         if (empty($this->tableNames)) {
-            $connectioNames = $this->connectionPool->getConnectionNames();
-            $connection = $this->connectionPool->getConnectionByName(reset($connectioNames));
+            $connectionNames = $this->connectionPool->getConnectionNames();
+            $connection = $this->connectionPool->getConnectionByName(reset($connectionNames));
             $this->tableNames = $connection->getSchemaManager()->listTableNames();
         }
         return $this->tableNames;
