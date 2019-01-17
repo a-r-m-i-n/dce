@@ -23,5 +23,8 @@
     "replace": {
         "dce": "*",
         "typo3-ter/dce": "*"
+    },
+    "scripts": {
+        "phpcs": "phpcs --standard=psr2 --extensions=php ."
     }
 }

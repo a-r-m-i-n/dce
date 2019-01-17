@@ -31,17 +31,17 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @var array Cache for fluid instances
      */
-    static protected $fluidTemplateCache = [];
+    protected static $fluidTemplateCache = [];
 
     /**
      * @var array Cache for DceFields
      */
-    static protected $fieldsCache = [];
+    protected static $fieldsCache = [];
 
     /**
      * @var array Cache for content element rows
      */
-    static protected $contentElementRowsCache = [];
+    protected static $contentElementRowsCache = [];
 
     /**
      * @var array Database field names of columns for different types of templates

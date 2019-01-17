@@ -17,7 +17,7 @@ class FlashMessage
     /**
      * @var \TYPO3\CMS\Core\Messaging\FlashMessageQueue
      */
-    static protected $flashMessageQueue;
+    protected static $flashMessageQueue;
 
     /**
      * @param string $message

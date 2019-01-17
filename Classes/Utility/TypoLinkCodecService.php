@@ -26,14 +26,14 @@ class TypoLinkCodecService
      *
      * @var string
      */
-    static protected $partDelimiter = ' ';
+    protected static $partDelimiter = ' ';
 
     /**
      * Symbol for TypoLink parts not specified
      *
      * @var string
      */
-    static protected $emptyValueSymbol = '-';
+    protected static $emptyValueSymbol = '-';
 
     /**
      * Encode TypoLink parts to a single string
