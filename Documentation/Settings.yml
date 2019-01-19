@@ -5,7 +5,7 @@
 
 ---
 conf.py:
-  copyright: 2012-2018
+  copyright: 2012-2019
   project: Dynamic Content Elements (DCE)
   version: 1.6
   release: 1.6.0

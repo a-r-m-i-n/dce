@@ -4,7 +4,7 @@ namespace ArminVieweg\Dce\Hooks;
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2016-2018 Armin Vieweg <armin@v.ieweg.de>
+ *  | (c) 2016-2019 Armin Vieweg <armin@v.ieweg.de>
  */
 use ArminVieweg\Dce\Utility\DatabaseUtility;
 
