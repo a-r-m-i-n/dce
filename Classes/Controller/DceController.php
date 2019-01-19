@@ -77,7 +77,6 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
                 if ((int) $contentObject['uid'] === $detailUid) {
                     return $dce->renderDetailpage();
                 }
-                return '<!--render detail-->'; //output needed for content slide
             }
         }
         if ($dce->getEnableContainer()) {
