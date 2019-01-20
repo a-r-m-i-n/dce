@@ -79,6 +79,7 @@
 			<label index="tx_dce_domain_model_dce.paletteFields">DCE palette fields</label>
 			<label index="tx_dce_domain_model_dce.flexformLabel">Flexform label</label>
 			<label index="tx_dce_domain_model_dce.flexformLabel.default">Contents:</label>
+			<label index="tx_dce_domain_model_dce.directOutput">Direct output (bypass lib.contentElement):</label>
 
 			<label index="tx_dce_domain_model_dce.useSimpleBackendView">Use simple backend view</label>
 			<label index="tx_dce_domain_model_dce.backendViewHeader">Header field (which field value should be used as header)</label>

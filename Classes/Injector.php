@@ -139,6 +139,21 @@ class Injector
                 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
             );
 
+            if ($dce['direct_output']) {
+                $dceUid = $dce['uid'];
+                \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
+                    'dce',
+                    'setup',
+                    <<<TYPOSCRIPT
+lib.dceContentElement < tt_content.dce_dceuid$dceUid.20
+tt_content.dce_dceuid$dceUid >
+tt_content.dce_dceuid$dceUid < lib.dceContentElement
+TYPOSCRIPT
+                    ,
+                    43
+                );
+            }
+
             \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
                 'dce',
                 'setup',

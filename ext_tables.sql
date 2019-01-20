@@ -24,6 +24,7 @@ CREATE TABLE tx_dce_domain_model_dce (
 	show_category_tab varchar(255) DEFAULT '' NOT NULL,
 	hide_default_ce_wrap varchar(255) DEFAULT '' NOT NULL,
 	flexform_label varchar(255) DEFAULT 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.flexformLabel.default' NOT NULL,
+	direct_output varchar(255) DEFAULT '1' NOT NULL,
 
 	use_simple_backend_view tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	backend_view_header varchar(255) DEFAULT '*dcetitle' NOT NULL,
