@@ -862,11 +862,18 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     /**
      * Renders the default DCE output
+     * or the detail page output, if enabled and configured GET param is given
      *
-     * @return string rendered output
+     * @return string The rendered output
      */
-    public function render()
+    public function render() : string
     {
+        if ($this->getEnableDetailpage()) {
+            $detailUid = (int) GeneralUtility::_GP($this->getDetailpageIdentifier());
+            if ($detailUid && (int) $this->getContentObject()['uid'] === $detailUid) {
+                return $this->renderDetailpage();
+            }
+        }
         return $this->renderFluidTemplate();
     }
 
@@ -1089,7 +1096,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
             );
         }
 
-        self::$fluidTemplateCache[$this->getUid()][$templateType] = $fluidTemplate;
+        self::$fluidTemplateCache[$cacheKey][$templateType] = $fluidTemplate;
         return $fluidTemplate;
     }
 
