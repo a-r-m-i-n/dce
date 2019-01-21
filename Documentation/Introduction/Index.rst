@@ -9,81 +9,101 @@
 What does it do?
 ================
 
-With this extension you can easily create dynamic content elements. It is an alternative to flexible content elements (FCE) but without the need of TemplaVoila (TV). In close collaboration with fluid it is possible to create complex things quite easily.
+With this extension you can easily create new dynamic content elements.
+
+In opposite to native content elements (fluid_styled_content), DCEs are based on FlexForms.
+FlexForms allows you to define dynamic content structures, without need to extend tt_content database table.
+
 
 The Idea Behind DCE
 -------------------
 
 **D** ynamic **C** ontent **E** lements (DCE)
 
-The name and basic functionality was inspired  by TemplaVoila‘s FCE feature. FCE was one of the last missing major features to replace TemplaVoila.
+The name and basic functionality was inspired  by TemplaVoila‘s FCE (Flexible Content Element) feature.
+FCE was one of the last missing major features to replace TemplaVoila entirely.
 
 Content Elements in TYPO3
-^^^^^^^^^^^^^^^^^^^^^^^^^
+-------------------------
 
-TYPO3 has just a few basic content elements (CE). There is no possibility to create new CE without developing new extensions  or massively rearranging TCA. Layout or section frame attributes can be abused for new CE, but this is not easy to use for editors! Also the abuse of RTE fields (using tables, etc.) has too much flexibility for editors. Laying out CE in frontend may be a PITA, because of TypoScript (CSS styled content).
+TYPO3 provides a bunch of content elements (CE) with EXT:fluid_styled_content. You can easily hide unused elements or
+fields, but it is not that easy to build new content element types (CTypes).
+
+If you want to extend content elements in TYPO3 natively, you need to write an extension and provide the TCA
+configuration. Also you need to provide a hook, if you want to define the look-like of your content element in backend
+as well.
+
 
 Goals of DCE
-^^^^^^^^^^^^
+------------
 
 + Easy creation of new custom content elements
 + With as many configurable fields as required
 + Flexible and comfortable templating for each CE (using Fluid)
-+ An easier learning curve for editors
++ An easy learning curve for editors (using customized content elements)
++ and for integrators as well, who start with TYPO3 CMS
+
 
 DCE Features
-^^^^^^^^^^^^
+------------
 
 Fields and tabs
 """""""""""""""
 
 + Create as many fields as required
 + Separate multiple fields with tabs (better overview)
-+ Name and configure them like you want
++ Full TCA support
++ Helpful dropdown in backend, containing common used TCA snippets
++ Also supports Sections (from TemplaVoila) - but it is **not recommended** to use
 
 Schema loading
 """"""""""""""
 
-+ Special handling for group, select and inline fields
-+ Convert comma separated lists of uids to ready to use arrays
++ Special handling for group, select and inline fields, which relates to different records
++ Converts comma separated lists of uids to ready to use arrays or objects
 + Uses extbase models (instead of associated arrays, if requested table has one configured)
++ Resolves FAL relations (media) automatically
 
-Sections
-""""""""
+DCE Container
+"""""""""""""
 
-+ Uses TemplaVoila implementation in TYPO3 core
-+ Create as many groups of fields as you want
++ Creates **virtual container** around several content elements of the same CType
++ Useful for e.g. sliders
++ You can define a maximum of items per container
++ You can interrupt a container manually, in each content element
++ Containers are visually highlighted in page module (backend)
 
 Detail pages
 """"""""""""
 
 + Use different templates for single DCE instances
-+ Controlled by $_GET parameters
++ Controlled by configurable $_GET parameter
 
 Easy templating (using Fluid)
 """""""""""""""""""""""""""""
 
 + All output of DCE (in FE and BE) runs with Fluid Templating Engine
-+ Even cached localconf- and ext_tables php files uses Fluid
-+ Fluid gives you all flexibility you need for laying out content elements
++ Inline fluid templating support
++ Templates can also get exported to files
++ A helpful dropdown provides defined variables (fields), common Fluid view helpers and all DCE view helpers in backend
 
-Backend preview templates
-"""""""""""""""""""""""""
-
-+ Define tt_content header and bodytext attribute for each DCE individually. Of course, using Fluid
-
-DCE user conditions
+Simple Backend View
 """""""""""""""""""
 
-+ Check if the current page contains a specified DCE
-+ Add CSS and JS only on pages where you need it
-+ Modify any TypoScript configuration you want
++ Just define the fields you want to preview in backend, by clicking
++ Header and bodytext are separated. The field used for header is also used for the label in e.g. list view
++ Also FAL media can get previewed (in bodytext)
++ Alternatively you can provide a full custom fluid template for backend preview rendering
 
-Comfortable import/export
-"""""""""""""""""""""""""
+Miscellaneous
+"""""""""""""
 
-+ Quick import and export of DCEs and DCE fields
-+ Uses ImpExp extension in TYPO3 core
-+ DCE instances (tt_content) have relation to DCE
-+ When importing DCE and DCE instances, the uid of DCE will be automatically updated if uid is already assigned on target system
-
++ Each DCE can have its own and custom icon
++ Show/hide new content element in Content Element Wizard (with description)
++ Show custom tt_content (native) fields in your DCE, using a palette displayed above FlexForm
++ Show access/media/categories tab (natively)
++ Control the CType of your content elements by defining an identifier
++ Frontend cache control
++ Direct output option (enabled by default). Bypasses lib.contentElement - significant performance boost
++ TypoScript User Condition (to check if current page contains specific DCE)
++ Support for TYPO3's Import/Export extension

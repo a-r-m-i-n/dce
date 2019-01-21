@@ -1,9 +1,5 @@
-﻿.. ==================================================
-.. FOR YOUR INFORMATION
-.. --------------------------------------------------
-.. -*- coding: utf-8 -*- with BOM.
+﻿.. include:: Includes.txt
 
-.. include:: Includes.txt
 
 .. _start:
 
@@ -52,14 +48,14 @@ Dynamic Content Elements (DCE)
 	**Table of Contents**
 
 .. toctree::
-	:maxdepth: 5
-	:titlesonly:
-	:glob:
+        :maxdepth: 2
+        :titlesonly:
 
-	Introduction/Index
-	Tutorial/Index
-	UsersManual/Index
-	UserFaq/Index
-	AdministratorManual/Index
-	AdditionalInformations/Index
-	Support/Index
+        Introduction/Index
+        FirstSteps/Index
+        UsersManual/Index
+        AdditionalInformations/Index
+        AdministratorManual/Index
+        UserFaq/Index
+        Versions/Index
+        Support/Index

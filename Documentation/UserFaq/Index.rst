@@ -1,8 +1,3 @@
-.. ==================================================
-.. FOR YOUR INFORMATION
-.. --------------------------------------------------
-.. -*- coding: utf-8 -*- with BOM.
-
 .. include:: ../Includes.txt
 
 
@@ -11,11 +6,16 @@
 FAQ
 ===
 
+.. toctree::
+        :maxdepth: 2
+
+    Index
+
 
 How to access to FAL images?
 -----------------------------------------------
 
-You can simply iterate over the variable you've defined for the FAL field. Usage of old FAL viewhelper is not necessary
+You can simply iterate over the variable you've defined for the FAL field. Usage of old FAL view helper is not necessary
 anymore. But you need to, add these two lines to the field configuration:
 
 ::
@@ -69,7 +69,8 @@ Example field configuration:
         <dce_load_schema>1</dce_load_schema>
     </config>
 
-Your fluid template gets an array of FileCollection models, now. Here is an example how to output several images from the FileCollection:
+Your fluid template gets an array of FileCollection models, now. Here is an example how to output several images from
+the FileCollection:
 
 ::
 
@@ -79,9 +80,13 @@ Your fluid template gets an array of FileCollection models, now. Here is an exam
         </f:for>
     </f:for>
 
-The if condition in the treatIdAsReference is recommended because FileCollections returns different types of objects depending of the type of the collection. Folder based collections returns the file directly, static based collections a file reference. With this condition both cases are covered.
+The if condition in the treatIdAsReference is recommended because FileCollections returns different types of objects
+depending of the type of the collection. Folder based collections returns the file directly, static based collections
+a file reference. With this condition both cases are covered.
 
-File collections are available since TYPO3 6.0.
+.. note::
+   When item is a `FileReference` you can pass it to image view helper like this:
+   `<f:image image="{item}" maxWidth="250" />`
 
 
 How to readout an image in a Fluid template and give it a click enlarge function?
@@ -93,43 +98,26 @@ In the Fluid template you can write following:
 
 ::
 
-	<a href="{f:uri.image(src:'uploads/pics/{field.yourPicture}')}" class="whatEverYourCssLibraryWantHere">
-		<f:image src="uploads/pics/{field.yourPicture}" alt="Thumbnail" maxWidth="100" maxHeight="100" />
+	<a href="{f:uri.image(image:'{field.yourPicture}')}" class="whatEverYourCssLibraryWantHere">
+		<f:image image="{field.yourPicture}" alt="Thumbnail" maxWidth="100" maxHeight="100" />
 	</a>
 
-With the f:image ViewHelper a thumbnail of the image, that should be shown, is issued. TYPO3 creates an image with a reduced size and stores it in *typo3temp/pics/*.
+With the f:image view helper a thumbnail of the image, that should be shown, is issued.
+TYPO3 creates an image with a reduced size and stores it in *fileadmin/_processed_/*.
 
-In the href parameter of the link, which should show the big version of the image when it is clicked, you use the f:uri.image ViewHelper. In principle it is the same as the f:image ViewHelper, but instead of an image only a URL is created. The benefit of using this ViewHelper is that you also can use height and width to limit the size of the big image (e.g. 800x600).
+In the href parameter of the link, which should show the big version of the image when it is clicked,
+you use the f:uri.image view helper. In principle it is the same as the f:image view helper, but instead of an image
+only a URL is created.
 
-
-How to get the fields of a section?
------------------------------------
-
-You can access the fields of a section by iterating over the section elements:
-
-::
-
-	<f:for each="{field.sectionField}" as="sectionField">
-		{sectionField.text}<br />
-	</f:for>
-
-
-How to use FAL within sections?
--------------------------------
-
-Checkout this wiki article: https://forge.typo3.org/projects/extension-dce/wiki/How_to_use_FAL_within_sections
-
-
-How to use link property for FAL images?
-----------------------------------------
-
-Checkout this wiki article: https://forge.typo3.org/projects/extension-dce/wiki/How_to_link_your_FAL_images
+The benefit of using this view helper is that you also can use height and width to limit the size of the big image
+(e.g. 800x600).
 
 
 How to translate fields in the BE?
 ----------------------------------
 
-Instead of writing down the absolute title of the field, you may also add a path to a locallang file and a key inside of this file.
+Instead of writing down the absolute title of the field, you may also add a path to a locallang file and a key
+inside of this file.
 
 Example:
 
@@ -159,13 +147,10 @@ The locallang.xml file content:
 	</T3locallang>
 
 
-A more comfortable way to translate fields in the backend is planned for version 2.0 of the extension. (`Backend module: Translatable fields <http://forge.typo3.org/issues/58540>`_)
-
-
 How to render the content of an RTE field?
 ------------------------------------------
 
-You have to enclose the RTE field with the format.html ViewHelper to get the HTML tags of the RTE rendered.
+You have to enclose the RTE field with the format.html view helper to get the HTML tags of the RTE rendered.
 
 ::
 
@@ -182,17 +167,20 @@ You can also use the inline notation:
 How to access variables of other DCE elements?
 ----------------------------------------------
 
-You can access directly the TypoScript with {tsSetup.lib.xyz.value} .
+You can access directly the TypoScript with `{tsSetup.lib.xyz.value}`.
 
 
 How to migrate old image fields to new FAL fields?
 --------------------------------------------------
 
-Well, this is a problem, which is not solved yet. Of course you can change the field configuration to inline FAL, but the already stored data/images are not compatible with FAL.
+Well, this is a problem, which is not solved yet. Of course you can change the field configuration to inline FAL, but
+the already stored data/images are not compatible with FAL.
 
 If you do this, you will get this exception: ``#1300096564: uid of file has to be numeric.``
 
-The old way of image handling was that the name of the file is stored inside of the field. The new FAL way is an uid of the equivalent FAL record. There is no conversion tool existing AFAIK.
+The old way of image handling was that the name of the file is stored inside of the field. The new FAL way is an uid of
+the equivalent FAL record. There is no conversion tool existing AFAIK.
+
 Furthermore these filenames are inside of an FlexformXML, so the steps of a conversion would be:
 
 1. Identify DCEs using old images (by DCE configuration)
@@ -200,33 +188,6 @@ Furthermore these filenames are inside of an FlexformXML, so the steps of a conv
 3. Get the old filename and find FAL record
 4. Replace filename with uid of FAL record
 5. Save the tt_content record and update the field configuration
-
-
-How to create a dynamic content like an accordion?
---------------------------------------------------
-
-- Create a new DCE
-- Add a section
-- Add an element in the section, this will be the tab element of which you can add as many as you want.
-- In the template tab point to an own layout (accordionLayout), which is a simple HTML file.
-
-The template tab looks like this:
-
-::
-
-	<f:layout name="accordionLayout" />
-
-	<f:section name="sectionName">
-        <f:for each="{field.sectionName}" as="section">
-            <div class="flag">{section.yourField}</div>
-        </f:for>
-	</f:section>
-
-The accordionLayout file contains this:
-
-::
-
-	<div class="accordion"><f:render section="sectionName" /></div>
 
 
 How to link to the detail page?
@@ -238,7 +199,8 @@ The link to changeover to the detail page looks like this:
 
 	<f:link.page pageUid="{page.uid}" additionalParams="{detailUid: '{contentObject.uid}'}">Detail</f:link.page>
 
-Where detailUid is the value of the field "Detail page identifier (get parameter)" you have set on the "Detail page" tab.
+Where detailUid is the value of the field "Detail page identifier (get parameter)" you have set on the
+"Detail page" tab.
 
 
 How to wrap my content elements with a container?
@@ -255,15 +217,24 @@ based on the same DCE. This article tells you more: https://forge.typo3.org/proj
 How to add content elements to my DCE
 -------------------------------------
 
-If you are looking for a way to create columns and put content elements in these columns right in page modules - this is not supported by DCE. For this case I recommend the `grid elements extension <http://typo3.org/extensions/repository/view/gridelements>`_.
+If you are looking for a way to create columns and put content elements in these columns right in page modules -
+this is not supported by DCE.
 
-But if you create a group or select field you may define the tt_content table and add existing content elements. This is not much comfortable but very flexible, because you may also add any other table of any extension installed. And with the *dce_load_schema* flag you'll receive an assosiative array of requested row, or if the table is from an extbase extension you'll get a model of the requested table.
+For this case I recommend the `grid elements extension <http://typo3.org/extensions/repository/view/gridelements>`_.
+
+But if you create a group or select field you may define the tt_content table and add existing content elements.
+This is not much comfortable but very flexible, because you may also add any other table of any extension installed.
+And with the *dce_load_schema* flag you'll receive an assosiative array of requested row, or if the table is from an
+extbase extension you'll get a model of the requested table.
 
 
 How to change the long title in content wizard for DCE group
 ------------------------------------------------------------
 
-If you enable DCEs to be visible in content wizard, they can be grouped in a new group, introduced by DCE, called "Dynamic Content Elements". This is in some cases to much text. If you want to rename this group just use this code in PageTS:
+If you enable DCEs to be visible in content wizard, they can be grouped in a new group, introduced by DCE,
+called "Dynamic Content Elements". This is in some cases to much text.
+
+If you want to rename this group just use this code in PageTS:
 
 ::
 
@@ -277,4 +248,3 @@ Checkout these links:
 
 - https://forge.typo3.org/projects/extension-dce/wiki/Updating-DCE-0x-to-1x
 - https://forge.typo3.org/projects/extension-dce/wiki/Updating-DCE-from-version-below-12
-
