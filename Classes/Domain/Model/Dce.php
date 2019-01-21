@@ -835,7 +835,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function getFieldByVariable($variable)
     {
         /** @var DceField $field */
-        foreach ($this->getFields() as $field) {
+        foreach ($this->getFields() ?? [] as $field) {
             if ($field->getVariable() === $variable) {
                 return $field;
             }
@@ -949,7 +949,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         }
         $fields = [];
         /** @var $field \ArminVieweg\Dce\Domain\Model\DceField */
-        foreach ($this->getFields() as $field) {
+        foreach ($this->getFields() ?? [] as $field) {
             if ($field->isTab()) {
                 continue;
             }
@@ -979,7 +979,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function getHasTcaMappings()
     {
         /** @var DceField $field */
-        foreach ($this->getFields() as $field) {
+        foreach ($this->getFields() ?? [] as $field) {
             $mapTo = $field->getMapTo();
             if (!empty($mapTo)) {
                 return true;
@@ -996,7 +996,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function getAddsNewFieldsToTca()
     {
         /** @var DceField $field */
-        foreach ($this->getFields() as $field) {
+        foreach ($this->getFields() ?? [] as $field) {
             $newTcaFieldName = $field->getNewTcaFieldName();
             if ($field->getMapTo() === '*newcol' && !empty($newTcaFieldName)) {
                 return true;

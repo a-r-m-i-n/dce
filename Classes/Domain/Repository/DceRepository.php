@@ -127,7 +127,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         /** @var $clonedFields \TYPO3\CMS\Extbase\Persistence\ObjectStorage */
         $clonedFields = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Persistence\ObjectStorage::class);
         /** @var $field DceField */
-        foreach ($dce->getFields() as $field) {
+        foreach ($dce->getFields() ?? [] as $field) {
             $field = clone $field;
             if ($field->getType() === DceField::TYPE_ELEMENT || $field->getType() === DceField::TYPE_SECTION) {
                 if ($field->getSectionFields()) {
