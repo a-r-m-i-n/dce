@@ -145,9 +145,10 @@ class Injector
                     'dce',
                     'setup',
                     <<<TYPOSCRIPT
-lib.dceContentElement < tt_content.dce_dceuid$dceUid.20
+temp.dceContentElement < tt_content.dce_dceuid$dceUid.20
 tt_content.dce_dceuid$dceUid >
-tt_content.dce_dceuid$dceUid < lib.dceContentElement
+tt_content.dce_dceuid$dceUid < temp.dceContentElement
+temp.dceContentElement >
 TYPOSCRIPT
                     ,
                     43
