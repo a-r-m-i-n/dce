@@ -1,6 +1,3 @@
-# cat=general/disable; type=boolean; label=Disable automatic clear frontend cache (deprecated): If enabled, the TYPO3 frontend cache will not get cleared automatically on changes of DCE. You need clear it manually on template changes, but it speeds up saving process of DCEs significantly!
-disableAutoClearFrontendCache = 1
-
 # cat=general/disable; type=boolean; label=Disable CodeMirror: If enabled, the textareas for field configuration and all DCE inline templates are not replaced by syntaxhighlighting code editor (CodeMirror)
 disableCodemirror = 0
 

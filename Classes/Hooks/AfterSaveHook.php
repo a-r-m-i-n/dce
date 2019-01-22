@@ -141,16 +141,6 @@ class AfterSaveHook
                 );
             }
         }
-
-        // Clear cache if dce or dcefield has been created or updated
-        if (\in_array($table, ['tx_dce_domain_model_dce', 'tx_dce_domain_model_dcefield']) &&
-            \in_array($status, ['update', 'new'])
-        ) {
-            // TODO: Deprecated remove in next major version (also in ext_conf_template.txt)
-            if ($this->extConfiguration['disableAutoClearFrontendCache'] == 0) {
-                $pObj->clear_cacheCmd('pages');
-            }
-        }
     }
 
     // phpcs:enable
