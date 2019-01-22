@@ -36,6 +36,7 @@
 			<label index="info">Info</label>
 			<label index="enabled">Enabled</label>
 			<label index="disabled">Disabled</label>
+			<label index="nofields">No fields</label>
 			<label index="back">Back</label>
 			<label index="noDcesFound">No DCEs found!</label>
 			<label index="fields">fields</label>
@@ -83,6 +84,7 @@
 			<label index="info">Info</label>
 			<label index="enabled">Aktiv</label>
 			<label index="disabled">Inaktiv</label>
+			<label index="nofields">Keine Felder</label>
 			<label index="back">Zurück</label>
 			<label index="noDcesFound">Keine DCEs gefunden!</label>
 			<label index="fields">Felder</label>

@@ -38,7 +38,10 @@
                     <span class="label label-danger text-uppercase">{f:translate(key:'{lll}disabled')}</span>
                 </f:then>
                 <f:else>
-                    <span class="label label-success text-uppercase">{f:translate(key:'{lll}enabled')}</span>
+                    <f:if condition="{dce.fields -> f:count()} == 0">
+                        <f:then><span class="label label-warning text-uppercase">{f:translate(key:'{lll}nofields')}</span></f:then>
+                        <f:else><span class="label label-success text-uppercase">{f:translate(key:'{lll}enabled')}</span></f:else>
+                    </f:if>
                 </f:else>
             </f:if>
         </td>

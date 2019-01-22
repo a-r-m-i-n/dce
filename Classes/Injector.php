@@ -318,6 +318,10 @@ TYPOSCRIPT
                 ]
             ];
             $index = 0;
+            if (empty($dceFieldRowsByParentDce[$row['uid']])) {
+                // Skip creation of content elements, for DCEs without fields
+                continue;
+            }
             foreach ((array) $dceFieldRowsByParentDce[$row['uid']] as $row2) {
                 if ($row2['type'] === '1') {
                     // Create new Tab
