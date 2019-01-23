@@ -344,6 +344,7 @@ TYPOSCRIPT
                     $tabs[$index]['fields'][] = $row2;
                 } else {
                     // usual element
+                    $row2['configuration'] = str_replace('{$variable}', $row2['variable'], $row2['configuration']);
                     $tabs[$index]['fields'][] = $row2;
                 }
             }

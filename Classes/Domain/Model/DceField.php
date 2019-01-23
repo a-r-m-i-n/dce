@@ -146,13 +146,14 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Returns field configuration as xml string
+     * Returns field configuration as xml string.
+     * Also it replaces the string "{$variable}" with the actual variable name of this field (used in FAL config).
      *
      * @return string
      */
     public function getConfiguration()
     {
-        return $this->configuration;
+        return str_replace('{$variable}', $this->getVariable(), $this->configuration);
     }
 
     /**
