@@ -72,6 +72,7 @@ class Injector
 
             $showAccessTabCode = $dce['show_access_tab']
                 ? '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,
+                  --palette--;;hidden,
                   --palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access;access,'
                 : '';
             $showMediaTabCode = $dce['show_media_tab']
@@ -93,6 +94,13 @@ class Injector
                 'CType' . ($dce['enable_container'] ? ',tx_dce_new_container' : '');
 
             if ($dce['palette_fields']) {
+                // remove access-fields from dce_palette, if Access Tab should be shown
+                if (!empty($showAccessTabCode)) {
+                    $fieldsToRemove = ['hidden', 'starttime', 'endtime', 'fe_group'];
+                    $paletteFields = GeneralUtility::trimExplode(',', $dce['palette_fields'], true);
+                    $dce['palette_fields'] = implode(',', array_diff($paletteFields, $fieldsToRemove));
+                }
+
                 $GLOBALS['TCA']['tt_content']['palettes']['dce_palette_' . $dce['uid'] . '']['canNotCollapse'] = true;
                 $GLOBALS['TCA']['tt_content']['palettes']['dce_palette_' . $dce['uid'] . '']['showitem']
                     = $dce['palette_fields'];
