@@ -22,7 +22,7 @@ Vagrant.configure("2") do |config|
 
     # Adapt these four settings for each new extension/box
     extensionKey = "dce"
-    packageName = "arminvieweg/dce"
+    packageName = "t3/dce"
     staticIpAddress = "192.168.103.50"
     extensionRepo = "https://github.com/to/your/git/repo" # Only used as help link
 

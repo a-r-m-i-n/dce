@@ -1,12 +1,12 @@
 <?php
-namespace ArminVieweg\Dce\Controller;
+namespace T3\Dce\Controller;
 
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
-use ArminVieweg\Dce\Utility\File;
+use T3\Dce\Utility\File;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
@@ -16,7 +16,7 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 class DceModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
     /**
-     * @var \ArminVieweg\Dce\Domain\Repository\DceRepository
+     * @var \T3\Dce\Domain\Repository\DceRepository
      * @inject
      */
     protected $dceRepository;
@@ -36,19 +36,19 @@ class DceModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
     }
 
     /**
-     * @param \ArminVieweg\Dce\Domain\Model\Dce $dce
+     * @param \T3\Dce\Domain\Model\Dce $dce
      * @param bool $perform
      * @return void
      * @throws \TYPO3\CMS\Core\Exception
      */
-    public function updateTcaMappingsAction(\ArminVieweg\Dce\Domain\Model\Dce $dce, $perform = false)
+    public function updateTcaMappingsAction(\T3\Dce\Domain\Model\Dce $dce, $perform = false)
     {
         $contentElements = $this->dceRepository->findContentElementsBasedOnDce($dce);
         $this->view->assign('contentElements', $contentElements);
         $this->view->assign('dce', $dce);
         if ($perform) {
             foreach ($contentElements as $contentElement) {
-                \ArminVieweg\Dce\Components\FlexformToTcaMapper\Mapper::saveFlexformValuesToTca(
+                \T3\Dce\Components\FlexformToTcaMapper\Mapper::saveFlexformValuesToTca(
                     $contentElement,
                     $contentElement['pi_flexform']
                 );

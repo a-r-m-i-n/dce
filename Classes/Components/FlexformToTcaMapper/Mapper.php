@@ -1,5 +1,5 @@
 <?php
-namespace ArminVieweg\Dce\Components\FlexformToTcaMapper;
+namespace T3\Dce\Components\FlexformToTcaMapper;
 
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
@@ -39,7 +39,7 @@ class Mapper
     public static function getDceFieldRowsWithNewTcaColumns()
     {
         try {
-            $rows = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
+            $rows = \T3\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
                 '*',
                 'tx_dce_domain_model_dcefield',
                 'map_to="*newcol" AND deleted=0 AND type=0 AND new_tca_field_name!="" AND new_tca_field_type!=""'
@@ -106,8 +106,8 @@ class Mapper
      */
     public static function saveFlexformValuesToTca(array $row, $piFlexform)
     {
-        $dceUid = \ArminVieweg\Dce\Utility\DatabaseUtility::getDceUidByContentElementRow($row);
-        $dceFieldsWithMapping = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
+        $dceUid = \T3\Dce\Utility\DatabaseUtility::getDceUidByContentElementRow($row);
+        $dceFieldsWithMapping = \T3\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
             '*',
             'tx_dce_domain_model_dcefield',
             'parent_dce=' . $dceUid . ' AND map_to!="" AND deleted=0'
@@ -145,13 +145,13 @@ class Mapper
         }
 
         if (!empty($updateData)) {
-            $updateStatus = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_UPDATEquery(
+            $updateStatus = \T3\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_UPDATEquery(
                 'tt_content',
                 'uid=' . $row['uid'],
                 $updateData
             );
             if (!$updateStatus) {
-                \ArminVieweg\Dce\Utility\FlashMessage::add(
+                \T3\Dce\Utility\FlashMessage::add(
                     'Can\'t update tt_content item with uid ' . $row['uid'],
                     'Flexform to TCA mapping failure',
                     \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR

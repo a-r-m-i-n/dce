@@ -1,5 +1,5 @@
 <?php
-namespace ArminVieweg\Dce\Slots;
+namespace T3\Dce\Slots;
 
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.

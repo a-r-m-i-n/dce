@@ -17,7 +17,7 @@ $dceFieldTca = [
     'ctrl' => [
         'title' => $ll . 'tx_dce_domain_model_dcefield',
         'label' => 'title',
-        'label_userFunc' => 'ArminVieweg\Dce\UserFunction\CustomLabels\DceFieldLabel->getLabel',
+        'label_userFunc' => 'T3\Dce\UserFunction\CustomLabels\DceFieldLabel->getLabel',
         'hideTable' => true,
         'adminOnly' => true,
         'rootLevel' => true,
@@ -185,8 +185,8 @@ $dceFieldTca = [
                 'type' => 'input',
                 'size' => 15,
                 'eval' => 'trim,required,is_in,' .
-                          'ArminVieweg\Dce\UserFunction\CustomFieldValidation\NoLeadingNumberValidator,' .
-                          'ArminVieweg\Dce\UserFunction\CustomFieldValidation\LowerCamelCaseValidator',
+                          'T3\Dce\UserFunction\CustomFieldValidation\NoLeadingNumberValidator,' .
+                          'T3\Dce\UserFunction\CustomFieldValidation\LowerCamelCaseValidator',
                 'is_in' => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890_',
             ],
         ],
@@ -196,7 +196,7 @@ $dceFieldTca = [
             'config' => [
                 'type' => 'user',
                 'size' => '30',
-                'userFunc' => 'ArminVieweg\Dce\UserFunction\UserFields\CodemirrorField->getCodemirrorField',
+                'userFunc' => 'T3\Dce\UserFunction\UserFields\CodemirrorField->getCodemirrorField',
                 'parameters' => [
                     'mode' => 'xml',
                     'showTemplates' => true,
@@ -209,7 +209,7 @@ $dceFieldTca = [
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
-                'itemsProcFunc' => ArminVieweg\Dce\UserFunction\ItemsProcFunc::class .
+                'itemsProcFunc' => T3\Dce\UserFunction\ItemsProcFunc::class .
                                     '->getAvailableTtContentColumnsForTcaMapping',
                 'size' => 1,
                 'minitems' => 0,

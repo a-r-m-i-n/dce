@@ -39,9 +39,9 @@ $newTtContentColumns = [
 
 if (!isset($GLOBALS['TCA']['tt_content']['ctrl']['label_userFunc'])) {
     $GLOBALS['TCA']['tt_content']['ctrl']['label_userFunc'] =
-        'ArminVieweg\Dce\UserFunction\CustomLabels\TtContentLabel->getLabel';
+        'T3\Dce\UserFunction\CustomLabels\TtContentLabel->getLabel';
 }
 
 // TCA generation
-$cache = new \ArminVieweg\Dce\Injector();
+$cache = new \T3\Dce\Injector();
 $cache->injectTca();

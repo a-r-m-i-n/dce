@@ -1,5 +1,5 @@
 <?php
-namespace ArminVieweg\Dce\XClass;
+namespace T3\Dce\XClass;
 
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.

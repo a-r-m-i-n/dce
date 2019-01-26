@@ -1,5 +1,5 @@
 <?php
-namespace ArminVieweg\Dce;
+namespace T3\Dce;
 
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
@@ -137,7 +137,7 @@ class Injector
             }
 
             \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-                'ArminVieweg.dce',
+                'T3.dce',
                 'dceuid' . $dce['uid'],
                 [
                     'Dce' => 'show',
@@ -267,8 +267,8 @@ TYPOSCRIPT
      */
     protected function getDatabaseDces()
     {
-        /** @var $databaseConnection \ArminVieweg\Dce\Utility\DatabaseConnection */
-        $databaseConnection = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection();
+        /** @var $databaseConnection \T3\Dce\Utility\DatabaseConnection */
+        $databaseConnection = \T3\Dce\Utility\DatabaseUtility::getDatabaseConnection();
 
         $tables = $databaseConnection->admin_get_tables();
         if (!\in_array('tx_dce_domain_model_dce', $tables) || !\in_array('tx_dce_domain_model_dcefield', $tables)) {

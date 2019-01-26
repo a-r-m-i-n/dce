@@ -1,14 +1,14 @@
 <?php
-namespace ArminVieweg\Dce\Domain\Repository;
+namespace T3\Dce\Domain\Repository;
 
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
-use ArminVieweg\Dce\Domain\Model\Dce;
-use ArminVieweg\Dce\Domain\Model\DceField;
-use ArminVieweg\Dce\Utility\DatabaseUtility;
+use T3\Dce\Domain\Model\Dce;
+use T3\Dce\Domain\Model\DceField;
+use T3\Dce\Utility\DatabaseUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
@@ -88,7 +88,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         /** @var $dce Dce */
         $dce = $this->findByUid($uid);
 
-        if (!$dce instanceof \ArminVieweg\Dce\Domain\Model\Dce) {
+        if (!$dce instanceof \T3\Dce\Domain\Model\Dce) {
             throw new \UnexpectedValueException('No DCE found with uid "' . $uid . '".', 1328613288);
         }
         $dce = clone $dce;

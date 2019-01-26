@@ -1,5 +1,5 @@
 <?php
-namespace ArminVieweg\Dce\Domain\Model;
+namespace T3\Dce\Domain\Model;
 
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
@@ -57,17 +57,17 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $newTcaFieldType = '';
 
     /**
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\ArminVieweg\Dce\Domain\Model\DceField>
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\T3\Dce\Domain\Model\DceField>
      */
     protected $sectionFields = null;
 
     /**
-     * @var \ArminVieweg\Dce\Domain\Model\Dce
+     * @var \T3\Dce\Domain\Model\Dce
      */
     protected $parentDce;
 
     /**
-     * @var \ArminVieweg\Dce\Domain\Model\DceField
+     * @var \T3\Dce\Domain\Model\DceField
      */
     protected $parentField;
 
@@ -275,7 +275,7 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\ArminVieweg\Dce\Domain\Model\DceField>
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\T3\Dce\Domain\Model\DceField>
      */
     public function getSectionFields()
     {

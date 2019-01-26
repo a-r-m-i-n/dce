@@ -1,12 +1,12 @@
 <?php
-namespace ArminVieweg\Dce\Updates;
+namespace T3\Dce\Updates;
 
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
-use ArminVieweg\Dce\Utility\DatabaseConnection;
+use T3\Dce\Utility\DatabaseConnection;
 
 /**
  * Migrate m:n-relation of dce fields to 1:n-relation

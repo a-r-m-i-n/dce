@@ -1,12 +1,12 @@
 <?php
-namespace ArminVieweg\Dce\ViewHelpers;
+namespace T3\Dce\ViewHelpers;
 
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
-use ArminVieweg\Dce\Utility\DatabaseUtility;
+use T3\Dce\Utility\DatabaseUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**

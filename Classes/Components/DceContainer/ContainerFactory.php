@@ -1,13 +1,13 @@
 <?php
-namespace ArminVieweg\Dce\Components\DceContainer;
+namespace T3\Dce\Components\DceContainer;
 
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
-use ArminVieweg\Dce\Domain\Model\Dce;
-use ArminVieweg\Dce\Utility\DatabaseUtility;
+use T3\Dce\Domain\Model\Dce;
+use T3\Dce\Utility\DatabaseUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -39,9 +39,9 @@ class ContainerFactory
         $total = \count($contentElements);
         foreach ($contentElements as $index => $contentElement) {
             try {
-                /** @var \ArminVieweg\Dce\Domain\Model\Dce $dce */
-                $dceInstance = clone \ArminVieweg\Dce\Utility\Extbase::bootstrapControllerAction(
-                    'ArminVieweg',
+                /** @var \T3\Dce\Domain\Model\Dce $dce */
+                $dceInstance = clone \T3\Dce\Utility\Extbase::bootstrapControllerAction(
+                    'T3',
                     'Dce',
                     'Dce',
                     'renderDce',

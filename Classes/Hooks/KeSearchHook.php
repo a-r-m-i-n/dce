@@ -1,12 +1,12 @@
 <?php
-namespace ArminVieweg\Dce\Hooks;
+namespace T3\Dce\Hooks;
 
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2016-2019 Armin Vieweg <armin@v.ieweg.de>
  */
-use ArminVieweg\Dce\Utility\DatabaseUtility;
+use T3\Dce\Utility\DatabaseUtility;
 
 /**
  * ke_search Hook
@@ -24,7 +24,7 @@ class KeSearchHook
      */
     public function modifyContentFromContentElement(&$bodytext, array $row, $indexerTypes)
     {
-        $dceUid = \ArminVieweg\Dce\Domain\Repository\DceRepository::extractUidFromCtype($row['CType']);
+        $dceUid = \T3\Dce\Domain\Repository\DceRepository::extractUidFromCtype($row['CType']);
         if (!$dceUid) {
             return;
         }

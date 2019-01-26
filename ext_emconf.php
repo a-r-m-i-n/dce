@@ -38,7 +38,7 @@ $EM_CONF[$_EXTKEY] = [
     ],
     'suggests' => [],
     'autoload' => [
-        'psr-4' => ['ArminVieweg\\Dce\\' => 'Classes']
+        'psr-4' => ['T3\\Dce\\' => 'Classes']
     ],
 ];
 // @codingStandardsIgnoreEnd

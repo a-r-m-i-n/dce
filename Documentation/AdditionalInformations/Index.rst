@@ -42,7 +42,7 @@ If your code is using a VCS like Git or SVN, please don't forget to download the
 
 The following actions will be performed:
 
-+ Find *{namespace dce=Tx_Dce_ViewHelpers}* and replace with *{namespace dce=ArminVieweg\Dce\ViewHelpers}*
++ Find *{namespace dce=Tx_Dce_ViewHelpers}* and replace with *{namespace dce=T3\Dce\ViewHelpers}*
 + Find *dce:format.raw* and replace with *f:format.raw*
 + Find *dce:image* and replace with *f:image*
 + Find *dce:uri.image* and replace with *f:uri.image*

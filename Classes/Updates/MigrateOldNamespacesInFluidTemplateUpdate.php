@@ -1,12 +1,12 @@
 <?php
-namespace ArminVieweg\Dce\Updates;
+namespace T3\Dce\Updates;
 
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
-use ArminVieweg\Dce\Utility\File;
+use T3\Dce\Utility\File;
 
 /**
  * Migrates old namespaces in fluid templates
@@ -16,7 +16,7 @@ class MigrateOldNamespacesInFluidTemplateUpdate extends AbstractUpdate
     /** Old DCE namespace (before 1.0) */
     const NAMESPACE_OLD = '{namespace dce=Tx_Dce_ViewHelpers}';
     /** New DCE namespace (since 1.0) */
-    const NAMESPACE_OLD2 = '{namespace dce=ArminVieweg\Dce\ViewHelpers}';
+    const NAMESPACE_OLD2 = '{namespace dce=T3\Dce\ViewHelpers}';
     /** New DCE namespace (since 1.7) */
     const NAMESPACE_NEW = '';
 

@@ -1,13 +1,13 @@
 <?php
-namespace ArminVieweg\Dce\Updates;
+namespace T3\Dce\Updates;
 
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2012-2016 Armin Vieweg <armin@v.ieweg.de>
  */
-use ArminVieweg\Dce\UserFunction\CustomFieldValidation\LowerCamelCaseValidator;
-use ArminVieweg\Dce\UserFunction\CustomFieldValidation\NoLeadingNumberValidator;
+use T3\Dce\UserFunction\CustomFieldValidation\LowerCamelCaseValidator;
+use T3\Dce\UserFunction\CustomFieldValidation\NoLeadingNumberValidator;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -122,8 +122,8 @@ class FixMalformedDceFieldVariableNamesUpdate extends AbstractUpdate
      * - is not lowerCamelCase
      *
      * @return array DceField rows
-     * @see \ArminVieweg\Dce\UserFunction\CustomFieldValidation\NoLeadingNumberValidator
-     * @see \ArminVieweg\Dce\UserFunction\CustomFieldValidation\LowerCamelCaseValidator
+     * @see \T3\Dce\UserFunction\CustomFieldValidation\NoLeadingNumberValidator
+     * @see \T3\Dce\UserFunction\CustomFieldValidation\LowerCamelCaseValidator
      */
     protected function getDceFieldsWithMalformedVariableNames()
     {

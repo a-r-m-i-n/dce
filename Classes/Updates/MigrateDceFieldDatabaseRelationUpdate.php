@@ -1,5 +1,5 @@
 <?php
-namespace ArminVieweg\Dce\Updates;
+namespace T3\Dce\Updates;
 
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.

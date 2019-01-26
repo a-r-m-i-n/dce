@@ -1,5 +1,5 @@
 <?php
-namespace ArminVieweg\Dce\UserConditions;
+namespace T3\Dce\UserConditions;
 
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
@@ -10,7 +10,7 @@ namespace ArminVieweg\Dce\UserConditions;
 /**
  * Checks if the current page contains a DCE (instance).
  * Usage in typoscript:
- * [userFunc = \ArminVieweg\Dce\UserConditions\user_dceOnCurrentPage(42)]
+ * [userFunc = \T3\Dce\UserConditions\user_dceOnCurrentPage(42)]
  *
  * 42 is a sample for the UID of DCE type.
  *
@@ -27,7 +27,7 @@ function user_dceOnCurrentPage($dceUid)
     if (isset($GLOBALS['TSFE']->page['content_from_pid']) && $GLOBALS['TSFE']->page['content_from_pid'] > 0) {
         $currentPageUid = $GLOBALS['TSFE']->page['content_from_pid'];
     }
-    return \count(\ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
+    return \count(\T3\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
         'uid',
         'tt_content',
         'pid=' . $currentPageUid . ' AND CType="dce_dceuid' . (int) $dceUid . '"'

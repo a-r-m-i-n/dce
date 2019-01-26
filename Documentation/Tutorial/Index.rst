@@ -58,7 +58,7 @@ Now go to the template tab, you will see a default template in the "Template con
 
 ::
 
-	{namespace dce=ArminVieweg\Dce\ViewHelpers}
+	{namespace dce=T3\Dce\ViewHelpers}
 	<div class="dce">
 		Your template goes here...
 	</dce>
@@ -67,7 +67,7 @@ Replace the text "Your template goes here..." with the fluid code to display the
 
 ::
 
-	{namespace dce=ArminVieweg\Dce\ViewHelpers}
+	{namespace dce=T3\Dce\ViewHelpers}
 	<div class="dce">
 		Gallery: {field.galleryName}<br />
 		<br />
@@ -89,7 +89,7 @@ The complete "Detail page template (fluid)" should be this:
 
 ::
 
-	{namespace dce=ArminVieweg\Dce\ViewHelpers}
+	{namespace dce=T3\Dce\ViewHelpers}
 	<div class="dce">
 		Gallery: {field.galleryName}<br />
 		Description:<br />

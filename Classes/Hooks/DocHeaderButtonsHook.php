@@ -1,5 +1,5 @@
 <?php
-namespace ArminVieweg\Dce\Hooks;
+namespace T3\Dce\Hooks;
 
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
@@ -78,7 +78,7 @@ class DocHeaderButtonsHook
             $tceMain = GeneralUtility::makeInstance(\TYPO3\CMS\Core\DataHandling\DataHandler::class);
             $contentRecord = $tceMain->recordInfo('tt_content', $contentUid, 'CType');
             $cType = current($contentRecord);
-            $dceUid = \ArminVieweg\Dce\Domain\Repository\DceRepository::extractUidFromCtype($cType);
+            $dceUid = \T3\Dce\Domain\Repository\DceRepository::extractUidFromCtype($cType);
             return $dceUid !== false;
         }
         return false;
@@ -126,6 +126,6 @@ class DocHeaderButtonsHook
         $tceMain = GeneralUtility::makeInstance(\TYPO3\CMS\Core\DataHandling\DataHandler::class);
         $contentRecord = $tceMain->recordInfo('tt_content', $contentUid, 'CType');
         $cType = current($contentRecord);
-        return \ArminVieweg\Dce\Domain\Repository\DceRepository::extractUidFromCtype($cType);
+        return \T3\Dce\Domain\Repository\DceRepository::extractUidFromCtype($cType);
     }
 }

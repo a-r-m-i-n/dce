@@ -1,14 +1,14 @@
 <?php
-namespace ArminVieweg\Dce\Components\BackendView;
+namespace T3\Dce\Components\BackendView;
 
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
-use ArminVieweg\Dce\Components\DceContainer\ContainerFactory;
-use ArminVieweg\Dce\Domain\Model\Dce;
-use ArminVieweg\Dce\Domain\Model\DceField;
+use T3\Dce\Components\DceContainer\ContainerFactory;
+use T3\Dce\Domain\Model\Dce;
+use T3\Dce\Domain\Model\DceField;
 use TYPO3\CMS\Core\Resource\ProcessedFile;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -84,7 +84,7 @@ class SimpleBackendView
                 $content .= '<tr class="dceRow"><td class="dceFull" colspan="2"></td></tr>';
             } elseif ($field === '*dcetitle') {
                 $content .= '<tr class="dceRow"><td class="dceFull" colspan="2">' .
-                            \ArminVieweg\Dce\Utility\LanguageService::sL($dce->getTitle()) . '</td></tr>';
+                            \T3\Dce\Utility\LanguageService::sL($dce->getTitle()) . '</td></tr>';
             } elseif ($field === '*containerflag') {
                 $containerFlag = $this->getContainerFlag($dce);
                 if ($containerFlag) {
@@ -111,9 +111,9 @@ class SimpleBackendView
         $charsetConverter = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Charset\CharsetConverter::class);
         return $charsetConverter->crop(
             'utf-8',
-            \ArminVieweg\Dce\Utility\LanguageService::sL($field->getTitle()),
-            \ArminVieweg\Dce\Utility\PageTS::get('tx_dce.defaults.simpleBackendView.titleCropLength', 10),
-            \ArminVieweg\Dce\Utility\PageTS::get('tx_dce.defaults.simpleBackendView.titleCropAppendix', '...')
+            \T3\Dce\Utility\LanguageService::sL($field->getTitle()),
+            \T3\Dce\Utility\PageTS::get('tx_dce.defaults.simpleBackendView.titleCropLength', 10),
+            \T3\Dce\Utility\PageTS::get('tx_dce.defaults.simpleBackendView.titleCropAppendix', '...')
         );
     }
 
@@ -173,7 +173,7 @@ class SimpleBackendView
      */
     protected function getFalMediaPreview(DceField $field, array $row) : string
     {
-        $database = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection();
+        $database = \T3\Dce\Utility\DatabaseUtility::getDatabaseConnection();
         $fieldConfiguration = $field->getConfigurationAsArray();
         $fieldConfiguration = $fieldConfiguration['config'];
 
@@ -197,8 +197,8 @@ class SimpleBackendView
                 continue;
             }
             $image = $fileObject->process(ProcessedFile::CONTEXT_IMAGECROPSCALEMASK, [
-                'width' => \ArminVieweg\Dce\Utility\PageTS::get('tx_dce.defaults.simpleBackendView.imageWidth', '50c'),
-                'height' => \ArminVieweg\Dce\Utility\PageTS::get('tx_dce.defaults.simpleBackendView.imageWidth', '50')
+                'width' => \T3\Dce\Utility\PageTS::get('tx_dce.defaults.simpleBackendView.imageWidth', '50c'),
+                'height' => \T3\Dce\Utility\PageTS::get('tx_dce.defaults.simpleBackendView.imageWidth', '50')
             ]);
             $imageTags[] = '<img src="' . $image->getPublicUrl(true) . '" class="dceFieldImage">';
         }

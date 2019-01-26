@@ -2,3 +2,4 @@
 .vagrant
 vendor
 cachegrind.out.*
+.build

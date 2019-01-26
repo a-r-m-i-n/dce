@@ -1,12 +1,12 @@
 <?php
-namespace ArminVieweg\Dce\Hooks;
+namespace T3\Dce\Hooks;
 
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
-use ArminVieweg\Dce\Utility\DatabaseUtility;
+use T3\Dce\Utility\DatabaseUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -44,8 +44,8 @@ class PageLayoutViewDrawItemHook implements \TYPO3\CMS\Backend\View\PageLayoutVi
         }
 
         try {
-            /** @var \ArminVieweg\Dce\Domain\Model\Dce $dce */
-            $dce = \ArminVieweg\Dce\Utility\DatabaseUtility::getDceObjectForContentElement($row['uid']);
+            /** @var \T3\Dce\Domain\Model\Dce $dce */
+            $dce = \T3\Dce\Utility\DatabaseUtility::getDceObjectForContentElement($row['uid']);
         } catch (\Exception $exception) {
             $headerContent = '<strong class="text-danger">' . $exception->getMessage() .'</strong>';
             return;
@@ -55,9 +55,9 @@ class PageLayoutViewDrawItemHook implements \TYPO3\CMS\Backend\View\PageLayoutVi
         if ($dce->isUseSimpleBackendView()) {
             $this->addPageViewStylesheets();
 
-            /** @var \ArminVieweg\Dce\Components\BackendView\SimpleBackendView $simpleBackendView */
+            /** @var \T3\Dce\Components\BackendView\SimpleBackendView $simpleBackendView */
             $simpleBackendView = GeneralUtility::makeInstance(
-                \ArminVieweg\Dce\Components\BackendView\SimpleBackendView::class
+                \T3\Dce\Components\BackendView\SimpleBackendView::class
             );
 
             $headerContent = $parentObject->linkEditContent(

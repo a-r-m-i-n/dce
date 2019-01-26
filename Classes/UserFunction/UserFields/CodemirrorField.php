@@ -1,12 +1,12 @@
 <?php
-namespace ArminVieweg\Dce\UserFunction\UserFields;
+namespace T3\Dce\UserFunction\UserFields;
 
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
-use ArminVieweg\Dce\Utility\File;
+use T3\Dce\Utility\File;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -75,7 +75,7 @@ class CodemirrorField
         $fields = [];
         $rowFields = $this->parameter['row']['fields'];
         if (!empty($rowFields)) {
-            $db = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection();
+            $db = \T3\Dce\Utility\DatabaseUtility::getDatabaseConnection();
             $rows = $db->exec_SELECTgetRows(
                 '*',
                 'tx_dce_domain_model_dcefield',

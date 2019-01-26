@@ -1,14 +1,14 @@
 <?php
-namespace ArminVieweg\Dce\Hooks;
+namespace T3\Dce\Hooks;
 
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
-use ArminVieweg\Dce\Domain\Repository\DceRepository;
-use ArminVieweg\Dce\Utility\DatabaseUtility;
-use ArminVieweg\Dce\Utility\FlashMessage;
+use T3\Dce\Domain\Repository\DceRepository;
+use T3\Dce\Utility\DatabaseUtility;
+use T3\Dce\Utility\FlashMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
@@ -88,7 +88,7 @@ class AfterSaveHook
         // Write flexform values to TCA, when enabled
         if ($table === 'tt_content' && $this->isDceContentElement($pObj)) {
             $this->checkAndUpdateDceRelationField();
-            \ArminVieweg\Dce\Components\FlexformToTcaMapper\Mapper::saveFlexformValuesToTca(
+            \T3\Dce\Components\FlexformToTcaMapper\Mapper::saveFlexformValuesToTca(
                 [
                     'uid' => $this->uid,
                     'CType' => 'dce_dceuid' . $this->getDceUid($pObj)
@@ -111,7 +111,7 @@ class AfterSaveHook
             if (array_key_exists('new_tca_field_name', $fieldArray) ||
                 array_key_exists('new_tca_field_type', $fieldArray)
             ) {
-                \ArminVieweg\Dce\Utility\FlashMessage::add(
+                \T3\Dce\Utility\FlashMessage::add(
                     'You did some changes (in DceField with uid ' . $this->uid . ') which affects the sql schema of ' .
                     'tt_content table. Please don\'t forget to update database schema (in e.g. Install Tool)!',
                     'SQL schema changes detected!',

@@ -1,5 +1,5 @@
 <?php
-namespace ArminVieweg\Dce\ViewHelpers\Be\Version;
+namespace T3\Dce\ViewHelpers\Be\Version;
 
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.

@@ -1,5 +1,5 @@
 <?php
-namespace ArminVieweg\Dce\UserFunction\CustomFieldValidation;
+namespace T3\Dce\UserFunction\CustomFieldValidation;
 
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.

@@ -1,13 +1,13 @@
 <?php
-namespace ArminVieweg\Dce\Components\DceContainer;
+namespace T3\Dce\Components\DceContainer;
 
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
-use ArminVieweg\Dce\Domain\Model\Dce;
-use ArminVieweg\Dce\Utility\PageTS;
+use T3\Dce\Domain\Model\Dce;
+use T3\Dce\Utility\PageTS;
 
 /**
  * Container
@@ -82,7 +82,7 @@ class Container
         $firstDce = current($this->dces);
         $contentObject = $firstDce->getContentObject();
         if ($contentObject['sys_language_uid'] !== '0') {
-            $originalRow = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
+            $originalRow = \T3\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
                 '*',
                 'tt_content',
                 'uid = ' . $contentObject['l18n_parent']

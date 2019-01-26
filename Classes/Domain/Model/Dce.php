@@ -1,12 +1,12 @@
 <?php
-namespace ArminVieweg\Dce\Domain\Model;
+namespace T3\Dce\Domain\Model;
 
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
-use ArminVieweg\Dce\Utility\File;
+use T3\Dce\Utility\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -70,7 +70,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     ];
 
     /**
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\ArminVieweg\Dce\Domain\Model\DceField>
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\T3\Dce\Domain\Model\DceField>
      */
     protected $fields = null;
 
@@ -382,7 +382,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Gets objectStorage with fields
      *
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\ArminVieweg\Dce\Domain\Model\DceField>
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\T3\Dce\Domain\Model\DceField>
      */
     public function getFields()
     {
@@ -403,10 +403,10 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Adds a field
      *
-     * @param \ArminVieweg\Dce\Domain\Model\DceField $field The field to be added
+     * @param \T3\Dce\Domain\Model\DceField $field The field to be added
      * @return void
      */
-    public function addField(\ArminVieweg\Dce\Domain\Model\DceField $field)
+    public function addField(\T3\Dce\Domain\Model\DceField $field)
     {
         $this->fields->attach($field);
     }
@@ -414,10 +414,10 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Removes a field
      *
-     * @param \ArminVieweg\Dce\Domain\Model\DceField $fieldToRemove The field to be removed
+     * @param \T3\Dce\Domain\Model\DceField $fieldToRemove The field to be removed
      * @return void
      */
-    public function removeField(\ArminVieweg\Dce\Domain\Model\DceField $fieldToRemove)
+    public function removeField(\T3\Dce\Domain\Model\DceField $fieldToRemove)
     {
         $this->fields->detach($fieldToRemove);
     }
@@ -948,13 +948,13 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
             return static::$fieldsCache[$contentObject['uid']];
         }
         $fields = [];
-        /** @var $field \ArminVieweg\Dce\Domain\Model\DceField */
+        /** @var $field \T3\Dce\Domain\Model\DceField */
         foreach ($this->getFields() ?? [] as $field) {
             if ($field->isTab()) {
                 continue;
             }
             if ($field->hasSectionFields()) {
-                /** @var $sectionField \ArminVieweg\Dce\Domain\Model\DceField */
+                /** @var $sectionField \T3\Dce\Domain\Model\DceField */
                 foreach ($field->getSectionFields() as $sectionField) {
                     $sectionFieldValues = $sectionField->getValue();
                     if (\is_array($sectionFieldValues)) {
@@ -1121,7 +1121,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         if (array_key_exists($this->getUid(), static::$fieldsCache)) {
             return static::$fieldsCache[$this->getUid()];
         }
-        $rows = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
+        $rows = \T3\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
             '*',
             'tt_content',
             'CType="dce_dceuid' . $this->getUid() . '" AND deleted=0',

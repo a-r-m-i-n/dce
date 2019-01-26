@@ -1,5 +1,5 @@
 <?php
-namespace ArminVieweg\Dce\Utility;
+namespace T3\Dce\Utility;
 
 /*  | This extension is made with ❤ for TYPO3 CMS and is licensed
  *  | under GNU General Public License.

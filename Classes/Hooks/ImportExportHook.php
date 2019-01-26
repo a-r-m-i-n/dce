@@ -1,5 +1,5 @@
 <?php
-namespace ArminVieweg\Dce\Hooks;
+namespace T3\Dce\Hooks;
 
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
@@ -33,7 +33,7 @@ class ImportExportHook
                 if (array_key_exists('tx_dce_dce', $ttContentUpdatedFields)) {
                     $dceUid = (int) substr($ttContentUpdatedFields['tx_dce_dce'], \strlen('tx_dce_domain_model_dce_'));
                     $tceMain->updateDB('tt_content', $ttContentUid, [
-                        'CType' => \ArminVieweg\Dce\Domain\Repository\DceRepository::convertUidToCtype($dceUid),
+                        'CType' => \T3\Dce\Domain\Repository\DceRepository::convertUidToCtype($dceUid),
                         'tx_dce_dce' => $dceUid
                     ]);
                 }

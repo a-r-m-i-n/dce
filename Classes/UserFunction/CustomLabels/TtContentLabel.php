@@ -1,13 +1,13 @@
 <?php
-namespace ArminVieweg\Dce\UserFunction\CustomLabels;
+namespace T3\Dce\UserFunction\CustomLabels;
 
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
-use ArminVieweg\Dce\Components\BackendView\SimpleBackendView;
-use ArminVieweg\Dce\Utility\DatabaseUtility;
+use T3\Dce\Components\BackendView\SimpleBackendView;
+use T3\Dce\Utility\DatabaseUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -29,7 +29,7 @@ class TtContentLabel
             $this->isDceContentElement($parameter['row'])
         ) {
             try {
-                /** @var \ArminVieweg\Dce\Domain\Model\Dce $dce */
+                /** @var \T3\Dce\Domain\Model\Dce $dce */
                 $dce = DatabaseUtility::getDceObjectForContentElement($parameter['row']['uid']);
             } catch (\Exception $exception) {
                 $parameter['title'] = 'ERROR: ' . $exception->getMessage();

@@ -15,7 +15,7 @@ $boot = function ($extensionKey) {
 
     // Register backend module
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
-        'ArminVieweg.' . $extensionKey,
+        'T3.' . $extensionKey,
         'tools',
         'dceModule',
         '',

@@ -1,12 +1,12 @@
 <?php
-namespace ArminVieweg\Dce\Controller;
+namespace T3\Dce\Controller;
 
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
-use ArminVieweg\Dce\Components\DceContainer\ContainerFactory;
+use T3\Dce\Components\DceContainer\ContainerFactory;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -19,7 +19,7 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     /**
      * DCE Repository
      *
-     * @var \ArminVieweg\Dce\Domain\Repository\DceRepository
+     * @var \T3\Dce\Domain\Repository\DceRepository
      * @inject
      */
     protected $dceRepository;
@@ -27,7 +27,7 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     /**
      * TypoScript Utility
      *
-     * @var \ArminVieweg\Dce\Utility\TypoScript
+     * @var \T3\Dce\Utility\TypoScript
      * @inject
      */
     protected $typoScriptUtility;
@@ -62,9 +62,9 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK
         );
 
-        /** @var $dce \ArminVieweg\Dce\Domain\Model\Dce */
+        /** @var $dce \T3\Dce\Domain\Model\Dce */
         $dce = $this->dceRepository->findAndBuildOneByUid(
-            \ArminVieweg\Dce\Domain\Repository\DceRepository::extractUidFromCtype($config['pluginName']),
+            \T3\Dce\Domain\Repository\DceRepository::extractUidFromCtype($config['pluginName']),
             $this->settings,
             $contentObject
         );
@@ -95,7 +95,7 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
         $this->settings = $this->simulateContentElementSettings($this->settings['contentElementUid']);
 
-        /** @var $dce \ArminVieweg\Dce\Domain\Model\Dce */
+        /** @var $dce \T3\Dce\Domain\Model\Dce */
         $dce = clone $this->dceRepository->findAndBuildOneByUid(
             $uid,
             $this->settings,
@@ -140,7 +140,7 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     protected function simulateContentElementSettings($contentElementUid) : array
     {
-        $row = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
+        $row = \T3\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
             'pi_flexform',
             'tt_content',
             'uid = ' . (int) $contentElementUid
@@ -159,7 +159,7 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     protected function getContentObject($uid)
     {
-        return \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
+        return \T3\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
             '*',
             'tt_content',
             'uid = ' . (int) $uid

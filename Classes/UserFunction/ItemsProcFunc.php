@@ -1,12 +1,12 @@
 <?php
-namespace ArminVieweg\Dce\UserFunction;
+namespace T3\Dce\UserFunction;
 
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
-use ArminVieweg\Dce\Utility\LanguageService;
+use T3\Dce\Utility\LanguageService;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
@@ -33,7 +33,7 @@ class ItemsProcFunc
             $parameters['items'][] = [LocalizationUtility::translate('containerflag', 'dce'), '*containerflag'];
         }
 
-        $database = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection();
+        $database = \T3\Dce\Utility\DatabaseUtility::getDatabaseConnection();
         $dceFields = $database->exec_SELECTgetRows(
             '*',
             'tx_dce_domain_model_dcefield',
@@ -77,7 +77,7 @@ class ItemsProcFunc
             'tx_dce_index'
         ];
         $tcaColumns = $GLOBALS['TCA']['tt_content']['columns'];
-        $dbColumns = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->admin_get_fields('tt_content');
+        $dbColumns = \T3\Dce\Utility\DatabaseUtility::getDatabaseConnection()->admin_get_fields('tt_content');
 
         $parameters['items'][] = [LocalizationUtility::translate('chooseOption', 'dce'), '--div--'];
         $parameters['items'][] = [LocalizationUtility::translate('noMapping', 'dce'), ''];
@@ -116,7 +116,7 @@ class ItemsProcFunc
             'media'
         ];
         $tcaColumns = $GLOBALS['TCA']['tt_content']['columns'];
-        $dbColumns = \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->admin_get_fields('tt_content');
+        $dbColumns = \T3\Dce\Utility\DatabaseUtility::getDatabaseConnection()->admin_get_fields('tt_content');
 
         $parameters['items'][] = ['--linebreak--', '--linebreak--'];
         foreach ($tcaColumns as $fieldName => $column) {

@@ -1,5 +1,5 @@
 <?php
-namespace ArminVieweg\Dce\Utility;
+namespace T3\Dce\Utility;
 
 /*
  * This file is part of the TYPO3 CMS project.

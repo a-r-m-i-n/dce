@@ -1,5 +1,5 @@
 <?php
-namespace ArminVieweg\Dce\Utility;
+namespace T3\Dce\Utility;
 
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
@@ -65,7 +65,7 @@ class DatabaseUtility
      * Creates DCE domain object for a given content element
      *
      * @param array|integer $contentElement The content element database record (or UID)
-     * @return \ArminVieweg\Dce\Domain\Model\Dce|null The constructed DCE object or null
+     * @return \T3\Dce\Domain\Model\Dce|null The constructed DCE object or null
      */
     public static function getDceObjectForContentElement($contentElement)
     {
@@ -100,8 +100,8 @@ class DatabaseUtility
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
             \TYPO3\CMS\Extbase\Object\ObjectManager::class
         );
-        /** @var \ArminVieweg\Dce\Domain\Repository\DceRepository $dceRepository */
-        $dceRepository = $objectManager->get(\ArminVieweg\Dce\Domain\Repository\DceRepository::class);
+        /** @var \T3\Dce\Domain\Repository\DceRepository $dceRepository */
+        $dceRepository = $objectManager->get(\T3\Dce\Domain\Repository\DceRepository::class);
         /** @var \TYPO3\CMS\Extbase\Service\FlexFormService $flexFormService */
         $flexFormService = $objectManager->get('TYPO3\CMS\Extbase\Service\FlexFormService');
 

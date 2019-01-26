@@ -1,12 +1,12 @@
 <?php
-namespace ArminVieweg\Dce\Slots;
+namespace T3\Dce\Slots;
 
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
-use ArminVieweg\Dce\Utility\DatabaseUtility;
+use T3\Dce\Utility\DatabaseUtility;
 
 /**
  * Class TablesDefinitionIsBeingBuiltSlot
@@ -23,7 +23,7 @@ class TablesDefinitionIsBeingBuiltSlot
     public function extendTtContentTable(array $sqlStrings)
     {
         if ($this->checkRequiredFieldsExisting()) {
-            $sqlStrings[] = \ArminVieweg\Dce\Components\FlexformToTcaMapper\Mapper::getSql();
+            $sqlStrings[] = \T3\Dce\Components\FlexformToTcaMapper\Mapper::getSql();
         }
         return [$sqlStrings];
     }

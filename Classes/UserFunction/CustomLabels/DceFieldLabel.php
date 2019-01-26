@@ -1,13 +1,13 @@
 <?php
-namespace ArminVieweg\Dce\UserFunction\CustomLabels;
+namespace T3\Dce\UserFunction\CustomLabels;
 
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
-use ArminVieweg\Dce\Domain\Model\DceField;
-use ArminVieweg\Dce\Utility\LanguageService;
+use T3\Dce\Domain\Model\DceField;
+use T3\Dce\Utility\LanguageService;
 
 /**
  * Extends TCA label of fields with variable key
@@ -111,7 +111,7 @@ class DceFieldLabel
      */
     protected function getDceFieldRecordByUid($uid)
     {
-        return \ArminVieweg\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
+        return \T3\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
             '*',
             'tx_dce_domain_model_dcefield',
             'uid=' . (int) $uid

@@ -167,7 +167,7 @@ Lets have a look at the default template code and explain the parts.
 
 ::
 
-	{namespace dce=ArminVieweg\Dce\ViewHelpers}
+	{namespace dce=T3\Dce\ViewHelpers}
 	<div class="dce">
 		Your template goes here...
 	</dce>
