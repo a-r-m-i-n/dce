@@ -4,16 +4,15 @@ pipelines:
   default:
   - step:
       caches:
-      - composer
-      - global-vendor
-      - vendor
+        - composer
       script:
-      - composer global require phploc/phploc:"^4.0" squizlabs/php_codesniffer:"^3.3" phpmd/phpmd:"^2.6"
-      - /composer/vendor/bin/phploc .
-      - /composer/vendor/bin/phpmd . text cleancode,design,codesize,naming,unusedcode --ignore-violations-on-exit
-      - /composer/vendor/bin/phpcs --extensions=php --standard=PSR2 .
+        - mkdir -p .build/test-reports
+        - composer global require phploc/phploc squizlabs/php_codesniffer phpmd/phpmd phpmetrics/phpmetrics
+        - /composer/vendor/bin/phploc .
+        - /composer/vendor/bin/phpmd . text cleancode,design,codesize,naming,unusedcode --ignore-violations-on-exit
+        - /composer/vendor/bin/phpmetrics --exclude=vendor,tests --extensions=php .
+        - /composer/vendor/bin/phpcs --extensions=php --standard=PSR2 .
 
 definitions:
   caches:
-    global-vendor: /composer
-    vendor: vendor
+    composer: /composer
