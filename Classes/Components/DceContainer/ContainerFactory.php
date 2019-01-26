@@ -126,7 +126,7 @@ class ContainerFactory
             if (($contentObject['uid'] !== $rawContentElement['uid'] &&
                  $rawContentElement['tx_dce_new_container'] === 1
                 )
-                || $rawContentElement['CType'] !== 'dce_dceuid' . $dce->getUid()
+                || $rawContentElement['CType'] !== $dce->getIdentifier()
             ) {
                 return $contentElementsInContainer;
             }

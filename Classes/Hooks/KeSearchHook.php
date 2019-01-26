@@ -24,7 +24,7 @@ class KeSearchHook
      */
     public function modifyContentFromContentElement(&$bodytext, array $row, $indexerTypes)
     {
-        $dceUid = \T3\Dce\Domain\Repository\DceRepository::extractUidFromCtype($row['CType']);
+        $dceUid = \T3\Dce\Domain\Repository\DceRepository::extractUidFromCTypeOrIdentifier($row['CType']);
         if (!$dceUid) {
             return;
         }

@@ -5,6 +5,7 @@ CREATE TABLE tx_dce_domain_model_dce (
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
 
+	identifier varchar(255) DEFAULT '' NOT NULL,
 	title varchar(255) DEFAULT '' NOT NULL,
 	fields text,
 

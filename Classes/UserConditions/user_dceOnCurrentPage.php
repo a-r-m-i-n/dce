@@ -17,7 +17,7 @@ namespace T3\Dce\UserConditions;
  * @param int $dceUid Uid of DCE type to check for
  * @return bool Returns true if the current page contains a DCE (instance)
  */
-function user_dceOnCurrentPage($dceUid)
+function user_dceOnCurrentPage(int $dceUid)
 {
     if (TYPO3_MODE !== 'FE') {
         return false;
@@ -27,9 +27,17 @@ function user_dceOnCurrentPage($dceUid)
     if (isset($GLOBALS['TSFE']->page['content_from_pid']) && $GLOBALS['TSFE']->page['content_from_pid'] > 0) {
         $currentPageUid = $GLOBALS['TSFE']->page['content_from_pid'];
     }
+
+    $dce = \T3\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
+        '*',
+        'tx_dce_domain_model_dce',
+        'uid=' . $dceUid
+    );
+    $dceIdentifier = !empty($dce['identifier']) ? 'dce_' . $dce['identifier'] : 'dce_dceuid' . $dceUid;
+
     return \count(\T3\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
         'uid',
         'tt_content',
-        'pid=' . $currentPageUid . ' AND CType="dce_dceuid' . (int) $dceUid . '"'
+        'pid=' . $currentPageUid . ' AND CType="' . $dceIdentifier . '"'
     )) > 0;
 }

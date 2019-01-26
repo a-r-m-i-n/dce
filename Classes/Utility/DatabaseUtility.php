@@ -6,6 +6,7 @@ namespace T3\Dce\Utility;
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
+use T3\Dce\Domain\Repository\DceRepository;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\StringUtility;
@@ -32,12 +33,9 @@ class DatabaseUtility
      * @param array $row of tt_content record
      * @return int uid of DCE used for this content element
      */
-    public static function getDceUidByContentElementRow(array $row)
+    public static function getDceUidByContentElementRow(array $row) : int
     {
-        if (!StringUtility::beginsWith($row['CType'], 'dce_dceuid')) {
-            return 0;
-        }
-        return (int) substr($row['CType'], \strlen('dce_dceuid'));
+        return DceRepository::extractUidFromCTypeOrIdentifier($row['CType']) ?? 0;
     }
 
     /**
@@ -100,8 +98,8 @@ class DatabaseUtility
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
             \TYPO3\CMS\Extbase\Object\ObjectManager::class
         );
-        /** @var \T3\Dce\Domain\Repository\DceRepository $dceRepository */
-        $dceRepository = $objectManager->get(\T3\Dce\Domain\Repository\DceRepository::class);
+        /** @var DceRepository $dceRepository */
+        $dceRepository = $objectManager->get(DceRepository::class);
         /** @var \TYPO3\CMS\Extbase\Service\FlexFormService $flexFormService */
         $flexFormService = $objectManager->get('TYPO3\CMS\Extbase\Service\FlexFormService');
 

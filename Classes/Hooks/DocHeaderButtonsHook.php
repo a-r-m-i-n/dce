@@ -78,7 +78,7 @@ class DocHeaderButtonsHook
             $tceMain = GeneralUtility::makeInstance(\TYPO3\CMS\Core\DataHandling\DataHandler::class);
             $contentRecord = $tceMain->recordInfo('tt_content', $contentUid, 'CType');
             $cType = current($contentRecord);
-            $dceUid = \T3\Dce\Domain\Repository\DceRepository::extractUidFromCtype($cType);
+            $dceUid = \T3\Dce\Domain\Repository\DceRepository::extractUidFromCTypeOrIdentifier($cType);
             return $dceUid !== false;
         }
         return false;
@@ -126,6 +126,6 @@ class DocHeaderButtonsHook
         $tceMain = GeneralUtility::makeInstance(\TYPO3\CMS\Core\DataHandling\DataHandler::class);
         $contentRecord = $tceMain->recordInfo('tt_content', $contentUid, 'CType');
         $cType = current($contentRecord);
-        return \T3\Dce\Domain\Repository\DceRepository::extractUidFromCtype($cType);
+        return \T3\Dce\Domain\Repository\DceRepository::extractUidFromCTypeOrIdentifier($cType);
     }
 }

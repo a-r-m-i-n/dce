@@ -53,21 +53,21 @@ class Injector
                 'CType',
                 [
                     addcslashes($dce['title'], "'"),
-                    'dce_dceuid' . $dce['uid'],
+                    $dce['identifier'],
                     $dce['hasCustomWizardIcon']
-                        ? 'ext-dce-dceuid' . $dce['uid'] . '-customwizardicon'
+                        ? 'ext-dce-' . $dce['identifier'] . '-customwizardicon'
                         : $dce['wizard_icon'],
                 ]
             );
 
-            $GLOBALS['TCA']['tt_content']['ctrl']['typeicon_classes']['dce_dceuid' . $dce['uid']] =
+            $GLOBALS['TCA']['tt_content']['ctrl']['typeicon_classes'][$dce['identifier']] =
                 $dce['hasCustomWizardIcon']
-                    ? 'ext-dce-dceuid' . $dce['uid'] . '-customwizardicon'
+                    ? 'ext-dce-' . $dce['identifier'] . '-customwizardicon'
                     : $dce['wizard_icon'];
 
-            $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['dce_dceuid' . $dce['uid']] =
+            $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$dce['identifier']] =
                 'pi_flexform';
-            $GLOBALS['TCA']['tt_content']['columns']['pi_flexform']['config']['ds'][',dce_dceuid' . $dce['uid']] =
+            $GLOBALS['TCA']['tt_content']['columns']['pi_flexform']['config']['ds'][',' . $dce['identifier']] =
                 $this->renderFlexformXml($dce);
 
             $showAccessTabCode = $dce['show_access_tab']
@@ -82,15 +82,16 @@ class Injector
                 ? '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:categories,categories,'
                 : '';
 
-            $GLOBALS['TCA']['tt_content']['types']['dce_dceuid' . $dce['uid'] . '']['showitem'] =
-                '--palette--;;dce_palette_' . $dce['uid'] . '_head,
-                --palette--;;dce_palette_' . $dce['uid'] . ',
+            $GLOBALS['TCA']['tt_content']['types'][$dce['identifier']]['showitem'] =
+                '--palette--;;dce_palette_' . $dce['identifier'] . '_head,
+                --palette--;;dce_palette_' . $dce['identifier'] . ',
                 pi_flexform,' . $showAccessTabCode . $showMediaTabCode . $showCategoryTabCode . '
                 --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xml:tabs.extended';
 
-            $GLOBALS['TCA']['tt_content']['palettes']['dce_palette_' . $dce['uid'] . '_head']['canNotCollapse'] = true;
+            $GLOBALS['TCA']['tt_content']['palettes']['dce_palette_' . $dce['identifier'] . '_head']['canNotCollapse'] =
+                true;
 
-            $GLOBALS['TCA']['tt_content']['palettes']['dce_palette_' . $dce['uid'] . '_head']['showitem'] =
+            $GLOBALS['TCA']['tt_content']['palettes']['dce_palette_' . $dce['identifier'] . '_head']['showitem'] =
                 'CType' . ($dce['enable_container'] ? ',tx_dce_new_container' : '');
 
             if ($dce['palette_fields']) {
@@ -101,16 +102,17 @@ class Injector
                     $dce['palette_fields'] = implode(',', array_diff($paletteFields, $fieldsToRemove));
                 }
 
-                $GLOBALS['TCA']['tt_content']['palettes']['dce_palette_' . $dce['uid'] . '']['canNotCollapse'] = true;
-                $GLOBALS['TCA']['tt_content']['palettes']['dce_palette_' . $dce['uid'] . '']['showitem']
+                $GLOBALS['TCA']['tt_content']['palettes']['dce_palette_' . $dce['identifier'] . '']['canNotCollapse'] =
+                    true;
+                $GLOBALS['TCA']['tt_content']['palettes']['dce_palette_' . $dce['identifier'] . '']['showitem']
                     = $dce['palette_fields'];
 
                 if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('gridelements')) {
-                    $GLOBALS['TCA']['tt_content']['palettes']['dce_palette_' . $dce['uid'] . '']['showitem'] .=
+                    $GLOBALS['TCA']['tt_content']['palettes']['dce_palette_' . $dce['identifier'] . '']['showitem'] .=
                         ',tx_gridelements_container,tx_gridelements_columns';
                 }
                 if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('flux')) {
-                    $GLOBALS['TCA']['tt_content']['palettes']['dce_palette_' . $dce['uid'] . '']['showitem'] .=
+                    $GLOBALS['TCA']['tt_content']['palettes']['dce_palette_' . $dce['identifier'] . '']['showitem'] .=
                         ',tx_flux_column,tx_flux_parent';
                 }
             }
@@ -138,7 +140,7 @@ class Injector
 
             \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
                 'T3.dce',
-                'dceuid' . $dce['uid'],
+                substr($dce['identifier'], 4),
                 [
                     'Dce' => 'show',
                 ],
@@ -147,14 +149,14 @@ class Injector
             );
 
             if ($dce['direct_output']) {
-                $dceUid = $dce['uid'];
+                $dceIdentifier = $dce['identifier'];
                 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
                     'dce',
                     'setup',
                     <<<TYPOSCRIPT
-temp.dceContentElement < tt_content.dce_dceuid$dceUid.20
-tt_content.dce_dceuid$dceUid >
-tt_content.dce_dceuid$dceUid < temp.dceContentElement
+temp.dceContentElement < tt_content.$dceIdentifier.20
+tt_content.$dceIdentifier >
+tt_content.$dceIdentifier < temp.dceContentElement
 temp.dceContentElement >
 TYPOSCRIPT
                     ,
@@ -165,8 +167,8 @@ TYPOSCRIPT
             \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
                 'dce',
                 'setup',
-                '# Hide lib.stdheader for DCE with uid ' . $dce['uid'] . '
-            tt_content.dce_dceuid' . $dce['uid'] . '.10 >',
+                '# Hide lib.stdheader for DCE with identifier ' . $dce['identifier'] . '
+            tt_content.' . $dce['identifier'] . '.10 >',
                 43
             );
 
@@ -176,8 +178,8 @@ TYPOSCRIPT
                 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
                     'dce',
                     'setup',
-                    '# Hide default wrapping for content elements for DCE with uid ' . $dce['uid'] . '
-                tt_content.stdWrap.innerWrap.cObject.default.stdWrap.if.value := addToList(dce_dceuid' . $dce['uid'] .
+                    '# Hide default wrapping for content elements for DCE with identifier ' . $dce['identifier'] . '
+                tt_content.stdWrap.innerWrap.cObject.default.stdWrap.if.value := addToList(' . $dce['identifier'] .
                     ')',
                     43
                 );
@@ -187,8 +189,8 @@ TYPOSCRIPT
                 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
                     'dce',
                     'setup',
-                    '# Change fluid_styled_content template name for DCE with uid ' . $dce['uid'] . '
-                     tt_content.dce_dceuid' . $dce['uid'] . '.templateName = DceContainerElement',
+                    '# Change fluid_styled_content template name for DCE with identifier ' . $dce['identifier'] . '
+                     tt_content.' . $dce['identifier'] . '.templateName = DceContainerElement',
                     43
                 );
             }
@@ -199,28 +201,28 @@ TYPOSCRIPT
                         \TYPO3\CMS\Core\Imaging\IconRegistry::class
                     );
                     $iconRegistry->registerIcon(
-                        'ext-dce-dceuid' . $dce['uid'] . '-customwizardicon',
+                        'ext-dce-' . $dce['identifier'] . '-customwizardicon',
                         \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
                         ['source' => $dce['wizard_custom_icon']]
                     );
                 }
 
-                $iconIdentifierCode = $dce['hasCustomWizardIcon'] ? 'ext-dce-dceuid' . $dce['uid'] .
+                $iconIdentifierCode = $dce['hasCustomWizardIcon'] ? 'ext-dce-' . $dce['identifier'] .
                     '-customwizardicon' : $dce['wizard_icon'];
 
                 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
-                    'mod.wizards.newContentElement.wizardItems.' . $dce['wizard_category'] . '.elements.dce_dceuid' .
-                    $dce['uid'] . ' {
+                    'mod.wizards.newContentElement.wizardItems.' . $dce['wizard_category'] . '.elements.' .
+                    $dce['identifier'] . ' {
                     iconIdentifier = ' . $iconIdentifierCode . '
                     title = ' . addcslashes($dce['title'], "'") . '
                     description = ' . addcslashes($dce['wizard_description'], "'") . '
                     tt_content_defValues {
-                        CType = dce_dceuid' . $dce['uid'] . '
+                        CType = ' . $dce['identifier'] . '
                     }
                 }
-                mod.wizards.newContentElement.wizardItems.' . $dce['wizard_category'] . '.show := addToList(dce_dceuid'
-                    . $dce['uid'] . ')
-                TCEFORM.tt_content.pi_flexform.types.dce_dceuid' . $dce['uid'] . '.label = ' . $dce['flexform_label']
+                mod.wizards.newContentElement.wizardItems.' . $dce['wizard_category'] . '.show := addToList(' .
+                    $dce['identifier'] . ')
+                TCEFORM.tt_content.pi_flexform.types.' . $dce['identifier'] . '.label = ' . $dce['flexform_label']
                 );
             }
         }
@@ -360,6 +362,7 @@ TYPOSCRIPT
                 unset($tabs[0]);
             }
 
+            $row['identifier'] = !empty($row['identifier']) ? 'dce_' . $row['identifier'] : 'dce_dceuid' . $row['uid'];
             $row['tabs'] = $tabs;
             $row['hasCustomWizardIcon'] = $row['wizard_icon'] === 'custom';
             $dces[] = $row;

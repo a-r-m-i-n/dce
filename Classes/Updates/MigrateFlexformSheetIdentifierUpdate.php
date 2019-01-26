@@ -93,7 +93,7 @@ class MigrateFlexformSheetIdentifierUpdate extends AbstractUpdate
             $contentElements = $this->getDatabaseConnection()->exec_SELECTgetRows(
                 '*',
                 'tt_content',
-                'CType="dce_dceuid' . $dceUid . '" AND deleted=0'
+                'CType="' . $this->getDceIdentifier($dceUid) . '" AND deleted=0'
             );
             $this->storeLastQuery($dbQueries);
 
@@ -180,7 +180,7 @@ class MigrateFlexformSheetIdentifierUpdate extends AbstractUpdate
         return $this->getDatabaseConnection()->exec_SELECTgetRows(
             '*',
             'tt_content',
-            'CType LIKE "dce_dceuid%" AND deleted=0 AND pi_flexform LIKE "%<sheet index=\"sheet0\">%"'
+            'CType LIKE "dce_%" AND deleted=0 AND pi_flexform LIKE "%<sheet index=\"sheet0\">%"'
         );
     }
 

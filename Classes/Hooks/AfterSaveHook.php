@@ -6,9 +6,11 @@ namespace T3\Dce\Hooks;
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
+use T3\Dce\Components\FlexformToTcaMapper\Mapper as TcaMapper;
 use T3\Dce\Domain\Repository\DceRepository;
 use T3\Dce\Utility\DatabaseUtility;
 use T3\Dce\Utility\FlashMessage;
+use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
@@ -17,18 +19,20 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  */
 class AfterSaveHook
 {
-    /** @var \TYPO3\CMS\Core\DataHandling\DataHandler */
+    /** @var DataHandler */
     protected $dataHandler = null;
 
     /** @var int uid of current record */
     protected $uid = 0;
+
+    /** @var array|null corresponding database row */
+    protected $row;
 
     /** @var array all properties of current record */
     protected $fieldArray = [];
 
     /** @var array extension settings */
     protected $extConfiguration = [];
-
 
     /**
      * If variable in given fieldSettings is set, it will be returned.
@@ -43,13 +47,13 @@ class AfterSaveHook
             switch ($fieldSettings['type']) {
                 default:
                 case 0:
-                    return uniqid('field_');
+                    return uniqid('field_', true);
 
                 case 1:
-                    return uniqid('tab_');
+                    return uniqid('tab_', true);
 
                 case 2:
-                    return uniqid('section_');
+                    return uniqid('section_', true);
             }
         }
         return $fieldSettings['variable'];
@@ -64,7 +68,7 @@ class AfterSaveHook
      * @param $table
      * @param $id
      * @param array $fieldArray
-     * @param \TYPO3\CMS\Core\DataHandling\DataHandler $pObj
+     * @param DataHandler $pObj
      * @return void
      * @throws \TYPO3\CMS\Core\Exception
      */
@@ -73,7 +77,7 @@ class AfterSaveHook
         $table,
         $id,
         array $fieldArray,
-        \TYPO3\CMS\Core\DataHandling\DataHandler $pObj
+        DataHandler $pObj
     ) {
         $this->extConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dce']);
         $this->dataHandler = $pObj;
@@ -87,21 +91,35 @@ class AfterSaveHook
 
         // Write flexform values to TCA, when enabled
         if ($table === 'tt_content' && $this->isDceContentElement($pObj)) {
-            $this->checkAndUpdateDceRelationField();
-            \T3\Dce\Components\FlexformToTcaMapper\Mapper::saveFlexformValuesToTca(
+            $contentRow = $this->dataHandler->recordInfo('tt_content', $this->uid, '*');
+
+            $dceUid = DceRepository::extractUidFromCTypeOrIdentifier($contentRow['CType']);
+            if ($dceUid) {
+                $dceRow = $this->dataHandler->recordInfo('tx_dce_domain_model_dce', $dceUid, '*');
+            }
+            $dceIdentifier = !empty($dceRow['identifier']) ? 'dce_' . $dceRow['identifier']
+                : 'dce_dceuid' . $dceUid;
+
+            $this->checkAndUpdateDceRelationField($contentRow, $dceIdentifier);
+            TcaMapper::saveFlexformValuesToTca(
                 [
                     'uid' => $this->uid,
-                    'CType' => 'dce_dceuid' . $this->getDceUid($pObj)
+                    'CType' => $dceIdentifier
                 ],
                 $this->fieldArray['pi_flexform']
             );
+            unset($dceIdentifier);
         }
 
         // When a DCE is disabled, also disable/hide the based content elements
         if ($table === 'tx_dce_domain_model_dce' && $status === 'update') {
             if (!isset($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceImportInProgress'])) {
                 if (array_key_exists('hidden', $fieldArray) && $fieldArray['hidden'] == '1') {
-                    $this->hideContentElementsBasedOnDce();
+                    $dceRow = $this->dataHandler->recordInfo('tx_dce_domain_model_dce', $this->uid, '*');
+                    $dceIdentifier = !empty($dceRow['identifier']) ? 'dce_' . $dceRow['identifier']
+                                                                            : 'dce_dceuid' . $this->uid;
+                    $this->hideContentElementsBasedOnDce($dceIdentifier);
+                    unset($dceRow, $dceIdentifier);
                 }
             }
         }
@@ -121,7 +139,7 @@ class AfterSaveHook
         }
 
         // Adds or removes *containerflag from simple backend view, when container is en- or disabled
-        if ($table === 'tx_dce_domain_model_dce' && $status === 'update' || $status === 'new') {
+        if ($table === 'tx_dce_domain_model_dce' && ($status === 'update' || $status === 'new')) {
             if (array_key_exists('enable_container', $fieldArray)) {
                 if ($fieldArray['enable_container'] === '1') {
                     $items = GeneralUtility::trimExplode(',', $fieldArray['backend_view_bodytext'], true);
@@ -150,12 +168,13 @@ class AfterSaveHook
      * about the amount of content elements affected and a notice, that these content elements
      * will not get re-enabled when enabling the DCE again.
      *
+     * @param string $dceIdentifier
      * @return void
      * @throws \TYPO3\CMS\Core\Exception
      */
-    protected function hideContentElementsBasedOnDce()
+    protected function hideContentElementsBasedOnDce(string $dceIdentifier)
     {
-        $whereStatement = 'CType="dce_dceuid' . $this->uid . '" AND deleted=0 AND hidden=0';
+        $whereStatement = 'CType="' . $dceIdentifier . '" AND deleted=0 AND hidden=0';
         $updatedContentElementsCount = 0;
         $res = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows('uid', 'tt_content', $whereStatement);
         foreach ($res as $row) {
@@ -176,37 +195,33 @@ class AfterSaveHook
         FlashMessage::add(
             $message,
             LocalizationUtility::translate($pathToLocallang . 'caution', 'Dce'),
-            \TYPO3\CMS\Core\Messaging\FlashMessage::INFO
+            \TYPO3\CMS\Core\Messaging\AbstractMessage::INFO
         );
-    }
-
-    /**
-     * Checks the CType of current content element and return TRUE if it is a dce. Otherwise return FALSE.
-     *
-     * @param \TYPO3\CMS\Core\DataHandling\DataHandler $pObj
-     * @return bool
-     */
-    protected function isDceContentElement(\TYPO3\CMS\Core\DataHandling\DataHandler $pObj)
-    {
-        $datamap = $pObj->datamap;
-        $datamap = reset($datamap);
-        $datamap = reset($datamap);
-        return (strpos($datamap['CType'], 'dce_dceuid') !== false);
     }
 
     /**
      * Get tx_dce_dce of current tt_content pObj instance
      *
-     * @param \TYPO3\CMS\Core\DataHandling\DataHandler $pObj
+     * @param DataHandler $pObj
      * @return int
      */
-    protected function getDceUid(\TYPO3\CMS\Core\DataHandling\DataHandler $pObj) : int
+    protected function getDceUid(DataHandler $pObj) : int
     {
         $datamap = $pObj->datamap;
         $datamap = reset($datamap);
         $datamap = reset($datamap);
+        return DceRepository::extractUidFromCTypeOrIdentifier($datamap['CType']);
+    }
 
-        return DceRepository::extractUidFromCtype($datamap['CType']);
+    /**
+     * Checks the CType of current content element and return TRUE if it is a dce. Otherwise return FALSE.
+     *
+     * @param DataHandler $pObj
+     * @return bool
+     */
+    protected function isDceContentElement(DataHandler $pObj)
+    {
+        return (bool) $this->getDceUid($pObj);
     }
 
     /**
@@ -238,15 +253,17 @@ class AfterSaveHook
 
     /**
      * Checks if dce relation (field tx_dce_dce) is empty. If it is empty, it will be filled by CType.
+     *
+     * @param string $dceIdentifier
      * @return void
      */
-    protected function checkAndUpdateDceRelationField()
+    protected function checkAndUpdateDceRelationField(array $contentRow, string $dceIdentifier)
     {
-        $row = $this->dataHandler->recordInfo('tt_content', $this->uid, 'CType,tx_dce_dce');
-        if (empty($row['tx_dce_dce'])) {
-            $this->dataHandler->updateDB('tt_content', $this->uid, [
-                'tx_dce_dce' => DceRepository::extractUidFromCtype($row['CType'])
-            ]);
+        if (empty($contentRow['tx_dce_dce'])) {
+            $dceUid = DceRepository::extractUidFromCTypeOrIdentifier($dceIdentifier);
+            if ($dceUid) {
+                $this->dataHandler->updateDB('tt_content', $this->uid, ['tx_dce_dce' => $dceUid]);
+            }
         }
     }
 }

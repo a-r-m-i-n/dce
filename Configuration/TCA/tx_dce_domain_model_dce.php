@@ -67,7 +67,7 @@ $dceTca = [
     ],
     'palettes' => [
         'general_header' => [
-            'showitem' => 'title,hidden',
+            'showitem' => 'title,identifier,hidden',
             'canNotCollapse' => true
         ],
         'content_relations' => [
@@ -136,6 +136,16 @@ $dceTca = [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim,required',
+            ],
+        ],
+        'identifier' => [
+            'exclude' => 0,
+            'label' => $ll . 'tx_dce_domain_model_dce.identifier',
+            'config' => [
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim,unique',
+                'placeholder' => 'dceuidX'
             ],
         ],
         'fields' => [

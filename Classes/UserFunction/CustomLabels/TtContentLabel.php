@@ -66,6 +66,6 @@ class TtContentLabel
             // For any reason the CType can be an array with one entry
             $cType = reset($cType);
         }
-        return strpos($cType, 'dce_dceuid') !== false;
+        return strpos($cType, 'dce_') !== false;
     }
 }

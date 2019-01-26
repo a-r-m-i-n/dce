@@ -30,6 +30,7 @@
 			<label index="tx_dce_domain_model_dce_long">Dynamic Content Elements</label>
 			<label index="tx_dce_domain_model_dce.hidden">Inactive</label>
 			<label index="tx_dce_domain_model_dce.title">Title</label>
+			<label index="tx_dce_domain_model_dce.identifier">Identifier</label>
 			<label index="tx_dce_domain_model_dce.category">Category</label>
 			<label index="tx_dce_domain_model_dce.fields">Fields</label>
 			<label index="tx_dce_domain_model_dce.wizard">Icon &amp; Wizard</label>
@@ -123,6 +124,7 @@
 			<label index="tx_dce_domain_model_dce_long">Dynamische Content-Elemente</label>
             <label index="tx_dce_domain_model_dce.hidden">Inaktiv</label>
 			<label index="tx_dce_domain_model_dce.title">Titel</label>
+			<label index="tx_dce_domain_model_dce.identifier">Identifier</label>
 			<label index="tx_dce_domain_model_dce.category">Kategorie</label>
 			<label index="tx_dce_domain_model_dce.fields">Felder</label>
 			<label index="tx_dce_domain_model_dce.wizard">Icon &amp; Wizard</label>

@@ -94,6 +94,11 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @var string
      */
+    protected $identifier = '';
+
+    /**
+     * @var string
+     */
     protected $templateType = '';
 
     /**
@@ -292,6 +297,25 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setTitle($title)
     {
         $this->title = $title;
+    }
+
+    /**
+     * Returns configured identifier with "dce_" prefix or fallback, using the uid of the DCE
+     *
+     * @return string
+     */
+    public function getIdentifier() : string
+    {
+        return empty($this->identifier) ? 'dce_dceuid' . $this->getUid() : 'dce_' . $this->identifier;
+    }
+
+    /**
+     * @param string $identifier
+     * @return void
+     */
+    public function setIdentifier(string $identifier)
+    {
+        $this->identifier = $identifier;
     }
 
     /**
@@ -1118,19 +1142,19 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function getRelatedContentElementRows()
     {
-        if (array_key_exists($this->getUid(), static::$fieldsCache)) {
-            return static::$fieldsCache[$this->getUid()];
+        if (array_key_exists($this->getIdentifier(), static::$fieldsCache)) {
+            return static::$fieldsCache[$this->getIdentifier()];
         }
         $rows = \T3\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
             '*',
             'tt_content',
-            'CType="dce_dceuid' . $this->getUid() . '" AND deleted=0',
+            'CType="' . $this->getIdentifier() . '" AND deleted=0',
             '',
             '',
             '',
             'uid'
         );
-        static::$fieldsCache[$this->getUid()] = $rows;
+        static::$fieldsCache[$this->getIdentifier()] = $rows;
         return $rows;
     }
 }

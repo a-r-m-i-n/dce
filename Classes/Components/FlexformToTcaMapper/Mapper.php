@@ -6,6 +6,8 @@ namespace T3\Dce\Components\FlexformToTcaMapper;
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
+use T3\Dce\Utility\DatabaseUtility;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -39,7 +41,7 @@ class Mapper
     public static function getDceFieldRowsWithNewTcaColumns()
     {
         try {
-            $rows = \T3\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
+            $rows = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
                 '*',
                 'tx_dce_domain_model_dcefield',
                 'map_to="*newcol" AND deleted=0 AND type=0 AND new_tca_field_name!="" AND new_tca_field_type!=""'
@@ -106,8 +108,8 @@ class Mapper
      */
     public static function saveFlexformValuesToTca(array $row, $piFlexform)
     {
-        $dceUid = \T3\Dce\Utility\DatabaseUtility::getDceUidByContentElementRow($row);
-        $dceFieldsWithMapping = \T3\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
+        $dceUid = DatabaseUtility::getDceUidByContentElementRow($row);
+        $dceFieldsWithMapping = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
             '*',
             'tx_dce_domain_model_dcefield',
             'parent_dce=' . $dceUid . ' AND map_to!="" AND deleted=0'
@@ -132,7 +134,7 @@ class Mapper
         }
 
         $updateData = [];
-        $flatFlexFormData = \TYPO3\CMS\Core\Utility\ArrayUtility::flatten($flexFormArray);
+        $flatFlexFormData = ArrayUtility::flatten($flexFormArray);
         foreach ($flatFlexFormData as $key => $value) {
             $fieldName = preg_replace('/.*settings\.(.*?)\.vDEF$/', '$1', $key);
             if (array_key_exists($fieldName, $fieldToTcaMappings)) {
@@ -145,7 +147,7 @@ class Mapper
         }
 
         if (!empty($updateData)) {
-            $updateStatus = \T3\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_UPDATEquery(
+            $updateStatus = DatabaseUtility::getDatabaseConnection()->exec_UPDATEquery(
                 'tt_content',
                 'uid=' . $row['uid'],
                 $updateData
@@ -154,7 +156,7 @@ class Mapper
                 \T3\Dce\Utility\FlashMessage::add(
                     'Can\'t update tt_content item with uid ' . $row['uid'],
                     'Flexform to TCA mapping failure',
-                    \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR
+                    \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR
                 );
             }
         }

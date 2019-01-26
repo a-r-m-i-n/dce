@@ -45,6 +45,14 @@
                 </f:else>
             </f:if>
         </td>
+        <td class="identifier">
+            <code>
+            <f:if condition="{dce.identifier}">
+                <f:then>{dce.identifier}</f:then>
+                <f:else>dceuid{dce.uid}</f:else>
+            </f:if>
+            </code>
+        </td>
         <td class="uid">
             {dce.uid}
         </td>

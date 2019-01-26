@@ -111,7 +111,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         return DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
             '*',
             'tt_content',
-            'CType="dce_dceuid' . $dce->getUid() . '" AND deleted=0'
+            'CType="' . $dce->getIdentifier() . '" AND deleted=0'
         );
     }
 
@@ -308,14 +308,14 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     }
 
     /**
-     * Extracts and returns the uid from given DCE CType.
+     * Extracts and returns the uid from given DCE CType or identifier.
      * Returns FALSE if CType is not a DCE one.
      *
-     * @param string|array $cType
-     * @return int|string|bool
+     * @param string|array $cType or DCE identifier
+     * @return int|bool uid or false
      * @static
      */
-    public static function extractUidFromCtype($cType)
+    public static function extractUidFromCTypeOrIdentifier($cType)
     {
         if (\is_array($cType)) {
             // For any reason the CType can be an array with one entry
@@ -328,7 +328,13 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             return (int) substr($cType, 10);
         }
         if (strpos($cType, 'dce_') === 0) {
-            return substr($cType, 4);
+            /** @var self $repo */
+            $repo = GeneralUtility::makeInstance(static::class);
+            /** @var Dce|null $dce */
+            $dce = $repo->findOneByIdentifier(substr($cType, 4));
+            if ($dce) {
+                return $dce->getUid();
+            }
         }
         return false;
     }
@@ -528,7 +534,7 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
                 // Add field with tableName
                 $row['_table'] = $tableName;
 
-                $dceUid = static::extractUidFromCtype($row['CType']);
+                $dceUid = static::extractUidFromCTypeOrIdentifier($row['CType']);
                 if ($dceUid !== false) {
                     $objects[] = $this->findAndBuildOneByUid(
                         $dceUid,

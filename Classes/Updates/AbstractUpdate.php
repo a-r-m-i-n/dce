@@ -54,4 +54,20 @@ class AbstractUpdate extends \TYPO3\CMS\Install\Updates\AbstractUpdate
     {
         return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(DatabaseConnection::class);
     }
+
+    /**
+     * Returns the identifier of dce with given uid
+     *
+     * @param int $dceUid
+     * @return string
+     */
+    protected function getDceIdentifier(int $dceUid) : string
+    {
+        $dce = $this->getDatabaseConnection()->exec_SELECTgetSingleRow(
+            '*',
+            'tx_dce_domain_model_dce',
+            'uid=' . $dceUid
+        );
+        return !empty($dce['identifier']) ? 'dce_' . $dce['identifier'] : 'dce_dceuid' . $dceUid;
+    }
 }
