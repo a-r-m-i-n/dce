@@ -86,15 +86,16 @@ class Injector
 
             $paletteIdentifier = 'dce_palette_' . $dceIdentifier;
             $showItem = <<<TEXT
---palette--;;${$paletteIdentifier}_head,
---palette--;;${$paletteIdentifier},
-pi_flexform,${showAccessTabCode}${showMediaTabCode}${showCategoryTabCode}
+--palette--;;${paletteIdentifier}_head,
+--palette--;;$paletteIdentifier,
+pi_flexform,$showAccessTabCode$showMediaTabCode$showCategoryTabCode
 --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xml:tabs.extended
 TEXT;
-            $GLOBALS['TCA']['tt_content']['types'][$dceIdentifier]['showitem'] = $showItem;
             $GLOBALS['TCA']['tt_content']['palettes'][$paletteIdentifier . '_head']['canNotCollapse'] = true;
             $GLOBALS['TCA']['tt_content']['palettes'][$paletteIdentifier . '_head']['showitem'] =
                 'CType' . ($dce['enable_container'] ? ',tx_dce_new_container' : '');
+
+            $GLOBALS['TCA']['tt_content']['types'][$dceIdentifier]['showitem'] = $showItem;
 
             if ($dce['palette_fields']) {
                 // remove access-fields from dce_palette, if Access Tab should be shown

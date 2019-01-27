@@ -48,8 +48,8 @@ $dceFieldTca = [
     ],
     'types' => [
         '0' => [
-            'showitem' => '--palette--;;general_header,configuration,' .
-                          '--palette--;;tca_options,parent_dce,parent_field',
+            'showitem' => '--palette--;;general_header,configuration,
+                           --palette--;;tca_options,parent_dce,parent_field',
             'columnsOverrides' => [
                 'configuration' => [
                     'defaultExtras' => 'fixed-font:enable-tab',
@@ -93,8 +93,8 @@ $dceFieldTca = [
                     ['', 0],
                 ],
                 'foreign_table' => 'tx_dce_domain_model_dcefield',
-                'foreign_table_where' => 'AND tx_dce_domain_model_dcefield.pid=###CURRENT_PID### ' .
-                    'AND tx_dce_domain_model_dcefield.sys_language_uid IN (-1,0)',
+                'foreign_table_where' => 'AND tx_dce_domain_model_dcefield.pid=###CURRENT_PID### 
+                                          AND tx_dce_domain_model_dcefield.sys_language_uid IN (-1,0)',
             ],
         ],
         'l10n_diffsource' => [
@@ -184,9 +184,9 @@ $dceFieldTca = [
             'config' => [
                 'type' => 'input',
                 'size' => 15,
-                'eval' => 'trim,required,is_in,' .
-                          'T3\Dce\UserFunction\CustomFieldValidation\NoLeadingNumberValidator,' .
-                          'T3\Dce\UserFunction\CustomFieldValidation\LowerCamelCaseValidator',
+                'eval' => 'trim,required,is_in,
+                           T3\Dce\UserFunction\CustomFieldValidation\NoLeadingNumberValidator,
+                           T3\Dce\UserFunction\CustomFieldValidation\LowerCamelCaseValidator',
                 'is_in' => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890_',
             ],
         ],

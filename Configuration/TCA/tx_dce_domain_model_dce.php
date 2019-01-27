@@ -12,6 +12,32 @@ if (!defined('TYPO3_MODE')) {
 
 $ll = 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:';
 
+$showItems = <<<TEXT
+--palette--;;general_header,fields,
+
+--div--;${ll}tx_dce_domain_model_dce.template,
+    template_type,template_content,template_file,
+
+--div--;${ll}tx_dce_domain_model_dce.container,
+    enable_container,container_item_limit,
+    container_identifier,container_template_type,container_template,container_template_file,
+
+--div--;${ll}tx_dce_domain_model_dce.backendTemplate,
+    use_simple_backend_view,backend_view_header,backend_view_bodytext,
+    backend_template_type,backend_template_content,backend_template_file,
+
+--div--;${ll}tx_dce_domain_model_dce.wizard,
+    wizard_icon,wizard_custom_icon,wizard_enable,wizard_category,wizard_description,
+    
+--div--;${ll}tx_dce_domain_model_dce.detailpage,
+    enable_detailpage,detailpage_identifier,detailpage_template_type,detailpage_template,detailpage_template_file,
+    
+--div--;${ll}tx_dce_domain_model_dce.miscellaneous,
+    --palette--;;misc,flexform_label,hide_default_ce_wrap,
+    --palette--;${ll}tx_dce_domain_model_dce.contentRelationsPalette;content_relations,
+    palette_fields,template_layout_root_path,template_partial_root_path
+TEXT;
+
 $dceTca = [
     'ctrl' => [
         'title' => $ll . 'tx_dce_domain_model_dce',
@@ -34,30 +60,16 @@ $dceTca = [
         ],
         'iconfile' => 'EXT:dce/Resources/Public/Icons/ext_icon.png',
         'copyAfterDuplFields' => 'fields',
-        'requestUpdate' => 'wizard_enable,wizard_icon,template_type,backend_template_type,use_simple_backend_view,' .
-                           'backend_view_header,enable_detailpage,detailpage_template_type,' .
-                           'enable_container,container_template_type',
+        'requestUpdate' => 'wizard_enable,wizard_icon,template_type,backend_template_type,use_simple_backend_view,
+                            backend_view_header,enable_detailpage,detailpage_template_type,
+                            enable_container,container_template_type',
     ],
     'interface' => [
         'showRecordFieldList' => 'hidden,title,type',
     ],
     'types' => [
         1 => [
-            'showitem' => '--palette--;;general_header,fields,
-			--div--;' . $ll . 'tx_dce_domain_model_dce.template,template_type,template_content,template_file,
-			--div--;' . $ll . 'tx_dce_domain_model_dce.container,enable_container,container_item_limit,' .
-                              'container_identifier,container_template_type,container_template,container_template_file,
-			--div--;' . $ll . 'tx_dce_domain_model_dce.backendTemplate,use_simple_backend_view,backend_view_header,' .
-                              'backend_view_bodytext,backend_template_type,backend_template_content,
-                               backend_template_file,
-			--div--;' . $ll . 'tx_dce_domain_model_dce.wizard,wizard_icon,wizard_custom_icon,wizard_enable,' .
-                               'wizard_category,wizard_description,
-			--div--;' . $ll . 'tx_dce_domain_model_dce.detailpage,enable_detailpage,detailpage_identifier,' .
-                              'detailpage_template_type,detailpage_template,detailpage_template_file,
-			--div--;' . $ll . 'tx_dce_domain_model_dce.miscellaneous,--palette--;;misc,flexform_label,' .
-                              'hide_default_ce_wrap,
-                              --palette--;' . $ll . 'tx_dce_domain_model_dce.contentRelationsPalette;
-			                   content_relations,palette_fields,template_layout_root_path,template_partial_root_path',
+            'showitem' => $showItems,
             'columnsOverrides' => [
                 'template_content' => [
                     'defaultExtras' => 'fixed-font:enable-tab',
@@ -105,8 +117,8 @@ $dceTca = [
                     ['', 0],
                 ],
                 'foreign_table' => 'tx_dce_domain_model_dce',
-                'foreign_table_where' => 'AND tx_dce_domain_model_dce.pid=###CURRENT_PID### ' .
-                    'AND tx_dce_domain_model_dce.sys_language_uid IN (-1,0)',
+                'foreign_table_where' => 'AND tx_dce_domain_model_dce.pid=###CURRENT_PID### 
+                                          AND tx_dce_domain_model_dce.sys_language_uid IN (-1,0)',
             ],
         ],
         'l10n_diffsource' => [
