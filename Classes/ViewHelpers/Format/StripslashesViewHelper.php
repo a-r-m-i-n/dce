@@ -7,11 +7,12 @@ namespace T3\Dce\ViewHelpers\Format;
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Strips slashes from given subject
  */
-class StripslashesViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
+class StripslashesViewHelper extends AbstractViewHelper
 {
     /**
      * @return void

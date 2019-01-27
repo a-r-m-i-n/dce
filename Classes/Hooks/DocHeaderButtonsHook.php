@@ -20,8 +20,11 @@ class DocHeaderButtonsHook
      * @param \TYPO3\CMS\Backend\Template\Components\ButtonBar $buttonBar
      * @return array Buttons
      */
-    public function addDcePopupButton(array $params, \TYPO3\CMS\Backend\Template\Components\ButtonBar $buttonBar)
-    {
+    public function addDcePopupButton(
+        array $params,
+        \TYPO3\CMS\Backend\Template\Components\ButtonBar $buttonBar
+    ) : array {
+
         $buttons = $params['buttons'];
         if (!$this->isButtonVisible()) {
             return $buttons;
@@ -49,7 +52,7 @@ class DocHeaderButtonsHook
      * @param int $contentItemUid
      * @return string
      */
-    protected function getDceEditLink($contentItemUid)
+    protected function getDceEditLink(int $contentItemUid) : string
     {
         $dceIdent = $this->getDceUid($contentItemUid);
         if (!is_numeric($dceIdent)) {
@@ -70,7 +73,7 @@ class DocHeaderButtonsHook
      *
      * @return bool
      */
-    protected function isButtonVisible()
+    protected function isButtonVisible() : bool
     {
         $contentUid = $this->getContentUid();
         if ($contentUid !== null && $GLOBALS['BE_USER']->isAdmin()) {
@@ -89,7 +92,7 @@ class DocHeaderButtonsHook
      *
      * @return array|null
      */
-    protected function getEditGetParameters()
+    protected function getEditGetParameters() : ?array
     {
         $editGetParam = GeneralUtility::_GP('edit');
         return $editGetParam['tt_content'] ?? null;
@@ -100,7 +103,7 @@ class DocHeaderButtonsHook
      *
      * @return int|null content element uid
      */
-    protected function getContentUid()
+    protected function getContentUid() : ?int
     {
         $editGetParameters = $this->getEditGetParameters();
         if (!\is_array($editGetParameters) || empty($editGetParameters)) {
@@ -118,9 +121,9 @@ class DocHeaderButtonsHook
      * Returns the uid of DCE of given content element
      *
      * @param int $contentUid uid of content element
-     * @return bool|int|string
+     * @return int|null
      */
-    protected function getDceUid($contentUid)
+    protected function getDceUid($contentUid) : ?int
     {
         /** @var $tceMain \TYPO3\CMS\Core\DataHandling\DataHandler */
         $tceMain = GeneralUtility::makeInstance(\TYPO3\CMS\Core\DataHandling\DataHandler::class);

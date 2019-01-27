@@ -6,12 +6,14 @@ namespace T3\Dce\ViewHelpers;
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Explode viewhelper which uses the trimExplode method of \TYPO3\CMS\Core\Utility\GeneralUtility
  */
-class ExplodeViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
+class ExplodeViewHelper extends AbstractViewHelper
 {
     /**
      * @return void
@@ -56,7 +58,7 @@ class ExplodeViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHe
                 break;
             default:
         }
-        return \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(
+        return GeneralUtility::trimExplode(
             $delimiter,
             $subject,
             $arguments['removeEmpty']

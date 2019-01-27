@@ -21,7 +21,7 @@ class Mapper
      *
      * @return string SQL CREATE TABLE statement
      */
-    public static function getSql()
+    public static function getSql() : string
     {
         $fields = [];
         foreach (static::getDceFieldMappings() as $fieldName => $fieldType) {
@@ -38,7 +38,7 @@ class Mapper
      *
      * @return array of DceField rows or empty array
      */
-    public static function getDceFieldRowsWithNewTcaColumns()
+    public static function getDceFieldRowsWithNewTcaColumns() : array
     {
         try {
             $rows = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
@@ -61,7 +61,7 @@ class Mapper
      *
      * @return array
      */
-    protected static function getDceFieldMappings()
+    protected static function getDceFieldMappings() : array
     {
         $fieldMappings = [];
         foreach (static::getDceFieldRowsWithNewTcaColumns() as $dceFieldRow) {
@@ -80,7 +80,7 @@ class Mapper
      * @param array $dceFieldRow
      * @return string Determined SQL type of given dceFieldRow
      */
-    protected static function getAutoFieldType(array $dceFieldRow)
+    protected static function getAutoFieldType(array $dceFieldRow) : string
     {
         $fieldConfiguration = GeneralUtility::xml2array($dceFieldRow['configuration']);
         switch ($fieldConfiguration['type']) {
@@ -106,7 +106,7 @@ class Mapper
      * @return void
      * @throws \TYPO3\CMS\Core\Exception
      */
-    public static function saveFlexformValuesToTca(array $row, $piFlexform)
+    public static function saveFlexformValuesToTca(array $row, $piFlexform) : void
     {
         $dceUid = DatabaseUtility::getDceUidByContentElementRow($row);
         $dceFieldsWithMapping = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
@@ -114,7 +114,7 @@ class Mapper
             'tx_dce_domain_model_dcefield',
             'parent_dce=' . $dceUid . ' AND map_to!="" AND deleted=0'
         );
-        if (\count($dceFieldsWithMapping) === 0 || !isset($piFlexform) || empty($piFlexform)) {
+        if (!isset($piFlexform) || empty($piFlexform) || \count($dceFieldsWithMapping) === 0) {
             return;
         }
 

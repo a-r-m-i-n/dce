@@ -9,11 +9,12 @@ namespace T3\Dce\ViewHelpers\Be;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * This view helper returns a link to module in TYPO3 backend
  */
-class ModuleLinkViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
+class ModuleLinkViewHelper extends AbstractViewHelper
 {
 
     /**

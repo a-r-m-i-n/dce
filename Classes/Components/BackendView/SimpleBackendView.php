@@ -21,7 +21,7 @@ class SimpleBackendView
     /**
      * @var string
      */
-    protected static $lastContainerColor;
+    protected static $lastContainerColor = '';
 
     /**
      * Returns configured rendered field value
@@ -30,7 +30,7 @@ class SimpleBackendView
      * @param bool $textOnly When true the return value is not wrapped by <strong>-tags
      * @return string
      */
-    public function getHeaderContent(Dce $dce, $textOnly = false) : string
+    public function getHeaderContent(Dce $dce, bool $textOnly = false) : string
     {
         /** @var \TYPO3\CMS\Lang\LanguageService $lang */
         $lang = $GLOBALS['LANG'];
@@ -209,9 +209,9 @@ class SimpleBackendView
      * Uses the uid of the first content object to get a color code
      *
      * @param Dce $dce
-     * @return int|bool color code or false if container is not enabled
+     * @return string color code. empty string, if container is not enabled.
      */
-    protected function getContainerFlag(Dce $dce)
+    protected function getContainerFlag(Dce $dce) : string
     {
         if (!$dce->getEnableContainer()) {
             return false;

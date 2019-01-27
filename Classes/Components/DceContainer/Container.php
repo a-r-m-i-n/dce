@@ -7,7 +7,9 @@ namespace T3\Dce\Components\DceContainer;
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
 use T3\Dce\Domain\Model\Dce;
+use T3\Dce\Utility\DatabaseUtility;
 use T3\Dce\Utility\PageTS;
+use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
  * Container
@@ -16,7 +18,7 @@ use T3\Dce\Utility\PageTS;
 class Container
 {
     /**
-     * @var \TYPO3\CMS\Fluid\View\StandaloneView
+     * @var StandaloneView
      */
     protected $view;
 
@@ -47,10 +49,10 @@ class Container
      * @param Dce $dce
      * @return void
      */
-    public function addDce(Dce $dce)
+    public function addDce(Dce $dce) : void
     {
         $contentObject = $dce->getContentObject();
-        if ($contentObject['hidden'] == '0') {
+        if ((int) $contentObject['hidden'] === 0) {
             $this->dces[] = $dce;
         }
     }
@@ -60,7 +62,7 @@ class Container
      *
      * @return string
      */
-    public function render()
+    public function render() : string
     {
         $this->view->assign('dces', $this->dces);
         return $this->view->render();
@@ -72,7 +74,7 @@ class Container
      *
      * @return string Hex color, e.g. "#ff0066"
      */
-    public function getContainerColor()
+    public function getContainerColor() : string
     {
         if (empty($this->dces)) {
             return '#fff';
@@ -82,7 +84,7 @@ class Container
         $firstDce = current($this->dces);
         $contentObject = $firstDce->getContentObject();
         if ($contentObject['sys_language_uid'] !== '0') {
-            $originalRow = \T3\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
+            $originalRow = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
                 '*',
                 'tt_content',
                 'uid = ' . $contentObject['l18n_parent']
@@ -93,6 +95,6 @@ class Container
         }
 
         $colors = array_values(PageTS::get('tx_dce.defaults.simpleBackendView.containerGroupColors'));
-        return $colors[$contentObject['uid'] % \count($colors)];
+        return (string) $colors[$contentObject['uid'] % \count($colors)];
     }
 }

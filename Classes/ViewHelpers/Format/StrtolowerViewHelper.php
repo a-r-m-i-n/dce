@@ -7,11 +7,12 @@ namespace T3\Dce\ViewHelpers\Format;
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Convert the given subject to lower chars
  */
-class StrtolowerViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
+class StrtolowerViewHelper extends AbstractViewHelper
 {
     /**
      * @return void

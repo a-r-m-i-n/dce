@@ -22,7 +22,7 @@ class Injector
      * @return void
      * @throws \Doctrine\DBAL\DBALException
      */
-    public function injectTca()
+    public function injectTca() : void
     {
         $GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'][] = [
             0 => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce_long',
@@ -47,27 +47,28 @@ class Injector
             if ($dce['hidden']) {
                 continue;
             }
+            $dceIdentifier = $dce['identifier'];
 
             \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTcaSelectItem(
                 'tt_content',
                 'CType',
                 [
                     addcslashes($dce['title'], "'"),
-                    $dce['identifier'],
+                    $dceIdentifier,
                     $dce['hasCustomWizardIcon']
-                        ? 'ext-dce-' . $dce['identifier'] . '-customwizardicon'
+                        ? 'ext-dce-' . $dceIdentifier . '-customwizardicon'
                         : $dce['wizard_icon'],
                 ]
             );
 
-            $GLOBALS['TCA']['tt_content']['ctrl']['typeicon_classes'][$dce['identifier']] =
+            $GLOBALS['TCA']['tt_content']['ctrl']['typeicon_classes'][$dceIdentifier] =
                 $dce['hasCustomWizardIcon']
-                    ? 'ext-dce-' . $dce['identifier'] . '-customwizardicon'
+                    ? 'ext-dce-' . $dceIdentifier . '-customwizardicon'
                     : $dce['wizard_icon'];
 
-            $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$dce['identifier']] =
+            $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$dceIdentifier] =
                 'pi_flexform';
-            $GLOBALS['TCA']['tt_content']['columns']['pi_flexform']['config']['ds'][',' . $dce['identifier']] =
+            $GLOBALS['TCA']['tt_content']['columns']['pi_flexform']['config']['ds'][',' . $dceIdentifier] =
                 $this->renderFlexformXml($dce);
 
             $showAccessTabCode = $dce['show_access_tab']
@@ -82,16 +83,17 @@ class Injector
                 ? '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:categories,categories,'
                 : '';
 
-            $GLOBALS['TCA']['tt_content']['types'][$dce['identifier']]['showitem'] =
-                '--palette--;;dce_palette_' . $dce['identifier'] . '_head,
-                --palette--;;dce_palette_' . $dce['identifier'] . ',
-                pi_flexform,' . $showAccessTabCode . $showMediaTabCode . $showCategoryTabCode . '
-                --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xml:tabs.extended';
 
-            $GLOBALS['TCA']['tt_content']['palettes']['dce_palette_' . $dce['identifier'] . '_head']['canNotCollapse'] =
-                true;
-
-            $GLOBALS['TCA']['tt_content']['palettes']['dce_palette_' . $dce['identifier'] . '_head']['showitem'] =
+            $paletteIdentifier = 'dce_palette_' . $dceIdentifier;
+            $showItem = <<<TEXT
+--palette--;;${$paletteIdentifier}_head,
+--palette--;;${$paletteIdentifier},
+pi_flexform,${showAccessTabCode}${showMediaTabCode}${showCategoryTabCode}
+--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xml:tabs.extended
+TEXT;
+            $GLOBALS['TCA']['tt_content']['types'][$dceIdentifier]['showitem'] = $showItem;
+            $GLOBALS['TCA']['tt_content']['palettes'][$paletteIdentifier . '_head']['canNotCollapse'] = true;
+            $GLOBALS['TCA']['tt_content']['palettes'][$paletteIdentifier . '_head']['showitem'] =
                 'CType' . ($dce['enable_container'] ? ',tx_dce_new_container' : '');
 
             if ($dce['palette_fields']) {
@@ -102,17 +104,15 @@ class Injector
                     $dce['palette_fields'] = implode(',', array_diff($paletteFields, $fieldsToRemove));
                 }
 
-                $GLOBALS['TCA']['tt_content']['palettes']['dce_palette_' . $dce['identifier'] . '']['canNotCollapse'] =
-                    true;
-                $GLOBALS['TCA']['tt_content']['palettes']['dce_palette_' . $dce['identifier'] . '']['showitem']
-                    = $dce['palette_fields'];
+                $GLOBALS['TCA']['tt_content']['palettes'][$paletteIdentifier]['canNotCollapse'] = true;
+                $GLOBALS['TCA']['tt_content']['palettes'][$paletteIdentifier]['showitem'] = $dce['palette_fields'];
 
                 if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('gridelements')) {
-                    $GLOBALS['TCA']['tt_content']['palettes']['dce_palette_' . $dce['identifier'] . '']['showitem'] .=
+                    $GLOBALS['TCA']['tt_content']['palettes'][$paletteIdentifier]['showitem'] .=
                         ',tx_gridelements_container,tx_gridelements_columns';
                 }
                 if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('flux')) {
-                    $GLOBALS['TCA']['tt_content']['palettes']['dce_palette_' . $dce['identifier'] . '']['showitem'] .=
+                    $GLOBALS['TCA']['tt_content']['palettes'][$paletteIdentifier]['showitem'] .=
                         ',tx_flux_column,tx_flux_parent';
                 }
             }
@@ -126,7 +126,7 @@ class Injector
      * @return void
      * @throws \Doctrine\DBAL\DBALException
      */
-    public function injectPluginConfiguration()
+    public function injectPluginConfiguration() : void
     {
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
             'mod.wizards.newContentElement.wizardItems.dce.header = ' .
@@ -137,10 +137,11 @@ class Injector
             if ($dce['hidden']) {
                 continue;
             }
+            $dceIdentifier = $dce['identifier'];
 
             \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
                 'T3.dce',
-                substr($dce['identifier'], 4),
+                substr($dceIdentifier, 4),
                 [
                     'Dce' => 'show',
                 ],
@@ -149,7 +150,7 @@ class Injector
             );
 
             if ($dce['direct_output']) {
-                $dceIdentifier = $dce['identifier'];
+                $dceIdentifier = $dceIdentifier;
                 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
                     'dce',
                     'setup',
@@ -167,8 +168,8 @@ TYPOSCRIPT
             \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
                 'dce',
                 'setup',
-                '# Hide lib.stdheader for DCE with identifier ' . $dce['identifier'] . '
-            tt_content.' . $dce['identifier'] . '.10 >',
+                "# Hide lib.stdheader for DCE with identifier $dceIdentifier
+                 tt_content.$dceIdentifier.10 >",
                 43
             );
 
@@ -178,9 +179,8 @@ TYPOSCRIPT
                 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
                     'dce',
                     'setup',
-                    '# Hide default wrapping for content elements for DCE with identifier ' . $dce['identifier'] . '
-                tt_content.stdWrap.innerWrap.cObject.default.stdWrap.if.value := addToList(' . $dce['identifier'] .
-                    ')',
+                    "# Hide default wrapping for content elements for DCE with identifier $dceIdentifier}
+                     tt_content.stdWrap.innerWrap.cObject.default.stdWrap.if.value := addToList($dceIdentifier)",
                     43
                 );
             }
@@ -189,8 +189,8 @@ TYPOSCRIPT
                 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
                     'dce',
                     'setup',
-                    '# Change fluid_styled_content template name for DCE with identifier ' . $dce['identifier'] . '
-                     tt_content.' . $dce['identifier'] . '.templateName = DceContainerElement',
+                    "# Change fluid_styled_content template name for DCE with identifier $dceIdentifier
+                     tt_content.$dceIdentifier.templateName = DceContainerElement",
                     43
                 );
             }
@@ -201,28 +201,34 @@ TYPOSCRIPT
                         \TYPO3\CMS\Core\Imaging\IconRegistry::class
                     );
                     $iconRegistry->registerIcon(
-                        'ext-dce-' . $dce['identifier'] . '-customwizardicon',
+                        "ext-dce-$dceIdentifier-customwizardicon",
                         \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
                         ['source' => $dce['wizard_custom_icon']]
                     );
                 }
 
-                $iconIdentifierCode = $dce['hasCustomWizardIcon'] ? 'ext-dce-' . $dce['identifier'] .
-                    '-customwizardicon' : $dce['wizard_icon'];
+                $iconIdentifierCode = $dce['hasCustomWizardIcon']
+                    ? "ext-dce-$dceIdentifier-customwizardicon"
+                    : $dce['wizard_icon'];
+
+                $wizardCategory = $dce['wizard_category'];
+                $flexformLabel = $dce['flexform_label'];
+                $title = addcslashes($dce['title'], "'");
+                $description = addcslashes($dce['wizard_description'], "'");
 
                 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
-                    'mod.wizards.newContentElement.wizardItems.' . $dce['wizard_category'] . '.elements.' .
-                    $dce['identifier'] . ' {
-                    iconIdentifier = ' . $iconIdentifierCode . '
-                    title = ' . addcslashes($dce['title'], "'") . '
-                    description = ' . addcslashes($dce['wizard_description'], "'") . '
-                    tt_content_defValues {
-                        CType = ' . $dce['identifier'] . '
+                    "
+                    mod.wizards.newContentElement.wizardItems.$wizardCategory.elements.$dceIdentifier {
+                        iconIdentifier = $iconIdentifierCode
+                        title = $title
+                        description = $description
+                        tt_content_defValues {
+                            CType = $dceIdentifier
+                        }
                     }
-                }
-                mod.wizards.newContentElement.wizardItems.' . $dce['wizard_category'] . '.show := addToList(' .
-                    $dce['identifier'] . ')
-                TCEFORM.tt_content.pi_flexform.types.' . $dce['identifier'] . '.label = ' . $dce['flexform_label']
+                    mod.wizards.newContentElement.wizardItems.$wizardCategory.show := addToList($dceIdentifier)
+                    TCEFORM.tt_content.pi_flexform.types.$dceIdentifier.label = $flexformLabel
+                    "
                 );
             }
         }
@@ -235,7 +241,7 @@ TYPOSCRIPT
      * @param array $singleDceArray
      * @return string
      */
-    public function renderFlexformXml(array $singleDceArray)
+    public function renderFlexformXml(array $singleDceArray) : string
     {
         /** @var \TYPO3\CMS\Fluid\View\StandaloneView $fluidTemplate */
         $fluidTemplate = GeneralUtility::makeInstance(\TYPO3\CMS\Fluid\View\StandaloneView::class);
@@ -267,13 +273,15 @@ TYPOSCRIPT
      * @return array with DCE -> containing tabs -> containing fields
      * @throws \Doctrine\DBAL\DBALException
      */
-    protected function getDatabaseDces()
+    protected function getDatabaseDces() : array
     {
         /** @var $databaseConnection \T3\Dce\Utility\DatabaseConnection */
         $databaseConnection = \T3\Dce\Utility\DatabaseUtility::getDatabaseConnection();
 
         $tables = $databaseConnection->admin_get_tables();
-        if (!\in_array('tx_dce_domain_model_dce', $tables) || !\in_array('tx_dce_domain_model_dcefield', $tables)) {
+        if (!\in_array('tx_dce_domain_model_dce', $tables, true) ||
+            !\in_array('tx_dce_domain_model_dcefield', $tables, true)
+        ) {
             return [];
         }
 
@@ -284,7 +292,6 @@ TYPOSCRIPT
             '',
             'sorting asc'
         );
-
         $dceFieldRows = $databaseConnection->exec_SELECTgetRows(
             'tx_dce_domain_model_dcefield.*',
             'tx_dce_domain_model_dcefield, tx_dce_domain_model_dce',
@@ -381,11 +388,11 @@ TYPOSCRIPT
      * @param array $dces
      * @return array
      */
-    protected function ensureGridelementsFieldCompatibility($dces)
+    protected function ensureGridelementsFieldCompatibility(array $dces) : array
     {
         foreach ($dces as $key => $dceRow) {
             $paletteFields = GeneralUtility::trimExplode(',', $dceRow['palette_fields'], true);
-            if (!\in_array('colPos', $paletteFields)) {
+            if (!\in_array('colPos', $paletteFields, true)) {
                 $paletteFields[] = 'colPos';
             }
             $dces[$key]['palette_fields'] = implode(', ', $paletteFields);

@@ -7,11 +7,12 @@ namespace T3\Dce\ViewHelpers;
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Returns the given index of an array (subject).
  */
-class ArrayGetIndexViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
+class ArrayGetIndexViewHelper extends AbstractViewHelper
 {
     /**
      * @return void

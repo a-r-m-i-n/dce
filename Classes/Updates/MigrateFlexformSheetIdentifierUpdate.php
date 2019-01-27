@@ -6,6 +6,7 @@ namespace T3\Dce\Updates;
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
+use TYPO3\CMS\Core\Charset\CharsetConverter;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -159,7 +160,7 @@ class MigrateFlexformSheetIdentifierUpdate extends AbstractUpdate
      *
      * @return array DceField rows
      */
-    protected function getUpdatableDceFields()
+    protected function getUpdatableDceFields() : array
     {
         return $this->getDatabaseConnection()->exec_SELECTgetRows(
             '*',
@@ -175,7 +176,7 @@ class MigrateFlexformSheetIdentifierUpdate extends AbstractUpdate
      *
      * @return array tt_content rows
      */
-    protected function getUpdatableContentElements()
+    protected function getUpdatableContentElements() : array
     {
         return $this->getDatabaseConnection()->exec_SELECTgetRows(
             '*',
@@ -190,10 +191,10 @@ class MigrateFlexformSheetIdentifierUpdate extends AbstractUpdate
      * @param string $fieldTitle The title you want to convert
      * @return string The converted variable name in UpperCamelCase
      */
-    protected function convertFieldTitleToVariable($fieldTitle)
+    protected function convertFieldTitleToVariable(string $fieldTitle) : string
     {
-        /** @var \TYPO3\CMS\Core\Charset\CharsetConverter $charsetConverter */
-        $charsetConverter = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Charset\CharsetConverter::class);
+        /** @var CharsetConverter $charsetConverter */
+        $charsetConverter = GeneralUtility::makeInstance(CharsetConverter::class);
         $variable = $charsetConverter->specCharsToASCII('utf-8', $fieldTitle);
         $variable = preg_replace('/[^A-Z0-9]/i', '_', $variable);
         return GeneralUtility::underscoredToUpperCamelCase($variable);

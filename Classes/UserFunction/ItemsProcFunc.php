@@ -20,7 +20,7 @@ class ItemsProcFunc
      * @param array $parameters Referenced parameter array
      * @return void
      */
-    public function getDceFields(array &$parameters)
+    public function getDceFields(array &$parameters) : void
     {
         if (!isset($parameters['row']['uid']) || !is_numeric($parameters['row']['uid'])) {
             return;
@@ -59,7 +59,7 @@ class ItemsProcFunc
      * @return void
      * @throws \Doctrine\DBAL\DBALException
      */
-    public function getAvailableTtContentColumnsForTcaMapping(array &$parameters)
+    public function getAvailableTtContentColumnsForTcaMapping(array &$parameters) : void
     {
         $excludedColumns = [
             'uid',
@@ -84,8 +84,8 @@ class ItemsProcFunc
         $parameters['items'][] = [LocalizationUtility::translate('mapToIndexColumn', 'dce'), 'tx_dce_index'];
         $parameters['items'][] = [LocalizationUtility::translate('newcol', 'dce'), '*newcol'];
         $parameters['items'][] = [LocalizationUtility::translate('chooseExistingField', 'dce'), '--div--'];
-        foreach ($tcaColumns as $fieldName => $column) {
-            if (!\in_array($fieldName, $excludedColumns) && !empty($dbColumns[$fieldName]['Type'])) {
+        foreach (array_keys($tcaColumns) as $fieldName) {
+            if (!empty($dbColumns[$fieldName]['Type']) && !\in_array($fieldName, $excludedColumns, true)) {
                 $columnInfo = '"' . $dbColumns[$fieldName]['Type'] . '"';
                 $parameters['items'][] = [$fieldName . ' - ' . $columnInfo . '', $fieldName];
             }
@@ -119,8 +119,8 @@ class ItemsProcFunc
         $dbColumns = \T3\Dce\Utility\DatabaseUtility::getDatabaseConnection()->admin_get_fields('tt_content');
 
         $parameters['items'][] = ['--linebreak--', '--linebreak--'];
-        foreach ($tcaColumns as $fieldName => $column) {
-            if (!\in_array($fieldName, $excludedColumns) && !empty($dbColumns[$fieldName]['Type'])) {
+        foreach (array_keys($tcaColumns) as $fieldName) {
+            if (!empty($dbColumns[$fieldName]['Type']) && !\in_array($fieldName, $excludedColumns, true)) {
                 $label = trim($GLOBALS['LANG']->sL($tcaColumns[$fieldName]['label']), ': ');
                 if (empty($label)) {
                     $label = $fieldName;

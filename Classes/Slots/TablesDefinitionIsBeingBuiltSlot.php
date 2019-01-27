@@ -20,7 +20,7 @@ class TablesDefinitionIsBeingBuiltSlot
      * @return array
      * @throws \Doctrine\DBAL\DBALException
      */
-    public function extendTtContentTable(array $sqlStrings)
+    public function extendTtContentTable(array $sqlStrings) : array
     {
         if ($this->checkRequiredFieldsExisting()) {
             $sqlStrings[] = \T3\Dce\Components\FlexformToTcaMapper\Mapper::getSql();

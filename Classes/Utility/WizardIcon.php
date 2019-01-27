@@ -19,7 +19,7 @@ class WizardIcon
      * @param bool $withExtraRowForCustomIcon When true a --div-- and a another record will be added
      * @return array
      */
-    public static function getTcaListItems($withExtraRowForCustomIcon = true)
+    public static function getTcaListItems(bool $withExtraRowForCustomIcon = true) : array
     {
         $identifiers = self::getIconIdentifiers();
 
@@ -43,9 +43,9 @@ class WizardIcon
     /**
      * Returns icon identifiers available nativley by the system
      *
-     * @return array with strings
+     * @return string[] with strings
      */
-    public static function getIconIdentifiers()
+    public static function getIconIdentifiers() : array
     {
         return [
             'content-header',

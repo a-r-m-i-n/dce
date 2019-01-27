@@ -6,6 +6,8 @@ namespace T3\Dce\Utility;
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
+use TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser;
+use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -35,7 +37,7 @@ class TypoScript
      * @param ConfigurationManagerInterface $configurationManager
      * @return void
      */
-    public function injectConfigurationManager(ConfigurationManagerInterface $configurationManager)
+    public function injectConfigurationManager(ConfigurationManagerInterface $configurationManager) : void
     {
         $this->configurationManager = $configurationManager;
     }
@@ -45,7 +47,7 @@ class TypoScript
      *
      * @return void
      */
-    public function initializeObject()
+    public function initializeObject() : void
     {
         $this->contentObject = $this->configurationManager->getContentObject();
     }
@@ -57,10 +59,10 @@ class TypoScript
      * @param bool $returnPlainArray If TRUE a plain array will be returned.
      * @return array
      */
-    public function parseTypoScriptString($typoScriptString, $returnPlainArray = false)
+    public function parseTypoScriptString(string $typoScriptString, bool $returnPlainArray = false) : array
     {
-        /** @var \TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser $typoScriptParser */
-        $typoScriptParser = GeneralUtility::makeInstance(\TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser::class);
+        /** @var TypoScriptParser $typoScriptParser */
+        $typoScriptParser = GeneralUtility::makeInstance(TypoScriptParser::class);
         $typoScriptParser->parse($typoScriptString);
         if ($returnPlainArray === false) {
             return $typoScriptParser->setup;
@@ -78,8 +80,13 @@ class TypoScript
      * @param bool $init Internal
      * @return string TypoScript
      */
-    public function convertArrayToTypoScript(array $typoScriptArray, $addKey = '', $tab = 0, $init = true)
-    {
+    public function convertArrayToTypoScript(
+        array $typoScriptArray,
+        string $addKey = '',
+        int $tab = 0,
+        bool $init = true
+    ) : string {
+
         $typoScript = '';
         if ($addKey !== '') {
             $typoScript .= str_repeat("\t", ($tab === 0) ? $tab : $tab - 1) . $addKey . " {\n";
@@ -125,10 +132,10 @@ class TypoScript
      * @param array $typoScriptArray
      * @return array plain array
      */
-    public function convertTypoScriptArrayToPlainArray($typoScriptArray)
+    public function convertTypoScriptArrayToPlainArray(array $typoScriptArray) : array
     {
-        /** @var \TYPO3\CMS\Extbase\Service\TypoScriptService $typoScriptService */
-        $typoScriptService = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Service\TypoScriptService');
+        /** @var TypoScriptService $typoScriptService */
+        $typoScriptService = GeneralUtility::makeInstance(TypoScriptService::class);
         return $typoScriptService->convertTypoScriptArrayToPlainArray($typoScriptArray);
     }
 
@@ -139,7 +146,7 @@ class TypoScript
      * @param array $settings the typoscript configuration array
      * @return array the configuration array with the rendered typoscript
      */
-    public function renderConfigurationArray(array $settings)
+    public function renderConfigurationArray(array $settings) : array
     {
         $settings = $this->enhanceSettingsWithTypoScript($this->makeConfigurationArrayRenderable($settings));
         $result = [];
@@ -171,7 +178,7 @@ class TypoScript
      * @param array $settings Settings from flexform
      * @return array enhanced settings
      */
-    protected function enhanceSettingsWithTypoScript(array $settings)
+    protected function enhanceSettingsWithTypoScript(array $settings) : array
     {
         $extkey = 'tx_dce';
         $typoscript = $this->configurationManager->getConfiguration(
@@ -191,14 +198,14 @@ class TypoScript
      * transformation it can be rendered with cObjGetSingle.
      *
      * Example:
-     * Before:    $array['level1']['level2']['finalLevel'] = 'hello kitty'
-     * After:    $array['level1.']['level2.']['finalLevel'] = 'hello kitty'
-     *            $array['level1'] = 'TEXT'
+     * Before: $array['level1']['level2']['finalLevel'] = 'hello kitty'
+     * After:  $array['level1.']['level2.']['finalLevel'] = 'hello kitty'
+     *         $array['level1'] = 'TEXT'
      *
      * @param array $configuration settings array to make renderable
      * @return array the renderable settings
      */
-    protected function makeConfigurationArrayRenderable(array $configuration)
+    protected function makeConfigurationArrayRenderable(array $configuration) : array
     {
         $dottedConfiguration = [];
         foreach ($configuration as $key => $value) {

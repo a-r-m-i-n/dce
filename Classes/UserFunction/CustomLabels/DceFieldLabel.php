@@ -25,7 +25,7 @@ class DceFieldLabel
      * @param array $parameter
      * @return void
      */
-    public function getLabel(&$parameter)
+    public function getLabel(array &$parameter) : void
     {
         if (!isset($parameter['row']['variable']) || empty($parameter['row']['variable'])) {
             $parameter['title'] = LanguageService::sL($parameter['row']['title']);
@@ -63,7 +63,7 @@ class DceFieldLabel
      * @param array $parameter
      * @return void
      */
-    public function getLabelDce(&$parameter)
+    public function getLabelDce(array &$parameter) : void
     {
         $parameter['title'] = LanguageService::sL($parameter['row']['title']);
     }
@@ -75,7 +75,7 @@ class DceFieldLabel
      * @param array $parameter
      * @return bool TRUE if given field parameters are child field of section
      */
-    protected function isSectionChildField($parameter)
+    protected function isSectionChildField(array $parameter) : bool
     {
         return  !empty($parameter['row']['parent_field']);
     }
@@ -87,7 +87,7 @@ class DceFieldLabel
      * @param array $parameter
      * @return bool
      */
-    protected function isSectionField($parameter)
+    protected function isSectionField(array $parameter) : bool
     {
         return (int) $parameter['row']['type'][0] === DceField::TYPE_SECTION;
     }
@@ -98,7 +98,7 @@ class DceFieldLabel
      * @param array $parameter
      * @return bool
      */
-    protected function isTab($parameter)
+    protected function isTab(array $parameter) : bool
     {
         return (int) $parameter['row']['type'][0] === DceField::TYPE_TAB;
     }
@@ -107,14 +107,14 @@ class DceFieldLabel
      * Get row of dce field of given uid
      *
      * @param int $uid
-     * @return array dce field row
+     * @return array|null dce field row
      */
-    protected function getDceFieldRecordByUid($uid)
+    protected function getDceFieldRecordByUid(int $uid) : ?array
     {
         return \T3\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
             '*',
             'tx_dce_domain_model_dcefield',
-            'uid=' . (int) $uid
-        );
+            'uid=' . $uid
+        ) ?? null;
     }
 }

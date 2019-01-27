@@ -6,6 +6,8 @@ namespace T3\Dce\UserFunction\CustomFieldValidation;
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
+use TYPO3\CMS\Core\Messaging\FlashMessage;
+use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
@@ -19,7 +21,7 @@ abstract class AbstractFieldValidator
      *
      * @return string javascript function code for js validation
      */
-    public function returnFieldJs()
+    public function returnFieldJs() : string
     {
         return 'return value;';
     }
@@ -31,7 +33,7 @@ abstract class AbstractFieldValidator
      * @param bool $silent When true no flash messages should get created
      * @return mixed
      */
-    public function evaluateFieldValue($value, $silent = false)
+    public function evaluateFieldValue(string $value, bool $silent = false)
     {
         return $value;
     }
@@ -42,11 +44,10 @@ abstract class AbstractFieldValidator
      * @param string $message
      * @param string $title optional message title
      * @param int $severity optional severity code
-     *
      * @return void
      * @throws \InvalidArgumentException
      */
-    protected function addFlashMessage($message, $title = '', $severity = \TYPO3\CMS\Core\Messaging\FlashMessage::OK)
+    protected function addFlashMessage($message, $title = '', $severity = FlashMessage::OK) : void
     {
         if (!\is_string($message)) {
             throw new \InvalidArgumentException(
@@ -55,17 +56,17 @@ abstract class AbstractFieldValidator
             );
         }
 
-        /** @var \TYPO3\CMS\Core\Messaging\FlashMessage $message */
+        /** @var FlashMessage $message */
         $message = GeneralUtility::makeInstance(
-            \TYPO3\CMS\Core\Messaging\FlashMessage::class,
+            FlashMessage::class,
             $message,
             $title,
             $severity,
             true
         );
 
-        /** @var $flashMessageService \TYPO3\CMS\Core\Messaging\FlashMessageService */
-        $flashMessageService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Messaging\FlashMessageService::class);
+        /** @var $flashMessageService FlashMessageService */
+        $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
         $flashMessageService->getMessageQueueByIdentifier()->addMessage($message);
     }
 
@@ -76,7 +77,7 @@ abstract class AbstractFieldValidator
      * @param array $arguments optional arguments
      * @return string Translated text
      */
-    protected function translate($key, array $arguments = [])
+    protected function translate(string $key, array $arguments = []) : string
     {
         return LocalizationUtility::translate(
             'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:' . $key,

@@ -6,10 +6,10 @@ namespace T3\Dce\Utility;
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
+use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Domain\Repository\DceRepository;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\StringUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /**
@@ -22,7 +22,7 @@ class DatabaseUtility
      *
      * @return DatabaseConnection
      */
-    public static function getDatabaseConnection()
+    public static function getDatabaseConnection() : DatabaseConnection
     {
         return GeneralUtility::makeInstance(DatabaseConnection::class);
     }
@@ -44,7 +44,7 @@ class DatabaseUtility
      * @param string $tableName
      * @return string SQL where part containing enabled fields
      */
-    public static function getEnabledFields($tableName)
+    public static function getEnabledFields(string $tableName) : string
     {
         if (TYPO3_MODE === 'BE') {
             $enableFields = BackendUtility::BEenableFields($tableName) . BackendUtility::deleteClause($tableName);
@@ -62,10 +62,10 @@ class DatabaseUtility
     /**
      * Creates DCE domain object for a given content element
      *
-     * @param array|integer $contentElement The content element database record (or UID)
-     * @return \T3\Dce\Domain\Model\Dce|null The constructed DCE object or null
+     * @param array|int$contentElement The content element database record (or UID)
+     * @return Dce|null The constructed DCE object or null
      */
-    public static function getDceObjectForContentElement($contentElement)
+    public static function getDceObjectForContentElement($contentElement) : ?Dce
     {
         if (\is_string($contentElement) && strpos($contentElement, 'NEW') === 0) {
             throw new \InvalidArgumentException('This is a new content element, can\'t create DCE instance from it.');
@@ -110,7 +110,7 @@ class DatabaseUtility
         $dceUid = self::getDceUidByContentElementRow($contentElement);
         $dce = $dceRepository->findAndBuildOneByUid(
             $dceUid,
-            $flexData['settings'],
+            $flexData['settings'] ?? [],
             $contentElement
         );
         return $dce;

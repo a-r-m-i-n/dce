@@ -20,7 +20,7 @@ class File
      * @return string Resolved path to file
      * @throws
      */
-    public static function get($file)
+    public static function get(string $file) : string
     {
         $filePath = $file;
         if (GeneralUtility::isFirstPartOfStr($filePath, 'file:')) {
@@ -45,11 +45,11 @@ class File
      * File may contain "EXT:extension_key/path/to/file"
      *
      * @param string $file
-     * @return array
+     * @return array|null
      */
-    public static function openJsonFile($file)
+    public static function openJsonFile(string $file) : ?array
     {
         $content = file_get_contents(self::get($file));
-        return json_decode($content, true);
+        return json_decode($content, true) ?? null;
     }
 }

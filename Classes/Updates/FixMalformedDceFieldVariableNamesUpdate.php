@@ -125,7 +125,7 @@ class FixMalformedDceFieldVariableNamesUpdate extends AbstractUpdate
      * @see \T3\Dce\UserFunction\CustomFieldValidation\NoLeadingNumberValidator
      * @see \T3\Dce\UserFunction\CustomFieldValidation\LowerCamelCaseValidator
      */
-    protected function getDceFieldsWithMalformedVariableNames()
+    protected function getDceFieldsWithMalformedVariableNames() : array
     {
         $dceFieldRows = $this->getDatabaseConnection()->exec_SELECTgetRows(
             '*',
@@ -151,7 +151,7 @@ class FixMalformedDceFieldVariableNamesUpdate extends AbstractUpdate
      *
      * @return LowerCamelCaseValidator
      */
-    protected function getLowerCamelCaseValidator()
+    protected function getLowerCamelCaseValidator() : LowerCamelCaseValidator
     {
         /** @var LowerCamelCaseValidator $lowerCamelCaseValidator */
         $lowerCamelCaseValidator = GeneralUtility::makeInstance(
@@ -165,7 +165,7 @@ class FixMalformedDceFieldVariableNamesUpdate extends AbstractUpdate
      *
      * @return NoLeadingNumberValidator
      */
-    protected function getNoLeadingNumberValidator()
+    protected function getNoLeadingNumberValidator() : NoLeadingNumberValidator
     {
         /** @var NoLeadingNumberValidator $noLeadingNumberValidator */
         $noLeadingNumberValidator = GeneralUtility::makeInstance(
@@ -180,7 +180,7 @@ class FixMalformedDceFieldVariableNamesUpdate extends AbstractUpdate
      * @param string $variableName e.g. "4ExampleValue"
      * @return string "exampleValue"
      */
-    protected function fixVariableName($variableName)
+    protected function fixVariableName(string $variableName) : string
     {
         $lowerCamelCaseValidator = $this->getLowerCamelCaseValidator();
         $noLeadingNumberValidator = $this->getNoLeadingNumberValidator();
@@ -199,7 +199,7 @@ class FixMalformedDceFieldVariableNamesUpdate extends AbstractUpdate
      * @return array
      * @see \TYPO3\CMS\Core\Utility\ArrayUtility::flatten
      */
-    protected function flattenArray(array $array, $prefix = '', $delimiter = '.')
+    protected function flattenArray(array $array, $prefix = '', $delimiter = '.') : array
     {
         $flatArray = [];
         foreach ($array as $key => $value) {

@@ -78,7 +78,7 @@ class DatabaseConnection implements \TYPO3\CMS\Core\SingletonInterface
      * @return \Doctrine\DBAL\Schema\AbstractSchemaManager|\Doctrine\DBAL\Schema\Column[]|\TYPO3\CMS\Core\Database\Connection
      * @throws \Doctrine\DBAL\DBALException
      */
-    public function admin_get_fields($tableName) : array
+    public function admin_get_fields(string $tableName) : array
     {
         $connectionNames = $this->connectionPool->getConnectionNames();
         $connection = $this->connectionPool->getConnectionByName(reset($connectionNames));
@@ -95,7 +95,7 @@ class DatabaseConnection implements \TYPO3\CMS\Core\SingletonInterface
     /**
      * @return string
      */
-    public function debug_lastBuiltQuery()
+    public function debug_lastBuiltQuery() : string
     {
         if ($this->lastUsedQueryBuilder) {
             return $this->lastUsedQueryBuilder->getSQL();
@@ -103,8 +103,11 @@ class DatabaseConnection implements \TYPO3\CMS\Core\SingletonInterface
         return '';
     }
 
-
-    public function fullQuoteStr($string)
+    /**
+     * @param string $string
+     * @return string
+     */
+    public function fullQuoteStr(string $string) : string
     {
         return addcslashes($string, '\'"`´');
     }
@@ -123,8 +126,15 @@ class DatabaseConnection implements \TYPO3\CMS\Core\SingletonInterface
      * @see exec_SELECTquery()
      * @throws \InvalidArgumentException
      */
-    public function exec_SELECTgetRows($select_fields, $from_table, $where_clause, $groupBy = '', $orderBy = '', $limit = '', $uidIndexField = '')
-    {
+    public function exec_SELECTgetRows(
+        string $select_fields,
+        string $from_table,
+        string $where_clause,
+        string $groupBy = '',
+        string $orderBy = '',
+        string $limit = '',
+        string $uidIndexField = ''
+    ) : ?array {
         $tables = GeneralUtility::trimExplode(',', $from_table, true);
         if (\count($tables) > 1) {
             $from_table = $tables[0];
@@ -167,7 +177,7 @@ class DatabaseConnection implements \TYPO3\CMS\Core\SingletonInterface
             return $indexedResult;
         }
 
-        return $result;
+        return $result ?? null;
     }
 
     /**
@@ -202,19 +212,19 @@ class DatabaseConnection implements \TYPO3\CMS\Core\SingletonInterface
      * @param string $groupBy Optional GROUP BY field(s), if none, supply blank string.
      * @param string $orderBy Optional ORDER BY field(s), if none, supply blank string.
      * @param string $limit Optional LIMIT value ([begin,]max), if none, supply blank string.
-     * @return array
+     * @return array|null
      * @see exec_SELECTquery()
      */
     public function exec_SELECT_mm_query(
-        $select,
-        $local_table,
-        $mm_table,
-        $foreign_table,
-        $whereClause = '',
-        $groupBy = '',
-        $orderBy = '',
-        $limit = ''
-    ) {
+        string $select,
+        string $local_table,
+        string $mm_table,
+        string $foreign_table,
+        string $whereClause = '',
+        string $groupBy = '',
+        string $orderBy = '',
+        string $limit = ''
+    ) : ?array {
         $queryParts = $this->getSelectMmQueryParts(
             $select,
             $local_table,
@@ -232,20 +242,30 @@ class DatabaseConnection implements \TYPO3\CMS\Core\SingletonInterface
             $queryParts['GROUPBY'],
             $queryParts['ORDERBY'],
             $queryParts['LIMIT']
-        );
+        ) ?? null;
     }
 
-
+    /**
+     * @param string $select
+     * @param string $local_table
+     * @param string $mm_table
+     * @param string $foreign_table
+     * @param string $whereClause
+     * @param string $groupBy
+     * @param string $orderBy
+     * @param string $limit
+     * @return array
+     */
     protected function getSelectMmQueryParts(
-        $select,
-        $local_table,
-        $mm_table,
-        $foreign_table,
-        $whereClause = '',
-        $groupBy = '',
-        $orderBy = '',
-        $limit = ''
-    ) {
+        string $select,
+        string $local_table,
+        string $mm_table,
+        string $foreign_table,
+        string $whereClause = '',
+        string $groupBy = '',
+        string $orderBy = '',
+        string $limit = ''
+    ) : array {
         $foreign_table_as = $foreign_table == $local_table ? $foreign_table . StringUtility::getUniqueId('_join') : '';
         $mmWhere = $local_table ? $local_table . '.uid=' . $mm_table . '.uid_local' : '';
         $mmWhere .= ($local_table and $foreign_table) ? ' AND ' : '';
@@ -272,10 +292,9 @@ class DatabaseConnection implements \TYPO3\CMS\Core\SingletonInterface
      * @param array $fields_values Field values as key=>value pairs. Values will be escaped internally.
      *              Typically you would fill an array like "$insertFields" with 'fieldname'=>'value' and pass it
      *              to this function as argument.
-     * @param bool|array|string $no_quote_fields See fullQuoteArray()
      * @return bool
      */
-    public function exec_INSERTquery($table, $fields_values, $no_quote_fields = false)
+    public function exec_INSERTquery(string $table, array $fields_values) : bool
     {
         $query = $this->getQueryBuilderForTable($table);
         $query
@@ -289,7 +308,7 @@ class DatabaseConnection implements \TYPO3\CMS\Core\SingletonInterface
      * @return string
      * @throws \Doctrine\DBAL\DBALException
      */
-    public function sql_insert_id()
+    public function sql_insert_id() : string
     {
         $connectionNames = $this->connectionPool->getConnectionNames();
         $connection = $this->connectionPool->getConnectionByName(reset($connectionNames));
@@ -306,10 +325,9 @@ class DatabaseConnection implements \TYPO3\CMS\Core\SingletonInterface
      * @param array $fields_values Field values as key=>value pairs. Values will be escaped internally.
      *              Typically you would fill an array like "$updateFields" with 'fieldname'=>'value' and pass it
      *              to this function as argument.
-     * @param bool|array|string $no_quote_fields See fullQuoteArray()
      * @return bool
      */
-    public function exec_UPDATEquery($table, $where, $fields_values, $no_quote_fields = false)
+    public function exec_UPDATEquery(string $table, string $where, array $fields_values) : bool
     {
         $query = $this->getQueryBuilderForTable($table);
         $query

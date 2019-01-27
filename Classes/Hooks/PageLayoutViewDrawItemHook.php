@@ -6,7 +6,11 @@ namespace T3\Dce\Hooks;
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
+use T3\Dce\Components\BackendView\SimpleBackendView;
 use T3\Dce\Utility\DatabaseUtility;
+use TYPO3\CMS\Backend\View\PageLayoutView;
+use TYPO3\CMS\Core\Page\PageRenderer;
+use TYPO3\CMS\Core\Resource\Exception\ResourceDoesNotExistException;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -23,13 +27,13 @@ class PageLayoutViewDrawItemHook implements \TYPO3\CMS\Backend\View\PageLayoutVi
     /**
      * Disable rendering restrictions for dce content elements
      *
-     * @param \TYPO3\CMS\Backend\View\PageLayoutView $parentObject
-     * @param $drawItem
-     * @param $headerContent
-     * @param $itemContent
+     * @param PageLayoutView $parentObject
+     * @param bool $drawItem
+     * @param string $headerContent
+     * @param string $itemContent
      * @param array $row #
      * @return void
-     * @throws \TYPO3\CMS\Core\Resource\Exception\ResourceDoesNotExistException
+     * @throws ResourceDoesNotExistException
      */
     public function preProcess(
         \TYPO3\CMS\Backend\View\PageLayoutView &$parentObject,
@@ -45,7 +49,7 @@ class PageLayoutViewDrawItemHook implements \TYPO3\CMS\Backend\View\PageLayoutVi
 
         try {
             /** @var \T3\Dce\Domain\Model\Dce $dce */
-            $dce = \T3\Dce\Utility\DatabaseUtility::getDceObjectForContentElement($row['uid']);
+            $dce = DatabaseUtility::getDceObjectForContentElement($row['uid']);
         } catch (\Exception $exception) {
             $headerContent = '<strong class="text-danger">' . $exception->getMessage() .'</strong>';
             return;
@@ -55,9 +59,9 @@ class PageLayoutViewDrawItemHook implements \TYPO3\CMS\Backend\View\PageLayoutVi
         if ($dce->isUseSimpleBackendView()) {
             $this->addPageViewStylesheets();
 
-            /** @var \T3\Dce\Components\BackendView\SimpleBackendView $simpleBackendView */
+            /** @var SimpleBackendView $simpleBackendView */
             $simpleBackendView = GeneralUtility::makeInstance(
-                \T3\Dce\Components\BackendView\SimpleBackendView::class
+                SimpleBackendView::class
             );
 
             $headerContent = $parentObject->linkEditContent(
@@ -79,13 +83,13 @@ class PageLayoutViewDrawItemHook implements \TYPO3\CMS\Backend\View\PageLayoutVi
      *
      * @return void
      */
-    protected function addPageViewStylesheets()
+    protected function addPageViewStylesheets() : void
     {
         if ($this->stylesAdded) {
             return;
         }
-        /** @var \TYPO3\CMS\Core\Page\PageRenderer $pageRenderer */
-        $pageRenderer = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\PageRenderer::class);
+        /** @var PageRenderer $pageRenderer */
+        $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
         $pageRenderer->addCssInlineBlock(
             'DcePageLayoutStyles',
             file_get_contents(ExtensionManagementUtility::extPath('dce') . 'Resources/Public/Css/dceInstance.css')

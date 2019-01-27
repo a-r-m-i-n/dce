@@ -11,6 +11,7 @@ use T3\Dce\Domain\Repository\DceRepository;
 use T3\Dce\Utility\DatabaseUtility;
 use T3\Dce\Utility\FlashMessage;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
@@ -41,19 +42,19 @@ class AfterSaveHook
      * @param array $fieldSettings
      * @return string
      */
-    protected function getVariableNameFromFieldSettings(array $fieldSettings)
+    protected function getVariableNameFromFieldSettings(array $fieldSettings) : string
     {
         if (!isset($fieldSettings['variable']) || empty($fieldSettings['variable'])) {
             switch ($fieldSettings['type']) {
                 default:
                 case 0:
-                    return uniqid('field_', true);
+                    return uniqid('field_');
 
                 case 1:
-                    return uniqid('tab_', true);
+                    return uniqid('tab_');
 
                 case 2:
-                    return uniqid('section_', true);
+                    return uniqid('section_');
             }
         }
         return $fieldSettings['variable'];
@@ -64,22 +65,25 @@ class AfterSaveHook
     /**
      * Hook action
      *
-     * @param $status
-     * @param $table
-     * @param $id
+     * @param string $status
+     * @param string $table
+     * @param string|int $id
      * @param array $fieldArray
      * @param DataHandler $pObj
      * @return void
      * @throws \TYPO3\CMS\Core\Exception
      */
     public function processDatamap_afterDatabaseOperations(
-        $status,
-        $table,
+        string $status,
+        string $table,
         $id,
         array $fieldArray,
         DataHandler $pObj
-    ) {
-        $this->extConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dce']);
+    ) : void {
+        $this->extConfiguration = unserialize(
+            $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dce'],
+            ['allowed_classes' => false]
+        );
         $this->dataHandler = $pObj;
         $this->fieldArray = [];
         foreach ($fieldArray as $key => $value) {
@@ -90,31 +94,30 @@ class AfterSaveHook
         $this->uid = $this->getUid($id, $table, $status, $pObj);
 
         // Write flexform values to TCA, when enabled
-        if ($table === 'tt_content' && $this->isDceContentElement($pObj)) {
+        if ($table === 'tt_content') {
             $contentRow = $this->dataHandler->recordInfo('tt_content', $this->uid, '*');
 
-            $dceUid = DceRepository::extractUidFromCTypeOrIdentifier($contentRow['CType']);
-            if ($dceUid) {
+            if ($dceUid = DceRepository::extractUidFromCTypeOrIdentifier($contentRow['CType'])) {
                 $dceRow = $this->dataHandler->recordInfo('tx_dce_domain_model_dce', $dceUid, '*');
-            }
-            $dceIdentifier = !empty($dceRow['identifier']) ? 'dce_' . $dceRow['identifier']
-                : 'dce_dceuid' . $dceUid;
+                $dceIdentifier = !empty($dceRow['identifier']) ? 'dce_' . $dceRow['identifier']
+                    : 'dce_dceuid' . $dceUid;
 
-            $this->checkAndUpdateDceRelationField($contentRow, $dceIdentifier);
-            TcaMapper::saveFlexformValuesToTca(
-                [
-                    'uid' => $this->uid,
-                    'CType' => $dceIdentifier
-                ],
-                $this->fieldArray['pi_flexform']
-            );
-            unset($dceIdentifier);
+                $this->checkAndUpdateDceRelationField($contentRow, $dceIdentifier);
+                TcaMapper::saveFlexformValuesToTca(
+                    [
+                        'uid' => $this->uid,
+                        'CType' => $dceIdentifier
+                    ],
+                    $this->fieldArray['pi_flexform']
+                );
+                unset($dceIdentifier);
+            }
         }
 
         // When a DCE is disabled, also disable/hide the based content elements
         if ($table === 'tx_dce_domain_model_dce' && $status === 'update') {
             if (!isset($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceImportInProgress'])) {
-                if (array_key_exists('hidden', $fieldArray) && $fieldArray['hidden'] == '1') {
+                if (array_key_exists('hidden', $fieldArray) && $fieldArray['hidden'] === '1') {
                     $dceRow = $this->dataHandler->recordInfo('tx_dce_domain_model_dce', $this->uid, '*');
                     $dceIdentifier = !empty($dceRow['identifier']) ? 'dce_' . $dceRow['identifier']
                                                                             : 'dce_dceuid' . $this->uid;
@@ -129,7 +132,7 @@ class AfterSaveHook
             if (array_key_exists('new_tca_field_name', $fieldArray) ||
                 array_key_exists('new_tca_field_type', $fieldArray)
             ) {
-                \T3\Dce\Utility\FlashMessage::add(
+                FlashMessage::add(
                     'You did some changes (in DceField with uid ' . $this->uid . ') which affects the sql schema of ' .
                     'tt_content table. Please don\'t forget to update database schema (in e.g. Install Tool)!',
                     'SQL schema changes detected!',
@@ -145,7 +148,7 @@ class AfterSaveHook
                     $items = GeneralUtility::trimExplode(',', $fieldArray['backend_view_bodytext'], true);
                     $items[] = '*containerflag';
                 } else {
-                    $items = \TYPO3\CMS\Core\Utility\ArrayUtility::removeArrayEntryByValue(
+                    $items = ArrayUtility::removeArrayEntryByValue(
                         GeneralUtility::trimExplode(',', $fieldArray['backend_view_bodytext'], true),
                         '*containerflag'
                     );

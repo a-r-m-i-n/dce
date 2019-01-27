@@ -7,6 +7,7 @@ namespace T3\Dce\Updates;
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
 use T3\Dce\Utility\DatabaseConnection;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Migrate m:n-relation of dce fields to 1:n-relation
@@ -42,7 +43,7 @@ class AbstractUpdate extends \TYPO3\CMS\Install\Updates\AbstractUpdate
      * @param array $dbQueries
      * @return void
      */
-    protected function storeLastQuery(&$dbQueries)
+    protected function storeLastQuery(&$dbQueries) : void
     {
         $dbQueries[] = $this->getDatabaseConnection()->debug_lastBuiltQuery();
     }
@@ -50,9 +51,9 @@ class AbstractUpdate extends \TYPO3\CMS\Install\Updates\AbstractUpdate
     /**
      * @return DatabaseConnection
      */
-    protected function getDatabaseConnection()
+    protected function getDatabaseConnection() : DatabaseConnection
     {
-        return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(DatabaseConnection::class);
+        return GeneralUtility::makeInstance(DatabaseConnection::class);
     }
 
     /**

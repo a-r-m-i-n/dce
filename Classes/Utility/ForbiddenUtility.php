@@ -24,7 +24,7 @@ class ForbiddenUtility
      * @param string $action
      * @return void
      */
-    public static function setExtbaseRelatedPostParameters($controller, $action)
+    public static function setExtbaseRelatedPostParameters(string $controller, string $action) : void
     {
         $_POST['tx_dce_tools_dcedcemodule']['controller'] = $controller;
         $_POST['tx_dce_tools_dcedcemodule']['action'] = $action;

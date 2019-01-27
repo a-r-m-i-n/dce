@@ -17,7 +17,7 @@ namespace T3\Dce\UserConditions;
  * @param int $dceUid Uid of DCE type to check for
  * @return bool Returns true if the current page contains a DCE (instance)
  */
-function user_dceOnCurrentPage(int $dceUid)
+function user_dceOnCurrentPage(int $dceUid) : bool
 {
     if (TYPO3_MODE !== 'FE') {
         return false;

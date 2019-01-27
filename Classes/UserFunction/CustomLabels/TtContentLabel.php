@@ -23,7 +23,7 @@ class TtContentLabel
      * @param array $parameter
      * @return void
      */
-    public function getLabel(&$parameter)
+    public function getLabel(array &$parameter) : void
     {
         if ((\is_string($parameter['row']['CType']) || \is_array($parameter['row']['CType'])) &&
             $this->isDceContentElement($parameter['row'])
@@ -59,7 +59,7 @@ class TtContentLabel
      * @param array $row
      * @return bool
      */
-    protected function isDceContentElement(array $row)
+    protected function isDceContentElement(array $row) : bool
     {
         $cType = $row['CType'];
         if (\is_array($cType)) {

@@ -163,7 +163,7 @@ class ContainerFactory
      * @param int|array|null $contentElement
      * @return void
      */
-    public static function clearContentElementsToSkip($contentElement = null)
+    public static function clearContentElementsToSkip($contentElement = null) : void
     {
         if ($contentElement === null) {
             static::$toSkip = [];

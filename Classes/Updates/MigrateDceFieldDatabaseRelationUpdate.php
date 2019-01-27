@@ -231,7 +231,7 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
      *
      * @return array DceField row
      */
-    protected function getUpdatableDceFields()
+    protected function getUpdatableDceFields() : array
     {
         return $this->getDatabaseConnection()->exec_SELECTgetRows(
             '*',
@@ -247,7 +247,7 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
      * @return string|null
      * @throws \Doctrine\DBAL\DBALException
      */
-    protected function getSourceTableNameForDceField()
+    protected function getSourceTableNameForDceField() : ?string
     {
         if (array_key_exists('tx_dce_dce_dcefield_mm', $this->getDatabaseConnection()->admin_get_tables())) {
             return 'tx_dce_dce_dcefield_mm';
@@ -268,7 +268,7 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
      * @return string|null
      * @throws \Doctrine\DBAL\DBALException
      */
-    protected function getSourceTableNameForSectionField()
+    protected function getSourceTableNameForSectionField() : ?string
     {
         if (array_key_exists('tx_dce_dcefield_sectionfields_mm', $this->getDatabaseConnection()->admin_get_tables())) {
             return 'tx_dce_dcefield_sectionfields_mm';

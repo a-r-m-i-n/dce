@@ -19,16 +19,19 @@ class LiveSearch extends \TYPO3\CMS\Backend\Search\LiveSearch\LiveSearch
      * @param QueryBuilder $queryBuilder
      * @param string $tableName
      * @param array $fieldsToSearchWithin
-     * @return mixed|string
+     * @return string
      */
-    protected function makeQuerySearchByTable(QueryBuilder &$queryBuilder, $tableName, array $fieldsToSearchWithin)
-    {
-        $data = parent::makeQuerySearchByTable($queryBuilder, $tableName, $fieldsToSearchWithin);
+    protected function makeQuerySearchByTable(
+        QueryBuilder &$queryBuilder,
+        string $tableName,
+        array $fieldsToSearchWithin
+    ) {
+        $whereClause = (string) parent::makeQuerySearchByTable($queryBuilder, $tableName, $fieldsToSearchWithin);
         $searchString = 'CType=\'text\' OR CType=\'textpic\'';
         $dceAppendix = ' OR CType LIKE \'dce_%\'';
-        if (strpos($data, $searchString) !== false) {
-            $data = str_replace($searchString, $searchString . $dceAppendix, $data);
+        if (strpos($whereClause, $searchString) !== false) {
+            $whereClause = str_replace($searchString, $searchString . $dceAppendix, $whereClause);
         }
-        return $data;
+        return $whereClause;
     }
 }

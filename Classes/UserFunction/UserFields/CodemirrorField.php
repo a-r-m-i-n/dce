@@ -9,6 +9,7 @@ namespace T3\Dce\UserFunction\UserFields;
 use T3\Dce\Utility\File;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
  * Codemirror text area field
@@ -21,18 +22,21 @@ class CodemirrorField
     protected $parameter = [];
 
     /**
-     * @param $parameter
+     * @param array $parameter
      * @return string
      */
-    public function getCodemirrorField($parameter)
+    public function getCodemirrorField(array $parameter) : string
     {
         /** @var $extConfiguration array */
-        $extConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dce']);
+        $extConfiguration = unserialize(
+            $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dce'],
+            ['allowed_classes' => false]
+        );
 
         $this->parameter = $parameter;
 
-        /** @var \TYPO3\CMS\Fluid\View\StandaloneView $fluidTemplate */
-        $fluidTemplate = GeneralUtility::makeInstance(\TYPO3\CMS\Fluid\View\StandaloneView::class);
+        /** @var StandaloneView $fluidTemplate */
+        $fluidTemplate = GeneralUtility::makeInstance(StandaloneView::class);
         $fluidTemplate->setLayoutRootPaths([File::get('EXT:dce/Resources/Private/Layouts/')]);
         $fluidTemplate->setPartialRootPaths([File::get('EXT:dce/Resources/Private/Partials/')]);
         $fluidTemplate->setTemplatePathAndFilename(File::get(
@@ -70,7 +74,7 @@ class CodemirrorField
      *
      * @return array
      */
-    protected function getAvailableFields()
+    protected function getAvailableFields() : array
     {
         $fields = [];
         $rowFields = $this->parameter['row']['fields'];
@@ -107,7 +111,7 @@ class CodemirrorField
     /**
      * @return array
      */
-    protected function getAvailableTemplates()
+    protected function getAvailableTemplates() : array
     {
         $path = ExtensionManagementUtility::extPath('dce') . 'Resources/Public/CodeSnippets/ConfigurationTemplates/';
         $templates = GeneralUtility::get_dirs($path);
@@ -119,7 +123,7 @@ class CodemirrorField
                 $filename = preg_replace('/(.*)\.xml/i', '$1', $file);
                 $files[$filename] = file_get_contents($path . $key . '/' . $file);
             }
-            $keyNoNumber = preg_replace('/.*? (.*)/i', '$1', $key);
+            $keyNoNumber = preg_replace('/.*? (.*)/', '$1', $key);
 
             unset($templates[$key]);
             $templates[$keyNoNumber] = $files;
@@ -130,7 +134,7 @@ class CodemirrorField
     /**
      * @return array
      */
-    protected function getFamousViewHelpers()
+    protected function getFamousViewHelpers() : array
     {
         return $this->getViewhelpers(
             ExtensionManagementUtility::extPath('dce') . 'Resources/Public/CodeSnippets/FamousViewHelpers/'
@@ -140,7 +144,7 @@ class CodemirrorField
     /**
      * @return array
      */
-    protected function getDceViewHelpers()
+    protected function getDceViewHelpers() : array
     {
         return $this->getViewhelpers(
             ExtensionManagementUtility::extPath('dce') . 'Resources/Public/CodeSnippets/DceViewHelpers/'
@@ -151,7 +155,7 @@ class CodemirrorField
      * @param string $path
      * @return array
      */
-    protected function getViewhelpers($path)
+    protected function getViewhelpers(string $path) : array
     {
         $files = GeneralUtility::getFilesInDir($path);
         $viewHelpers = [];

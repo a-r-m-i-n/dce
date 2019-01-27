@@ -7,11 +7,12 @@ namespace T3\Dce\ViewHelpers\Be;
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Gets the current language key as string
  */
-class CurrentLanguageViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
+class CurrentLanguageViewHelper extends AbstractViewHelper
 {
     /**
      * @param array $arguments

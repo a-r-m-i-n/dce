@@ -7,12 +7,15 @@ namespace T3\Dce\ViewHelpers;
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
 use T3\Dce\Utility\DatabaseUtility;
+use TYPO3\CMS\Core\Resource\FileRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Page\PageRepository;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Receives FAL FileReference objects
  */
-class FalViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
+class FalViewHelper extends AbstractViewHelper
 {
     /**
      * @return void
@@ -69,8 +72,8 @@ class FalViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
             $contentObjectUid = $this->arguments['uid'];
         }
 
-        /** @var \TYPO3\CMS\Frontend\Page\PageRepository $pageRepository */
-        $pageRepository = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Page\PageRepository::class);
+        /** @var PageRepository $pageRepository */
+        $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
         $rows = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
             'uid',
             'sys_file_reference',
@@ -84,8 +87,8 @@ class FalViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
             'uid'
         );
 
-        /** @var \TYPO3\CMS\Core\Resource\FileRepository $fileRepository */
-        $fileRepository = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\FileRepository::class);
+        /** @var FileRepository $fileRepository */
+        $fileRepository = GeneralUtility::makeInstance(FileRepository::class);
         $result = [];
         foreach ($rows as $referenceUid) {
             $result[] = $fileRepository->findFileReferenceByUid((int) $referenceUid['uid']);

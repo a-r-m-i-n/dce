@@ -6,7 +6,10 @@ namespace T3\Dce\Controller;
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
+use T3\Dce\Domain\Repository\DceRepository;
 use T3\Dce\Utility\File;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
@@ -16,17 +19,27 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 class DceModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
     /**
-     * @var \T3\Dce\Domain\Repository\DceRepository
-     * @inject
+     * @var DceRepository
      */
     protected $dceRepository;
+
+    /**
+     * Initialize Action
+     *
+     * @return void
+     */
+    public function initializeAction() : void
+    {
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        $this->dceRepository = $objectManager->get(DceRepository::class);
+    }
 
     /**
      * Index Action
      *
      * @return void
      */
-    public function indexAction()
+    public function indexAction() : void
     {
         $this->view->assign('dces', $this->dceRepository->findAllAndStatics(true));
     }
@@ -37,7 +50,7 @@ class DceModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
      * @return void
      * @throws \TYPO3\CMS\Core\Exception
      */
-    public function updateTcaMappingsAction(\T3\Dce\Domain\Model\Dce $dce, $perform = false)
+    public function updateTcaMappingsAction(\T3\Dce\Domain\Model\Dce $dce, $perform = false) : void
     {
         $contentElements = $this->dceRepository->findContentElementsBasedOnDce($dce);
         $this->view->assign('contentElements', $contentElements);
@@ -60,7 +73,7 @@ class DceModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
      */
-    public function clearCachesAction()
+    public function clearCachesAction() : void
     {
         /** @var \TYPO3\CMS\Core\DataHandling\DataHandler $dataHandler */
         $dataHandler = $this->objectManager->get(\TYPO3\CMS\Core\DataHandling\DataHandler::class);
@@ -73,7 +86,6 @@ class DceModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
             LocalizationUtility::translate($translateKey . 'clearCaches', 'dce')
         );
         $this->redirect('index');
-        return;
     }
 
     /**
@@ -81,7 +93,7 @@ class DceModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
      *
      * @return void
      */
-    public function hallOfFameAction()
+    public function hallOfFameAction() : void
     {
         $donators = File::openJsonFile('EXT:dce/Resources/Private/Data/Donators.json');
         $this->view->assign('donators', $donators);

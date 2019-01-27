@@ -6,11 +6,12 @@ namespace T3\Dce\ViewHelpers;
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Returns the url of current page
  */
-class ThisUrlViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
+class ThisUrlViewHelper extends AbstractViewHelper
 {
     /**
      * @return void

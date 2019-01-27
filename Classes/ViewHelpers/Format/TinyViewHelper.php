@@ -7,11 +7,12 @@ namespace T3\Dce\ViewHelpers\Format;
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Removes new lines and tabs from given subject.
  */
-class TinyViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
+class TinyViewHelper extends AbstractViewHelper
 {
     /**
      * @var bool We accept value and children interchangeably, thus we must disable children escaping.

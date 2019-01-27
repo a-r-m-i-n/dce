@@ -7,11 +7,12 @@ namespace T3\Dce\ViewHelpers\Format;
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Make a string's first character uppercase in given subject
  */
-class UcfirstViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
+class UcfirstViewHelper extends AbstractViewHelper
 {
     /**
      * @return void

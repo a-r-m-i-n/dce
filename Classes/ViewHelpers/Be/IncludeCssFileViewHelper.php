@@ -8,11 +8,12 @@ namespace T3\Dce\ViewHelpers\Be;
  */
 use T3\Dce\Utility\File;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * This view helper adds inline css
  */
-class IncludeCssFileViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
+class IncludeCssFileViewHelper extends AbstractViewHelper
 {
     /**
      * Plain HTML should be returned, no output escaping allowed

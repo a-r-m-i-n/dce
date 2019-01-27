@@ -6,13 +6,15 @@ namespace T3\Dce\ViewHelpers;
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * GP viewhelper which returns get or post variables using _GP method of TYPO3\CMS\Core\Utility\GeneralUtility.
  * Never use this viewhelper for direct output!! This would provoke XSS (Cross site scripting).
  */
-class GPViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
+class GPViewHelper extends AbstractViewHelper
 {
     /**
      * @return void
@@ -38,6 +40,6 @@ class GPViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
         if ($subject === null) {
             $subject = $renderChildrenClosure();
         }
-        return \TYPO3\CMS\Core\Utility\GeneralUtility::_GP($subject);
+        return GeneralUtility::_GP($subject);
     }
 }

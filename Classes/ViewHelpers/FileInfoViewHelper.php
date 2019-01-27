@@ -6,7 +6,11 @@ namespace T3\Dce\ViewHelpers;
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
+use TYPO3\CMS\Core\Resource\File;
+use TYPO3\CMS\Core\Resource\FileRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * FileInfo viewhelper
@@ -20,10 +24,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  *     </f:for>
  * </f:for>
  */
-class FileInfoViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
+class FileInfoViewHelper extends AbstractViewHelper
 {
     /**
-     * @var \TYPO3\CMS\Core\Resource\FileRepository
+     * @var FileRepository
      */
     protected static $fileRepository;
 
@@ -69,7 +73,7 @@ class FileInfoViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewH
      * Get file
      *
      * @param int $fileUid
-     * @return \TYPO3\CMS\Core\Resource\File
+     * @return File
      * @throws \Exception
      */
     protected function getFile($fileUid)
@@ -78,7 +82,7 @@ class FileInfoViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewH
             return self::$files[$fileUid];
         }
         $file = $this->getFileRepository()->findByUid((int)$fileUid);
-        if (!$file instanceof \TYPO3\CMS\Core\Resource\File) {
+        if (!$file instanceof File) {
             throw new \Exception('No file found with uid "' . (int)$fileUid . '"!', 1429046285);
         }
         self::$files[$fileUid] = $file;
@@ -88,17 +92,17 @@ class FileInfoViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewH
     /**
      * Get file repository and stores it in static property
      *
-     * @return \TYPO3\CMS\Core\Resource\FileRepository
+     * @return FileRepository
      */
     protected function getFileRepository()
     {
         if (self::$fileRepository !== null) {
             return self::$fileRepository;
         }
-        /** @var \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager */
-        $objectManager = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
-        /** @var \TYPO3\CMS\Core\Resource\FileRepository $fileRepository */
-        self::$fileRepository = $objectManager->get(\TYPO3\CMS\Core\Resource\FileRepository::class);
+        /** @var ObjectManager $objectManager */
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        /** @var FileRepository $fileRepository */
+        self::$fileRepository = $objectManager->get(FileRepository::class);
         return self::$fileRepository;
     }
 }

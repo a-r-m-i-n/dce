@@ -26,13 +26,13 @@ class Extbase
      * @return mixed output of controller's action
      */
     public static function bootstrapControllerAction(
-        $vendorName,
-        $extensionName,
-        $controller,
-        $action = 'index',
-        $pluginName = 'Pi1',
-        $settings = [],
-        $compressedObject = false
+        string $vendorName,
+        string $extensionName,
+        string $controller,
+        string $action = 'index',
+        string $pluginName = 'Pi1',
+        array $settings = [],
+        bool $compressedObject = false
     ) {
         $bootstrap = new \TYPO3\CMS\Extbase\Core\Bootstrap();
         $bootstrap->cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);

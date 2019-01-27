@@ -6,6 +6,7 @@ namespace T3\Dce\Utility;
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
+use TYPO3\CMS\Core\Core\Bootstrap;
 
 /**
  * LanguageService utility
@@ -17,10 +18,10 @@ class LanguageService
      *
      * @return void
      */
-    protected static function initialize()
+    protected static function initialize() : void
     {
-        \TYPO3\CMS\Core\Core\Bootstrap::getInstance()->initializeBackendUser();
-        \TYPO3\CMS\Core\Core\Bootstrap::getInstance()->initializeLanguageObject();
+        Bootstrap::getInstance()->initializeBackendUser();
+        Bootstrap::getInstance()->initializeLanguageObject();
     }
     /**
      * Returns a valid LanguageService object that is connected and ready
@@ -28,7 +29,7 @@ class LanguageService
      *
      * @return \TYPO3\CMS\Lang\LanguageService
      */
-    public static function get()
+    public static function get() : \TYPO3\CMS\Lang\LanguageService
     {
         if (!$GLOBALS['LANG']) {
             static::initialize();
@@ -47,7 +48,7 @@ class LanguageService
      * @param bool $hsc If set, the return value is htmlspecialchar'ed
      * @return string
      */
-    public static function sL($input, $hsc = false)
+    public static function sL(string $input, bool $hsc = false) : string
     {
         if (!$GLOBALS['LANG']) {
             static::initialize();

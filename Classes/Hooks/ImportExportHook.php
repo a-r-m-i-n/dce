@@ -19,7 +19,7 @@ class ImportExportHook
      * @param array $params
      * @return void
      */
-    public function beforeSetRelation(array $params)
+    public function beforeSetRelation(array $params) : void
     {
         /** @var array $data */
         $data = $params['data'];
@@ -47,7 +47,7 @@ class ImportExportHook
      * @param array $params
      * @return void
      */
-    public function beforeWriteRecordsRecords(array $params)
+    public function beforeWriteRecordsRecords(array $params) : void
     {
         if (array_key_exists('tx_dce_domain_model_dce', $params['data'])) {
             $GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceImportInProgress'] = true;

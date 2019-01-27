@@ -27,7 +27,7 @@ class LinkAnalyserSlot
         $table,
         array $fields,
         LinkAnalyzer $linkAnalyser
-    ) {
+    ) : array {
         if ($table === 'tt_content' && !empty($record['pi_flexform'])) {
             $flexformData = \TYPO3\CMS\Core\Utility\ArrayUtility::flatten(
                 \TYPO3\CMS\Core\Utility\GeneralUtility::xml2array($record['pi_flexform'])

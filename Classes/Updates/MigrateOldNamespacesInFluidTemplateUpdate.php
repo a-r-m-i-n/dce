@@ -14,11 +14,11 @@ use T3\Dce\Utility\File;
 class MigrateOldNamespacesInFluidTemplateUpdate extends AbstractUpdate
 {
     /** Old DCE namespace (before 1.0) */
-    const NAMESPACE_OLD = '{namespace dce=Tx_Dce_ViewHelpers}';
+    public const NAMESPACE_OLD = '{namespace dce=Tx_Dce_ViewHelpers}';
     /** New DCE namespace (since 1.0) */
-    const NAMESPACE_OLD2 = '{namespace dce=T3\Dce\ViewHelpers}';
+    public const NAMESPACE_OLD2 = '{namespace dce=T3\Dce\ViewHelpers}';
     /** New DCE namespace (since 1.7) */
-    const NAMESPACE_NEW = '';
+    public const NAMESPACE_NEW = '';
 
     /**
      * @var string
@@ -81,7 +81,7 @@ class MigrateOldNamespacesInFluidTemplateUpdate extends AbstractUpdate
      * @param string $column
      * @return bool
      */
-    protected function doesInlineTemplateRequiresUpdate(array $dceRow, $column)
+    protected function doesInlineTemplateRequiresUpdate(array $dceRow, string $column) : bool
     {
         return $this->templateNeedUpdate($dceRow[$column]);
     }
@@ -93,7 +93,7 @@ class MigrateOldNamespacesInFluidTemplateUpdate extends AbstractUpdate
      * @param string $column
      * @return bool
      */
-    protected function doesFileTemplateRequiresUpdate(array $dceRow, $column)
+    protected function doesFileTemplateRequiresUpdate(array $dceRow, string $column) : bool
     {
         $file = File::get($dceRow[$column]);
         if (empty($file)) {
@@ -109,7 +109,7 @@ class MigrateOldNamespacesInFluidTemplateUpdate extends AbstractUpdate
      * @param string $templateContent
      * @return bool
      */
-    protected function templateNeedUpdate($templateContent)
+    protected function templateNeedUpdate(string $templateContent) : bool
     {
         return strpos($templateContent, self::NAMESPACE_OLD) !== false ||
                 strpos($templateContent, self::NAMESPACE_OLD2) !== false ||
@@ -163,7 +163,7 @@ class MigrateOldNamespacesInFluidTemplateUpdate extends AbstractUpdate
      * @param string $column
      * @return bool|null Returns true on success, false on error and null if no update has been performed.
      */
-    protected function updateInlineTemplate(array $dceRow, $column)
+    protected function updateInlineTemplate(array $dceRow, string $column) : ?bool
     {
         $templateContent = $dceRow[$column];
         if ($this->templateNeedUpdate($templateContent)) {
@@ -187,7 +187,7 @@ class MigrateOldNamespacesInFluidTemplateUpdate extends AbstractUpdate
      * @param string $column
      * @return bool|null Returns true on success, false on error and null if no update has been performed.
      */
-    protected function updateFileTemplate(array $dceRow, $column)
+    protected function updateFileTemplate(array $dceRow, string $column) : ?bool
     {
         $file = File::get($dceRow[$column]);
         if (!is_writeable($file)) {
@@ -211,7 +211,7 @@ class MigrateOldNamespacesInFluidTemplateUpdate extends AbstractUpdate
      * @param string $templateContent
      * @return string
      */
-    protected function performTemplateUpdates($templateContent) : string
+    protected function performTemplateUpdates(string $templateContent) : string
     {
         $content = str_replace(
             [self::NAMESPACE_OLD, self::NAMESPACE_OLD2],

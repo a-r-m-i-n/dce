@@ -13,7 +13,6 @@ use T3\Dce\Utility\DatabaseUtility;
  */
 class KeSearchHook
 {
-
     /**
      * Renders DCE frontend output and returns it as bodytext value
      *

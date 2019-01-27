@@ -7,8 +7,11 @@ namespace T3\Dce\Controller;
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
 use T3\Dce\Components\DceContainer\ContainerFactory;
+use T3\Dce\Domain\Repository\DceRepository;
+use T3\Dce\Utility\TypoScript;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
  * DCE Controller
@@ -19,16 +22,14 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     /**
      * DCE Repository
      *
-     * @var \T3\Dce\Domain\Repository\DceRepository
-     * @inject
+     * @var DceRepository
      */
     protected $dceRepository;
 
     /**
      * TypoScript Utility
      *
-     * @var \T3\Dce\Utility\TypoScript
-     * @inject
+     * @var TypoScript
      */
     protected $typoScriptUtility;
 
@@ -42,8 +43,12 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      *
      * @return void
      */
-    public function initializeAction()
+    public function initializeAction() : void
     {
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        $this->dceRepository = $objectManager->get(DceRepository::class);
+        $this->typoScriptUtility = $objectManager->get(TypoScript::class);
+
         if ($this->settings === null) {
             $this->settings = [];
         }
@@ -55,7 +60,7 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      *
      * @return string output of dce in frontend
      */
-    public function showAction()
+    public function showAction() : string
     {
         $contentObject = $this->configurationManager->getContentObject()->data;
         $config = $this->configurationManager->getConfiguration(
@@ -64,7 +69,7 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
         /** @var $dce \T3\Dce\Domain\Model\Dce */
         $dce = $this->dceRepository->findAndBuildOneByUid(
-            \T3\Dce\Domain\Repository\DceRepository::extractUidFromCTypeOrIdentifier('dce_' . $config['pluginName']),
+            DceRepository::extractUidFromCTypeOrIdentifier('dce_' . $config['pluginName']),
             $this->settings,
             $contentObject
         );
@@ -117,7 +122,7 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      * @param int|null $contentElementUid Uid of content element (tt_content)
      * @return string Serialized, (gz)compressed DCE model
      */
-    public function renderDceAction($uid = null, $contentElementUid = null) : string
+    public function renderDceAction(int $uid = null, int $contentElementUid = null) : string
     {
         $uid = $uid ?? (int) $this->settings['dceUid'];
         $contentElementUid = $contentElementUid ?? $this->settings['contentElementUid'];
@@ -157,12 +162,12 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      * @param int $uid of content element to get
      * @return array|bool|null with all properties of given content element uid
      */
-    protected function getContentObject($uid)
+    protected function getContentObject(int $uid) : ?array
     {
         return \T3\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
             '*',
             'tt_content',
-            'uid = ' . (int) $uid
-        );
+            'uid = ' . $uid
+        ) ?? null;
     }
 }

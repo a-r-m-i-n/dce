@@ -8,6 +8,7 @@ namespace T3\Dce\Domain\Model;
  */
 use T3\Dce\Utility\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
  * Model for DCEs. This model contains all necessary informations
@@ -16,17 +17,17 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
     /* Identifier for: "default DCE templates" */
-    const TEMPLATE_FIELD_DEFAULT = 0;
+    public const TEMPLATE_FIELD_DEFAULT = 0;
     /* Identifier for: "header preview templates" */
-    const TEMPLATE_FIELD_HEADERPREVIEW = 1;
+    public const TEMPLATE_FIELD_HEADERPREVIEW = 1;
     /* Identifier for: "bodytext preview templates" */
-    const TEMPLATE_FIELD_BODYTEXTPREVIEW = 2;
+    public const TEMPLATE_FIELD_BODYTEXTPREVIEW = 2;
     /* Identifier for: "detail page templates" */
-    const TEMPLATE_FIELD_DETAILPAGE = 3;
+    public const TEMPLATE_FIELD_DETAILPAGE = 3;
     /* Identifier for: "dce container templates" */
-    const TEMPLATE_FIELD_CONTAINER = 4;
+    public const TEMPLATE_FIELD_CONTAINER = 4;
     /* Identifier for: "backend template" */
-    const TEMPLATE_FIELD_BACKEND_TEMPLATE = 5;
+    public const TEMPLATE_FIELD_BACKEND_TEMPLATE = 5;
 
     /**
      * @var array Cache for fluid instances
@@ -72,14 +73,14 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\T3\Dce\Domain\Model\DceField>
      */
-    protected $fields = null;
+    protected $fields;
 
     /**
      * When this DCE is located inside of a DceContainer this attribute contains its current position
      *
      * @var array|null
      */
-    protected $containerIterator = null;
+    protected $containerIterator;
 
     /**
      * @var bool
@@ -236,67 +237,61 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function __construct()
     {
-        $this->initStorageObjects();
-    }
-
-    /**
-     * Initializes all \TYPO3\CMS\Extbase\Persistence\ObjectStorage properties.
-     *
-     * @return void
-     */
-    protected function initStorageObjects()
-    {
         $this->fields = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
-    public function getHidden()
+    public function getHidden() : bool
     {
         return $this->hidden;
     }
 
     /**
-     * @param boolean $hidden
+     * @param bool $hidden
+     * @return self
      */
-    public function setHidden($hidden)
+    public function setHidden(bool $hidden) : self
     {
         $this->hidden = $hidden;
+        return $this;
     }
 
     /**
      * @return array|null
      */
-    public function getContainerIterator()
+    public function getContainerIterator() : ?array
     {
         return $this->containerIterator;
     }
 
     /**
      * @param array|null $containerIterator
-     * @return void
+     * @return self
      */
-    public function setContainerIterator($containerIterator)
+    public function setContainerIterator(array $containerIterator = null) : self
     {
         $this->containerIterator = $containerIterator;
+        return $this;
     }
 
     /**
      * @return string
      */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->title;
     }
 
     /**
      * @param string $title
-     * @return void
+     * @return self
      */
-    public function setTitle($title)
+    public function setTitle(string $title) : self
     {
         $this->title = $title;
+        return $this;
     }
 
     /**
@@ -311,501 +306,504 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     /**
      * @param string $identifier
-     * @return void
+     * @return self
      */
-    public function setIdentifier(string $identifier)
+    public function setIdentifier(string $identifier) : self
     {
         $this->identifier = $identifier;
+        return $this;
     }
 
     /**
      * @return string
      */
-    public function getTemplateContent()
+    public function getTemplateContent() : string
     {
         return $this->templateContent;
     }
 
     /**
      * @param string $templateContent
-     * @return void
+     * @return self
      */
-    public function setTemplateContent($templateContent)
+    public function setTemplateContent(string $templateContent) : self
     {
         $this->templateContent = $templateContent;
+        return $this;
     }
 
     /**
      * @return string
      */
-    public function getTemplateFile()
+    public function getTemplateFile() : string
     {
         return $this->templateFile;
     }
 
     /**
      * @param string $templateFile
-     * @return void
+     * @return self
      */
-    public function setTemplateFile($templateFile)
+    public function setTemplateFile(string $templateFile) : self
     {
         $this->templateFile = $templateFile;
+        return $this;
     }
 
     /**
      * @return string
      */
-    public function getTemplateType()
+    public function getTemplateType() : string
     {
         return $this->templateType;
     }
 
     /**
      * @param string $templateType
-     * @return void
+     * @return self
      */
-    public function setTemplateType($templateType)
+    public function setTemplateType(string $templateType) : self
     {
         $this->templateType = $templateType;
+        return $this;
     }
 
     /**
      * @return string
      */
-    public function getTemplateLayoutRootPath()
+    public function getTemplateLayoutRootPath() : string
     {
         return $this->templateLayoutRootPath;
     }
 
     /**
      * @param string $templateLayoutRootPath
-     * @return void
+     * @return self
      */
-    public function setTemplateLayoutRootPath($templateLayoutRootPath)
+    public function setTemplateLayoutRootPath(string $templateLayoutRootPath) : self
     {
         $this->templateLayoutRootPath = $templateLayoutRootPath;
+        return $this;
     }
 
     /**
      * @return string
      */
-    public function getTemplatePartialRootPath()
+    public function getTemplatePartialRootPath() : string
     {
         return $this->templatePartialRootPath;
     }
 
     /**
      * @param string $templatePartialRootPath
-     * @return void
+     * @return self
      */
-    public function setTemplatePartialRootPath($templatePartialRootPath)
+    public function setTemplatePartialRootPath(string $templatePartialRootPath) : self
     {
         $this->templatePartialRootPath = $templatePartialRootPath;
+        return $this;
     }
 
     /**
-     * Gets objectStorage with fields
-     *
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\T3\Dce\Domain\Model\DceField>
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\T3\Dce\Domain\Model\DceField>|null
      */
-    public function getFields()
+    public function getFields() : ?\TYPO3\CMS\Extbase\Persistence\ObjectStorage
     {
         return $this->fields;
     }
 
     /**
-     * Sets objectStorage with fields
-     *
      * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<DceField> $fields
-     * @return void
+     * @return self
      */
-    public function setFields($fields)
+    public function setFields(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $fields) : self
     {
         $this->fields = $fields;
+        return $this;
     }
 
     /**
-     * Adds a field
-     *
      * @param \T3\Dce\Domain\Model\DceField $field The field to be added
-     * @return void
+     * @return self
      */
-    public function addField(\T3\Dce\Domain\Model\DceField $field)
+    public function addField(\T3\Dce\Domain\Model\DceField $field) : self
     {
         $this->fields->attach($field);
+        return $this;
     }
 
     /**
-     * Removes a field
-     *
      * @param \T3\Dce\Domain\Model\DceField $fieldToRemove The field to be removed
-     * @return void
+     * @return self
      */
-    public function removeField(\T3\Dce\Domain\Model\DceField $fieldToRemove)
+    public function removeField(\T3\Dce\Domain\Model\DceField $fieldToRemove) : self
     {
         $this->fields->detach($fieldToRemove);
+        return $this;
     }
 
     /**
-     * Get UseSimpleBackendView
-     *
-     * @return boolean
+     * @return bool
      */
-    public function getUseSimpleBackendView()
+    public function getUseSimpleBackendView() : bool
     {
         return $this->useSimpleBackendView;
     }
 
     /**
-     * Get UseSimpleBackendView
-     *
-     * @return boolean
+     * @return bool
      */
-    public function isUseSimpleBackendView()
+    public function isUseSimpleBackendView() : bool
     {
         return $this->useSimpleBackendView;
     }
 
     /**
-     * Set UseSimpleBackendView
-     *
-     * @param boolean $useSimpleBackendView
-     * @return void
+     * @param bool $useSimpleBackendView
+     * @return self
      */
-    public function setUseSimpleBackendView($useSimpleBackendView)
+    public function setUseSimpleBackendView(bool $useSimpleBackendView) : self
     {
         $this->useSimpleBackendView = $useSimpleBackendView;
+        return $this;
     }
 
     /**
-     * Get BackendViewHeader
-     *
      * @return string
      */
-    public function getBackendViewHeader()
+    public function getBackendViewHeader() : string
     {
         return $this->backendViewHeader;
     }
 
     /**
-     * Set BackendViewHeader
-     *
      * @param string $backendViewHeader
-     * @return void
+     * @return self
      */
-    public function setBackendViewHeader($backendViewHeader)
+    public function setBackendViewHeader(string $backendViewHeader) : self
     {
         $this->backendViewHeader = $backendViewHeader;
+        return $this;
     }
 
     /**
-     * Get BackendViewBodytext
-     *
      * @return string
      */
-    public function getBackendViewBodytext()
+    public function getBackendViewBodytext() : string
     {
         return $this->backendViewBodytext;
     }
 
     /**
-     * Get BackendViewBodytext as array
-     *
      * @return array
      */
-    public function getBackendViewBodytextArray()
+    public function getBackendViewBodytextArray() : array
     {
-        return GeneralUtility::trimExplode(',', $this->getBackendViewBodytext(), true);
+        return GeneralUtility::trimExplode(',', $this->getBackendViewBodytext(), true) ?? [];
     }
 
     /**
-     * Set BackendViewBodytext
-     *
      * @param string $backendViewBodytext
-     * @return void
+     * @return self
      */
-    public function setBackendViewBodytext($backendViewBodytext)
+    public function setBackendViewBodytext(string $backendViewBodytext) : self
     {
         $this->backendViewBodytext = $backendViewBodytext;
+        return $this;
     }
 
     /**
      * @return string
      */
-    public function getBackendTemplateType()
+    public function getBackendTemplateType() : string
     {
         return $this->backendTemplateType;
     }
 
     /**
      * @param string $backendTemplateType
-     * @return void
+     * @return self
      */
-    public function setBackendTemplateType($backendTemplateType)
+    public function setBackendTemplateType(string $backendTemplateType) : self
     {
         $this->backendTemplateType = $backendTemplateType;
+        return $this;
     }
 
     /**
      * @return string
      */
-    public function getBackendTemplateContent()
+    public function getBackendTemplateContent() : string
     {
         return $this->backendTemplateContent;
     }
 
     /**
      * @param string $backendTemplateContent
-     * @return void
+     * @return self
      */
-    public function setBackendTemplateContent($backendTemplateContent)
+    public function setBackendTemplateContent(string $backendTemplateContent) : self
     {
         $this->backendTemplateContent = $backendTemplateContent;
+        return $this;
     }
 
     /**
      * @return string
      */
-    public function getBackendTemplateFile()
+    public function getBackendTemplateFile() : string
     {
         return $this->backendTemplateFile;
     }
 
     /**
      * @param string $backendTemplateFile
-     * @return void
+     * @return self
      */
-    public function setBackendTemplateFile($backendTemplateFile)
+    public function setBackendTemplateFile(string $backendTemplateFile) : self
     {
         $this->backendTemplateFile = $backendTemplateFile;
+        return $this;
     }
 
     /**
      * @return bool
      */
-    public function getEnableDetailpage()
+    public function getEnableDetailpage() : bool
     {
         return $this->enableDetailpage;
     }
 
     /**
      * @param bool $enableDetailpage
-     * @return void
+     * @return self
      */
-    public function setEnableDetailpage($enableDetailpage)
+    public function setEnableDetailpage(bool $enableDetailpage) : self
     {
         $this->enableDetailpage = $enableDetailpage;
+        return $this;
     }
 
     /**
      * @return string
      */
-    public function getDetailpageIdentifier()
+    public function getDetailpageIdentifier() : string
     {
         return $this->detailpageIdentifier;
     }
 
     /**
      * @param string $detailpageIdentifier
-     * @return void
+     * @return self
      */
-    public function setDetailpageIdentifier($detailpageIdentifier)
+    public function setDetailpageIdentifier(string $detailpageIdentifier) : self
     {
         $this->detailpageIdentifier = $detailpageIdentifier;
+        return $this;
     }
 
     /**
      * @return string
      */
-    public function getDetailpageTemplateType()
+    public function getDetailpageTemplateType() : string
     {
         return $this->detailpageTemplateType;
     }
 
     /**
      * @param string $detailpageTemplateType
-     * @return void
+     * @return self
      */
-    public function setDetailpageTemplateType($detailpageTemplateType)
+    public function setDetailpageTemplateType(string $detailpageTemplateType) : self
     {
         $this->detailpageTemplateType = $detailpageTemplateType;
+        return $this;
     }
 
     /**
      * @return string
      */
-    public function getDetailpageTemplate()
+    public function getDetailpageTemplate() : string
     {
         return $this->detailpageTemplate;
     }
 
     /**
      * @param string $detailpageTemplate
-     * @return void
+     * @return self
      */
-    public function setDetailpageTemplate($detailpageTemplate)
+    public function setDetailpageTemplate(string $detailpageTemplate) : self
     {
         $this->detailpageTemplate = $detailpageTemplate;
+        return $this;
     }
 
     /**
      * @return string
      */
-    public function getDetailpageTemplateFile()
+    public function getDetailpageTemplateFile() : string
     {
         return $this->detailpageTemplateFile;
     }
 
     /**
      * @param string $detailpageTemplateFile
-     * @return void
+     * @return self
      */
-    public function setDetailpageTemplateFile($detailpageTemplateFile)
+    public function setDetailpageTemplateFile(string $detailpageTemplateFile) : self
     {
         $this->detailpageTemplateFile = $detailpageTemplateFile;
+        return $this;
     }
 
     /**
      * @return bool
      */
-    public function getEnableContainer()
+    public function getEnableContainer() : bool
     {
         return $this->enableContainer;
     }
 
     /**
      * @param bool $enableContainer
-     * @return void
+     * @return self
      */
-    public function setEnableContainer($enableContainer)
+    public function setEnableContainer(bool $enableContainer) : self
     {
         $this->enableContainer = $enableContainer;
+        return $this;
     }
 
     /**
-     * Get ContainerLimit
-     *
      * @return int
      */
-    public function getContainerItemLimit()
+    public function getContainerItemLimit() : int
     {
         return $this->containerItemLimit;
     }
 
     /**
-     * Set ContainerLimit
-     *
      * @param int $containerItemLimit
-     * @return void
+     * @return self
      */
-    public function setContainerItemLimit($containerItemLimit)
+    public function setContainerItemLimit(int $containerItemLimit) : self
     {
         $this->containerItemLimit = $containerItemLimit;
+        return $this;
     }
 
     /**
      * @return string
      */
-    public function getContainerTemplateType()
+    public function getContainerTemplateType() : string
     {
         return $this->containerTemplateType;
     }
 
     /**
      * @param string $containerTemplateType
-     * @return void
+     * @return self
      */
-    public function setContainerTemplateType($containerTemplateType)
+    public function setContainerTemplateType(string $containerTemplateType) : self
     {
         $this->containerTemplateType = $containerTemplateType;
+        return $this;
     }
 
     /**
      * @return string
      */
-    public function getContainerTemplate()
+    public function getContainerTemplate() : string
     {
         return $this->containerTemplate;
     }
 
     /**
      * @param string $containerTemplate
-     * @return void
+     * @return self
      */
-    public function setContainerTemplate($containerTemplate)
+    public function setContainerTemplate(string $containerTemplate) : self
     {
         $this->containerTemplate = $containerTemplate;
+        return $this;
     }
 
     /**
      * @return string
      */
-    public function getContainerTemplateFile()
+    public function getContainerTemplateFile() : string
     {
         return $this->containerTemplateFile;
     }
 
     /**
      * @param string $containerTemplateFile
-     * @return void
+     * @return self
      */
-    public function setContainerTemplateFile($containerTemplateFile)
+    public function setContainerTemplateFile(string $containerTemplateFile) : self
     {
         $this->containerTemplateFile = $containerTemplateFile;
+        return $this;
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
-    public function isWizardEnable()
+    public function isWizardEnable() : bool
     {
         return $this->wizardEnable;
     }
 
     /**
-     * @param boolean $wizardEnable
+     * @param bool $wizardEnable
+     * @return self
      */
-    public function setWizardEnable($wizardEnable)
+    public function setWizardEnable(bool $wizardEnable) : self
     {
         $this->wizardEnable = $wizardEnable;
+        return $this;
     }
 
     /**
      * @return string
      */
-    public function getWizardCategory()
+    public function getWizardCategory() : string
     {
         return $this->wizardCategory;
     }
 
     /**
      * @param string $wizardCategory
+     * @return self
      */
-    public function setWizardCategory($wizardCategory)
+    public function setWizardCategory(string $wizardCategory) : self
     {
         $this->wizardCategory = $wizardCategory;
+        return $this;
     }
 
     /**
      * @return string
      */
-    public function getWizardDescription()
+    public function getWizardDescription() : string
     {
         return $this->wizardDescription;
     }
 
     /**
      * @param string $wizardDescription
+     * @return self
      */
-    public function setWizardDescription($wizardDescription)
+    public function setWizardDescription(string $wizardDescription) : self
     {
         $this->wizardDescription = $wizardDescription;
+        return $this;
     }
 
     /**
      * @return string
      */
-    public function getWizardIcon()
+    public function getWizardIcon() : string
     {
         $wizardIcon = $this->wizardIcon;
         if (empty($wizardIcon)) {
@@ -816,32 +814,36 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     /**
      * @param string $wizardIcon
+     * @return self
      */
-    public function setWizardIcon($wizardIcon)
+    public function setWizardIcon(string $wizardIcon) : self
     {
         $this->wizardIcon = $wizardIcon;
+        return $this;
     }
 
     /**
      * @return string
      */
-    public function getWizardCustomIcon()
+    public function getWizardCustomIcon() : string
     {
         return $this->wizardCustomIcon;
     }
 
     /**
      * @param string $wizardCustomIcon
+     * @return self
      */
-    public function setWizardCustomIcon($wizardCustomIcon)
+    public function setWizardCustomIcon(string $wizardCustomIcon) : self
     {
         $this->wizardCustomIcon = $wizardCustomIcon;
+        return $this;
     }
 
     /**
      * @return string
      */
-    public function getSelectedWizardIconPath()
+    public function getSelectedWizardIconPath() : string
     {
         if ($this->getWizardIcon() === 'custom') {
             return $this->getWizardCustomIcon();
@@ -856,7 +858,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $variable
      * @return DceField|null
      */
-    public function getFieldByVariable($variable)
+    public function getFieldByVariable($variable) : ?DceField
     {
         /** @var DceField $field */
         foreach ($this->getFields() ?? [] as $field) {
@@ -870,18 +872,19 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return array
      */
-    public function getContentObject()
+    public function getContentObject() : array
     {
         return $this->contentObject;
     }
 
     /**
      * @param array $contentObject
-     * @return void
+     * @return self
      */
-    public function setContentObject($contentObject)
+    public function setContentObject(array $contentObject) : self
     {
         $this->contentObject = $contentObject;
+        return $this;
     }
 
     /**
@@ -906,7 +909,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return string
      */
-    public function getRender()
+    public function getRender() : string
     {
         return $this->render();
     }
@@ -916,7 +919,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return string rendered output
      */
-    public function renderDetailpage()
+    public function renderDetailpage() : string
     {
         return $this->renderFluidTemplate(self::TEMPLATE_FIELD_DETAILPAGE);
     }
@@ -927,7 +930,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $section If set just 'header' or 'bodytext' part is returned
      * @return string rendered output
      */
-    public function renderBackendTemplate($section = '')
+    public function renderBackendTemplate(string $section = '') : string
     {
         $backendTemplateSeparator = '<dce-separator />';
 
@@ -945,7 +948,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param int $templateType
      * @return string Rendered and trimmed template
      */
-    protected function renderFluidTemplate($templateType = self::TEMPLATE_FIELD_DEFAULT)
+    protected function renderFluidTemplate(string $templateType = self::TEMPLATE_FIELD_DEFAULT) : string
     {
         $fluidTemplate = $this->getFluidStandaloneView($templateType);
 
@@ -965,7 +968,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return array Fields of DCE
      */
-    protected function getFieldsAsArray()
+    protected function getFieldsAsArray() : array
     {
         $contentObject = $this->getContentObject();
         if (array_key_exists($contentObject['uid'], static::$fieldsCache)) {
@@ -1000,7 +1003,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return bool
      */
-    public function getHasTcaMappings()
+    public function getHasTcaMappings() : bool
     {
         /** @var DceField $field */
         foreach ($this->getFields() ?? [] as $field) {
@@ -1017,7 +1020,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return bool
      */
-    public function getAddsNewFieldsToTca()
+    public function getAddsNewFieldsToTca() : bool
     {
         /** @var DceField $field */
         foreach ($this->getFields() ?? [] as $field) {
@@ -1065,10 +1068,10 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Creates new standalone view or returns cached one, if existing
      *
-     * @param int $templateType
-     * @return \TYPO3\CMS\Fluid\View\StandaloneView
+     * @param int $templateType see class constants
+     * @return StandaloneView
      */
-    public function getFluidStandaloneView($templateType)
+    public function getFluidStandaloneView(int $templateType) : StandaloneView
     {
         $cacheKey = $this->getUid();
         if ($this->getEnableContainer()) {
@@ -1083,8 +1086,8 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $templateFields = $this->templateFields[$templateType];
         $typeGetter = 'get' . ucfirst(GeneralUtility::underscoredToLowerCamelCase($templateFields['type']));
 
-        /** @var $fluidTemplate \TYPO3\CMS\Fluid\View\StandaloneView */
-        $fluidTemplate = GeneralUtility::makeInstance(\TYPO3\CMS\Fluid\View\StandaloneView::class);
+        /** @var $fluidTemplate StandaloneView */
+        $fluidTemplate = GeneralUtility::makeInstance(StandaloneView::class);
         if ($this->$typeGetter() === 'inline') {
             $inlineTemplateGetter = 'get' . ucfirst(
                 GeneralUtility::underscoredToLowerCamelCase($templateFields['inline'])
@@ -1140,7 +1143,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return array|null
      */
-    public function getRelatedContentElementRows()
+    public function getRelatedContentElementRows() : ?array
     {
         if (array_key_exists($this->getIdentifier(), static::$fieldsCache)) {
             return static::$fieldsCache[$this->getIdentifier()];

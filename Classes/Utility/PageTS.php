@@ -7,6 +7,7 @@ namespace T3\Dce\Utility;
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -27,7 +28,7 @@ class PageTS
      * @param int $id Optional. Set id of page from which PageTS should get loaded
      * @return mixed
      */
-    public static function get($path, $default = null, $id = 0)
+    public static function get(string $path, $default = null, int $id = 0)
     {
         $id = $id ?: GeneralUtility::_GP('id');
         if (!isset(static::$pageTsContent[$id])) {
@@ -38,7 +39,7 @@ class PageTS
             );
         }
         try {
-            $value = \TYPO3\CMS\Core\Utility\ArrayUtility::getValueByPath(static::$pageTsContent[$id], $path, '.');
+            $value = ArrayUtility::getValueByPath(static::$pageTsContent[$id], $path, '.');
         } catch (\Exception $e) {
             return $default;
         }
