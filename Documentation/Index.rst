@@ -63,4 +63,3 @@ Dynamic Content Elements (DCE)
 	AdministratorManual/Index
 	AdditionalInformations/Index
 	Support/Index
-	PrivacyPolicy/Index
