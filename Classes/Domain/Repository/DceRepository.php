@@ -10,6 +10,7 @@ use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Domain\Model\DceField;
 use T3\Dce\Utility\DatabaseUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\StringUtility;
 use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 
@@ -312,31 +313,41 @@ class DceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      * Returns FALSE if CType is not a DCE one.
      *
      * @param string|array $cType or DCE identifier
-     * @return int|bool uid or false
+     * @return int|null uid or null
      * @static
      */
-    public static function extractUidFromCTypeOrIdentifier($cType)
+    public static function extractUidFromCTypeOrIdentifier($cType) : ?int
     {
         if (\is_array($cType)) {
             // For any reason the CType can be an array with one entry
             $cType = reset($cType);
         }
-        if (strpos($cType, 'dceuid') === 0) {
+        if (StringUtility::beginsWith($cType, 'dceuid')) {
             return (int) substr($cType, 6);
         }
-        if (strpos($cType, 'dce_dceuid') === 0) {
+        if (StringUtility::beginsWith($cType, 'dce_dceuid')) {
             return (int) substr($cType, 10);
         }
-        if (strpos($cType, 'dce_') === 0) {
-            /** @var self $repo */
-            $repo = GeneralUtility::makeInstance(static::class);
-            /** @var Dce|null $dce */
-            $dce = $repo->findOneByIdentifier(substr($cType, 4));
-            if ($dce) {
-                return $dce->getUid();
+        if (StringUtility::beginsWith($cType, 'dce_')) {
+            if (StringUtility::endsWith($cType, '_container')) {
+                $row = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
+                    'uid',
+                    'tx_dce_domain_model_dce',
+                    'identifier = "' . addslashes(substr($cType, 4, -10)) . '"'
+                );
+            } else {
+                /** @var self $repo */
+                $row = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
+                    'uid',
+                    'tx_dce_domain_model_dce',
+                    'identifier = "' . addslashes(substr($cType, 4)) . '"'
+                );
+            }
+            if (isset($row['uid'])) {
+                return (int) $row['uid'];
             }
         }
-        return false;
+        return null;
     }
 
     /**
