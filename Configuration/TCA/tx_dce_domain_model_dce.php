@@ -60,9 +60,6 @@ $dceTca = [
         ],
         'iconfile' => 'EXT:dce/Resources/Public/Icons/ext_icon.png',
         'copyAfterDuplFields' => 'fields',
-        'requestUpdate' => 'wizard_enable,wizard_icon,template_type,backend_template_type,use_simple_backend_view,
-                            backend_view_header,enable_detailpage,detailpage_template_type,
-                            enable_container,container_template_type',
     ],
     'interface' => [
         'showRecordFieldList' => 'hidden,title,type',
@@ -72,7 +69,10 @@ $dceTca = [
             'showitem' => $showItems,
             'columnsOverrides' => [
                 'template_content' => [
-                    'defaultExtras' => 'fixed-font:enable-tab',
+                    'config' => [
+                        'fixedFont' => true,
+                        'enableTabulator' => true
+                    ]
                 ],
             ],
         ]
@@ -190,6 +190,7 @@ $dceTca = [
         'wizard_enable' => [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dce.wizardEnable',
+            'onChange' => 'reload',
             'config' => [
                 'type' => 'check',
                 'default' => true,
@@ -226,13 +227,18 @@ $dceTca = [
         'wizard_icon' => [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dce.wizardIcon',
+            'onChange' => 'reload',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'minitems' => 1,
                 'maxitems' => 1,
                 'items' => \T3\Dce\Utility\WizardIcon::getTcaListItems(),
-                'showIconTable' => true
+                'fieldWizard' => [
+                    'selectIcons' => [
+                        'disabled' => false
+                    ]
+                ]
             ],
         ],
         'wizard_custom_icon' => [
@@ -248,6 +254,7 @@ $dceTca = [
         'template_type' => [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dce.templateType',
+            'onChange' => 'reload',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
@@ -340,6 +347,7 @@ $dceTca = [
         'use_simple_backend_view' => [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dce.useSimpleBackendView',
+            'onChange' => 'reload',
             'config' => [
                 'type' => 'check',
                 'default' => '1'
@@ -348,6 +356,8 @@ $dceTca = [
         'backend_view_header' => [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dce.backendViewHeader',
+            'displayCond' => 'FIELD:use_simple_backend_view:=:1',
+            'onChange' => 'reload',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
@@ -356,7 +366,6 @@ $dceTca = [
                 'minitems' => 0,
                 'maxitems' => 1
             ],
-            'displayCond' => 'FIELD:use_simple_backend_view:=:1',
         ],
         'backend_view_bodytext' => [
             'exclude' => 0,
@@ -375,6 +384,7 @@ $dceTca = [
         'backend_template_type' => [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dce.backendTemplateType',
+            'onChange' => 'reload',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
@@ -457,6 +467,7 @@ $dceTca = [
         'enable_detailpage' => [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dce.enableDetailpage',
+            'onChange' => 'reload',
             'config' => [
                 'type' => 'check',
             ],
@@ -477,6 +488,7 @@ $dceTca = [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dce.templateType',
             'displayCond' => 'FIELD:enable_detailpage:=:1',
+            'onChange' => 'reload',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
@@ -536,6 +548,7 @@ $dceTca = [
         'enable_container' => [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dce.enableContainer',
+            'onChange' => 'reload',
             'config' => [
                 'type' => 'check',
             ],
@@ -555,6 +568,7 @@ $dceTca = [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dce.templateType',
             'displayCond' => 'FIELD:enable_container:=:1',
+            'onChange' => 'reload',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',

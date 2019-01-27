@@ -34,7 +34,6 @@ $dceFieldTca = [
             'starttime' => 'starttime',
             'endtime' => 'endtime',
         ],
-        'requestUpdate' => 'type,map_to',
         'type' => 'type',
         'typeicon_column' => 'type',
         'typeicon_classes' => [
@@ -52,7 +51,10 @@ $dceFieldTca = [
                            --palette--;;tca_options,parent_dce,parent_field',
             'columnsOverrides' => [
                 'configuration' => [
-                    'defaultExtras' => 'fixed-font:enable-tab',
+                    'config' => [
+                        'fixedFont' => true,
+                        'enableTabulator' => true
+                    ]
                 ],
             ],
         ],
@@ -125,39 +127,40 @@ $dceFieldTca = [
         ],
         'starttime' => [
             'exclude' => 1,
-            'l10n_mode' => 'mergeIfNotBlank',
             'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.starttime',
             'config' => [
+                'renderType' => 'inputDateTime',
                 'type' => 'input',
                 'size' => 13,
-                'max' => 20,
                 'eval' => 'datetime',
                 'checkbox' => 0,
                 'default' => 0,
                 'range' => [
                     'lower' => mktime(0, 0, 0, date('m'), date('d'), date('Y'))
                 ],
+                'behaviour' => ['allowLanguageSynchronization' => true],
             ],
         ],
         'endtime' => [
             'exclude' => 1,
-            'l10n_mode' => 'mergeIfNotBlank',
             'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.endtime',
             'config' => [
+                'renderType' => 'inputDateTime',
                 'type' => 'input',
                 'size' => 13,
-                'max' => 20,
                 'eval' => 'datetime',
                 'checkbox' => 0,
                 'default' => 0,
                 'range' => [
                     'lower' => mktime(0, 0, 0, date('m'), date('d'), date('Y'))
                 ],
+                'behaviour' => ['allowLanguageSynchronization' => true],
             ],
         ],
         'type' => [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dcefield.type',
+            'onChange' => 'reload',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
@@ -206,6 +209,7 @@ $dceFieldTca = [
         'map_to' => [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dcefield.mapTo',
+            'onChange' => 'reload',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
@@ -254,8 +258,14 @@ $dceFieldTca = [
                 'foreign_table' => 'tx_dce_domain_model_dcefield',
                 'foreign_sortby' => 'sorting',
                 'foreign_field' => 'parent_field',
-                'foreign_record_defaults' => [
-                    'parent_field' => -1
+                'overrideChildTca' => [
+                    'columns' => [
+                        'parent_field' => [
+                            'config' => [
+                                'default' => -1
+                            ]
+                        ]
+                    ]
                 ],
                 'minitems' => 0,
                 'maxitems' => 999,
