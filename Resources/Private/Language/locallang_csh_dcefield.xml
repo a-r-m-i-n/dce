@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>Language labels for the Dynamic Content Elements extension</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index=".id">DCE field</label>
+			<label index=".details">This record defines a single field used in a DCE.</label>
+
+			<label index="type.description">There are three types. A regular "element". A "tab" which allows you to split many elements for better overview, and "section" which is highly encouraged not to get used.</label>
+			<label index="title.description">The title of this field. Displayed in backend. You can use "LLL:" references here.</label>
+			<label index="variable.description">The variable name of this field. It must be unique! And in "lowerCamelCase" written.</label>
+			<label index="hidden.description">Disables this field.</label>
+			<label index="configuration.description">The Flexform configuration of this field, in XML.</label>
+			<label index="map_to.description">Here you can choose an existing field of tt_content to map the value of this field to. Everytime an editor edits flexform contents of this element, the configured column gets updated. You can also define new columns here.</label>
+			<label index="new_tca_field_name.description">You want to create a new column to tt_content, to map this field to. Please enter the column name in "lower_underscore" format.</label>
+			<label index="new_tca_field_type.description">When the field type is "auto" it guesses the best database field type, based on the field configuration. You can also enter the explicit type, e.g. tinyint(4) DEFAULT '0' NOT NULL</label>
+		</languageKey>
+		<languageKey index="de" type="array">
+			<label index=".id">DCE Feld</label>
+			<label index=".details">Dieser Eintrag definiert ein einzelnen Feld in einem DCE.</label>
+
+			<label index="type.description">Es gibt drei Typen. Das reguläre "Element". Ein "Tab", welcher es erlaubt mehrere Elemente in Tabs aufzuteilen und "section" von dem dringend abgeraten wird, es zu verwenden.</label>
+			<label index="title.description">Der Titel dieses Feldes. Wird im Backend dargestellt. Es können "LLL:"-Referenzen verwendet werden.</label>
+			<label index="variable.description">Der Variablenname dieses Feldes. Er muss eindeutig sein! Und in "lowerCamelCase" geschrieben.</label>
+			<label index="hidden.description">Deaktiviert dieses Feld.</label>
+			<label index="configuration.description">Die Flexform-Konfiguration dieses Feldes, in XML.</label>
+			<label index="map_to.description">Hier kann ein bestehendes Feld in tt_content ausgewählt werden, an das der Wert des Feldes gemappt wird. Immer wenn ein Editor etwas am Flexform eines Inhaltselement ändert, wird die konfigurierte Spalte in der Datenbank aktualisiert. Es ist auch möglich neue Spalten in tt_content anlegen zu lassen.</label>
+			<label index="new_tca_field_name.description">Es soll eine neue Spalte in tt_content erzeugt werden, an der dieses Feld gemappt wird. Bitte den Namen der Spalte eingeben im "lower_underscore" Format.</label>
+			<label index="new_tca_field_type.description">Wenn der Feld-Typ auf "auto" gestellt ist, wird der bestmögliche Datenbank-Feldtyp anhand der XML-Konfiguration erraten. Es ist aber auch möglich einen expliziten Typen anzugeben, z.B. tinyint(4) DEFAULT '0' NOT NULL</label>
+		</languageKey>
+	</data>
+</T3locallang>

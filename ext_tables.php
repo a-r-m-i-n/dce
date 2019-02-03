@@ -60,6 +60,13 @@ $boot = function ($extensionKey) {
         \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
         ['source' => 'EXT:dce/Resources/Public/Icons/tx_dce_domain_model_dcefield_section.png']
     );
+
+    foreach (['dce', 'dcefield'] as $table) {
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr(
+            'tx_dce_domain_model_' . $table,
+            'EXT:dce/Resources/Private/Language/locallang_csh_' . $table . '.xml'
+        );
+    }
 };
 
 $boot($_EXTKEY);

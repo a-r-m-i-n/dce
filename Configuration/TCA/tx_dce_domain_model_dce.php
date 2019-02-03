@@ -415,10 +415,10 @@ $dceTca = [
                 'default' => '<f:layout name="BackendTemplate" />
 
 <f:section name="header">
-	<strong>{dce.title}</strong><br>
+    <strong>{dce.title}</strong><br>
 </f:section>
 <f:section name="bodytext">
-	Your backend template goes here...
+    Your backend template goes here...
 </f:section>',
             ],
         ],
@@ -516,7 +516,7 @@ $dceTca = [
                     'showTemplates' => false,
                 ],
                 'default' => '<div class="dce dce-detailpage">
-	Your detailpage template goes here...
+    Your detailpage template goes here...
 </div>
 ',
             ],
@@ -598,7 +598,9 @@ $dceTca = [
                 'default' => '<f:layout name="DefaultContainer" />
 
 <f:section name="main">
-	<f:render partial="Container/Dces" arguments="{dces:dces}" />
+    <div class="dce-container">
+        <f:render partial="Container/Dces" arguments="{dces:dces}" />
+    </div>
 </f:section>',
             ],
         ],

@@ -2,7 +2,7 @@
 <T3locallang>
 	<meta type="array">
 		<type>database</type>
-		<description>Language labels for database tables/fields belonging to extension 'dce'</description>
+		<description>Language labels for the Dynamic Content Elements extension</description>
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
@@ -80,7 +80,7 @@
 			<label index="tx_dce_domain_model_dce.paletteFields">DCE palette fields</label>
 			<label index="tx_dce_domain_model_dce.flexformLabel">Flexform label</label>
 			<label index="tx_dce_domain_model_dce.flexformLabel.default">Contents:</label>
-			<label index="tx_dce_domain_model_dce.directOutput">Direct output (bypass lib.contentElement):</label>
+			<label index="tx_dce_domain_model_dce.directOutput">Direct output</label>
 
 			<label index="tx_dce_domain_model_dce.useSimpleBackendView">Use simple backend view</label>
 			<label index="tx_dce_domain_model_dce.backendViewHeader">Header field (which field value should be used as header)</label>
@@ -93,7 +93,7 @@
 			<label index="tx_dce_domain_model_dcefield.type.tab">Tab</label>
 			<label index="tx_dce_domain_model_dcefield.type.section">Section</label>
 			<label index="tx_dce_domain_model_dcefield.title">Title</label>
-			<label index="tx_dce_domain_model_dcefield.variable">Variable (must be unique)</label>
+			<label index="tx_dce_domain_model_dcefield.variable">Variable</label>
 			<label index="tx_dce_domain_model_dcefield.configuration">Configuration</label>
 			<label index="tx_dce_domain_model_dcefield.mapTo">Map field value to TCA column</label>
 			<label index="tx_dce_domain_model_dcefield.newTcaFieldName">New TCA field name</label>
@@ -188,7 +188,7 @@
 			<label index="tx_dce_domain_model_dcefield.type.tab">Tab</label>
 			<label index="tx_dce_domain_model_dcefield.type.section">Sektion</label>
 			<label index="tx_dce_domain_model_dcefield.title">Titel</label>
-			<label index="tx_dce_domain_model_dcefield.variable">Variable (muss eindeutig sein)</label>
+			<label index="tx_dce_domain_model_dcefield.variable">Variable</label>
 			<label index="tx_dce_domain_model_dcefield.configuration">Konfiguration</label>
 			<label index="tx_dce_domain_model_dcefield.mapTo">Binde Feldwert an TCA-Spalte</label>
 			<label index="tx_dce_domain_model_dcefield.newTcaFieldName">Neuer TCA-Feld-Name</label>

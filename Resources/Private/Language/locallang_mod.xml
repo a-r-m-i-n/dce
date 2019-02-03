@@ -2,7 +2,7 @@
 <T3locallang>
     <meta type="array">
         <type>module</type>
-        <description>Language labels for the "DCE" BE Module</description>
+        <description>Language labels for the Dynamic Content Elements extension</description>
     </meta>
     <data type="array">
         <languageKey index="default" type="array">
