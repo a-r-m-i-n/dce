@@ -103,6 +103,7 @@ Vagrant.configure("2") do |config|
     SHELL
     config.vm.provision "shell", run: "once", privileged: true, name: "setup-typo3-8-root", inline: <<-SHELL
         cd /var/www/typo3_8
+        wget -qO.htaccess https://raw.githubusercontent.com/TYPO3/TYPO3.CMS/TYPO3_8-7/_.htaccess
         chmod 2775 . ./public/typo3conf ./public/typo3conf/ext
         chown -R vagrant .
         chgrp -R www-data .
@@ -135,6 +136,8 @@ Vagrant.configure("2") do |config|
     SHELL
     config.vm.provision "shell", run: "once", privileged: true, name: "setup-typo3-9-root", inline: <<-SHELL
         cd /var/www/typo3_9
+        cp /var/www/typo3_9/public/typo3/sysext/install/Resources/Private/FolderStructureTemplateFiles/root-htaccess /var/www/typo3_9/public/.htaccess
+        sed -i s,base:\\ ht/,base:\\ 9/,g /var/www/typo3_9/config/sites/main/config.yaml
         chmod 2775 . ./public/typo3conf ./public/typo3conf/ext
         chown -R vagrant .
         chgrp -R www-data .
