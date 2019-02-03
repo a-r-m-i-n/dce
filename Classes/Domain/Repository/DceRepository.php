@@ -9,12 +9,12 @@ namespace T3\Dce\Domain\Repository;
 use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Domain\Model\DceField;
 use T3\Dce\Utility\DatabaseUtility;
+use T3\Dce\Utility\FlexformService;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Resource\Collection\AbstractFileCollection;
 use TYPO3\CMS\Core\Resource\FileCollectionRepository;
 use TYPO3\CMS\Core\Resource\FileRepository;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
-use TYPO3\CMS\Core\Service\FlexFormService;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\StringUtility;
@@ -33,11 +33,6 @@ use TYPO3\CMS\Frontend\Page\PageRepository;
 class DceRepository extends Repository
 {
     /**
-     * @var FlexFormService
-     */
-    protected static $flexFormService;
-
-    /**
      * @var Dce[]
      */
     protected static $dceInstanceCache = [];
@@ -55,7 +50,6 @@ class DceRepository extends Repository
     public function __construct(ObjectManagerInterface $objectManager)
     {
         parent::__construct($objectManager);
-        static::$flexFormService = $objectManager->get(FlexFormService::class);
     }
 
     /**
@@ -307,7 +301,7 @@ class DceRepository extends Repository
      */
     protected function getDceFieldsByRecord(array $record) : array
     {
-        $flexformData = static::$flexFormService->convertFlexFormContentToArray($record['pi_flexform'], 'lDEF', 'vDEF');
+        $flexformData = FlexformService::get()->convertFlexFormContentToArray($record['pi_flexform'], 'lDEF', 'vDEF');
         return isset($flexformData['settings']) && \is_array($flexformData['settings'])
             ? $flexformData['settings']
             : [];

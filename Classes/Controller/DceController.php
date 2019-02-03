@@ -8,6 +8,8 @@ namespace T3\Dce\Controller;
  */
 use T3\Dce\Components\DceContainer\ContainerFactory;
 use T3\Dce\Domain\Repository\DceRepository;
+use T3\Dce\Utility\DatabaseUtility;
+use T3\Dce\Utility\FlexformService;
 use T3\Dce\Utility\TypoScript;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -145,14 +147,14 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     protected function simulateContentElementSettings($contentElementUid) : array
     {
-        $row = \T3\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
+        $row = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
             'pi_flexform',
             'tt_content',
             'uid = ' . (int) $contentElementUid
         );
 
-        $flexFormService = $this->objectManager->get('TYPO3\CMS\Extbase\Service\FlexFormService');
-        $flexData = $flexFormService->convertFlexFormContentToArray($row['pi_flexform'], 'lDEF', 'vDEF');
+        $flexData = FlexformService::get()
+                        ->convertFlexFormContentToArray($row['pi_flexform'], 'lDEF', 'vDEF');
         return $flexData['settings'];
     }
 
@@ -164,7 +166,7 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     protected function getContentObject(int $uid) : ?array
     {
-        return \T3\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
+        return DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
             '*',
             'tt_content',
             'uid = ' . $uid

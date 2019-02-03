@@ -10,6 +10,7 @@ use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Domain\Repository\DceRepository;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /**
@@ -95,16 +96,13 @@ class DatabaseUtility
         }
 
         // Make instance of "DceRepository" and "FlexFormService"
-        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-            \TYPO3\CMS\Extbase\Object\ObjectManager::class
-        );
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         /** @var DceRepository $dceRepository */
         $dceRepository = $objectManager->get(DceRepository::class);
-        /** @var \TYPO3\CMS\Extbase\Service\FlexFormService $flexFormService */
-        $flexFormService = $objectManager->get('TYPO3\CMS\Extbase\Service\FlexFormService');
 
         // Convert flexform XML to array
-        $flexData = $flexFormService->convertFlexFormContentToArray($contentElement['pi_flexform'], 'lDEF', 'vDEF');
+        $flexData = FlexformService::get()
+                        ->convertFlexFormContentToArray($contentElement['pi_flexform'], 'lDEF', 'vDEF');
 
         // Retrieve DCE domain model object
         $dceUid = self::getDceUidByContentElementRow($contentElement);
