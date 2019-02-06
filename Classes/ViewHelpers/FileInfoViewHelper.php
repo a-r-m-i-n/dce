@@ -42,7 +42,7 @@ class FileInfoViewHelper extends AbstractViewHelper
     public function initializeArguments()
     {
         parent::initializeArguments();
-        $this->registerArgument('$fileUid', 'integer', 'Uid of file to get attributes of', true);
+        $this->registerArgument('fileUid', 'integer', 'Uid of file to get attributes of', true);
         $this->registerArgument('attribute', 'string', 'Name of attribute to return', true);
     }
 
