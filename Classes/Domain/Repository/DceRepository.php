@@ -425,6 +425,7 @@ class DceRepository extends Repository
 
         if ($dceFieldConfiguration['dce_get_fal_objects'] && strtolower($className) === 'sys_file_reference') {
             $contentObjectUid = (int) ($contentObject['_LOCALIZED_UID'] ?? $contentObject['uid']);
+            $fileReferences = [];
             if (TYPO3_MODE === 'FE') {
                 $fileRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
                     FileRepository::class
