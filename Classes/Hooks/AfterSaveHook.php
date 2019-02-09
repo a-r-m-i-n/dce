@@ -143,13 +143,14 @@ class AfterSaveHook
 
         // Adds or removes *containerflag from simple backend view, when container is en- or disabled
         if ($table === 'tx_dce_domain_model_dce' && ($status === 'update' || $status === 'new')) {
+            $dceRow = $this->dataHandler->recordInfo('tx_dce_domain_model_dce', $this->uid, '*');
             if (array_key_exists('enable_container', $fieldArray)) {
                 if ($fieldArray['enable_container'] === '1') {
-                    $items = GeneralUtility::trimExplode(',', $fieldArray['backend_view_bodytext'], true);
+                    $items = GeneralUtility::trimExplode(',', $dceRow['backend_view_bodytext'], true);
                     $items[] = '*containerflag';
                 } else {
                     $items = ArrayUtility::removeArrayEntryByValue(
-                        GeneralUtility::trimExplode(',', $fieldArray['backend_view_bodytext'], true),
+                        GeneralUtility::trimExplode(',', $dceRow['backend_view_bodytext'], true),
                         '*containerflag'
                     );
                 }
