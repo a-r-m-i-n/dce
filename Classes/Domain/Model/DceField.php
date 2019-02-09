@@ -72,7 +72,7 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $parentField;
 
     /**
-     * @var string not persisted
+     * @var mixed not persisted
      */
     protected $value = '';
 
@@ -228,18 +228,18 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * @return string
+     * @return mixed
      */
-    public function getValue() : string
+    public function getValue()
     {
         return $this->value;
     }
 
     /**
-     * @param string $value
+     * @param mixed $value
      * @return self
      */
-    public function setValue(string $value) : self
+    public function setValue($value) : self
     {
         $this->value = $value;
         return $this;
