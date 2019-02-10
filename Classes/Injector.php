@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection ALL */
 namespace T3\Dce;
 
 /*  | This extension is made for TYPO3 CMS and is licensed
@@ -6,8 +6,15 @@ namespace T3\Dce;
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
+use T3\Dce\Components\FlexformToTcaMapper\Mapper;
+use T3\Dce\Utility\DatabaseUtility;
+use TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider;
+use TYPO3\CMS\Core\Imaging\IconRegistry;
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
+use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
  * DCE Injector
@@ -29,13 +36,13 @@ class Injector
             1 => '--div--'
         ];
 
-        $fieldRowsWithNewColumns = Components\FlexformToTcaMapper\Mapper::getDceFieldRowsWithNewTcaColumns();
+        $fieldRowsWithNewColumns = Mapper::getDceFieldRowsWithNewTcaColumns();
         if (\count($fieldRowsWithNewColumns) > 0) {
             $newColumns = [];
             foreach ($fieldRowsWithNewColumns as $fieldRow) {
                 $newColumns[$fieldRow['new_tca_field_name']] = ['label' => '', 'config' => ['type' => 'passthrough']];
             }
-            \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('tt_content', $newColumns);
+            ExtensionManagementUtility::addTCAcolumns('tt_content', $newColumns);
         }
 
         $GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'][] = [
@@ -49,7 +56,7 @@ class Injector
             }
             $dceIdentifier = $dce['identifier'];
 
-            \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTcaSelectItem(
+            ExtensionManagementUtility::addTcaSelectItem(
                 'tt_content',
                 'CType',
                 [
@@ -108,11 +115,11 @@ TEXT;
                 $GLOBALS['TCA']['tt_content']['palettes'][$paletteIdentifier]['canNotCollapse'] = true;
                 $GLOBALS['TCA']['tt_content']['palettes'][$paletteIdentifier]['showitem'] = $dce['palette_fields'];
 
-                if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('gridelements')) {
+                if (ExtensionManagementUtility::isLoaded('gridelements')) {
                     $GLOBALS['TCA']['tt_content']['palettes'][$paletteIdentifier]['showitem'] .=
                         ',tx_gridelements_container,tx_gridelements_columns';
                 }
-                if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('flux')) {
+                if (ExtensionManagementUtility::isLoaded('flux')) {
                     $GLOBALS['TCA']['tt_content']['palettes'][$paletteIdentifier]['showitem'] .=
                         ',tx_flux_column,tx_flux_parent';
                 }
@@ -129,7 +136,7 @@ TEXT;
      */
     public function injectPluginConfiguration() : void
     {
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
+        ExtensionManagementUtility::addPageTSConfig(
             'mod.wizards.newContentElement.wizardItems.dce.header = ' .
             'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce_long'
         );
@@ -140,19 +147,19 @@ TEXT;
             }
             $dceIdentifier = $dce['identifier'];
 
-            \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+            ExtensionUtility::configurePlugin(
                 'T3.dce',
                 substr($dceIdentifier, 4),
                 [
                     'Dce' => 'show',
                 ],
                 $dce['cache_dce'] ? [] : ['Dce' => 'show'],
-                \TYPO3\CMS\Extbase\Utility\ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
+                ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
             );
 
             if ($dce['direct_output']) {
                 $dceIdentifier = $dceIdentifier;
-                \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
+                ExtensionManagementUtility::addTypoScript(
                     'dce',
                     'setup',
                     <<<TYPOSCRIPT
@@ -166,7 +173,7 @@ TYPOSCRIPT
                 );
             }
 
-            \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
+            ExtensionManagementUtility::addTypoScript(
                 'dce',
                 'setup',
                 "# Hide lib.stdheader for DCE with identifier $dceIdentifier
@@ -175,9 +182,9 @@ TYPOSCRIPT
             );
 
             if ($dce['hide_default_ce_wrap'] &&
-                \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('css_styled_content')
+                ExtensionManagementUtility::isLoaded('css_styled_content')
             ) {
-                \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
+                ExtensionManagementUtility::addTypoScript(
                     'dce',
                     'setup',
                     "# Hide default wrapping for content elements for DCE with identifier $dceIdentifier}
@@ -187,7 +194,7 @@ TYPOSCRIPT
             }
 
             if ($dce['enable_container'] && ExtensionManagementUtility::isLoaded('fluid_styled_content')) {
-                \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
+                ExtensionManagementUtility::addTypoScript(
                     'dce',
                     'setup',
                     "# Change fluid_styled_content template name for DCE with identifier $dceIdentifier
@@ -198,12 +205,12 @@ TYPOSCRIPT
 
             if ($dce['wizard_enable']) {
                 if ($dce['hasCustomWizardIcon'] && !empty($dce['wizard_custom_icon'])) {
-                    $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-                        \TYPO3\CMS\Core\Imaging\IconRegistry::class
+                    $iconRegistry = GeneralUtility::makeInstance(
+                        IconRegistry::class
                     );
                     $iconRegistry->registerIcon(
                         "ext-dce-$dceIdentifier-customwizardicon",
-                        \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
+                        BitmapIconProvider::class,
                         ['source' => $dce['wizard_custom_icon']]
                     );
                 }
@@ -217,7 +224,7 @@ TYPOSCRIPT
                 $title = addcslashes($dce['title'], "'");
                 $description = addcslashes($dce['wizard_description'], "'");
 
-                \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
+                ExtensionManagementUtility::addPageTSConfig(
                     "
                     mod.wizards.newContentElement.wizardItems.$wizardCategory.elements.$dceIdentifier {
                         iconIdentifier = $iconIdentifierCode
@@ -244,15 +251,98 @@ TYPOSCRIPT
      */
     public function renderFlexformXml(array $singleDceArray) : string
     {
-        /** @var \TYPO3\CMS\Fluid\View\StandaloneView $fluidTemplate */
-        $fluidTemplate = GeneralUtility::makeInstance(\TYPO3\CMS\Fluid\View\StandaloneView::class);
-        $fluidTemplate->setLayoutRootPaths([Utility\File::get('EXT:dce/Resources/Private/Layouts/')]);
-        $fluidTemplate->setPartialRootPaths([Utility\File::get('EXT:dce/Resources/Private/Partials/')]);
-        $fluidTemplate->setTemplatePathAndFilename(
-            ExtensionManagementUtility::extPath('dce') . 'Resources/Private/Templates/DceSource/FlexFormsXML.html'
-        );
-        $fluidTemplate->assign('dce', $singleDceArray);
-        return $fluidTemplate->render();
+        $xml = new \DOMDocument();
+        $root = $xml->createElement('T3DataStructure');
+        $xml->appendChild($root);
+
+        $meta = $xml->createElement('meta');
+        $meta->appendChild($xml->createElement('langDisable', 1));
+        $meta->appendChild($xml->createElement('langDatabaseOverlay', 1));
+        $root->appendChild($meta);
+
+        $sheets = $xml->createElement('sheets');
+        foreach ($singleDceArray['tabs'] as $dceTab) {
+            $tabRoot = $xml->createElement('ROOT');
+            $tab = $xml->createElement('sheet.' . $dceTab['variable']);
+            $tab->appendChild($tabRoot);
+
+            $sheetTitle = $xml->createElement('sheetTitle');
+            $sheetTitle->appendChild($xml->createCDATASection($dceTab['title']));
+            $tabRoot->appendChild($sheetTitle);
+            $tabRoot->appendChild($xml->createElement('type', 'array'));
+
+            $tabElements = $xml->createElement('el');
+            foreach ($dceTab['fields'] as $dceField) {
+                $field = $xml->createElement('settings.' . $dceField['variable']);
+                if ($dceField['type'] === "2") {
+                    // Section Field
+                    $field->appendChild($title = $xml->createElement('title'));
+                    $title->appendChild($xml->createCDATASection($dceField['title']));
+
+                    $field->appendChild($tv = $xml->createElement('tx_templatevoila'));
+                    $tv->appendChild($title = $xml->createElement('title'));
+                    $title->appendChild($xml->createCDATASection($dceField['title']));
+
+                    $field->appendChild($xml->createElement('section', 1));
+                    $field->appendChild($xml->createElement('type', 'array'));
+
+                    $section = $xml->createElement('el');
+                    $field->appendChild($section);
+
+                    $sectionContainer = $xml->createElement('container_' . $dceField['variable']);
+                    $section->appendChild($sectionContainer);
+
+                    $sectionContainer->appendChild($xml->createElement('type', 'array'));
+                    $sectionContainer->appendChild($title = $xml->createElement('title'));
+                    $title->appendChild($xml->createCDATASection($dceField['section_fields_tag']));
+
+                    $sectionContainer->appendChild($tv = $xml->createElement('tx_templatevoila'));
+                    $tv->appendChild($title = $xml->createElement('title'));
+                    $title->appendChild($xml->createCDATASection($dceField['title']));
+
+                    $sectionFields = $xml->createElement('el');
+                    foreach ($dceField['section_fields'] as $dceSectionField) {
+                        $sectionField = $xml->createElement($dceSectionField['variable']);
+                        $sectionFields->appendChild($sectionField);
+
+                        $sectionField->appendChild($tce = $xml->createElement('TCEforms'));
+                        $tce->appendChild($label = $xml->createElement('label'));
+                        $label->appendChild($xml->createCDATASection($dceSectionField['title']));
+
+                        $conf = new \DOMDocument();
+                        $conf->loadXML($dceSectionField['configuration']);
+
+                        /** @var \DOMElement $childNode */
+                        foreach ($conf->childNodes as $childNode) {
+                            $node = $xml->importNode($childNode, true);
+                            $tce->appendChild($node);
+                        }
+                    }
+                    $sectionContainer->appendChild($sectionFields);
+                } else {
+                    // Regular fields
+                    $field->appendChild($tce = $xml->createElement('TCEforms'));
+                    $tce->appendChild($title = $xml->createElement('label'));
+                    $title->appendChild($xml->createCDATASection($dceField['title']));
+
+                    $conf = new \DOMDocument();
+                    $conf->loadXML($dceField['configuration']);
+
+                    /** @var \DOMElement $childNode */
+                    foreach ($conf->childNodes as $childNode) {
+                        $node = $xml->importNode($childNode, true);
+                        $tce->appendChild($node);
+                    }
+                }
+                $tabElements->appendChild($field);
+                $tabRoot->appendChild($tabElements);
+            }
+
+            $sheets->appendChild($tab);
+        }
+        $root->appendChild($sheets);
+        $output = $xml->saveXML();
+        return $xml->saveXML();
     }
 
     /**
@@ -277,7 +367,7 @@ TYPOSCRIPT
     protected function getDatabaseDces() : array
     {
         /** @var $databaseConnection \T3\Dce\Utility\DatabaseConnection */
-        $databaseConnection = \T3\Dce\Utility\DatabaseUtility::getDatabaseConnection();
+        $databaseConnection = DatabaseUtility::getDatabaseConnection();
 
         $tables = $databaseConnection->admin_get_tables();
         if (!\in_array('tx_dce_domain_model_dce', $tables, true) ||
