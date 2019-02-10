@@ -138,6 +138,15 @@ $boot = function ($extensionKey) {
 
     // Global namespace
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['dce'] = ['T3\\Dce\\ViewHelpers'];
+
+    // UserFunc TypoScript Condition (for expression language)
+    if (\T3\Dce\Compatibility::isTypo3Version()) {
+        if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['TYPO3\CMS\Core\ExpressionLanguage\TypoScriptConditionProvider']['additionalExpressionLanguageProvider'])) {
+            $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['TYPO3\CMS\Core\ExpressionLanguage\TypoScriptConditionProvider']['additionalExpressionLanguageProvider'] = [];
+        }
+        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['TYPO3\CMS\Core\ExpressionLanguage\TypoScriptConditionProvider']['additionalExpressionLanguageProvider'][] =
+            \T3\Dce\Components\UserConditions\TypoScriptConditionFunctionProvider::class;
+    }
 };
 
 $boot($_EXTKEY);
