@@ -6,6 +6,7 @@ namespace T3\Dce\Components\DceContainer;
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
+use T3\Dce\Compatibility;
 use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Utility\DatabaseUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -93,10 +94,10 @@ class ContainerFactory
                  ' AND uid != ' . $contentObject['uid'];
 
         if (TYPO3_MODE === 'FE') {
-            $where .= ' AND sys_language_uid = ' . $GLOBALS['TSFE']->sys_language_uid;
+            $where .= ' AND sys_language_uid = ' . Compatibility::getSysLanguageUid();
             $where .= DatabaseUtility::getEnabledFields('tt_content');
         } else {
-            $where .= \TYPO3\CMS\Backend\Utility\BackendUtility::deleteClause('tt_content');
+            $where .= DatabaseUtility::deleteClause('tt_content');
         }
 
         if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('gridelements')
@@ -106,7 +107,7 @@ class ContainerFactory
         }
 
         if (TYPO3_MODE === 'FE') {
-            $where .= ' AND sys_language_uid = ' . $GLOBALS['TSFE']->sys_language_uid;
+            $where .= ' AND sys_language_uid = ' . Compatibility::getSysLanguageUid();
         }
 
         $rawContentElements = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
@@ -210,7 +211,7 @@ class ContainerFactory
                     $linkedContentElements = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
                         '*',
                         $table,
-                        'uid = ' . $uid,
+                        'uid = ' . $uid . ' AND hidden=0 AND deleted=0',
                         '',
                         $GLOBALS['TCA'][$table]['ctrl']['sortby'] . ' asc'
                     );

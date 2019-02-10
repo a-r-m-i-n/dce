@@ -7,6 +7,8 @@ namespace T3\Dce\Components\FlexformToTcaMapper;
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
 use T3\Dce\Utility\DatabaseUtility;
+use T3\Dce\Utility\FlashMessage;
+use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -46,7 +48,7 @@ class Mapper
                 'tx_dce_domain_model_dcefield',
                 'map_to="*newcol" AND deleted=0 AND type=0 AND new_tca_field_name!="" AND new_tca_field_type!=""'
             );
-        } catch (\Doctrine\DBAL\Exception\TableNotFoundException $exception) {
+        } catch (\Exception $exception) {
             return [];
         }
 
@@ -153,10 +155,10 @@ class Mapper
                 $updateData
             );
             if (!$updateStatus) {
-                \T3\Dce\Utility\FlashMessage::add(
+                FlashMessage::add(
                     'Can\'t update tt_content item with uid ' . $row['uid'],
                     'Flexform to TCA mapping failure',
-                    \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR
+                    AbstractMessage::ERROR
                 );
             }
         }

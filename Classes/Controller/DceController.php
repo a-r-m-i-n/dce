@@ -145,16 +145,15 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      * @param int $contentElementUid
      * @return array
      */
-    protected function simulateContentElementSettings($contentElementUid) : array
+    protected function simulateContentElementSettings(int $contentElementUid) : array
     {
         $row = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
             'pi_flexform',
             'tt_content',
-            'uid = ' . (int) $contentElementUid
+            'uid = ' . $contentElementUid . ' AND deleted=0'
         );
 
-        $flexData = FlexformService::get()
-                        ->convertFlexFormContentToArray($row['pi_flexform'], 'lDEF', 'vDEF');
+        $flexData = FlexformService::get()->convertFlexFormContentToArray($row['pi_flexform'], 'lDEF', 'vDEF');
         return $flexData['settings'];
     }
 
@@ -169,7 +168,7 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         return DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
             '*',
             'tt_content',
-            'uid = ' . $uid
-        ) ?? null;
+            'uid = ' . $uid . ' AND deleted=0'
+        ) ?: null;
     }
 }

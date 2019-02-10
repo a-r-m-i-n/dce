@@ -6,7 +6,8 @@ namespace T3\Dce\ViewHelpers\Be;
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
-use TYPO3\CMS\Backend\Utility\BackendUtility;
+use T3\Dce\Utility\Backend as BackendUtility;
+use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
@@ -36,6 +37,7 @@ class ModuleLinkViewHelper extends AbstractViewHelper
      * @param \Closure $renderChildrenClosure
      * @param RenderingContextInterface $renderingContext
      * @return string Created module link
+     * @throws RouteNotFoundException
      */
     public static function renderStatic(
         array $arguments,

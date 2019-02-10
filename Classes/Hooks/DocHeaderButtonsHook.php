@@ -6,7 +6,12 @@ namespace T3\Dce\Hooks;
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
+use T3\Dce\Domain\Repository\DceRepository;
+use T3\Dce\Utility\Backend as BackendUtility;
+use TYPO3\CMS\Backend\Template\Components\ButtonBar;
+use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Imaging\Icon;
+use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
@@ -17,12 +22,12 @@ class DocHeaderButtonsHook
 {
     /**
      * @param array $params
-     * @param \TYPO3\CMS\Backend\Template\Components\ButtonBar $buttonBar
+     * @param ButtonBar $buttonBar
      * @return array Buttons
      */
     public function addDcePopupButton(
         array $params,
-        \TYPO3\CMS\Backend\Template\Components\ButtonBar $buttonBar
+        ButtonBar $buttonBar
     ) : array {
 
         $buttons = $params['buttons'];
@@ -32,8 +37,8 @@ class DocHeaderButtonsHook
 
         $contentUid = $this->getContentUid();
         if ($contentUid !== null) {
-            /** @var \TYPO3\CMS\Core\Imaging\IconFactory $iconFactory */
-            $iconFactory = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconFactory::class);
+            /** @var IconFactory $iconFactory */
+            $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
             $button = $buttonBar->makeLinkButton();
             $button->setIcon($iconFactory->getIcon('ext-dce-dce', Icon::SIZE_SMALL));
             $button->setTitle(LocalizationUtility::translate('editDceOfThisContentElement', 'dce'));
@@ -41,7 +46,7 @@ class DocHeaderButtonsHook
                 'window.open(\'' . $this->getDceEditLink($contentUid) . '\', \'editDcePopup\', ' .
                 '\'height=768,width=1024,status=0,menubar=0,scrollbars=1\')'
             );
-            $buttons[\TYPO3\CMS\Backend\Template\Components\ButtonBar::BUTTON_POSITION_LEFT][][] = $button;
+            $buttons[ButtonBar::BUTTON_POSITION_LEFT][][] = $button;
         }
         return $buttons;
     }
@@ -51,6 +56,7 @@ class DocHeaderButtonsHook
      *
      * @param int $contentItemUid
      * @return string
+     * @throws \TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException
      */
     protected function getDceEditLink(int $contentItemUid) : string
     {
@@ -58,9 +64,8 @@ class DocHeaderButtonsHook
         if (!is_numeric($dceIdent)) {
             $dceIdent = 'dce_' . $dceIdent;
         }
-
         $returnUrl = 'sysext/backend/Resources/Public/Html/Close.html';
-        return \TYPO3\CMS\Backend\Utility\BackendUtility::getModuleUrl(
+        return BackendUtility::getModuleUrl(
             'record_edit',
             GeneralUtility::explodeUrl2Array('edit[tx_dce_domain_model_dce][' . $dceIdent . ']=edit' .
                 '&returnUrl=' . $returnUrl)
@@ -77,11 +82,11 @@ class DocHeaderButtonsHook
     {
         $contentUid = $this->getContentUid();
         if ($contentUid !== null && $GLOBALS['BE_USER']->isAdmin()) {
-            /** @var $tceMain \TYPO3\CMS\Core\DataHandling\DataHandler */
-            $tceMain = GeneralUtility::makeInstance(\TYPO3\CMS\Core\DataHandling\DataHandler::class);
+            /** @var $tceMain DataHandler */
+            $tceMain = GeneralUtility::makeInstance(DataHandler::class);
             $contentRecord = $tceMain->recordInfo('tt_content', $contentUid, 'CType');
             $cType = current($contentRecord);
-            $dceUid = \T3\Dce\Domain\Repository\DceRepository::extractUidFromCTypeOrIdentifier($cType);
+            $dceUid = DceRepository::extractUidFromCTypeOrIdentifier($cType);
             return $dceUid !== false;
         }
         return false;
@@ -125,10 +130,10 @@ class DocHeaderButtonsHook
      */
     protected function getDceUid($contentUid) : ?int
     {
-        /** @var $tceMain \TYPO3\CMS\Core\DataHandling\DataHandler */
-        $tceMain = GeneralUtility::makeInstance(\TYPO3\CMS\Core\DataHandling\DataHandler::class);
+        /** @var $tceMain DataHandler */
+        $tceMain = GeneralUtility::makeInstance(DataHandler::class);
         $contentRecord = $tceMain->recordInfo('tt_content', $contentUid, 'CType');
         $cType = current($contentRecord);
-        return \T3\Dce\Domain\Repository\DceRepository::extractUidFromCTypeOrIdentifier($cType);
+        return DceRepository::extractUidFromCTypeOrIdentifier($cType);
     }
 }

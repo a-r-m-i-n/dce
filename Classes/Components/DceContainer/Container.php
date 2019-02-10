@@ -87,7 +87,7 @@ class Container
             $originalRow = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
                 '*',
                 'tt_content',
-                'uid = ' . $contentObject['l18n_parent']
+                'uid = ' . $contentObject['l18n_parent'] . ' AND deleted=0'
             );
             if ($originalRow) {
                 $contentObject = $originalRow;

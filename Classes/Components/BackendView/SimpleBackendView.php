@@ -9,9 +9,14 @@ namespace T3\Dce\Components\BackendView;
 use T3\Dce\Components\DceContainer\ContainerFactory;
 use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Domain\Model\DceField;
+use T3\Dce\Utility\DatabaseUtility;
+use T3\Dce\Utility\LanguageService;
+use T3\Dce\Utility\PageTS as PageTsUtility;
+use T3\Dce\Utility\Strings as StringUtility;
+use TYPO3\CMS\Core\Resource\Exception\ResourceDoesNotExistException;
 use TYPO3\CMS\Core\Resource\ProcessedFile;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * Simple backend view utility
@@ -32,17 +37,14 @@ class SimpleBackendView
      */
     public function getHeaderContent(Dce $dce, bool $textOnly = false) : string
     {
-        /** @var \TYPO3\CMS\Lang\LanguageService $lang */
-        $lang = $GLOBALS['LANG'];
-
         if ($dce->getBackendViewHeader() === '*empty') {
             return '';
         }
         if ($dce->getBackendViewHeader() === '*dcetitle') {
             if ($textOnly) {
-                return $lang->sL($dce->getTitle());
+                return LanguageService::sL($dce->getTitle());
             }
-            return '<strong class="dceHeader">' . $lang->sL($dce->getTitle()) . '</strong>';
+            return '<strong class="dceHeader">' . LanguageService::sL($dce->getTitle()) . '</strong>';
         }
 
         $field = $dce->getFieldByVariable($dce->getBackendViewHeader());
@@ -61,7 +63,7 @@ class SimpleBackendView
      * @param Dce $dce
      * @param array $row Content element row
      * @return string
-     * @throws \TYPO3\CMS\Core\Resource\Exception\ResourceDoesNotExistException
+     * @throws ResourceDoesNotExistException
      */
     public function getBodytextContent(Dce $dce, array $row) : string
     {
@@ -84,7 +86,7 @@ class SimpleBackendView
                 $content .= '<tr class="dceRow"><td class="dceFull" colspan="2"></td></tr>';
             } elseif ($field === '*dcetitle') {
                 $content .= '<tr class="dceRow"><td class="dceFull" colspan="2">' .
-                            \T3\Dce\Utility\LanguageService::sL($dce->getTitle()) . '</td></tr>';
+                            LanguageService::sL($dce->getTitle()) . '</td></tr>';
             } elseif ($field === '*containerflag') {
                 $containerFlag = $this->getContainerFlag($dce);
                 if ($containerFlag) {
@@ -107,13 +109,11 @@ class SimpleBackendView
      */
     protected function getFieldLabel(DceField $field) : string
     {
-        /** @var \TYPO3\CMS\Core\Charset\CharsetConverter $charsetConverter */
-        $charsetConverter = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Charset\CharsetConverter::class);
-        return $charsetConverter->crop(
+        return StringUtility::crop(
             'utf-8',
-            \T3\Dce\Utility\LanguageService::sL($field->getTitle()),
-            \T3\Dce\Utility\PageTS::get('tx_dce.defaults.simpleBackendView.titleCropLength', 10),
-            \T3\Dce\Utility\PageTS::get('tx_dce.defaults.simpleBackendView.titleCropAppendix', '...')
+            LanguageService::sL($field->getTitle()),
+            PageTsUtility::get('tx_dce.defaults.simpleBackendView.titleCropLength', 10),
+            PageTsUtility::get('tx_dce.defaults.simpleBackendView.titleCropAppendix', '...')
         );
     }
 
@@ -123,7 +123,7 @@ class SimpleBackendView
      * @param DceField $field
      * @param array $row Content element row
      * @return string Rendered DceField value for simple backend view
-     * @throws \TYPO3\CMS\Core\Resource\Exception\ResourceDoesNotExistException
+     * @throws ResourceDoesNotExistException
      */
     protected function renderDceFieldValue(DceField $field, array $row) : string
     {
@@ -135,11 +135,9 @@ class SimpleBackendView
                     $sectionRowAmount = \count($sectionFieldValue);
                 }
             }
-            if ($sectionRowAmount === 1) {
-                $label = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('entry', 'dce');
-            } else {
-                $label = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('entries', 'dce');
-            }
+            $label = $sectionRowAmount === 1
+                ? LocalizationUtility::translate('entry', 'dce')
+                : LocalizationUtility::translate('entries', 'dce');
             return $sectionRowAmount . ' ' . $label;
         }
 
@@ -149,9 +147,9 @@ class SimpleBackendView
 
         if (\is_array($field->getValue()) || $field->getValue() instanceof \Countable) {
             if (\count($field->getValue()) === 1) {
-                $label = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('entry', 'dce');
+                $label = LocalizationUtility::translate('entry', 'dce');
             } else {
-                $label = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate('entries', 'dce');
+                $label = LocalizationUtility::translate('entries', 'dce');
             }
             return \count($field->getValue()) . ' ' . $label;
         }
@@ -169,11 +167,11 @@ class SimpleBackendView
      * @param DceField $field
      * @param array $row
      * @return string
-     * @throws \TYPO3\CMS\Core\Resource\Exception\ResourceDoesNotExistException
+     * @throws ResourceDoesNotExistException
      */
     protected function getFalMediaPreview(DceField $field, array $row) : string
     {
-        $database = \T3\Dce\Utility\DatabaseUtility::getDatabaseConnection();
+        $database = DatabaseUtility::getDatabaseConnection();
         $fieldConfiguration = $field->getConfigurationAsArray();
         $fieldConfiguration = $fieldConfiguration['config'];
 
@@ -197,8 +195,8 @@ class SimpleBackendView
                 continue;
             }
             $image = $fileObject->process(ProcessedFile::CONTEXT_IMAGECROPSCALEMASK, [
-                'width' => \T3\Dce\Utility\PageTS::get('tx_dce.defaults.simpleBackendView.imageWidth', '50c'),
-                'height' => \T3\Dce\Utility\PageTS::get('tx_dce.defaults.simpleBackendView.imageWidth', '50')
+                'width' => PageTsUtility::get('tx_dce.defaults.simpleBackendView.imageWidth', '50c'),
+                'height' => PageTsUtility::get('tx_dce.defaults.simpleBackendView.imageWidth', '50')
             ]);
             $imageTags[] = '<img src="' . $image->getPublicUrl(true) . '" class="dceFieldImage">';
         }

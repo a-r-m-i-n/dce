@@ -405,6 +405,7 @@ $dceTca = [
                 ]
             ],
             'config' => [
+                // TODO: This will not work in TYPO3 10. renderTypes must be defined
                 'type' => 'user',
                 'size' => '30',
                 'userFunc' => 'T3\Dce\UserFunction\UserFields\CodemirrorField->getCodemirrorField',
@@ -508,6 +509,7 @@ $dceTca = [
                 ]
             ],
             'config' => [
+                // TODO: This will not work in TYPO3 10. renderTypes must be defined
                 'type' => 'user',
                 'size' => '30',
                 'userFunc' => 'T3\Dce\UserFunction\UserFields\CodemirrorField->getCodemirrorField',
@@ -590,6 +592,7 @@ $dceTca = [
             'config' => [
                 'type' => 'user',
                 'size' => '30',
+                // TODO: This will not work in TYPO3 10. renderTypes must be defined
                 'userFunc' => 'T3\Dce\UserFunction\UserFields\CodemirrorField->getCodemirrorField',
                 'parameters' => [
                     'mode' => 'htmlmixed',

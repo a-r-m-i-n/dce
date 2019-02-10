@@ -6,6 +6,7 @@ namespace T3\Dce\Domain\Repository;
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
+use T3\Dce\Compatibility;
 use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Domain\Model\DceField;
 use T3\Dce\Utility\DatabaseUtility;
@@ -332,14 +333,14 @@ class DceRepository extends Repository
                 $row = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
                     'uid',
                     'tx_dce_domain_model_dce',
-                    'identifier = "' . addslashes(substr($cType, 4, -10)) . '"'
+                    'identifier = "' . addslashes(substr($cType, 4, -10)) . '" AND deleted=0'
                 );
             } else {
                 /** @var self $repo */
                 $row = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
                     'uid',
                     'tx_dce_domain_model_dce',
-                    'identifier = "' . addslashes(substr($cType, 4)) . '"'
+                    'identifier = "' . addslashes(substr($cType, 4)) . '" AND deleted=0'
                 );
             }
             if (isset($row['uid'])) {
@@ -538,7 +539,7 @@ class DceRepository extends Repository
                         $row = $pageRepository->getRecordOverlay(
                             $tableName,
                             $row,
-                            $GLOBALS['TSFE']->sys_language_uid,
+                            Compatibility::getSysLanguageUid(),
                             $GLOBALS['TSFE']->tmpl->setup['config.']['sys_language_overlay']
                         );
                     }

@@ -19,7 +19,10 @@
     "autoload": {
         "psr-4": {
             "T3\\Dce\\": "Classes"
-        }
+        },
+        "files": [
+            "Classes/Compatibility.php"
+        ]
     },
     "replace": {
         "dce": "*",

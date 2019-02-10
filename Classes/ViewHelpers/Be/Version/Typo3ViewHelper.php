@@ -6,12 +6,14 @@ namespace T3\Dce\ViewHelpers\Be\Version;
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Gets the current TYPO3 version
  */
-class Typo3ViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
+class Typo3ViewHelper extends AbstractViewHelper
 {
     /**
      * @return void
@@ -34,7 +36,7 @@ class Typo3ViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelp
         RenderingContextInterface $renderingContext
     ) {
         if ($arguments['returnInt']) {
-            return \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
+            return VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
         }
         return TYPO3_version;
     }

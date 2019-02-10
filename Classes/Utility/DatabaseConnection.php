@@ -56,7 +56,9 @@ class DatabaseConnection implements \TYPO3\CMS\Core\SingletonInterface
      */
     protected function getQueryBuilderForTable(string $table) : QueryBuilder
     {
-        return clone $this->connectionPool->getQueryBuilderForTable($table);
+        $builder = clone $this->connectionPool->getQueryBuilderForTable($table);
+        $builder->getRestrictions()->removeAll();
+        return $builder;
     }
 
     /**

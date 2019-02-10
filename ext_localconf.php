@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection ALL */
 
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
@@ -12,6 +12,10 @@ if (!defined('TYPO3_MODE')) {
 
 $boot = function ($extensionKey) {
     $extensionPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($extensionKey);
+
+    if (!class_exists(\T3\Dce\Compatibility::class)) {
+        require_once ($extensionPath . 'Classes/Compatibility.php');
+    }
 
     // AfterSave hook
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass']['dce'] =
@@ -43,16 +47,10 @@ $boot = function ($extensionKey) {
         'className' => \T3\Dce\XClass\LiveSearch::class,
     ];
 
-    // User conditions
-    require_once($extensionPath . 'Classes/UserConditions/user_dceOnCurrentPage.php');
-
     // Special tce validators (eval)
-    require_once($extensionPath . 'Classes/UserFunction/CustomFieldValidation/AbstractFieldValidator.php');
-
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tce']['formevals']
     [\T3\Dce\UserFunction\CustomFieldValidation\LowerCamelCaseValidator::class] =
         'EXT:dce/Classes/UserFunction/CustomFieldValidation/LowerCamelCaseValidator.php';
-
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tce']['formevals']
     [\T3\Dce\UserFunction\CustomFieldValidation\NoLeadingNumberValidator::class] =
         'EXT:dce/Classes/UserFunction/CustomFieldValidation/NoLeadingNumberValidator.php';
@@ -73,7 +71,7 @@ $boot = function ($extensionKey) {
         \TYPO3\CMS\Extbase\SignalSlot\Dispatcher::class
     );
     $signalSlotDispatcher->connect(
-        \TYPO3\CMS\Install\Service\SqlExpectedSchemaService::class,
+        'TYPO3\\CMS\\Install\\Service\\SqlExpectedSchemaService', // TODO: Will not work in TYPO3 10 anymore
         'tablesDefinitionIsBeingBuilt',
         \T3\Dce\Slots\TablesDefinitionIsBeingBuiltSlot::class,
         'extendTtContentTable'

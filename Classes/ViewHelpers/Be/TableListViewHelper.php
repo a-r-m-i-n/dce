@@ -13,54 +13,16 @@ namespace T3\Dce\ViewHelpers\Be;
 class TableListViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\TableListViewHelper
 {
     /**
-     * @param string $tableName
-     * @param array $fieldList
-     * @param null $storagePid
-     * @param int $levels
-     * @param string $filter
-     * @param int $recordsPerPage
-     * @param string $sortField
-     * @param bool $sortDescending
-     * @param bool $readOnly
-     * @param bool $enableClickMenu
-     * @param null $clickTitleMode
-     * @param bool $alternateBackgroundColors
      * @return string the rendered record list
      * @see localRecordList
      */
-    public function render(
-        $tableName,
-        array $fieldList = [],
-        $storagePid = null,
-        $levels = 0,
-        $filter = '',
-        $recordsPerPage = 0,
-        $sortField = '',
-        $sortDescending = false,
-        $readOnly = false,
-        $enableClickMenu = true,
-        $clickTitleMode = null,
-        $alternateBackgroundColors = false
-    ) {
-
+    public function render()
+    {
         if (!\is_object($GLOBALS['SOBE'])) {
             $GLOBALS['SOBE'] = new \stdClass();
         }
         $this->getDocInstance();
 
-        return parent::render(
-            $tableName,
-            $fieldList,
-            $storagePid,
-            $levels,
-            $filter,
-            $recordsPerPage,
-            $sortField,
-            $sortDescending,
-            $readOnly,
-            $enableClickMenu,
-            $clickTitleMode,
-            $alternateBackgroundColors
-        );
+        return parent::render();
     }
 }

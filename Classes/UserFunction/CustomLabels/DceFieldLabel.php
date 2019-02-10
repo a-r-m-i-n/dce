@@ -104,7 +104,7 @@ class DceFieldLabel
     }
 
     /**
-     * Get row of dce field of given uid
+     * Get row of dce field of given uid (even for deleted fields)
      *
      * @param int $uid
      * @return array|null dce field row

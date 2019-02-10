@@ -30,7 +30,7 @@ class FlashMessage
         string $message,
         string $title = '',
         int $severity = \TYPO3\CMS\Core\Messaging\FlashMessage::WARNING
-    ) {
+    ) : void {
         if (static::$flashMessageQueue === null) {
             /** @var $flashMessageService FlashMessageService */
             $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);

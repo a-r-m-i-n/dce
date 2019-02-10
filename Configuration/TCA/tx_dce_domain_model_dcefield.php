@@ -11,7 +11,9 @@ if (!defined('TYPO3_MODE')) {
 }
 
 $ll = 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:';
-$extensionPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath('dce');
+$extensionPath = \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dce')
+);
 
 $dceFieldTca = [
     'ctrl' => [
@@ -197,6 +199,7 @@ $dceFieldTca = [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dcefield.configuration',
             'config' => [
+                // TODO: This will not work in TYPO3 10. renderTypes must be defined
                 'type' => 'user',
                 'size' => '30',
                 'userFunc' => 'T3\Dce\UserFunction\UserFields\CodemirrorField->getCodemirrorField',

@@ -9,9 +9,9 @@ namespace T3\Dce\Utility;
 use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Domain\Repository\DceRepository;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
-use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /**
  * Database utility
@@ -48,16 +48,39 @@ class DatabaseUtility
     public static function getEnabledFields(string $tableName) : string
     {
         if (TYPO3_MODE === 'BE') {
-            $enableFields = BackendUtility::BEenableFields($tableName) . BackendUtility::deleteClause($tableName);
-            return $enableFields;
-        } else {
-            /** @var $contentObjectRenderer ContentObjectRenderer */
-            $contentObjectRenderer = GeneralUtility::makeInstance(
-                ContentObjectRenderer::class
-            );
-            $enableFields = $contentObjectRenderer->enableFields($tableName);
+            $enableFields = BackendUtility::BEenableFields($tableName) . static::deleteClause($tableName);
             return $enableFields;
         }
+
+        return $GLOBALS['TSFE']->sys_page->enableFields($tableName);
+    }
+
+    /**
+     * Returns the WHERE clause " AND NOT [tablename].[deleted-field]" if a deleted-field
+     * is configured in $GLOBALS['TCA'] for the tablename, $table
+     * This function should ALWAYS be called in the backend for selection on tables which
+     * are configured in $GLOBALS['TCA'] since it will ensure consistent selection of records,
+     * even if they are marked deleted (in which case the system must always treat them as non-existent!)
+     * In the frontend a function, ->enableFields(), is known to filter hidden-field, start- and endtime
+     * and fe_groups as well. But that is a job of the frontend, not the backend. If you need filtering
+     * on those fields as well in the backend you can use ->BEenableFields() though.
+     *
+     * @param string $table Table name present in $GLOBALS['TCA']
+     * @param string $tableAlias Table alias if any
+     * @return string WHERE clause for filtering out deleted records, eg " AND tablename.deleted=0
+     */
+    public static function deleteClause($table, $tableAlias = '')
+    {
+        if (empty($GLOBALS['TCA'][$table]['ctrl']['delete'])) {
+            return '';
+        }
+        $expressionBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+            ->getQueryBuilderForTable($table)
+            ->expr();
+        return ' AND ' . $expressionBuilder->eq(
+            ($tableAlias ?: $table) . '.' . $GLOBALS['TCA'][$table]['ctrl']['delete'],
+            0
+        );
     }
 
     /**

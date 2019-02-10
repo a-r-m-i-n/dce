@@ -72,7 +72,7 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $parentField;
 
     /**
-     * @var mixed not persisted
+     * @var string not persisted
      */
     protected $value = '';
 
