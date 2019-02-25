@@ -310,10 +310,10 @@ TYPOSCRIPT
                         $label->appendChild($xml->createCDATASection($dceSectionField['title']));
 
                         $conf = new \DOMDocument();
-                        $conf->loadXML($dceSectionField['configuration']);
+                        $conf->loadXML('<root>' . $dceSectionField['configuration'] . '</root>');
 
                         /** @var \DOMElement $childNode */
-                        foreach ($conf->childNodes as $childNode) {
+                        foreach ($conf->childNodes[0]->childNodes as $childNode) {
                             $node = $xml->importNode($childNode, true);
                             $tce->appendChild($node);
                         }
@@ -326,10 +326,10 @@ TYPOSCRIPT
                     $title->appendChild($xml->createCDATASection($dceField['title']));
 
                     $conf = new \DOMDocument();
-                    $conf->loadXML($dceField['configuration']);
+                    $conf->loadXML('<root>' . $dceField['configuration'] . '</root>');
 
                     /** @var \DOMElement $childNode */
-                    foreach ($conf->childNodes as $childNode) {
+                    foreach ($conf->childNodes[0]->childNodes as $childNode) {
                         $node = $xml->importNode($childNode, true);
                         $tce->appendChild($node);
                     }
