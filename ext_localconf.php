@@ -14,7 +14,7 @@ $boot = function ($extensionKey) {
     $extensionPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($extensionKey);
 
     if (!class_exists(\T3\Dce\Compatibility::class)) {
-        require_once ($extensionPath . 'Classes/Compatibility.php');
+        require_once($extensionPath . 'Classes/Compatibility.php');
     }
 
     // AfterSave hook
@@ -139,10 +139,12 @@ $boot = function ($extensionKey) {
 
     // UserFunc TypoScript Condition (for expression language)
     if (\T3\Dce\Compatibility::isTypo3Version()) {
-        if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['TYPO3\CMS\Core\ExpressionLanguage\TypoScriptConditionProvider']['additionalExpressionLanguageProvider'])) {
-            $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['TYPO3\CMS\Core\ExpressionLanguage\TypoScriptConditionProvider']['additionalExpressionLanguageProvider'] = [];
+        $providerName = 'TYPO3\CMS\Core\ExpressionLanguage\TypoScriptConditionProvider';
+        $sectionName = 'additionalExpressionLanguageProvider';
+        if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS'][$providerName][$sectionName])) {
+            $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS'][$providerName][$sectionName] = [];
         }
-        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['TYPO3\CMS\Core\ExpressionLanguage\TypoScriptConditionProvider']['additionalExpressionLanguageProvider'][] =
+        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS'][$providerName][$sectionName][] =
             \T3\Dce\Components\UserConditions\TypoScriptConditionFunctionProvider::class;
     }
 };

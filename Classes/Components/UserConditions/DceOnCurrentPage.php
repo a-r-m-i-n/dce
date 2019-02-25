@@ -71,7 +71,4 @@ class DceOnCurrentPage extends AbstractCondition
             )
         ) > 0;
     }
-
-
 }
-
