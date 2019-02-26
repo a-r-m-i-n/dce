@@ -37,13 +37,30 @@ class KeSearchHook
             return;
         }
 
-        $fullRow = \count(DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
+        $fullRow = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
             '*',
             'tt_content',
             'uid=' . $row['uid']
-        ));
+        );
         if ($fullRow['tx_dce_index']) {
-            $bodytext = $fullRow['tx_dce_index'];
+            $bodytext = $this->sanitizeBodytext($fullRow['tx_dce_index']);
         }
+    }
+
+    /**
+     * Performing the same bodytext replacements like ke_search itself
+     *
+     * @param string $bodytext
+     * @return string
+     * @see \TeaminmediasPluswerk\KeSearch\Indexer\Types\Page::getContentFromContentElement()
+     */
+    protected function sanitizeBodytext(string $bodytext) : string
+    {
+        // following lines prevents having words one after the other like: HelloAllTogether
+        $bodytext = str_replace('<td', ' <td', $bodytext);
+        $bodytext = str_replace('<br', ' <br', $bodytext);
+        $bodytext = str_replace('<p', ' <p', $bodytext);
+        $bodytext = str_replace('<li', ' <li', $bodytext);
+        return strip_tags($bodytext);
     }
 }
