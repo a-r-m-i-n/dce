@@ -8,6 +8,7 @@ namespace T3\Dce;
  */
 use T3\Dce\Components\FlexformToTcaMapper\Mapper;
 use T3\Dce\Utility\DatabaseUtility;
+use T3\Dce\Utility\File;
 use TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider;
 use TYPO3\CMS\Core\Imaging\IconRegistry;
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;

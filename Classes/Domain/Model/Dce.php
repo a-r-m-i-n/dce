@@ -841,14 +841,22 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * @return string
+     * @return string name of selected wizard icon
      */
-    public function getSelectedWizardIconPath() : string
+    public function getSelectedWizardIcon() : string
     {
         if ($this->getWizardIcon() === 'custom') {
             return $this->getWizardCustomIcon();
         }
         return $this->getWizardIcon();
+    }
+
+    /**
+     * @return string path of selected wizard icon
+     */
+    public function getSelectedWizardIconPath() : string
+    {
+        return File::get($this->getSelectedWizardIcon());
     }
 
     /**

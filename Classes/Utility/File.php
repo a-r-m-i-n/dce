@@ -6,6 +6,8 @@ namespace T3\Dce\Utility;
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
+use TYPO3\CMS\Core\LinkHandling\LinkService;
+use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -18,26 +20,29 @@ class File
      *
      * @param string $file Supports relative paths, EXT: paths, file: paths and t3:// paths.
      * @return string Resolved path to file
-     * @throws
      */
     public static function get(string $file) : string
     {
-        $filePath = $file;
-        if (GeneralUtility::isFirstPartOfStr($filePath, 'file:')) {
-            $combinedIdentifier = substr($file, 5);
-            $resourceFactory = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance();
+        try {
+            $filePath = $file;
+            if (GeneralUtility::isFirstPartOfStr($filePath, 'file:')) {
+                $combinedIdentifier = substr($file, 5);
+                $resourceFactory = ResourceFactory::getInstance();
 
-            $fileOrFolder = $resourceFactory->retrieveFileOrFolderObject($combinedIdentifier);
-            $filePath = $fileOrFolder->getPublicUrl();
-        } elseif (GeneralUtility::isFirstPartOfStr($filePath, 't3://')) {
-            /** @var \TYPO3\CMS\Core\LinkHandling\LinkService $linkService */
-            $linkService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\LinkHandling\LinkService::class);
+                $fileOrFolder = $resourceFactory->retrieveFileOrFolderObject($combinedIdentifier);
+                $filePath = $fileOrFolder->getPublicUrl();
+            } elseif (GeneralUtility::isFirstPartOfStr($filePath, 't3://')) {
+                /** @var LinkService $linkService */
+                $linkService = GeneralUtility::makeInstance(LinkService::class);
 
-            /** @var \TYPO3\CMS\Core\Resource\File $resolvedFile */
-            $resolvedFile = $linkService->resolveByStringRepresentation($filePath)['file'];
-            $filePath = $resolvedFile->getPublicUrl();
+                /** @var \TYPO3\CMS\Core\Resource\File $resolvedFile */
+                $resolvedFile = $linkService->resolveByStringRepresentation($filePath)['file'];
+                $filePath = $resolvedFile->getPublicUrl();
+            }
+            return GeneralUtility::getFileAbsFileName($filePath);
+        } catch (\Exception $e) {
+            return '';
         }
-        return GeneralUtility::getFileAbsFileName($filePath);
     }
 
     /**
