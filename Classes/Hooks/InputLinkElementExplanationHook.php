@@ -24,11 +24,11 @@ class InputLinkElementExplanationHook
         $urlParts = explode('/', $linkData['url']);
         $ext = reset($urlParts);
         $file = end($urlParts);
-        if (strlen($file) <= 15) {
+        if (strlen($file) <= 15 && count($urlParts) > 2) {
             $file = prev($urlParts) . '/' . $file;
         }
         return [
-            'text' => $ext . '/.../' . $file,
+            'text' => $ext . (count($urlParts) > 2 ? '/.../' : '/') . $file,
             'icon' => ''
         ];
     }
