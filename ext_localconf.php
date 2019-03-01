@@ -77,6 +77,12 @@ $boot = function ($extensionKey) {
         'extendTtContentTable'
     );
 
+    //
+    if (!isset($GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['linkHandler']['ext'])) {
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['linkHandler']['ext'] =
+            \T3\Dce\Hooks\InputLinkElementExplanationHook::class;
+    }
+
     // Register Plugin to get Dce instance
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
         'T3.' . $extensionKey,
