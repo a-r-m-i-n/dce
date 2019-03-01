@@ -35,6 +35,11 @@ class MigrateFlexformSheetIdentifierUpdate extends AbstractUpdate
     protected $title = 'EXT:dce Migrate flexform sheet identifiers';
 
     /**
+     * @var string
+     */
+    protected $identifier = 'dceMigrateFlexformSheetIdentifierUpdate';
+
+    /**
      * Checks whether updates are required.
      *
      * @param string &$description The description for the update

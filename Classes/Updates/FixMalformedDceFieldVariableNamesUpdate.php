@@ -28,6 +28,11 @@ class FixMalformedDceFieldVariableNamesUpdate extends AbstractUpdate
     protected $title = 'EXT:dce Fix malformed DceField variable names';
 
     /**
+     * @var string
+     */
+    protected $identifier = 'dceFixMalformedDceFieldVariableNamesUpdate';
+
+    /**
      * Checks whether updates are required.
      *
      * @param string &$description The description for the update

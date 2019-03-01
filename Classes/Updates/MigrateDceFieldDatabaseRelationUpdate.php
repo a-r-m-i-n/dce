@@ -18,6 +18,11 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
     protected $title = 'EXT:dce Migrate m:n-relation of dce fields to 1:n-relation';
 
     /**
+     * @var string
+     */
+    protected $identifier = 'dceMigrateDceFieldDatabaseRelationUpdate';
+
+    /**
      * Checks whether updates are required.
      *
      * @param string &$description The description for the update

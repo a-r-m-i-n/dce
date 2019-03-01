@@ -16,7 +16,9 @@ class MigrateOldNamespacesInFluidTemplateUpdate extends AbstractUpdate
     /** Old DCE namespace (before 1.0) */
     public const NAMESPACE_OLD = '{namespace dce=Tx_Dce_ViewHelpers}';
     /** New DCE namespace (since 1.0) */
-    public const NAMESPACE_OLD2 = '{namespace dce=T3\Dce\ViewHelpers}';
+    public const NAMESPACE_OLD2 = '{namespace dce=ArminVieweg\Dce\ViewHelpers}';
+    /** New DCE namespace (since 2.0) */
+    public const NAMESPACE_OLD3 = '{namespace dce=T3\Dce\ViewHelpers}';
     /** New DCE namespace (since 1.7) */
     public const NAMESPACE_NEW = '';
 
@@ -24,6 +26,11 @@ class MigrateOldNamespacesInFluidTemplateUpdate extends AbstractUpdate
      * @var string
      */
     protected $title = 'EXT:dce Migrate old namespaces in fluid templates';
+
+    /**
+     * @var string
+     */
+    protected $identifier = 'dceMigrateOldNamespacesInFluidTemplateUpdate';
 
     /**
      * Checks whether updates are required.
@@ -44,18 +51,10 @@ class MigrateOldNamespacesInFluidTemplateUpdate extends AbstractUpdate
             }
 
             // Backend Templates
-            if ($dceRow['preview_template_type'] === 'file') {
-                $updateTemplates += (int) $this->doesFileTemplateRequiresUpdate(
-                    $dceRow,
-                    'header_preview_template_file'
-                );
-                $updateTemplates += (int) $this->doesFileTemplateRequiresUpdate(
-                    $dceRow,
-                    'bodytext_preview_template_file'
-                );
+            if ($dceRow['backend_template_type'] === 'file') {
+                $updateTemplates += (int) $this->doesFileTemplateRequiresUpdate($dceRow, 'backend_template_file');
             } else {
-                $updateTemplates += (int) $this->doesInlineTemplateRequiresUpdate($dceRow, 'header_preview');
-                $updateTemplates += (int) $this->doesInlineTemplateRequiresUpdate($dceRow, 'bodytext_preview');
+                $updateTemplates += (int) $this->doesInlineTemplateRequiresUpdate($dceRow, 'backend_template_content');
             }
 
             // Detail Template
@@ -63,6 +62,20 @@ class MigrateOldNamespacesInFluidTemplateUpdate extends AbstractUpdate
                 $updateTemplates += (int) $this->doesFileTemplateRequiresUpdate($dceRow, 'detailpage_template_file');
             } else {
                 $updateTemplates += (int) $this->doesInlineTemplateRequiresUpdate($dceRow, 'detailpage_template');
+            }
+
+            if ($dceRow['enable_container']) {
+                if ($dceRow['container_template_type'] === 'file') {
+                    $updateTemplates += (int) $this->doesFileTemplateRequiresUpdate(
+                        $dceRow,
+                        'container_template_file'
+                    );
+                } else {
+                    $updateTemplates += (int) $this->doesInlineTemplateRequiresUpdate(
+                        $dceRow,
+                        'container_template'
+                    );
+                }
             }
         }
 
@@ -83,7 +96,7 @@ class MigrateOldNamespacesInFluidTemplateUpdate extends AbstractUpdate
      */
     protected function doesInlineTemplateRequiresUpdate(array $dceRow, string $column) : bool
     {
-        return $this->templateNeedUpdate($dceRow[$column]);
+        return $this->templateNeedUpdate($dceRow[$column] ?? '');
     }
 
     /**
@@ -113,6 +126,7 @@ class MigrateOldNamespacesInFluidTemplateUpdate extends AbstractUpdate
     {
         return strpos($templateContent, self::NAMESPACE_OLD) !== false ||
                 strpos($templateContent, self::NAMESPACE_OLD2) !== false ||
+                strpos($templateContent, self::NAMESPACE_OLD3) !== false ||
                 strpos($templateContent, 'dce:format.raw') !== false ||
                 strpos($templateContent, 'dce:image') !== false  ||
                 strpos($templateContent, 'dce:uri.image') !== false ;
@@ -138,12 +152,10 @@ class MigrateOldNamespacesInFluidTemplateUpdate extends AbstractUpdate
             }
 
             // Backend Templates
-            if ($dceRow['preview_template_type'] === 'file') {
-                $this->updateFileTemplate($dceRow, 'header_preview_template_file');
-                $this->updateFileTemplate($dceRow, 'bodytext_preview_template_file');
+            if ($dceRow['backend_template_type'] === 'file') {
+                $this->updateFileTemplate($dceRow, 'backend_template_file');
             } else {
-                $this->updateInlineTemplate($dceRow, 'header_preview');
-                $this->updateInlineTemplate($dceRow, 'bodytext_preview');
+                $this->updateInlineTemplate($dceRow, 'backend_template_content');
             }
 
             // Detail Template
@@ -151,6 +163,15 @@ class MigrateOldNamespacesInFluidTemplateUpdate extends AbstractUpdate
                 $this->updateFileTemplate($dceRow, 'detailpage_template_file');
             } else {
                 $this->updateInlineTemplate($dceRow, 'detailpage_template');
+            }
+
+            // Container Template
+            if ($dceRow['enable_container']) {
+                if ($dceRow['container_template_type'] === 'file') {
+                    $this->updateFileTemplate($dceRow, 'container_template_file');
+                } else {
+                    $this->updateInlineTemplate($dceRow, 'container_template');
+                }
             }
         }
         return true;
@@ -165,7 +186,7 @@ class MigrateOldNamespacesInFluidTemplateUpdate extends AbstractUpdate
      */
     protected function updateInlineTemplate(array $dceRow, string $column) : ?bool
     {
-        $templateContent = $dceRow[$column];
+        $templateContent = $dceRow[$column] ?? '';
         if ($this->templateNeedUpdate($templateContent)) {
             $updatedTemplateContent = $this->performTemplateUpdates($templateContent);
 
@@ -214,8 +235,8 @@ class MigrateOldNamespacesInFluidTemplateUpdate extends AbstractUpdate
     protected function performTemplateUpdates(string $templateContent) : string
     {
         $content = str_replace(
-            [self::NAMESPACE_OLD, self::NAMESPACE_OLD2],
-            [self::NAMESPACE_NEW, self::NAMESPACE_NEW],
+            [self::NAMESPACE_OLD, self::NAMESPACE_OLD2, self::NAMESPACE_OLD3],
+            [self::NAMESPACE_NEW, self::NAMESPACE_NEW, self::NAMESPACE_NEW],
             $templateContent
         );
         $content = str_replace('dce:format.raw', 'f:format.raw', $content);
