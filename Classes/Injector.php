@@ -244,7 +244,7 @@ TYPOSCRIPT
 
     /**
      * Renders Flexform XML for given DCE
-     * using Fluid template engine
+     * using DOMDocument
      *
      * @param array $singleDceArray
      * @return string
