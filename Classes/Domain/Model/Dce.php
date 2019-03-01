@@ -928,9 +928,9 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * Renders the DCE Backend Template
      *
      * @param string $section If set just 'header' or 'bodytext' part is returned
-     * @return string rendered output
+     * @return string|null rendered output
      */
-    public function renderBackendTemplate(string $section = '') : string
+    public function renderBackendTemplate(string $section = '') : ?string
     {
         $backendTemplateSeparator = '<dce-separator />';
 
