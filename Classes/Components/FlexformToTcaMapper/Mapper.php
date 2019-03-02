@@ -131,6 +131,9 @@ class Mapper
             $mapTo = $dceField['map_to'];
             if ($mapTo === '*newcol') {
                 $mapTo = $dceField['new_tca_field_name'];
+                if (empty($mapTo)) {
+                    throw new \InvalidArgumentException('No "new_tca_field_name" given in DCE field configuration.');
+                }
             }
             $fieldToTcaMappings[$dceField['variable']] = $mapTo;
         }
@@ -149,6 +152,15 @@ class Mapper
         }
 
         if (!empty($updateData)) {
+            $databaseColumns = DatabaseUtility::getDatabaseConnection()->admin_get_fields('tt_content');
+            foreach (array_keys($updateData) as $columnName) {
+                if (!array_key_exists($columnName, $databaseColumns)) {
+                    throw new \InvalidArgumentException(
+                        'It seems you have forgotten to perform a Database Schema update, ' .
+                        'after you did changes to TCA mapping in DCE field.'
+                    );
+                }
+            }
             $updateStatus = DatabaseUtility::getDatabaseConnection()->exec_UPDATEquery(
                 'tt_content',
                 'uid=' . $row['uid'],
