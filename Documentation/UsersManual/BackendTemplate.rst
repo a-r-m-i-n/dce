@@ -7,7 +7,7 @@ Backend Template
 ----------------
 
 Each DCE has not only a template for the frontend output, but also for the backend output. Without a backend template
-you won't be able to see differences in your content elements, in page or list view.
+you will not be able to see differences in your content elements, in the page or list view.
 
 DCE provides two ways to set up the backend template:
 
@@ -49,7 +49,7 @@ Manual Backend Fluid Template
 =============================
 
 When you disable the Simple Backend View, you can enter (or reference to a file) a template using the "BackendTemplate"
-fluid layout, which has two sections: **header** and **bodytext**
+Fluid layout, which has two sections: **header** and **bodytext**
 
 .. code-block:: html
 
@@ -63,4 +63,4 @@ fluid layout, which has two sections: **header** and **bodytext**
     </f:section>
 
 .. note::
-   Currently it is not possible to access to DCE container infos in manual backend template.
+   Currently, it is not possible to access to DCE container info in manual backend template.

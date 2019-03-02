@@ -19,11 +19,11 @@ Dynamic Content Elements (DCE)
 		en
 
 	:Description:
-		Creates dynamic content elements. It is an alternative to flexible content elements (FCE)
-		but without need of TemplaVoila (TV).
+		Best flexform based content elements since 2012. With TCA mapping feature, simple backend view and much more
+		features which makes it super easy to create own content element types.
 
 	:Keywords:
-		contentelements,FCE
+		TYPO3 CMS, DCE, FCE, Content elements, Dynamic Content Elements
 
 	:Copyright:
 		2012-2019

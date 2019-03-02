@@ -11,7 +11,7 @@ defined for your DCE you can display the most important fields with the normal t
 and the complete amount of fields with the detail template.
 
 The decision to display either the normal template or the detail page template is done by detecting the
-**detail page identifier** (GET parameter). If it is found and it contains the uid of the actually shown DCE, the
+**detail page identifier** (GET parameter). If it is found and it contains the `uid` of the actually shown DCE, the
 content is rendered with the detail page template otherwise the normal template is used.
 
 .. image:: Images/detail-page.png
@@ -19,7 +19,7 @@ content is rendered with the detail page template otherwise the normal template 
 
 
 .. important::
-   When detail page template rendering is triggered, this has no effect to other content elements on the current page!
+   When detail page template rendering is triggered, this has no effect on other content elements on the current page!
 
 
 Enable detail page
@@ -31,9 +31,9 @@ Detail page identifier (get parameter)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This is the parameter which must be used in the GET parameter of the URL to enable the display of the detail page.
-The value of this GET parameter must be the uid of the displayed content object, to trigger the detail page template.
+The value of this GET parameter must be the `uid` of the displayed content object, to trigger the detail page template.
 
-You should avoid to use a parameter name, which is already in use, like "id", "type" or "L".
+You should avoid using a parameter name, which is already in use, like "id", "type" or "L".
 
 Template type
 ^^^^^^^^^^^^^
@@ -43,14 +43,14 @@ Like the *normal* template you can choose between the inline template code and u
 Detail page template (fluid)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Using the inline template type you have to insert the template code in the same manner like for the normal template.
+Using the inline template type you have to insert the template code in the same manner as for the normal template.
 
 
 How to create a link to detail template
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In your "normal" template you probably want a link, to trigger the detail template for this content element.
-Actually it is pretty easy to create such link in fluid template:
+Actually, it is pretty easy to create such a link in Fluid template:
 
 .. code-block:: html
 
@@ -92,7 +92,7 @@ to assign the contents to the template:
 
     page.10 < styles.content.get
 
-The lowerThan sign (`<`) copies the given value. But with our snippet above we override the original one.
+The lower than sign (`<`) copies the given value. But with our snippet above we override the original one.
 The copy will not be affected. The easiest way would be to use a reference instead:
 
 ::
@@ -106,8 +106,8 @@ Then you are able to change something in CSS Styled Content typoscript, which al
 Faking detail pages
 ~~~~~~~~~~~~~~~~~~~
 
-To fake a seperate page for each dce content element detail page - which is actually on the same page -
-we can do some adjustments to RealUrl (when it's used) and overwrite the <title> tag in HTML.
+To fake a separate page for each dce content element detail page - which is actually on the same page -
+we can do some adjustments to RealUrl (when it is used) and overwrite the <title> tag in HTML.
 
 RealURL example
 ===============
@@ -144,7 +144,7 @@ Kudos to Dirk Wohlrabe who provided this realurl example:
 
 Adjust <title> tag
 ==================
-And here you'll find an example how to put the header field to <title> tag in body:
+And here you will find an example how to put the header field to <title> tag in body:
 
 .. code-block:: typoscript
 
@@ -172,7 +172,7 @@ And here you'll find an example how to put the header field to <title> tag in bo
 
 .. caution::
    All typoscript examples are based on TYPO3 8.7.
-   In TYPO3 9.5 they cause deprecation log entries, because it's not matching the Symfony Expression Language Syntax.
+   In TYPO3 9.5 they cause deprecation log entries because it is not matching the Symfony Expression Language Syntax.
 
 .. note::
-   It's not possible to active two content element detail pages at once.
+   It is not possible to activate two content element detail pages at once.

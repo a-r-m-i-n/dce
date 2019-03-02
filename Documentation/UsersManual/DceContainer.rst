@@ -6,13 +6,13 @@
 DCE Container
 -------------
 
-A DCE Container is a new feature introduced in DCE 1.3. It allows you to wrap several content elements based on a
-certain DCE with a fluid template.
+DCE Container is a new feature introduced in DCE 1.3. It allows you to wrap several content elements based on a
+certain DCE with a Fluid template.
 
 This is especially useful for slider libraries (for example). If you want to create one content element for one slide,
 but you need to wrap all slides with a container <div> element, which initializes the functionality of the library.
 
-First you need to enable the feature:
+First, you need to enable the feature:
 
 .. image:: Images/dce-container.png
    :alt: DCE Container configuration
@@ -40,14 +40,14 @@ Any other content element type interrupts the container.
 Container item limit
 ====================
 
-You can set an item limit (default: 0 / disabled) to limit the amount of content elements a container may have. When the
-limit is reached, the next content element starts a new container.
+You can set an item limit (default: 0 / disabled) to limit the number of content elements a container may have.
+When the the limit is reached, the next content element starts a new container.
 
 
 Template type
 =============
 
-Like the default frontend template of DCE you can outsource the code of the container to file.
+Like the default frontend template of DCE, you can outsource the code of the container to file.
 
 
 DCE Container template
@@ -118,7 +118,8 @@ The colors being used can be adjusted using PageTS (on root level):
             20 = #FF8700
     }
 
-By default DCE provides ten color codes, which are picked based on the uid of first content element in container.
+By default, DCE provides ten color codes, which are picked based on the `uid` of the first content element in the
+container.
 
 
 Start new container

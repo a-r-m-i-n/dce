@@ -2,14 +2,15 @@
 
 .. _users-manual-general:
 
+
 General
 -------
 
-On this tab you can made the general settings. You can decide whether the element is visible or not, give it a
+On this tab, you can make the general settings. You can decide whether the element is visible or not, give it a
 meaningful name and identifier and define all the fields that are needed.
 
 .. image:: Images/new-dce.png
-	:alt: Create new DCE, general tab
+   :alt: Create new DCE, general tab
 
 
 Title
@@ -22,13 +23,13 @@ Identifier
 ^^^^^^^^^^
 
 The identifier is used as CType for new content elements based on this DCE. All identifiers of DCE are prefixed
-with "dce_". For example: "dce_example". When identifier of a DCE remains empty, the old syntax based on uid is used
-automatically. Example: "dce_dceuid1"
+with "dce_". For example: "dce_example". When the identifier of a DCE remains empty, the old syntax based on `uid` is
+used automatically. Example: "dce_dceuid1"
 
 Inactive
 ^^^^^^^^
 
-When the DCE ist inactive or hidden, it is not shown as type when a content element is created.
+When the DCE is inactive or hidden, it is not shown as the type when a content element is created.
 It is only shown in the DCE BE module.
 
 
@@ -38,18 +39,18 @@ Fields
 .. image:: Images/new-dce-field.png
    :alt: A new DCE field
 
-In the fields section you can add a number of different fields that this DCE should contain.
+In the fields section, you can add a number of different fields that this DCE should contain.
 You have to add at least one field.
 
 A field has three types available:
 
 - **Element**
-  This is a field in your new content element, like a text field, a check box, an image or a
+  This is a field in your new content element, like a text field, a checkbox, an image or a
   whole rich text editor (RTE). The composition for this field is done in the configuration.
   All TCA field types are supported.
 - **Tab**
   This creates a new tab register. All fields that are defined below this tab are shown in BE on a new tab page.
-  You may also rename the first "General" tab by creating a tab as first item.
+  You may also rename the first "General" tab by creating a tab as the first item.
 - **Section**
   **It is highly encouraged to not use sections anymore!**
   Check if DCE Container can help you or use EXT:gridelements for your purposes.
@@ -61,16 +62,16 @@ Field options
 +++++++++++++
 
 For the default type *Element* you have to define a **title** (with `LLL:` support) and a **variable** name which is
-to be used in the fluid template. Variable names have to be written in **lowerCamelCase** and the variable names must
+to be used in the Fluid template. Variable names have to be written in **lowerCamelCase** and the variable names must
 be unique inside each DCE.
 
 .. note::
-   The configuration for the fields is stored in **Flexform (XML)** format. Look for TCEforms in the Flexforms section
+   The configuration for the fields is stored in **FlexForm (XML)** format. Look for TCEforms in the FlexForms section
    of the :ref:`T3DataStructure <t3api:t3ds>` documentation to get detailed information for the definition of the
    field configuration.
 
 To make it a bit easier there is a handy select box provided with the most used possible input field types.
-If you select one entry the corresponding Flexform XML code is inserted in the configuration input field.
+If you select one entry the corresponding FlexForm XML code is inserted in the configuration input field.
 
 .. image:: Images/field-configuration-dropdown.png
    :alt: Handy dropdown which most common needed TCA configurations
@@ -86,14 +87,14 @@ dce_load_schema
 
 ::
 
-	<dce_load_schema>1</dce_load_schema>
+    <dce_load_schema>1</dce_load_schema>
 
-When adding a group field and link it with e.g. News (by Georg Ringer), than the field contains a comma delimited list
-with uid's of the selected news. That is not very useful in Fluid templates.
+When adding a group field and link it with e.g. News (by Georg Ringer), then the field contains a comma-delimited list
+with uids of the selected news. That is not very useful in Fluid templates.
 
-But when this attribute is activated, the used table is inspected. If an Extbase model and repository exists for this
-table, than the repository is instantiated and a `findByUid()` is called for every uid. The complete Extbase models are
-than taken over to the Fluid template (as array).
+But when this attribute is activated, the used table is inspected. If an Extbase model and repository exist for this
+table then the repository is instantiated and a `findByUid()` is called for every `uid`. The complete Extbase models are
+then taken over to the Fluid template (as an array).
 
 If the table is not part of an Extbase extension than the corresponding record is loaded from the database and handed
 over as an associated array.
@@ -101,24 +102,24 @@ over as an associated array.
 .. caution::
    This function works only with one table, if you configure more tables it does not work.
 
-Using the table tt_content and adding content elements which are based on an other DCE, automatically the
+Using the table tt_content and adding content elements which are based on another DCE, automatically the
 corresponding DCE will be loaded and filled. In the template of the second DCE the template of the inserted DCE can be
 called and rendered:
 
 ::
 
-	<f:for each="{field.otherDces}" as="othersDce">
-		{otherDce.render -> f:format.raw()}
-	</f:for>
+    <f:for each="{field.otherDces}" as="othersDce">
+        {otherDce.render -> f:format.raw()}
+    </f:for>
 
-You need to use the raw view helper of fluid, because otherwise the rendered html will be escaped.
+You need to use the raw view helper of Fluid because otherwise the rendered HTML will be escaped.
 If you use the `f:format.html` view helper the curly braces get escaped and variables will not be interpreted anymore.
 
 It is also possible to access directly the value of single fields:
 
 ::
 
-	{otherDce.fieldname}
+    {otherDce.fieldname}
 
 
 dce_load_entity_class
@@ -126,7 +127,7 @@ dce_load_entity_class
 
 ::
 
-	<dce_load_entity_class>VendorName\Extension\Domain\Model\YourModel</dce_load_entity_class>
+    <dce_load_entity_class>VendorName\Extension\Domain\Model\YourModel</dce_load_entity_class>
 
 Uses this class (and its repository) instead of guessing the model class name from table name.
 
@@ -135,7 +136,7 @@ dce_get_fal_objects
 
 ::
 
-	<dce_get_fal_objects>1</dce_get_fal_objects>
+    <dce_get_fal_objects>1</dce_get_fal_objects>
 
 If you have defined a FAL field and this attribute is activated, the value is directly replaced with a
 `TYPO3\CMS\Core\Resource\File` object from the repository.
@@ -145,7 +146,7 @@ dce_ignore_enablefields
 
 ::
 
-	<dce_ignore_enablefields>1</dce_ignore_enablefields>
+    <dce_ignore_enablefields>1</dce_ignore_enablefields>
 
 Setting this attribute ignores the enable fields of the requested table. All enable fields like deleted, hidden,
 starttime, endtime were than ignored. This can be used for outputting hidden records.
@@ -155,9 +156,9 @@ dce_enable_autotranslation
 
 ::
 
-	<dce_enable_autotranslation>1</dce_enable_autotranslation>
+    <dce_enable_autotranslation>1</dce_enable_autotranslation>
 
 If you load a page via group field than always this page is loaded, regardless of the language that is just used.
 Using this attribute shows the translated page if it exists (`$GLOBALS['TSFE']->sys_page->getPageOverlay()`).
 
-That also works with other records, not only with records of the pages table, than `getRecordOverlay()` will be used.
+That also works with other records, not only with records of the pages table, then `getRecordOverlay()` will be used.

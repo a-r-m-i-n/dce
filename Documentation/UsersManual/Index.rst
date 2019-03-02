@@ -1,7 +1,7 @@
 ﻿.. include:: ../Includes.txt
 
-
 .. _users-manual:
+
 
 Users manual
 ============
@@ -11,11 +11,11 @@ Mandatory fields are signed by a red border and exclamation icon. At least these
 
 .. important::
    Always remember to **clear the system cache**, when you did changes to DCE.
-   Otherwise they would not apply to backend and frontend!
+   Otherwise, they would not apply to backend and frontend!
 
 
 .. image:: Images/dce-tabs.png
-	:alt: All options of a DCE are grouped to these tabs.
+   :alt: All options of a DCE are grouped to these tabs.
 
 
 .. toctree::

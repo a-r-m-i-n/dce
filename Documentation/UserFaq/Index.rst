@@ -1,7 +1,7 @@
 .. include:: ../Includes.txt
 
-
 .. _users-faq:
+
 
 FAQ
 ===
@@ -15,8 +15,8 @@ FAQ
 How to access to FAL images?
 -----------------------------------------------
 
-You can simply iterate over the variable you've defined for the FAL field. Usage of old FAL view helper is not necessary
-anymore. But you need to, add these two lines to the field configuration:
+You can simply iterate over the variable you have defined for the FAL field. Usage of old FAL view helper is not
+necessary anymore. But you need to, add these two lines to the field configuration:
 
 ::
 
@@ -24,7 +24,7 @@ anymore. But you need to, add these two lines to the field configuration:
     <dce_get_fal_objects>1</dce_get_fal_objects>
 
 
-In your fluid template you can simply use the images like this:
+In your Fluid template you can simply use the images like this:
 
 ::
 
@@ -40,12 +40,11 @@ If you want to output only the first image you can use this one liner:
 
 
 Also the following tt_content fields (selectable in DCE options) are automatically resolved to an array of models,
-for easy usage in fluid template (**{contentObject.xxx}**):
+for easy usage in Fluid template (**{contentObject.xxx}**):
 
 - media
 - categories
 - assets
-
 
 
 Am I also able to use file collections?
@@ -69,7 +68,7 @@ Example field configuration:
         <dce_load_schema>1</dce_load_schema>
     </config>
 
-Your fluid template gets an array of FileCollection models, now. Here is an example how to output several images from
+Your Fluid template gets an array of FileCollection models, now. Here is an example how to output several images from
 the FileCollection:
 
 ::
@@ -178,15 +177,15 @@ the already stored data/images are not compatible with FAL.
 
 If you do this, you will get this exception: ``#1300096564: uid of file has to be numeric.``
 
-The old way of image handling was that the name of the file is stored inside of the field. The new FAL way is an uid of
-the equivalent FAL record. There is no conversion tool existing AFAIK.
+The old way of image handling was that the name of the file is stored inside of the field. The new FAL way is an `uid`
+of the equivalent FAL record. There is no conversion tool existing AFAIK.
 
-Furthermore these filenames are inside of an FlexformXML, so the steps of a conversion would be:
+Furthermore these filenames are inside of an FlexFormXML, so the steps of a conversion would be:
 
 1. Identify DCEs using old images (by DCE configuration)
-2. Get tt_content records and convert FlexformXML to array
+2. Get tt_content records and convert FlexFormXML to array
 3. Get the old filename and find FAL record
-4. Replace filename with uid of FAL record
+4. Replace filename with `uid` of FAL record
 5. Save the tt_content record and update the field configuration
 
 
@@ -213,7 +212,6 @@ You can also use the DCE feature "DCE Container", which simulates a container fo
 based on the same DCE. This article tells you more: https://forge.typo3.org/projects/extension-dce/wiki/DCE_Container
 
 
-
 How to add content elements to my DCE
 -------------------------------------
 
@@ -224,8 +222,8 @@ For this case I recommend the `grid elements extension <http://typo3.org/extensi
 
 But if you create a group or select field you may define the tt_content table and add existing content elements.
 This is not much comfortable but very flexible, because you may also add any other table of any extension installed.
-And with the *dce_load_schema* flag you'll receive an assosiative array of requested row, or if the table is from an
-extbase extension you'll get a model of the requested table.
+And with the *dce_load_schema* flag you will receive an assosiative array of requested row, or if the table is from an
+Extbase extension you will get a model of the requested table.
 
 
 How to change the long title in content wizard for DCE group

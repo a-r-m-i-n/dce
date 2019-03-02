@@ -30,4 +30,8 @@ You can also fetch DCE from `TER <https://extensions.typo3.org/extension/dce/>`_
 .. image:: Images/extension-manager.png
    :alt: DCE in extension manager of TYPO3 CMS
 
+.. tip::
+   You need to enable the extension in Extension Manager with or without composer in use!
+   Or use CLI tools for that.
+
 DCE provides no further options here.
