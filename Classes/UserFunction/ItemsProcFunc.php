@@ -6,6 +6,7 @@ namespace T3\Dce\UserFunction;
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
+use T3\Dce\Components\FlexformToTcaMapper\Mapper;
 use T3\Dce\Utility\LanguageService;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
@@ -74,8 +75,16 @@ class ItemsProcFunc
             'l18n_diffsource',
             't3ver_label',
             'tx_dce_dce',
-            'tx_dce_index'
+            'tx_dce_index',
+            'tx_dce_new_container'
         ];
+        // Do not show column which has been provided by itself
+        if ($parameters['table'] === 'tx_dce_domain_model_dcefield' &&
+            $parameters['row']['map_to'] === '*newcol' &&
+            !empty($parameters['row']['new_tca_field_name'])
+        ) {
+            $excludedColumns[] = $parameters['row']['new_tca_field_name'];
+        }
         $tcaColumns = $GLOBALS['TCA']['tt_content']['columns'];
         $dbColumns = \T3\Dce\Utility\DatabaseUtility::getDatabaseConnection()->admin_get_fields('tt_content');
 
@@ -113,8 +122,15 @@ class ItemsProcFunc
             'tx_dce_index',
             'categories',
             'assets',
-            'media'
+            'media',
+            'tx_dce_new_container'
         ];
+        // Do not offer fields used for TCA mapping. They are by default configured as passthrough.
+        $mappedColumns = array_keys(Mapper::getDceFieldMappings());
+        if (!empty($mappedColumns)) {
+            $excludedColumns = array_merge($excludedColumns, $mappedColumns);
+        }
+
         $tcaColumns = $GLOBALS['TCA']['tt_content']['columns'];
         $dbColumns = \T3\Dce\Utility\DatabaseUtility::getDatabaseConnection()->admin_get_fields('tt_content');
 

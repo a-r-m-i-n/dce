@@ -63,7 +63,7 @@ class Mapper
      *
      * @return array
      */
-    protected static function getDceFieldMappings() : array
+    public static function getDceFieldMappings() : array
     {
         $fieldMappings = [];
         foreach (static::getDceFieldRowsWithNewTcaColumns() as $dceFieldRow) {
@@ -106,6 +106,7 @@ class Mapper
      * @param array $row
      * @param string $piFlexform
      * @return void
+     * @throws \Doctrine\DBAL\DBALException
      * @throws \TYPO3\CMS\Core\Exception
      */
     public static function saveFlexformValuesToTca(array $row, $piFlexform) : void
