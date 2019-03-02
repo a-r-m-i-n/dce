@@ -135,6 +135,9 @@ class ItemsProcFunc
         $dbColumns = \T3\Dce\Utility\DatabaseUtility::getDatabaseConnection()->admin_get_fields('tt_content');
 
         $parameters['items'][] = ['--linebreak--', '--linebreak--'];
+        $parameters['items'][] = ['--linebreak--', '--linebreak1--'];
+        $parameters['items'][] = ['--linebreak--', '--linebreak2--'];
+        $parameters['items'][] = ['--linebreak--', '--linebreak3--'];
         foreach (array_keys($tcaColumns) as $fieldName) {
             if (!empty($dbColumns[$fieldName]['Type']) && !\in_array($fieldName, $excludedColumns, true)) {
                 $label = trim($GLOBALS['LANG']->sL($tcaColumns[$fieldName]['label']), ': ');

@@ -106,15 +106,20 @@ TEXT;
             $GLOBALS['TCA']['tt_content']['types'][$dceIdentifier]['showitem'] = $showItem;
 
             if ($dce['palette_fields']) {
+                $paletteFields = $dce['palette_fields'];
                 // remove access-fields from dce_palette, if Access Tab should be shown
                 if (!empty($showAccessTabCode)) {
                     $fieldsToRemove = ['hidden', 'starttime', 'endtime', 'fe_group'];
-                    $paletteFields = GeneralUtility::trimExplode(',', $dce['palette_fields'], true);
-                    $dce['palette_fields'] = implode(',', array_diff($paletteFields, $fieldsToRemove));
+                    $paletteFields = GeneralUtility::trimExplode(',', $paletteFields, true);
+                    $paletteFields = implode(',', array_diff($paletteFields, $fieldsToRemove));
                 }
-
+                $paletteFields = str_replace(
+                    ['--linebreak1--', '--linebreak2--', '--linebreak3--'],
+                    '--linebreak--',
+                    $paletteFields
+                );
                 $GLOBALS['TCA']['tt_content']['palettes'][$paletteIdentifier]['canNotCollapse'] = true;
-                $GLOBALS['TCA']['tt_content']['palettes'][$paletteIdentifier]['showitem'] = $dce['palette_fields'];
+                $GLOBALS['TCA']['tt_content']['palettes'][$paletteIdentifier]['showitem'] = $paletteFields;
 
                 if (ExtensionManagementUtility::isLoaded('gridelements')) {
                     $GLOBALS['TCA']['tt_content']['palettes'][$paletteIdentifier]['showitem'] .=
@@ -474,7 +479,7 @@ TYPOSCRIPT
     }
 
     /**
-     * Iterates through given DCE rows and add field "" to DCE palettes
+     * Iterates through given DCE rows and add field "colPos" to DCE palettes
      * if not already set.
      *
      * @param array $dces
