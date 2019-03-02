@@ -153,6 +153,15 @@ $boot = function ($extensionKey) {
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS'][$providerName][$sectionName][] =
             \T3\Dce\Components\UserConditions\TypoScriptConditionFunctionProvider::class;
     }
+
+    // Code Mirror Node for FormEngine
+    if (TYPO3_REQUESTTYPE & TYPO3_REQUESTTYPE_BE) {
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1551536118] = [
+            'nodeName' => 'dceCodeMirrorField',
+            'priority' => '70',
+            'class' => \T3\Dce\UserFunction\FormEngineNode\DceCodeMirrorFieldRenderType::class,
+        ];
+    }
 };
 
 $boot($_EXTKEY);

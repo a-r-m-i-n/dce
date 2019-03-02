@@ -1,2 +1,0 @@
-# cat=general/disable; type=boolean; label=Disable CodeMirror: If enabled, the textareas for field configuration and all DCE inline templates are not replaced by syntaxhighlighting code editor (CodeMirror)
-disableCodemirror = 0

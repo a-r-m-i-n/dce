@@ -1,5 +1,5 @@
 <?php
-namespace T3\Dce\UserFunction\UserFields;
+namespace T3\Dce\UserFunction\FormEngineNode;
 
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
@@ -7,6 +7,7 @@ namespace T3\Dce\UserFunction\UserFields;
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
 use T3\Dce\Utility\File;
+use TYPO3\CMS\Backend\Form\NodeFactory;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
@@ -14,27 +15,54 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
 /**
  * Codemirror text area field
  */
-class CodemirrorField
+class DceCodeMirrorFieldRenderType implements \TYPO3\CMS\Backend\Form\NodeInterface
 {
     /**
-     * @var array Field parameters
+     * Global options from NodeFactory
+     *
+     * @var array
      */
-    protected $parameter = [];
+    protected $data;
 
     /**
-     * @param array $parameter
+     * Main render method
+     *
+     * @return array As defined in initializeResultArray() of AbstractNode
+     */
+    public function render()
+    {
+        return [
+            'html' => $this->getCodemirrorFieldHtml($this->data),
+            'additionalInlineLanguageLabelFiles' => [],
+            'stylesheetFiles' => [
+                'EXT:dce/Resources/Public/JavaScript/Contrib/codemirror/lib/codemirror.css',
+                'EXT:dce/Resources/Public/Css/custom_codemirror.css'
+            ],
+            'requireJsModules' => [
+                'TYPO3/CMS/Dce/DceCodemirror',
+            ],
+        ];
+    }
+
+    /**
+     * All nodes get an instance of the NodeFactory and the main data array
+     *
+     * @param NodeFactory $nodeFactory
+     * @param array $data
+     */
+    public function __construct(NodeFactory $nodeFactory, array $data)
+    {
+        $this->data = $data;
+    }
+
+    /**
+     * Uses a Fluid template to render the HTML code required for the Codemirror field and helpful dropdown.
+     *
+     * @param array $data
      * @return string
      */
-    public function getCodemirrorField(array $parameter) : string
+    public function getCodemirrorFieldHtml(array $data) : string
     {
-        /** @var $extConfiguration array */
-        $extConfiguration = unserialize(
-            $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dce'],
-            ['allowed_classes' => false]
-        );
-
-        $this->parameter = $parameter;
-
         /** @var StandaloneView $fluidTemplate */
         $fluidTemplate = GeneralUtility::makeInstance(StandaloneView::class);
         $fluidTemplate->setLayoutRootPaths([File::get('EXT:dce/Resources/Private/Layouts/')]);
@@ -43,22 +71,22 @@ class CodemirrorField
             'EXT:dce/Resources/Private/Templates/DceUserFields/Codemirror.html'
         ));
 
-        $fluidTemplate->assign('name', $this->parameter['itemFormElName']);
-        $fluidTemplate->assign('value', $this->parameter['itemFormElValue']);
-        $fluidTemplate->assign('onChangeFunc', htmlspecialchars(implode('', $this->parameter['fieldChangeFunc'])));
-        $fluidTemplate->assign('onFocus', $this->parameter['onFocus']);
-
+        $fluidTemplate->assign('name', $data['parameterArray']['itemFormElName']);
+        $fluidTemplate->assign('value', $data['parameterArray']['itemFormElValue']);
+        $fluidTemplate->assign(
+            'onChangeFunc',
+            htmlspecialchars(implode('', $data['parameterArray']['fieldChangeFunc']))
+        );
         $fluidTemplate->assign('uniqueIdentifier', uniqid());
-        $fluidTemplate->assign('parameters', $this->parameter['fieldConf']['config']['parameters']);
-        $fluidTemplate->assign('disableCodemirror', $extConfiguration['disableCodemirror']);
+        $fluidTemplate->assign('parameters', $data['parameterArray']['fieldConf']['config']['parameters']);
 
-        if ($parameter['fieldConf']['config']['parameters']['mode'] === 'htmlmixed') {
-            if (!(bool) $parameter['fieldConf']['config']['parameters']['doNotShowFields']) {
+        if ($data['parameterArray']['fieldConf']['config']['parameters']['mode'] === 'htmlmixed') {
+            if (!(bool) $data['parameterArray']['fieldConf']['config']['parameters']['doNotShowFields']) {
                 $fluidTemplate->assign('availableFields', $this->getAvailableFields());
             }
             $fluidTemplate->assign(
                 'showFields',
-                !(bool) $parameter['fieldConf']['config']['parameters']['doNotShowFields']
+                !(bool) $data['parameterArray']['fieldConf']['config']['parameters']['doNotShowFields']
             );
             $fluidTemplate->assign('famousViewHelpers', $this->getFamousViewHelpers());
             $fluidTemplate->assign('dceViewHelpers', $this->getDceViewHelpers());
@@ -77,7 +105,7 @@ class CodemirrorField
     protected function getAvailableFields() : array
     {
         $fields = [];
-        $rowFields = $this->parameter['row']['fields'];
+        $rowFields = $this->data['databaseRow']['fields'];
         if (!empty($rowFields)) {
             $db = \T3\Dce\Utility\DatabaseUtility::getDatabaseConnection();
             $rows = $db->exec_SELECTgetRows(
@@ -150,7 +178,6 @@ class CodemirrorField
             ExtensionManagementUtility::extPath('dce') . 'Resources/Public/CodeSnippets/DceViewHelpers/'
         );
     }
-
     /**
      * @param string $path
      * @return array

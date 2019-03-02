@@ -1,34 +1,19 @@
-{namespace dce=T3\Dce\ViewHelpers}
-
-<dce:be.includeJsFile path="EXT:dce/Resources/Public/JavaScript/InitializeCodemirror.js" />
-
-<dce:be.includeCssFile path="EXT:dce/Resources/Public/JavaScript/Contrib/codemirror/lib/codemirror.css" />
-<dce:be.includeCssFile path="EXT:dce/Resources/Public/Css/custom_codemirror.css" />
-
 <div id="dceConfigurationWizard">
-	<f:if condition="{disableCodemirror}">
-		<f:then></f:then>
+	<f:if condition="{parameters.showTemplates}">
+		<f:then>
+			<f:render partial="ConfigurationEditor/AvailableTemplates" arguments="{uniqueIdentifier:uniqueIdentifier, availableTemplates:availableTemplates}"  />
+		</f:then>
 		<f:else>
-			<f:if condition="{parameters.showTemplates}">
-				<f:then>
-					<f:render partial="ConfigurationEditor/AvailableTemplates" arguments="{uniqueIdentifier:uniqueIdentifier, availableTemplates:availableTemplates}"  />
-				</f:then>
-				<f:else>
-					<f:render partial="ConfigurationEditor/AvailableVariables" arguments="{showFields:showFields,uniqueIdentifier:uniqueIdentifier, availableFields:availableFields, famousViewHelpers:famousViewHelpers, dceViewHelpers:dceViewHelpers}"  />
-				</f:else>
-			</f:if>
+			<f:render partial="ConfigurationEditor/AvailableVariables" arguments="{showFields:showFields,uniqueIdentifier:uniqueIdentifier, availableFields:availableFields, famousViewHelpers:famousViewHelpers, dceViewHelpers:dceViewHelpers}"  />
 		</f:else>
 	</f:if>
 	<div>
-		<textarea id="codemirror_{uniqueIdentifier}" name={name} cols="80" rows="15" onchange="{onChangeFunc}" {onFocus}>{value}</textarea>
+		<textarea class="dce-codemirror" data-mode="{parameters.mode}" id="codemirror_{uniqueIdentifier}" name={name} cols="80" rows="15" onchange="{onChangeFunc}">{value}</textarea>
 	</div>
 </div>
 
-<f:if condition="{disableCodemirror}">
-	<f:then></f:then>
-	<f:else>
-		<script type="text/javascript">
-            TYPO3.dce.initCodeMirrorEditor('#codemirror_{uniqueIdentifier}', '{parameters.mode}');
-		</script>
-	</f:else>
-</f:if>
+<script type="text/javascript">
+	require(['TYPO3/CMS/Dce/DceCodemirror'], function(DceCodemirror) {
+		DceCodemirror.initCodeMirrorEditor('#codemirror_{uniqueIdentifier}', '{parameters.mode}');
+	});
+</script>

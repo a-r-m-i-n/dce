@@ -199,14 +199,16 @@ $dceFieldTca = [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dcefield.configuration',
             'config' => [
-                // TODO: This will not work in TYPO3 10. renderTypes must be defined
-                'type' => 'user',
+                'type' => 'text',
+                'renderType' => 'dceCodeMirrorField',
                 'size' => '30',
-                'userFunc' => 'T3\Dce\UserFunction\UserFields\CodemirrorField->getCodemirrorField',
                 'parameters' => [
                     'mode' => 'xml',
                     'showTemplates' => true,
-                ]
+                ],
+                'default' => '<config>
+	<type>input</type>
+</config>'
             ],
         ],
         'map_to' => [
