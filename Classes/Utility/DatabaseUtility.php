@@ -86,12 +86,12 @@ class DatabaseUtility
     /**
      * Creates DCE domain object for a given content element
      *
-     * @param array|int$contentElement The content element database record (or UID)
+     * @param array|int|string|null $contentElement The content element database record (or UID)
      * @return Dce|null The constructed DCE object or null
      */
-    public static function getDceObjectForContentElement($contentElement) : ?Dce
+    public static function getDceObjectForContentElement($contentElement = null) : ?Dce
     {
-        if (\is_string($contentElement) && strpos($contentElement, 'NEW') === 0) {
+        if ($contentElement === null || (\is_string($contentElement) && strpos($contentElement, 'NEW') === 0)) {
             throw new \InvalidArgumentException('This is a new content element, can\'t create DCE instance from it.');
         }
         // Make this method more comfortable:
