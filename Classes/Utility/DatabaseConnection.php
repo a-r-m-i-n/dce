@@ -1,7 +1,7 @@
 <?php
 namespace T3\Dce\Utility;
 
-/*  | This extension is made with ❤ for TYPO3 CMS and is licensed
+/*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2018-2019 Armin Vieweg <armin@v.ieweg.de>

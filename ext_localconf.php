@@ -99,8 +99,8 @@ $boot = function ($extensionKey) {
         = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['extbase']['extensions']['Dce']['plugins'];
 
     // Register DCEs
-    $cache = new \T3\Dce\Injector();
-    $cache->injectPluginConfiguration();
+    $generator = new \T3\Dce\Components\ContentElementGenerator\Generator();
+    $generator->makePluginConfiguration();
 
     if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('linkvalidator')) {
         /** @var \TYPO3\CMS\Extbase\SignalSlot\Dispatcher $signalSlotDispatcher */
