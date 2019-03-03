@@ -114,7 +114,7 @@ class DceCodeMirrorFieldRenderType implements \TYPO3\CMS\Backend\Form\NodeInterf
                 'tx_dce_domain_model_dcefield',
                 'hidden=0 AND deleted=0 AND pid=0 AND (type=0 OR type=2) AND uid IN (' . $rowFields . ')',
                 '',
-                'variable asc'
+                'sorting asc'
             );
 
             if (\is_array($rows)) {
