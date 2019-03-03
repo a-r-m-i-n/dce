@@ -6,9 +6,12 @@ namespace T3\Dce\Components\DceContainer;
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
+use T3\Dce\Components\TemplateRenderer\StandaloneViewFactory;
+use T3\Dce\Components\TemplateRenderer\DceTemplateTypes;
 use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Utility\DatabaseUtility;
 use T3\Dce\Utility\PageTS;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
@@ -40,7 +43,9 @@ class Container
     public function __construct(Dce $firstDceInContainer)
     {
         $this->firstDce = $firstDceInContainer;
-        $this->view = $firstDceInContainer->getFluidStandaloneView(Dce::TEMPLATE_FIELD_CONTAINER);
+
+        $viewFactory = GeneralUtility::makeInstance(StandaloneViewFactory::class);
+        $this->view = $viewFactory->getDceTemplateView($firstDceInContainer, DceTemplateTypes::CONTAINER);
     }
 
     /**

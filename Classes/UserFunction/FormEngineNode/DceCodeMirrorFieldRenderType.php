@@ -6,6 +6,7 @@ namespace T3\Dce\UserFunction\FormEngineNode;
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
+use T3\Dce\Components\TemplateRenderer\StandaloneViewFactory;
 use T3\Dce\Utility\File;
 use TYPO3\CMS\Backend\Form\NodeFactory;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
@@ -63,10 +64,10 @@ class DceCodeMirrorFieldRenderType implements \TYPO3\CMS\Backend\Form\NodeInterf
      */
     public function getCodemirrorFieldHtml(array $data) : string
     {
+        /** @var StandaloneViewFactory $viewFactory */
+        $viewFactory = GeneralUtility::makeInstance(StandaloneViewFactory::class);
         /** @var StandaloneView $fluidTemplate */
-        $fluidTemplate = GeneralUtility::makeInstance(StandaloneView::class);
-        $fluidTemplate->setLayoutRootPaths([File::get('EXT:dce/Resources/Private/Layouts/')]);
-        $fluidTemplate->setPartialRootPaths([File::get('EXT:dce/Resources/Private/Partials/')]);
+        $fluidTemplate = $viewFactory->makeNewDceView();
         $fluidTemplate->setTemplatePathAndFilename(File::get(
             'EXT:dce/Resources/Private/Templates/DceUserFields/Codemirror.html'
         ));

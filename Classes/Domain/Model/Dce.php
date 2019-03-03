@@ -6,6 +6,8 @@ namespace T3\Dce\Domain\Model;
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
+use T3\Dce\Components\TemplateRenderer\DceTemplateTypes;
+use T3\Dce\Components\TemplateRenderer\StandaloneViewFactory;
 use T3\Dce\Utility\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
@@ -16,24 +18,6 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
  */
 class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
-    /* Identifier for: "default DCE templates" */
-    public const TEMPLATE_FIELD_DEFAULT = 0;
-    /* Identifier for: "header preview templates" */
-    public const TEMPLATE_FIELD_HEADERPREVIEW = 1;
-    /* Identifier for: "bodytext preview templates" */
-    public const TEMPLATE_FIELD_BODYTEXTPREVIEW = 2;
-    /* Identifier for: "detail page templates" */
-    public const TEMPLATE_FIELD_DETAILPAGE = 3;
-    /* Identifier for: "dce container templates" */
-    public const TEMPLATE_FIELD_CONTAINER = 4;
-    /* Identifier for: "backend template" */
-    public const TEMPLATE_FIELD_BACKEND_TEMPLATE = 5;
-
-    /**
-     * @var array Cache for fluid instances
-     */
-    protected static $fluidTemplateCache = [];
-
     /**
      * @var array Cache for DceFields
      */
@@ -43,32 +27,6 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var array Cache for content element rows
      */
     protected static $contentElementRowsCache = [];
-
-    /**
-     * @var array Database field names of columns for different types of templates
-     */
-    protected $templateFields = [
-        self::TEMPLATE_FIELD_DEFAULT => [
-            'type' => 'template_type',
-            'inline' => 'template_content',
-            'file' => 'template_file'
-        ],
-        self::TEMPLATE_FIELD_DETAILPAGE => [
-            'type' => 'detailpage_template_type',
-            'inline' => 'detailpage_template',
-            'file' => 'detailpage_template_file'
-        ],
-        self::TEMPLATE_FIELD_CONTAINER => [
-            'type' => 'container_template_type',
-            'inline' => 'container_template',
-            'file' => 'container_template_file'
-        ],
-        self::TEMPLATE_FIELD_BACKEND_TEMPLATE => [
-            'type' => 'backend_template_type',
-            'inline' => 'backend_template_content',
-            'file' => 'backend_template_file'
-        ]
-    ];
 
     /**
      * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\T3\Dce\Domain\Model\DceField>
@@ -929,7 +887,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function renderDetailpage() : string
     {
-        return $this->renderFluidTemplate(self::TEMPLATE_FIELD_DETAILPAGE);
+        return $this->renderFluidTemplate(DceTemplateTypes::DETAILPAGE);
     }
 
     /**
@@ -942,7 +900,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $backendTemplateSeparator = '<dce-separator />';
 
-        $fullBackendTemplate = $this->renderFluidTemplate(self::TEMPLATE_FIELD_BACKEND_TEMPLATE);
+        $fullBackendTemplate = $this->renderFluidTemplate(DceTemplateTypes::BACKEND_TEMPLATE);
         if (!empty($section)) {
             $backendTemplateParts = GeneralUtility::trimExplode($backendTemplateSeparator, $fullBackendTemplate);
             return $section === 'bodytext' ? $backendTemplateParts[1] : $backendTemplateParts[0];
@@ -956,9 +914,10 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param int $templateType
      * @return string Rendered and trimmed template
      */
-    protected function renderFluidTemplate(string $templateType = self::TEMPLATE_FIELD_DEFAULT) : string
+    protected function renderFluidTemplate(int $templateType = DceTemplateTypes::DEFAULT) : string
     {
-        $fluidTemplate = $this->getFluidStandaloneView($templateType);
+        $viewFactory = GeneralUtility::makeInstance(StandaloneViewFactory::class);
+        $fluidTemplate = $viewFactory->getDceTemplateView($this, $templateType);
 
         $fields = $this->getFieldsAsArray();
         $variables = [
@@ -1041,6 +1000,29 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
+     * Get content element rows based on this DCE
+     *
+     * @return array|null
+     */
+    public function getRelatedContentElementRows() : ?array
+    {
+        if (array_key_exists($this->getIdentifier(), static::$fieldsCache)) {
+            return static::$fieldsCache[$this->getIdentifier()];
+        }
+        $rows = \T3\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
+            '*',
+            'tt_content',
+            'CType="' . $this->getIdentifier() . '" AND deleted=0',
+            '',
+            '',
+            '',
+            'uid'
+        );
+        static::$fieldsCache[$this->getIdentifier()] = $rows;
+        return $rows;
+    }
+
+    /**
      * Magic PHP method.
      * Checks if called and not existing method begins with "get". If yes, extract the part behind the get.
      * If a method in $this exists which matches this part, it will be called. Otherwise it will be searched in
@@ -1071,101 +1053,5 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
             }
         }
         return null;
-    }
-
-    /**
-     * Creates new standalone view or returns cached one, if existing
-     *
-     * @param int $templateType see class constants
-     * @return StandaloneView
-     */
-    public function getFluidStandaloneView(int $templateType) : StandaloneView
-    {
-        $cacheKey = $this->getUid();
-        if ($this->getEnableContainer()) {
-            $containerIterator = $this->getContainerIterator();
-            $cacheKey .= '-' . $containerIterator['index'];
-        }
-
-        if (isset(self::$fluidTemplateCache[$cacheKey][$templateType])) {
-            return self::$fluidTemplateCache[$cacheKey][$templateType];
-        }
-
-        $templateFields = $this->templateFields[$templateType];
-        $typeGetter = 'get' . ucfirst(GeneralUtility::underscoredToLowerCamelCase($templateFields['type']));
-
-        /** @var $fluidTemplate StandaloneView */
-        $fluidTemplate = GeneralUtility::makeInstance(StandaloneView::class);
-        if ($this->$typeGetter() === 'inline') {
-            $inlineTemplateGetter = 'get' . ucfirst(
-                GeneralUtility::underscoredToLowerCamelCase($templateFields['inline'])
-            );
-            $fluidTemplate->setTemplateSource($this->$inlineTemplateGetter() . ' ');
-        } else {
-            $fileTemplateGetter = 'get' . ucfirst(GeneralUtility::underscoredToLowerCamelCase($templateFields['file']));
-            $filePath = File::get($this->$fileTemplateGetter());
-
-            if (!file_exists($filePath)) {
-                $fluidTemplate->setTemplateSource('');
-            } else {
-                $templateContent = file_get_contents($filePath);
-                $fluidTemplate->setTemplateSource($templateContent . ' ');
-            }
-        }
-
-        // Set layout root paths
-        $layoutRootPaths = ['EXT:dce/Resources/Private/Layouts/'];
-        if (!empty($this->getTemplateLayoutRootPath())) {
-            $layoutRootPaths[] = File::get($this->getTemplateLayoutRootPath());
-        }
-        $fluidTemplate->setLayoutRootPaths($layoutRootPaths);
-
-        // Set partial root paths
-        $partialRootPaths = ['EXT:dce/Resources/Private/Partials/'];
-        if (!empty($this->getTemplatePartialRootPath())) {
-            $partialRootPaths[] = File::get($this->getTemplatePartialRootPath());
-        }
-        $fluidTemplate->setPartialRootPaths($partialRootPaths);
-
-        if ($templateType !== self::TEMPLATE_FIELD_CONTAINER) {
-            $fluidTemplate->assign('dce', $this);
-        }
-
-        if (TYPO3_MODE === 'FE' && isset($GLOBALS['TSFE'])) {
-            $fluidTemplate->assign('TSFE', $GLOBALS['TSFE']);
-            $fluidTemplate->assign('page', $GLOBALS['TSFE']->page);
-
-            $typoScriptService = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Service\TypoScriptService');
-            $fluidTemplate->assign(
-                'tsSetup',
-                $typoScriptService->convertTypoScriptArrayToPlainArray($GLOBALS['TSFE']->tmpl->setup)
-            );
-        }
-
-        self::$fluidTemplateCache[$cacheKey][$templateType] = $fluidTemplate;
-        return $fluidTemplate;
-    }
-
-    /**
-     * Get content element rows based on this DCE
-     *
-     * @return array|null
-     */
-    public function getRelatedContentElementRows() : ?array
-    {
-        if (array_key_exists($this->getIdentifier(), static::$fieldsCache)) {
-            return static::$fieldsCache[$this->getIdentifier()];
-        }
-        $rows = \T3\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
-            '*',
-            'tt_content',
-            'CType="' . $this->getIdentifier() . '" AND deleted=0',
-            '',
-            '',
-            '',
-            'uid'
-        );
-        static::$fieldsCache[$this->getIdentifier()] = $rows;
-        return $rows;
     }
 }
