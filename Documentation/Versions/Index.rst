@@ -24,7 +24,12 @@ Versions
 - Add csh-description for all fields
 - Add complete documentation
 - Refactored user conditions (Symfony expression language)
+- Removed update check functionality
+- Removed all extension manager settings
+- Refactored and cleaned up code base
+- New FlexForm rendering (using DomDocument instead of FluidTemplate)
 - Many fixes and improvements
+- DCE is **100% deprecation notice free** in TYPO3 9.5 LTS
 
 1.6.0
 -----
