@@ -23,19 +23,6 @@ class LanguageService
         Bootstrap::getInstance()->initializeBackendUser();
         Bootstrap::getInstance()->initializeLanguageObject();
     }
-    /**
-     * Returns a valid LanguageService object that is connected and ready
-     * to be used static
-     *
-     * @return \TYPO3\CMS\Lang\LanguageService
-     */
-    public static function get() : \TYPO3\CMS\Lang\LanguageService
-    {
-        if (!$GLOBALS['LANG']) {
-            static::initialize();
-        }
-        return $GLOBALS['LANG'];
-    }
 
     /**
      * splitLabel function
