@@ -96,6 +96,7 @@ class DceModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
     public function hallOfFameAction() : void
     {
         $donators = File::openJsonFile('EXT:dce/Resources/Private/Data/Donators.json');
+        shuffle($donators);
         $this->view->assign('donators', $donators);
     }
 }

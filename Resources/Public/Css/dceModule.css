@@ -1,170 +1,176 @@
 .btn-primary {
-	background-color: #ed2448 !important;
-	border-color: #a02035 !important;
-	color: #fff !important;
+    background-color: #ed2448 !important;
+    border-color: #a02035 !important;
+    color: #fff !important;
 }
 
 .btn-secondary {
-	background-color: #666 !important;
-	border-color: #444 !important;
-	color: #fff !important;
+    background-color: #666 !important;
+    border-color: #444 !important;
+    color: #fff !important;
 }
 
 .btn-wide {
-	padding-left: 20px;
-	padding-right: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .typo3-fullDoc {
-	overflow-x: hidden;
+    overflow-x: hidden;
 }
 
 .typo3-docheader-functions {
-	display: none;
+    display: none;
 }
 
 #typo3-docheader > div.inner {
-	-webkit-box-shadow: inset 0px -4px 6px 0px rgba(0,0,0,0.1);
-	-moz-box-shadow: inset 0px -4px 6px 0px rgba(0,0,0,0.1);
-	box-shadow: inset 0px -4px 6px 0px rgba(0,0,0,0.1);
-	margin: 0 -50px;
-	padding: 0 50px;
+    -webkit-box-shadow: inset 0px -4px 6px 0px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: inset 0px -4px 6px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: inset 0px -4px 6px 0px rgba(0, 0, 0, 0.1);
+    margin: 0 -50px;
+    padding: 0 50px;
 }
 
 #typo3-docheader .typo3-docheader-buttons {
-	height: 48px !important;
+    height: 48px !important;
 }
 
 h4.dceHeader {
-	font-family: Share, Verdana, Arial, Helvetica, sans-serif;
-	font-size: 20px;
+    font-family: Share, Verdana, Arial, Helvetica, sans-serif;
+    font-size: 20px;
 }
 
 h4.dceHeader img {
-	vertical-align: baseline;
-	margin-bottom: -1px;
+    vertical-align: baseline;
+    margin-bottom: -1px;
 }
 
 div.nav-group {
-	margin-right: 30px;
-	float: left;
+    margin-right: 30px;
+    float: left;
 }
 
 .space-right {
-	margin-right: 10px;
+    margin-right: 10px;
 }
+
 .space-bottom {
-	margin-bottom: 24px;
+    margin-bottom: 24px;
 }
 
 .typeicon {
-	float: left;
-	position: relative;
-	padding-top: 5px;
-	margin-left: 2px;
-	margin-right: 12px;
+    float: left;
+    position: relative;
+    padding-top: 5px;
+    margin-left: 2px;
+    margin-right: 12px;
 }
 
 .typeicon .overlay {
-	position: absolute;
-	right: -6px;
-	bottom: -3px;
-	line-height: 0;
-	border-radius: 2px;
+    position: absolute;
+    right: -6px;
+    bottom: -3px;
+    line-height: 0;
+    border-radius: 2px;
 }
 
 .bg-pink {
-	background: #ed2448;
+    background: #ed2448;
 }
 
 .bg-logo {
-	border-radius: 2px;
-	line-height: 0;
+    border-radius: 2px;
+    line-height: 0;
 }
 
 .dceLabel {
-	padding-left: 42px;
-	padding-top: 4px;
+    padding-left: 42px;
+    padding-top: 4px;
 }
 
 .listEntry {
-	min-height: 47px;
-	position: relative;
+    min-height: 47px;
+    position: relative;
 }
 
 a.overlayLink {
-	background: transparent;
-	display: block;
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	top: 0;
-	left: 0;
-	z-index: 1;
+    background: transparent;
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
 }
 
 .label-darker {
-	background-color: #777 !important;
+    background-color: #777 !important;
 }
 
 .form-inline {
-	display: inline;
+    display: inline;
 }
 
 .dceVersion {
-	font-size: 12px;
-	color: #D81D13;
+    font-size: 12px;
+    color: #D81D13;
+}
+
+h1.hallOfFame {
+    margin-bottom: 0.3em;
 }
 
 .well {
-	position: relative;
+    position: relative;
+    padding: 5px 10px;
 }
 
 .well .icon img {
-	width: 64px !important;
-	height: 64px !important;
+    width: 64px !important;
+    height: 64px !important;
 }
 
 .well .donator {
-	position: absolute;
-	left: 95px;
-	top: 50%;
-	transform: translate(0, -50%);
+    position: absolute;
+    left: 95px;
+    top: 50%;
+    transform: translate(0, -50%);
 }
 
 .well .donator .name {
-	font-size: 1.3em;
-	color: #222;
+    font-size: 1.3em;
+    color: #222;
 }
 
 .well .donator a {
-	color: #444;
+    color: #444;
 }
 
 .well > div.clear {
-	clear: left;
-	height: 0;
-	line-height: 0;
-	font-size: 0;
+    clear: left;
+    height: 0;
+    line-height: 0;
+    font-size: 0;
 }
 
 .align-right .dropdown-menu {
-	right: 0;
-	left: auto;
+    right: 0;
+    left: auto;
 }
 
 a.disabled {
-	opacity: 0.4;
-	cursor: not-allowed;
+    opacity: 0.4;
+    cursor: not-allowed;
 }
 
 .status span.label, .fieldStats span.label:first-child {
-	display: inline-block;
-	min-width: 60px;
-	padding: 4px;
+    display: inline-block;
+    min-width: 60px;
+    padding: 4px;
 }
 
 .fieldStats span.label {
-	display: inline-block;
-	padding: 4px;
+    display: inline-block;
+    padding: 4px;
 }

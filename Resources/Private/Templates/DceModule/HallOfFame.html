@@ -22,16 +22,17 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-lg-8">
+			<div class="col-sm-12">
 				<h1 class="hallOfFame">{f:translate(key:'{lll}hallOfFame')}</h1>
 				<p>{f:translate(key:'{lll}hallOfFameIntroText')}</p>
 
-				<ul class="list-unstyled">
+				<div class="row">
 					<f:for each="{donators}" as="donator">
-						<li>
+						<div class="col-md-6 col-lg-4">
 							<div class="well">
 								<div class="icon">
-									<img src="{f:uri.resource(path:'Icons/dce_trophy.png')}" height="64" width="64">
+									<img src="{f:uri.resource(path:'Icons/trophy.svg')}" height="64" width="64"
+										 alt="{f:translate(key:'{lll}trophyAlt')}" title="{f:translate(key:'{lll}trophyTitle', arguments:'{0:donator.name}')}">
 								</div>
 								<div class="donator">
 									<span class="name">{donator.name}</span>
@@ -41,9 +42,9 @@
 								</div>
 								<div class="clear"></div>
 							</div>
-						</li>
+						</div>
 					</f:for>
-				</ul>
+				</div>
 			</div>
 		</div>
 	</f:alias>
