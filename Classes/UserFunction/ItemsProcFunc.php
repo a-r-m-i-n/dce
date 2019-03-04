@@ -16,7 +16,7 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 class ItemsProcFunc
 {
     /**
-     * Add DceFields to referenced $parameters['items'] array
+     * Add DceFields
      *
      * @param array $parameters Referenced parameter array
      * @return void
@@ -54,7 +54,7 @@ class ItemsProcFunc
     }
 
     /**
-     * Add available tt_content columns for TCA mapping to $parameters['items'] array
+     * Add available tt_content columns for TCA mapping
      *
      * @param array $parameters Referenced parameter array
      * @return void
@@ -102,7 +102,7 @@ class ItemsProcFunc
     }
 
     /**
-     * Add available tt_content columns for palette fields to given $parameters['items'] array
+     * Add available tt_content columns for palette fields
      *
      * @param array $parameters
      * @return void
@@ -149,5 +149,40 @@ class ItemsProcFunc
                 $parameters['items'][] = [$label, $fieldName];
             }
         }
+    }
+
+    /**
+     * Adds available wizard icons
+     *
+     * @param array $parameters
+     * @return void
+     */
+    public function getAvailableWizardIcons(array &$parameters) : void
+    {
+        $identifiers = [
+            'content-header',
+            'content-textpic',
+            'content-bullets',
+            'content-table',
+            'content-special-uploads',
+            'content-special-menu',
+            'content-special-html',
+            'content-special-div',
+            'content-special-shortcut',
+            'content-elements-login',
+            'content-elements-mailform',
+            'content-plugin'
+        ];
+
+        foreach ($identifiers as $identifier) {
+            $parameters['items'][] = [
+                'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:wizardIcon.' . $identifier,
+                $identifier,
+                $identifier
+            ];
+        }
+        $ll = 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:';
+        $parameters['items'][] = [$ll . 'wizardIcon.custom', '--div--'];
+        $parameters['items'][] = [$ll . 'wizardIcon.customIcon', 'custom'];
     }
 }
