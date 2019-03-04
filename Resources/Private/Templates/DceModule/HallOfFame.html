@@ -1,5 +1,3 @@
-{namespace dce=T3\Dce\ViewHelpers}
-
 <f:layout name="Backend" />
 <f:section name="functions">
 	<dce:be.includeCssFile path="EXT:dce/Resources/Public/Css/dceModule.css" />
@@ -16,7 +14,7 @@
 		<div class="row space-bottom">
 			<div class="col-lg-12">
 				<div class="nav-group">
-					<f:link.action action="index" class="btn btn-default">{f:translate(key:'{lll}back')}</f:link.action>
+					<f:link.action action="index" class="btn btn-default"><i class="fa fa-arrow-left"></i> {f:translate(key:'{lll}back')}</f:link.action>
 					<f:render partial="Module/Donate" arguments="{primary:'1'}" />
 				</div>
 			</div>
