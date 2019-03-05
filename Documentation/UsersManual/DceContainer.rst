@@ -10,7 +10,7 @@ DCE Container is a new feature introduced in DCE 1.3. It allows you to wrap seve
 certain DCE with a Fluid template.
 
 This is especially useful for slider libraries (for example). If you want to create one content element for one slide,
-but you need to wrap all slides with a container <div> element, which initializes the functionality of the library.
+but you need to wrap all slides with a container ``<div>`` element, which initializes the functionality of the library.
 
 First, you need to enable the feature:
 
@@ -27,9 +27,9 @@ When enabled, all content elements (tt_content) in a row based on this DCE are w
 The content elements "in the row":
 
 - base on the same DCE (with enabled DCE container feature)
-- are located on the same `pid`
-- are located in the same `sys_language_uid`
-- are located in the same `colPos`
+- are located on the same ``pid``
+- are located in the same ``sys_language_uid``
+- are located in the same ``colPos``
 
 Any other content element type interrupts the container.
 
@@ -61,9 +61,9 @@ This template contains the code of the container wrapped around all DCEs within 
         <f:render partial="Container/Dces" arguments="{dces:dces}" />
     </div>
 
-All DCEs in the container are stored inside the variable `{dces}` which is an array of Dce model instances.
+All DCEs in the container are stored inside the variable ``{dces}`` which is an array of Dce model instances.
 
-So when you iterate over the dces array (using `f:for` loop) you can access single field values or render the default
+So when you iterate over the dces array (using ``f:for`` loop) you can access single field values or render the default
 template. So this partial is basically this:
 
 
@@ -81,15 +81,15 @@ Container iterator
 
 When DCE container is enabled, each DCE has the new attribute **containerIterator** available,
 which allows you to get info about the position of the DCE inside of the container, like the iterator in Fluid
-you know from `f:for` loop:
+you know from ``f:for`` loop:
 
-- `{dce.containerIterator.total}`
-- `{dce.containerIterator.index}`
-- `{dce.containerIterator.cycle}`
-- `{dce.containerIterator.isEven}`
-- `{dce.containerIterator.isOdd}`
-- `{dce.containerIterator.isFirst}`
-- `{dce.containerIterator.isLast}`
+- ``{dce.containerIterator.total}``
+- ``{dce.containerIterator.index}``
+- ``{dce.containerIterator.cycle}``
+- ``{dce.containerIterator.isEven}``
+- ``{dce.containerIterator.isOdd}``
+- ``{dce.containerIterator.isFirst}``
+- ``{dce.containerIterator.isLast}``
 
 
 Container in backend
@@ -118,7 +118,7 @@ The colors being used can be adjusted using PageTS (on root level):
             20 = #FF8700
     }
 
-By default, DCE provides ten color codes, which are picked based on the `uid` of the first content element in the
+By default, DCE provides ten color codes, which are picked based on the ``uid`` of the first content element in the
 container.
 
 

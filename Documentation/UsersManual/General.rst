@@ -23,7 +23,7 @@ Identifier
 ^^^^^^^^^^
 
 The identifier is used as CType for new content elements based on this DCE. All identifiers of DCE are prefixed
-with "dce_". For example: "dce_example". When the identifier of a DCE remains empty, the old syntax based on `uid` is
+with "dce_". For example: "dce_example". When the identifier of a DCE remains empty, the old syntax based on ``uid`` is
 used automatically. Example: "dce_dceuid1"
 
 Inactive
@@ -56,12 +56,12 @@ A field has three types available:
   Check if DCE Container can help you or use EXT:gridelements for your purposes.
 
 Common to all types is the *title* field, where you define a speaking label for the editor.
-You can use `LLL:` reference here. For the type *Tab* there are no more options to define.
+You can use ``LLL:`` reference here. For the type *Tab* there are no more options to define.
 
 Field options
 +++++++++++++
 
-For the default type *Element* you have to define a **title** (with `LLL:` support) and a **variable** name which is
+For the default type *Element* you have to define a **title** (with ``LLL:`` support) and a **variable** name which is
 to be used in the Fluid template. Variable names have to be written in **lowerCamelCase** and the variable names must
 be unique inside each DCE.
 
@@ -93,7 +93,7 @@ When adding a group field and link it with e.g. News (by Georg Ringer), then the
 with uids of the selected news. That is not very useful in Fluid templates.
 
 But when this attribute is activated, the used table is inspected. If an Extbase model and repository exist for this
-table then the repository is instantiated and a `findByUid()` is called for every `uid`. The complete Extbase models are
+table then the repository is instantiated and a ``findByUid()`` is called for every ``uid``. The complete Extbase models are
 then taken over to the Fluid template (as an array).
 
 If the table is not part of an Extbase extension than the corresponding record is loaded from the database and handed
@@ -113,7 +113,7 @@ called and rendered:
     </f:for>
 
 You need to use the raw view helper of Fluid because otherwise the rendered HTML will be escaped.
-If you use the `f:format.html` view helper the curly braces get escaped and variables will not be interpreted anymore.
+If you use the ``f:format.html`` view helper the curly braces get escaped and variables will not be interpreted anymore.
 
 It is also possible to access directly the value of single fields:
 
@@ -139,7 +139,7 @@ dce_get_fal_objects
     <dce_get_fal_objects>1</dce_get_fal_objects>
 
 If you have defined a FAL field and this attribute is activated, the value is directly replaced with a
-`TYPO3\CMS\Core\Resource\File` object from the repository.
+``TYPO3\CMS\Core\Resource\File`` object from the repository.
 
 dce_ignore_enablefields
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -159,6 +159,6 @@ dce_enable_autotranslation
     <dce_enable_autotranslation>1</dce_enable_autotranslation>
 
 If you load a page via group field than always this page is loaded, regardless of the language that is just used.
-Using this attribute shows the translated page if it exists (`$GLOBALS['TSFE']->sys_page->getPageOverlay()`).
+Using this attribute shows the translated page if it exists (``$GLOBALS['TSFE']->sys_page->getPageOverlay()``).
 
-That also works with other records, not only with records of the pages table, then `getRecordOverlay()` will be used.
+That also works with other records, not only with records of the pages table, then ``getRecordOverlay()`` will be used.

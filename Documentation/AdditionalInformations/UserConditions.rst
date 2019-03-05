@@ -30,5 +30,5 @@ Usage in TypoScript in **TYPO3 9.5**:
     [dceOnCurrentPage("teaser")]
 
 
-The 42 is a sample for the `uid` of a DCE.
+The 42 is a sample for the ``uid`` of a DCE.
 If you have defined an identifier, you can also use it in user condition parameter.

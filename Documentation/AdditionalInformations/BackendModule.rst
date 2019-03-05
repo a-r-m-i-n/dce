@@ -25,7 +25,7 @@ You see pieces of information for each DCE:
 
 - Status (enabled/disabled)
 - Identifier
-- `uid`
+- ``uid``
 - Usage (amount of content elements using this DCE)
   - click on it, to see more details
 

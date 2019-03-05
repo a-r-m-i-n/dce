@@ -11,7 +11,7 @@ defined for your DCE you can display the most important fields with the normal t
 and the complete amount of fields with the detail template.
 
 The decision to display either the normal template or the detail page template is done by detecting the
-**detail page identifier** (GET parameter). If it is found and it contains the `uid` of the actually shown DCE, the
+**detail page identifier** (GET parameter). If it is found and it contains the ``uid`` of the actually shown DCE, the
 content is rendered with the detail page template otherwise the normal template is used.
 
 .. image:: Images/detail-page.png
@@ -31,7 +31,7 @@ Detail page identifier (get parameter)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This is the parameter which must be used in the GET parameter of the URL to enable the display of the detail page.
-The value of this GET parameter must be the `uid` of the displayed content object, to trigger the detail page template.
+The value of this GET parameter must be the ``uid`` of the displayed content object, to trigger the detail page template.
 
 You should avoid using a parameter name, which is already in use, like "id", "type" or "L".
 
@@ -92,7 +92,7 @@ to assign the contents to the template:
 
     page.10 < styles.content.get
 
-The lower than sign (`<`) copies the given value. But with our snippet above we override the original one.
+The lower than sign (``<``) copies the given value. But with our snippet above we override the original one.
 The copy will not be affected. The easiest way would be to use a reference instead:
 
 ::
@@ -104,13 +104,13 @@ Then you are able to change something in CSS Styled Content typoscript, which al
 
 
 Faking detail pages
-~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^
 
 To fake a separate page for each dce content element detail page - which is actually on the same page -
-we can do some adjustments to RealUrl (when it is used) and overwrite the <title> tag in HTML.
+we can do some adjustments to RealUrl (when it is used) and overwrite the ``<title>`` tag in HTML.
 
 RealURL example
-===============
+~~~~~~~~~~~~~~~
 
 Kudos to Dirk Wohlrabe who provided this realurl example:
 
@@ -143,8 +143,8 @@ Kudos to Dirk Wohlrabe who provided this realurl example:
 
 
 Adjust <title> tag
-==================
-And here you will find an example how to put the header field to <title> tag in body:
+~~~~~~~~~~~~~~~~~~
+And here you will find an example how to put the header field to ``<title>`` tag in body:
 
 .. code-block:: typoscript
 

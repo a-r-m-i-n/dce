@@ -179,7 +179,7 @@ We see two wraps:
 - ``dce-container`` This comes from the container template itself
 - ``tx-dce-container`` This is because we use the *DefaultContainer* Fluid layout (which is optional)
 
-Also, the backend view has been upgraded, it displays a color (calculated based on `uid` of the first element in the
+Also, the backend view has been upgraded, it displays a color (calculated based on ``uid`` of the first element in the
 container):
 
 .. image:: Images/container-backend-color.png

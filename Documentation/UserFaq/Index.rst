@@ -84,8 +84,8 @@ depending of the type of the collection. Folder based collections returns the fi
 a file reference. With this condition both cases are covered.
 
 .. note::
-   When item is a `FileReference` you can pass it to image view helper like this:
-   `<f:image image="{item}" maxWidth="250" />`
+   When item is a ``FileReference`` you can pass it to image view helper like this:
+   ``<f:image image="{item}" maxWidth="250" />``
 
 
 How to readout an image in a Fluid template and give it a click enlarge function?
@@ -166,7 +166,7 @@ You can also use the inline notation:
 How to access variables of other DCE elements?
 ----------------------------------------------
 
-You can access directly the TypoScript with `{tsSetup.lib.xyz.value}`.
+You can access directly the TypoScript with ``{tsSetup.lib.xyz.value}``.
 
 
 How to migrate old image fields to new FAL fields?
@@ -177,7 +177,7 @@ the already stored data/images are not compatible with FAL.
 
 If you do this, you will get this exception: ``#1300096564: uid of file has to be numeric.``
 
-The old way of image handling was that the name of the file is stored inside of the field. The new FAL way is an `uid`
+The old way of image handling was that the name of the file is stored inside of the field. The new FAL way is an ``uid``
 of the equivalent FAL record. There is no conversion tool existing AFAIK.
 
 Furthermore these filenames are inside of an FlexFormXML, so the steps of a conversion would be:
@@ -185,7 +185,7 @@ Furthermore these filenames are inside of an FlexFormXML, so the steps of a conv
 1. Identify DCEs using old images (by DCE configuration)
 2. Get tt_content records and convert FlexFormXML to array
 3. Get the old filename and find FAL record
-4. Replace filename with `uid` of FAL record
+4. Replace filename with ``uid`` of FAL record
 5. Save the tt_content record and update the field configuration
 
 

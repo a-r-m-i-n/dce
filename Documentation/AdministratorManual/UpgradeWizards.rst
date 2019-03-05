@@ -66,4 +66,4 @@ This converts all Fluid templates which still uses namespace declarations like
 
     {namespace dce=ArminVieweg\Dce\ViewHelpers}
 
-These are not required anymore, because `dce:` is globally registered in Fluid, when DCE is installed.
+These are not required anymore, because ``dce:`` is globally registered in Fluid, when DCE is installed.

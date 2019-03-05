@@ -15,21 +15,21 @@ Versions
 2.0.0
 -----
 
-- Change package name and namespace to **t3/dce** and `\T3\Dce`
+- Change package name and namespace to **t3/dce** and ``\T3\Dce``
+- Add identifier to DCE, which allows to control the CType of the content element
 - Added direct_output mode
 - Fixed behaviour of detail pages
-- Global namespace registration for `dce:` in Fluid templates
+- Global namespace registration for ``dce:`` in Fluid templates
 - Allow partials and layouts fallback
-- Add `{$variable}` to field configuration (used for FAL)
+- Add ``{$variable}`` to field configuration (used for FAL)
 - Add csh-description for all fields
-- Add complete documentation
 - Refactored user conditions (Symfony expression language)
 - Removed update check functionality
 - Removed all extension manager settings
 - Refactored and cleaned up code base
 - New FlexForm rendering (using DomDocument instead of FluidTemplate)
-- Many fixes and improvements
 - DCE is **100% deprecation notice free** in TYPO3 9.5 LTS
+- Add complete documentation (!)
 
 1.6.0
 -----

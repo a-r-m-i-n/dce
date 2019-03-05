@@ -68,7 +68,7 @@ Fields and tabs
 Schema loading
 """"""""""""""
 
-+ Special handling for `group`, `select` and `inline` fields, which relates to different records
++ Special handling for ``group``, ``select`` and ``inline`` fields, which relates to different records
 + Converts comma-separated lists of uids to ready to use arrays or objects
 + Uses Extbase models (instead of associated arrays, if the requested table has one configured)
 + Resolves FAL relations (media) automatically
@@ -86,7 +86,7 @@ Detail pages
 """"""""""""
 
 + Use different templates for single DCE instances
-+ Controlled by configurable $_GET parameter
++ Controlled by configurable ``$_GET`` parameter
 
 Easy templating (using Fluid)
 """""""""""""""""""""""""""""
