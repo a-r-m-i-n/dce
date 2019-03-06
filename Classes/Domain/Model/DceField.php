@@ -318,9 +318,9 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Get ParentDce
      *
-     * @return Dce
+     * @return Dce|null
      */
-    public function getParentDce() : Dce
+    public function getParentDce() : ?Dce
     {
         return $this->parentDce;
     }
@@ -340,9 +340,9 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Get ParentField
      *
-     * @return DceField
+     * @return DceField|null
      */
-    public function getParentField() : DceField
+    public function getParentField() : ?DceField
     {
         return $this->parentField;
     }
