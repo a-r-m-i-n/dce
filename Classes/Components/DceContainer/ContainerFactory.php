@@ -13,7 +13,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * ContainerFactory
- * Builds DceContainers, which wrap grouped DCEs
+ * Builds DCE Containers, which wrap grouped DCEs
  */
 class ContainerFactory
 {

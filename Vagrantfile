@@ -24,7 +24,7 @@ Vagrant.configure("2") do |config|
     extensionKey = "dce"
     packageName = "t3/dce"
     staticIpAddress = "192.168.103.50"
-    extensionRepo = "https://github.com/to/your/git/repo" # Only used as help link
+    extensionRepo = "https://bitbucket.org/ArminVieweg/dce/" # Only used as help link
 
     # Base configuration
     config.vm.box = "ArminVieweg/ubuntu-bionic64-lamp"

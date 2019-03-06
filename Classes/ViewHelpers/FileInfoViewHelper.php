@@ -15,7 +15,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 /**
  * FileInfo viewhelper
  *
- * Usage example in for sections:
+ * Usage example for sections:
  *
  * <f:for each="{field.section}" as="entry">
  *     <f:for each="{entry.images -> dce:explode()}" as="imageUid">
@@ -60,9 +60,9 @@ class FileInfoViewHelper extends AbstractViewHelper
         $properties = array_merge($file->_getMetaData(), $file->getProperties());
         if (!array_key_exists($this->arguments['attribute'], $properties)) {
             throw new \Exception(
-                'Given file in DCE\'s fileInfo view helper has no attribute named "' . $this->arguments['attribute'] .
-                '". Most common, available attributes are: title,description,alternative,width,height,name,' .
-                'extension,size,uid',
+                'Given file in DCE\'s fileInfo view helper has no attribute named "' .
+                $this->arguments['attribute'] . '". Most common, available attributes are: ' .
+                'title, description, alternative, width, height, name, extension, size and uid',
                 1429046106
             );
         }

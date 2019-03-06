@@ -19,7 +19,7 @@ use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
- * Simple backend view utility
+ * Simple Backend View
  */
 class SimpleBackendView
 {

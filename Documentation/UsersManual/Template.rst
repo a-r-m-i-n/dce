@@ -115,19 +115,22 @@ Detailed information about the Fluid view helper you will find in the official `
 * f:link.page
 * f:render
 
-DCE view helper
-++++++++++++++
+DCE view helpers
+++++++++++++++++
 
-DCE also provides on view helpers, which may help using the field data in Fluid.
-When you select such DCE view helper from the dropdown, you will get an example to the current cursor position of
-how to use it.
+DCE also provides own view helpers, which can help using the field data in Fluid.
+
+.. tip::
+   When you select a DCE view helper from the dropdown above inline code editor,
+   you will get an example pasted to the current cursor position.
+
 
 dce:arrayGetIndex
 ~~~~~~~~~~~~~~~~~
 
-Normally you can access array values with {array.0}, {array.1}, etc. if they have numeric keys. This view helper
+Normally you can access array values with ``{array.0}``, ``{array.1}``, etc. if they have numeric keys. This view helper
 converts named keys to numeric ones. Furthermore if you are able to set the index dynamically (i.e. from variable).
-Index default is 0.
+Index default is ``0``.
 
 Example:
 
@@ -139,7 +142,9 @@ Example:
 dce:GP
 ~~~~~~
 
-Gets get or post variables. Example:
+Gets ``$_GET`` or ``$_POST`` variables from current request.
+
+Example:
 
 ::
 
@@ -153,8 +158,8 @@ Gets get or post variables. Example:
 dce:explode
 ~~~~~~~~~~~
 
-Performs trimExplode (of GeneralUtility) to given string and returns an array.
-Available options are: *delimiter* (default: ```,```) and *removeEmpty* (```1```).
+Performs ``trimExplode`` (of ``GeneralUtility``) to given string and returns an array.
+Available options are: *delimiter* (default: ``,``) and *removeEmpty* (``1``).
 
 Example:
 
@@ -177,14 +182,35 @@ Example:
         <f:image src="{fileReference.uid}" alt="" treatIdAsReference="1" />
     </f:for>
 
-You do not need to use the FAL view helper anymore, to access your images.
+.. note::
+   You do not need to use the FAL view helper anymore, to access your images.
+   With ``<dce_schema_load>1</dce_schema_load>`` in your FAL field configuration , the FAL references get
+   resolved automatically.
+
+
+dce:fileInfoViewHelper
+~~~~~~~~~~~~~~~~~~~~~~
+
+Useful to fetch informations about a single ``sys_file`` record, you need to deal with when using section fields.
+Most common attributes are: title, description, alternative, width, height, name, extension, size and uid.
+
+Example (when working with sections):
+
+::
+
+    <f:for each="{field.section}" as="entry">
+        <f:for each="{entry.images -> dce:explode()}" as="imageUid">
+            <f:image src="file:{imageUid}" width="350" /><br />
+            Width: <dce:fileInfo fileUid="{imageUid}" attribute="width" />px
+        </f:for>
+    </f:for>
 
 
 dce:format.addcslashes
 ~~~~~~~~~~~~~~~~~~~~~~
 
 Add slashes to a given string using the PHP function "addcslashes".
-Available option is: *charlist* (default: ```','```).
+Available option is: *charlist* (default: ``','``).
 
 Example:
 
@@ -192,11 +218,69 @@ Example:
 
     <dce:format.addcslashes>{field.myVariable}</dce:format.addcslashes>
 
+::
+
+    {field.myVariable -> dce:format.addcslashes()}
+
+
+dce:format.cdata
+~~~~~~~~~~~~~~~~
+
+Wraps given *subject* with CDATA. Good for fluid templates which render XML.
+
+Example:
+
+::
+
+    <dce:format.cdata>{field.xml}</dce:format.cdata>
+
+::
+
+    {field.xml -> dce:format.cdata()}
+
+
+dce:format.replace
+~~~~~~~~~~~~~~~~~~
+
+Performs `str_replace` on given *subject*.
+
+Example:
+
+::
+
+    {field.text -> dce:format.replace(search: 'foo', replace: 'bar')}
+
+
+dce:format.stripslashes
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Strips slashes from given *subject*. The option *performTrim*  (default: ``1``) does also perform a trim when enabled.
+
+Example:
+
+::
+
+    {field.text -> dce:format.stripslashes(performTrim: 0)}
+
+
+dce:format.strtolower
+~~~~~~~~~~~~~~~~~~~~~
+
+Performs `strtolower` on given *subject* and converts string to lower case.
+
+Example:
+
+::
+
+    {field.text -> dce:format.strtolower()}
+
 
 dce:format.tiny
 ~~~~~~~~~~~~~~~
 
-Removes tabs and line breaks. Example:
+Removes tabs and line breaks.
+
+Example:
 
 ::
 
@@ -205,10 +289,13 @@ Removes tabs and line breaks. Example:
         linebreaks.
     </dce:format.tiny>
 
+
 dce:format.ucfirst
 ~~~~~~~~~~~~~~~~~~
 
-Convert a string's first character to uppercase. Example:
+Convert a string's first character to uppercase.
+
+Example:
 
 ::
 
@@ -237,25 +324,15 @@ Checks if given value is an array. Example:
 
     {variable -> dce:isArray()}
 
+
 dce:thisUrl
 ~~~~~~~~~~~
 
-Returns url of current page. Available options are: *showHost* (Default: ```1```), *showRequestedUri* (Default: ```1```)
-and *urlencode* *showRequestedUri* (Default: ```0```).
+Returns url of current page. Available options are: *showHost* (Default: ``1``), *showRequestedUri* (Default: ``1``)
+and *urlencode* *showRequestedUri* (Default: ``0``).
 
 Example:
 
 ::
 
     {dce:thisUrl(showHost:1, showRequestedUri:1, urlencode:0)}
-
-dce:typolink
-~~~~~~~~~~~~
-
-This view helper is gone. Please use **f:link.typolink** instead.
-
-
-dce:typolinkUrl
-~~~~~~~~~~~~~~~
-
-Also not existing anymore. Please use **f:uri.typolink** instead.
