@@ -6,8 +6,8 @@ namespace T3\Dce\Hooks;
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
+use T3\Dce\Compatibility;
 use T3\Dce\Domain\Repository\DceRepository;
-use T3\Dce\Utility\Backend as BackendUtility;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Imaging\Icon;
@@ -24,6 +24,7 @@ class DocHeaderButtonsHook
      * @param array $params
      * @param ButtonBar $buttonBar
      * @return array Buttons
+     * @throws \TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException
      */
     public function addDcePopupButton(
         array $params,
@@ -65,7 +66,7 @@ class DocHeaderButtonsHook
             $dceIdent = 'dce_' . $dceIdent;
         }
         $returnUrl = 'sysext/backend/Resources/Public/Html/Close.html';
-        return BackendUtility::getModuleUrl(
+        return Compatibility::getModuleUrl(
             'record_edit',
             GeneralUtility::explodeUrl2Array('edit[tx_dce_domain_model_dce][' . $dceIdent . ']=edit' .
                 '&returnUrl=' . $returnUrl)
