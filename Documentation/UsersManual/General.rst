@@ -96,7 +96,7 @@ But when this attribute is activated, the used table is inspected. If an Extbase
 table then the repository is instantiated and a ``findByUid()`` is called for every ``uid``. The complete Extbase models are
 then taken over to the Fluid template (as an array).
 
-If the table is not part of an Extbase extension than the corresponding record is loaded from the database and handed
+If the table is not part of an Extbase extension, the corresponding record is loaded from the database and handed
 over as an associated array.
 
 .. caution::
@@ -149,7 +149,7 @@ dce_ignore_enablefields
     <dce_ignore_enablefields>1</dce_ignore_enablefields>
 
 Setting this attribute ignores the enable fields of the requested table. All enable fields like deleted, hidden,
-starttime, endtime were than ignored. This can be used for outputting hidden records.
+starttime, endtime get ignored then. This can be used for outputting hidden records.
 
 dce_enable_autotranslation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -158,7 +158,7 @@ dce_enable_autotranslation
 
     <dce_enable_autotranslation>1</dce_enable_autotranslation>
 
-If you load a page via group field than always this page is loaded, regardless of the language that is just used.
+If you load a page via group field, then always this page is loaded, regardless of the language that is just used.
 Using this attribute shows the translated page if it exists (``$GLOBALS['TSFE']->sys_page->getPageOverlay()``).
 
 That also works with other records, not only with records of the pages table, then ``getRecordOverlay()`` will be used.

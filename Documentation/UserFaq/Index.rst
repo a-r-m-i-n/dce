@@ -91,7 +91,8 @@ a file reference. With this condition both cases are covered.
 How to readout an image in a Fluid template and give it a click enlarge function?
 ---------------------------------------------------------------------------------
 
-If you have defined a field in DCE where you can select images than you can access the file name in the Fluid template. The location where the image is stored is also defined in the TCA, which is mostly something like *uploads/pics*.
+If you have defined a field in DCE where you can select images, then you can access the file name in the Fluid template.
+The location where the image is stored is also defined in the TCA, which is mostly something like *uploads/pics*.
 
 In the Fluid template you can write following:
 
