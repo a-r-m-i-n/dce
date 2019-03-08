@@ -548,16 +548,18 @@ class DceRepository extends Repository
                 // Add field with tableName
                 $row['_table'] = $tableName;
 
-                $dceUid = static::extractUidFromCTypeOrIdentifier($row['CType']);
-                if ($dceUid !== false) {
-                    $objects[] = $this->findAndBuildOneByUid(
-                        $dceUid,
-                        $this->getDceFieldsByRecord($row),
-                        $row
-                    );
-                } else {
-                    $objects[] = $row;
+                if ($tableName === 'tt_content') {
+                    $dceUid = static::extractUidFromCTypeOrIdentifier($row['CType']);
+                    if ($dceUid !== false) {
+                        $objects[] = $this->findAndBuildOneByUid(
+                            $dceUid,
+                            $this->getDceFieldsByRecord($row),
+                            $row
+                        );
+                        continue;
+                    }
                 }
+                $objects[] = $row;
             }
         }
         return $objects;
