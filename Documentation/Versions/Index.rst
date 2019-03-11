@@ -12,6 +12,12 @@ Versions
     Index
 
 
+2.0.1
+-----
+
+- [BUGFIX] Check for correct table when resolving related records
+
+
 2.0.0
 -----
 
@@ -30,6 +36,7 @@ Versions
 - New FlexForm rendering (using DomDocument instead of FluidTemplate)
 - DCE is **100% deprecation notice free** in TYPO3 9.5 LTS
 - Add complete documentation (!)
+
 
 1.6.0
 -----
