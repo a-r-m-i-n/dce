@@ -12,6 +12,14 @@ Versions
     Index
 
 
+2.0.2
+-----
+
+- [TASK] Add "Upgrading DCE" to documentation
+- [BUGFIX] Allow null value for input in LanguageService::sL
+- [BUGFIX] Fix resolving of non-dce tt_content records
+
+
 2.0.1
 -----
 
