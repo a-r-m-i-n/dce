@@ -550,7 +550,7 @@ class DceRepository extends Repository
 
                 if ($tableName === 'tt_content') {
                     $dceUid = static::extractUidFromCTypeOrIdentifier($row['CType']);
-                    if ($dceUid !== false) {
+                    if ($dceUid) {
                         $objects[] = $this->findAndBuildOneByUid(
                             $dceUid,
                             $this->getDceFieldsByRecord($row),
