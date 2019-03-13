@@ -322,6 +322,9 @@ class DceRepository extends Repository
             // For any reason the CType can be an array with one entry
             $cType = reset($cType);
         }
+        if (!$cType) {
+            return null;
+        }
         if (StringUtility::beginsWith($cType, 'dceuid')) {
             return (int) substr($cType, 6);
         }
