@@ -12,4 +12,5 @@ Administrator manual
 
         Installation
         EditDceButton
+        Upgrading
         UpgradeWizards
