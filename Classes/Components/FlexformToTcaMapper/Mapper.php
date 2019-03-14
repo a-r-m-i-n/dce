@@ -46,7 +46,8 @@ class Mapper
             $rows = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
                 '*',
                 'tx_dce_domain_model_dcefield',
-                'map_to="*newcol" AND deleted=0 AND type=0 AND new_tca_field_name!="" AND new_tca_field_type!=""'
+                'map_to="*newcol" AND deleted=0 AND hidden=0 AND type=0 AND ' .
+                'new_tca_field_name!="" AND new_tca_field_type!=""'
             );
         } catch (\Exception $exception) {
             return [];
@@ -115,7 +116,7 @@ class Mapper
         $dceFieldsWithMapping = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
             '*',
             'tx_dce_domain_model_dcefield',
-            'parent_dce=' . $dceUid . ' AND map_to!="" AND deleted=0'
+            'parent_dce=' . $dceUid . ' AND map_to!="" AND deleted=0 AND hidden=0'
         );
         if (!isset($piFlexform) || empty($piFlexform) || \count($dceFieldsWithMapping) === 0) {
             return;

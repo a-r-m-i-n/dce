@@ -67,9 +67,10 @@ class InputDatabase implements InputInterface
         $dceFieldRows = $this->databaseConnection->exec_SELECTgetRows(
             'tx_dce_domain_model_dcefield.*',
             'tx_dce_domain_model_dcefield, tx_dce_domain_model_dce',
-            'tx_dce_domain_model_dcefield.deleted=0 AND tx_dce_domain_model_dcefield.pid=0 AND ' .
-            'tx_dce_domain_model_dce.deleted=0 AND tx_dce_domain_model_dce.pid=0 AND ' .
-            'tx_dce_domain_model_dce.uid=tx_dce_domain_model_dcefield.parent_dce',
+            'tx_dce_domain_model_dcefield.deleted=0 AND tx_dce_domain_model_dcefield.hidden=0 AND ' .
+                'tx_dce_domain_model_dcefield.pid=0 AND tx_dce_domain_model_dce.deleted=0 AND ' .
+                'tx_dce_domain_model_dce.hidden=0 AND tx_dce_domain_model_dce.pid=0 AND ' .
+                'tx_dce_domain_model_dce.uid=tx_dce_domain_model_dcefield.parent_dce',
             '',
             'tx_dce_domain_model_dce.sorting asc, tx_dce_domain_model_dcefield.sorting asc'
         );
