@@ -12,6 +12,12 @@ Versions
     Index
 
 
+2.0.3
+-----
+- [BUGFIX] Add default value for tx_dce_dce column in tt_content table
+- **[BUGFIX][!!!] Do not use hidden DCE fields**
+
+
 2.0.2
 -----
 
@@ -90,7 +96,6 @@ Versions
 - Fixes big performance issue in backend and increases compatibility to EXT:flux.
 - Massive refactorings, to improve speed of DCE extension. Special thanks to Bernhard Kraft!
 - Small bugfix and add example to code snippets of RTE, of how to define a preset for CKeditor.
-- Several bugfixes
-    - Permission issue for non-admins fixed
-    - Removed php warnings in backend
-    - Fixed Typolink 8.7 code snippet
+- Permission issue for non-admins fixed
+- Removed php warnings in backend
+- Fixed Typolink 8.7 code snippet
