@@ -11,6 +11,10 @@ Versions
 
     Index
 
+2.0.4
+-----
+- [BUGFIX] Do not display "Edit DCE" button for all content elements
+
 
 2.0.3
 -----
