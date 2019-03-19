@@ -88,7 +88,7 @@ class DocHeaderButtonsHook
             $contentRecord = $tceMain->recordInfo('tt_content', $contentUid, 'CType');
             $cType = current($contentRecord);
             $dceUid = DceRepository::extractUidFromCTypeOrIdentifier($cType);
-            return $dceUid !== false;
+            return (bool) $dceUid;
         }
         return false;
     }
