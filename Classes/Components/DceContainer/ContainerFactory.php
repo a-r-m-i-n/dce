@@ -102,8 +102,10 @@ class ContainerFactory
 
         if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('gridelements')
             && $contentObject['tx_gridelements_container'] != '0'
+            && $contentObject['tx_gridelements_columns'] != '0'
         ) {
             $where .= ' AND tx_gridelements_container = ' . $contentObject['tx_gridelements_container'];
+            $where .= ' AND tx_gridelements_columns = ' . $contentObject['tx_gridelements_columns'];
         }
 
         if (TYPO3_MODE === 'FE') {
