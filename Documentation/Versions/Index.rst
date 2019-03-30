@@ -11,6 +11,11 @@ Versions
 
     Index
 
+2.0.5
+-----
+- [BUGFIX] Allow lowercase only for DCE identifier
+- [BUGFIX] Include tx_gridelements_columns in db query (thanks to Matthias Bernad)
+
 2.0.4
 -----
 - [BUGFIX] Do not display "Edit DCE" button for all content elements
