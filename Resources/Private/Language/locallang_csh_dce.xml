@@ -10,7 +10,7 @@
 			<label index=".details">This record defines how the new content element type should look like.</label>
 
 			<label index="title.description">Here you name the new content element type. You can use "LLL:" references here.</label>
-			<label index="identifier.description">The identifier is used for CType of new content elements based on this DCE. The identifier you enter is prefixed with "dce_". If the identifier remains empty, the uid of this DCE is used for CType.</label>
+			<label index="identifier.description">The identifier is used for CType of new content elements based on this DCE. The identifier you enter is prefixed with "dce_". If the identifier remains empty, the uid of this DCE is used for CType. The identifier must be written in lowercase, undercores are allowed.</label>
 			<label index="hidden.description">When you disable this DCE, all content elements existing based on this DCE, will get also hidden. Otherwise they would cause errors, because disabled DCEs can not get rendered.</label>
 			<label index="fields.description">Here you can define dynamically fields and arrange them in tabs. Those fields can get used in templates.</label>
 
@@ -58,7 +58,7 @@
 			<label index=".details">Dieser Eintrag definiert wie ein Inhaltselement basierend auf DCE aussehen soll.</label>
 
 			<label index="title.description">Hier wird der Name des Inhaltselementes angegbeen. "LLL:"-Referenzen können verwendet werden.</label>
-			<label index="identifier.description">Der Identifier wird verwendet um den CType eines neuen Inhaltselements basierend auf diesem DCE zu definieren. Er wird mit "dce_" vorangestellt. Wenn der Identifier nicht angegeben wird, wird die UID des DCE für den CType verwendet.</label>
+			<label index="identifier.description">Der Identifier wird verwendet um den CType eines neuen Inhaltselements basierend auf diesem DCE zu definieren. Er wird mit "dce_" vorangestellt. Wenn der Identifier nicht angegeben wird, wird die UID des DCE für den CType verwendet. Der Identifier muss klein geschrieben werden, Unterstriche sind erlaubt.</label>
 			<label index="hidden.description">Wenn dieses DCE deaktiviert wird, werden auch alle Inhaltselemente die darauf basieren deaktiviert. Ansonsten kann es zu Fehlermeldungen führen, da deaktivierte DCEs nicht gerendert werden können.</label>
 			<label index="fields.description">Hier werden die dynamischen Felder des DCE definiert und in Tabs arrangiert. Diese Felder können später im Template verwendet werden.</label>
 

@@ -12,7 +12,6 @@ meaningful name and identifier and define all the fields that are needed.
 .. image:: Images/new-dce.png
    :alt: Create new DCE, general tab
 
-
 Title
 ^^^^^
 
@@ -24,7 +23,9 @@ Identifier
 
 The identifier is used as CType for new content elements based on this DCE. All identifiers of DCE are prefixed
 with "dce_". For example: "dce_example". When the identifier of a DCE remains empty, the old syntax based on ``uid`` is
-used automatically. Example: "dce_dceuid1"
+used automatically. The identifier must be written in lowercase, undercores are allowed.
+
+Example: ``dce_dceuid1`` or ``dce_what_ever``
 
 Inactive
 ^^^^^^^^

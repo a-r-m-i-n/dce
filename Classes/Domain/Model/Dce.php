@@ -268,7 +268,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function setIdentifier(string $identifier) : self
     {
-        $this->identifier = $identifier;
+        $this->identifier = strtolower($identifier);
         return $this;
     }
 
