@@ -11,6 +11,12 @@ Versions
 
     Index
 
+2.0.6
+-----
+- [BUGFIX] Do not throw exception in backend when proper flexform missing Armin Vieweg 07.05.2019 20:55
+- [FEATURE] Improve tx_dce_dce behaviour Armin Vieweg 07.05.2019 20:51
+- [BUGFIX] Remove unused code which causes errors Armin Vieweg 07.05.2019 20:42
+
 2.0.5
 -----
 - [BUGFIX] Allow lowercase only for DCE identifier
