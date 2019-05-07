@@ -332,20 +332,12 @@ class DceRepository extends Repository
             return (int) substr($cType, 10);
         }
         if (StringUtility::beginsWith($cType, 'dce_')) {
-            if (StringUtility::endsWith($cType, '_container')) {
-                $row = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
-                    'uid',
-                    'tx_dce_domain_model_dce',
-                    'identifier = "' . addslashes(substr($cType, 4, -10)) . '" AND deleted=0'
-                );
-            } else {
-                /** @var self $repo */
-                $row = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
-                    'uid',
-                    'tx_dce_domain_model_dce',
-                    'identifier = "' . addslashes(substr($cType, 4)) . '" AND deleted=0'
-                );
-            }
+            /** @var self $repo */
+            $row = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
+                'uid',
+                'tx_dce_domain_model_dce',
+                'identifier = "' . addslashes(substr($cType, 4)) . '" AND deleted=0'
+            );
             if (isset($row['uid'])) {
                 return (int) $row['uid'];
             }
