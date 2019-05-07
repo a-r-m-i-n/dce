@@ -111,6 +111,11 @@ class AfterSaveHook
                     $this->fieldArray['pi_flexform']
                 );
                 unset($dceIdentifier);
+            } else {
+                // When a (formerly) DCE content element gets a different CType
+                if ((int) $contentRow['tx_dce_dce'] !== 0) {
+                    $this->dataHandler->updateDB('tt_content', $this->uid, ['tx_dce_dce' => 0]);
+                }
             }
         }
 
@@ -256,18 +261,16 @@ class AfterSaveHook
     }
 
     /**
-     * Checks if dce relation (field tx_dce_dce) is empty. If it is empty, it will be filled by CType.
+     * Check if tx_dce_dce matches given dce identifier. Update if not.
      *
      * @param string $dceIdentifier
      * @return void
      */
     protected function checkAndUpdateDceRelationField(array $contentRow, string $dceIdentifier)
     {
-        if (empty($contentRow['tx_dce_dce'])) {
-            $dceUid = DceRepository::extractUidFromCTypeOrIdentifier($dceIdentifier);
-            if ($dceUid) {
-                $this->dataHandler->updateDB('tt_content', $this->uid, ['tx_dce_dce' => $dceUid]);
-            }
+        $dceUid = DceRepository::extractUidFromCTypeOrIdentifier($dceIdentifier);
+        if ($dceUid && $dceUid !== (int) $contentRow['tx_dce_dce']) {
+            $this->dataHandler->updateDB('tt_content', $this->uid, ['tx_dce_dce' => $dceUid]);
         }
     }
 }
