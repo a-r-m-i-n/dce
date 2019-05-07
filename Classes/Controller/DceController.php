@@ -154,7 +154,7 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         );
 
         $flexData = FlexformService::get()->convertFlexFormContentToArray($row['pi_flexform'], 'lDEF', 'vDEF');
-        return $flexData['settings'];
+        return $flexData['settings'] ?? [];
     }
 
     /**
