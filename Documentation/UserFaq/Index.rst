@@ -6,14 +6,11 @@
 FAQ
 ===
 
-.. toctree::
-        :maxdepth: 2
-
-    Index
+.. contents:: :local:
 
 
 How to access to FAL images?
------------------------------------------------
+----------------------------
 
 You can simply iterate over the variable you have defined for the FAL field. Usage of old FAL view helper is not
 necessary anymore. But you need to, add these two lines to the field configuration:

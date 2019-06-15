@@ -98,7 +98,7 @@ Besides the custom created variables, they are also some variables existing whic
 + ``{tsSetup}`` - TypoScript setup of the current page
 
 Famous view helper
-+++++++++++++++++
+++++++++++++++++++
 
 This group lists often used view helpers provided by Fluid itself.
 Detailed information about the Fluid view helper you will find in the official `TYPO3 documentation <http://docs.typo3.org/flow/TYPO3FlowDocumentation/stable/TheDefinitiveGuide/PartV/FluidViewHelperReference.html>`_

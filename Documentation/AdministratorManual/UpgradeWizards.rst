@@ -7,13 +7,9 @@
 Upgrade wizards
 ---------------
 
-DCE ships a bunch of upgrade wizards with, to upgrade from older releases of DCE.
+DCE ships a bunch of upgrade wizards with, to upgrade from older releases of DCE:
 
-.. toctree::
-        :maxdepth: 2
-
-        UpgradeWizards
-
+.. contents:: :local:
 
 
 FixMalformedDceFieldVariableNamesUpdate

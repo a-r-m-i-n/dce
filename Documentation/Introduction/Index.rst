@@ -3,8 +3,12 @@
 .. _introduction:
 
 
+Introduction
+============
+
+
 What does it do?
-================
+----------------
 
 With this extension, you can easily create new dynamic content elements.
 
@@ -17,7 +21,7 @@ FlexForms allows you to define dynamic content structures, without the need to e
 .. note::
    FlexForms allows defining dynamic forms, which get stored as XML in tt_content column "pi_flexform".
    This makes it impossible to perform queries on fields defined in your DCE, unless you've enabled
-   :ref:`TCA mapping <_additional-informations-tca-mapping>`
+   :ref:`TCA mapping <additional-informations-tca-mapping>`
 
 
 The Idea Behind DCE

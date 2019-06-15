@@ -9,6 +9,7 @@ First steps
 In this tutorial, we will create a simple content element with a title, a description and some images.
 Later we also enable the DCE Container feature.
 
+.. contents:: :local:
 
 Overview
 --------
