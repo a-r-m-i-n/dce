@@ -85,7 +85,7 @@ class DceController extends ActionController
         if ($dce->getEnableContainer()) {
             if (ContainerFactory::checkContentElementForBeingRendered($dce->getContentObject())) {
                 ContainerFactory::clearContentElementsToSkip($dce->getContentObject());
-                return '';
+                return ' ';
             }
             $container = ContainerFactory::makeContainer($dce);
 

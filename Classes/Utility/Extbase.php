@@ -38,7 +38,7 @@ class Extbase
         array $settings = [],
         bool $compressedObject = false
     ) {
-        $bootstrap = new Bootstrap();
+        $bootstrap = GeneralUtility::makeInstance(Bootstrap::class);
         $bootstrap->cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
         $configuration = [
             'vendorName' => $vendorName,
@@ -59,6 +59,7 @@ class Extbase
         $GLOBALS['TYPO3_CONF_VARS']['FE']['pageNotFoundOnCHashError'] = false;
         if ($settings['returnFromCache']) {
             $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+            /** @var DceRepository $dceRepository */
             $dceRepository = $objectManager->get(DceRepository::class);
             $extbaseReturnValue = $dceRepository->findInCacheByContentObjectUid($settings['contentElementUid']);
         }

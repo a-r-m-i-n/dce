@@ -13,7 +13,35 @@
 </div>
 
 <script type="text/javascript">
-	require(['TYPO3/CMS/Dce/DceCodemirror'], function(DceCodemirror) {
+	require(['TYPO3/CMS/Dce/DceCodemirror', 'jquery'], function(DceCodemirror, $) {
+		$('.typo3-newRecordLink a.t3js-create-new-button').click(function(){
+			var $newButton = $(this);
+			var amountTextareaBefore = $newButton.closest('.form-group').find('textarea.dce-codemirror').length;
+			var timer = setInterval(function(){
+				var newAmount = $newButton.closest('.form-group').find('textarea.dce-codemirror').length;
+				if (amountTextareaBefore >= newAmount) {
+					return;
+				}
+				clearInterval(timer);
+				var $textareas = $newButton.closest('.form-group').find('textarea.dce-codemirror');
+				$.each($textareas, function(){
+					var $textarea = $(this);
+					DceCodemirror.initCodeMirrorEditor('#' + $textarea.attr('id'), '{parameters.mode}');
+				});
+			}, 100);
+		});
+
+		$('.panel-heading').click(function(event){
+			var $panel = $(this);
+			var timer = setInterval(function(){
+				var $textarea = $panel.parent().find('textarea.dce-codemirror');
+				if ($textarea.length === 0) {
+					return;
+				}
+				DceCodemirror.initCodeMirrorEditor('#' + $textarea.attr('id'), '{parameters.mode}');
+				clearInterval(timer);
+			}, 100);
+		});
 		DceCodemirror.initCodeMirrorEditor('#codemirror_{uniqueIdentifier}', '{parameters.mode}');
 	});
 </script>

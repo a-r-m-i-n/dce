@@ -9,6 +9,7 @@ namespace T3\Dce\Components\TemplateRenderer;
 use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Utility\File;
 use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
@@ -136,7 +137,7 @@ class StandaloneViewFactory implements SingletonInterface
             $view->assign('TSFE', $GLOBALS['TSFE']);
             $view->assign('page', $GLOBALS['TSFE']->page);
 
-            $typoScriptService = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Service\TypoScriptService');
+            $typoScriptService = GeneralUtility::makeInstance(TypoScriptService::class);
             $view->assign(
                 'tsSetup',
                 $typoScriptService->convertTypoScriptArrayToPlainArray($GLOBALS['TSFE']->tmpl->setup)

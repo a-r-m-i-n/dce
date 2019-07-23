@@ -11,6 +11,12 @@ define([
 
     var initCodemirrorEditor = function ($textarea, mode) {
         var textarea = $($textarea);
+
+        // Do not init the same textarea twice
+        if (textarea.data('codemirrorCycle')) {
+            return;
+        }
+
         var editor = Codemirror.fromTextArea(textarea.get(0), {
             mode: mode,
             htmlMode: true,
