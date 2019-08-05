@@ -1023,6 +1023,17 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
+     * This method provides access to field values of this DCE. Usage in your fluid templates:
+     * {dce.get.fieldname}
+     *
+     * @return array Key is field name, value is mixed.
+     */
+    public function getGet(): array
+    {
+        return $this->getFieldsAsArray();
+    }
+
+    /**
      * Magic PHP method.
      * Checks if called and not existing method begins with "get". If yes, extract the part behind the get.
      * If a method in $this exists which matches this part, it will be called. Otherwise it will be searched in
@@ -1031,10 +1042,19 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $name
      * @param array $arguments
      * @return mixed
+     * @deprecated Do not use "{dce.fieldname}" anymore to access field values of DCE object.
+     *             Use "{dce.get.fieldname}" in your Fluid templates instead.
+     * @see Dce::getGet()
      */
     public function __call($name, array $arguments)
     {
-        if (substr($name, 0, 3) === 'get' && \strlen($name) > 3) {
+        if (strpos($name, 'get') === 0 && \strlen($name) > 3) {
+            trigger_error(
+                'Do not use "{dce.fieldname}" anymore to access field values of DCE object. ' .
+                'Use "{dce.get.fieldname}" in your Fluid templates instead.',
+                E_USER_DEPRECATED
+            );
+
             $variable = lcfirst(substr($name, 3));
             if (method_exists($this, $variable)) {
                 return $this->$variable();

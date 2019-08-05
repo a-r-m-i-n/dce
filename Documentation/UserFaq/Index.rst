@@ -43,6 +43,72 @@ for easy usage in Fluid template (**{contentObject.xxx}**):
 - categories
 - assets
 
+How to nest DCE content elements?
+---------------------------------
+
+In DCE you are able to nest other DCEs. That means you create a child DCE and a parent DCE and assign the children to
+the parent. To enable the parent DCE to store children you need to add a new field with type "group".
+
+**Example field configuration (Variable name: "children"):**
+
+::
+
+    <config>
+        <type>group</type>
+        <internal_type>db</internal_type>
+        <allowed>tt_content</allowed>
+        <size>5</size>
+        <minitems>0</minitems>
+        <maxitems>999</maxitems>
+        <show_thumbs>1</show_thumbs>
+
+        <dce_load_schema>1</dce_load_schema>
+    </config>
+
+
+The dce_load_schema flag does the trick here. It realizes, that the tt_content item you have added is a DCE and returns
+the DCE object itself. For any other content element, which is no DCE, it will return the tt_content row as
+associative array.
+
+But we assume, that you have just added content elements based on DCEs to the "children" field.
+In your fluid template you can now do this:
+
+::
+
+    <ul>
+        <f:for each="{field.children}" as="childDce" iteration="iterator">
+            <li>{childDce.render -> f:format.raw()}</li>
+        </f:for>
+    </ul>
+
+
+- first we are iterating through all children, using the f:for loop
+- then we call and output the ``render()`` method of child DCE
+- because fluid escapes all html by default, we need to use the ``f:format.raw`` view helper
+
+If you don't want to output the whole template of the child DCE you can also address single fields, with:
+
+::
+
+    <f:for each="{field.children}" as="childDce" iteration="iterator">
+        <li>{childDce.myCoolField}</li>
+    </f:for>
+
+
+.. caution::
+   Since TYPO3 9 Fluid does not allow to use magic ``__call`` method anymore, to resolve field values dynamically.
+
+
+Since DCE 2.1 you can access fields of child DCEs this way:
+
+::
+
+    <li>{childDce.get.myCoolField}</li>
+
+The previous way to access field values, has been marked as deprecated and will be removed in next major version of DCE.
+
+
+
 
 Am I also able to use file collections?
 ---------------------------------------
