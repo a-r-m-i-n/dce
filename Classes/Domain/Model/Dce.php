@@ -10,7 +10,6 @@ use T3\Dce\Components\TemplateRenderer\DceTemplateTypes;
 use T3\Dce\Components\TemplateRenderer\StandaloneViewFactory;
 use T3\Dce\Utility\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
  * Model for DCEs. This model contains all necessary informations
