@@ -91,11 +91,12 @@ Available base variables
 
 Besides the custom created variables, they are also some variables existing which are available in all DCEs:
 
-+ ``{dce}`` - The DCE object
-+ ``{contentObject}`` -  Content object, this is the DCE instance
-+ ``{TSFE}`` -  TSFE object, TypoScriptFrontendController
++ ``{dce}`` - The DCE object. To access field values use: ``{dce.get.fieldName}``
++ ``{contentObject}`` - The content object row, this DCE instance is based on. It contains all tt_content properties.
++ ``{TSFE}`` - The TypoScript frontend controller
 + ``{page}`` - Properties of the current page
 + ``{tsSetup}`` - TypoScript setup of the current page
+
 
 Famous view helper
 ++++++++++++++++++
@@ -114,6 +115,7 @@ Detailed information about the Fluid view helper you will find in the official `
 * f:link.external
 * f:link.page
 * f:render
+
 
 DCE view helpers
 ++++++++++++++++
@@ -184,7 +186,7 @@ Example:
 
 .. note::
    You do not need to use the FAL view helper anymore, to access your images.
-   With ``<dce_schema_load>1</dce_schema_load>`` in your FAL field configuration , the FAL references get
+   With ``<dce_load_schema>1</dce_load_schema>`` in your FAL field configuration, the FAL references get
    resolved automatically.
 
 
