@@ -17,6 +17,23 @@ $boot = function ($extensionKey) {
         require_once($extensionPath . 'Classes/Compatibility.php');
     }
 
+    // Register DCE cache
+    $cacheKey = \T3\Dce\Components\ContentElementGenerator\Generator::CACHE_NAME;
+    if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cacheKey])) {
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cacheKey] = [
+            'backend' => \TYPO3\CMS\Core\Cache\Backend\SimpleFileBackend::class,
+            'frontend' => \TYPO3\CMS\Core\Cache\Frontend\PhpFrontend::class,
+            'groups' => ['system'],
+            'options'=> ['defaultLifetime' => 0]
+        ];
+    }
+    /** @var \TYPO3\CMS\Core\Cache\CacheManager $cacheManager */
+    $cacheManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Cache\CacheManager::class);
+    $cacheManager->setCacheConfigurations([
+        $cacheKey => $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cacheKey]
+    ]);
+
+
     // AfterSave hook
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass']['dce'] =
         \T3\Dce\Hooks\AfterSaveHook::class;

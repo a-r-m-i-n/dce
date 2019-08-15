@@ -7,6 +7,7 @@ namespace T3\Dce\Components\ContentElementGenerator;
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
 use T3\Dce\Components\FlexformToTcaMapper\Mapper;
+use TYPO3\CMS\Core\Cache\Frontend\PhpFrontend;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
@@ -15,17 +16,25 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
  */
 class OutputTcaAndFlexForm
 {
+    protected const CACHE_KEY = 'output_tca_and_flexform';
+
     /**
      * @var InputInterface
      */
     protected $input;
 
     /**
+     * @var PhpFrontend
+     */
+    private $cache;
+
+    /**
      * @param InputInterface $input
      */
-    public function __construct(InputInterface $input)
+    public function __construct(InputInterface $input, PhpFrontend $cache)
     {
         $this->input = $input;
+        $this->cache = $cache;
     }
 
     /**
@@ -33,63 +42,94 @@ class OutputTcaAndFlexForm
      * Call this in Configuration/TCA/Overrides/tt_content.php
      *
      * @return void
+     * @throws \TYPO3\CMS\Core\Cache\Exception\InvalidDataException
      */
     public function generate() : void
     {
-        $GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'][] = [
-            0 => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce_long',
-            1 => '--div--'
-        ];
+        if (!$sourceCode = $this->cache->get(self::CACHE_KEY)) {
+            $sourceCode = '';
 
-        $fieldRowsWithNewColumns = Mapper::getDceFieldRowsWithNewTcaColumns();
-        if (\count($fieldRowsWithNewColumns) > 0) {
-            $newColumns = [];
-            foreach ($fieldRowsWithNewColumns as $fieldRow) {
-                $newColumns[$fieldRow['new_tca_field_name']] = ['label' => '', 'config' => ['type' => 'passthrough']];
+            $sourceCode .= <<<PHP
+\$GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'][] = [
+    0 => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce_long',
+    1 => '--div--'
+];
+
+PHP;
+
+            $fieldRowsWithNewColumns = Mapper::getDceFieldRowsWithNewTcaColumns();
+            if (\count($fieldRowsWithNewColumns) > 0) {
+                $newColumns = [];
+                foreach ($fieldRowsWithNewColumns as $fieldRow) {
+                    $newColumns[$fieldRow['new_tca_field_name']] = [
+                        'label' => '',
+                        'config' => ['type' => 'passthrough']
+                    ];
+                }
+                $newColumnsAsCode = var_export($newColumns);
+                $sourceCode .= <<<PHP
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('tt_content', $newColumnsAsCode);
+
+PHP;
             }
-            ExtensionManagementUtility::addTCAcolumns('tt_content', $newColumns);
-        }
 
-        $GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'][] = [
-            0 => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.miscellaneous',
-            1 => '--div--'
-        ];
+            $sourceCode .= <<<PHP
+\$GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'][] = [
+    0 => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.miscellaneous',
+    1 => '--div--'
+];
 
-        foreach ($this->input->getDces() as $dce) {
-            $this->generateTcaForDces($dce);
+PHP;
+
+            foreach ($this->input->getDces() as $dce) {
+                $sourceCode .= $this->generateTcaForDces($dce) . PHP_EOL;
+            }
+
+            $this->cache->set(self::CACHE_KEY, $sourceCode);
         }
+        $this->cache->requireOnce(self::CACHE_KEY);
     }
 
     /**
      * Generates TCA for single DCE
      *
      * @param array $dce DCE row
-     * @return void
+     * @return string Source code
      */
-    protected function generateTcaForDces(array $dce) : void
+    protected function generateTcaForDces(array $dce): string
     {
         if ($dce['hidden'] || $dce['deleted']) {
-            return;
+            return '';
         }
+        $sourceCode = '';
         $dceIdentifier = $dce['identifier'];
 
-        ExtensionManagementUtility::addTcaSelectItem(
-            'tt_content',
-            'CType',
-            [
-                addcslashes($dce['title'], "'"),
-                $dceIdentifier,
-                $dce['hasCustomWizardIcon'] ? 'ext-dce-' . $dceIdentifier . '-customwizardicon'
-                    : $dce['wizard_icon'],
-            ]
-        );
+        $dceTitle = addcslashes($dce['title'], "'");
+        $dceIcon = $dce['hasCustomWizardIcon'] ? 'ext-dce-' . $dceIdentifier . '-customwizardicon'
+            : $dce['wizard_icon'];
 
-        $GLOBALS['TCA']['tt_content']['ctrl']['typeicon_classes'][$dceIdentifier] = $dce['hasCustomWizardIcon']
-            ? 'ext-dce-' . $dceIdentifier . '-customwizardicon' : $dce['wizard_icon'];
+        $sourceCode .= <<<PHP
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTcaSelectItem(
+    'tt_content',
+    'CType',
+    [
+        '$dceTitle',
+        '$dceIdentifier',
+        '$dceIcon',
+    ]
+);
 
-        $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$dceIdentifier] = 'pi_flexform';
-        $GLOBALS['TCA']['tt_content']['columns']['pi_flexform']['config']['ds'][',' . $dceIdentifier] =
-            $this->renderFlexformXml($dce);
+\$GLOBALS['TCA']['tt_content']['ctrl']['typeicon_classes']['$dceIdentifier'] = '$dceIcon';
+
+PHP;
+
+        $flexformString = $this->renderFlexformXml($dce);
+        $sourceCode .= <<<PHP
+\$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['$dceIdentifier'] = 'pi_flexform';
+\$GLOBALS['TCA']['tt_content']['columns']['pi_flexform']['config']['ds'][',$dceIdentifier'] = '$flexformString';
+
+PHP;
+
 
         $showAccessTabCode = $dce['show_access_tab']
             ? '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,
@@ -109,11 +149,16 @@ class OutputTcaAndFlexForm
 pi_flexform,$showAccessTabCode$showMediaTabCode$showCategoryTabCode
 --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xml:tabs.extended
 TEXT;
-        $GLOBALS['TCA']['tt_content']['palettes'][$paletteIdentifier . '_head']['canNotCollapse'] = true;
-        $GLOBALS['TCA']['tt_content']['palettes'][$paletteIdentifier . '_head']['showitem'] = 'CType' .
-            ($dce['enable_container'] ? ',tx_dce_new_container' : '');
 
-        $GLOBALS['TCA']['tt_content']['types'][$dceIdentifier]['showitem'] = $showItem;
+        $paletteIdentifierHead = $paletteIdentifier . '_head';
+        $dceCType = 'CType' . ($dce['enable_container'] ? ',tx_dce_new_container' : '');
+
+        $sourceCode .= <<<PHP
+\$GLOBALS['TCA']['tt_content']['palettes']['$paletteIdentifierHead']['canNotCollapse'] = true;
+\$GLOBALS['TCA']['tt_content']['palettes']['$paletteIdentifierHead']['showitem'] = '$dceCType';
+\$GLOBALS['TCA']['tt_content']['types']['$dceIdentifier']['showitem'] = '$showItem';
+
+PHP;
 
         if ($dce['palette_fields']) {
             $paletteFields = $dce['palette_fields'];
@@ -128,18 +173,29 @@ TEXT;
                 '--linebreak--',
                 $paletteFields
             );
-            $GLOBALS['TCA']['tt_content']['palettes'][$paletteIdentifier]['canNotCollapse'] = true;
-            $GLOBALS['TCA']['tt_content']['palettes'][$paletteIdentifier]['showitem'] = $paletteFields;
+
+            $sourceCode .= <<<PHP
+\$GLOBALS['TCA']['tt_content']['palettes']['$paletteIdentifier']['canNotCollapse'] = true;
+\$GLOBALS['TCA']['tt_content']['palettes']['$paletteIdentifier']['showitem'] = '$paletteFields';
+
+PHP;
 
             if (ExtensionManagementUtility::isLoaded('gridelements')) {
-                $GLOBALS['TCA']['tt_content']['palettes'][$paletteIdentifier]['showitem'] .=
-                    ',tx_gridelements_container,tx_gridelements_columns';
+                $sourceCode .= <<<PHP
+\$GLOBALS['TCA']['tt_content']['palettes']['$paletteIdentifier']['showitem'] .=
+    ',tx_gridelements_container,tx_gridelements_columns';
+    
+PHP;
             }
             if (ExtensionManagementUtility::isLoaded('flux')) {
-                $GLOBALS['TCA']['tt_content']['palettes'][$paletteIdentifier]['showitem'] .=
-                    ',tx_flux_column,tx_flux_parent';
+                $sourceCode .= <<<PHP
+\$GLOBALS['TCA']['tt_content']['palettes']['$paletteIdentifier']['showitem'] .=
+    ',tx_flux_column,tx_flux_parent';
+    
+PHP;
             }
         }
+        return $sourceCode;
     }
 
     /**
@@ -149,7 +205,7 @@ TEXT;
      * @param array $singleDceArray
      * @return string
      */
-    protected function renderFlexformXml(array $singleDceArray) : string
+    protected function renderFlexformXml(array $singleDceArray): string
     {
         $xml = new \DOMDocument();
         $root = $xml->createElement('T3DataStructure');

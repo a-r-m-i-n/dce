@@ -6,28 +6,33 @@ namespace T3\Dce\Components\ContentElementGenerator;
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
-use TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider;
-use TYPO3\CMS\Core\Imaging\IconRegistry;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Cache\Frontend\PhpFrontend;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 
 /**
  * Class OutputPlugin
  */
 class OutputPlugin implements OutputInterface
 {
+    protected const CACHE_KEY = 'output_plugin';
+
     /**
      * @var InputInterface
      */
     protected $input;
 
     /**
+     * @var PhpFrontend
+     */
+    private $cache;
+
+    /**
      * @param InputInterface $input
      */
-    public function __construct(InputInterface $input)
+    public function __construct(InputInterface $input, PhpFrontend $cache)
     {
         $this->input = $input;
+        $this->cache = $cache;
     }
 
     /**
@@ -35,108 +40,138 @@ class OutputPlugin implements OutputInterface
      * Call this in ext_localconf.php
      *
      * @return void
+     * @throws \TYPO3\CMS\Core\Cache\Exception\InvalidDataException
      */
     public function generate() : void
     {
-        ExtensionManagementUtility::addPageTSConfig(
-            'mod.wizards.newContentElement.wizardItems.dce.header = ' .
-            'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce_long'
-        );
+        if (!$sourceCode = $this->cache->get(self::CACHE_KEY)) {
+            $sourceCode = '';
 
-        foreach ($this->input->getDces() as $dce) {
-            if ($dce['hidden']) {
-                continue;
-            }
-            $dceIdentifier = $dce['identifier'];
+            $sourceCode .= <<<PHP
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
+    'mod.wizards.newContentElement.wizardItems.dce.header = ' .
+    'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce_long'
+);
 
-            ExtensionUtility::configurePlugin(
-                'T3.dce',
-                substr($dceIdentifier, 4),
-                [
-                    'Dce' => 'show',
-                ],
-                $dce['cache_dce'] ? [] : ['Dce' => 'show'],
-                ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
-            );
+PHP;
+            foreach ($this->input->getDces() as $dce) {
+                if ($dce['hidden']) {
+                    continue;
+                }
+                $dceIdentifier = $dce['identifier'];
+                $dceIdentifierSkipFirst4Chars = substr($dceIdentifier, 4);
+                $dceCache = $dce['cache_dce'] ? '[]' : "['Dce' => 'show']";
+                $sourceCode .= <<<PHP
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+    'T3.dce',
+    '$dceIdentifierSkipFirst4Chars',
+    [
+        'Dce' => 'show',
+    ],
+    $dceCache,
+    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
+);
 
-            if ($dce['direct_output']) {
-                ExtensionManagementUtility::addTypoScript(
-                    'dce',
-                    'setup',
-                    <<<TYPOSCRIPT
-temp.dceContentElement < tt_content.$dceIdentifier.20
-tt_content.$dceIdentifier >
-tt_content.$dceIdentifier < temp.dceContentElement
-temp.dceContentElement >
-TYPOSCRIPT
-                    ,
-                    43
-                );
-            }
+PHP;
 
-            ExtensionManagementUtility::addTypoScript(
-                'dce',
-                'setup',
-                "# Hide lib.stdheader for DCE with identifier $dceIdentifier
-                 tt_content.$dceIdentifier.10 >",
-                43
-            );
+                if ($dce['direct_output']) {
+                    $sourceCode .= <<<PHP
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
+    'dce',
+    'setup',
+    'temp.dceContentElement < tt_content.$dceIdentifier.20
+     tt_content.$dceIdentifier >
+     tt_content.$dceIdentifier < temp.dceContentElement
+     temp.dceContentElement >
+    ',
+    43
+);
 
-            if ($dce['hide_default_ce_wrap'] && ExtensionManagementUtility::isLoaded('css_styled_content')) {
-                ExtensionManagementUtility::addTypoScript(
-                    'dce',
-                    'setup',
-                    "# Hide default wrapping for content elements for DCE with identifier $dceIdentifier}
-                     tt_content.stdWrap.innerWrap.cObject.default.stdWrap.if.value := addToList($dceIdentifier)",
-                    43
-                );
-            }
-
-            if ($dce['enable_container'] && ExtensionManagementUtility::isLoaded('fluid_styled_content')) {
-                ExtensionManagementUtility::addTypoScript(
-                    'dce',
-                    'setup',
-                    "# Change fluid_styled_content template name for DCE with identifier $dceIdentifier
-                     tt_content.$dceIdentifier.templateName = DceContainerElement",
-                    43
-                );
-            }
-
-            if ($dce['wizard_enable']) {
-                if ($dce['hasCustomWizardIcon'] && !empty($dce['wizard_custom_icon'])) {
-                    $iconRegistry = GeneralUtility::makeInstance(
-                        IconRegistry::class
-                    );
-                    $iconRegistry->registerIcon(
-                        "ext-dce-$dceIdentifier-customwizardicon",
-                        BitmapIconProvider::class,
-                        ['source' => $dce['wizard_custom_icon']]
-                    );
+PHP;
                 }
 
-                $iconIdentifierCode = $dce['hasCustomWizardIcon'] ? "ext-dce-$dceIdentifier-customwizardicon"
-                    : $dce['wizard_icon'];
+                $sourceCode .= <<<PHP
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
+    'dce',
+    'setup',
+    "# Hide lib.stdheader for DCE with identifier $dceIdentifier
+     tt_content.$dceIdentifier.10 >",
+    43
+);
 
-                $wizardCategory = $dce['wizard_category'];
-                $flexformLabel = $dce['flexform_label'];
-                $title = addcslashes($dce['title'], "'");
-                $description = addcslashes($dce['wizard_description'], "'");
+PHP;
 
-                ExtensionManagementUtility::addPageTSConfig(
-                    "
-                    mod.wizards.newContentElement.wizardItems.$wizardCategory.elements.$dceIdentifier {
-                        iconIdentifier = $iconIdentifierCode
-                        title = $title
-                        description = $description
-                        tt_content_defValues {
-                            CType = $dceIdentifier
-                        }
+                if ($dce['hide_default_ce_wrap'] && ExtensionManagementUtility::isLoaded('css_styled_content')) {
+                    $sourceCode .= <<<PHP
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
+    'dce',
+    'setup',
+    "# Hide default wrapping for content elements for DCE with identifier $dceIdentifier}
+     tt_content.stdWrap.innerWrap.cObject.default.stdWrap.if.value := addToList($dceIdentifier)",
+    43
+);
+
+PHP;
+                }
+
+                if ($dce['enable_container'] && ExtensionManagementUtility::isLoaded('fluid_styled_content')) {
+                    $sourceCode .= <<<PHP
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
+    'dce',
+    'setup',
+    "# Change fluid_styled_content template name for DCE with identifier $dceIdentifier
+     tt_content.$dceIdentifier.templateName = DceContainerElement",
+    43
+);
+
+PHP;
+                }
+
+                if ($dce['wizard_enable']) {
+                    if ($dce['hasCustomWizardIcon'] && !empty($dce['wizard_custom_icon'])) {
+                        $wizardCustomIcon = $dce['wizard_custom_icon'];
+                        $sourceCode .= <<<PHP
+\$iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+    IconRegistry::class
+);
+\$iconRegistry->registerIcon(
+    "ext-dce-$dceIdentifier-customwizardicon",
+    \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
+    ['source' => '$wizardCustomIcon']
+);
+
+PHP;
                     }
-                    mod.wizards.newContentElement.wizardItems.$wizardCategory.show := addToList($dceIdentifier)
-                    TCEFORM.tt_content.pi_flexform.types.$dceIdentifier.label = $flexformLabel
-                    "
-                );
-            }
+
+                    $iconIdentifierCode = $dce['hasCustomWizardIcon'] ? "ext-dce-$dceIdentifier-customwizardicon"
+                        : $dce['wizard_icon'];
+
+                    $wizardCategory = $dce['wizard_category'];
+                    $flexformLabel = $dce['flexform_label'];
+                    $title = addcslashes($dce['title'], "'");
+                    $description = addcslashes($dce['wizard_description'], "'");
+
+                    $sourceCode .= <<<PHP
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
+    "
+    mod.wizards.newContentElement.wizardItems.$wizardCategory.elements.$dceIdentifier {
+        iconIdentifier = $iconIdentifierCode
+        title = $title
+        description = $description
+        tt_content_defValues {
+            CType = $dceIdentifier
         }
+    }
+    mod.wizards.newContentElement.wizardItems.$wizardCategory.show := addToList($dceIdentifier)
+    TCEFORM.tt_content.pi_flexform.types.$dceIdentifier.label = $flexformLabel
+    "
+);
+
+PHP;
+                }
+            }
+            $this->cache->set(self::CACHE_KEY, $sourceCode);
+        }
+        $this->cache->requireOnce(self::CACHE_KEY);
     }
 }

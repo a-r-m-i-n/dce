@@ -6,6 +6,7 @@ namespace T3\Dce\Components\ContentElementGenerator;
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
+use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -14,6 +15,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class Generator
 {
+    public const CACHE_NAME = 'dce_cache';
+
     /**
      * @var InputDatabase
      */
@@ -35,8 +38,20 @@ class Generator
     public function __construct()
     {
         $this->inputDatabase = GeneralUtility::makeInstance(InputDatabase::class);
-        $this->outputPlugin = GeneralUtility::makeInstance(OutputPlugin::class, $this->inputDatabase);
-        $this->outputTcaAndFlexForm = GeneralUtility::makeInstance(OutputTcaAndFlexForm::class, $this->inputDatabase);
+        /** @var CacheManager $cacheManager */
+        $cacheManager = GeneralUtility::makeInstance(CacheManager::class);
+        $cache = $cacheManager->getCache(self::CACHE_NAME);
+
+        $this->outputPlugin = GeneralUtility::makeInstance(
+            OutputPlugin::class,
+            $this->inputDatabase,
+            $cache
+        );
+        $this->outputTcaAndFlexForm = GeneralUtility::makeInstance(
+            OutputTcaAndFlexForm::class,
+            $this->inputDatabase,
+            $cache
+        );
     }
 
     /**
