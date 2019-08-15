@@ -8,6 +8,7 @@ namespace T3\Dce\Utility;
  */
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\StringUtility;
 
@@ -17,7 +18,7 @@ use TYPO3\CMS\Core\Utility\StringUtility;
  * Very basic backport of old DatabaseConnection ($GLOBALS['TYPO3_DB'])
  * based on Doctrine DBAL
  */
-class DatabaseConnection implements \TYPO3\CMS\Core\SingletonInterface
+class DatabaseConnection implements SingletonInterface
 {
     /**
      * @var ConnectionPool

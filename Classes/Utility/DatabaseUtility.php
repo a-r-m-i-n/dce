@@ -21,10 +21,14 @@ class DatabaseUtility
     /**
      * Returns a custom DatabaseConnection object, which uses Doctrine DBAL API under the hood.
      *
-     * @return DatabaseConnection
+     * @return DatabaseConnection In TYPO3 8 or with installed "typo3db_legacy" extension,
+     *                            the native DatabaseConnection is returned.
      */
-    public static function getDatabaseConnection() : DatabaseConnection
+    public static function getDatabaseConnection()
     {
+        if (isset($GLOBALS['TYPO3_DB']) && is_object($GLOBALS['TYPO3_DB'])) {
+            return $GLOBALS['TYPO3_DB'];
+        }
         return GeneralUtility::makeInstance(DatabaseConnection::class);
     }
 
