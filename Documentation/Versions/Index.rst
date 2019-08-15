@@ -9,16 +9,27 @@ Versions
 .. contents:: :local:
 
 
+2.1.0
+-----
+- [TASK] Use native database connection, when existing
+- [FEATURE][!!!] Re-implement Caching of generated PHP code
+- [TASK] Improve code snippets
+- [BUGFIX][!!!] Make access field values of child DCEs work in TYPO3 9 (before: ``{dce.fieldName}``, now: ``{dce.get.fieldName}``)
+- [BUGFIX] Fix localizedUid conditions in FalViewHelper
+
+
 2.0.6
 -----
 - [BUGFIX] Do not throw exception in backend when proper flexform missing
 - [FEATURE] Improve tx_dce_dce behaviour
 - [BUGFIX] Remove unused code which causes errors
 
+
 2.0.5
 -----
 - [BUGFIX] Allow lowercase only for DCE identifier
 - [BUGFIX] Include tx_gridelements_columns in db query (thanks to Matthias Bernad)
+
 
 2.0.4
 -----
@@ -91,6 +102,7 @@ Versions
 - Major bugfixes and improvements (DceContainer & SimpleBackendView)
 - Removed f:layout in DCE templates, by default
 - Applied refactorings
+
 
 1.4.x
 -----
