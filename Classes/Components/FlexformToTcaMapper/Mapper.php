@@ -43,17 +43,35 @@ class Mapper
     public static function getDceFieldRowsWithNewTcaColumns() : array
     {
         try {
-            $rows = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
-                '*',
-                'tx_dce_domain_model_dcefield',
-                'map_to="*newcol" AND deleted=0 AND hidden=0 AND type=0 AND ' .
-                'new_tca_field_name!="" AND new_tca_field_type!=""'
-            );
+            $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dcefield');
+            $rows = $queryBuilder
+                ->select('*')
+                ->from('tx_dce_domain_model_dcefield')
+                ->where(
+                    $queryBuilder->expr()->eq(
+                        'map_to',
+                        $queryBuilder->createNamedParameter('*newcol', \PDO::PARAM_STR)
+                    ),
+                    $queryBuilder->expr()->eq(
+                        'type',
+                        $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+                    ),
+                    $queryBuilder->expr()->neq(
+                        'new_tca_field_name',
+                        $queryBuilder->createNamedParameter('', \PDO::PARAM_STR)
+                    ),
+                    $queryBuilder->expr()->neq(
+                        'new_tca_field_type',
+                        $queryBuilder->createNamedParameter('', \PDO::PARAM_STR)
+                    )
+                )
+                ->execute()
+                ->fetchAll();
         } catch (\Exception $exception) {
             return [];
         }
 
-        if ($rows === null) {
+        if ($rows === false) {
             return [];
         }
         return $rows;
@@ -113,11 +131,23 @@ class Mapper
     public static function saveFlexformValuesToTca(array $row, $piFlexform) : void
     {
         $dceUid = DatabaseUtility::getDceUidByContentElementRow($row);
-        $dceFieldsWithMapping = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
-            '*',
-            'tx_dce_domain_model_dcefield',
-            'parent_dce=' . $dceUid . ' AND map_to!="" AND deleted=0 AND hidden=0'
-        );
+        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dcefield');
+        $dceFieldsWithMapping = $queryBuilder
+            ->select('*')
+            ->from('tx_dce_domain_model_dcefield')
+            ->where(
+                $queryBuilder->expr()->eq(
+                    'parent_dce',
+                    $queryBuilder->createNamedParameter($dceUid, \PDO::PARAM_INT)
+                ),
+                $queryBuilder->expr()->neq(
+                    'map_to',
+                    $queryBuilder->createNamedParameter('', \PDO::PARAM_STR)
+                )
+            )
+            ->execute()
+            ->fetchAll();
+
         if (!isset($piFlexform) || empty($piFlexform) || \count($dceFieldsWithMapping) === 0) {
             return;
         }
@@ -154,7 +184,7 @@ class Mapper
         }
 
         if (!empty($updateData)) {
-            $databaseColumns = DatabaseUtility::getDatabaseConnection()->admin_get_fields('tt_content');
+            $databaseColumns = DatabaseUtility::admin_get_fields('tt_content');
             foreach (array_keys($updateData) as $columnName) {
                 if (!array_key_exists($columnName, $databaseColumns)) {
                     throw new \InvalidArgumentException(
@@ -163,18 +193,14 @@ class Mapper
                     );
                 }
             }
-            $updateStatus = DatabaseUtility::getDatabaseConnection()->exec_UPDATEquery(
+            $connection = DatabaseUtility::getConnectionPool()->getConnectionForTable('tt_content');
+            $connection->update(
                 'tt_content',
-                'uid=' . $row['uid'],
-                $updateData
+                $updateData,
+                [
+                    'uid' => (int)$row['uid']
+                ]
             );
-            if (!$updateStatus) {
-                FlashMessage::add(
-                    'Can\'t update tt_content item with uid ' . $row['uid'],
-                    'Flexform to TCA mapping failure',
-                    AbstractMessage::ERROR
-                );
-            }
         }
     }
 }

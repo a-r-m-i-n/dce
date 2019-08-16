@@ -7,8 +7,10 @@ namespace T3\Dce\UserFunction\FormEngineNode;
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
 use T3\Dce\Components\TemplateRenderer\StandaloneViewFactory;
+use T3\Dce\Utility\DatabaseUtility;
 use T3\Dce\Utility\File;
 use TYPO3\CMS\Backend\Form\NodeFactory;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
@@ -106,27 +108,52 @@ class DceCodeMirrorFieldRenderType implements \TYPO3\CMS\Backend\Form\NodeInterf
     protected function getAvailableFields() : array
     {
         $fields = [];
-        $rowFields = $this->data['databaseRow']['fields'];
+        $rowFields = GeneralUtility::trimExplode(',', $this->data['databaseRow']['fields']);
         if (!empty($rowFields)) {
-            $db = \T3\Dce\Utility\DatabaseUtility::getDatabaseConnection();
-            $rows = $db->exec_SELECTgetRows(
-                '*',
-                'tx_dce_domain_model_dcefield',
-                'hidden=0 AND deleted=0 AND pid=0 AND (type=0 OR type=2) AND uid IN (' . $rowFields . ')',
-                '',
-                'sorting asc'
-            );
+            $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dcefield');
+            $rows = $queryBuilder
+                ->select('*')
+                ->from('tx_dce_domain_model_dcefield')
+                ->where(
+                    $queryBuilder->expr()->eq(
+                        'pid',
+                        $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+                    ),
+                    $queryBuilder->expr()->orX(
+                        $queryBuilder->expr()->eq(
+                            'type',
+                            $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+                        ),
+                        $queryBuilder->expr()->eq(
+                            'type',
+                            $queryBuilder->createNamedParameter(2, \PDO::PARAM_INT)
+                        )
+                    ),
+                    $queryBuilder->expr()->in(
+                        'uid',
+                        $queryBuilder->createNamedParameter($rowFields, Connection::PARAM_INT_ARRAY)
+                    )
+                )
+                ->orderBy('sorting', 'ASC')
+                ->execute()
+                ->fetchAll();
 
             if (\is_array($rows)) {
                 foreach ($rows as $row) {
                     if ($row['type'] === '2') {
-                        $sectionFields = $db->exec_SELECTgetRows(
-                            '*',
-                            'tx_dce_domain_model_dcefield',
-                            'deleted=0 AND parent_field=' . $row['uid'],
-                            '',
-                            'sorting asc'
-                        );
+                        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dcefield');
+                        $sectionFields = $queryBuilder
+                            ->select('*')
+                            ->from('tx_dce_domain_model_dcefield')
+                            ->where(
+                                $queryBuilder->expr()->eq(
+                                    'parent_field',
+                                    $queryBuilder->createNamedParameter($row['uid'], \PDO::PARAM_INT)
+                                )
+                            )
+                            ->orderBy('sorting', 'ASC')
+                            ->execute()
+                            ->fetchAll();
                         $row['hasSectionFields'] = true;
                         $row['sectionFields'] = $sectionFields;
                     }

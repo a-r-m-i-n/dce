@@ -6,6 +6,8 @@ namespace T3\Dce\Updates;
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
+
+use T3\Dce\Utility\DatabaseUtility;
 use T3\Dce\Utility\File;
 
 /**
@@ -40,7 +42,13 @@ class MigrateOldNamespacesInFluidTemplateUpdate extends AbstractUpdate
      */
     public function checkForUpdate(&$description)
     {
-        $dceRows = $this->getDatabaseConnection()->exec_SELECTgetRows('*', 'tx_dce_domain_model_dce', 'deleted=0');
+        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dce');
+        $dceRows = $queryBuilder
+            ->select('*')
+            ->from('tx_dce_domain_model_dce')
+            ->execute()
+            ->fetchAll();
+
         $updateTemplates = 0;
         foreach ($dceRows as $dceRow) {
             // Frontend Template
@@ -142,7 +150,13 @@ class MigrateOldNamespacesInFluidTemplateUpdate extends AbstractUpdate
      */
     public function performUpdate(array &$dbQueries, &$customMessages)
     {
-        $dceRows = $this->getDatabaseConnection()->exec_SELECTgetRows('*', 'tx_dce_domain_model_dce', 'deleted=0');
+        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dce');
+        $dceRows = $queryBuilder
+            ->select('*')
+            ->from('tx_dce_domain_model_dce')
+            ->execute()
+            ->fetchAll();
+
         foreach ($dceRows as $dceRow) {
             // Frontend Template
             if ($dceRow['template_type'] === 'file') {
@@ -190,11 +204,14 @@ class MigrateOldNamespacesInFluidTemplateUpdate extends AbstractUpdate
         if ($this->templateNeedUpdate($templateContent)) {
             $updatedTemplateContent = $this->performTemplateUpdates($templateContent);
 
-            return (bool) $this->getDatabaseConnection()->exec_UPDATEquery(
+            $connection = DatabaseUtility::getConnectionPool()->getConnectionForTable('tx_dce_domain_model_dce');
+            return (bool)$connection->update(
                 'tx_dce_domain_model_dce',
-                'uid = ' . (int) $dceRow['uid'],
                 [
                     $column => $updatedTemplateContent
+                ],
+                [
+                    'uid' => (int)$dceRow['uid']
                 ]
             );
         }

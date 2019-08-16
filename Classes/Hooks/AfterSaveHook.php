@@ -159,11 +159,14 @@ class AfterSaveHook
                         '*containerflag'
                     );
                 }
-                DatabaseUtility::getDatabaseConnection()->exec_UPDATEquery(
+                $connection = DatabaseUtility::getConnectionPool()->getConnectionForTable('tx_dce_domain_model_dce');
+                $connection->update(
                     'tx_dce_domain_model_dce',
-                    'uid=' . $this->uid,
                     [
                         'backend_view_bodytext' => implode(',', $items)
+                    ],
+                    [
+                        'uid' => $this->uid
                     ]
                 );
             }
@@ -183,10 +186,20 @@ class AfterSaveHook
      */
     protected function hideContentElementsBasedOnDce(string $dceIdentifier)
     {
-        $whereStatement = 'CType="' . $dceIdentifier . '" AND deleted=0 AND hidden=0';
         $updatedContentElementsCount = 0;
-        $res = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows('uid', 'tt_content', $whereStatement);
-        foreach ($res as $row) {
+        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tt_content');
+        $statement = $queryBuilder
+            ->select('uid')
+            ->from('tt_content')
+            ->where(
+                $queryBuilder->expr()->eq(
+                    'CType',
+                    $queryBuilder->createNamedParameter($dceIdentifier, \PDO::PARAM_STR)
+                )
+            )
+            ->execute();
+
+        while ($row = $statement->fetch()) {
             $this->dataHandler->updateDB('tt_content', $row['uid'], ['hidden' => 1]);
             $updatedContentElementsCount++;
         }

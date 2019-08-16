@@ -7,6 +7,7 @@ namespace T3\Dce\UserFunction\CustomLabels;
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
 use T3\Dce\Domain\Model\DceField;
+use T3\Dce\Utility\DatabaseUtility;
 use T3\Dce\Utility\LanguageService;
 
 /**
@@ -111,10 +112,17 @@ class DceFieldLabel
      */
     protected function getDceFieldRecordByUid(int $uid) : ?array
     {
-        return \T3\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
-            '*',
-            'tx_dce_domain_model_dcefield',
-            'uid=' . $uid
-        ) ?? null;
+        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dcefield');
+        return $queryBuilder
+            ->select('*')
+            ->from('tx_dce_domain_model_dcefield')
+            ->where(
+                $queryBuilder->expr()->eq(
+                    'uid',
+                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+                )
+            )
+            ->execute()
+            ->fetch() ?: null;
     }
 }

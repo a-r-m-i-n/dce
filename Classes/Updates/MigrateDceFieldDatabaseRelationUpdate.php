@@ -7,6 +7,9 @@ namespace T3\Dce\Updates;
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
 
+use T3\Dce\Utility\DatabaseUtility;
+use TYPO3\CMS\Core\Database\Connection;
+
 /**
  * Migrate m:n-relation of dce fields to 1:n-relation
  */
@@ -32,7 +35,7 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
     public function checkForUpdate(&$description)
     {
         // Check if "parent" and "sorting" fields are existing in DceField table
-        $dceFieldTableFields = $this->getDatabaseConnection()->admin_get_fields('tx_dce_domain_model_dcefield');
+        $dceFieldTableFields = DatabaseUtility::admin_get_fields('tx_dce_domain_model_dcefield');
         if (!array_key_exists('parent_dce', $dceFieldTableFields) ||
             !array_key_exists('parent_field', $dceFieldTableFields) ||
             !array_key_exists('sorting', $dceFieldTableFields)
@@ -82,110 +85,141 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
      */
     public function performUpdate(array &$dbQueries, &$customMessages)
     {
-        $this->getDatabaseConnection()->store_lastBuiltQuery = true;
-        $availableDces = $this->getDatabaseConnection()->exec_SELECTgetRows(
-            'uid',
-            'tx_dce_domain_model_dce',
-            'deleted = 0',
-            '',
-            '',
-            '',
-            'uid'
-        );
+        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dce');
+        $queryBuilder
+            ->select('uid')
+            ->from('tx_dce_domain_model_dce');
+        $availableDces = DatabaseUtility::getRowsFromQueryBuilder($queryBuilder, 'uid');
 
-        $sectionFieldRelations = $this->getDatabaseConnection()->exec_SELECTgetRows(
-            '*',
-            $this->getSourceTableNameForSectionField(),
-            '1'
-        );
-        $this->storeLastQuery($dbQueries);
+        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable($this->getSourceTableNameForSectionField());
+        $sectionFieldRelations = $queryBuilder
+            ->select('*')
+            ->from($this->getSourceTableNameForSectionField())
+            ->execute()
+            ->fetchAll();
 
         foreach ($sectionFieldRelations as $sectionFieldRelation) {
             $updateValues = [
                 'parent_field' => $sectionFieldRelation['uid_local'],
                 'sorting' => $sectionFieldRelation['sorting']
             ];
-            $this->getDatabaseConnection()->exec_UPDATEquery(
+            $connection = DatabaseUtility::getConnectionPool()->getConnectionForTable('tx_dce_domain_model_dcefield');
+            $connection->update(
                 'tx_dce_domain_model_dcefield',
-                'uid=' . $sectionFieldRelation['uid_foreign'],
-                $updateValues
+                $updateValues,
+                [
+                    'uid' => (int)$sectionFieldRelation['uid_foreign']
+                ]
             );
-            $this->storeLastQuery($dbQueries);
         }
 
+        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable($this->getSourceTableNameForDceField());
+        $dceFieldRelations = $queryBuilder
+            ->selectLiteral('DISTINCT A.uid_local, A.uid_foreign')
+            ->from($this->getSourceTableNameForDceField(), 'A')
+            ->leftJoin(
+                'A',
+                $this->getSourceTableNameForDceField(),
+                'B',
+                (string)$queryBuilder->expr()->eq(
+                    'A.uid_foreign',
+                    $queryBuilder->quoteIdentifier('B.uid_foreign')
+                )
+            )
+            ->where(
+                $queryBuilder->expr()->neq(
+                    'A.uid_local',
+                    $queryBuilder->quoteIdentifier('B.uid_local')
+                )
+            )
+            ->orderBy('A.uid_foreign', 'ASC')
+            ->execute()
+            ->fetchAll();
 
-        $dceFieldRelations = $this->getDatabaseConnection()->exec_SELECTgetRows(
-            'DISTINCT A.uid_local, A.uid_foreign',
-            $this->getSourceTableNameForDceField() . ' A, ' . $this->getSourceTableNameForDceField() . ' B',
-            'A.uid_foreign=B.uid_foreign AND A.uid_local != B.uid_local',
-            '',
-            'A.uid_foreign ASC'
-        );
-        $this->storeLastQuery($dbQueries);
         $dceFieldUid = 0;
         foreach ($dceFieldRelations as $dceFieldRelation) {
             if ($dceFieldUid == $dceFieldRelation['uid_foreign']) {
-                $dceFields = $this->getDatabaseConnection()->exec_SELECTgetRows(
-                    '*',
-                    'tx_dce_domain_model_dcefield',
-                    'uid=' . $dceFieldRelation['uid_foreign'],
-                    '',
-                    ''
-                );
-                $this->storeLastQuery($dbQueries);
+                $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dcefield');
+                $dceFields = $queryBuilder
+                    ->select('*')
+                    ->from('tx_dce_domain_model_dcefield')
+                    ->where(
+                        $queryBuilder->expr()->eq(
+                            'uid',
+                            $queryBuilder->createNamedParameter($dceFieldRelation['uid_foreign'], \PDO::PARAM_INT)
+                        )
+                    )
+                    ->execute()
+                    ->fetchAll();
+
                 foreach ($dceFields as $dceField) {
                     $dceFieldData = $dceField;
                     unset($dceFieldData['uid']);
-                    $this->getDatabaseConnection()->exec_INSERTquery(
+                    $connection = DatabaseUtility::getConnectionPool()->getConnectionForTable('tx_dce_domain_model_dcefield');
+                    $connection->insert(
                         'tx_dce_domain_model_dcefield',
                         $dceFieldData
                     );
-                    $dceFieldInsertUid = $this->getDatabaseConnection()->sql_insert_id();
-                    $this->storeLastQuery($dbQueries);
+                    $dceFieldInsertUid = $connection->lastInsertId('tx_dce_domain_model_dcefield');
 
+                    if ((int)$dceField['type'] === 2) {
+                        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dcefield');
+                        $dceSectionFields = $queryBuilder
+                            ->select('B.*')
+                            ->from('tx_dce_domain_model_dcefield', 'B')
+                            ->leftJoin(
+                                'B',
+                                'tx_dce_dcefield_sectionfields_mm',
+                                'A',
+                                (string)$queryBuilder->expr()->eq(
+                                    'B.uid',
+                                    $queryBuilder->quoteIdentifier('A.uid_foreign')
+                                )
+                            )
+                            ->where(
+                                $queryBuilder->expr()->eq(
+                                    'A.uid_local',
+                                    $queryBuilder->createNamedParameter($dceField['uid'], \PDO::PARAM_INT)
+                                )
+                            )
+                            ->execute()
+                            ->fetchAll();
 
-                    if ((int)$dceField['type'] == 2) {
-                        $dceSectionFields = $this->getDatabaseConnection()->exec_SELECTgetRows(
-                            'B.*',
-                            'tx_dce_dcefield_sectionfields_mm A INNER JOIN tx_dce_domain_model_dcefield B ' .
-                            'ON (A.uid_foreign=B.uid)',
-                            'A.uid_local=' . $dceField['uid'],
-                            '',
-                            ''
-                        );
-                        $this->storeLastQuery($dbQueries);
                         foreach ($dceSectionFields as $dceSectionField) {
                             $dceSectionFieldData = $dceSectionField;
                             $dceSectionFieldData['parent_field'] = $dceFieldInsertUid;
                             unset($dceSectionFieldData['uid']);
-                            $this->getDatabaseConnection()->exec_INSERTquery(
+                            $connection = DatabaseUtility::getConnectionPool()->getConnectionForTable('tx_dce_domain_model_dcefield');
+                            $connection->insert(
                                 'tx_dce_domain_model_dcefield',
                                 $dceSectionFieldData
                             );
-                            $this->storeLastQuery($dbQueries);
                         }
                     }
 
-                    $this->getDatabaseConnection()->exec_UPDATEquery(
+                    $connection = DatabaseUtility::getConnectionPool()->getConnectionForTable($this->getSourceTableNameForDceField());
+                    $connection->update(
                         $this->getSourceTableNameForDceField(),
-                        'uid_local=' . $dceFieldRelation['uid_local'] .
-                        ' AND uid_foreign=' . $dceFieldRelation['uid_foreign'],
                         [
                             'uid_foreign' => $dceFieldInsertUid
+                        ],
+                        [
+                            'uid_local' => (int)$dceFieldRelation['uid_local'],
+                            'uid_foreign' => (int)$dceFieldRelation['uid_foreign']
                         ]
                     );
-                    $this->storeLastQuery($dbQueries);
                 }
             }
             $dceFieldUid = $dceFieldRelation['uid_foreign'];
         }
 
-        $dceFieldRelations = $this->getDatabaseConnection()->exec_SELECTgetRows(
-            '*',
-            $this->getSourceTableNameForDceField(),
-            '1'
-        );
-        $this->storeLastQuery($dbQueries);
+        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable($this->getSourceTableNameForDceField());
+        $dceFieldRelations = $queryBuilder
+            ->select('*')
+            ->from($this->getSourceTableNameForDceField())
+            ->execute()
+            ->fetchAll();
+
         foreach ($dceFieldRelations as $dceFieldRelation) {
             if (!array_key_exists($dceFieldRelation['uid_local'], $availableDces)) {
                 continue;
@@ -194,26 +228,26 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
                 'parent_dce' => $dceFieldRelation['uid_local'],
                 'sorting' => $dceFieldRelation['sorting']
             ];
-            $this->getDatabaseConnection()->exec_UPDATEquery(
+            $connection = DatabaseUtility::getConnectionPool()->getConnectionForTable('tx_dce_domain_model_dcefield');
+            $connection->update(
                 'tx_dce_domain_model_dcefield',
-                'uid=' . $dceFieldRelation['uid_foreign'],
-                $updateValues
+                $updateValues,
+                [
+                    'uid' => (int)$dceFieldRelation['uid_foreign']
+                ]
             );
-            $this->storeLastQuery($dbQueries);
         }
 
         $remainingDceFields = $this->getUpdatableDceFields();
-        $this->storeLastQuery($dbQueries);
         if (\count($remainingDceFields) > 0) {
             $dceFieldUids = [];
             foreach ($remainingDceFields as $remainingDceField) {
                 $dceFieldUids[] = $remainingDceField['uid'];
             }
-            $dceFieldUids = implode(',', $dceFieldUids);
 
             $message = 'After the update ' . \count($remainingDceFields) . ' remain without parent value. ' .
                 'This means, no MM relation was existing for these fields. So they were lost in the ' .
-                'past anyway. Setting deleted=1 to these fields. (uids: ' . $dceFieldUids . ')';
+                'past anyway. Setting deleted=1 to these fields. (uids: ' . implode(',', $dceFieldUids) . ')';
 
             if (\is_array($customMessages)) {
                 $customMessages[] = $message;
@@ -221,12 +255,18 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
                 $customMessages = $message;
             }
 
-            $this->getDatabaseConnection()->exec_UPDATEquery(
-                'tx_dce_domain_model_dcefield',
-                'uid IN (' . $dceFieldUids . ')',
-                ['deleted' => '1']
-            );
-            $this->storeLastQuery($dbQueries);
+            $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dcefield');
+            $queryBuilder
+                ->update('tx_dce_domain_model_dcefield')
+                ->set('deleted', 1)
+                ->where(
+                    $queryBuilder->expr()->in(
+                        'uid',
+                        $queryBuilder
+                        ->createNamedParameter($dceFieldUids, Connection::PARAM_INT_ARRAY)
+                    )
+                )
+                ->execute();
         }
         return true;
     }
@@ -238,11 +278,22 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
      */
     protected function getUpdatableDceFields() : array
     {
-        return $this->getDatabaseConnection()->exec_SELECTgetRows(
-            '*',
-            'tx_dce_domain_model_dcefield',
-            'parent_dce=0 AND parent_field=0 AND deleted=0'
-        );
+        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dcefield');
+        return $queryBuilder
+            ->select('*')
+            ->from('tx_dce_domain_model_dcefield')
+            ->where(
+                $queryBuilder->expr()->eq(
+                    'parent_dce',
+                    $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+                ),
+                $queryBuilder->expr()->eq(
+                    'parent_field',
+                    $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+                )
+            )
+            ->execute()
+            ->fetchAll();
     }
 
     /**
@@ -254,12 +305,13 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
      */
     protected function getSourceTableNameForDceField() : ?string
     {
-        if (array_key_exists('tx_dce_dce_dcefield_mm', $this->getDatabaseConnection()->admin_get_tables())) {
+        $tables = DatabaseUtility::admin_get_tables();
+        if (array_key_exists('tx_dce_dce_dcefield_mm', $tables)) {
             return 'tx_dce_dce_dcefield_mm';
         }
         if (array_key_exists(
             'zzz_deleted_tx_dce_dce_dcefield_mm',
-            $this->getDatabaseConnection()->admin_get_tables()
+            $tables
         )) {
             return 'zzz_deleted_tx_dce_dce_dcefield_mm';
         }
@@ -275,12 +327,13 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
      */
     protected function getSourceTableNameForSectionField() : ?string
     {
-        if (array_key_exists('tx_dce_dcefield_sectionfields_mm', $this->getDatabaseConnection()->admin_get_tables())) {
+        $tables = DatabaseUtility::admin_get_tables();
+        if (array_key_exists('tx_dce_dcefield_sectionfields_mm', $tables)) {
             return 'tx_dce_dcefield_sectionfields_mm';
         }
         if (array_key_exists(
             'zzz_deleted_tx_dce_dcefield_sectionfields_mm',
-            $this->getDatabaseConnection()->admin_get_tables()
+            $tables
         )) {
             return 'zzz_deleted_tx_dce_dcefield_sectionfields_mm';
         }

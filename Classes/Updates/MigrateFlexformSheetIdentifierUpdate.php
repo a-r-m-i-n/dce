@@ -6,6 +6,8 @@ namespace T3\Dce\Updates;
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
+
+use T3\Dce\Utility\DatabaseUtility;
 use TYPO3\CMS\Core\Charset\CharsetConverter;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -69,20 +71,20 @@ class MigrateFlexformSheetIdentifierUpdate extends AbstractUpdate
      */
     public function performUpdate(array &$dbQueries, &$customMessages)
     {
-        $this->getDatabaseConnection()->store_lastBuiltQuery = true;
-
         $tabsWithoutIdentifier = $this->getUpdatableDceFields();
         $tabsGroupedByDce = [];
         foreach ($tabsWithoutIdentifier as $tabRow) {
             $tabRow['variable'] = 'tab' . $this->convertFieldTitleToVariable($tabRow['title']);
-            $this->getDatabaseConnection()->exec_UPDATEquery(
+            $connection = DatabaseUtility::getConnectionPool()->getConnectionForTable('tx_dce_domain_model_dcefield');
+            $connection->update(
                 'tx_dce_domain_model_dcefield',
-                'uid=' . $tabRow['uid'],
                 [
                     'variable' => $tabRow['variable']
+                ],
+                [
+                    'uid' => $tabRow['uid']
                 ]
             );
-            $this->storeLastQuery($dbQueries);
 
             if (!isset($tabsGroupedByDce[$tabRow['parent_dce']])) {
                 $tabsGroupedByDce[$tabRow['parent_dce']] = [];
@@ -96,12 +98,18 @@ class MigrateFlexformSheetIdentifierUpdate extends AbstractUpdate
         /** @var \TYPO3\CMS\Core\Configuration\FlexForm\FlexFormTools $flexFormTools */
         $flexFormTools = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Configuration\FlexForm\FlexFormTools::class);
         foreach ($tabsGroupedByDce as $dceUid => $tabs) {
-            $contentElements = $this->getDatabaseConnection()->exec_SELECTgetRows(
-                '*',
-                'tt_content',
-                'CType="' . $this->getDceIdentifier($dceUid) . '" AND deleted=0'
-            );
-            $this->storeLastQuery($dbQueries);
+            $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tt_content');
+            $contentElements = $queryBuilder
+                ->select('*')
+                ->from('tt_content')
+                ->where(
+                    $queryBuilder->expr()->eq(
+                        'CType',
+                        $queryBuilder->createNamedParameter($this->getDceIdentifier($dceUid), \PDO::PARAM_STR)
+                    )
+                )
+                ->execute()
+                ->fetchAll();
 
             foreach ($contentElements as $contentElement) {
                 $flexformData = GeneralUtility::xml2array($contentElement['pi_flexform']);
@@ -124,14 +132,16 @@ class MigrateFlexformSheetIdentifierUpdate extends AbstractUpdate
                     }
                 }
 
-                $this->getDatabaseConnection()->exec_UPDATEquery(
+                $connection = DatabaseUtility::getConnectionPool()->getConnectionForTable('tt_content');
+                $connection->update(
                     'tt_content',
-                    'uid=' . $contentElement['uid'],
                     [
                         'pi_flexform' => $flexFormTools->flexArray2Xml($newFlexformData, true)
+                    ],
+                    [
+                        'uid' => (int)$contentElement['uid']
                     ]
                 );
-                $this->storeLastQuery($dbQueries);
             }
         }
 
@@ -148,14 +158,16 @@ class MigrateFlexformSheetIdentifierUpdate extends AbstractUpdate
                     }
                 }
             }
-            $this->getDatabaseConnection()->exec_UPDATEquery(
+            $conneciton = DatabaseUtility::getConnectionPool()->getConnectionForTable('tt_content');
+            $connection->update(
                 'tt_content',
-                'uid=' . $contentElement['uid'],
                 [
                     'pi_flexform' => $flexFormTools->flexArray2Xml($newFlexformData, true)
+                ],
+                [
+                    'uid' => (int)$contentElement['uid']
                 ]
             );
-            $this->storeLastQuery($dbQueries);
         }
         return true;
     }
@@ -167,13 +179,23 @@ class MigrateFlexformSheetIdentifierUpdate extends AbstractUpdate
      */
     protected function getUpdatableDceFields() : array
     {
-        return $this->getDatabaseConnection()->exec_SELECTgetRows(
-            '*',
-            'tx_dce_domain_model_dcefield',
-            'type=1 AND variable="" AND deleted=0',
-            '',
-            'sorting asc'
-        );
+        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dcefield');
+        return $queryBuilder
+            ->select('*')
+            ->from('tx_dce_domain_model_dcefield')
+            ->where(
+                $queryBuilder->expr()->eq(
+                    'type',
+                    $queryBuilder->createNamedParameter(1, \PDO::PARAM_INT)
+                ),
+                $queryBuilder->expr()->eq(
+                    'variable',
+                    $queryBuilder->createNamedParameter('', \PDO::PARAM_INT)
+                )
+            )
+            ->orderBy('sorting', 'ASC')
+            ->execute()
+            ->fetchAll();
     }
 
     /**
@@ -183,11 +205,22 @@ class MigrateFlexformSheetIdentifierUpdate extends AbstractUpdate
      */
     protected function getUpdatableContentElements() : array
     {
-        return $this->getDatabaseConnection()->exec_SELECTgetRows(
-            '*',
-            'tt_content',
-            'CType LIKE "dce_%" AND deleted=0 AND pi_flexform LIKE "%<sheet index=\"sheet0\">%"'
-        );
+        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tt_content');
+        return $queryBuilder
+            ->select('*')
+            ->from('tt_content')
+            ->where(
+                $queryBuilder->expr()->like(
+                    'CType',
+                    $queryBuilder->createNamedParameter('dce_%', \PDO::PARAM_STR)
+                ),
+                $queryBuilder->expr()->like(
+                    'pi_flexform',
+                    $queryBuilder->createNamedParameter('%<sheet index=\"sheet0\">%', \PDO::PARAM_STR)
+                )
+            )
+            ->execute()
+            ->fetchAll();
     }
 
     /**

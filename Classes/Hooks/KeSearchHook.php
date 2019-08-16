@@ -28,21 +28,41 @@ class KeSearchHook
             return;
         }
 
-        $dceFieldsWithMappingsAmount = \count(DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
-            'uid',
-            'tx_dce_domain_model_dcefield',
-            'parent_dce=' . $dceUid . ' AND map_to="tx_dce_index" AND deleted=0 AND hidden=0'
-        ));
+        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dcefield');
+        $dceFieldsWithMappingsAmount = $queryBuilder
+            ->count('*')
+            ->from('tx_dce_domain_model_dcefield')
+            ->where(
+                $queryBuilder->expr()->eq(
+                    'parent_dce',
+                    $queryBuilder->createNamedParameter($dceUid, \PDO::PARAM_INT)
+                ),
+                $queryBuilder->expr()->eq(
+                    'map_to',
+                    $queryBuilder->createNamedParameter('tx_dce_index', \PDO::PARAM_STR)
+                )
+            )
+            ->execute()
+            ->fetchColumn(0);
+
         if (!$dceFieldsWithMappingsAmount) {
             return;
         }
 
-        $fullRow = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
-            '*',
-            'tt_content',
-            'uid=' . $row['uid']
-        );
-        if ($fullRow['tx_dce_index']) {
+        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tt_content');
+        $fullRow = $queryBuilder
+            ->select('*')
+            ->from('tt_content')
+            ->where(
+                $queryBuilder->expr()->eq(
+                    'uid',
+                    $queryBuilder->createNamedParameter($row['uid'], \PDO::PARAM_INT)
+                )
+            )
+            ->execute()
+            ->fetch();
+
+        if (is_array($fullRow) && $fullRow['tx_dce_index']) {
             $bodytext = $this->sanitizeBodytext($fullRow['tx_dce_index']);
         }
     }

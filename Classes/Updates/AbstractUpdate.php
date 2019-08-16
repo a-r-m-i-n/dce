@@ -6,8 +6,7 @@ namespace T3\Dce\Updates;
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
-use T3\Dce\Utility\DatabaseConnection;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
+use T3\Dce\Utility\DatabaseUtility;
 
 /**
  * Migrate m:n-relation of dce fields to 1:n-relation
@@ -38,25 +37,6 @@ class AbstractUpdate extends \TYPO3\CMS\Install\Updates\AbstractUpdate
     }
 
     /**
-     * Adds last query to given referenced array
-     *
-     * @param array $dbQueries
-     * @return void
-     */
-    protected function storeLastQuery(&$dbQueries) : void
-    {
-        $dbQueries[] = $this->getDatabaseConnection()->debug_lastBuiltQuery();
-    }
-
-    /**
-     * @return DatabaseConnection
-     */
-    protected function getDatabaseConnection() : DatabaseConnection
-    {
-        return GeneralUtility::makeInstance(DatabaseConnection::class);
-    }
-
-    /**
      * Returns the identifier of dce with given uid
      *
      * @param int $dceUid
@@ -64,11 +44,19 @@ class AbstractUpdate extends \TYPO3\CMS\Install\Updates\AbstractUpdate
      */
     protected function getDceIdentifier(int $dceUid) : string
     {
-        $dce = $this->getDatabaseConnection()->exec_SELECTgetSingleRow(
-            '*',
-            'tx_dce_domain_model_dce',
-            'uid=' . $dceUid
-        );
-        return !empty($dce['identifier']) ? 'dce_' . $dce['identifier'] : 'dce_dceuid' . $dceUid;
+        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dce');
+        $dce = $queryBuilder
+            ->select('*')
+            ->from('tx_dce_domain_model_dce')
+            ->where(
+                $queryBuilder->expr()->eq(
+                    'uid',
+                    $queryBuilder->createNamedParameter($dceUid, \PDO::PARAM_INT)
+                )
+            )
+            ->execute()
+            ->fetch();
+
+        return is_array($dce) && !empty($dce['identifier']) ? 'dce_' . $dce['identifier'] : 'dce_dceuid' . $dceUid;
     }
 }

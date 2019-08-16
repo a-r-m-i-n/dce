@@ -74,18 +74,26 @@ class FalViewHelper extends AbstractViewHelper
 
         /** @var PageRepository $pageRepository */
         $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
-        $rows = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
-            'uid',
-            'sys_file_reference',
-            'tablenames="' . DatabaseUtility::getDatabaseConnection()->fullQuoteStr($this->arguments['tableName']) .
-            '" AND uid_foreign=' . $contentObjectUid . ' AND fieldname="' .
-            DatabaseUtility::getDatabaseConnection()->fullQuoteStr($this->arguments['field']) . '" ' .
-            $pageRepository->enableFields('sys_file_reference', $pageRepository->showHiddenRecords),
-            '',
-            'sorting_foreign',
-            '',
-            'uid'
-        );
+        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('sys_file_reference');
+        $queryBuilder
+            ->select('uid')
+            ->from('sys_file_reference')
+            ->where(
+                $queryBuilder->expr()->eq(
+                    'tablenames',
+                    $queryBuilder->createNamedParameter($this->arguments['tableName'], \PDO::PARAM_STR)
+                ),
+                $queryBuilder->expr()->eq(
+                    'fieldname',
+                    $queryBuilder->createNamedParameter($this->arguments['field'], \PDO::PARAM_STR)
+                ),
+                $queryBuilder->expr()->eq(
+                    'uid_foreign',
+                    $queryBuilder->createNamedParameter($contentObjectUid, \PDO::PARAM_INT)
+                )
+            )
+            ->orderBy('sorting_foreign', 'ASC');
+        $rows = DatabaseUtility::getRowsFromQueryBuilder($queryBuilder, 'uid');
 
         /** @var FileRepository $fileRepository */
         $fileRepository = GeneralUtility::makeInstance(FileRepository::class);

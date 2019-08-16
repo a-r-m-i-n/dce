@@ -88,11 +88,18 @@ class Container
         $firstDce = current($this->dces);
         $contentObject = $firstDce->getContentObject();
         if ($contentObject['sys_language_uid'] !== '0') {
-            $originalRow = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
-                '*',
-                'tt_content',
-                'uid = ' . $contentObject['l18n_parent'] . ' AND deleted=0'
-            );
+            $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tt_content');
+            $originalRow = $queryBuilder
+                ->select('*')
+                ->from('tt_content')
+                ->where(
+                    $queryBuilder->expr()->eq(
+                        'uid',
+                        $queryBuilder->createNamedParameter($contentObject['l18n_parent'], \PDO::PARAM_INT)
+                    )
+                )
+                ->execute()
+                ->fetch();
             if ($originalRow) {
                 $contentObject = $originalRow;
             }

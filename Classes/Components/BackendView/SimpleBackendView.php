@@ -171,21 +171,33 @@ class SimpleBackendView
      */
     protected function getFalMediaPreview(DceField $field, array $row) : string
     {
-        $database = DatabaseUtility::getDatabaseConnection();
         $fieldConfiguration = $field->getConfigurationAsArray();
         $fieldConfiguration = $fieldConfiguration['config'];
 
-        $rows = $database->exec_SELECTgetRows(
-            '*',
-            'sys_file_reference',
-            'tablenames="tt_content" AND uid_foreign=' . $row['uid'] . ' AND fieldname="' .
-            stripslashes($fieldConfiguration['foreign_match_fields']['fieldname']) .
-            '" AND sys_file_reference.deleted = 0 AND sys_file_reference.hidden = 0',
-            '',
-            'sorting_foreign',
-            '',
-            'uid'
-        );
+        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('sys_file_reference');
+        $queryBuilder
+            ->select('*')
+            ->from('sys_file_reference')
+            ->where(
+                $queryBuilder->expr()->eq(
+                    'tablenames',
+                    $queryBuilder->createNamedParameter('tt_content', \PDO::PARAM_STR)
+                ),
+                $queryBuilder->expr()->eq(
+                    'fieldname',
+                    $queryBuilder->createNamedParameter(
+                        stripslashes($fieldConfiguration['foreign_match_fields']['fieldname']),
+                        \PDO::PARAM_STR
+                    )
+                ),
+                $queryBuilder->expr()->eq(
+                    'uid_foreign',
+                    $queryBuilder->createNamedParameter($row['uid'], \PDO::PARAM_INT)
+                )
+            )
+            ->orderBy('sorting_foreign', 'ASC');
+
+        $rows = DatabaseUtility::getRowsFromQueryBuilder($queryBuilder, 'uid');
 
         $imageTags = [];
         foreach (array_keys($rows) as $fileReferenceUid) {

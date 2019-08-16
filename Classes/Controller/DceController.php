@@ -82,7 +82,7 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
                 return '';
             }
             $container = ContainerFactory::makeContainer($dce);
-            
+
             return $container->render();
         }
 
@@ -147,11 +147,18 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     protected function simulateContentElementSettings(int $contentElementUid) : array
     {
-        $row = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
-            'pi_flexform',
-            'tt_content',
-            'uid = ' . $contentElementUid . ' AND deleted=0'
-        );
+        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tt_content');
+        $row = $queryBuilder
+            ->select('pi_flexform')
+            ->from('tt_content')
+            ->where(
+                $queryBuilder->expr()->eq(
+                    'uid',
+                    $queryBuilder->createNamedParameter($contentElementUid, \PDO::PARAM_INT)
+                )
+            )
+            ->execute()
+            ->fetch();
 
         $flexData = FlexformService::get()->convertFlexFormContentToArray($row['pi_flexform'], 'lDEF', 'vDEF');
         return $flexData['settings'] ?? [];
@@ -165,10 +172,18 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     protected function getContentObject(int $uid) : ?array
     {
-        return DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
-            '*',
-            'tt_content',
-            'uid = ' . $uid . ' AND deleted=0'
-        ) ?: null;
+        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tt_content');
+
+        return $queryBuilder
+            ->select('*')
+            ->from('tt_content')
+            ->where(
+                $queryBuilder->expr()->eq(
+                    'uid',
+                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+                )
+            )
+            ->execute()
+            ->fetch() ?: null;
     }
 }

@@ -86,40 +86,66 @@ class ContainerFactory
      */
     protected static function getContentElementsInContainer(Dce $dce) : array
     {
+        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tt_content');
+        $queryBuilder
+            ->select('*')
+            ->from('tt_content');
+
         $contentObject = $dce->getContentObject();
         $sortColumn = $GLOBALS['TCA']['tt_content']['ctrl']['sortby'];
-        $where = 'pid = ' . $contentObject['pid'] .
-                 ' AND colPos = ' . $contentObject['colPos'] .
-                 ' AND ' . $sortColumn . ' > ' . $contentObject[$sortColumn] .
-                 ' AND uid != ' . $contentObject['uid'];
+
+        $queryBuilder->where(
+            $queryBuilder->expr()->eq(
+                'pid',
+                $queryBuilder->createNamedParameter($contentObject['pid'], \PDO::PARAM_INT)
+            ),
+            $queryBuilder->expr()->eq(
+                'colPos',
+                $queryBuilder->createNamedParameter($contentObject['colPos'], \PDO::PARAM_INT)
+            ),
+            $queryBuilder->expr()->gt(
+                $sortColumn,
+                $contentObject[$sortColumn]
+            ),
+            $queryBuilder->expr()->neq(
+                'uid',
+                $queryBuilder->createNamedParameter($contentObject['uid'], \PDO::PARAM_INT)
+            )
+        );
 
         if (TYPO3_MODE === 'FE') {
-            $where .= ' AND sys_language_uid = ' . Compatibility::getSysLanguageUid();
-            $where .= DatabaseUtility::getEnabledFields('tt_content');
-        } else {
-            $where .= DatabaseUtility::deleteClause('tt_content');
+            $queryBuilder->andWhere(
+                $queryBuilder->expr()->eq(
+                    'sys_language_uid',
+                    $queryBuilder->createNamedParameter(Compatibility::getSysLanguageUid(), \PDO::PARAM_INT)
+                )
+            );
         }
 
         if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('gridelements')
             && $contentObject['tx_gridelements_container'] != '0'
             && $contentObject['tx_gridelements_columns'] != '0'
         ) {
-            $where .= ' AND tx_gridelements_container = ' . $contentObject['tx_gridelements_container'];
-            $where .= ' AND tx_gridelements_columns = ' . $contentObject['tx_gridelements_columns'];
+            $queryBuilder->andWhere(
+                $queryBuilder->expr()->eq(
+                    'tx_gridelements_container',
+                    $queryBuilder->createNamedParameter($contentObject['tx_gridelements_container'], \PDO::PARAM_INT)
+                ),
+                $queryBuilder->expr()->eq(
+                    'tx_gridelements_columns',
+                    $queryBuilder->createNamedParameter($contentObject['tx_gridelements_columns'], \PDO::PARAM_INT)
+                )
+            );
         }
 
-        if (TYPO3_MODE === 'FE') {
-            $where .= ' AND sys_language_uid = ' . Compatibility::getSysLanguageUid();
+        if ($dce->getContainerItemLimit()) {
+            $queryBuilder->setMaxResults($dce->getContainerItemLimit() - 1);
         }
+        $rawContentElements = $queryBuilder
+            ->orderBy($sortColumn, 'ASC')
+            ->execute()
+            ->fetchAll();
 
-        $rawContentElements = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
-            '*',
-            'tt_content',
-            $where,
-            '',
-            $sortColumn . ' asc',
-            $dce->getContainerItemLimit() ? $dce->getContainerItemLimit() - 1 : ''
-        );
         array_unshift($rawContentElements, $contentObject);
 
         $resolvedContentElements = static::resolveShortcutElements($rawContentElements);
@@ -210,13 +236,20 @@ class ContainerFactory
                     $table = ($iPos !== false) ? substr($sLinkedEl, 0, $iPos) : 'tt_content';
                     $uid = ($iPos !== false) ? substr($sLinkedEl, $iPos + 1) : '0';
 
-                    $linkedContentElements = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
-                        '*',
-                        $table,
-                        'uid = ' . $uid . ' AND hidden=0 AND deleted=0',
-                        '',
-                        $GLOBALS['TCA'][$table]['ctrl']['sortby'] . ' asc'
-                    );
+                    $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable($table);
+                    $linkedContentElements = $queryBuilder
+                        ->select('*')
+                        ->from($table)
+                        ->where(
+                            $queryBuilder->expr()->eq(
+                                'uid',
+                                $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+                            )
+                        )
+                        ->orderBy($GLOBALS['TCA'][$table]['ctrl']['sortby'], 'ASC')
+                        ->execute()
+                        ->fetchAll();
+
                     foreach ($linkedContentElements as $linkedContentElement) {
                         $resolvedContentElements[] = $linkedContentElement;
                     }

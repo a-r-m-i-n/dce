@@ -130,11 +130,18 @@ class DceRepository extends Repository
      */
     public function findContentElementsBasedOnDce(Dce $dce) : ?array
     {
-        return DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
-            '*',
-            'tt_content',
-            'CType="' . $dce->getIdentifier() . '" AND deleted=0'
-        ) ?? null;
+        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tt_content');
+        return $queryBuilder
+            ->select('*')
+            ->from('tt_content')
+            ->where(
+                $queryBuilder->expr()->eq(
+                    'CType',
+                    $queryBuilder->createNamedParameter($dce->getIdentifier(), \PDO::PARAM_STR)
+                )
+            )
+            ->execute()
+            ->fetchAll() ?? null;
     }
 
     /**
@@ -207,7 +214,7 @@ class DceRepository extends Repository
                     $i = 0;
                     foreach ($fieldValue as $sectionFieldValues) {
                         $sectionFieldValues = current($sectionFieldValues);
-                        
+
                         // Check if $sectionFieldValues is empty - if so, go to next
                         if (!empty($sectionFieldValues)) {
                             foreach ($sectionFieldValues as $sectionFieldVariable => $sectionFieldValue) {
@@ -333,11 +340,19 @@ class DceRepository extends Repository
         }
         if (StringUtility::beginsWith($cType, 'dce_')) {
             /** @var self $repo */
-            $row = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
-                'uid',
-                'tx_dce_domain_model_dce',
-                'identifier = "' . addslashes(substr($cType, 4)) . '" AND deleted=0'
-            );
+            $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dce');
+            $row = $queryBuilder
+                ->select('uid')
+                ->from('tx_dce_domain_model_dce')
+                ->where(
+                    $queryBuilder->expr()->eq(
+                        'identifier',
+                        $queryBuilder->createNamedParameter(addslashes(substr($cType, 4)), \PDO::PARAM_STR)
+                    )
+                )
+                ->execute()
+                ->fetch();
+
             if (isset($row['uid'])) {
                 return (int) $row['uid'];
             }
@@ -509,15 +524,23 @@ class DceRepository extends Repository
             if (empty($tableName)) {
                 continue;
             }
-            if (!$dceFieldConfiguration['dce_ignore_enablefields']) {
-                $enableFields = DatabaseUtility::getEnabledFields($tableName);
+
+            $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable($tableName);
+            if ($dceFieldConfiguration['dce_ignore_enablefields']) {
+                $queryBuilder->getRestrictions()->removeAll();
             }
 
-            $recordRows = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
-                '*',
-                $tableName,
-                'uid = ' . $uid . $enableFields
-            );
+            $recordRows = $queryBuilder
+                ->select('*')
+                ->from($tableName)
+                ->where(
+                    $queryBuilder->expr()->eq(
+                        'uid',
+                        $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+                    )
+                )
+                ->execute()
+                ->fetchAll();
 
             $pageRepository = $GLOBALS['TSFE']->sys_page;
             if ($dceFieldConfiguration['dce_enable_autotranslation']) {
@@ -571,7 +594,6 @@ class DceRepository extends Repository
     {
         /** @var FileRepository $fileRepository */
         $fileRepository = GeneralUtility::makeInstance(FileRepository::class);
-        $databaseConnection = DatabaseUtility::getDatabaseConnection();
         $processedContentObject = $contentObjectArray;
 
         // Resolve media field
@@ -597,17 +619,41 @@ class DceRepository extends Repository
             /** @var CategoryRepository $categoryRepository */
             $categoryRepository = $objectManager->get(CategoryRepository::class);
 
-            $res = $databaseConnection->exec_SELECT_mm_query(
-                'sys_category.uid',
-                'sys_category',
-                'sys_category_record_mm',
-                'tt_content',
-                'AND sys_category_record_mm.tablenames="tt_content" ' .
-                'AND sys_category_record_mm.fieldname="categories" ' .
-                'AND sys_category_record_mm.uid_foreign=' . $contentObjectArray['uid']
-            );
+            $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('sys_category');
+            $statement = $queryBuilder
+                ->select('sc.uid')
+                ->from('sys_category', 'sc')
+                ->leftJoin(
+                    'sc',
+                    'sys_category_record_mm',
+                    'sc_mm',
+                    (string)$queryBuilder->expr()->andX(
+                        $queryBuilder->expr()->eq(
+                            'sc_mm.tablenames',
+                            $queryBuilder->createNamedParameter('tt_content', \PDO::PARAM_STR)
+                        ),
+                        $queryBuilder->expr()->eq(
+                            'sc_mm.fieldname',
+                            $queryBuilder->createNamedParameter('categories', \PDO::PARAM_STR)
+                        ),
+                        $queryBuilder->expr()->eq(
+                            'sc_mm.uid_local',
+                            $queryBuilder->quoteIdentifier('sc.uid')
+                        )
+                    )
+                )
+                ->leftJoin(
+                    'sc_mm',
+                    'tt_content',
+                    'tc',
+                    (string)$queryBuilder->expr()->eq(
+                        'sc_mm.uid_foreign',
+                        $queryBuilder->createNamedParameter($contentObjectArray['uid'], \PDO::PARAM_INT)
+                    )
+                )
+                ->execute();
             $processedContentObject['categories'] = [];
-            foreach ($res as $categoryRow) {
+            while ($categoryRow = $statement->fetch()) {
                 $category = $categoryRepository->findByUid($categoryRow['uid']);
                 if ($category instanceof Category) {
                     $processedContentObject['categories'][] = $categoryRepository->findByUid($categoryRow['uid']);

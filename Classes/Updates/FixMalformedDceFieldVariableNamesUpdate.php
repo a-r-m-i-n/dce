@@ -8,6 +8,7 @@ namespace T3\Dce\Updates;
  */
 use T3\Dce\UserFunction\CustomFieldValidation\LowerCamelCaseValidator;
 use T3\Dce\UserFunction\CustomFieldValidation\NoLeadingNumberValidator;
+use T3\Dce\Utility\DatabaseUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -61,39 +62,53 @@ class FixMalformedDceFieldVariableNamesUpdate extends AbstractUpdate
      */
     public function performUpdate(array &$dbQueries, &$customMessages)
     {
-        $this->getDatabaseConnection()->store_lastBuiltQuery = true;
-
         $malformedDceFields = $this->getDceFieldsWithMalformedVariableNames();
         foreach ($malformedDceFields as $malformedDceField) {
             $malformedVariableName = $malformedDceField['variable'];
             // Update DceField
-            $this->getDatabaseConnection()->exec_UPDATEquery(
+            $connection = DatabaseUtility::getConnectionPool()->getConnectionForTable('tx_dce_domain_model_dcefield');
+            $connection->update(
                 'tx_dce_domain_model_dcefield',
-                'uid=' . $malformedDceField['uid'],
                 [
                     'variable' => $this->fixVariableName($malformedVariableName)
+                ],
+                [
+                    'uid' => (int)$malformedDceField['uid']
                 ]
             );
-            $this->storeLastQuery($dbQueries);
 
             // Update tt_content records based on the DCE regarding current field
             if ($malformedDceField['parent_dce'] == 0) {
                 // get section field and then DCE (thanks god, that section fields are limited to be not nestable!^^)
-                $sectionParent = $this->getDatabaseConnection()->exec_SELECTgetSingleRow(
-                    '*',
-                    'tx_dce_domain_model_dcefield',
-                    'uid =' . $malformedDceField['parent_field']
-                );
+                $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dcefield');
+                $sectionParent = $queryBuilder
+                    ->select('*')
+                    ->from('tx_dce_domain_model_dcefield')
+                    ->where(
+                        $queryBuilder->expr()->eq(
+                            'uid',
+                            $queryBuilder->createNamedParameter($malformedDceField['parent_field'], \PDO::PARAM_INT)
+                        )
+                    )
+                    ->execute()
+                    ->fetch();
                 $dceUid = $sectionParent['parent_dce'];
             } else {
                 $dceUid = $malformedDceField['parent_dce'];
             }
 
-            $contentElements = $this->getDatabaseConnection()->exec_SELECTgetRows(
-                '*',
-                'tt_content',
-                'CType="' . $this->getDceIdentifier($dceUid) . '" AND deleted=0'
-            );
+            $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tt_content');
+            $contentElements = $queryBuilder
+                ->select('*')
+                ->from('tt_content')
+                ->where(
+                    $queryBuilder->expr()->eq(
+                        'CType',
+                        $queryBuilder->createNamedParameter($this->getDceIdentifier($dceUid), \PDO::PARAM_STR)
+                    )
+                )
+                ->execute()
+                ->fetchAll();
 
             foreach ($contentElements as $contentElement) {
                 $updatedFlexform = str_replace(
@@ -107,14 +122,17 @@ class FixMalformedDceFieldVariableNamesUpdate extends AbstractUpdate
                     ],
                     $contentElement['pi_flexform']
                 );
-                $this->getDatabaseConnection()->exec_UPDATEquery(
+
+                $connection = DatabaseUtility::getConnectionPool()->getConnectionForTable('tt_content');
+                $connection->update(
                     'tt_content',
-                    'uid=' . $contentElement['uid'],
                     [
                         'pi_flexform' => $updatedFlexform
+                    ],
+                    [
+                        'uid' => (int)$contentElement['uid']
                     ]
                 );
-                $this->storeLastQuery($dbQueries);
             }
         }
         return true;
@@ -132,11 +150,19 @@ class FixMalformedDceFieldVariableNamesUpdate extends AbstractUpdate
      */
     protected function getDceFieldsWithMalformedVariableNames() : array
     {
-        $dceFieldRows = $this->getDatabaseConnection()->exec_SELECTgetRows(
-            '*',
-            'tx_dce_domain_model_dcefield',
-            'variable!="" AND deleted=0'
-        );
+        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dcefield');
+        $dceFieldRows = $queryBuilder
+            ->select('*')
+            ->from('tx_dce_domain_model_dcefield')
+            ->where(
+                $queryBuilder->expr()->neq(
+                    'variable',
+                    $queryBuilder->createNamedParameter('', \PDO::PARAM_STR)
+                )
+            )
+            ->execute()
+            ->fetchAll();
+
         $lowerCamelCaseValidator = $this->getLowerCamelCaseValidator();
         $noLeadingNumberValidator = $this->getNoLeadingNumberValidator();
 

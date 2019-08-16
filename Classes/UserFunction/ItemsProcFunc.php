@@ -7,7 +7,9 @@ namespace T3\Dce\UserFunction;
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
 use T3\Dce\Components\FlexformToTcaMapper\Mapper;
+use T3\Dce\Utility\DatabaseUtility;
 use T3\Dce\Utility\LanguageService;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
@@ -34,14 +36,24 @@ class ItemsProcFunc
             $parameters['items'][] = [LocalizationUtility::translate('containerflag', 'dce'), '*containerflag'];
         }
 
-        $database = \T3\Dce\Utility\DatabaseUtility::getDatabaseConnection();
-        $dceFields = $database->exec_SELECTgetRows(
-            '*',
-            'tx_dce_domain_model_dcefield',
-            'parent_dce=' . $parameters['row']['uid'] . ' AND deleted=0 AND type IN (0,2)',
-            '',
-            'sorting asc'
-        );
+        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dcefield');
+        $dceFields = $queryBuilder
+            ->select('*')
+            ->from('tx_dce_domain_model_dcefield')
+            ->where(
+                $queryBuilder->expr()->eq(
+                    'parent_dce',
+                    $queryBuilder->createNamedParameter($parameters['row']['uid'], \PDo::PARAM_INT)
+                ),
+                $queryBuilder->expr()->in(
+                    'type',
+                    $queryBuilder->createNamedParameter([0, 2], Connection::PARAM_INT_ARRAY)
+                )
+            )
+            ->orderBy('sorting', 'ASC')
+            ->execute()
+            ->fetchAll();
+
         if (!empty($dceFields)) {
             foreach ($dceFields as $dceField) {
                 $label = LanguageService::sL($dceField['title']);
@@ -86,7 +98,7 @@ class ItemsProcFunc
             $excludedColumns[] = $parameters['row']['new_tca_field_name'];
         }
         $tcaColumns = $GLOBALS['TCA']['tt_content']['columns'];
-        $dbColumns = \T3\Dce\Utility\DatabaseUtility::getDatabaseConnection()->admin_get_fields('tt_content');
+        $dbColumns = DatabaseUtility::admin_get_fields('tt_content');
 
         $parameters['items'][] = [LocalizationUtility::translate('chooseOption', 'dce'), '--div--'];
         $parameters['items'][] = [LocalizationUtility::translate('noMapping', 'dce'), ''];
@@ -132,7 +144,7 @@ class ItemsProcFunc
         }
 
         $tcaColumns = $GLOBALS['TCA']['tt_content']['columns'];
-        $dbColumns = \T3\Dce\Utility\DatabaseUtility::getDatabaseConnection()->admin_get_fields('tt_content');
+        $dbColumns = DatabaseUtility::admin_get_fields('tt_content');
 
         $parameters['items'][] = ['--linebreak--', '--linebreak--'];
         $parameters['items'][] = ['--linebreak--', '--linebreak1--'];

@@ -6,7 +6,6 @@ namespace T3\Dce\Components\ContentElementGenerator;
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
-use T3\Dce\Utility\DatabaseConnection;
 use T3\Dce\Utility\DatabaseUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -16,19 +15,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class InputDatabase implements InputInterface
 {
-    /**
-     * @var DatabaseConnection
-     */
-    protected $databaseConnection;
-
-    /**
-     * DatabaseFetcher constructor
-     */
-    public function __construct()
-    {
-        $this->databaseConnection = DatabaseUtility::getDatabaseConnection();
-    }
-
     /**
      * Returns all available DCE as array with this format
      * (just most important fields listed):
@@ -50,39 +36,66 @@ class InputDatabase implements InputInterface
      */
     public function getDces() : array
     {
-        $tables = $this->databaseConnection->admin_get_tables();
-        if (!\in_array('tx_dce_domain_model_dce', $tables, true) ||
-            !\in_array('tx_dce_domain_model_dcefield', $tables, true)
+        $tables = DatabaseUtility::admin_get_tables();
+        if (!\array_key_exists('tx_dce_domain_model_dce', $tables) ||
+            !\array_key_exists('tx_dce_domain_model_dcefield', $tables)
         ) {
             return [];
         }
 
-        $dceModelRows = $this->databaseConnection->exec_SELECTgetRows(
-            '*',
-            'tx_dce_domain_model_dce',
-            'deleted=0 AND pid=0',
-            '',
-            'sorting asc'
-        );
-        $dceFieldRows = $this->databaseConnection->exec_SELECTgetRows(
-            'tx_dce_domain_model_dcefield.*',
-            'tx_dce_domain_model_dcefield, tx_dce_domain_model_dce',
-            'tx_dce_domain_model_dcefield.deleted=0 AND tx_dce_domain_model_dcefield.hidden=0 AND ' .
-                'tx_dce_domain_model_dcefield.pid=0 AND tx_dce_domain_model_dce.deleted=0 AND ' .
-                'tx_dce_domain_model_dce.hidden=0 AND tx_dce_domain_model_dce.pid=0 AND ' .
-                'tx_dce_domain_model_dce.uid=tx_dce_domain_model_dcefield.parent_dce',
-            '',
-            'tx_dce_domain_model_dce.sorting asc, tx_dce_domain_model_dcefield.sorting asc'
-        );
+        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dce');
+        $dceModelRows = $queryBuilder
+            ->select('*')
+            ->from('tx_dce_domain_model_dce')
+            ->where(
+                $queryBuilder->expr()->eq(
+                    'pid',
+                    $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+                )
+            )
+            ->execute()
+            ->fetchAll();
+
+        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dcefield');
+        $dceFieldRows = $queryBuilder
+            ->select('df.*')
+            ->from('tx_dce_domain_model_dcefield', 'df')
+            ->leftJoin(
+                'df',
+                'tx_dce_domain_model_dce',
+                'd',
+                (string)$queryBuilder->expr()->eq(
+                    'df.parent_dce',
+                    $queryBuilder->quoteIdentifier('d.uid')
+                )
+            )
+            ->where(
+                $queryBuilder->expr()->eq(
+                    'df.pid',
+                    $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+                )
+            )
+            ->orderBy('d.sorting', 'ASC')
+            ->addOrderBy('df.sorting', 'ASC')
+            ->execute()
+            ->fetchAll();
+
         $dceFieldRowsByParentDce = $this->getFieldRowsByParentFieldName($dceFieldRows);
 
-        $dceFieldRowsSortedByParentFields = $this->databaseConnection->exec_SELECTgetRows(
-            'tx_dce_domain_model_dcefield.*',
-            'tx_dce_domain_model_dcefield',
-            'tx_dce_domain_model_dcefield.deleted=0 AND tx_dce_domain_model_dcefield.hidden=0 AND parent_field > 0',
-            '',
-            'tx_dce_domain_model_dcefield.parent_field asc, tx_dce_domain_model_dcefield.sorting asc'
-        );
+        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dcefield');
+        $dceFieldRowsSortedByParentFields = $queryBuilder
+            ->select('df.*')
+            ->from('tx_dce_domain_model_dcefield', 'df')
+            ->where(
+                $queryBuilder->expr()->gt(
+                    'parent_field',
+                    $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+                )
+            )
+            ->orderBy('df.parent_field', 'ASC')
+            ->addOrderBy('df.sorting', 'ASC')
+            ->execute()
+            ->fetchAll();
 
         $dceFieldRowsByParentDceField = $this->getFieldRowsByParentFieldName(
             $dceFieldRowsSortedByParentFields,

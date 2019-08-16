@@ -43,11 +43,19 @@ class DceOnCurrentPage extends AbstractCondition
 
         $dceIdentifier = ltrim($parameters[0], " =");
         if (is_numeric($dceIdentifier)) {
-            $dce = DatabaseUtility::getDatabaseConnection()->exec_SELECTgetSingleRow(
-                '*',
-                'tx_dce_domain_model_dce',
-                'uid=' . $dceIdentifier . ' AND deleted=0'
-            );
+            $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dce');
+            $dce = $queryBuilder
+                ->select('*')
+                ->from('tx_dce_domain_model_dce')
+                ->where(
+                    $queryBuilder->expr()->eq(
+                        'uid',
+                        $queryBuilder->createNamedParameter($dceIdentifier, \PDO::PARAM_INT)
+                    )
+                )
+                ->execute()
+                ->fetch();
+
             if (!$dce) {
                 return false;
             }
@@ -63,12 +71,23 @@ class DceOnCurrentPage extends AbstractCondition
             $currentPageUid = $GLOBALS['TSFE']->page['content_from_pid'];
         }
 
+        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tt_content');
         return \count(
-            DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
-                'uid',
-                'tt_content',
-                'pid=' . $currentPageUid . ' AND CType="' . $dceIdentifier . '" AND hidden=0 AND deleted=0'
-            )
+            $queryBuilder
+                ->select('uid')
+                ->from('tt_content')
+                ->where(
+                    $queryBuilder->expr()->eq(
+                        'pid',
+                        $queryBuilder->createNamedParameter($currentPageUid, \PDO::PARAM_INT)
+                    ),
+                    $queryBuilder->expr()->eq(
+                        'CType',
+                        $queryBuilder->createNamedParameter($dceIdentifier, \PDO::PARAM_STR)
+                    )
+                )
+                ->execute()
+                ->fetchAll()
         ) > 0;
     }
 }

@@ -8,6 +8,7 @@ namespace T3\Dce\Domain\Model;
  */
 use T3\Dce\Components\TemplateRenderer\DceTemplateTypes;
 use T3\Dce\Components\TemplateRenderer\StandaloneViewFactory;
+use T3\Dce\Utility\DatabaseUtility;
 use T3\Dce\Utility\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -1008,15 +1009,17 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         if (array_key_exists($this->getIdentifier(), static::$fieldsCache)) {
             return static::$fieldsCache[$this->getIdentifier()];
         }
-        $rows = \T3\Dce\Utility\DatabaseUtility::getDatabaseConnection()->exec_SELECTgetRows(
-            '*',
-            'tt_content',
-            'CType="' . $this->getIdentifier() . '" AND deleted=0',
-            '',
-            '',
-            '',
-            'uid'
-        );
+        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tt_content');
+        $queryBuilder
+            ->select('*')
+            ->from('tt_content')
+            ->where(
+                $queryBuilder->expr()->eq(
+                    'CType',
+                    $queryBuilder->createNamedParameter($this->getIdentifier(), \PDO::PARAM_STR)
+                )
+            );
+        $rows = DatabaseUtility::getRowsFromQueryBuilder($queryBuilder, 'uid');
         static::$fieldsCache[$this->getIdentifier()] = $rows;
         return $rows;
     }
