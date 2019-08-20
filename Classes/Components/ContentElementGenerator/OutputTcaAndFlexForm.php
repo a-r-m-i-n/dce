@@ -24,17 +24,18 @@ class OutputTcaAndFlexForm
     protected $input;
 
     /**
-     * @var PhpFrontend
+     * @var CacheManager
      */
-    private $cache;
+    private $cacheManager;
 
     /**
      * @param InputInterface $input
+     * @param CacheManager $cacheManager
      */
-    public function __construct(InputInterface $input, PhpFrontend $cache)
+    public function __construct(InputInterface $input, CacheManager $cacheManager)
     {
         $this->input = $input;
-        $this->cache = $cache;
+        $this->cacheManager = $cacheManager;
     }
 
     /**
@@ -42,11 +43,10 @@ class OutputTcaAndFlexForm
      * Call this in Configuration/TCA/Overrides/tt_content.php
      *
      * @return void
-     * @throws \TYPO3\CMS\Core\Cache\Exception\InvalidDataException
      */
     public function generate() : void
     {
-        if (!$sourceCode = $this->cache->get(self::CACHE_KEY)) {
+        if (!$this->cacheManager->has(self::CACHE_KEY)) {
             $sourceCode = '';
 
             $sourceCode .= <<<PHP
@@ -85,9 +85,9 @@ PHP;
                 $sourceCode .= $this->generateTcaForDces($dce) . PHP_EOL;
             }
 
-            $this->cache->set(self::CACHE_KEY, $sourceCode);
+            $this->cacheManager->set(self::CACHE_KEY, $sourceCode);
         }
-        $this->cache->requireOnce(self::CACHE_KEY);
+        $this->cacheManager->requireOnce(self::CACHE_KEY);
     }
 
     /**

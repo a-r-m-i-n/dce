@@ -22,17 +22,17 @@ class OutputPlugin implements OutputInterface
     protected $input;
 
     /**
-     * @var PhpFrontend
+     * @var CacheManager
      */
-    private $cache;
+    private $cacheManager;
 
     /**
      * @param InputInterface $input
      */
-    public function __construct(InputInterface $input, PhpFrontend $cache)
+    public function __construct(InputInterface $input, CacheManager $cacheManager)
     {
         $this->input = $input;
-        $this->cache = $cache;
+        $this->cacheManager = $cacheManager;
     }
 
     /**
@@ -44,7 +44,7 @@ class OutputPlugin implements OutputInterface
      */
     public function generate() : void
     {
-        if (!$sourceCode = $this->cache->get(self::CACHE_KEY)) {
+        if (!$this->cacheManager->has(self::CACHE_KEY)) {
             $sourceCode = '';
 
             $sourceCode .= <<<PHP
@@ -170,8 +170,8 @@ PHP;
 PHP;
                 }
             }
-            $this->cache->set(self::CACHE_KEY, $sourceCode);
+            $this->cacheManager->set(self::CACHE_KEY, $sourceCode);
         }
-        $this->cache->requireOnce(self::CACHE_KEY);
+        $this->cacheManager->requireOnce(self::CACHE_KEY);
     }
 }

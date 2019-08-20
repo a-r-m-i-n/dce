@@ -10,6 +10,7 @@ namespace T3\Dce {
     use TYPO3\CMS\Backend\Routing\UriBuilder;
     use TYPO3\CMS\Core\Context\Exception\AspectNotFoundException;
     use TYPO3\CMS\Core\Context\Context;
+    use TYPO3\CMS\Core\Core\Environment;
     use TYPO3\CMS\Core\Utility\GeneralUtility;
     use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
@@ -71,6 +72,20 @@ namespace T3\Dce {
                     : $uriBuilder->buildUriFromModule($moduleName, $urlParameters);
             }
             return (string) $uri;
+        }
+
+        /**
+         * Returns the path to /var directory. Before TYPO3 9 it uses a hardcoded string.
+         * This method becomes unnecessary, when 8.7 support is dropped.
+         *
+         * @return string
+         */
+        public static function getVarPath(): string
+        {
+            if (!self::isTypo3Version()) {
+                return PATH_site . 'typo3temp/var';
+            }
+            return Environment::getVarPath();
         }
     }
 }

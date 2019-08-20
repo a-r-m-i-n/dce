@@ -19,7 +19,7 @@ interface OutputInterface
      *
      * @param InputInterface $input
      */
-    public function __construct(InputInterface $input, PhpFrontend $cacheFrontend);
+    public function __construct(InputInterface $input, CacheManager $cacheManagerManager);
 
     /**
      * Generating files or configuration and registering it in TYPO3
