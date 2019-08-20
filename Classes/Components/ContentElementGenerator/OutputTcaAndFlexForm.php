@@ -125,7 +125,9 @@ PHP;
         $flexformString = $this->renderFlexformXml($dce);
         $sourceCode .= <<<PHP
 \$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['$dceIdentifier'] = 'pi_flexform';
-\$GLOBALS['TCA']['tt_content']['columns']['pi_flexform']['config']['ds'][',$dceIdentifier'] = '$flexformString';
+\$GLOBALS['TCA']['tt_content']['columns']['pi_flexform']['config']['ds'][',$dceIdentifier'] = <<<XML
+$flexformString
+XML;
 
 PHP;
 
