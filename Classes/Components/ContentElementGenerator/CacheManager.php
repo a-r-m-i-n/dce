@@ -23,6 +23,12 @@ class CacheManager implements SingletonInterface
      */
     private $cachePath;
 
+    /**
+     * @var bool When enabled is false, cache is still written and removed, but does never return values from cache
+     */
+    private $enabled = true;
+
+
     public function __construct(string $cacheName = self::CACHE_NAME)
     {
         $this->cachePath = Compatibility::getVarPath() . $this->getCachePath($cacheName);
@@ -31,6 +37,12 @@ class CacheManager implements SingletonInterface
             if (!$status || !file_exists($this->cachePath) || !is_dir($this->cachePath)) {
                 throw new \RuntimeException('Unable to create cache directory "', $this->cachePath . '"!');
             }
+        }
+
+        if (isset($GLOBALS['TYPO3_CONF_VARS']['USER']['disable_dce_code_cache']) &&
+            $GLOBALS['TYPO3_CONF_VARS']['USER']['disable_dce_code_cache']
+        ) {
+            $this->enabled = false;
         }
     }
 
@@ -62,6 +74,9 @@ class CacheManager implements SingletonInterface
 
     public function has(string $key): bool
     {
+        if (!$this->enabled) {
+            return false;
+        }
         return file_exists($this->buildCacheFilePathByKey($key));
     }
 
@@ -99,6 +114,11 @@ class CacheManager implements SingletonInterface
     public function requireOnce(string $key): void
     {
         $path = $this->buildCacheFilePathByKey($key);
+        if (!file_exists($path)) {
+            throw new \RuntimeException(
+                'Unable to require cache file "' . $path . '"! Please ensure to write cache file, before accessing it.'
+            );
+        }
         require_once $path;
     }
 

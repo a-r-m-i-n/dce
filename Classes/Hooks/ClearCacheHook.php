@@ -9,14 +9,14 @@ namespace T3\Dce\Hooks;
 use T3\Dce\Components\ContentElementGenerator\CacheManager;
 
 /**
- * Class ClearCacheHook
+ * Flushes DCE code cache files
+ *
+ * @see $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc']['dce']
  */
 class ClearCacheHook
 {
-
     public function flushDceCache()
     {
-        $cacheManager = CacheManager::makeInstance();
-        $cacheManager->flush();
+        CacheManager::makeInstance()->flush();
     }
 }

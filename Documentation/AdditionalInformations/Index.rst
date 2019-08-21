@@ -13,3 +13,4 @@ Additional informations
         BackendModule
         TcaMapping
         UserConditions
+        CodeCaching
