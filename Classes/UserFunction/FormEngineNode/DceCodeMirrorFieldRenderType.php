@@ -1,7 +1,7 @@
 <?php
 namespace T3\Dce\UserFunction\FormEngineNode;
 
-/*  | This extension is made for TYPO3 CMS and is licensed
+/*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
@@ -10,6 +10,7 @@ use T3\Dce\Components\TemplateRenderer\StandaloneViewFactory;
 use T3\Dce\Utility\DatabaseUtility;
 use T3\Dce\Utility\File;
 use TYPO3\CMS\Backend\Form\NodeFactory;
+use TYPO3\CMS\Backend\Form\NodeInterface;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -18,7 +19,7 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
 /**
  * Codemirror text area field
  */
-class DceCodeMirrorFieldRenderType implements \TYPO3\CMS\Backend\Form\NodeInterface
+class DceCodeMirrorFieldRenderType implements NodeInterface
 {
     /**
      * Global options from NodeFactory
@@ -110,7 +111,9 @@ class DceCodeMirrorFieldRenderType implements \TYPO3\CMS\Backend\Form\NodeInterf
         $fields = [];
         $rowFields = GeneralUtility::trimExplode(',', $this->data['databaseRow']['fields']);
         if (!empty($rowFields)) {
-            $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dcefield');
+            $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable(
+                'tx_dce_domain_model_dcefield'
+            );
             $rows = $queryBuilder
                 ->select('*')
                 ->from('tx_dce_domain_model_dcefield')
@@ -141,7 +144,9 @@ class DceCodeMirrorFieldRenderType implements \TYPO3\CMS\Backend\Form\NodeInterf
             if (\is_array($rows)) {
                 foreach ($rows as $row) {
                     if ($row['type'] === '2') {
-                        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dcefield');
+                        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable(
+                            'tx_dce_domain_model_dcefield'
+                        );
                         $sectionFields = $queryBuilder
                             ->select('*')
                             ->from('tx_dce_domain_model_dcefield')

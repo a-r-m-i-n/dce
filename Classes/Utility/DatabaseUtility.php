@@ -1,10 +1,11 @@
 <?php
 namespace T3\Dce\Utility;
 
-/*  | This extension is made for TYPO3 CMS and is licensed
+/*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
+ *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
 use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Domain\Repository\DceRepository;
@@ -14,9 +15,6 @@ use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 
-/**
- * Database utility
- */
 class DatabaseUtility
 {
     /**
@@ -24,7 +22,7 @@ class DatabaseUtility
      *
      * @return ConnectionPool
      */
-    public static function getConnectionPool() : ConnectionPool
+    public static function getConnectionPool(): ConnectionPool
     {
         return GeneralUtility::makeInstance(ConnectionPool::class);
     }
@@ -57,7 +55,7 @@ class DatabaseUtility
      * @return array
      * @throws \Doctrine\DBAL\DBALException
      */
-    public static function admin_get_tables() : array
+    public static function adminGetTables() : array
     {
         $tables = [];
         foreach (DatabaseUtility::getConnectionPool()->getConnectionNames() as $connectionName) {
@@ -78,7 +76,7 @@ class DatabaseUtility
      * @return \Doctrine\DBAL\Schema\AbstractSchemaManager|\Doctrine\DBAL\Schema\Column[]|\TYPO3\CMS\Core\Database\Connection
      * @throws \Doctrine\DBAL\DBALException
      */
-    public static function admin_get_fields(string $tableName) : array
+    public static function adminGetFields(string $tableName) : array
     {
         $fields = [];
         foreach (DatabaseUtility::getConnectionPool()->getConnectionNames() as $connectionName) {

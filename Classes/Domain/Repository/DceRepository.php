@@ -1,7 +1,7 @@
 <?php
 namespace T3\Dce\Domain\Repository;
 
-/*  | This extension is made for TYPO3 CMS and is licensed
+/*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
@@ -12,7 +12,9 @@ use T3\Dce\Domain\Model\DceField;
 use T3\Dce\Utility\DatabaseUtility;
 use T3\Dce\Utility\FlexformService;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Database\RelationHandler;
 use TYPO3\CMS\Core\Resource\Collection\AbstractFileCollection;
+use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\FileCollectionRepository;
 use TYPO3\CMS\Core\Resource\FileRepository;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
@@ -24,6 +26,7 @@ use TYPO3\CMS\Extbase\Domain\Repository\CategoryRepository;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
+use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 use TYPO3\CMS\Frontend\Page\PageRepository;
@@ -62,7 +65,7 @@ class DceRepository extends Repository
     public function findAllAndStatics(bool $includeHidden = false) : array
     {
         if ($includeHidden) {
-            /** @var \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings $querySettings */
+            /** @var Typo3QuerySettings $querySettings */
             $querySettings = GeneralUtility::makeInstance(Typo3QuerySettings::class);
             $querySettings->setIgnoreEnableFields(true);
             $this->setDefaultQuerySettings($querySettings);
@@ -110,7 +113,7 @@ class DceRepository extends Repository
         /** @var $dce Dce */
         $dce = $this->findByUid($uid);
 
-        if (!$dce instanceof \T3\Dce\Domain\Model\Dce) {
+        if (!$dce instanceof Dce) {
             throw new \UnexpectedValueException('No DCE found with uid "' . $uid . '".', 1328613288);
         }
         $dce = clone $dce;
@@ -153,16 +156,16 @@ class DceRepository extends Repository
      */
     protected function cloneFields(Dce $dce) : void
     {
-        /** @var $clonedFields \TYPO3\CMS\Extbase\Persistence\ObjectStorage */
-        $clonedFields = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Persistence\ObjectStorage::class);
+        /** @var $clonedFields ObjectStorage */
+        $clonedFields = GeneralUtility::makeInstance(ObjectStorage::class);
         /** @var $field DceField */
         foreach ($dce->getFields() ?? [] as $field) {
             $field = clone $field;
             if ($field->getType() === DceField::TYPE_ELEMENT || $field->getType() === DceField::TYPE_SECTION) {
                 if ($field->getSectionFields()) {
-                    /** @var $clonedSectionFields \TYPO3\CMS\Extbase\Persistence\ObjectStorage */
+                    /** @var $clonedSectionFields ObjectStorage */
                     $clonedSectionFields = GeneralUtility::makeInstance(
-                        \TYPO3\CMS\Extbase\Persistence\ObjectStorage::class
+                        ObjectStorage::class
                     );
                     foreach ($field->getSectionFields() as $sectionField) {
                         /** @var $clonedSectionField DceField */
@@ -431,14 +434,14 @@ class DceRepository extends Repository
             $className{0} = strtoupper($className{0});
         }
         if ($dceFieldConfiguration['dce_get_fal_objects'] && strtolower($className) === 'sys_file') {
-            $className = \TYPO3\CMS\Core\Resource\File::class;
+            $className = File::class;
         }
 
         if ($dceFieldConfiguration['dce_get_fal_objects'] && strtolower($className) === 'sys_file_reference') {
             $contentObjectUid = (int) ($contentObject['_LOCALIZED_UID'] ?? $contentObject['uid']);
             $fileReferences = [];
             if (TYPO3_MODE === 'FE') {
-                $fileRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+                $fileRepository = GeneralUtility::makeInstance(
                     FileRepository::class
                 );
                 $fileReferences = $fileRepository->findByRelation(
@@ -447,8 +450,8 @@ class DceRepository extends Repository
                     $contentObjectUid
                 );
             } else {
-                /** @var $relationHandler \TYPO3\CMS\Core\Database\RelationHandler */
-                $relationHandler = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\RelationHandler::class);
+                /** @var $relationHandler RelationHandler */
+                $relationHandler = GeneralUtility::makeInstance(RelationHandler::class);
                 $relationHandler->start(
                     '',
                     'sys_file_reference',

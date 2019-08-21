@@ -1,14 +1,16 @@
 <?php
 namespace T3\Dce\UserFunction\CustomLabels;
 
-/*  | This extension is made for TYPO3 CMS and is licensed
+/*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
 use T3\Dce\Components\BackendView\SimpleBackendView;
+use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Utility\DatabaseUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
  * Extends TCA label of fields with variable key
@@ -29,7 +31,7 @@ class TtContentLabel
             $this->isDceContentElement($parameter['row'])
         ) {
             try {
-                /** @var \T3\Dce\Domain\Model\Dce $dce */
+                /** @var Dce $dce */
                 $dce = DatabaseUtility::getDceObjectForContentElement($parameter['row']['uid']);
             } catch (\Exception $exception) {
                 $parameter['title'] = 'ERROR: ' . $exception->getMessage();
@@ -37,7 +39,7 @@ class TtContentLabel
             }
 
             if ($dce->isUseSimpleBackendView()) {
-                $objectManager = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
+                $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
                 /** @var SimpleBackendView $simpleBackendViewUtility */
                 $simpleBackendViewUtility = $objectManager->get(SimpleBackendView::class);
                 $headerContent = $simpleBackendViewUtility->getHeaderContent($dce, true);

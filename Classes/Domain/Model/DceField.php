@@ -1,17 +1,19 @@
 <?php
 namespace T3\Dce\Domain\Model;
 
-/*  | This extension is made for TYPO3 CMS and is licensed
+/*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 /**
  * Model for DCE fields. Contains configuration of fields and fetched values.
  * These fields are part of the DCE model.
  */
-class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
+class DceField extends AbstractEntity
 {
     /* Field Type: Element */
     public const TYPE_ELEMENT = 0;
@@ -87,7 +89,7 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return int
      */
-    public function getType() : int
+    public function getType(): int
     {
         return $this->type;
     }
@@ -96,7 +98,7 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param int $type
      * @return self
      */
-    public function setType(int $type) : self
+    public function setType(int $type): self
     {
         $this->type = $type;
         return $this;
@@ -105,7 +107,7 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return string
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -114,7 +116,7 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $title
      * @return self
      */
-    public function setTitle(string $title) : self
+    public function setTitle(string $title): self
     {
         $this->title = $title;
         return $this;
@@ -123,7 +125,7 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return string
      */
-    public function getVariable() : string
+    public function getVariable(): string
     {
         return $this->variable;
     }
@@ -132,7 +134,7 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $variable
      * @return self
      */
-    public function setVariable(string $variable) : self
+    public function setVariable(string $variable): self
     {
         $this->variable = $variable;
         return $this;
@@ -144,7 +146,7 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return string
      */
-    public function getConfiguration() : string
+    public function getConfiguration(): string
     {
         return str_replace('{$variable}', $this->getVariable(), $this->configuration);
     }
@@ -152,10 +154,10 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return array
      */
-    public function getConfigurationAsArray() : array
+    public function getConfigurationAsArray(): array
     {
         $configuration = '<dceFieldConfiguration>' . $this->getConfiguration() . '</dceFieldConfiguration>';
-        $configurationArray = \TYPO3\CMS\Core\Utility\GeneralUtility::xml2array($configuration);
+        $configurationArray = GeneralUtility::xml2array($configuration);
         if (array_key_exists('dceFieldConfiguration', $configurationArray)) {
             return $configurationArray['dceFieldConfiguration'];
         }
@@ -166,7 +168,7 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $configuration xml string
      * @return self
      */
-    public function setConfiguration(string $configuration) : self
+    public function setConfiguration(string $configuration): self
     {
         $this->configuration = $configuration;
         return $this;
@@ -175,7 +177,7 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return string
      */
-    public function getMapTo() : string
+    public function getMapTo(): string
     {
         return $this->mapTo;
     }
@@ -184,7 +186,7 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $mapTo
      * @return self
      */
-    public function setMapTo(string $mapTo) : self
+    public function setMapTo(string $mapTo): self
     {
         $this->mapTo = $mapTo;
         return $this;
@@ -194,7 +196,7 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return string
      */
-    public function getNewTcaFieldName() : string
+    public function getNewTcaFieldName(): string
     {
         return $this->newTcaFieldName;
     }
@@ -203,7 +205,7 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $newTcaFieldName
      * @return self
      */
-    public function setNewTcaFieldName(string $newTcaFieldName) : self
+    public function setNewTcaFieldName(string $newTcaFieldName): self
     {
         $this->newTcaFieldName = $newTcaFieldName;
         return $this;
@@ -212,7 +214,7 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return string
      */
-    public function getNewTcaFieldType() : string
+    public function getNewTcaFieldType(): string
     {
         return $this->newTcaFieldType;
     }
@@ -221,7 +223,7 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $newTcaFieldType
      * @return self
      */
-    public function setNewTcaFieldType(string $newTcaFieldType) : self
+    public function setNewTcaFieldType(string $newTcaFieldType): self
     {
         $this->newTcaFieldType = $newTcaFieldType;
         return $this;
@@ -239,7 +241,7 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param mixed $value
      * @return self
      */
-    public function setValue($value) : self
+    public function setValue($value): self
     {
         $this->value = $value;
         return $this;
@@ -250,7 +252,7 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return bool Returns TRUE when section fields existing, otherwise returns FALSE
      */
-    public function hasSectionFields() : bool
+    public function hasSectionFields(): bool
     {
         $sectionFields = $this->getSectionFields();
         return isset($sectionFields) && \count($sectionFields) > 0;
@@ -259,7 +261,7 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\T3\Dce\Domain\Model\DceField>|null
      */
-    public function getSectionFields() : ?\TYPO3\CMS\Extbase\Persistence\ObjectStorage
+    public function getSectionFields(): ?\TYPO3\CMS\Extbase\Persistence\ObjectStorage
     {
         return $this->sectionFields;
     }
@@ -268,7 +270,7 @@ class DceField extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $sectionFields
      * @return self
      */
-    public function setSectionFields(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $sectionFields) : self
+    public function setSectionFields(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $sectionFields): self
     {
         $this->sectionFields = $sectionFields;
         return $this;

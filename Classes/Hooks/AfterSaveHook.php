@@ -1,7 +1,7 @@
 <?php
 namespace T3\Dce\Hooks;
 
-/*  | This extension is made for TYPO3 CMS and is licensed
+/*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
@@ -11,6 +11,7 @@ use T3\Dce\Domain\Repository\DceRepository;
 use T3\Dce\Utility\DatabaseUtility;
 use T3\Dce\Utility\FlashMessage;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
+use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
@@ -217,7 +218,7 @@ class AfterSaveHook
         FlashMessage::add(
             $message,
             LocalizationUtility::translate($pathToLocallang . 'caution', 'Dce'),
-            \TYPO3\CMS\Core\Messaging\AbstractMessage::INFO
+            AbstractMessage::INFO
         );
     }
 

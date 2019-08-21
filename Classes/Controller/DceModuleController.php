@@ -1,14 +1,18 @@
 <?php
 namespace T3\Dce\Controller;
 
-/*  | This extension is made for TYPO3 CMS and is licensed
+/*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
+use T3\Dce\Components\FlexformToTcaMapper\Mapper;
+use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Domain\Repository\DceRepository;
 use T3\Dce\Utility\File;
+use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
@@ -16,7 +20,7 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  * DCE Module Controller
  * Provides the backend DCE module, for faster and easier access to DCEs.
  */
-class DceModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
+class DceModuleController extends ActionController
 {
     /**
      * @var DceRepository
@@ -45,19 +49,19 @@ class DceModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
     }
 
     /**
-     * @param \T3\Dce\Domain\Model\Dce $dce
+     * @param Dce $dce
      * @param bool $perform
      * @return void
      * @throws \TYPO3\CMS\Core\Exception
      */
-    public function updateTcaMappingsAction(\T3\Dce\Domain\Model\Dce $dce, $perform = false) : void
+    public function updateTcaMappingsAction(Dce $dce, $perform = false) : void
     {
         $contentElements = $this->dceRepository->findContentElementsBasedOnDce($dce);
         $this->view->assign('contentElements', $contentElements);
         $this->view->assign('dce', $dce);
         if ($perform) {
             foreach ($contentElements as $contentElement) {
-                \T3\Dce\Components\FlexformToTcaMapper\Mapper::saveFlexformValuesToTca(
+                Mapper::saveFlexformValuesToTca(
                     $contentElement,
                     $contentElement['pi_flexform']
                 );
@@ -75,8 +79,8 @@ class DceModuleController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
      */
     public function clearCachesAction() : void
     {
-        /** @var \TYPO3\CMS\Core\DataHandling\DataHandler $dataHandler */
-        $dataHandler = $this->objectManager->get(\TYPO3\CMS\Core\DataHandling\DataHandler::class);
+        /** @var DataHandler $dataHandler */
+        $dataHandler = $this->objectManager->get(DataHandler::class);
         $dataHandler->start([], []);
         $dataHandler->clear_cacheCmd('system');
         $dataHandler->clear_cacheCmd('pages');

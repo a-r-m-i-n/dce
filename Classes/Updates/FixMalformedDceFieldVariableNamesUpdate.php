@@ -1,7 +1,7 @@
 <?php
 namespace T3\Dce\Updates;
 
-/*  | This extension is made for TYPO3 CMS and is licensed
+/*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2012-2016 Armin Vieweg <armin@v.ieweg.de>
@@ -80,7 +80,9 @@ class FixMalformedDceFieldVariableNamesUpdate extends AbstractUpdate
             // Update tt_content records based on the DCE regarding current field
             if ($malformedDceField['parent_dce'] == 0) {
                 // get section field and then DCE (thanks god, that section fields are limited to be not nestable!^^)
-                $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dcefield');
+                $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable(
+                    'tx_dce_domain_model_dcefield'
+                );
                 $sectionParent = $queryBuilder
                     ->select('*')
                     ->from('tx_dce_domain_model_dcefield')

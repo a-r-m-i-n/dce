@@ -1,12 +1,11 @@
 <?php
 namespace T3\Dce\Updates;
 
-/*  | This extension is made for TYPO3 CMS and is licensed
+/*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
-
 use T3\Dce\Utility\DatabaseUtility;
 use TYPO3\CMS\Core\Database\Connection;
 
@@ -35,7 +34,7 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
     public function checkForUpdate(&$description)
     {
         // Check if "parent" and "sorting" fields are existing in DceField table
-        $dceFieldTableFields = DatabaseUtility::admin_get_fields('tx_dce_domain_model_dcefield');
+        $dceFieldTableFields = DatabaseUtility::adminGetFields('tx_dce_domain_model_dcefield');
         if (!array_key_exists('parent_dce', $dceFieldTableFields) ||
             !array_key_exists('parent_field', $dceFieldTableFields) ||
             !array_key_exists('sorting', $dceFieldTableFields)
@@ -91,7 +90,9 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
             ->from('tx_dce_domain_model_dce');
         $availableDces = DatabaseUtility::getRowsFromQueryBuilder($queryBuilder, 'uid');
 
-        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable($this->getSourceTableNameForSectionField());
+        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable(
+            $this->getSourceTableNameForSectionField()
+        );
         $sectionFieldRelations = $queryBuilder
             ->select('*')
             ->from($this->getSourceTableNameForSectionField())
@@ -113,7 +114,9 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
             );
         }
 
-        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable($this->getSourceTableNameForDceField());
+        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable(
+            $this->getSourceTableNameForDceField()
+        );
         $dceFieldRelations = $queryBuilder
             ->selectLiteral('DISTINCT A.uid_local, A.uid_foreign')
             ->from($this->getSourceTableNameForDceField(), 'A')
@@ -139,7 +142,9 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
         $dceFieldUid = 0;
         foreach ($dceFieldRelations as $dceFieldRelation) {
             if ($dceFieldUid == $dceFieldRelation['uid_foreign']) {
-                $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dcefield');
+                $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable(
+                    'tx_dce_domain_model_dcefield'
+                );
                 $dceFields = $queryBuilder
                     ->select('*')
                     ->from('tx_dce_domain_model_dcefield')
@@ -155,7 +160,9 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
                 foreach ($dceFields as $dceField) {
                     $dceFieldData = $dceField;
                     unset($dceFieldData['uid']);
-                    $connection = DatabaseUtility::getConnectionPool()->getConnectionForTable('tx_dce_domain_model_dcefield');
+                    $connection = DatabaseUtility::getConnectionPool()->getConnectionForTable(
+                        'tx_dce_domain_model_dcefield'
+                    );
                     $connection->insert(
                         'tx_dce_domain_model_dcefield',
                         $dceFieldData
@@ -163,7 +170,9 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
                     $dceFieldInsertUid = $connection->lastInsertId('tx_dce_domain_model_dcefield');
 
                     if ((int)$dceField['type'] === 2) {
-                        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dcefield');
+                        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable(
+                            'tx_dce_domain_model_dcefield'
+                        );
                         $dceSectionFields = $queryBuilder
                             ->select('B.*')
                             ->from('tx_dce_domain_model_dcefield', 'B')
@@ -189,7 +198,9 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
                             $dceSectionFieldData = $dceSectionField;
                             $dceSectionFieldData['parent_field'] = $dceFieldInsertUid;
                             unset($dceSectionFieldData['uid']);
-                            $connection = DatabaseUtility::getConnectionPool()->getConnectionForTable('tx_dce_domain_model_dcefield');
+                            $connection = DatabaseUtility::getConnectionPool()->getConnectionForTable(
+                                'tx_dce_domain_model_dcefield'
+                            );
                             $connection->insert(
                                 'tx_dce_domain_model_dcefield',
                                 $dceSectionFieldData
@@ -197,7 +208,9 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
                         }
                     }
 
-                    $connection = DatabaseUtility::getConnectionPool()->getConnectionForTable($this->getSourceTableNameForDceField());
+                    $connection = DatabaseUtility::getConnectionPool()->getConnectionForTable(
+                        $this->getSourceTableNameForDceField()
+                    );
                     $connection->update(
                         $this->getSourceTableNameForDceField(),
                         [
@@ -213,7 +226,9 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
             $dceFieldUid = $dceFieldRelation['uid_foreign'];
         }
 
-        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable($this->getSourceTableNameForDceField());
+        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable(
+            $this->getSourceTableNameForDceField()
+        );
         $dceFieldRelations = $queryBuilder
             ->select('*')
             ->from($this->getSourceTableNameForDceField())
@@ -255,7 +270,9 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
                 $customMessages = $message;
             }
 
-            $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dcefield');
+            $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable(
+                'tx_dce_domain_model_dcefield'
+            );
             $queryBuilder
                 ->update('tx_dce_domain_model_dcefield')
                 ->set('deleted', 1)
@@ -305,7 +322,7 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
      */
     protected function getSourceTableNameForDceField() : ?string
     {
-        $tables = DatabaseUtility::admin_get_tables();
+        $tables = DatabaseUtility::adminGetTables();
         if (array_key_exists('tx_dce_dce_dcefield_mm', $tables)) {
             return 'tx_dce_dce_dcefield_mm';
         }
@@ -327,7 +344,7 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
      */
     protected function getSourceTableNameForSectionField() : ?string
     {
-        $tables = DatabaseUtility::admin_get_tables();
+        $tables = DatabaseUtility::adminGetTables();
         if (array_key_exists('tx_dce_dcefield_sectionfields_mm', $tables)) {
             return 'tx_dce_dcefield_sectionfields_mm';
         }

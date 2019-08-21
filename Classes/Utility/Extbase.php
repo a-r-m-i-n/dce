@@ -1,12 +1,16 @@
 <?php
 namespace T3\Dce\Utility;
 
-/*  | This extension is made for TYPO3 CMS and is licensed
+/*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
+use T3\Dce\Domain\Repository\DceRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Core\Bootstrap;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /**
  * Utility class for the greatest and only existing extension-framework for TYPO3
@@ -34,8 +38,8 @@ class Extbase
         array $settings = [],
         bool $compressedObject = false
     ) {
-        $bootstrap = new \TYPO3\CMS\Extbase\Core\Bootstrap();
-        $bootstrap->cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
+        $bootstrap = new Bootstrap();
+        $bootstrap->cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
         $configuration = [
             'vendorName' => $vendorName,
             'extensionName' => $extensionName,
@@ -54,8 +58,8 @@ class Extbase
         $previousValue = $GLOBALS['TYPO3_CONF_VARS']['FE']['pageNotFoundOnCHashError'];
         $GLOBALS['TYPO3_CONF_VARS']['FE']['pageNotFoundOnCHashError'] = false;
         if ($settings['returnFromCache']) {
-            $objectManager = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
-            $dceRepository = $objectManager->get(\T3\Dce\Domain\Repository\DceRepository::class);
+            $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+            $dceRepository = $objectManager->get(DceRepository::class);
             $extbaseReturnValue = $dceRepository->findInCacheByContentObjectUid($settings['contentElementUid']);
         }
         if (!$settings['returnFromCache'] || $extbaseReturnValue === null) {

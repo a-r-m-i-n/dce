@@ -1,7 +1,7 @@
 <?php
 namespace T3\Dce\Components\DceContainer;
 
-/*  | This extension is made for TYPO3 CMS and is licensed
+/*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
@@ -9,6 +9,8 @@ namespace T3\Dce\Components\DceContainer;
 use T3\Dce\Compatibility;
 use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Utility\DatabaseUtility;
+use T3\Dce\Utility\Extbase;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -40,8 +42,8 @@ class ContainerFactory
         $total = \count($contentElements);
         foreach ($contentElements as $index => $contentElement) {
             try {
-                /** @var \T3\Dce\Domain\Model\Dce $dce */
-                $dceInstance = clone \T3\Dce\Utility\Extbase::bootstrapControllerAction(
+                /** @var Dce $dce */
+                $dceInstance = clone Extbase::bootstrapControllerAction(
                     'T3',
                     'Dce',
                     'Dce',
@@ -122,7 +124,7 @@ class ContainerFactory
             );
         }
 
-        if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('gridelements')
+        if (ExtensionManagementUtility::isLoaded('gridelements')
             && $contentObject['tx_gridelements_container'] != '0'
             && $contentObject['tx_gridelements_columns'] != '0'
         ) {

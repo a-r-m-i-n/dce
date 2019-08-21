@@ -1,7 +1,7 @@
 <?php
 namespace T3\Dce\UserFunction;
 
-/*  | This extension is made for TYPO3 CMS and is licensed
+/*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
@@ -98,7 +98,7 @@ class ItemsProcFunc
             $excludedColumns[] = $parameters['row']['new_tca_field_name'];
         }
         $tcaColumns = $GLOBALS['TCA']['tt_content']['columns'];
-        $dbColumns = DatabaseUtility::admin_get_fields('tt_content');
+        $dbColumns = DatabaseUtility::adminGetFields('tt_content');
 
         $parameters['items'][] = [LocalizationUtility::translate('chooseOption', 'dce'), '--div--'];
         $parameters['items'][] = [LocalizationUtility::translate('noMapping', 'dce'), ''];
@@ -144,7 +144,7 @@ class ItemsProcFunc
         }
 
         $tcaColumns = $GLOBALS['TCA']['tt_content']['columns'];
-        $dbColumns = DatabaseUtility::admin_get_fields('tt_content');
+        $dbColumns = DatabaseUtility::adminGetFields('tt_content');
 
         $parameters['items'][] = ['--linebreak--', '--linebreak--'];
         $parameters['items'][] = ['--linebreak--', '--linebreak1--'];

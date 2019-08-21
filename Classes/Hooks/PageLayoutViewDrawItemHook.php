@@ -1,14 +1,16 @@
 <?php
 namespace T3\Dce\Hooks;
 
-/*  | This extension is made for TYPO3 CMS and is licensed
+/*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
 use T3\Dce\Components\BackendView\SimpleBackendView;
+use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Utility\DatabaseUtility;
 use TYPO3\CMS\Backend\View\PageLayoutView;
+use TYPO3\CMS\Backend\View\PageLayoutViewDrawItemHookInterface;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Resource\Exception\ResourceDoesNotExistException;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
@@ -17,7 +19,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 /**
  * PageLayoutView DrawItem Hook for DCE content elements
  */
-class PageLayoutViewDrawItemHook implements \TYPO3\CMS\Backend\View\PageLayoutViewDrawItemHookInterface
+class PageLayoutViewDrawItemHook implements PageLayoutViewDrawItemHookInterface
 {
     /**
      * @var bool
@@ -36,7 +38,7 @@ class PageLayoutViewDrawItemHook implements \TYPO3\CMS\Backend\View\PageLayoutVi
      * @throws ResourceDoesNotExistException
      */
     public function preProcess(
-        \TYPO3\CMS\Backend\View\PageLayoutView &$parentObject,
+        PageLayoutView &$parentObject,
         &$drawItem,
         &$headerContent,
         &$itemContent,
@@ -48,7 +50,7 @@ class PageLayoutViewDrawItemHook implements \TYPO3\CMS\Backend\View\PageLayoutVi
         }
 
         try {
-            /** @var \T3\Dce\Domain\Model\Dce $dce */
+            /** @var Dce $dce */
             $dce = DatabaseUtility::getDceObjectForContentElement($row['uid']);
         } catch (\Exception $exception) {
             $headerContent = '<strong class="text-danger">' . $exception->getMessage() .'</strong>';

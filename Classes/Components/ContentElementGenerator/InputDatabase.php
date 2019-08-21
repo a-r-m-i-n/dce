@@ -1,7 +1,7 @@
 <?php
 namespace T3\Dce\Components\ContentElementGenerator;
 
-/*  | This extension is made for TYPO3 CMS and is licensed
+/*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
@@ -36,7 +36,7 @@ class InputDatabase implements InputInterface
      */
     public function getDces() : array
     {
-        $tables = DatabaseUtility::admin_get_tables();
+        $tables = DatabaseUtility::adminGetTables();
         if (!\array_key_exists('tx_dce_domain_model_dce', $tables) ||
             !\array_key_exists('tx_dce_domain_model_dcefield', $tables)
         ) {

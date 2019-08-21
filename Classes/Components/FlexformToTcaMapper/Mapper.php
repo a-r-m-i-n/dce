@@ -1,7 +1,7 @@
 <?php
 namespace T3\Dce\Components\FlexformToTcaMapper;
 
-/*  | This extension is made for TYPO3 CMS and is licensed
+/*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
@@ -43,7 +43,9 @@ class Mapper
     public static function getDceFieldRowsWithNewTcaColumns() : array
     {
         try {
-            $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dcefield');
+            $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable(
+                'tx_dce_domain_model_dcefield'
+            );
             $rows = $queryBuilder
                 ->select('*')
                 ->from('tx_dce_domain_model_dcefield')
@@ -184,7 +186,7 @@ class Mapper
         }
 
         if (!empty($updateData)) {
-            $databaseColumns = DatabaseUtility::admin_get_fields('tt_content');
+            $databaseColumns = DatabaseUtility::adminGetFields('tt_content');
             foreach (array_keys($updateData) as $columnName) {
                 if (!array_key_exists($columnName, $databaseColumns)) {
                     throw new \InvalidArgumentException(

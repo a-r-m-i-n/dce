@@ -1,12 +1,13 @@
 <?php
 namespace T3\Dce\Utility;
 
-/*  | This extension is made for TYPO3 CMS and is licensed
+/*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -32,8 +33,8 @@ class PageTS
     {
         $id = $id ?: GeneralUtility::_GP('id');
         if (!isset(static::$pageTsContent[$id])) {
-            /** @var \TYPO3\CMS\Extbase\Service\TypoScriptService $typoScriptService */
-            $typoScriptService = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Service\TypoScriptService');
+            /** @var TypoScriptService $typoScriptService */
+            $typoScriptService = GeneralUtility::makeInstance(TypoScriptService::class);
             static::$pageTsContent[$id] = $typoScriptService->convertTypoScriptArrayToPlainArray(
                 BackendUtility::getPagesTSconfig($id)
             );

@@ -1,25 +1,27 @@
 <?php
 namespace T3\Dce\Controller;
 
-/*  | This extension is made for TYPO3 CMS and is licensed
+/*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
 use T3\Dce\Components\DceContainer\ContainerFactory;
+use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Domain\Repository\DceRepository;
 use T3\Dce\Utility\DatabaseUtility;
 use T3\Dce\Utility\FlexformService;
 use T3\Dce\Utility\TypoScript;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
  * DCE Controller
  * Handles the output of content element based on DCEs in front- and backend.
  */
-class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
+class DceController extends ActionController
 {
     /**
      * DCE Repository
@@ -69,7 +71,7 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK
         );
 
-        /** @var $dce \T3\Dce\Domain\Model\Dce */
+        /** @var $dce Dce */
         $dce = $this->dceRepository->findAndBuildOneByUid(
             DceRepository::extractUidFromCTypeOrIdentifier('dce_' . $config['pluginName']),
             $this->settings,
@@ -102,7 +104,7 @@ class DceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
         $this->settings = $this->simulateContentElementSettings($this->settings['contentElementUid']);
 
-        /** @var $dce \T3\Dce\Domain\Model\Dce */
+        /** @var $dce Dce */
         $dce = clone $this->dceRepository->findAndBuildOneByUid(
             $uid,
             $this->settings,

@@ -1,11 +1,13 @@
 <?php
 namespace T3\Dce\Hooks;
 
-/*  | This extension is made for TYPO3 CMS and is licensed
+/*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
+use T3\Dce\Domain\Repository\DceRepository;
+use TYPO3\CMS\Core\DataHandling\DataHandler;
 
 /**
  * Import/Export Hook
@@ -24,7 +26,7 @@ class ImportExportHook
         /** @var array $data */
         $data = $params['data'];
 
-        /** @var \TYPO3\CMS\Core\DataHandling\DataHandler $tceMain */
+        /** @var DataHandler $tceMain */
         $tceMain = $params['tce'];
         $tceMain->start([], []);
 
@@ -33,7 +35,7 @@ class ImportExportHook
                 if (array_key_exists('tx_dce_dce', $ttContentUpdatedFields)) {
                     $dceUid = (int) substr($ttContentUpdatedFields['tx_dce_dce'], \strlen('tx_dce_domain_model_dce_'));
                     $tceMain->updateDB('tt_content', $ttContentUid, [
-                        'CType' => \T3\Dce\Domain\Repository\DceRepository::convertUidToCtype($dceUid),
+                        'CType' => DceRepository::convertUidToCtype($dceUid),
                         'tx_dce_dce' => $dceUid
                     ]);
                 }

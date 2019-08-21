@@ -1,7 +1,7 @@
 <?php
 namespace T3\Dce\Updates;
 
-/*  | This extension is made for TYPO3 CMS and is licensed
+/*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
@@ -9,6 +9,7 @@ namespace T3\Dce\Updates;
 
 use T3\Dce\Utility\DatabaseUtility;
 use TYPO3\CMS\Core\Charset\CharsetConverter;
+use TYPO3\CMS\Core\Configuration\FlexForm\FlexFormTools;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -95,8 +96,8 @@ class MigrateFlexformSheetIdentifierUpdate extends AbstractUpdate
             $tabsGroupedByDce[$tabRow['parent_dce']][] = $tabRow;
         }
 
-        /** @var \TYPO3\CMS\Core\Configuration\FlexForm\FlexFormTools $flexFormTools */
-        $flexFormTools = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Configuration\FlexForm\FlexFormTools::class);
+        /** @var FlexFormTools $flexFormTools */
+        $flexFormTools = GeneralUtility::makeInstance(FlexFormTools::class);
         foreach ($tabsGroupedByDce as $dceUid => $tabs) {
             $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tt_content');
             $contentElements = $queryBuilder

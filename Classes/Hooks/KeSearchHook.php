@@ -1,11 +1,12 @@
 <?php
 namespace T3\Dce\Hooks;
 
-/*  | This extension is made for TYPO3 CMS and is licensed
+/*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2016-2019 Armin Vieweg <armin@v.ieweg.de>
  */
+use T3\Dce\Domain\Repository\DceRepository;
 use T3\Dce\Utility\DatabaseUtility;
 
 /**
@@ -23,7 +24,7 @@ class KeSearchHook
      */
     public function modifyContentFromContentElement(&$bodytext, array $row, $indexerTypes)
     {
-        $dceUid = \T3\Dce\Domain\Repository\DceRepository::extractUidFromCTypeOrIdentifier($row['CType']);
+        $dceUid = DceRepository::extractUidFromCTypeOrIdentifier($row['CType']);
         if (!$dceUid) {
             return;
         }

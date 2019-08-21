@@ -1,7 +1,7 @@
 <?php
 namespace T3\Dce\Domain\Model;
 
-/*  | This extension is made for TYPO3 CMS and is licensed
+/*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
@@ -11,12 +11,13 @@ use T3\Dce\Components\TemplateRenderer\StandaloneViewFactory;
 use T3\Dce\Utility\DatabaseUtility;
 use T3\Dce\Utility\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 /**
  * Model for DCEs. This model contains all necessary informations
  * to render the content element in frontend.
  */
-class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
+class Dce extends AbstractEntity
 {
     /**
      * @var array Cache for DceFields
@@ -201,7 +202,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return bool
      */
-    public function getHidden() : bool
+    public function getHidden(): bool
     {
         return $this->hidden;
     }
@@ -210,7 +211,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param bool $hidden
      * @return self
      */
-    public function setHidden(bool $hidden) : self
+    public function setHidden(bool $hidden): self
     {
         $this->hidden = $hidden;
         return $this;
@@ -219,7 +220,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return array|null
      */
-    public function getContainerIterator() : ?array
+    public function getContainerIterator(): ?array
     {
         return $this->containerIterator;
     }
@@ -228,7 +229,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param array|null $containerIterator
      * @return self
      */
-    public function setContainerIterator(array $containerIterator = null) : self
+    public function setContainerIterator(array $containerIterator = null): self
     {
         $this->containerIterator = $containerIterator;
         return $this;
@@ -237,7 +238,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return string
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -246,7 +247,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $title
      * @return self
      */
-    public function setTitle(string $title) : self
+    public function setTitle(string $title): self
     {
         $this->title = $title;
         return $this;
@@ -257,7 +258,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return string
      */
-    public function getIdentifier() : string
+    public function getIdentifier(): string
     {
         return empty($this->identifier) ? 'dce_dceuid' . $this->getUid() : 'dce_' . $this->identifier;
     }
@@ -266,7 +267,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $identifier
      * @return self
      */
-    public function setIdentifier(string $identifier) : self
+    public function setIdentifier(string $identifier): self
     {
         $this->identifier = strtolower($identifier);
         return $this;
@@ -275,7 +276,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return string
      */
-    public function getTemplateContent() : string
+    public function getTemplateContent(): string
     {
         return $this->templateContent;
     }
@@ -284,7 +285,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $templateContent
      * @return self
      */
-    public function setTemplateContent(string $templateContent) : self
+    public function setTemplateContent(string $templateContent): self
     {
         $this->templateContent = $templateContent;
         return $this;
@@ -293,7 +294,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return string
      */
-    public function getTemplateFile() : string
+    public function getTemplateFile(): string
     {
         return $this->templateFile;
     }
@@ -302,7 +303,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $templateFile
      * @return self
      */
-    public function setTemplateFile(string $templateFile) : self
+    public function setTemplateFile(string $templateFile): self
     {
         $this->templateFile = $templateFile;
         return $this;
@@ -311,7 +312,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return string
      */
-    public function getTemplateType() : string
+    public function getTemplateType(): string
     {
         return $this->templateType;
     }
@@ -320,7 +321,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $templateType
      * @return self
      */
-    public function setTemplateType(string $templateType) : self
+    public function setTemplateType(string $templateType): self
     {
         $this->templateType = $templateType;
         return $this;
@@ -329,7 +330,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return string
      */
-    public function getTemplateLayoutRootPath() : string
+    public function getTemplateLayoutRootPath(): string
     {
         return $this->templateLayoutRootPath;
     }
@@ -338,7 +339,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $templateLayoutRootPath
      * @return self
      */
-    public function setTemplateLayoutRootPath(string $templateLayoutRootPath) : self
+    public function setTemplateLayoutRootPath(string $templateLayoutRootPath): self
     {
         $this->templateLayoutRootPath = $templateLayoutRootPath;
         return $this;
@@ -347,7 +348,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return string
      */
-    public function getTemplatePartialRootPath() : string
+    public function getTemplatePartialRootPath(): string
     {
         return $this->templatePartialRootPath;
     }
@@ -356,7 +357,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $templatePartialRootPath
      * @return self
      */
-    public function setTemplatePartialRootPath(string $templatePartialRootPath) : self
+    public function setTemplatePartialRootPath(string $templatePartialRootPath): self
     {
         $this->templatePartialRootPath = $templatePartialRootPath;
         return $this;
@@ -365,7 +366,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\T3\Dce\Domain\Model\DceField>|null
      */
-    public function getFields() : ?\TYPO3\CMS\Extbase\Persistence\ObjectStorage
+    public function getFields(): ?\TYPO3\CMS\Extbase\Persistence\ObjectStorage
     {
         return $this->fields;
     }
@@ -374,7 +375,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<DceField> $fields
      * @return self
      */
-    public function setFields(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $fields) : self
+    public function setFields(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $fields): self
     {
         $this->fields = $fields;
         return $this;
@@ -384,7 +385,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param \T3\Dce\Domain\Model\DceField $field The field to be added
      * @return self
      */
-    public function addField(\T3\Dce\Domain\Model\DceField $field) : self
+    public function addField(\T3\Dce\Domain\Model\DceField $field): self
     {
         $this->fields->attach($field);
         return $this;
@@ -394,7 +395,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param \T3\Dce\Domain\Model\DceField $fieldToRemove The field to be removed
      * @return self
      */
-    public function removeField(\T3\Dce\Domain\Model\DceField $fieldToRemove) : self
+    public function removeField(\T3\Dce\Domain\Model\DceField $fieldToRemove): self
     {
         $this->fields->detach($fieldToRemove);
         return $this;
@@ -403,7 +404,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return bool
      */
-    public function getUseSimpleBackendView() : bool
+    public function getUseSimpleBackendView(): bool
     {
         return $this->useSimpleBackendView;
     }
@@ -411,7 +412,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return bool
      */
-    public function isUseSimpleBackendView() : bool
+    public function isUseSimpleBackendView(): bool
     {
         return $this->useSimpleBackendView;
     }
@@ -420,7 +421,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param bool $useSimpleBackendView
      * @return self
      */
-    public function setUseSimpleBackendView(bool $useSimpleBackendView) : self
+    public function setUseSimpleBackendView(bool $useSimpleBackendView): self
     {
         $this->useSimpleBackendView = $useSimpleBackendView;
         return $this;
@@ -429,7 +430,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return string
      */
-    public function getBackendViewHeader() : string
+    public function getBackendViewHeader(): string
     {
         return $this->backendViewHeader;
     }
@@ -438,7 +439,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $backendViewHeader
      * @return self
      */
-    public function setBackendViewHeader(string $backendViewHeader) : self
+    public function setBackendViewHeader(string $backendViewHeader): self
     {
         $this->backendViewHeader = $backendViewHeader;
         return $this;
@@ -447,7 +448,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return string
      */
-    public function getBackendViewBodytext() : string
+    public function getBackendViewBodytext(): string
     {
         return $this->backendViewBodytext;
     }
@@ -455,7 +456,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return array
      */
-    public function getBackendViewBodytextArray() : array
+    public function getBackendViewBodytextArray(): array
     {
         return GeneralUtility::trimExplode(',', $this->getBackendViewBodytext(), true) ?? [];
     }
@@ -464,7 +465,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $backendViewBodytext
      * @return self
      */
-    public function setBackendViewBodytext(string $backendViewBodytext) : self
+    public function setBackendViewBodytext(string $backendViewBodytext): self
     {
         $this->backendViewBodytext = $backendViewBodytext;
         return $this;
@@ -473,7 +474,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return string
      */
-    public function getBackendTemplateType() : string
+    public function getBackendTemplateType(): string
     {
         return $this->backendTemplateType;
     }
@@ -482,7 +483,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $backendTemplateType
      * @return self
      */
-    public function setBackendTemplateType(string $backendTemplateType) : self
+    public function setBackendTemplateType(string $backendTemplateType): self
     {
         $this->backendTemplateType = $backendTemplateType;
         return $this;
@@ -491,7 +492,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return string
      */
-    public function getBackendTemplateContent() : string
+    public function getBackendTemplateContent(): string
     {
         return $this->backendTemplateContent;
     }
@@ -500,7 +501,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $backendTemplateContent
      * @return self
      */
-    public function setBackendTemplateContent(string $backendTemplateContent) : self
+    public function setBackendTemplateContent(string $backendTemplateContent): self
     {
         $this->backendTemplateContent = $backendTemplateContent;
         return $this;
@@ -509,7 +510,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return string
      */
-    public function getBackendTemplateFile() : string
+    public function getBackendTemplateFile(): string
     {
         return $this->backendTemplateFile;
     }
@@ -518,7 +519,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $backendTemplateFile
      * @return self
      */
-    public function setBackendTemplateFile(string $backendTemplateFile) : self
+    public function setBackendTemplateFile(string $backendTemplateFile): self
     {
         $this->backendTemplateFile = $backendTemplateFile;
         return $this;
@@ -527,7 +528,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return bool
      */
-    public function getEnableDetailpage() : bool
+    public function getEnableDetailpage(): bool
     {
         return $this->enableDetailpage;
     }
@@ -536,7 +537,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param bool $enableDetailpage
      * @return self
      */
-    public function setEnableDetailpage(bool $enableDetailpage) : self
+    public function setEnableDetailpage(bool $enableDetailpage): self
     {
         $this->enableDetailpage = $enableDetailpage;
         return $this;
@@ -545,7 +546,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return string
      */
-    public function getDetailpageIdentifier() : string
+    public function getDetailpageIdentifier(): string
     {
         return $this->detailpageIdentifier;
     }
@@ -554,7 +555,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $detailpageIdentifier
      * @return self
      */
-    public function setDetailpageIdentifier(string $detailpageIdentifier) : self
+    public function setDetailpageIdentifier(string $detailpageIdentifier): self
     {
         $this->detailpageIdentifier = $detailpageIdentifier;
         return $this;
@@ -563,7 +564,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return string
      */
-    public function getDetailpageTemplateType() : string
+    public function getDetailpageTemplateType(): string
     {
         return $this->detailpageTemplateType;
     }
@@ -572,7 +573,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $detailpageTemplateType
      * @return self
      */
-    public function setDetailpageTemplateType(string $detailpageTemplateType) : self
+    public function setDetailpageTemplateType(string $detailpageTemplateType): self
     {
         $this->detailpageTemplateType = $detailpageTemplateType;
         return $this;
@@ -581,7 +582,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return string
      */
-    public function getDetailpageTemplate() : string
+    public function getDetailpageTemplate(): string
     {
         return $this->detailpageTemplate;
     }
@@ -590,7 +591,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $detailpageTemplate
      * @return self
      */
-    public function setDetailpageTemplate(string $detailpageTemplate) : self
+    public function setDetailpageTemplate(string $detailpageTemplate): self
     {
         $this->detailpageTemplate = $detailpageTemplate;
         return $this;
@@ -599,7 +600,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return string
      */
-    public function getDetailpageTemplateFile() : string
+    public function getDetailpageTemplateFile(): string
     {
         return $this->detailpageTemplateFile;
     }
@@ -608,7 +609,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $detailpageTemplateFile
      * @return self
      */
-    public function setDetailpageTemplateFile(string $detailpageTemplateFile) : self
+    public function setDetailpageTemplateFile(string $detailpageTemplateFile): self
     {
         $this->detailpageTemplateFile = $detailpageTemplateFile;
         return $this;
@@ -617,7 +618,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return bool
      */
-    public function getEnableContainer() : bool
+    public function getEnableContainer(): bool
     {
         return $this->enableContainer;
     }
@@ -626,7 +627,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param bool $enableContainer
      * @return self
      */
-    public function setEnableContainer(bool $enableContainer) : self
+    public function setEnableContainer(bool $enableContainer): self
     {
         $this->enableContainer = $enableContainer;
         return $this;
@@ -635,7 +636,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return int
      */
-    public function getContainerItemLimit() : int
+    public function getContainerItemLimit(): int
     {
         return $this->containerItemLimit;
     }
@@ -644,7 +645,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param int $containerItemLimit
      * @return self
      */
-    public function setContainerItemLimit(int $containerItemLimit) : self
+    public function setContainerItemLimit(int $containerItemLimit): self
     {
         $this->containerItemLimit = $containerItemLimit;
         return $this;
@@ -653,7 +654,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return string
      */
-    public function getContainerTemplateType() : string
+    public function getContainerTemplateType(): string
     {
         return $this->containerTemplateType;
     }
@@ -662,7 +663,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $containerTemplateType
      * @return self
      */
-    public function setContainerTemplateType(string $containerTemplateType) : self
+    public function setContainerTemplateType(string $containerTemplateType): self
     {
         $this->containerTemplateType = $containerTemplateType;
         return $this;
@@ -671,7 +672,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return string
      */
-    public function getContainerTemplate() : string
+    public function getContainerTemplate(): string
     {
         return $this->containerTemplate;
     }
@@ -680,7 +681,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $containerTemplate
      * @return self
      */
-    public function setContainerTemplate(string $containerTemplate) : self
+    public function setContainerTemplate(string $containerTemplate): self
     {
         $this->containerTemplate = $containerTemplate;
         return $this;
@@ -689,7 +690,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return string
      */
-    public function getContainerTemplateFile() : string
+    public function getContainerTemplateFile(): string
     {
         return $this->containerTemplateFile;
     }
@@ -698,7 +699,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $containerTemplateFile
      * @return self
      */
-    public function setContainerTemplateFile(string $containerTemplateFile) : self
+    public function setContainerTemplateFile(string $containerTemplateFile): self
     {
         $this->containerTemplateFile = $containerTemplateFile;
         return $this;
@@ -707,7 +708,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return bool
      */
-    public function isWizardEnable() : bool
+    public function isWizardEnable(): bool
     {
         return $this->wizardEnable;
     }
@@ -716,7 +717,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param bool $wizardEnable
      * @return self
      */
-    public function setWizardEnable(bool $wizardEnable) : self
+    public function setWizardEnable(bool $wizardEnable): self
     {
         $this->wizardEnable = $wizardEnable;
         return $this;
@@ -725,7 +726,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return string
      */
-    public function getWizardCategory() : string
+    public function getWizardCategory(): string
     {
         return $this->wizardCategory;
     }
@@ -734,7 +735,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $wizardCategory
      * @return self
      */
-    public function setWizardCategory(string $wizardCategory) : self
+    public function setWizardCategory(string $wizardCategory): self
     {
         $this->wizardCategory = $wizardCategory;
         return $this;
@@ -743,7 +744,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return string
      */
-    public function getWizardDescription() : string
+    public function getWizardDescription(): string
     {
         return $this->wizardDescription;
     }
@@ -752,7 +753,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $wizardDescription
      * @return self
      */
-    public function setWizardDescription(string $wizardDescription) : self
+    public function setWizardDescription(string $wizardDescription): self
     {
         $this->wizardDescription = $wizardDescription;
         return $this;
@@ -761,7 +762,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return string
      */
-    public function getWizardIcon() : string
+    public function getWizardIcon(): string
     {
         $wizardIcon = $this->wizardIcon;
         if (empty($wizardIcon)) {
@@ -774,7 +775,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $wizardIcon
      * @return self
      */
-    public function setWizardIcon(string $wizardIcon) : self
+    public function setWizardIcon(string $wizardIcon): self
     {
         $this->wizardIcon = $wizardIcon;
         return $this;
@@ -783,7 +784,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return string
      */
-    public function getWizardCustomIcon() : string
+    public function getWizardCustomIcon(): string
     {
         return $this->wizardCustomIcon;
     }
@@ -792,7 +793,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $wizardCustomIcon
      * @return self
      */
-    public function setWizardCustomIcon(string $wizardCustomIcon) : self
+    public function setWizardCustomIcon(string $wizardCustomIcon): self
     {
         $this->wizardCustomIcon = $wizardCustomIcon;
         return $this;
@@ -801,7 +802,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return string name of selected wizard icon
      */
-    public function getSelectedWizardIcon() : string
+    public function getSelectedWizardIcon(): string
     {
         if ($this->getWizardIcon() === 'custom') {
             return $this->getWizardCustomIcon();
@@ -812,7 +813,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return string path of selected wizard icon
      */
-    public function getSelectedWizardIconPath() : string
+    public function getSelectedWizardIconPath(): string
     {
         return File::get($this->getSelectedWizardIcon());
     }
@@ -824,7 +825,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $variable
      * @return DceField|null
      */
-    public function getFieldByVariable($variable) : ?DceField
+    public function getFieldByVariable($variable): ?DceField
     {
         /** @var DceField $field */
         foreach ($this->getFields() ?? [] as $field) {
@@ -838,7 +839,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * @return array
      */
-    public function getContentObject() : array
+    public function getContentObject(): array
     {
         return $this->contentObject;
     }
@@ -847,7 +848,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param array $contentObject
      * @return self
      */
-    public function setContentObject(array $contentObject) : self
+    public function setContentObject(array $contentObject): self
     {
         $this->contentObject = $contentObject;
         return $this;
@@ -859,7 +860,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return string The rendered output
      */
-    public function render() : string
+    public function render(): string
     {
         if ($this->getEnableDetailpage()) {
             $detailUid = (int) GeneralUtility::_GP($this->getDetailpageIdentifier());
@@ -875,7 +876,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return string
      */
-    public function getRender() : string
+    public function getRender(): string
     {
         return $this->render();
     }
@@ -885,7 +886,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return string rendered output
      */
-    public function renderDetailpage() : string
+    public function renderDetailpage(): string
     {
         return $this->renderFluidTemplate(DceTemplateTypes::DETAILPAGE);
     }
@@ -896,7 +897,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $section If set just 'header' or 'bodytext' part is returned
      * @return string|null rendered output
      */
-    public function renderBackendTemplate(string $section = '') : ?string
+    public function renderBackendTemplate(string $section = ''): ?string
     {
         $backendTemplateSeparator = '<dce-separator />';
 
@@ -914,7 +915,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param int $templateType
      * @return string Rendered and trimmed template
      */
-    protected function renderFluidTemplate(int $templateType = DceTemplateTypes::DEFAULT) : string
+    protected function renderFluidTemplate(int $templateType = DceTemplateTypes::DEFAULT): string
     {
         $viewFactory = GeneralUtility::makeInstance(StandaloneViewFactory::class);
         $fluidTemplate = $viewFactory->getDceTemplateView($this, $templateType);
@@ -935,20 +936,20 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return array Fields of DCE
      */
-    protected function getFieldsAsArray() : array
+    protected function getFieldsAsArray(): array
     {
         $contentObject = $this->getContentObject();
         if (array_key_exists($contentObject['uid'], static::$fieldsCache)) {
             return static::$fieldsCache[$contentObject['uid']];
         }
         $fields = [];
-        /** @var $field \T3\Dce\Domain\Model\DceField */
+        /** @var $field DceField */
         foreach ($this->getFields() ?? [] as $field) {
             if ($field->isTab()) {
                 continue;
             }
             if ($field->hasSectionFields()) {
-                /** @var $sectionField \T3\Dce\Domain\Model\DceField */
+                /** @var $sectionField DceField */
                 foreach ($field->getSectionFields() as $sectionField) {
                     $sectionFieldValues = $sectionField->getValue();
                     if (\is_array($sectionFieldValues)) {
@@ -970,7 +971,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return bool
      */
-    public function getHasTcaMappings() : bool
+    public function getHasTcaMappings(): bool
     {
         /** @var DceField $field */
         foreach ($this->getFields() ?? [] as $field) {
@@ -987,7 +988,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return bool
      */
-    public function getAddsNewFieldsToTca() : bool
+    public function getAddsNewFieldsToTca(): bool
     {
         /** @var DceField $field */
         foreach ($this->getFields() ?? [] as $field) {
@@ -1004,7 +1005,7 @@ class Dce extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return array|null
      */
-    public function getRelatedContentElementRows() : ?array
+    public function getRelatedContentElementRows(): ?array
     {
         if (array_key_exists($this->getIdentifier(), static::$fieldsCache)) {
             return static::$fieldsCache[$this->getIdentifier()];
