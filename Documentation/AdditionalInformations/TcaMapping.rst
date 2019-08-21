@@ -26,6 +26,11 @@ When creating new columns the following options have the following effect:
 Of course, you can also choose an existing tt_content column. DCE introduced the **tx_dce_index** column which can get
 used to index content for search engines (like ke_search or solr).
 
+.. note::
+   Since DCE 2.2, contents of DCE fields which has been mapped with "tx_dce_index", are also searched for when using
+   the global LiveSearch in TYPO3 backend. Since TYPO3 9.2 the search in list view, also respects "tx_dce_index"
+   contents.
+
 When you point two DCE fields (or more) to the same TCA column, the contents of the field become appended
 (by 2x ``PHP_EOL``).
 

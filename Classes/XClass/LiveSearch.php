@@ -14,6 +14,11 @@ use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 class LiveSearch extends \TYPO3\CMS\Backend\Search\LiveSearch\LiveSearch
 {
     /**
+     * @var string
+     */
+    private $queryString;
+
+    /**
      * Includes DCE content elements to CTypes which should get search by field "bodytext"
      *
      * @param QueryBuilder $queryBuilder
@@ -24,11 +29,21 @@ class LiveSearch extends \TYPO3\CMS\Backend\Search\LiveSearch\LiveSearch
     protected function makeQuerySearchByTable(QueryBuilder &$queryBuilder, $tableName, array $fieldsToSearchWithin)
     {
         $whereClause = (string) parent::makeQuerySearchByTable($queryBuilder, $tableName, $fieldsToSearchWithin);
-        $searchString = 'CType=\'text\' OR CType=\'textpic\'';
-        $dceAppendix = ' OR CType LIKE \'dce_%\'';
-        if (strpos($whereClause, $searchString) !== false) {
-            $whereClause = str_replace($searchString, $searchString . $dceAppendix, $whereClause);
+        if ($tableName === 'tt_content') {
+            $whereClause .= ' OR ' .
+                $queryBuilder->expr()->orX('CType LIKE "dce_%" AND tx_dce_index LIKE "%' . $this->queryString . '%"');
         }
         return $whereClause;
+    }
+
+    /**
+     * Setter for the search query string.
+     *
+     * @param string $queryString
+     */
+    public function setQueryString($queryString)
+    {
+        parent::setQueryString($queryString);
+        $this->queryString = $queryString;
     }
 }

@@ -42,6 +42,10 @@ $boot = function ($extensionKey) {
             \T3\Dce\Hooks\KeSearchHook::class;
     }
 
+    // List view search hook
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS'][\TYPO3\CMS\Recordlist\RecordList\DatabaseRecordList::class]
+        ['makeSearchStringConstraints']['dce'] = \T3\Dce\Hooks\ListViewSearchHook::class;
+
     // DocHeader buttons hook
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['Backend\Template\Components\ButtonBar']['getButtonsHook']['Dce'] =
         \T3\Dce\Hooks\DocHeaderButtonsHook::class . '->addDcePopupButton';
