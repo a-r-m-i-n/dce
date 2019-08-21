@@ -9,6 +9,15 @@ Versions
 .. contents:: :local:
 
 
+2.2.0 (dev-master)
+------------------
+- ...
+- [TASK] Improve and document Code Caching feature
+- [BUGFIX] Use heredoc for generated FlexForm XML
+- [BUGFIX] Fix missing FQCN in generated PHP code
+- [FEATURE] Implement own CacheManager
+
+
 2.1.0
 -----
 - [TASK] Use native database connection, when existing
