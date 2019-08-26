@@ -65,7 +65,7 @@ PHP;
                         'config' => ['type' => 'passthrough']
                     ];
                 }
-                $newColumnsAsCode = var_export($newColumns);
+                $newColumnsAsCode = var_export($newColumns, true);
                 $sourceCode .= <<<PHP
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('tt_content', $newColumnsAsCode);
 
