@@ -9,9 +9,14 @@ Versions
 .. contents:: :local:
 
 
-2.2.0 (dev-master)
-------------------
-- ...
+2.2.0
+-----
+
+- [FEATURE] New "Prevent header copy suffix" DCE option
+- [BUGFIX] Fix deprecated clear-cache call
+- [BUGFIX] Do not use "module-help" icon in DCE backend module
+- [FEATURE][!!!] Remove old TYPO3_DB calls with Doctrine DBAL
+- [FEATURE] Make mapped "tx_dce_index" contents searchable in backend
 - [TASK] Improve and document Code Caching feature
 - [BUGFIX] Use heredoc for generated FlexForm XML
 - [BUGFIX] Fix missing FQCN in generated PHP code
