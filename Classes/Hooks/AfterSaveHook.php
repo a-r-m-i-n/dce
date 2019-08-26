@@ -95,10 +95,22 @@ class AfterSaveHook
         }
         $this->uid = $this->getUid($id, $table, $status, $pObj);
 
-        // Write flexform values to TCA, when enabled
         if ($table === 'tt_content') {
             $contentRow = $this->dataHandler->recordInfo('tt_content', $this->uid, '*');
 
+            // Prevent "Copy (1)" suffix when copying tt_content based on DCE
+            if ($dceUid = DceRepository::extractUidFromCTypeOrIdentifier($contentRow['CType'])) {
+                $origUid = $contentRow['t3_origuid'];
+                if ($origUid) {
+                    $dceRow = $this->dataHandler->recordInfo('tx_dce_domain_model_dce', $dceUid, '*');
+                    if ($dceRow['prevent_header_copy_suffix']) {
+                        $origRecord = $this->dataHandler->recordInfo('tt_content', $origUid, 'header');
+                        $this->dataHandler->updateDB('tt_content', $this->uid, ['header' => $origRecord['header']]);
+                    }
+                }
+            }
+
+            // Write flexform values to TCA, when enabled
             if ($dceUid = DceRepository::extractUidFromCTypeOrIdentifier($contentRow['CType'])) {
                 $dceRow = $this->dataHandler->recordInfo('tx_dce_domain_model_dce', $dceUid, '*');
                 $dceIdentifier = !empty($dceRow['identifier']) ? 'dce_' . $dceRow['identifier']

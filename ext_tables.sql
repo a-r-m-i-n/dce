@@ -38,6 +38,7 @@ CREATE TABLE tx_dce_domain_model_dce (
 	template_layout_root_path varchar(255) DEFAULT '' NOT NULL,
 	template_partial_root_path varchar(255) DEFAULT '' NOT NULL,
 	palette_fields text,
+	prevent_header_copy_suffix tinyint(4) unsigned DEFAULT '1' NOT NULL,
 
 	enable_detailpage tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	detailpage_identifier varchar(255) DEFAULT '' NOT NULL,

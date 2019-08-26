@@ -20,6 +20,7 @@ the frontend must be initialized in the localconf.php with calling the method ``
 
 This option takes effect if the showAction of the DceController is cached or non-cached.
 
+
 Direct output
 ^^^^^^^^^^^^^
 
@@ -29,6 +30,7 @@ This brings a significant performances boost and removes any wrappings defined b
 (<div id="c123" ...>).
 
 **This option is enabled by default, separately for each DCE.**
+
 
 FlexForm label
 ^^^^^^^^^^^^^^
@@ -45,12 +47,14 @@ Disables the "div.csc-default" wrapping
 Only available, when ``EXT:css_styled_content`` is installed. This option disables the wrapping of the content element
 with the ``<div class="csc-default" />`` which can be sometimes necessary.
 
+
 Enable access tab in backend
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 If this option is activated a tab with the access rights is shown in the backend. Here you can define detailed,
 when the DCE is to be shown and who is allowed to see the DCE. When this checkbox is enabled, the enabled fields
 disappear from palette fields automatically, if set.
+
 
 Enable media tab in backend
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -61,6 +65,7 @@ media (FAL) field is shown in the backend.
 You can access ``{contentObject.media}`` variable in Fluid template.
 It contains an array of ``\TYPO3\CMS\Core\Resource\FileReference``.
 
+
 Enable categories tab in backend
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -69,12 +74,21 @@ If this option is activated a tab with category picker is shown in the backend.
 You can access ``{contentObject.categories}`` variable in Fluid template.
 It contains an array of ``\TYPO3\CMS\Extbase\Domain\Model\Category``.
 
+
 DCE palette fields
 ^^^^^^^^^^^^^^^^^^
 
 This is a list of fields which should be shown in the head area of this DCE in the backend.
 
 The default value is this: ``sys_language_uid, l18n_parent, colPos, spaceBefore, spaceAfter, section_frame, hidden``
+
+
+Prevent header copy suffix
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If this checkbox is checked (enabled by default) a copied tt_content record, based on this DCE, will not append
+"Copy (1)" to record's header. It uses the header contents of the original content record.
+
 
 Fluid layout and partial root path
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

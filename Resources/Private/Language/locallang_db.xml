@@ -80,6 +80,7 @@
 			<label index="tx_dce_domain_model_dce.paletteFields">DCE palette fields</label>
 			<label index="tx_dce_domain_model_dce.flexformLabel">Flexform label</label>
 			<label index="tx_dce_domain_model_dce.flexformLabel.default">Contents:</label>
+			<label index="tx_dce_domain_model_dce.preventHeaderCopySuffix">Prevent header copy suffix</label>
 			<label index="tx_dce_domain_model_dce.directOutput">Direct output</label>
 
 			<label index="tx_dce_domain_model_dce.useSimpleBackendView">Use simple backend view</label>
@@ -176,6 +177,8 @@
 			<label index="tx_dce_domain_model_dce.paletteFields">DCE Paletten-Felder</label>
 			<label index="tx_dce_domain_model_dce.flexformLabel">Flexform Label</label>
 			<label index="tx_dce_domain_model_dce.flexformLabel.default">Inhalte:</label>
+			<label index="tx_dce_domain_model_dce.preventHeaderCopySuffix">Vermeide "Copy (1)"-Anhang bei Header</label>
+			<label index="tx_dce_domain_model_dce.directOutput">Direkte Ausgabe</label>
 
 			<label index="tx_dce_domain_model_dce.useSimpleBackendView">Benutze einfache Backend-Ansicht</label>
 			<label index="tx_dce_domain_model_dce.backendViewHeader">Header-Feld (welcher Feldwert soll als Überschrift benutzt werden)</label>

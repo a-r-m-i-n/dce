@@ -35,7 +35,7 @@ $showItems = <<<TEXT
 --div--;${ll}tx_dce_domain_model_dce.miscellaneous,
     --palette--;;misc,flexform_label,hide_default_ce_wrap,
     --palette--;${ll}tx_dce_domain_model_dce.contentRelationsPalette;content_relations,
-    palette_fields,template_layout_root_path,template_partial_root_path
+    palette_fields,prevent_header_copy_suffix,template_layout_root_path,template_partial_root_path
 TEXT;
 
 $dceTca = [
@@ -640,6 +640,14 @@ $dceTca = [
                 'default' => 'sys_language_uid,l18n_parent,colPos,spaceBefore,spaceAfter,section_frame,hidden',
                 'minitems' => 0,
                 'maxitems' => 999
+            ],
+        ],
+        'prevent_header_copy_suffix' => [
+            'exclude' => 0,
+            'label' => $ll . 'tx_dce_domain_model_dce.preventHeaderCopySuffix',
+            'config' => [
+                'type' => 'check',
+                'default' => 1
             ],
         ],
         'direct_output' => [
