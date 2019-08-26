@@ -5,6 +5,7 @@ namespace T3\Dce\Updates;
  *  | under GNU General Public License.
  *  |
  *  | (c) 2012-2016 Armin Vieweg <armin@v.ieweg.de>
+ *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
 use T3\Dce\UserFunction\CustomFieldValidation\LowerCamelCaseValidator;
 use T3\Dce\UserFunction\CustomFieldValidation\NoLeadingNumberValidator;

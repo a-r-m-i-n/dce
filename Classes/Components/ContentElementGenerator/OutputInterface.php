@@ -6,7 +6,6 @@ namespace T3\Dce\Components\ContentElementGenerator;
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  */
-use TYPO3\CMS\Core\Cache\Frontend\PhpFrontend;
 
 /**
  * OutputInterface

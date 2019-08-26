@@ -5,6 +5,7 @@ namespace T3\Dce\Domain\Model;
  *  | under GNU General Public License.
  *  |
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
+ *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
 use T3\Dce\Components\TemplateRenderer\DceTemplateTypes;
 use T3\Dce\Components\TemplateRenderer\StandaloneViewFactory;
