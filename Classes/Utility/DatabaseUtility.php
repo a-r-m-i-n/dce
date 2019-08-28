@@ -124,7 +124,7 @@ class DatabaseUtility
             );
         }
 
-        // If "pi_flexform" field is not set in the passed contenet element record
+        // If "pi_flexform" field is not set in the passed content element record
         // retrieve the whole tt_content record
         if (!isset($contentElement['pi_flexform'])) {
             $contentElement = BackendUtility::getRecordWSOL(

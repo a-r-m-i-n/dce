@@ -119,7 +119,6 @@ class DceRepository extends Repository
         }
         $dce = clone $dce;
         $this->cloneFields($dce);
-
         $this->processFillingFields($dce, \is_array($contentObject) ? $contentObject : [], $fieldList);
         $dce->setContentObject(\is_array($contentObject) ? $this->resolveContentObjectRelations($contentObject) : []);
         static::$dceInstanceCache[$contentObject['uid']] = $dce;

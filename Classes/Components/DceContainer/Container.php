@@ -12,6 +12,9 @@ use T3\Dce\Components\TemplateRenderer\DceTemplateTypes;
 use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Utility\DatabaseUtility;
 use T3\Dce\Utility\PageTS;
+use TYPO3\CMS\Core\Database\Query\Restriction\EndTimeRestriction;
+use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
+use TYPO3\CMS\Core\Database\Query\Restriction\StartTimeRestriction;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
@@ -56,10 +59,7 @@ class Container
      */
     public function addDce(Dce $dce) : void
     {
-        $contentObject = $dce->getContentObject();
-        if ((int) $contentObject['hidden'] === 0) {
-            $this->dces[] = $dce;
-        }
+        $this->dces[] = $dce;
     }
 
     /**
@@ -90,6 +90,9 @@ class Container
         $contentObject = $firstDce->getContentObject();
         if ($contentObject['sys_language_uid'] !== '0') {
             $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tt_content');
+            $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class);
+            $queryBuilder->getRestrictions()->removeByType(StartTimeRestriction::class);
+            $queryBuilder->getRestrictions()->removeByType(EndTimeRestriction::class);
             $originalRow = $queryBuilder
                 ->select('*')
                 ->from('tt_content')

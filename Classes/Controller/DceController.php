@@ -13,6 +13,9 @@ use T3\Dce\Domain\Repository\DceRepository;
 use T3\Dce\Utility\DatabaseUtility;
 use T3\Dce\Utility\FlexformService;
 use T3\Dce\Utility\TypoScript;
+use TYPO3\CMS\Core\Database\Query\Restriction\EndTimeRestriction;
+use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
+use TYPO3\CMS\Core\Database\Query\Restriction\StartTimeRestriction;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
@@ -151,6 +154,9 @@ class DceController extends ActionController
     protected function simulateContentElementSettings(int $contentElementUid) : array
     {
         $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tt_content');
+        $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class);
+        $queryBuilder->getRestrictions()->removeByType(StartTimeRestriction::class);
+        $queryBuilder->getRestrictions()->removeByType(EndTimeRestriction::class);
         $row = $queryBuilder
             ->select('pi_flexform')
             ->from('tt_content')
@@ -176,6 +182,9 @@ class DceController extends ActionController
     protected function getContentObject(int $uid) : ?array
     {
         $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tt_content');
+        $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class);
+        $queryBuilder->getRestrictions()->removeByType(StartTimeRestriction::class);
+        $queryBuilder->getRestrictions()->removeByType(EndTimeRestriction::class);
 
         return $queryBuilder
             ->select('*')

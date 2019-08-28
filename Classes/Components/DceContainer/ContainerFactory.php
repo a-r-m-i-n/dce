@@ -11,6 +11,9 @@ use T3\Dce\Compatibility;
 use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Utility\DatabaseUtility;
 use T3\Dce\Utility\Extbase;
+use TYPO3\CMS\Core\Database\Query\Restriction\EndTimeRestriction;
+use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
+use TYPO3\CMS\Core\Database\Query\Restriction\StartTimeRestriction;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -29,9 +32,10 @@ class ContainerFactory
 
     /**
      * @param Dce $dce
+     * @param bool $includeHidden
      * @return Container
      */
-    public static function makeContainer(Dce $dce) : Container
+    public static function makeContainer(Dce $dce, bool $includeHidden = false) : Container
     {
         $contentObject = $dce->getContentObject();
         static::$toSkip[$contentObject['uid']][] = $contentObject['uid'];
@@ -39,7 +43,7 @@ class ContainerFactory
         /** @var Container $container */
         $container = GeneralUtility::makeInstance(Container::class, $dce);
 
-        $contentElements = static::getContentElementsInContainer($dce);
+        $contentElements = static::getContentElementsInContainer($dce, $includeHidden);
         $total = \count($contentElements);
         foreach ($contentElements as $index => $contentElement) {
             try {
@@ -85,11 +89,18 @@ class ContainerFactory
      * Get content elements rows of following content elements in current row
      *
      * @param Dce $dce
+     * @param bool $includeHidden
      * @return array
      */
-    protected static function getContentElementsInContainer(Dce $dce) : array
+    protected static function getContentElementsInContainer(Dce $dce, bool $includeHidden = false) : array
     {
         $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tt_content');
+        if ($includeHidden) {
+            $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class);
+            $queryBuilder->getRestrictions()->removeByType(StartTimeRestriction::class);
+            $queryBuilder->getRestrictions()->removeByType(EndTimeRestriction::class);
+        }
+
         $queryBuilder
             ->select('*')
             ->from('tt_content');

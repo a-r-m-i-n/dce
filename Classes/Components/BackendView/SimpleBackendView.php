@@ -230,7 +230,7 @@ class SimpleBackendView
         if (ContainerFactory::checkContentElementForBeingRendered($dce->getContentObject())) {
             return static::$lastContainerColor;
         }
-        $container = ContainerFactory::makeContainer($dce);
+        $container = ContainerFactory::makeContainer($dce, true);
         static::$lastContainerColor = $container->getContainerColor();
         return static::$lastContainerColor;
     }
