@@ -2,8 +2,11 @@
 
 ## What is DCE?
 
-DCE is an extension for the CMS TYPO3, which creates easily and fast *dynamic content elements*.
-Based on Extbase, Fluid and over 7 years of experience.
+DCE is an extension for TYPO3 CMS, which creates easily and fast *dynamic content elements*.
+Based on Extbase, Fluid and over 8 years of experience.
+
+
+### Screenshots
 
 ![DCE General Configuration](Documentation/FirstSteps/Images/first-dce.png "DCE General Configuration")
 
@@ -16,20 +19,19 @@ You can install DCE in TYPO3 CMS using the [TER](https://extensions.typo3.org/ex
 or use composer to fetch DCE from [packagist](https://packagist.org/packages/t3/dce):
 
 ```
-composer req t3/dce:"^2.0"
+composer req t3/dce:"^2.2"
 ```
 
 
 ## Documentation
 
-The full documentation can be found here: https://docs.typo3.org/typo3cms/extensions/dce/
+The full documentation can be found here: https://docs.typo3.org/p/t3/dce/master/en-us/
 
 
 ## How to contribute?
 
 Just fork this repository and create a pull request to the **master** branch.
-Please also describe why you've submitted you patch, if it regards to a ticket, a link would be great.
-If you have any questions feel free to contact me.
+Please also describe why you've submitted your patch. If you have any questions feel free to contact me.
 
 In case you can't provide code but want to support DCE anyway, here is my [PayPal donation link](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2DCCULSKFRZFU).
 
@@ -61,7 +63,7 @@ and perform these steps on command line (CLI):
 2. Then we clone the DCE source code and switch in the dce directory:
    - ``$ git clone https://bitbucket.org/ArminVieweg/dce.git``
    - ``$ cd dce``
-3. Now, we just need to perform on last command: ``vagrant up``
+3. Now, we just need to perform one last command: ``vagrant up``
 4. After a few minutes the set up is complete and **you can instantly use DCE** in TYPO3 8 LTS or 9 LTS
    - http://dce.local (Overview & Tools)
    - http://dce.local/8/typo3
