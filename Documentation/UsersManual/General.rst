@@ -59,6 +59,11 @@ A field has three types available:
 Common to all types is the *title* field, where you define a speaking label for the editor.
 You can use ``LLL:`` reference here. For the type *Tab* there are no more options to define.
 
+.. caution::
+   When you add/update tabs and/or rearrange fields, the FlexForm structure changes!
+   Already existing content elements with FlexForm data, need to get migrated, afterwards.
+
+
 Field options
 +++++++++++++
 
