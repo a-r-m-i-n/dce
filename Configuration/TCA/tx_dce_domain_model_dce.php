@@ -674,6 +674,7 @@ if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('css_styled_con
 }
 if (!\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('fluid_styled_content')) {
     $dceTca['palettes']['content_relations']['showitem'] = 'show_access_tab,show_category_tab';
+    $dceTca['columns']['direct_output']['config']['readOnly'] = true;
 }
 
 return $dceTca;

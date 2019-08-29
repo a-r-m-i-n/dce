@@ -72,9 +72,26 @@ PHP;
 );
 
 PHP;
-
-                if ($dce['direct_output']) {
+                // When FSC/CSC is not installed
+                if (!$GLOBALS['TYPO3_CONF_VARS']['FE']['contentRenderingTemplates'] ||
+                    empty($GLOBALS['TYPO3_CONF_VARS']['FE']['contentRenderingTemplates'])
+                ) {
                     $sourceCode .= <<<PHP
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScriptSetup('
+        tt_content.$dceIdentifier = USER
+        tt_content.$dceIdentifier {
+            userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+            vendorName = T3
+            extensionName = Dce
+            pluginName = $dceIdentifierSkipFirst4Chars
+        }
+    ');
+
+PHP;
+                } else {
+                    // When FSC is installed
+                    if ($dce['direct_output']) {
+                        $sourceCode .= <<<PHP
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
     'dce',
     'setup',
@@ -87,6 +104,7 @@ PHP;
 );
 
 PHP;
+                    }
                 }
 
                 $sourceCode .= <<<PHP
