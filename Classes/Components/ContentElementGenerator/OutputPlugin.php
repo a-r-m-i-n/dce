@@ -165,8 +165,8 @@ PHP;
 
                     $wizardCategory = $dce['wizard_category'];
                     $flexformLabel = $dce['flexform_label'];
-                    $title = addcslashes($dce['title'], "'");
-                    $description = addcslashes($dce['wizard_description'], "'");
+                    $title = addcslashes($dce['title'], "'\"");
+                    $description = addcslashes($dce['wizard_description'], "'\"");
 
                     $sourceCode .= <<<PHP
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
