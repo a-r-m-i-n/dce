@@ -58,14 +58,12 @@ class DatabaseUtility
     public static function adminGetTables() : array
     {
         $tables = [];
-        foreach (DatabaseUtility::getConnectionPool()->getConnectionNames() as $connectionName) {
-            $connection = DatabaseUtility::getConnectionPool()->getConnectionByName($connectionName);
-            $statement = $connection->query('SHOW TABLE STATUS FROM `' . $connection->getDatabase() . '`');
-            while ($tableRow = $statement->fetch()) {
-                $tables[$tableRow['Name']] = $tableRow;
+        foreach (static::getConnectionPool()->getConnectionNames() as $connectionName) {
+            $connection = static::getConnectionPool()->getConnectionByName($connectionName);
+            foreach ($connection->getSchemaManager()->listTableNames() as $tableName) {
+                $tables[$tableName] = $tableName;
             }
         }
-
         return $tables;
     }
 
@@ -73,20 +71,19 @@ class DatabaseUtility
      * Get all fields and field configuration of given $tableName
      *
      * @param string $tableName
-     * @return \Doctrine\DBAL\Schema\AbstractSchemaManager|\Doctrine\DBAL\Schema\Column[]|\TYPO3\CMS\Core\Database\Connection
-     * @throws \Doctrine\DBAL\DBALException
+     * @return array Key is column name, value is an assoc array with "Type" key
      */
     public static function adminGetFields(string $tableName) : array
     {
-        $fields = [];
-        foreach (DatabaseUtility::getConnectionPool()->getConnectionNames() as $connectionName) {
-            $connection = DatabaseUtility::getConnectionPool()->getConnectionByName($connectionName);
-            $statement = $connection->query('SHOW FULL COLUMNS FROM `' . $tableName . '`');
-            while ($fieldRow = $statement->fetch()) {
-                $fields[$fieldRow['Field']] = $fieldRow;
-            }
-        }
+        $columns = static::getConnectionPool()->getConnectionForTable($tableName)->getSchemaManager()
+            ->listTableColumns($tableName);
 
+        $fields = [];
+        foreach ($columns as $column) {
+            $fields[$column->getName()] = [
+                'Type' => $column->getType()
+            ];
+        }
         return $fields;
     }
 
