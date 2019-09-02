@@ -189,8 +189,9 @@ class Mapper
             foreach (array_keys($updateData) as $columnName) {
                 if (!array_key_exists($columnName, $databaseColumns)) {
                     throw new \InvalidArgumentException(
-                        'It seems you have forgotten to perform a Database Schema update, ' .
-                        'after you did changes to TCA mapping in DCE field.'
+                        'You\'ve mapped the DCE field "' . $fieldName . '" (of DCE with uid ' . $dceUid . ') to the ' .
+                        'non-existing tt_content column "' . $columnName . '". Please update your mapping or ensure ' .
+                        'that the tt_content column is existing.'
                     );
                 }
             }
