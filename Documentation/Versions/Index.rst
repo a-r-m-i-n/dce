@@ -8,6 +8,17 @@ Versions
 
 .. contents:: :local:
 
+2.2.1
+-----
+
+- [BUGFIX] Fix wrong escaping of quotes, in OutputPlugin Generator
+- [TASK] Improve error message, when a DCE Field has a mapping to a non-existing tt_content column
+- [TASK] Use Doctrine API to get list of table and column names
+- [TASK] Make DCE work, even without fluid_styled_content installed
+- [TASK] Add hint to documentation, that tab DCE fields changes the FlexForm structure
+- [TASK] Improve README.md
+- [BUGFIX] Fix hidden DCE container items
+
 
 2.2.0
 -----
