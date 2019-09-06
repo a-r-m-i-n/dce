@@ -110,7 +110,7 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
                 'tx_dce_domain_model_dcefield',
                 $updateValues,
                 [
-                    'uid' => (int)$sectionFieldRelation['uid_foreign']
+                    'uid' => (int) $sectionFieldRelation['uid_foreign']
                 ]
             );
         }
@@ -170,7 +170,7 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
                     );
                     $dceFieldInsertUid = $connection->lastInsertId('tx_dce_domain_model_dcefield');
 
-                    if ((int)$dceField['type'] === 2) {
+                    if ((int) $dceField['type'] === 2) {
                         $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable(
                             'tx_dce_domain_model_dcefield'
                         );
@@ -218,8 +218,8 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
                             'uid_foreign' => $dceFieldInsertUid
                         ],
                         [
-                            'uid_local' => (int)$dceFieldRelation['uid_local'],
-                            'uid_foreign' => (int)$dceFieldRelation['uid_foreign']
+                            'uid_local' => (int) $dceFieldRelation['uid_local'],
+                            'uid_foreign' => (int) $dceFieldRelation['uid_foreign']
                         ]
                     );
                 }
@@ -249,7 +249,7 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
                 'tx_dce_domain_model_dcefield',
                 $updateValues,
                 [
-                    'uid' => (int)$dceFieldRelation['uid_foreign']
+                    'uid' => (int) $dceFieldRelation['uid_foreign']
                 ]
             );
         }

@@ -211,7 +211,7 @@ class MigrateOldNamespacesInFluidTemplateUpdate extends AbstractUpdate
                     $column => $updatedTemplateContent
                 ],
                 [
-                    'uid' => (int)$dceRow['uid']
+                    'uid' => (int) $dceRow['uid']
                 ]
             );
         }

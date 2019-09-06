@@ -140,10 +140,11 @@ class MigrateFlexformSheetIdentifierUpdate extends AbstractUpdate
                         'pi_flexform' => $flexFormTools->flexArray2Xml($newFlexformData, true)
                     ],
                     [
-                        'uid' => (int)$contentElement['uid']
+                        'uid' => (int) $contentElement['uid']
                     ]
                 );
             }
+            unset($connection);
         }
 
         $updatableContentElements = $this->getUpdatableContentElements();
@@ -159,14 +160,14 @@ class MigrateFlexformSheetIdentifierUpdate extends AbstractUpdate
                     }
                 }
             }
-            $conneciton = DatabaseUtility::getConnectionPool()->getConnectionForTable('tt_content');
+            $connection = DatabaseUtility::getConnectionPool()->getConnectionForTable('tt_content');
             $connection->update(
                 'tt_content',
                 [
                     'pi_flexform' => $flexFormTools->flexArray2Xml($newFlexformData, true)
                 ],
                 [
-                    'uid' => (int)$contentElement['uid']
+                    'uid' => (int) $contentElement['uid']
                 ]
             );
         }
@@ -189,10 +190,7 @@ class MigrateFlexformSheetIdentifierUpdate extends AbstractUpdate
                     'type',
                     $queryBuilder->createNamedParameter(1, \PDO::PARAM_INT)
                 ),
-                $queryBuilder->expr()->eq(
-                    'variable',
-                    $queryBuilder->createNamedParameter('', \PDO::PARAM_INT)
-                )
+                'variable = ""'
             )
             ->orderBy('sorting', 'ASC')
             ->execute()
@@ -213,11 +211,11 @@ class MigrateFlexformSheetIdentifierUpdate extends AbstractUpdate
             ->where(
                 $queryBuilder->expr()->like(
                     'CType',
-                    $queryBuilder->createNamedParameter('dce_%', \PDO::PARAM_STR)
+                    $queryBuilder->createNamedParameter('dce_%')
                 ),
                 $queryBuilder->expr()->like(
                     'pi_flexform',
-                    $queryBuilder->createNamedParameter('%<sheet index=\"sheet0\">%', \PDO::PARAM_STR)
+                    $queryBuilder->createNamedParameter('%<sheet index=\"sheet0\">%')
                 )
             )
             ->execute()

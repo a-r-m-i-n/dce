@@ -74,7 +74,7 @@ class FixMalformedDceFieldVariableNamesUpdate extends AbstractUpdate
                     'variable' => $this->fixVariableName($malformedVariableName)
                 ],
                 [
-                    'uid' => (int)$malformedDceField['uid']
+                    'uid' => (int) $malformedDceField['uid']
                 ]
             );
 
@@ -107,7 +107,7 @@ class FixMalformedDceFieldVariableNamesUpdate extends AbstractUpdate
                 ->where(
                     $queryBuilder->expr()->eq(
                         'CType',
-                        $queryBuilder->createNamedParameter($this->getDceIdentifier($dceUid), \PDO::PARAM_STR)
+                        $queryBuilder->createNamedParameter($this->getDceIdentifier($dceUid))
                     )
                 )
                 ->execute()
@@ -133,7 +133,7 @@ class FixMalformedDceFieldVariableNamesUpdate extends AbstractUpdate
                         'pi_flexform' => $updatedFlexform
                     ],
                     [
-                        'uid' => (int)$contentElement['uid']
+                        'uid' => (int) $contentElement['uid']
                     ]
                 );
             }
@@ -157,12 +157,7 @@ class FixMalformedDceFieldVariableNamesUpdate extends AbstractUpdate
         $dceFieldRows = $queryBuilder
             ->select('*')
             ->from('tx_dce_domain_model_dcefield')
-            ->where(
-                $queryBuilder->expr()->neq(
-                    'variable',
-                    $queryBuilder->createNamedParameter('', \PDO::PARAM_STR)
-                )
-            )
+            ->where('variable != ""')
             ->execute()
             ->fetchAll();
 
