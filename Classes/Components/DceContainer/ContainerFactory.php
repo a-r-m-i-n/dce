@@ -47,7 +47,7 @@ class ContainerFactory
         $total = \count($contentElements);
         foreach ($contentElements as $index => $contentElement) {
             try {
-                /** @var Dce $dce */
+                /** @var Dce $dceInstance */
                 $dceInstance = clone Extbase::bootstrapControllerAction(
                     'T3',
                     'Dce',

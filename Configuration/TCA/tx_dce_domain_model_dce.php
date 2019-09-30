@@ -19,7 +19,7 @@ $showItems = <<<TEXT
     template_type,template_content,template_file,
 
 --div--;${ll}tx_dce_domain_model_dce.container,
-    enable_container,container_item_limit,
+    enable_container,container_item_limit,container_detail_autohide,
     container_identifier,container_template_type,container_template,container_template_file,
 
 --div--;${ll}tx_dce_domain_model_dce.backendTemplate,
@@ -562,6 +562,20 @@ $dceTca = [
                 'eval' => 'num',
                 'default' => 0,
                 'size' => 2,
+            ],
+        ],
+        'container_detail_autohide' => [
+            'exclude' => 0,
+            'label' => $ll . 'tx_dce_domain_model_dce.containerDetailAutohide',
+            'displayCond' => [
+                'AND' => [
+                    'FIELD:enable_container:=:1',
+                    'FIELD:enable_detailpage:=:1'
+                ]
+            ],
+            'config' => [
+                'type' => 'check',
+                'default' => '1'
             ],
         ],
         'container_template_type' => [

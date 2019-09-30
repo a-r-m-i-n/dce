@@ -69,6 +69,12 @@ class Container
      */
     public function render() : string
     {
+        foreach ($this->dces as $dceInContainer) {
+            if ($dceInContainer->isContainerDetailAutohide() && $dceInContainer->isDetailPageTriggered()) {
+                $this->view->assign('dces', [$dceInContainer]);
+                return $this->view->render();
+            }
+        }
         $this->view->assign('dces', $this->dces);
         return $this->view->render();
     }

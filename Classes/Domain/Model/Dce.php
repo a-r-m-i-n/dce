@@ -147,6 +147,11 @@ class Dce extends AbstractEntity
     protected $containerItemLimit = 0;
 
     /**
+     * @var bool
+     */
+    protected $containerDetailAutohide = true;
+
+    /**
      * @var string
      */
     protected $containerTemplateType = '';
@@ -653,6 +658,24 @@ class Dce extends AbstractEntity
     }
 
     /**
+     * @return bool
+     */
+    public function isContainerDetailAutohide(): bool
+    {
+        return $this->containerDetailAutohide;
+    }
+
+    /**
+     * @param bool $containerDetailAutohide
+     * @return self
+     */
+    public function setContainerDetailAutohide(bool $containerDetailAutohide): self
+    {
+        $this->containerDetailAutohide = $containerDetailAutohide;
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function getContainerTemplateType(): string
@@ -863,13 +886,25 @@ class Dce extends AbstractEntity
      */
     public function render(): string
     {
-        if ($this->getEnableDetailpage()) {
-            $detailUid = (int) GeneralUtility::_GP($this->getDetailpageIdentifier());
-            if ($detailUid && (int) $this->getContentObject()['uid'] === $detailUid) {
-                return $this->renderDetailpage();
-            }
+        if ($this->isDetailPageTriggered()) {
+            return $this->renderDetailpage();
         }
         return $this->renderFluidTemplate();
+    }
+
+    /**
+     * Checks if the display of detail page is triggered (by GET parameter in current request).
+     * Always returns false, if detail page is not enabled for this DCE.
+     *
+     * @return bool
+     */
+    public function isDetailPageTriggered(): bool
+    {
+        if ($this->getEnableDetailpage()) {
+            $detailUid = (int) GeneralUtility::_GP($this->getDetailpageIdentifier());
+            return $detailUid && (int) $this->getContentObject()['uid'] === $detailUid;
+        }
+        return false;
     }
 
     /**

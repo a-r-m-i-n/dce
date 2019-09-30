@@ -62,6 +62,11 @@ Actually, it is pretty easy to create such a link in Fluid template:
 Hide other content elements
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+.. tip::
+   Since DCE 2.3, with enabled DCE container feature, you can automatically hide all other container items.
+   Check out the option, "Hide other container items, when detail page is triggered" in DCE Container options.
+   This checkbox is only available, when DCE container **and** detail page features are enabled.
+
 If you have more DCEs with detail templates on one page, the template will just switch for one of your content elements.
 The other DCE will still be visible and displays the normal template.
 

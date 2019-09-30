@@ -44,6 +44,17 @@ You can set an item limit (default: 0 / disabled) to limit the number of content
 When the the limit is reached, the next content element starts a new container.
 
 
+Hide other container items, when detail page is triggered
+=========================================================
+
+When the DCE container **and** the detail page feature is enabled, this option makes it more comfortable to hide
+all other content elements, which' detail page template is not triggered.
+
+When this checkbox is enabled, all items in a container are hidden, if one item in the container is triggered by
+detail page GET parameter. In this case, the container template is still rendered, just with a single item.
+Other containers are not affected.
+
+
 Template type
 =============
 
