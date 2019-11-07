@@ -8,6 +8,12 @@ Versions
 
 .. contents:: :local:
 
+2.3.0
+-----
+- [FEATURE] Add new option "container_detail_autohide"
+- [BUGFIX] Fix Doctrine DBAL queries with empty field where clauses
+
+
 2.2.1
 -----
 
