@@ -59,7 +59,10 @@ class Generator
      */
     public function makeTca() : void
     {
-        $this->outputTcaAndFlexForm->generate();
+        try {
+            $this->outputTcaAndFlexForm->generate();
+        } catch (\Exception $e) {
+        }
     }
 
     /**
@@ -67,6 +70,9 @@ class Generator
      */
     public function makePluginConfiguration() : void
     {
-        $this->outputPlugin->generate();
+        try {
+            $this->outputPlugin->generate();
+        } catch (\Exception $e) {
+        }
     }
 }
