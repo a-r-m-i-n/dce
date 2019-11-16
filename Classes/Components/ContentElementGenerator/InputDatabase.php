@@ -48,12 +48,8 @@ class InputDatabase implements InputInterface
         $dceModelRows = $queryBuilder
             ->select('*')
             ->from('tx_dce_domain_model_dce')
-            ->where(
-                $queryBuilder->expr()->eq(
-                    'pid',
-                    $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
-                )
-            )
+            ->where('pid=0 AND deleted=0 AND hidden=0')
+            ->orderBy('sorting', 'asc')
             ->execute()
             ->fetchAll();
 
@@ -65,17 +61,9 @@ class InputDatabase implements InputInterface
                 'df',
                 'tx_dce_domain_model_dce',
                 'd',
-                (string)$queryBuilder->expr()->eq(
-                    'df.parent_dce',
-                    $queryBuilder->quoteIdentifier('d.uid')
-                )
+                'df.parent_dce = d.uid'
             )
-            ->where(
-                $queryBuilder->expr()->eq(
-                    'df.pid',
-                    $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
-                )
-            )
+            ->where('df.pid=0 AND df.deleted=0 and df.hidden=0 AND d.hidden=0 and d.deleted=0')
             ->orderBy('d.sorting', 'ASC')
             ->addOrderBy('df.sorting', 'ASC')
             ->execute()
@@ -87,12 +75,7 @@ class InputDatabase implements InputInterface
         $dceFieldRowsSortedByParentFields = $queryBuilder
             ->select('df.*')
             ->from('tx_dce_domain_model_dcefield', 'df')
-            ->where(
-                $queryBuilder->expr()->gt(
-                    'parent_field',
-                    $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
-                )
-            )
+            ->where('parent_field > 0')
             ->orderBy('df.parent_field', 'ASC')
             ->addOrderBy('df.sorting', 'ASC')
             ->execute()
