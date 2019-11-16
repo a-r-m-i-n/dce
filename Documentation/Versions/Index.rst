@@ -8,6 +8,12 @@ Versions
 
 .. contents:: :local:
 
+2.3.1
+-----
+- [BUGFIX][!!!] Fix queries which build content elements
+- [BUGFIX] Do not throw exceptions in Content Element Generator
+
+
 2.3.0
 -----
 - [FEATURE] Add new option "container_detail_autohide"
