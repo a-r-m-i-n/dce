@@ -103,7 +103,7 @@ class AfterSaveHook
                 $origUid = $contentRow['t3_origuid'];
                 if ($origUid) {
                     $dceRow = $this->dataHandler->recordInfo('tx_dce_domain_model_dce', $dceUid, '*');
-                    if ($dceRow['prevent_header_copy_suffix']) {
+                    if ($dceRow['prevent_header_copy_suffix'] && $status === 'new') {
                         $origRecord = $this->dataHandler->recordInfo('tt_content', $origUid, 'header');
                         $this->dataHandler->updateDB('tt_content', $this->uid, ['header' => $origRecord['header']]);
                     }
