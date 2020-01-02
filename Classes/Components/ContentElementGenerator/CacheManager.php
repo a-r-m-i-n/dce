@@ -104,6 +104,7 @@ class CacheManager implements SingletonInterface
                 'Unable to write to cache file "' . $path . '"! Please check write permissions.'
             );
         }
+        GeneralUtility::fixPermissions($path);
     }
 
     /**
