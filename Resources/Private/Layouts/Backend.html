@@ -1,25 +1,7 @@
 <f:be.container pageTitle="DCE Backend Module">
-	<div class="typo3-fullDoc">
-		<div id="typo3-docheader">
-			<div class="inner">
-				<div class="typo3-docheader-functions">
-					<f:render section="functions" />
-				</div>
-				<div class="typo3-docheader-buttons">
-					<div class="left">
-						<f:render section="buttons" />
-					</div>
-					<div class="right">
-						<f:be.buttons.shortcut />
-					</div>
-				</div>
-			</div>
-		</div>
-		<div id="typo3-docbody">
-			<div id="typo3-inner-docbody">
-				<f:flashMessages />
-				<f:render section="content" />
-			</div>
-		</div>
+	<div class="container-fluid dce-spacing">
+		<f:render section="header" />
+		<f:flashMessages />
+		<f:render section="content" />
 	</div>
 </f:be.container>

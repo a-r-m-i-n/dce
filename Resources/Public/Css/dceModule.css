@@ -15,29 +15,16 @@
     padding-right: 20px;
 }
 
-.typo3-fullDoc {
-    overflow-x: hidden;
-}
-
-.typo3-docheader-functions {
-    display: none;
-}
-
-#typo3-docheader > div.inner {
-    -webkit-box-shadow: inset 0px -4px 6px 0px rgba(0, 0, 0, 0.1);
-    -moz-box-shadow: inset 0px -4px 6px 0px rgba(0, 0, 0, 0.1);
-    box-shadow: inset 0px -4px 6px 0px rgba(0, 0, 0, 0.1);
-    margin: 0 -50px;
-    padding: 0 50px;
-}
-
-#typo3-docheader .typo3-docheader-buttons {
-    height: 48px !important;
+.dce-spacing {
+    padding-top: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
 }
 
 h4.dceHeader {
     font-family: Share, Verdana, Arial, Helvetica, sans-serif;
     font-size: 20px;
+    margin-bottom: 3rem;
 }
 
 h4.dceHeader img {
