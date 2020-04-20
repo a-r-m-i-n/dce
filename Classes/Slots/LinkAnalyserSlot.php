@@ -6,6 +6,7 @@ namespace T3\Dce\Slots;
  *  |
  *  | (c) 2012-2020 Armin Vieweg <armin@v.ieweg.de>
  */
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Linkvalidator\LinkAnalyzer;
@@ -31,6 +32,10 @@ class LinkAnalyserSlot
         LinkAnalyzer $linkAnalyser
     ) : array {
         if ($table === 'tt_content' && !empty($record['pi_flexform'])) {
+            $rawRecord = BackendUtility::getRecord('tt_content', $record['uid'], '*');
+        	if (strpos($rawRecord['CType'], 'dce_') !== 0) {
+        		return [$results, $record, $table, $fields, $linkAnalyser];
+			}
             $flexformData = ArrayUtility::flatten(
                 GeneralUtility::xml2array($record['pi_flexform'])
             );
