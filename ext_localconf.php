@@ -73,17 +73,19 @@ $boot = function ($extensionKey) {
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceFixMalformedDceFieldVariableNamesUpdate'] =
         \T3\Dce\Updates\FixMalformedDceFieldVariableNamesUpdate::class;
 
-    // Slot to extend SQL tables definitions
-    /** @var \TYPO3\CMS\Extbase\SignalSlot\Dispatcher $signalSlotDispatcher */
-    $signalSlotDispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-        \TYPO3\CMS\Extbase\SignalSlot\Dispatcher::class
-    );
-    $signalSlotDispatcher->connect(
-        'TYPO3\\CMS\\Install\\Service\\SqlExpectedSchemaService', // TODO: Will not work in TYPO3 10 anymore
-        'tablesDefinitionIsBeingBuilt',
-        \T3\Dce\Slots\TablesDefinitionIsBeingBuiltSlot::class,
-        'extendTtContentTable'
-    );
+    if (!\T3\Dce\Compatibility::isTypo3Version()) {
+        // Slot to extend SQL tables definitions
+        /** @var \TYPO3\CMS\Extbase\SignalSlot\Dispatcher $signalSlotDispatcher */
+        $signalSlotDispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+            \TYPO3\CMS\Extbase\SignalSlot\Dispatcher::class
+        );
+        $signalSlotDispatcher->connect(
+            'TYPO3\\CMS\\Install\\Service\\SqlExpectedSchemaService', // TODO: Will not work in TYPO3 10 anymore
+            'tablesDefinitionIsBeingBuilt',
+            \T3\Dce\Slots\TablesDefinitionIsBeingBuiltSlot::class,
+            'extendTtContentTable'
+        );
+    }
 
     //
     if (!isset($GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['linkHandler']['ext'])) {

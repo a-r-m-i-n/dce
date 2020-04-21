@@ -1,0 +1,7 @@
+services:
+    T3\Dce\Slots\TablesDefinitionIsBeingBuiltSlot:
+        tags:
+            - name: event.listener
+              identifier: 'dce-tables-definition-is-being-built-slot'
+              method: 'addSchema'
+              event: TYPO3\CMS\Core\Database\Event\AlterTableDefinitionStatementsEvent

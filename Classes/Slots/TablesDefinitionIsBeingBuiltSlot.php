@@ -9,6 +9,7 @@ namespace T3\Dce\Slots;
  */
 use T3\Dce\Components\FlexformToTcaMapper\Mapper;
 use T3\Dce\Utility\DatabaseUtility;
+use TYPO3\CMS\Core\Database\Event\AlterTableDefinitionStatementsEvent;
 
 /**
  * Class TablesDefinitionIsBeingBuiltSlot
@@ -42,5 +43,19 @@ class TablesDefinitionIsBeingBuiltSlot
         return \array_key_exists('map_to', $dbFields) &&
                \array_key_exists('new_tca_field_name', $dbFields) &&
                \array_key_exists('new_tca_field_type', $dbFields);
+    }
+
+    /**
+     * Used in TYPO3 10 (Event Dispatcher)
+     */
+    public function addSchema(AlterTableDefinitionStatementsEvent $event): void
+    {
+        $sqlData = $this->extendTtContentTable([]);
+        foreach ($sqlData as $sql) {
+            if (is_array($sql)) {
+                $sql = reset($sql);
+            }
+            $event->addSqlData($sql);
+        }
     }
 }
