@@ -8,6 +8,11 @@ Versions
 
 .. contents:: :local:
 
+2.4.0
+-----
+- [FEATURE] TYPO3 10 Compatibility
+
+
 2.3.1
 -----
 - [BUGFIX][!!!] Fix queries which build content elements
