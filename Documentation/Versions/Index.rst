@@ -8,6 +8,11 @@ Versions
 
 .. contents:: :local:
 
+2.4.1
+-----
+- [BUGFIX] Fix wrong version constraints
+
+
 2.4.0
 -----
 - [FEATURE] TYPO3 10 Compatibility
