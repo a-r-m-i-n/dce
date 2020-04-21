@@ -182,7 +182,7 @@ class DceCodeMirrorFieldRenderType implements NodeInterface
         foreach (array_keys($templates) as $key) {
             $files = [];
             foreach (GeneralUtility::getFilesInDir($path . $key) as $file) {
-                $filename = preg_replace('/(.*)\.xml/i', '$1', $file);
+                $filename = preg_replace('/(.*)\.xlf/i', '$1', $file);
                 $files[$filename] = file_get_contents($path . $key . '/' . $file);
             }
             $keyNoNumber = preg_replace('/.*? (.*)/', '$1', $key);

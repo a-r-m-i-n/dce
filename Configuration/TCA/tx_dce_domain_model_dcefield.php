@@ -10,7 +10,7 @@ if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
 
-$ll = 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:';
+$ll = 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xlf:';
 $extensionPath = \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dce')
 );
@@ -71,22 +71,22 @@ $dceFieldTca = [
     'columns' => [
         'sys_language_uid' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.language',
+            'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.language',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'foreign_table' => 'sys_language',
                 'foreign_table_where' => 'ORDER BY sys_language.title',
                 'items' => [
-                    ['LLL:EXT:lang/locallang_general.xml:LGL.allLanguages', -1],
-                    ['LLL:EXT:lang/locallang_general.xml:LGL.default_value', 0]
+                    ['LLL:EXT:lang/locallang_general.xlf:LGL.allLanguages', -1],
+                    ['LLL:EXT:lang/locallang_general.xlf:LGL.default_value', 0]
                 ],
             ],
         ],
         'l10n_parent' => [
             'displayCond' => 'FIELD:sys_language_uid:>:0',
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.l18n_parent',
+            'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.l18n_parent',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
@@ -104,7 +104,7 @@ $dceFieldTca = [
             ],
         ],
         't3ver_label' => [
-            'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.versionLabel',
+            'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.versionLabel',
             'config' => [
                 'type' => 'input',
                 'size' => 30,
@@ -126,7 +126,7 @@ $dceFieldTca = [
         ],
         'starttime' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.starttime',
+            'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.starttime',
             'config' => [
                 'renderType' => 'inputDateTime',
                 'type' => 'input',
@@ -142,7 +142,7 @@ $dceFieldTca = [
         ],
         'endtime' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.endtime',
+            'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.endtime',
             'config' => [
                 'renderType' => 'inputDateTime',
                 'type' => 'input',

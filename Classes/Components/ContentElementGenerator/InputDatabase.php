@@ -129,7 +129,7 @@ class InputDatabase implements InputInterface
         foreach ($dceModelRows as $row) {
             $tabs = [
                 0 => [
-                    'title' => 'LLL:EXT:dce/Resources/Private/Language/locallang.xml:generaltab',
+                    'title' => 'LLL:EXT:dce/Resources/Private/Language/locallang.xlf:generaltab',
                     'variable' => 'tabGeneral',
                     'fields' => []
                 ]

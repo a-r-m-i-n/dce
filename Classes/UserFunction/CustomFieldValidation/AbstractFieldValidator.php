@@ -71,16 +71,16 @@ abstract class AbstractFieldValidator
     }
 
     /**
-     * Returns the translation of current language, stored in locallang_db.xml.
+     * Returns the translation of current language, stored in locallang_db.xlf.
      *
-     * @param string $key key in locallang_db.xml to translate
+     * @param string $key key in locallang_db.xlf to translate
      * @param array $arguments optional arguments
      * @return string Translated text
      */
     protected function translate(string $key, array $arguments = []) : string
     {
         return LocalizationUtility::translate(
-            'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:' . $key,
+            'LLL:EXT:dce/Resources/Private/Language/locallang_db.xlf:' . $key,
             'Dce',
             $arguments
         );

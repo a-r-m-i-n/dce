@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2020-04-21T12:00:00Z" product-name="dce">
+		<header/>
+		<body>
+            <trans-unit id="mlang_tabs_tab"><source>DCE</source></trans-unit>
+            <trans-unit id="mlang_labels_tablabel"><source>DCE - Dynamic Content Elements</source></trans-unit>
+            <trans-unit id="mlang_labels_tabdescr"><source>Module for faster access of DCE elements.</source></trans-unit>
+            <trans-unit id="createNewDce"><source>Create new DCE</source></trans-unit>
+
+            <trans-unit id="previewOverHeadline"><source>DCE preview</source></trans-unit>
+            <trans-unit id="previewOverText"><source>The preview tt_content record has been removed.</source></trans-unit>
+            <trans-unit id="previewSaveFirst"><source>Please save the new DCE. After initial save the preview will be available. To update the preview, don't forgett to save when you have made changes on the DCE fields.</source></trans-unit>
+
+            <trans-unit id="createNewDce"><source>Create new DCE</source></trans-unit>
+            <trans-unit id="goToListView"><source>Go to list view</source></trans-unit>
+            <trans-unit id="clearCaches"><source>Clear caches</source></trans-unit>
+            <trans-unit id="clearCachesFlashMessage"><source>Caches successfully cleared.</source></trans-unit>
+            <trans-unit id="hallOfFame"><source>Hall of fame</source></trans-unit>
+            <trans-unit id="hallOfFameIntroText"><source>Thanks to everyone who supported further development of DCE!</source></trans-unit>
+            <trans-unit id="trophyAlt"><source>Trophy</source></trans-unit>
+            <trans-unit id="trophyTitle"><source>This trophy for DCE support goes to %s</source></trans-unit>
+            <trans-unit id="donate"><source>Donate</source></trans-unit>
+            <trans-unit id="donateText"><source>If you like the dce extension, feel free to donate some funds to support further development.</source></trans-unit>
+            <trans-unit id="help"><source>Help</source></trans-unit>
+            <trans-unit id="help.manual"><source>Manual</source></trans-unit>
+            <trans-unit id="help.wiki"><source>Wiki</source></trans-unit>
+            <trans-unit id="help.facebook"><source>DCE Facebook Page</source></trans-unit>
+            <trans-unit id="help.bitbucket"><source>DCE on Bitbucket</source></trans-unit>
+
+            <trans-unit id="caution"><source>Caution!</source></trans-unit>
+            <trans-unit id="hideContentElementsBasedOnDce"><source>%s content elements based on this DCE have been also disabled, to avoid errors in frontned. These content items will not get re-enabled automatically!</source></trans-unit>
+            <trans-unit id="ok"><source>OK</source></trans-unit>
+            <trans-unit id="edit"><source>Edit</source></trans-unit>
+            <trans-unit id="info"><source>Info</source></trans-unit>
+            <trans-unit id="enabled"><source>Enabled</source></trans-unit>
+            <trans-unit id="disabled"><source>Disabled</source></trans-unit>
+            <trans-unit id="nofields"><source>No fields</source></trans-unit>
+            <trans-unit id="back"><source>Back</source></trans-unit>
+            <trans-unit id="noDcesFound"><source>No DCEs found!</source></trans-unit>
+            <trans-unit id="fields"><source>fields</source></trans-unit>
+            <trans-unit id="tca"><source>This DCE has fields which are mapped with TCA columns.</source></trans-unit>
+            <trans-unit id="tcaplus"><source>This DCE has fields which are mapped with TCA columns. Furthermore this DCE adds new columns to TCA and database!</source></trans-unit>
+            <trans-unit id="relatedContentElements"><source>%s content elements existing, based on this DCE.</source></trans-unit>
+            <trans-unit id="usage"><source>Usage (CEs)</source></trans-unit>
+            <trans-unit id="fieldStats"><source>Field infos</source></trans-unit>
+            <trans-unit id="dceStats"><source>DCE infos</source></trans-unit>
+            <trans-unit id="dceContainerEnabled"><source>Container</source></trans-unit>
+            <trans-unit id="limitedToItems"><source>limited to %s items</source></trans-unit>
+
+            <trans-unit id="actions"><source>Actions</source></trans-unit>
+            <trans-unit id="updateTcaMappings"><source>Update TCA Mappings</source></trans-unit>
+            <trans-unit id="updateTcaMappingsMessage"><source>You have %s content elements based on this DCE. Do you want to continue updating all TCA mappings?</source></trans-unit>
+            <trans-unit id="updateTcaMappingsDone"><source>TCA mappings has been updated successfully.</source></trans-unit>
+            <trans-unit id="updateOk"><source>Okay, proceed!</source></trans-unit>
+            <trans-unit id="updateAbort"><source>Cancel</source></trans-unit>
+		</body>
+	</file>
+</xliff>

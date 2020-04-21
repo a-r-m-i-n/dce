@@ -176,38 +176,6 @@ The benefit of using this view helper is that you also can use height and width 
 (e.g. 800x600).
 
 
-How to translate fields in the BE?
-----------------------------------
-
-Instead of writing down the absolute title of the field, you may also add a path to a locallang file and a key
-inside of this file.
-
-Example:
-
-::
-
-	LLL:fileadmin/templates/locallang.xml:myCoolTranslatedField
-
-
-The locallang.xml file content:
-
-::
-
-	<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-	<T3locallang>
-		<meta type="array">
-			<type>module</type>
-			<description>Language labels for the DCEs in backend</description>
-		</meta>
-		<data type="array">
-			<languageKey index="default" type="array">
-				<label index="myCoolTranslatedField">My cool translated field</label>
-			</languageKey>
-			<languageKey index="de" type="array">
-				<label index="myCoolTranslatedField">Mein cooles, übersetztes Feld</label>
-			</languageKey>
-		</data>
-	</T3locallang>
 
 
 How to render the content of an RTE field?

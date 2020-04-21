@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file target-language="de" datatype="plaintext" original="messages" date="2020-04-21T12:00:00Z" product-name="dce">
+		<header/>
+		<body>
+			<trans-unit id=".id"><target>DCE</target></trans-unit>
+			<trans-unit id=".details"><target>Dieser Eintrag definiert wie ein Inhaltselement basierend auf DCE aussehen soll.</target></trans-unit>
+
+			<trans-unit id="title.description"><target>Hier wird der Name des Inhaltselementes angegbeen. "LLL:"-Referenzen können verwendet werden.</target></trans-unit>
+			<trans-unit id="identifier.description"><target>Der Identifier wird verwendet um den CType eines neuen Inhaltselements basierend auf diesem DCE zu definieren. Er wird mit "dce_" vorangestellt. Wenn der Identifier nicht angegeben wird, wird die UID des DCE für den CType verwendet. Der Identifier muss klein geschrieben werden, Unterstriche sind erlaubt.</target></trans-unit>
+			<trans-unit id="hidden.description"><target>Wenn dieses DCE deaktiviert wird, werden auch alle Inhaltselemente die darauf basieren deaktiviert. Ansonsten kann es zu Fehlermeldungen führen, da deaktivierte DCEs nicht gerendert werden können.</target></trans-unit>
+			<trans-unit id="fields.description"><target>Hier werden die dynamischen Felder des DCE definiert und in Tabs arrangiert. Diese Felder können später im Template verwendet werden.</target></trans-unit>
+
+			<trans-unit id="template_type.description"><target>Es ist möglich das Template in eine Datei auszulagern oder direkt hier zu bearbeiten.</target></trans-unit>
+			<trans-unit id="template_content.description"><target>Dies ist das Fluid-Template für die Frontend-Ausgabe von diesem DCEDCE.</target></trans-unit>
+			<trans-unit id="template_file.description"><target>Hier kann standardmäßig eine Datei aus einem konfigurierten File-Storage (z.B. fileadmin/) ausgewählt werden. Es ist aber auch möglich Pfade wie "EXT:mytemplate/.../MyDce.html" zu verwenden.</target></trans-unit>
+
+			<trans-unit id="enable_container.description"><target>Wenn diese Option aktiviert wird, werden alle Inhaltselemente die auf dem selben DCE basieren und in einer Reihe liegen, mit einem Container-Template umschlossen.</target></trans-unit>
+			<trans-unit id="container_item_limit.description"><target>Wenn das Container Limit erreicht ist, werden weitere Elemente in einem neuen Container zusammengefasst.</target></trans-unit>
+			<trans-unit id="container_template_type.description"><target>Es ist möglich das Template in eine Datei auszulagern oder direkt hier zu bearbeiten.</target></trans-unit>
+			<trans-unit id="container_template.description"><target>Dies ist das Fluid-Template für den Container, der um die verschiedenen Inhaltselemente herum gerendert wird.</target></trans-unit>
+			<trans-unit id="container_template_file.description"><target>Hier kann standardmäßig eine Datei aus einem konfigurierten File-Storage (z.B. fileadmin/) ausgewählt werden. Es ist aber auch möglich Pfade wie "EXT:mytemplate/.../MyDce.html" zu verwenden.</target></trans-unit>
+
+			<trans-unit id="use_simple_backend_view.description"><target>Dies aktiviert die einfache Backend-Ansicht. Wird es deaktiviert kann über ein Fluid template die Backend-Ausgabe beliebig angepasst werden.</target></trans-unit>
+			<trans-unit id="backend_view_header.description"><target>Wähle ein Feld das als Header dargestellt werden, soll im Backend (Seiten-Ansicht)</target></trans-unit>
+			<trans-unit id="backend_view_bodytext.description"><target>Hier können mehrere Felder des DCE gewählt werden. Sie werden im Bodytext, als Tabelle dargestellt. Inkl. Bilder-Support.</target></trans-unit>
+			<trans-unit id="backend_template_type.description"><target>Es ist möglich das Template in eine Datei auszulagern oder direkt hier zu bearbeiten.</target></trans-unit>
+			<trans-unit id="backend_template_content.description"><target>Dies ist das Fluid-Template für die Backend-Ausgabe (im Seiten-Modul) dieses DCEs. Es wird empfohlen das mitgelieferte "BackendTemplate" Layout zu verwenden, welches Sektionen für "header" und "bodytext" bereitstellt.</target></trans-unit>
+			<trans-unit id="backend_template_file.description"><target>Hier kann standardmäßig eine Datei aus einem konfigurierten File-Storage (z.B. fileadmin/) ausgewählt werden. Es ist aber auch möglich Pfade wie "EXT:mytemplate/.../MyDce.html" zu verwenden.</target></trans-unit>
+
+			<trans-unit id="wizard_icon.description"><target>Welches Icon soll das DCE im Backend haben? Wenn "custom" gewählt wurde, können eigene Icons verwendet werden.</target></trans-unit>
+			<trans-unit id="wizard_custom_icon.description"><target>Bitte den Pfad zum Icon eingeben.</target></trans-unit>
+			<trans-unit id="wizard_enable.description"><target>Soll dieses Inhaltselement auch im Wizard für neue Inhaltselemente angezeigt werden?</target></trans-unit>
+			<trans-unit id="wizard_category.description"><target>Der Wizard für neue Inhaltselemente gruppiert die verschiedenen Elemente in Kategorien. Hier kannst Du wählen unter welcher Kategorie dieses Element erscheinen soll.</target></trans-unit>
+			<trans-unit id="wizard_description.description"><target>Beschreibungstext welcher im Wizard für neue Inhaltselemente angezeigt wird. "LLL:"-Referenzen können verwendet werden.</target></trans-unit>
+
+			<trans-unit id="enable_detailpage.description"><target>Wenn aktiviert, wird ein anderes Frontend-Template gerendert, wenn ein konfigurierter GET-Parameter die uid des jeweiligen Inhaltselementes beinhaltet.</target></trans-unit>
+			<trans-unit id="detailpage_identifier.description"><target>Dies ist der GET-Parameter der zwischen normalen und Detail-Template unterscheidet.</target></trans-unit>
+			<trans-unit id="detailpage_template_type.description"><target>Es ist möglich das Template in eine Datei auszulagern oder direkt hier zu bearbeiten.</target></trans-unit>
+			<trans-unit id="detailpage_template.description"><target>Dies ist das Fluid-Template für die Detailseiten-Ausgabe, welche durch einen konfigurierten GET-Parameter getriggert wird.</target></trans-unit>
+			<trans-unit id="detailpage_template_file.description"><target>Hier kann standardmäßig eine Datei aus einem konfigurierten File-Storage (z.B. fileadmin/) ausgewählt werden. Es ist aber auch möglich Pfade wie "EXT:mytemplate/.../MyDce.html" zu verwenden.</target></trans-unit>
+
+			<trans-unit id="cache_dce.description"><target>Wenn der DCE-Cache deaktiviert wird, kann dies Auswirkungen auf die Render-Performance haben.</target></trans-unit>
+			<trans-unit id="direct_output.description"><target>Wenn aktiviert wird fluid_styled_content (lib.contentElement) umgangen. Das verhinert das "csc-default"-Wrap in der HTMl-Ausgabe und erhöht die Performance signifikant.</target></trans-unit>
+			<trans-unit id="flexform_label.description"><target>Flexforms können einen eigenen Titel besitzen. Der hier konfigurierte LLL-Schlüssel zeigt auf das Label "Inhalte:"</target></trans-unit>
+			<trans-unit id="show_access_tab.description"><target>Wenn aktiviert, wird ein neuer Reiter "Zugang" angezeigt, in den Inhaltselementen. Sichtbarkeits-Felder werden von der DCE-Palette automatisch entfernt, falls konfiguriert.</target></trans-unit>
+			<trans-unit id="show_media_tab.description"><target>Zeigt "Media"-Reiter in Inhaltselementen an. Im Fluid-Template kann so darauf zugegriffen werden: {contentObject.media} oder {contentObject.assets}</target></trans-unit>
+			<trans-unit id="show_media_tab.description"><target>Zeigt "Kategorie"-Reoter in Inhaltselementen an. Im Fluid-Template kann so darauf zugegriffen werden: {contentObject.categories}</target></trans-unit>
+			<trans-unit id="palette_fields.description"><target>Über dem Flexform wird eine TCA Palette angezeigt, mit verschiedenen TCA-Feldern. Hier kann definiert werden, welche Felder dort angezeigt werden sollen.</target></trans-unit>
+			<trans-unit id="template_layout_root_path.description"><target>Definiert einen Pfad der in die Fluid Layout Root Pfade hinzugefügt wird. Dies betrifft alle Templates dieses DCEs.</target></trans-unit>
+			<trans-unit id="template_partial_root_path.description"><target>Definiert einen Pfad der in die Fluid Partial Root Pfade hinzugefügt wird. Dies betrifft alle Templates dieses DCEs.</target></trans-unit>
+		</body>
+	</file>
+</xliff>

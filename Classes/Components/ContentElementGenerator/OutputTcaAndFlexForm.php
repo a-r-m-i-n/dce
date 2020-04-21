@@ -50,7 +50,7 @@ class OutputTcaAndFlexForm
 
             $sourceCode .= <<<PHP
 \$GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'][] = [
-    0 => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce_long',
+    0 => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xlf:tx_dce_domain_model_dce_long',
     1 => '--div--'
 ];
 
@@ -74,7 +74,7 @@ PHP;
 
             $sourceCode .= <<<PHP
 \$GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'][] = [
-    0 => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce.miscellaneous',
+    0 => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xlf:tx_dce_domain_model_dce.miscellaneous',
     1 => '--div--'
 ];
 
@@ -148,7 +148,7 @@ PHP;
 --palette--;;${paletteIdentifier}_head,
 --palette--;;$paletteIdentifier,
 pi_flexform,$showAccessTabCode$showMediaTabCode$showCategoryTabCode
---div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xml:tabs.extended
+--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.extended
 TEXT;
 
         $paletteIdentifierHead = $paletteIdentifier . '_head';

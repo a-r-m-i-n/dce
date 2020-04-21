@@ -189,12 +189,12 @@ class ItemsProcFunc
 
         foreach ($identifiers as $identifier) {
             $parameters['items'][] = [
-                'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:wizardIcon.' . $identifier,
+                'LLL:EXT:dce/Resources/Private/Language/locallang_db.xlf:wizardIcon.' . $identifier,
                 $identifier,
                 $identifier
             ];
         }
-        $ll = 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:';
+        $ll = 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xlf:';
         $parameters['items'][] = [$ll . 'wizardIcon.custom', '--div--'];
         $parameters['items'][] = [$ll . 'wizardIcon.customIcon', 'custom'];
     }

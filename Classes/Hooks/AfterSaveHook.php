@@ -222,7 +222,7 @@ class AfterSaveHook
             return;
         }
 
-        $pathToLocallang = 'LLL:EXT:dce/Resources/Private/Language/locallang_mod.xml:';
+        $pathToLocallang = 'LLL:EXT:dce/Resources/Private/Language/locallang_mod.xlf:';
         $message = LocalizationUtility::translate(
             $pathToLocallang . 'hideContentElementsBasedOnDce',
             'Dce',

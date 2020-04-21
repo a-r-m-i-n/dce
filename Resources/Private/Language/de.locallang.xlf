@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file target-language="de" datatype="plaintext" original="messages" date="2020-04-21T12:00:00Z" product-name="dce">
+		<header/>
+		<body>
+			<trans-unit id="generaltab"><target>Allgemein</target></trans-unit>
+
+			<trans-unit id="availableVariables"><target>Verfügbare Variablen</target></trans-unit>
+			<trans-unit id="useForViewhelper"><target>verwende f:for Viewhelper</target></trans-unit>
+			<trans-unit id="availableBaseVariables"><target>Verfügbare Basis-Variablen</target></trans-unit>
+			<trans-unit id="famousViewHelper"><target>Meist verwendete Viewhelper</target></trans-unit>
+			<trans-unit id="dceViewHelper"><target>DCE Viewhelper</target></trans-unit>
+			<trans-unit id="dceObject"><target>DCE Objekt</target></trans-unit>
+			<trans-unit id="dcesObject"><target>Sammlung von DCE Objekten</target></trans-unit>
+			<trans-unit id="contentObject"><target>Contentobjekt (der DCE-Instanz, mit aufgelösten Relationen)</target></trans-unit>
+			<trans-unit id="tsfeObject"><target>TSFE Objekt (TypoScriptFrontendController)</target></trans-unit>
+			<trans-unit id="pageObject"><target>Eigenschaften der aktuellen Seite</target></trans-unit>
+			<trans-unit id="tsSetupObject"><target>TypoScript-Setup der aktuellen Seite</target></trans-unit>
+
+			<trans-unit id="dcePopupButtonTitle"><target>Öffnet die Einstellungen des DCE, auf welches diese DCE-Instanz basiert, in einem Popup.</target></trans-unit>
+
+			<trans-unit id="contentElementCreatedByFrontendHeader"><target>*Erstellt oder aktualisiert durch das Frontend*</target></trans-unit>
+			<trans-unit id="contentElementCreatedByFrontendBodytext"><target><![CDATA[<!-- Bitte aktualisieren! -->Wenn ein Inhaltselement, basierend auf DCE, im Frontend Kontext erstellt oder geändert wurde, ist es nicht möglich die Vorschau-Templates zu rendern. <em>(eID: %s)</em>]]></target></trans-unit>
+
+			<trans-unit id="noTitle"><target>Kein Titel</target></trans-unit>
+			<trans-unit id="section"><target>Sektion</target></trans-unit>
+			<trans-unit id="dceTitle"><target>*DCE-Titel*</target></trans-unit>
+			<trans-unit id="empty"><target>*Leer*</target></trans-unit>
+			<trans-unit id="containerflag"><target>*Container-Farbe*</target></trans-unit>
+			<trans-unit id="entry"><target>Eintrag</target></trans-unit>
+			<trans-unit id="entries"><target>Einträge</target></trans-unit>
+			<trans-unit id="editDceOfThisContentElement"><target>Bearbeite DCE (auf welchem dieses Inhaltselement basiert)</target></trans-unit>
+
+			<trans-unit id="chooseOption"><target>Wähle eine Option</target></trans-unit>
+			<trans-unit id="noMapping"><target>Feld nicht mappen</target></trans-unit>
+			<trans-unit id="mapToIndexColumn"><target>Mappe auf Index-Spalte (tx_dce_index, mediumtext)</target></trans-unit>
+			<trans-unit id="newcol"><target>Erstelle neue Spalte (in tt_content)</target></trans-unit>
+			<trans-unit id="chooseExistingField"><target>Oder wähle ein bestehendes Feld</target></trans-unit>
+		</body>
+	</file>
+</xliff>

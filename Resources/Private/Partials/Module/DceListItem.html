@@ -1,5 +1,5 @@
 {namespace core=TYPO3\CMS\Core\ViewHelpers}
-<f:alias map="{lll: 'LLL:EXT:dce/Resources/Private/Language/locallang_mod.xml:'}">
+<f:alias map="{lll: 'LLL:EXT:dce/Resources/Private/Language/locallang_mod.xlf:'}">
     <tr class="{f:if(condition:'{dce.uid}', then:'db', else:'file')}">
         <td class="listEntry">
             <a href="{f:render(partial:'Module/OpenDce', arguments:'{uid:\'{dce.uid}\'}') -> dce:format.tiny()}" class="overlayLink"></a>

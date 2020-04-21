@@ -28,7 +28,7 @@ $boot = function ($extensionKey) {
         [
             'access' => 'user,group',
             'icon' => $extensionIconPath,
-            'labels' => 'LLL:EXT:' . $extensionKey . '/Resources/Private/Language/locallang_mod.xml',
+            'labels' => 'LLL:EXT:' . $extensionKey . '/Resources/Private/Language/locallang_mod.xlf',
         ]
     );
 
@@ -66,7 +66,7 @@ $boot = function ($extensionKey) {
     foreach (['dce', 'dcefield'] as $table) {
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr(
             'tx_dce_domain_model_' . $table,
-            'EXT:dce/Resources/Private/Language/locallang_csh_' . $table . '.xml'
+            'EXT:dce/Resources/Private/Language/locallang_csh_' . $table . '.xlf'
         );
     }
 };

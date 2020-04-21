@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2020-04-21T12:00:00Z" product-name="dce">
+		<header/>
+		<body>
+            <trans-unit id="generaltab"><source>General</source></trans-unit>
+
+            <trans-unit id="availableVariables"><source>Available variables</source></trans-unit>
+            <trans-unit id="useForViewhelper"><source>use f:for viewhelper</source></trans-unit>
+            <trans-unit id="availableBaseVariables"><source>Available base variables</source></trans-unit>
+            <trans-unit id="famousViewHelper"><source>Famous viewhelper</source></trans-unit>
+            <trans-unit id="dceViewHelper"><source>DCE viewhelper</source></trans-unit>
+            <trans-unit id="dceObject"><source>DCE object</source></trans-unit>
+            <trans-unit id="dceObjectNode"><source>{dce}</source></trans-unit>
+            <trans-unit id="dcesObject"><source>Array of DCE objects</source></trans-unit>
+            <trans-unit id="dcesObjectNode"><source>{dces}</source></trans-unit>
+            <trans-unit id="contentObject"><source>Content Object (of DCE instance with resolved relations)</source></trans-unit>
+            <trans-unit id="contentObjectNode"><source>{contentObject}</source></trans-unit>
+            <trans-unit id="tsfeObject"><source>TSFE object (TypoScriptFrontendController)</source></trans-unit>
+            <trans-unit id="tsfeObjectNode"><source>{TSFE}</source></trans-unit>
+            <trans-unit id="pageObject"><source>Properties of current page</source></trans-unit>
+            <trans-unit id="pageObjectNode"><source>{page}</source></trans-unit>
+            <trans-unit id="tsSetupObject"><source>TypoScript setup of current page</source></trans-unit>
+            <trans-unit id="tsSetupObjectNode"><source>{tsSetup}</source></trans-unit>
+
+            <trans-unit id="dcePopupButtonTitle"><source>Opens the settings of the DCE which this DCE instance based on, in a popup</source></trans-unit>
+
+            <trans-unit id="contentElementCreatedByFrontendHeader"><source>*Created or updated by frontend*</source></trans-unit>
+            <trans-unit id="contentElementCreatedByFrontendBodytext"><source><![CDATA[<!-- Please update! -->If a content element based on DCE, has been created in frontend context, it is not possible to render this preview texts, because in frontend extbase resources are not always available. <em>(eID: %s)</em>]]></source></trans-unit>
+
+            <trans-unit id="noTitle"><source>No title</source></trans-unit>
+            <trans-unit id="section"><source>Section</source></trans-unit>
+            <trans-unit id="dceTitle"><source>*DCE title*</source></trans-unit>
+            <trans-unit id="empty"><source>*Empty*</source></trans-unit>
+            <trans-unit id="containerflag"><source>*Container Color*</source></trans-unit>
+            <trans-unit id="entry"><source>entry</source></trans-unit>
+            <trans-unit id="entries"><source>entries</source></trans-unit>
+            <trans-unit id="editDceOfThisContentElement"><source>Edit DCE (on which this content element is based on)</source></trans-unit>
+
+            <trans-unit id="chooseOption"><source>Choose an option</source></trans-unit>
+            <trans-unit id="noMapping"><source>Do not map field</source></trans-unit>
+            <trans-unit id="mapToIndexColumn"><source>Map to index column (tx_dce_index, mediumtext)</source></trans-unit>
+            <trans-unit id="newcol"><source>Create new column (in tt_content)</source></trans-unit>
+            <trans-unit id="chooseExistingField"><source>Or choose an existing field</source></trans-unit>
+		</body>
+	</file>
+</xliff>

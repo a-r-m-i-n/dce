@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file target-language="de" datatype="plaintext" original="messages" date="2020-04-21T12:00:00Z" product-name="dce">
+		<header/>
+		<body>
+			<trans-unit id=".id"><target>DCE Feld</target></trans-unit>
+			<trans-unit id=".details"><target>Dieser Eintrag definiert ein einzelnen Feld in einem DCE.</target></trans-unit>
+
+			<trans-unit id="type.description"><target>Es gibt drei Typen. Das reguläre "Element". Ein "Tab", welcher es erlaubt mehrere Elemente in Tabs aufzuteilen und "section" von dem dringend abgeraten wird, es zu verwenden.</target></trans-unit>
+			<trans-unit id="title.description"><target>Der Titel dieses Feldes. Wird im Backend dargestellt. Es können "LLL:"-Referenzen verwendet werden.</target></trans-unit>
+			<trans-unit id="variable.description"><target>Der Variablenname dieses Feldes. Er muss eindeutig sein! Und in "lowerCamelCase" geschrieben.</target></trans-unit>
+			<trans-unit id="hidden.description"><target>Deaktiviert dieses Feld.</target></trans-unit>
+			<trans-unit id="configuration.description"><target>Die Flexform-Konfiguration dieses Feldes, in XML.</target></trans-unit>
+			<trans-unit id="map_to.description"><target>Hier kann ein bestehendes Feld in tt_content ausgewählt werden, an das der Wert des Feldes gemappt wird. Immer wenn ein Editor etwas am Flexform eines Inhaltselement ändert, wird die konfigurierte Spalte in der Datenbank aktualisiert. Es ist auch möglich neue Spalten in tt_content anlegen zu lassen.</target></trans-unit>
+			<trans-unit id="new_tca_field_name.description"><target>Es soll eine neue Spalte in tt_content erzeugt werden, an der dieses Feld gemappt wird. Bitte den Namen der Spalte eingeben im "lower_underscore" Format.</target></trans-unit>
+			<trans-unit id="new_tca_field_type.description"><target>Wenn der Feld-Typ auf "auto" gestellt ist, wird der bestmögliche Datenbank-Feldtyp anhand der XML-Konfiguration erraten. Es ist aber auch möglich einen expliziten Typen anzugeben, z.B. tinyint(4) DEFAULT '0' NOT NULL</target></trans-unit>
+
+		</body>
+	</file>
+</xliff>

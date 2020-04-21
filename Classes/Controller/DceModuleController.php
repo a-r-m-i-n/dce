@@ -83,7 +83,7 @@ class DceModuleController extends ActionController
         $dataHandler = $this->objectManager->get(DataHandler::class);
         $dataHandler->start([], []);
         $dataHandler->clear_cacheCmd('all');
-        $translateKey = 'LLL:EXT:dce/Resources/Private/Language/locallang_mod.xml:';
+        $translateKey = 'LLL:EXT:dce/Resources/Private/Language/locallang_mod.xlf:';
         $this->addFlashMessage(
             LocalizationUtility::translate($translateKey . 'clearCachesFlashMessage', 'dce'),
             LocalizationUtility::translate($translateKey . 'clearCaches', 'dce')

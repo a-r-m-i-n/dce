@@ -49,7 +49,7 @@ class OutputPlugin implements OutputInterface
             $sourceCode .= <<<PHP
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
     'mod.wizards.newContentElement.wizardItems.dce.header = ' .
-    'LLL:EXT:dce/Resources/Private/Language/locallang_db.xml:tx_dce_domain_model_dce_long'
+    'LLL:EXT:dce/Resources/Private/Language/locallang_db.xlf:tx_dce_domain_model_dce_long'
 );
 
 PHP;

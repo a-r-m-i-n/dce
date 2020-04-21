@@ -1,13 +1,13 @@
 <select class="availableVariables select" id="variables_{uniqueIdentifier}">
 	<option></option>
 	<f:if condition="{showFields}">
-		<optgroup label="{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang.xml:availableVariables')}" class="c-divider">
+		<optgroup label="{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang.xlf:availableVariables')}" class="c-divider">
 			<f:for each="{availableFields}" as="field">
 			<f:if condition="{field.type} == 2">
 				<f:then>
 					<option value='f:<dce:format.stripslashes subject="\<f:for each=\"{field." />{field.variable}<dce:format.stripslashes subject="\}\" as=\" " performTrim="1" />{field.section_fields_tag -> dce:format.strtolower()}<dce:format.stripslashes subject="\">" /><f:for each="{field.sectionFields}" as="sectionField">
 		{sectionField.title}: <dce:format.stripslashes subject="\{" />{field.section_fields_tag -> dce:format.strtolower()}.{sectionField.variable}<dce:format.stripslashes subject="\}" /><br /></f:for>
-	<dce:format.stripslashes subject="<\/f:for>" />'>{field.variable -> dce:format.wrapWithCurlyBraces(prepend:'field.')} - {field.title} ({f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang.xml:useForViewhelper')})</option>
+	<dce:format.stripslashes subject="<\/f:for>" />'>{field.variable -> dce:format.wrapWithCurlyBraces(prepend:'field.')} - {field.title} ({f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang.xlf:useForViewhelper')})</option>
 				</f:then>
 				<f:else>
 					<option value="v:field.{field.variable}">{field.variable -> dce:format.wrapWithCurlyBraces(prepend:'field.')} - {field.title}</option>
@@ -21,26 +21,26 @@
 		</f:for>
 		</optgroup>
 	</f:if>
-	<optgroup label="{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang.xml:availableBaseVariables')}" class="c-divider">
+	<optgroup label="{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang.xlf:availableBaseVariables')}" class="c-divider">
 		<f:if condition="{showFields}">
 			<f:then>
-			<option value="v:dce">{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang.xml:dceObjectNode')} - {f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang.xml:dceObject')}</option>
-			<option value="v:contentObject">{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang.xml:contentObjectNode')} - {f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang.xml:contentObject')}</option>
+			<option value="v:dce">{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang.xlf:dceObjectNode')} - {f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang.xlf:dceObject')}</option>
+			<option value="v:contentObject">{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang.xlf:contentObjectNode')} - {f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang.xlf:contentObject')}</option>
 			</f:then>
 			<f:else>
-				<option value="v:dces">{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang.xml:dcesObjectNode')} - {f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang.xml:dcesObject')}</option>
+				<option value="v:dces">{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang.xlf:dcesObjectNode')} - {f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang.xlf:dcesObject')}</option>
 			</f:else>
 		</f:if>
-		<option value="v:TSFE">{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang.xml:tsfeObjectNode')} - {f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang.xml:tsfeObject')}</option>
-		<option value="v:page">{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang.xml:pageObjectNode')} - {f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang.xml:pageObject')}</option>
-		<option value="v:tsSetup">{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang.xml:tsSetupObjectNode')} - {f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang.xml:tsSetupObject')}</option>
+		<option value="v:TSFE">{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang.xlf:tsfeObjectNode')} - {f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang.xlf:tsfeObject')}</option>
+		<option value="v:page">{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang.xlf:pageObjectNode')} - {f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang.xlf:pageObject')}</option>
+		<option value="v:tsSetup">{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang.xlf:tsSetupObjectNode')} - {f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang.xlf:tsSetupObject')}</option>
 	</optgroup>
-	<optgroup label="{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang.xml:famousViewHelper')}" class="c-divider">
+	<optgroup label="{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang.xlf:famousViewHelper')}" class="c-divider">
 		<f:for each="{famousViewHelpers}" as="viewhelperValue" key="viewhelperName">
 			<option value="f:{viewhelperValue}">f:{viewhelperName}</option>
 		</f:for>
 	</optgroup>
-	<optgroup label="{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang.xml:dceViewHelper')}" class="c-divider">
+	<optgroup label="{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang.xlf:dceViewHelper')}" class="c-divider">
 		<f:for each="{dceViewHelpers}" as="dceViewhelperValue" key="dceViewhelperName">
 			<option value="f:{dceViewhelperValue}">dce:{dceViewhelperName}</option>
 		</f:for>

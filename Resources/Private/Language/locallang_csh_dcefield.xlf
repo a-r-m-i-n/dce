@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2020-04-21T12:00:00Z" product-name="dce">
+		<header/>
+		<body>
+            <trans-unit id=".id"><source>DCE field</source></trans-unit>
+            <trans-unit id=".details"><source>This record defines a single field used in a DCE.</source></trans-unit>
+
+            <trans-unit id="type.description"><source>There are three types. A regular "element". A "tab" which allows you to split many elements for better overview, and "section" which is highly encouraged not to get used.</source></trans-unit>
+            <trans-unit id="title.description"><source>The title of this field. Displayed in backend. You can use "LLL:" references here.</source></trans-unit>
+            <trans-unit id="variable.description"><source>The variable name of this field. It must be unique! And in "lowerCamelCase" written.</source></trans-unit>
+            <trans-unit id="hidden.description"><source>Disables this field.</source></trans-unit>
+            <trans-unit id="configuration.description"><source>The Flexform configuration of this field, in XML.</source></trans-unit>
+            <trans-unit id="map_to.description"><source>Here you can choose an existing field of tt_content to map the value of this field to. Everytime an editor edits flexform contents of this element, the configured column gets updated. You can also define new columns here.</source></trans-unit>
+            <trans-unit id="new_tca_field_name.description"><source>You want to create a new column to tt_content, to map this field to. Please enter the column name in "lower_underscore" format.</source></trans-unit>
+            <trans-unit id="new_tca_field_type.description"><source>When the field type is "auto" it guesses the best database field type, based on the field configuration. You can also enter the explicit type, e.g. tinyint(4) DEFAULT '0' NOT NULL</source></trans-unit>
+
+        </body>
+	</file>
+</xliff>
