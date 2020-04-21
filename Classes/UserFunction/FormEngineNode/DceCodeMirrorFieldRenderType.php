@@ -11,17 +11,23 @@ use T3\Dce\Components\TemplateRenderer\StandaloneViewFactory;
 use T3\Dce\Utility\DatabaseUtility;
 use T3\Dce\Utility\File;
 use TYPO3\CMS\Backend\Form\NodeFactory;
-use TYPO3\CMS\Backend\Form\NodeInterface;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
+use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 /**
  * Codemirror text area field
  */
-class DceCodeMirrorFieldRenderType implements NodeInterface
+class DceCodeMirrorFieldRenderType extends AbstractFormElement
 {
+    /**
+     * @var array
+     */
+    protected $resultArray;
+
     /**
      * Global options from NodeFactory
      *
@@ -30,23 +36,28 @@ class DceCodeMirrorFieldRenderType implements NodeInterface
     protected $data;
 
     /**
+     * @var string
+     */
+    protected $uniqueIdentifier;
+
+    /**
      * Main render method
      *
      * @return array As defined in initializeResultArray() of AbstractNode
      */
     public function render()
     {
-        return [
-            'html' => $this->getCodemirrorFieldHtml($this->data),
-            'additionalInlineLanguageLabelFiles' => [],
-            'stylesheetFiles' => [
-                'EXT:dce/Resources/Public/JavaScript/Contrib/codemirror/lib/codemirror.css',
-                'EXT:dce/Resources/Public/Css/custom_codemirror.css'
-            ],
-            'requireJsModules' => [
-                'TYPO3/CMS/Dce/DceCodemirror',
-            ],
+        $mode = $this->data['parameterArray']['fieldConf']['config']['parameters']['mode'];
+        $this->resultArray = $this->initializeResultArray();
+        $this->resultArray['stylesheetFiles'][] = 'EXT:dce/Resources/Public/JavaScript/Contrib/codemirror/lib/codemirror.css';
+        $this->resultArray['stylesheetFiles'][] = 'EXT:dce/Resources/Public/Css/custom_codemirror.css';
+        $this->resultArray['requireJsModules'][] = [
+            'TYPO3/CMS/Dce/DceCodemirror' => 'function(DceCodemirror, $) { DceCodemirror.initCodeMirrorEditor("#codemirror_' . $this->uniqueIdentifier . '", "' . $mode . '"); }'
         ];
+
+        $this->resultArray['html'] = $this->getCodemirrorFieldHtml($this->data);
+
+        return $this->resultArray;
     }
 
     /**
@@ -58,6 +69,7 @@ class DceCodeMirrorFieldRenderType implements NodeInterface
     public function __construct(NodeFactory $nodeFactory, array $data)
     {
         $this->data = $data;
+        $this->uniqueIdentifier = uniqid();
     }
 
     /**
@@ -82,7 +94,7 @@ class DceCodeMirrorFieldRenderType implements NodeInterface
             'onChangeFunc',
             htmlspecialchars(implode('', $data['parameterArray']['fieldChangeFunc']))
         );
-        $fluidTemplate->assign('uniqueIdentifier', uniqid());
+        $fluidTemplate->assign('uniqueIdentifier', $this->uniqueIdentifier);
         $fluidTemplate->assign('parameters', $data['parameterArray']['fieldConf']['config']['parameters']);
 
         if ($data['parameterArray']['fieldConf']['config']['parameters']['mode'] === 'htmlmixed') {
