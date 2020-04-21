@@ -15,13 +15,15 @@ $boot = function ($extensionKey) {
 
     // Register backend module
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
-        'T3.' . $extensionKey,
+        \T3\Dce\Compatibility::isTypo3Version() ? $extensionKey : 'T3.' . $extensionKey,
         'tools',
         'dceModule',
         '',
         [
-            'DceModule' => 'index,clearCaches,hallOfFame,updateTcaMappings',
-            'Dce' => 'renderPreview'
+            \T3\Dce\Compatibility::isTypo3Version() ? \T3\Dce\Controller\DceModuleController::class : 'DceModule' =>
+                'index,clearCaches,hallOfFame,updateTcaMappings',
+            \T3\Dce\Compatibility::isTypo3Version() ? \T3\Dce\Controller\DceController::class : 'Dce' =>
+                'renderPreview'
         ],
         [
             'access' => 'user,group',

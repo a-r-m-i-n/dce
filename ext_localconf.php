@@ -95,13 +95,13 @@ $boot = function ($extensionKey) {
 
     // Register Plugin to get Dce instance
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-        'T3.' . $extensionKey,
+        \T3\Dce\Compatibility::isTypo3Version() ? $extensionKey : 'T3.' . $extensionKey,
         'Dce',
         [
-            'Dce' => 'renderDce'
+            \T3\Dce\Compatibility::isTypo3Version() ? \T3\Dce\Controller\DceController::class : 'Dce' => 'renderDce'
         ],
         [
-            'Dce' => ''
+            \T3\Dce\Compatibility::isTypo3Version() ? \T3\Dce\Controller\DceController::class : 'Dce' => ''
         ]
     );
 

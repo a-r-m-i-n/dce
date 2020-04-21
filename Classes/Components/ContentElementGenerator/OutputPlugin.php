@@ -62,10 +62,10 @@ PHP;
                 $dceCache = $dce['cache_dce'] ? '[]' : "['Dce' => 'show']";
                 $sourceCode .= <<<PHP
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-    'T3.dce',
+    \T3\Dce\Compatibility::isTypo3Version() ? 'dce' : 'T3.dce',
     '$dceIdentifierSkipFirst4Chars',
     [
-        'Dce' => 'show',
+        \T3\Dce\Compatibility::isTypo3Version() ? \T3\Dce\Controller\DceController::class : 'Dce' => 'show',
     ],
     $dceCache,
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
