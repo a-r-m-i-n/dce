@@ -57,7 +57,7 @@ class CacheManager implements SingletonInterface
         $cacheSegment = 'cache';
         $codeSegment = 'code';
         // Remove this when 8.7 support is dropped
-        if (!Compatibility::isTypo3Version()) {
+        if (!Compatibility::isTypo3Version('9.0.0')) {
             $cacheSegment = ucfirst($cacheSegment);
             $codeSegment = ucfirst($codeSegment);
         }

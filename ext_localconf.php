@@ -152,7 +152,7 @@ $boot = function ($extensionKey) {
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['dce'] = ['T3\\Dce\\ViewHelpers'];
 
     // UserFunc TypoScript Condition (for expression language)
-    if (\T3\Dce\Compatibility::isTypo3Version()) {
+    if (\T3\Dce\Compatibility::isTypo3Version('9.0.0')) {
         $providerName = 'TYPO3\CMS\Core\ExpressionLanguage\TypoScriptConditionProvider';
         $sectionName = 'additionalExpressionLanguageProvider';
         if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS'][$providerName][$sectionName])) {

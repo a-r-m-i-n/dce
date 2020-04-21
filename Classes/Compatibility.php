@@ -20,12 +20,12 @@ namespace T3\Dce {
     class Compatibility
     {
         /**
-         * Checks if current TYPO3 version is 9.0.0 or greater (by default)
+         * Checks if current TYPO3 version is 10.0.0 or greater (by default)
          *
-         * @param string $version e.g. 9.0.0
+         * @param string $version e.g. 10.0.0
          * @return bool
          */
-        public static function isTypo3Version($version = '9.0.0') : bool
+        public static function isTypo3Version($version = '10.0.0') : bool
         {
             return VersionNumberUtility::convertVersionNumberToInteger(TYPO3_branch) >=
                 VersionNumberUtility::convertVersionNumberToInteger($version);
@@ -38,7 +38,7 @@ namespace T3\Dce {
          */
         public static function getSysLanguageUid() : ?int
         {
-            if (!static::isTypo3Version()) {
+            if (!static::isTypo3Version('9.0.0')) {
                 if (!isset($GLOBALS['TSFE'])) {
                     return null;
                 }
@@ -67,7 +67,7 @@ namespace T3\Dce {
             try {
                 $uri = $uriBuilder->buildUriFromRoute($moduleName, $urlParameters);
             } catch (\TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException $e) {
-                $uri = static::isTypo3Version()
+                $uri = static::isTypo3Version('9.0.0')
                     ? $uriBuilder->buildUriFromRoutePath($moduleName, $urlParameters)
                     : $uriBuilder->buildUriFromModule($moduleName, $urlParameters);
             }
@@ -82,7 +82,7 @@ namespace T3\Dce {
          */
         public static function getVarPath(): string
         {
-            if (!self::isTypo3Version()) {
+            if (!self::isTypo3Version('9.0.0')) {
                 return PATH_site . 'typo3temp/var';
             }
             return Environment::getVarPath();
