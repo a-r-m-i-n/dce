@@ -3,7 +3,7 @@
 /*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2020 Armin Vieweg <armin@v.ieweg.de>
  */
 namespace T3\Dce {
 

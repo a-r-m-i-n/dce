@@ -26,7 +26,7 @@ Dynamic Content Elements (DCE)
 		TYPO3 CMS, DCE, FCE, Content elements, Dynamic Content Elements
 
 	:Copyright:
-		2012-2019
+		2012-2020
 
 	:Author:
 		Armin Vieweg
