@@ -13,7 +13,7 @@ if (!defined('TYPO3_MODE')) {
 $boot = function ($extensionKey) {
     $extensionPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($extensionKey);
 
-    if (!class_exists(\T3\Dce\Compatibility::class)) {
+    if (!class_exists(\T3\Dce\Compatibility::class) && class_exists(\T3\Dce\Controller\DceController::class)) {
         require_once($extensionPath . 'Classes/Compatibility.php');
     }
 
