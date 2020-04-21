@@ -44,9 +44,6 @@ $dceFieldTca = [
             '2' => 'ext-dce-dcefield-type-section'
         ],
     ],
-    'interface' => [
-        'showRecordFieldList' => 'hidden,title,type,variable',
-    ],
     'types' => [
         '0' => [
             'showitem' => '--palette--;;general_header,configuration,
@@ -317,5 +314,11 @@ $dceFieldTca = [
         ],
     ],
 ];
+
+if (!\T3\Dce\Compatibility::isTypo3Version()) {
+    $dceFieldTca['interface'] = [
+        'showRecordFieldList' => 'hidden,title,type,variable',
+    ];
+}
 
 return $dceFieldTca;

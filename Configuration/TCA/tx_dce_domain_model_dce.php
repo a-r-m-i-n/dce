@@ -61,9 +61,6 @@ $dceTca = [
         'iconfile' => 'EXT:dce/Resources/Public/Icons/ext_icon.png',
         'copyAfterDuplFields' => 'fields',
     ],
-    'interface' => [
-        'showRecordFieldList' => 'hidden,title,type',
-    ],
     'types' => [
         1 => [
             'showitem' => $showItems,
@@ -691,4 +688,9 @@ if (!\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('fluid_styled_
     $dceTca['columns']['direct_output']['config']['readOnly'] = true;
 }
 
+if (!\T3\Dce\Compatibility::isTypo3Version()) {
+    $dceFieldTca['interface'] = [
+        'showRecordFieldList' => 'hidden,title,type',
+    ];
+}
 return $dceTca;
