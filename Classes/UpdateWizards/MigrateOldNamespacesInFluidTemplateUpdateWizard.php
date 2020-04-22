@@ -1,42 +1,45 @@
-<?php
-namespace T3\Dce\Updates;
+<?php declare(strict_types=1);
+namespace T3\Dce\UpdateWizards;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2020 Armin Vieweg <armin@v.ieweg.de>
- *  |     2019 Stefan Froemken <froemken@gmail.com>
+ *  | (c) 2020 Armin Vieweg <armin@v.ieweg.de>
  */
-use T3\Dce\UpdateWizards\Traits\MigrateOldNamespacesInFluidTemplateTrait;
 use T3\Dce\Utility\DatabaseUtility;
+use T3\Dce\UpdateWizards\Traits\MigrateOldNamespacesInFluidTemplateTrait;
+use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
 /**
  * Migrates old namespaces in fluid templates
- *
- * @deprecated Not used since TYPO3 10 anymore
- * @see \T3\Dce\UpdateWizards\MigrateOldNamespacesInFluidTemplateUpdateWizard
  */
-class MigrateOldNamespacesInFluidTemplateUpdate extends AbstractUpdate
+class MigrateOldNamespacesInFluidTemplateUpdateWizard implements UpgradeWizardInterface
 {
     use MigrateOldNamespacesInFluidTemplateTrait;
 
-    /**
-     * @var string
-     */
-    protected $title = 'EXT:dce Migrate old namespaces in fluid templates';
+    protected $description = '';
 
-    /**
-     * @var string
-     */
-    protected $identifier = 'dceMigrateOldNamespacesInFluidTemplateUpdate';
+    public function getIdentifier(): string
+    {
+        return 'dceMigrateOldNamespacesInFluidTemplateUpdate';
+    }
 
-    /**
-     * Checks whether updates are required.
-     *
-     * @param string &$description The description for the update
-     * @return bool Whether an update is required (TRUE) or not (FALSE)
-     */
-    public function checkForUpdate(&$description)
+    public function getTitle(): string
+    {
+        return 'EXT:dce Migrate old namespaces in fluid templates';
+    }
+
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    public function executeUpdate(): bool
+    {
+        return (bool) $this->update();
+    }
+
+    public function updateNecessary(): bool
     {
         $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dce');
         $dceRows = $queryBuilder
@@ -84,22 +87,15 @@ class MigrateOldNamespacesInFluidTemplateUpdate extends AbstractUpdate
         }
 
         if ($updateTemplates > 0) {
-            $description = 'You have <b>' . $updateTemplates . ' DCE templates</b> with old namespace. ' .
-                           'They need to get updated.';
+            $this->description = 'You have ' . $updateTemplates . ' DCE template(s) with old namespace. ' .
+                'They need to get updated.';
             return true;
         }
         return false;
     }
 
-    /**
-     * Performs the accordant updates.
-     *
-     * @param array &$dbQueries Queries done in this update
-     * @param string|array &$customMessages Custom messages
-     * @return bool Whether everything went smoothly or not
-     */
-    public function performUpdate(array &$dbQueries, &$customMessages)
+    public function getPrerequisites(): array
     {
-        return (bool) $this->update();
+        return [];
     }
 }

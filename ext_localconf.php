@@ -63,16 +63,27 @@ $boot = function ($extensionKey) {
     [\T3\Dce\UserFunction\CustomFieldValidation\NoLeadingNumberValidator::class] =
         'EXT:dce/Classes/UserFunction/CustomFieldValidation/NoLeadingNumberValidator.php';
 
-    // Update Scripts
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceMigrateOldNamespacesInFluidTemplateUpdate'] =
-        \T3\Dce\Updates\MigrateOldNamespacesInFluidTemplateUpdate::class;
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceMigrateDceFieldDatabaseRelationUpdate'] =
-        \T3\Dce\Updates\MigrateDceFieldDatabaseRelationUpdate::class;
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceMigrateFlexformSheetIdentifierUpdate'] =
-        \T3\Dce\Updates\MigrateFlexformSheetIdentifierUpdate::class;
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceFixMalformedDceFieldVariableNamesUpdate'] =
-        \T3\Dce\Updates\FixMalformedDceFieldVariableNamesUpdate::class;
-
+    if (!\T3\Dce\Compatibility::isTypo3Version()) {
+        // Update Scripts (before v10)
+        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceMigrateOldNamespacesInFluidTemplateUpdate'] =
+            \T3\Dce\Updates\MigrateOldNamespacesInFluidTemplateUpdate::class;
+        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceMigrateDceFieldDatabaseRelationUpdate'] =
+            \T3\Dce\Updates\MigrateDceFieldDatabaseRelationUpdate::class;
+        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceMigrateFlexformSheetIdentifierUpdate'] =
+            \T3\Dce\Updates\MigrateFlexformSheetIdentifierUpdate::class;
+        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceFixMalformedDceFieldVariableNamesUpdate'] =
+            \T3\Dce\Updates\FixMalformedDceFieldVariableNamesUpdate::class;
+    } else {
+        // Update Scripts (v10)
+        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceMigrateOldNamespacesInFluidTemplateUpdate'] =
+            \T3\Dce\UpdateWizards\MigrateOldNamespacesInFluidTemplateUpdateWizard::class;
+        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceMigrateDceFieldDatabaseRelationUpdate'] =
+            \T3\Dce\UpdateWizards\MigrateDceFieldDatabaseRelationUpdateWizard::class;
+        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceMigrateFlexformSheetIdentifierUpdate'] =
+            \T3\Dce\UpdateWizards\MigrateFlexformSheetIdentifierUpdateWizard::class;
+        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceFixMalformedDceFieldVariableNamesUpdate'] =
+            \T3\Dce\UpdateWizards\FixMalformedDceFieldVariableNamesUpdateWizard::class;
+    }
     if (!\T3\Dce\Compatibility::isTypo3Version()) {
         // Slot to extend SQL tables definitions
         /** @var \TYPO3\CMS\Extbase\SignalSlot\Dispatcher $signalSlotDispatcher */

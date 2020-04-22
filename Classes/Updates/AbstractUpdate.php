@@ -7,13 +7,17 @@ namespace T3\Dce\Updates;
  *  | (c) 2012-2020 Armin Vieweg <armin@v.ieweg.de>
  *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
-use T3\Dce\Utility\DatabaseUtility;
+use T3\Dce\UpdateWizards\Traits\GetDceIdentifierTrait;
 
 /**
  * Migrate m:n-relation of dce fields to 1:n-relation
+ *
+ * @deprecated Not used since TYPO3 10 anymore
  */
-class AbstractUpdate extends \TYPO3\CMS\Install\Updates\AbstractUpdate
+abstract class AbstractUpdate extends \TYPO3\CMS\Install\Updates\AbstractUpdate
 {
+    use GetDceIdentifierTrait;
+
     /**
      * Checks whether updates are required.
      *
@@ -35,29 +39,5 @@ class AbstractUpdate extends \TYPO3\CMS\Install\Updates\AbstractUpdate
     public function performUpdate(array &$dbQueries, &$customMessages)
     {
         return parent::performUpdate($dbQueries, $customMessages);
-    }
-
-    /**
-     * Returns the identifier of dce with given uid
-     *
-     * @param int $dceUid
-     * @return string
-     */
-    protected function getDceIdentifier(int $dceUid) : string
-    {
-        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dce');
-        $dce = $queryBuilder
-            ->select('*')
-            ->from('tx_dce_domain_model_dce')
-            ->where(
-                $queryBuilder->expr()->eq(
-                    'uid',
-                    $queryBuilder->createNamedParameter($dceUid, \PDO::PARAM_INT)
-                )
-            )
-            ->execute()
-            ->fetch();
-
-        return is_array($dce) && !empty($dce['identifier']) ? 'dce_' . $dce['identifier'] : 'dce_dceuid' . $dceUid;
     }
 }
