@@ -410,7 +410,7 @@ class DceRepository extends Repository
     ) : array {
         $objects = [];
 
-        $objectManager = new ObjectManager();
+
 
         if ($dceFieldConfiguration['type'] === 'group') {
             $className = $dceFieldConfiguration['allowed'];
@@ -498,6 +498,10 @@ class DceRepository extends Repository
 
         if (class_exists($className) && class_exists($repositoryName)) {
             // Extbase object found
+            /** @var ObjectManager $objectManager */
+            $objectManager = isset($this->objectManager)
+                ? $this->objectManager
+                : GeneralUtility::makeInstance(ObjectManager::class);
             /** @var $repository Repository */
             $repository = $objectManager->get($repositoryName);
 
@@ -618,7 +622,9 @@ class DceRepository extends Repository
         // Resolve categories
         if (array_key_exists('categories', $processedContentObject)) {
             /** @var ObjectManager $objectManager */
-            $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+            $objectManager = isset($this->objectManager)
+                ? $this->objectManager
+                : GeneralUtility::makeInstance(ObjectManager::class);
             /** @var CategoryRepository $categoryRepository */
             $categoryRepository = $objectManager->get(CategoryRepository::class);
 
