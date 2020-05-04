@@ -63,8 +63,8 @@ $boot = function ($extensionKey) {
     [\T3\Dce\UserFunction\CustomFieldValidation\NoLeadingNumberValidator::class] =
         'EXT:dce/Classes/UserFunction/CustomFieldValidation/NoLeadingNumberValidator.php';
 
-    if (!\T3\Dce\Compatibility::isTypo3Version()) {
-        // Update Scripts (before v10)
+    if (!\T3\Dce\Compatibility::isTypo3Version('9.0.0')) {
+        // Update Scripts (before v8)
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceMigrateOldNamespacesInFluidTemplateUpdate'] =
             \T3\Dce\Updates\MigrateOldNamespacesInFluidTemplateUpdate::class;
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceMigrateDceFieldDatabaseRelationUpdate'] =
@@ -74,7 +74,7 @@ $boot = function ($extensionKey) {
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceFixMalformedDceFieldVariableNamesUpdate'] =
             \T3\Dce\Updates\FixMalformedDceFieldVariableNamesUpdate::class;
     } else {
-        // Update Scripts (v10)
+        // Update Scripts (v9 & v10)
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceMigrateOldNamespacesInFluidTemplateUpdate'] =
             \T3\Dce\UpdateWizards\MigrateOldNamespacesInFluidTemplateUpdateWizard::class;
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceMigrateDceFieldDatabaseRelationUpdate'] =
