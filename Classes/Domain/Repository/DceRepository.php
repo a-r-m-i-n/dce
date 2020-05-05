@@ -632,32 +632,40 @@ class DceRepository extends Repository
             $statement = $queryBuilder
                 ->select('sc.uid')
                 ->from('sys_category', 'sc')
-                ->leftJoin(
+                ->join(
                     'sc',
                     'sys_category_record_mm',
                     'sc_mm',
-                    (string)$queryBuilder->expr()->andX(
-                        $queryBuilder->expr()->eq(
-                            'sc_mm.tablenames',
-                            $queryBuilder->createNamedParameter('tt_content', \PDO::PARAM_STR)
-                        ),
-                        $queryBuilder->expr()->eq(
-                            'sc_mm.fieldname',
-                            $queryBuilder->createNamedParameter('categories', \PDO::PARAM_STR)
-                        ),
-                        $queryBuilder->expr()->eq(
-                            'sc_mm.uid_local',
-                            $queryBuilder->quoteIdentifier('sc.uid')
-                        )
+                    $queryBuilder->expr()->eq(
+                        'sc_mm.uid_local',
+                        $queryBuilder->quoteIdentifier('sc.uid')
                     )
                 )
-                ->leftJoin(
+                ->join(
                     'sc_mm',
                     'tt_content',
                     'tc',
-                    (string)$queryBuilder->expr()->eq(
+                    $queryBuilder->expr()->eq(
                         'sc_mm.uid_foreign',
+                        $queryBuilder->quoteIdentifier('tc.uid')
+                    )
+                )
+                ->where(
+                    $queryBuilder->expr()->eq(
+                        'tc.uid',
                         $queryBuilder->createNamedParameter($contentObjectArray['uid'], \PDO::PARAM_INT)
+                    )
+                )
+                ->andWhere(
+                    $queryBuilder->expr()->eq(
+                        'sc_mm.tablenames',
+                        $queryBuilder->createNamedParameter('tt_content', \PDO::PARAM_STR)
+                    )
+                )
+                ->andWhere(
+                    $queryBuilder->expr()->eq(
+                        'sc_mm.fieldname',
+                        $queryBuilder->createNamedParameter('categories', \PDO::PARAM_STR)
                     )
                 )
                 ->execute();
