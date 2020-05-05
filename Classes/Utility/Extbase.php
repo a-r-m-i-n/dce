@@ -49,11 +49,12 @@ class Extbase
             'settings' => $settings
         ];
 
-        // TODO Avoid that
-        $_POST['tx_dce_tools_dcedcemodule']['controller'] = $controller;
-        $_POST['tx_dce_tools_dcedcemodule']['action'] = $action;
-        $_POST['tx_dce_dce']['controller'] = $controller;
-        $_POST['tx_dce_dce']['action'] = $action;
+        if (TYPO3_MODE !== 'FE') {
+            $_POST['tx_dce_tools_dcedcemodule']['controller'] = $controller;
+            $_POST['tx_dce_tools_dcedcemodule']['action'] = $action;
+            $_POST['tx_dce_dce']['controller'] = $controller;
+            $_POST['tx_dce_dce']['action'] = $action;
+        }
 
         $previousValue = $GLOBALS['TYPO3_CONF_VARS']['FE']['pageNotFoundOnCHashError'];
         $GLOBALS['TYPO3_CONF_VARS']['FE']['pageNotFoundOnCHashError'] = false;
