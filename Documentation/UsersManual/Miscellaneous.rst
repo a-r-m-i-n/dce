@@ -62,7 +62,7 @@ Enable media tab in backend
 This option is only available when ``EXT:fluid_styled_content`` is installed. If this option is activated a tab with
 media (FAL) field is shown in the backend.
 
-You can access ``{contentObject.media}`` variable in Fluid template.
+You can access ``{contentObject.assets}` or ``{contentObject.media}`` variable in Fluid template.
 It contains an array of ``\TYPO3\CMS\Core\Resource\FileReference``.
 
 

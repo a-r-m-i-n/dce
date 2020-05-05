@@ -176,6 +176,20 @@ The benefit of using this view helper is that you also can use height and width 
 (e.g. 800x600).
 
 
+How to apply custom CKeditor configuration in DCE?
+--------------------------------------------------
+
+When you've defined a DCE field as RTE (rich text editor), you also defined the "richtextConfiguration" to be used,
+e.g. "default", "minimal" or something custom.
+
+The configuration in FlexForms will be overwritten by PageTS. When you've set e.g.
+
+::
+
+    RTE.default.preset = minimal
+
+in PageTS, this will overwrite the "richtextConfiguration" of the DCE field. To avoid this issue, reset the
+``RTE.default.preset`` setting in PageTS.
 
 
 How to render the content of an RTE field?
