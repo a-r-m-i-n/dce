@@ -1,4 +1,4 @@
-image: composer/composer:latest
+image: composer:1
 
 pipelines:
   default:
@@ -7,12 +7,11 @@ pipelines:
         - composer
       script:
         - mkdir -p .build/test-reports
-        - composer global require phploc/phploc squizlabs/php_codesniffer phpmd/phpmd phpmetrics/phpmetrics
-        - /composer/vendor/bin/phploc .
-        - /composer/vendor/bin/phpmd . text cleancode,design,codesize,naming,unusedcode --ignore-violations-on-exit
-        - /composer/vendor/bin/phpmetrics --exclude=vendor,tests --extensions=php .
-        - /composer/vendor/bin/phpcs --extensions=php --standard=PSR2 .
-
+        - composer global require composer/composer:"^1.0" phploc/phploc squizlabs/php_codesniffer phpmd/phpmd phpmetrics/phpmetrics --no-progress --no-suggest
+        - /tmp/vendor/bin/phploc .
+        - /tmp/vendor/bin/phpmd . text cleancode,design,codesize,naming,unusedcode --ignore-violations-on-exit
+        - /tmp/vendor/bin/phpmetrics --exclude=vendor,tests --extensions=php .
+        - /tmp/vendor/bin/phpcs --extensions=php --standard=PSR2 .
 definitions:
   caches:
-    composer: /composer
+    composer: /tmp
