@@ -49,14 +49,16 @@ class DceCodeMirrorFieldRenderType extends AbstractFormElement
     {
         $mode = $this->data['parameterArray']['fieldConf']['config']['parameters']['mode'];
         $this->resultArray = $this->initializeResultArray();
-        $this->resultArray['stylesheetFiles'][] = 'EXT:dce/Resources/Public/JavaScript/Contrib/codemirror/lib/codemirror.css';
-        $this->resultArray['stylesheetFiles'][] = 'EXT:dce/Resources/Public/Css/custom_codemirror.css';
+        $this->resultArray['stylesheetFiles'][] =
+            'EXT:dce/Resources/Public/JavaScript/Contrib/codemirror/lib/codemirror.css';
+        $this->resultArray['stylesheetFiles'][] =
+            'EXT:dce/Resources/Public/Css/custom_codemirror.css';
         $this->resultArray['requireJsModules'][] = [
-            'TYPO3/CMS/Dce/DceCodemirror' => 'function(DceCodemirror, $) { DceCodemirror.initCodeMirrorEditor("#codemirror_' . $this->uniqueIdentifier . '", "' . $mode . '"); }'
+            'TYPO3/CMS/Dce/DceCodemirror' =>
+                'function(DceCodemirror, $) { DceCodemirror.initCodeMirrorEditor("#codemirror_' .
+                $this->uniqueIdentifier . '", "' . $mode . '"); }'
         ];
-
         $this->resultArray['html'] = $this->getCodemirrorFieldHtml($this->data);
-
         return $this->resultArray;
     }
 

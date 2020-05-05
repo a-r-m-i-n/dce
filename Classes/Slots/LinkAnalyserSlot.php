@@ -33,9 +33,9 @@ class LinkAnalyserSlot
     ) : array {
         if ($table === 'tt_content' && !empty($record['pi_flexform'])) {
             $rawRecord = BackendUtility::getRecord('tt_content', $record['uid'], '*');
-        	if (strpos($rawRecord['CType'], 'dce_') !== 0) {
-        		return [$results, $record, $table, $fields, $linkAnalyser];
-			}
+            if (strpos($rawRecord['CType'], 'dce_') !== 0) {
+                return [$results, $record, $table, $fields, $linkAnalyser];
+            }
             $flexformData = ArrayUtility::flatten(
                 GeneralUtility::xml2array($record['pi_flexform'])
             );

@@ -63,6 +63,7 @@ $boot = function ($extensionKey) {
     [\T3\Dce\UserFunction\CustomFieldValidation\NoLeadingNumberValidator::class] =
         'EXT:dce/Classes/UserFunction/CustomFieldValidation/NoLeadingNumberValidator.php';
 
+    // phpcs:disable
     if (!\T3\Dce\Compatibility::isTypo3Version('9.0.0')) {
         // Update Scripts (before v8)
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceMigrateOldNamespacesInFluidTemplateUpdate'] =
@@ -84,6 +85,7 @@ $boot = function ($extensionKey) {
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceFixMalformedDceFieldVariableNamesUpdate'] =
             \T3\Dce\UpdateWizards\FixMalformedDceFieldVariableNamesUpdateWizard::class;
     }
+    // phpcs:enable
     if (!\T3\Dce\Compatibility::isTypo3Version()) {
         // Slot to extend SQL tables definitions
         /** @var \TYPO3\CMS\Extbase\SignalSlot\Dispatcher $signalSlotDispatcher */
@@ -91,14 +93,14 @@ $boot = function ($extensionKey) {
             \TYPO3\CMS\Extbase\SignalSlot\Dispatcher::class
         );
         $signalSlotDispatcher->connect(
-            'TYPO3\\CMS\\Install\\Service\\SqlExpectedSchemaService', // TODO: Will not work in TYPO3 10 anymore
+            'TYPO3\\CMS\\Install\\Service\\SqlExpectedSchemaService',
             'tablesDefinitionIsBeingBuilt',
             \T3\Dce\Slots\TablesDefinitionIsBeingBuiltSlot::class,
             'extendTtContentTable'
         );
     }
 
-    //
+    // Link Handler Hook
     if (!isset($GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['linkHandler']['ext'])) {
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['linkHandler']['ext'] =
             \T3\Dce\Hooks\InputLinkElementExplanationHook::class;

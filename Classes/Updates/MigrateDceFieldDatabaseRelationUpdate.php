@@ -92,5 +92,4 @@ class MigrateDceFieldDatabaseRelationUpdate extends AbstractUpdate
     {
         return $this->update($customMessages);
     }
-
 }
