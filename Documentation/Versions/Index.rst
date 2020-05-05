@@ -8,6 +8,26 @@ Versions
 
 .. contents:: :local:
 
+2.5.0
+-----
+- [TASK] Improve MigrateDceFieldDatabaseRelationTrait
+- [BUGFIX] Fix exception when using Postgtres
+- [TASK] Small documentation improvements
+- [BUGFIX] Keep page cache-able, when using DCE containers, in TYPO3 8
+- [BUGFIX] Fix multiple entries of the same category in {contentObject.categories}
+- [TASK] Code style fixes
+- [DEVOPS] Fix broken code quality check pipeline
+- [BUGFIX] Prevent Linkanalyzer to check non DCE records
+- [BUGFIX] Make CacheManager respect fileCreateMask
+- [TASK] Refactor "File Abstraction Layer" code snippets
+- [BUGFIX] Codemirror fix for TYPO3 10
+- [BUGFIX] Available templates switcher cuts of .xml instead of wrong .xlf
+- [BUGFIX] Only apply "Prevent header copy suffix" when status is "new" in after save hook
+- [TASK] Use new UpdateWizards also in TYPO3 9
+- [BUGFIX] Fix instantiating of ObjectManager
+- [TASK] Provide UpdateWizards, based on old Updates
+
+
 2.4.1
 -----
 - [BUGFIX] Fix wrong version constraints
