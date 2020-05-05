@@ -125,7 +125,7 @@ class DceCodeMirrorFieldRenderType extends AbstractFormElement
     {
         $fields = [];
         $rowFields = GeneralUtility::trimExplode(',', $this->data['databaseRow']['fields']);
-        if (!empty($rowFields)) {
+        if (!empty($rowFields) && !empty($rowFields[0])) {
             $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable(
                 'tx_dce_domain_model_dcefield'
             );
