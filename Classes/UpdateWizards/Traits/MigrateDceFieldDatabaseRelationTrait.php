@@ -47,15 +47,20 @@ trait MigrateDceFieldDatabaseRelationTrait
             );
         }
 
+        $sourceTableName = $this->getSourceTableNameForDceField();
+        if (!$sourceTableName) {
+            return false;
+        }
+
         $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable(
-            $this->getSourceTableNameForDceField()
+            $sourceTableName
         );
         $dceFieldRelations = $queryBuilder
             ->selectLiteral('DISTINCT A.uid_local, A.uid_foreign')
-            ->from($this->getSourceTableNameForDceField(), 'A')
+            ->from($sourceTableName, 'A')
             ->leftJoin(
                 'A',
-                $this->getSourceTableNameForDceField(),
+                $sourceTableName,
                 'B',
                 (string)$queryBuilder->expr()->eq(
                     'A.uid_foreign',
@@ -142,10 +147,10 @@ trait MigrateDceFieldDatabaseRelationTrait
                     }
 
                     $connection = DatabaseUtility::getConnectionPool()->getConnectionForTable(
-                        $this->getSourceTableNameForDceField()
+                        $sourceTableName
                     );
                     $connection->update(
-                        $this->getSourceTableNameForDceField(),
+                        $sourceTableName,
                         [
                             'uid_foreign' => $dceFieldInsertUid
                         ],
@@ -160,11 +165,11 @@ trait MigrateDceFieldDatabaseRelationTrait
         }
 
         $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable(
-            $this->getSourceTableNameForDceField()
+            $sourceTableName
         );
         $dceFieldRelations = $queryBuilder
             ->select('*')
-            ->from($this->getSourceTableNameForDceField())
+            ->from($sourceTableName)
             ->execute()
             ->fetchAll();
 
