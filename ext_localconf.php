@@ -127,7 +127,10 @@ $boot = function ($extensionKey) {
     $generator = new \T3\Dce\Components\ContentElementGenerator\Generator();
     $generator->makePluginConfiguration();
 
-    if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('linkvalidator')) {
+    // Only for v8 and v9
+    if (!\T3\Dce\Compatibility::isTypo3Version() &&
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('linkvalidator')
+    ) {
         /** @var \TYPO3\CMS\Extbase\SignalSlot\Dispatcher $signalSlotDispatcher */
         $signalSlotDispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
             \TYPO3\CMS\Extbase\SignalSlot\Dispatcher::class

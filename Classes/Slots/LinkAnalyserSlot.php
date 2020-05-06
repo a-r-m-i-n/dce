@@ -58,4 +58,20 @@ class LinkAnalyserSlot
         }
         return [$results, $record, $table, $fields, $linkAnalyser];
     }
+
+    /**
+     * @param \TYPO3\CMS\Linkvalidator\Event\BeforeRecordIsAnalyzedEvent $event
+     */
+    public function dispatchEvent($event)
+    {
+        [$results, $record] = $this->beforeAnalyzeRecord(
+            $event->getResults(),
+            $event->getRecord(),
+            $event->getTableName(),
+            $event->getFields(),
+            $event->getLinkAnalyzer()
+        );
+        $event->setResults($results);
+        $event->setRecord($record);
+    }
 }
