@@ -18,6 +18,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * PageLayoutView DrawItem Hook for DCE content elements
+ *
+ * @deprecated Only used before TYPO3 v10
  */
 class PageLayoutViewDrawItemHook implements PageLayoutViewDrawItemHookInterface
 {

@@ -32,9 +32,11 @@ $boot = function ($extensionKey) {
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/impexp/class.tx_impexp.php']['before_writeRecordsRecords']['dce'] =
         \T3\Dce\Hooks\ImportExportHook::class . '->beforeWriteRecordsRecords';
 
-    // PageLayoutView DrawItem Hook for DCE content elements
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['tt_content_drawItem']['dce'] =
-        \T3\Dce\Hooks\PageLayoutViewDrawItemHook::class;
+    if (!\T3\Dce\Compatibility::isTypo3Version()) {
+        // PageLayoutView DrawItem Hook for DCE content elements
+        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['tt_content_drawItem']['dce'] =
+            \T3\Dce\Hooks\PageLayoutViewDrawItemHook::class;
+    }
 
     // Register ke_search hook to be able to index DCE frontend output
     if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('ke_search')) {
