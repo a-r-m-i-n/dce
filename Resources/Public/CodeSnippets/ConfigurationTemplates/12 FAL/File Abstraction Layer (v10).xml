@@ -19,12 +19,12 @@
 					</appearance>
 				</config>
 			</uid_local>
-			<types type="array">
-				<numIndex index="2">
-					<showitem>--palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,--palette--;;filePalette</showitem>
-				</numIndex>
-			</types>
 		</columns>
+		<types type="array">
+			<numIndex index="2">
+				<showitem>--palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,--palette--;;filePalette</showitem>
+			</numIndex>
+		</types>
 	</overrideChildTca>
 
 	<minitems>0</minitems>
