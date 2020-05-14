@@ -13,6 +13,9 @@ use T3\Dce\Domain\Model\DceField;
 use T3\Dce\Utility\DatabaseUtility;
 use T3\Dce\Utility\FlexformService;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Database\Query\Restriction\EndTimeRestriction;
+use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
+use TYPO3\CMS\Core\Database\Query\Restriction\StartTimeRestriction;
 use TYPO3\CMS\Core\Database\RelationHandler;
 use TYPO3\CMS\Core\Resource\Collection\AbstractFileCollection;
 use TYPO3\CMS\Core\Resource\File;
@@ -678,5 +681,78 @@ class DceRepository extends Repository
             }
         }
         return $processedContentObject;
+    }
+
+    /**
+     * Get DCE Instance
+     *
+     * @param int $uid Uid of DCE
+     * @param int $contentElementUid Uid of content element (tt_content)
+     * @return Dce
+     */
+    public function getDceInstance(int $uid, int $contentElementUid): Dce
+    {
+        $contentObject = $this->getContentObject($contentElementUid);
+        $this->settings = $this->simulateContentElementSettings($contentElementUid);
+        return $this->findAndBuildOneByUid(
+            $uid,
+            $this->settings,
+            $contentObject
+        );
+    }
+
+    /**
+     * Simulates content element settings, which is necessary in backend context
+     *
+     * @param int $contentElementUid
+     * @return array
+     */
+    public function simulateContentElementSettings(int $contentElementUid) : array
+    {
+        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tt_content');
+        $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class);
+        $queryBuilder->getRestrictions()->removeByType(StartTimeRestriction::class);
+        $queryBuilder->getRestrictions()->removeByType(EndTimeRestriction::class);
+        $row = $queryBuilder
+            ->select('pi_flexform')
+            ->from('tt_content')
+            ->where(
+                $queryBuilder->expr()->eq(
+                    'uid',
+                    $queryBuilder->createNamedParameter($contentElementUid, \PDO::PARAM_INT)
+                )
+            )
+            ->execute()
+            ->fetch();
+
+        $flexData = FlexformService::get()->convertFlexFormContentToArray($row['pi_flexform'], 'lDEF', 'vDEF');
+        return $flexData['settings'] ?? [];
+    }
+
+
+    /**
+     * Returns an array with properties of content element with given uid
+     *
+     * @param int $uid of content element to get
+     * @return array|bool|null with all properties of given content element uid
+     */
+    public function getContentObject(int $uid) : ?array
+    {
+        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tt_content');
+        $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class);
+        $queryBuilder->getRestrictions()->removeByType(StartTimeRestriction::class);
+        $queryBuilder->getRestrictions()->removeByType(EndTimeRestriction::class);
+
+        return $queryBuilder
+            ->select('*')
+            ->from('tt_content')
+            ->where(
+                $queryBuilder->expr()->eq(
+                    'uid',
+                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+                )
+            )
+            ->execute()
+            ->fetch() ?: null;
     }
 }
