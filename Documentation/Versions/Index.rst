@@ -8,6 +8,17 @@ Versions
 
 .. contents:: :local:
 
+2.5.1
+-----
+- [TASK] Improve ContainerFactory
+- [DEVOPS] Add DDEV Environment
+- [BUGFIX] Do not use Extbase Controller Action to return DCE Instance
+- [BUGFIX] Add mandatory renderType
+- [BUGFIX] Change configuration position fpr palettes and language-path
+- [TASK] Register LinkAnalyserSlot as EventListener in TYPO3 10
+- [TASK] Use new PreviewRenderer in v10 for backend templates
+
+
 2.5.0
 -----
 - [TASK] Improve MigrateDceFieldDatabaseRelationTrait
