@@ -36,3 +36,59 @@ Please also describe why you've submitted your patch. If you have any questions 
 In case you can't provide code but want to support DCE anyway, here is my [PayPal donation link](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2DCCULSKFRZFU).
 
 **Thanks to all contributors and sponsors!**
+
+
+## DDEV Environment
+
+DCE ships a DDEV configuration, which allows you to test DCE in any TYPO3 version:
+
+- 8.7
+- 9.5
+- 10.4
+
+It uses Apache2 with php-fpm (7.2) enabled. 
+
+### Requirements
+
+- Docker
+- Docker Compose
+- DDEV
+
+### Setup
+
+1. Start the DDEV containers using
+    ```
+    ddev start
+    ```
+2. Next execute one of the following commands
+    ```
+    ddev install-v8
+    ddev install-v9
+    ddev install-v10
+    ddev install-all
+    ```
+   *Note: You can also skip the initial ``ddev start`` and enter one of the install commands first*
+3. On https://dce.ddev.site/ you get a brief overview of the environments
+
+When you ``ddev stop`` your containers, all files will be remain in Docker volume. To clean up use:
+```
+docker volume rm dce-v8-data
+docker volume rm dce-v9-data
+docker volume rm dce-v10-data
+```
+
+### Scripts
+
+Besides the installation scripts, DCE also provides host commands in DDEV, to
+render and preview the documentation.
+
+**Render documentation:**
+```
+ddev docs
+```
+
+**Preview rendered documentation:**
+```
+ddev launch-docs
+```
+It only opens the browser with the right location. Please render the documentation first.
