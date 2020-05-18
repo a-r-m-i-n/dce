@@ -11,12 +11,12 @@ use T3\Dce\Compatibility;
 use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Domain\Repository\DceRepository;
 use T3\Dce\Utility\DatabaseUtility;
-use T3\Dce\Utility\Extbase;
 use TYPO3\CMS\Core\Database\Query\Restriction\EndTimeRestriction;
 use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
 use TYPO3\CMS\Core\Database\Query\Restriction\StartTimeRestriction;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
  * ContainerFactory
@@ -46,11 +46,11 @@ class ContainerFactory
 
         $contentElements = static::getContentElementsInContainer($dce, $includeHidden);
         $total = \count($contentElements);
-        foreach ($contentElements as $index => $contentElement) {
-            $objectManager = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
 
-            /** @var DceRepository $dceRepository */
-            $dceRepository = $objectManager->get(DceRepository::class);
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        /** @var DceRepository $dceRepository */
+        $dceRepository = $objectManager->get(DceRepository::class);
+        foreach ($contentElements as $index => $contentElement) {
             $dceInstance = $dceRepository->getDceInstance($dce->getUid(), (int) $contentElement['uid']);
             $dceInstance->setContainerIterator(static::createContainerIteratorArray($index, $total));
             $container->addDce($dceInstance);
