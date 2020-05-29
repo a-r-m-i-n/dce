@@ -433,8 +433,7 @@ class DceRepository extends Repository
                     substr($className, $position + 1);
             }
 
-            $className = str_replace('-', '_', $className);
-            $className{0} = strtoupper($className{0});
+            $className = ucfirst(str_replace('-', '_', $className));
         }
         if ($dceFieldConfiguration['dce_get_fal_objects'] && strtolower($className) === 'sys_file') {
             $className = File::class;
