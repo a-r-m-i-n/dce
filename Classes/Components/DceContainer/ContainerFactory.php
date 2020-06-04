@@ -12,6 +12,7 @@ use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Domain\Repository\DceRepository;
 use T3\Dce\Utility\DatabaseUtility;
 use TYPO3\CMS\Core\Database\Query\Restriction\EndTimeRestriction;
+use TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer;
 use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
 use TYPO3\CMS\Core\Database\Query\Restriction\StartTimeRestriction;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
@@ -84,6 +85,7 @@ class ContainerFactory
     protected static function getContentElementsInContainer(Dce $dce, bool $includeHidden = false) : array
     {
         $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tt_content');
+        $queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
         if ($includeHidden) {
             $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class);
             $queryBuilder->getRestrictions()->removeByType(StartTimeRestriction::class);
