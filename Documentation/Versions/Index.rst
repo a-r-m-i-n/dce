@@ -8,6 +8,14 @@ Versions
 
 .. contents:: :local:
 
+2.5.2
+-----
+- [BUGFIX] Use old PageLayoutViewDrawItemHook when "fluidBasedPageModule" is disabled in TYPO3 10
+- [TASK] Apply FrontendRestrictionContainer to QueryBuilder in ContainerFactory
+- [BUGFIX] Fix DCE container when content-fallback takes effect
+- [BUGFIX] Remove deprecated $string{0} syntax from DceRepository
+
+
 2.5.1
 -----
 - [TASK] Improve ContainerFactory
