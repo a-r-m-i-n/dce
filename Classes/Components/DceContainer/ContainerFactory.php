@@ -120,7 +120,7 @@ class ContainerFactory
             $queryBuilder->andWhere(
                 $queryBuilder->expr()->eq(
                     'sys_language_uid',
-                    $queryBuilder->createNamedParameter(Compatibility::getSysLanguageUid(), \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($contentObject['sys_language_uid'], \PDO::PARAM_INT)
                 )
             );
         }
