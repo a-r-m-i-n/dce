@@ -32,7 +32,11 @@ $boot = function ($extensionKey) {
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/impexp/class.tx_impexp.php']['before_writeRecordsRecords']['dce'] =
         \T3\Dce\Hooks\ImportExportHook::class . '->beforeWriteRecordsRecords';
 
-    if (!\T3\Dce\Compatibility::isTypo3Version()) {
+    if (!\T3\Dce\Compatibility::isTypo3Version()
+        || (isset($GLOBALS['TYPO3_CONF_VARS']['SYS']['features']['fluidBasedPageModule']) &&
+               $GLOBALS['TYPO3_CONF_VARS']['SYS']['features']['fluidBasedPageModule'] === false
+           )
+    ) {
         // PageLayoutView DrawItem Hook for DCE content elements
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['tt_content_drawItem']['dce'] =
             \T3\Dce\Hooks\PageLayoutViewDrawItemHook::class;
