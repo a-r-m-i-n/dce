@@ -44,6 +44,8 @@ You can set an item limit (default: 0 / disabled) to limit the number of content
 When the the limit is reached, the next content element starts a new container.
 
 
+.. _users-manual-dcecontainer-hide-other-content-elements:
+
 Hide other container items, when detail page is triggered
 =========================================================
 
