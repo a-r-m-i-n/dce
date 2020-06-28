@@ -8,3 +8,12 @@ tt_content.stdWrap.innerWrap.cObject.default.stdWrap.if {
 }
 
 lib.contentElement.templateRootPaths.1 = EXT:dce/Resources/Private/Templates
+
+config.pageTitleProviders.dce {
+    provider = T3\Dce\Components\DetailPage\PageTitleProvider
+    before = record
+    after = altPageTitle
+
+    prependWrap = || - |
+    appendWrap = | - ||
+}

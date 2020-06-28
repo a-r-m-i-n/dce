@@ -57,17 +57,13 @@ class SlugGenerator
         if (!$expression) {
             $expression = $dce->getDetailpageSlugExpression();
         }
-        $slug = null;
-        try {
-            $slug = self::$expressionLanguage->evaluate(
-                $expression,
-                [
-                    'dce' => $dce,
-                    'contentObject' => $dce->getContentObject()
-                ] + $dce->getGet()
-            );
-        } catch (\Exception $e) {
-        }
+        $slug = self::$expressionLanguage->evaluate(
+            $expression,
+            [
+                'dce' => $dce,
+                'contentObject' => $dce->getContentObject()
+            ] + $dce->getGet()
+        );
         return $slug;
     }
 

@@ -23,7 +23,7 @@ $showItems = <<<TEXT
     container_identifier,container_template_type,container_template,container_template_file,
 
 --div--;${ll}tx_dce_domain_model_dce.detailpage,
-    enable_detailpage,detailpage_identifier,detailpage_slug_expression,detailpage_template_type,detailpage_template,detailpage_template_file,
+    enable_detailpage,detailpage_identifier,--palette--;;detailpage_slug,detailpage_template_type,detailpage_template,detailpage_template_file,
     
 --div--;${ll}tx_dce_domain_model_dce.backendTemplate,
     use_simple_backend_view,backend_view_header,backend_view_bodytext,
@@ -86,7 +86,11 @@ $dceTca = [
         'misc' => [
             'showitem' => 'cache_dce,direct_output',
             'canNotCollapse' => true
-        ]
+        ],
+        'detailpage_slug' => [
+            'showitem' => 'detailpage_slug_expression,detailpage_use_slug_as_title',
+            'canNotCollapse' => true
+        ],
     ],
     'columns' => [
         'sys_language_uid' => [
@@ -489,6 +493,21 @@ $dceTca = [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim',
+            ],
+        ],
+        'detailpage_use_slug_as_title' => [
+            'exclude' => 0,
+            'label' => $ll . 'tx_dce_domain_model_dce.useSlugAsTitle',
+            'displayCond' => 'FIELD:enable_detailpage:=:1',
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'items' => [
+                    [$ll . 'tx_dce_domain_model_dce.useSlugAsTitle.no', ''],
+                    [$ll . 'tx_dce_domain_model_dce.useSlugAsTitle.overwrite', 'overwrite'],
+                    [$ll . 'tx_dce_domain_model_dce.useSlugAsTitle.prepend', 'prepend'],
+                    [$ll . 'tx_dce_domain_model_dce.useSlugAsTitle.append', 'append'],
+                ],
             ],
         ],
         'detailpage_template_type' => [

@@ -7,6 +7,7 @@ namespace T3\Dce\Domain\Model;
  *  | (c) 2012-2020 Armin Vieweg <armin@v.ieweg.de>
  *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
+use T3\Dce\Components\DetailPage\PageTitleProvider;
 use T3\Dce\Components\TemplateRenderer\DceTemplateTypes;
 use T3\Dce\Components\TemplateRenderer\StandaloneViewFactory;
 use T3\Dce\Utility\DatabaseUtility;
@@ -125,6 +126,11 @@ class Dce extends AbstractEntity
      * @var string
      */
     protected $detailpageSlugExpression = '';
+
+    /**
+     * @var string Allowed values: '', 'overwrite', 'prepend' or 'append'
+     */
+    protected $detailpageUseSlugAsTitle = '';
 
     /**
      * @var string
@@ -583,6 +589,17 @@ class Dce extends AbstractEntity
         return $this;
     }
 
+    public function getDetailpageUseSlugAsTitle(): string
+    {
+        return $this->detailpageUseSlugAsTitle;
+    }
+
+    public function setDetailpageUseSlugAsTitle(string $detailpageUseSlugAsTitle): self
+    {
+        $this->detailpageUseSlugAsTitle = $detailpageUseSlugAsTitle;
+        return $this;
+    }
+
     /**
      * @return string
      */
@@ -940,6 +957,11 @@ class Dce extends AbstractEntity
      */
     public function renderDetailpage(): string
     {
+        if ($this->getDetailpageUseSlugAsTitle() && !empty($this->getDetailpageSlugExpression())) {
+            /** @var PageTitleProvider $dceDetailPageTitleProvider */
+            $dceDetailPageTitleProvider = GeneralUtility::makeInstance(PageTitleProvider::class);
+            $dceDetailPageTitleProvider->generate($this);
+        }
         return $this->renderFluidTemplate(DceTemplateTypes::DETAILPAGE);
     }
 
