@@ -56,6 +56,7 @@
             <trans-unit id="tx_dce_domain_model_dce.detailpage"><source>Detail page</source></trans-unit>
             <trans-unit id="tx_dce_domain_model_dce.enableDetailpage"><source>Enable detail page</source></trans-unit>
             <trans-unit id="tx_dce_domain_model_dce.detailpageIdentifier"><source>Detail page identifier (get parameter)</source></trans-unit>
+            <trans-unit id="tx_dce_domain_model_dce.detailpageSlugExpression"><source>Slug expression</source></trans-unit>
             <trans-unit id="tx_dce_domain_model_dce.detailpageTemplate"><source>Detail page template (fluid)</source></trans-unit>
             <trans-unit id="tx_dce_domain_model_dce.detailpageTemplateFile"><source>Detail page template file (fluid)</source></trans-unit>
 
@@ -109,9 +110,9 @@
 
             <trans-unit id="tt_content.tx_dce_dce"><source>DCE</source></trans-unit>
             <trans-unit id="tt_content.tx_dce_new_container"><source>Start new DCE container</source></trans-unit>
-            
-            
-            
+
+
+
 		</body>
 	</file>
 </xliff>

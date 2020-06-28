@@ -124,6 +124,11 @@ class Dce extends AbstractEntity
     /**
      * @var string
      */
+    protected $detailpageSlugExpression = '';
+
+    /**
+     * @var string
+     */
     protected $detailpageTemplateType = '';
 
     /**
@@ -564,6 +569,17 @@ class Dce extends AbstractEntity
     public function setDetailpageIdentifier(string $detailpageIdentifier): self
     {
         $this->detailpageIdentifier = $detailpageIdentifier;
+        return $this;
+    }
+
+    public function getDetailpageSlugExpression(): string
+    {
+        return $this->detailpageSlugExpression;
+    }
+
+    public function setDetailpageSlugExpression(string $detailpageSlugExpression): self
+    {
+        $this->detailpageSlugExpression = $detailpageSlugExpression;
         return $this;
     }
 

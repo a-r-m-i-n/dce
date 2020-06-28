@@ -112,10 +112,30 @@ Faking detail pages
 ^^^^^^^^^^^^^^^^^^^
 
 To fake a separate page for each dce content element detail page - which is actually on the same page -
-we can do some adjustments to RealUrl (when it is used) and overwrite the ``<title>`` tag in HTML.
+we can do some adjustments to routing enhancer configuration. Also an RealURL example is shipped
 
-RealURL example
-~~~~~~~~~~~~~~~
+
+Routing enhancer example
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: yaml
+
+    routeEnhancers:
+        DceWithDetailpage:
+            type: Simple
+            routePath: '/show/{detailDceUid}'
+            aspects:
+                detailDceUid:
+                    type: PersistedAliasMapper
+                    tableName: tt_content
+                    routeFieldName: tx_dce_slug
+
+
+
+
+
+RealURL example (before TYPO3 9)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Kudos to Dirk Wohlrabe who provided this realurl example:
 
@@ -149,7 +169,8 @@ Kudos to Dirk Wohlrabe who provided this realurl example:
 
 Adjust <title> tag
 ~~~~~~~~~~~~~~~~~~
-And here you will find an example how to put the header field to ``<title>`` tag in body:
+And here you will find an example of how to put the header field to ``<title>`` tag in body.
+You can use TCA mapping here and use any column:
 
 .. code-block:: typoscript
 

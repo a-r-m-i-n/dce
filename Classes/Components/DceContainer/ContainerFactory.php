@@ -52,7 +52,7 @@ class ContainerFactory
         /** @var DceRepository $dceRepository */
         $dceRepository = $objectManager->get(DceRepository::class);
         foreach ($contentElements as $index => $contentElement) {
-            $dceInstance = $dceRepository->getDceInstance($dce->getUid(), (int) $contentElement['uid']);
+            $dceInstance = $dceRepository->getDceInstance((int) $contentElement['uid']);
             $dceInstance->setContainerIterator(static::createContainerIteratorArray($index, $total));
             $container->addDce($dceInstance);
 

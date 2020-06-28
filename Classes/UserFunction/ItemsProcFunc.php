@@ -89,7 +89,8 @@ class ItemsProcFunc
             't3ver_label',
             'tx_dce_dce',
             'tx_dce_index',
-            'tx_dce_new_container'
+            'tx_dce_new_container',
+            'tx_dce_slug',
         ];
         // Do not show column which has been provided by itself
         if ($parameters['table'] === 'tx_dce_domain_model_dcefield' &&
@@ -136,7 +137,8 @@ class ItemsProcFunc
             'categories',
             'assets',
             'media',
-            'tx_dce_new_container'
+            'tx_dce_new_container',
+            'tx_dce_slug',
         ];
         // Do not offer fields used for TCA mapping. They are by default configured as passthrough.
         $mappedColumns = array_keys(Mapper::getDceFieldMappings());

@@ -30,9 +30,16 @@
 
             <trans-unit id="caution"><source>Caution!</source></trans-unit>
             <trans-unit id="hideContentElementsBasedOnDce"><source>%s content elements based on this DCE have been also disabled, to avoid errors in frontned. These content items will not get re-enabled automatically!</source></trans-unit>
+            <trans-unit id="slugNotUnique"><source>The field(s) in this content element, responsible for slug generation, caused a non-unique slug. The slug has been suffixed: %s</source></trans-unit>
+            <trans-unit id="slugsUpdated"><source>Because you've changed the detail page slug expression, all existing content elements' slugs (%d) have been updated.</source></trans-unit>
+            <trans-unit id="slugsUpdateFailed"><source>While updating slugs of existing content elements, the following syntax error occured in slug expression: %s</source></trans-unit>
+            <trans-unit id="slugUpdateFailed"><source>Unable to create slug for this content element. The following syntax error occured in slug expression: %s</source></trans-unit>
+            <trans-unit id="unableToGenerateSlug"><source>Unable to generate slug for this content element. Are all fields, used for slug generation, filled out? As fallback, the uid has been added as slug.</source></trans-unit>
+            <trans-unit id="emptySlugGenerated"><source>The content element with uid %d (on page %d), caused an empty slug! Uid used as fallback.</source></trans-unit>
             <trans-unit id="ok"><source>OK</source></trans-unit>
             <trans-unit id="edit"><source>Edit</source></trans-unit>
             <trans-unit id="info"><source>Info</source></trans-unit>
+            <trans-unit id="error"><source>Error</source></trans-unit>
             <trans-unit id="enabled"><source>Enabled</source></trans-unit>
             <trans-unit id="disabled"><source>Disabled</source></trans-unit>
             <trans-unit id="nofields"><source>No fields</source></trans-unit>

@@ -187,6 +187,12 @@ $boot = function ($extensionKey) {
             \T3\Dce\Components\UserConditions\TypoScriptConditionFunctionProvider::class;
     }
 
+    // Register Aspect for Routing Enhancer
+    if (\T3\Dce\Compatibility::isTypo3Version('9.0.0')) {
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['routing']['aspects']['DceFieldMapper'] =
+            \T3\Dce\Routing\Aspect\DceFieldMapper::class;
+    }
+
     // Code Mirror Node for FormEngine
     if (TYPO3_REQUESTTYPE & TYPO3_REQUESTTYPE_BE) {
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1551536118] = [

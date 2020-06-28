@@ -7,6 +7,10 @@ namespace T3\Dce\Hooks;
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
+
+use Symfony\Component\ExpressionLanguage\SyntaxError;
+use T3\Dce\Components\DetailPage\EmptySlugException;
+use T3\Dce\Components\DetailPage\SlugGenerator;
 use T3\Dce\Components\FlexformToTcaMapper\Mapper as TcaMapper;
 use T3\Dce\Domain\Repository\DceRepository;
 use T3\Dce\Utility\DatabaseUtility;
@@ -22,6 +26,8 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  */
 class AfterSaveHook
 {
+    private const LLL = 'LLL:EXT:dce/Resources/Private/Language/locallang_mod.xlf:';
+
     /** @var DataHandler */
     protected $dataHandler = null;
 
@@ -73,7 +79,7 @@ class AfterSaveHook
      * @param array $fieldArray
      * @param DataHandler $pObj
      * @return void
-     * @throws \TYPO3\CMS\Core\Exception
+     * @TODO This method should get entirely refactored
      */
     public function processDatamap_afterDatabaseOperations(
         string $status,
@@ -110,8 +116,9 @@ class AfterSaveHook
                 }
             }
 
+            $dceUid = DceRepository::extractUidFromCTypeOrIdentifier($contentRow['CType']);
             // Write flexform values to TCA, when enabled
-            if ($dceUid = DceRepository::extractUidFromCTypeOrIdentifier($contentRow['CType'])) {
+            if ($dceUid) {
                 $dceRow = $this->dataHandler->recordInfo('tx_dce_domain_model_dce', $dceUid, '*');
                 $dceIdentifier = !empty($dceRow['identifier']) ? 'dce_' . $dceRow['identifier']
                     : 'dce_dceuid' . $dceUid;
@@ -129,6 +136,45 @@ class AfterSaveHook
                 // When a (formerly) DCE content element gets a different CType
                 if ((int) $contentRow['tx_dce_dce'] !== 0) {
                     $this->dataHandler->updateDB('tt_content', $this->uid, ['tx_dce_dce' => 0]);
+                }
+            }
+            // Generate slug, when enabled
+            if ($dceUid) {
+                $dceRow = $this->dataHandler->recordInfo('tx_dce_domain_model_dce', $dceUid, '*');
+                if (!empty($dceRow['detailpage_slug_expression'])) {
+
+                    /** @var SlugGenerator $generator */
+                    $generator = GeneralUtility::makeInstance(SlugGenerator::class);
+                    try {
+                        $slug = $generator->makeSlug($this->uid, $contentRow['pid'], $dceRow['detailpage_slug_expression']);
+                    } catch (SyntaxError $e) {
+                        FlashMessage::add(
+                            LocalizationUtility::translate(self::LLL . 'slugUpdateFailed', 'Dce', [$e->getMessage()]),
+                            LocalizationUtility::translate(self::LLL . 'caution', 'Dce'),
+                            AbstractMessage::ERROR
+                        );
+                    } catch (EmptySlugException $e) {
+                        $this->dataHandler->updateDB('tt_content', $this->uid, [
+                            'tx_dce_slug' => $this->uid
+                        ]);
+                        FlashMessage::add(
+                            LocalizationUtility::translate(self::LLL . 'unableToGenerateSlug', 'Dce'),
+                            LocalizationUtility::translate(self::LLL . 'caution', 'Dce'),
+                            AbstractMessage::WARNING
+                        );
+                    }
+                    if ($slug) {
+                        if (!$slug->wasUnique()) {
+                            FlashMessage::add(
+                                LocalizationUtility::translate(self::LLL . 'slugNotUnique', 'Dce', [$slug]),
+                                LocalizationUtility::translate(self::LLL . 'caution', 'Dce'),
+                                AbstractMessage::NOTICE
+                            );
+                        }
+                        $this->dataHandler->updateDB('tt_content', $this->uid, [
+                            'tx_dce_slug' => $slug
+                        ]);
+                    }
                 }
             }
         }
@@ -160,9 +206,10 @@ class AfterSaveHook
             }
         }
 
-        // Adds or removes *containerflag from simple backend view, when container is en- or disabled
         if ($table === 'tx_dce_domain_model_dce' && ($status === 'update' || $status === 'new')) {
             $dceRow = $this->dataHandler->recordInfo('tx_dce_domain_model_dce', $this->uid, '*');
+
+            // Adds or removes *containerflag from simple backend view, when container is en- or disabled
             if (array_key_exists('enable_container', $fieldArray)) {
                 if ($fieldArray['enable_container'] === '1') {
                     $items = GeneralUtility::trimExplode(',', $dceRow['backend_view_bodytext'], true);
@@ -183,6 +230,68 @@ class AfterSaveHook
                         'uid' => $this->uid
                     ]
                 );
+            }
+
+            // Update slug for existing content elements
+            if (array_key_exists('detailpage_slug_expression', $fieldArray)) {
+                $dceIdentifier = !empty($dceRow['identifier']) ? 'dce_' . $dceRow['identifier']
+                    : 'dce_dceuid' . $this->uid;
+                $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tt_content');
+                $statement = $queryBuilder
+                    ->select('uid', 'pid')
+                    ->from('tt_content')
+                    ->where(
+                        $queryBuilder->expr()->eq(
+                            'CType',
+                            $queryBuilder->createNamedParameter($dceIdentifier, \PDO::PARAM_STR)
+                        )
+                    )
+                    ->execute();
+
+                if ($statement->rowCount() > 0) {
+                    $generator = GeneralUtility::makeInstance(SlugGenerator::class);
+                    while ($contentRow = $statement->fetch()) {
+                        $slug = null;
+                        if (!empty($dceRow['detailpage_slug_expression'])) {
+                            try {
+                                $slug = $generator->makeSlug(
+                                    $contentRow['uid'],
+                                    $contentRow['pid'],
+                                    $dceRow['detailpage_slug_expression']
+                                );
+                            } catch (SyntaxError $e) {
+                                FlashMessage::add(
+                                    LocalizationUtility::translate(self::LLL . 'slugsUpdateFailed', 'Dce', [$e->getMessage()]),
+                                    LocalizationUtility::translate(self::LLL . 'error', 'Dce'),
+                                    AbstractMessage::ERROR
+                                );
+                                return;
+                            } catch (EmptySlugException $e) {
+                                $this->dataHandler->updateDB('tt_content', $contentRow['uid'], [
+                                    'tx_dce_slug' => $contentRow['uid']
+                                ]);
+                                FlashMessage::add(
+                                    LocalizationUtility::translate(self::LLL . 'emptySlugGenerated', 'Dce', [$contentRow['uid'], $contentRow['pid']]),
+                                    LocalizationUtility::translate(self::LLL . 'caution', 'Dce'),
+                                    AbstractMessage::WARNING
+                                );
+                            }
+                            if ($slug) {
+                                $this->dataHandler->updateDB('tt_content', $contentRow['uid'], [
+                                    'tx_dce_slug' => $slug
+                                ]);
+                            }
+                        } else {
+                            $this->dataHandler->updateDB('tt_content', $contentRow['uid'], ['tx_dce_slug' => '']);
+                        }
+                    }
+
+                    FlashMessage::add(
+                        LocalizationUtility::translate(self::LLL . 'slugsUpdated', 'Dce', [$statement->rowCount()]),
+                        LocalizationUtility::translate(self::LLL . 'info', 'Dce'),
+                        AbstractMessage::NOTICE
+                    );
+                }
             }
         }
     }
@@ -222,15 +331,14 @@ class AfterSaveHook
             return;
         }
 
-        $pathToLocallang = 'LLL:EXT:dce/Resources/Private/Language/locallang_mod.xlf:';
         $message = LocalizationUtility::translate(
-            $pathToLocallang . 'hideContentElementsBasedOnDce',
+            self::LLL . 'hideContentElementsBasedOnDce',
             'Dce',
             ['count' => $updatedContentElementsCount]
         );
         FlashMessage::add(
             $message,
-            LocalizationUtility::translate($pathToLocallang . 'caution', 'Dce'),
+            LocalizationUtility::translate(self::LLL . 'caution', 'Dce'),
             AbstractMessage::INFO
         );
     }

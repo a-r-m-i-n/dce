@@ -22,15 +22,15 @@ $showItems = <<<TEXT
     enable_container,container_item_limit,container_detail_autohide,
     container_identifier,container_template_type,container_template,container_template_file,
 
+--div--;${ll}tx_dce_domain_model_dce.detailpage,
+    enable_detailpage,detailpage_identifier,detailpage_slug_expression,detailpage_template_type,detailpage_template,detailpage_template_file,
+    
 --div--;${ll}tx_dce_domain_model_dce.backendTemplate,
     use_simple_backend_view,backend_view_header,backend_view_bodytext,
     backend_template_type,backend_template_content,backend_template_file,
 
 --div--;${ll}tx_dce_domain_model_dce.wizard,
     wizard_icon,wizard_custom_icon,wizard_enable,wizard_category,wizard_description,
-    
---div--;${ll}tx_dce_domain_model_dce.detailpage,
-    enable_detailpage,detailpage_identifier,detailpage_template_type,detailpage_template,detailpage_template_file,
     
 --div--;${ll}tx_dce_domain_model_dce.miscellaneous,
     --palette--;;misc,flexform_label,hide_default_ce_wrap,
@@ -479,6 +479,16 @@ $dceTca = [
                 'eval' => 'trim,is_in',
                 'is_in' => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890_-',
                 'default' => 'detailDceUid',
+            ],
+        ],
+        'detailpage_slug_expression' => [
+            'exclude' => 0,
+            'label' => $ll . 'tx_dce_domain_model_dce.detailpageSlugExpression',
+            'displayCond' => 'FIELD:enable_detailpage:=:1',
+            'config' => [
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
             ],
         ],
         'detailpage_template_type' => [

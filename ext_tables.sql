@@ -42,6 +42,7 @@ CREATE TABLE tx_dce_domain_model_dce (
 
 	enable_detailpage tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	detailpage_identifier varchar(255) DEFAULT '' NOT NULL,
+	detailpage_slug_expression text,
 	detailpage_template_type varchar(255) DEFAULT '' NOT NULL,
 	detailpage_template text,
 	detailpage_template_file varchar(255) DEFAULT '' NOT NULL,
@@ -139,5 +140,6 @@ CREATE TABLE tx_dce_domain_model_dcefield (
 CREATE TABLE tt_content (
 	tx_dce_dce int(11) DEFAULT '0' NOT NULL,
 	tx_dce_index mediumtext,
+	tx_dce_slug varchar(255) DEFAULT '' NOT NULL,
 	tx_dce_new_container tinyint(4) unsigned DEFAULT '0' NOT NULL
 );

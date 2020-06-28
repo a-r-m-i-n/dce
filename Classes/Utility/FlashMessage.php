@@ -41,7 +41,7 @@ class FlashMessage
         /** @var \TYPO3\CMS\Core\Messaging\FlashMessage $flashMessage */
         $flashMessage = GeneralUtility::makeInstance(
             \TYPO3\CMS\Core\Messaging\FlashMessage::class,
-            htmlspecialchars($message),
+            $message,
             $title,
             $severity,
             true

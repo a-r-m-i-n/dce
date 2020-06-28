@@ -28,6 +28,11 @@ $newTtContentColumns = [
             'type' => 'passthrough',
         ],
     ],
+    'tx_dce_slug' => [
+        'config' => [
+            'type' => 'passthrough',
+        ],
+    ],
     'tx_dce_new_container' => [
         'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xlf:tt_content.tx_dce_new_container',
         'config' => [

@@ -25,8 +25,15 @@
 
 			<trans-unit id="caution"><target>Achtung!</target></trans-unit>
 			<trans-unit id="hideContentElementsBasedOnDce"><target>%s Inhaltselemente, welche auf diesem DCE basieren wurden ebenfalls deaktiviert um Fehlermeldungen im Frontend zu vermeiden. Die deaktivierten Inhaltselemente werden nicht automatisch wieder aktiviert.</target></trans-unit>
+			<trans-unit id="slugNotUnique"><target>Die Felder in diesem Inhaltselement, die für die Slug-Generierung verantwortlich sind, haben einen Slug generiert, der nicht eindeutig ist. Der Slug wurde daher angepasst: %s</target></trans-unit>
+			<trans-unit id="slugsUpdated"><target>Da der Slug Ausdruck (Expression) angepasst wurde, wurde der Slug von allen bereits existierenden Inhaltselementen (%d) aktualisiert.</target></trans-unit>
+			<trans-unit id="slugsUpdateFailed"><target>Beim Aktualisieren des Slugs von bestehenden Inhaltselementen ist folgender Syntax-Fehler in der Slug Expression aufgetreten: %s</target></trans-unit>
+			<trans-unit id="slugUpdateFailed"><target>Es ist nicht möglich einen Slug für dieses Inhaltselement zu generieren. Der folgende Syntax-Fehler in der Slug Expression aufgetreten: %s</target></trans-unit>
+			<trans-unit id="unableToGenerateSlug"><target>Es ist nicht möglich einen Slug für dieses Inhaltselement zu generieren. Wurden alle Felder die für den Slug herangezogen werden, ausgefüllt worden? Als Fallback wurde die UID als Slug verwendet.</target></trans-unit>
+			<trans-unit id="emptySlugGenerated"><target>Das Inhaltselement mit der UID %d (auf der Seite %d), verursachte einen leeren Slug! Die UID wurde als Fallback verwendet.</target></trans-unit>
 			<trans-unit id="edit"><target>Bearbeiten</target></trans-unit>
 			<trans-unit id="info"><target>Info</target></trans-unit>
+			<trans-unit id="error"><target>Fehler</target></trans-unit>
 			<trans-unit id="enabled"><target>Aktiv</target></trans-unit>
 			<trans-unit id="disabled"><target>Inaktiv</target></trans-unit>
 			<trans-unit id="nofields"><target>Keine Felder</target></trans-unit>
