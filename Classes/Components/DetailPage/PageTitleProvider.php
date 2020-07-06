@@ -1,6 +1,11 @@
 <?php declare(strict_types=1);
 namespace T3\Dce\Components\DetailPage;
 
+/*  | This extension is made with love for TYPO3 CMS and is licensed
+ *  | under GNU General Public License.
+ *  |
+ *  | (c) 2020 Armin Vieweg <armin@v.ieweg.de>
+ */
 use T3\Dce\Domain\Model\Dce;
 use TYPO3\CMS\Core\PageTitle\AbstractPageTitleProvider;
 use TYPO3\CMS\Core\PageTitle\RecordPageTitleProvider;

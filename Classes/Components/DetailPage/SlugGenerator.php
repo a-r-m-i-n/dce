@@ -19,7 +19,7 @@ class SlugGenerator
     /**
      * @var ExpressionLanguage
      */
-    static private $expressionLanguage;
+    private static $expressionLanguage;
 
     /**
      * @var DceRepository

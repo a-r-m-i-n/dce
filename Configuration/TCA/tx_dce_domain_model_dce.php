@@ -23,7 +23,8 @@ $showItems = <<<TEXT
     container_identifier,container_template_type,container_template,container_template_file,
 
 --div--;${ll}tx_dce_domain_model_dce.detailpage,
-    enable_detailpage,detailpage_identifier,--palette--;;detailpage_slug,detailpage_template_type,detailpage_template,detailpage_template_file,
+    enable_detailpage,detailpage_identifier,--palette--;;detailpage_slug,
+    detailpage_template_type,detailpage_template,detailpage_template_file,
     
 --div--;${ll}tx_dce_domain_model_dce.backendTemplate,
     use_simple_backend_view,backend_view_header,backend_view_bodytext,
