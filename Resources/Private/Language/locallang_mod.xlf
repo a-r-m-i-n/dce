@@ -53,6 +53,7 @@
             <trans-unit id="fieldStats"><source>Field infos</source></trans-unit>
             <trans-unit id="dceStats"><source>DCE infos</source></trans-unit>
             <trans-unit id="dceContainerEnabled"><source>Container</source></trans-unit>
+            <trans-unit id="dceDetailpageEnabled"><source>Detail page</source></trans-unit>
             <trans-unit id="limitedToItems"><source>limited to %s items</source></trans-unit>
 
             <trans-unit id="actions"><source>Actions</source></trans-unit>

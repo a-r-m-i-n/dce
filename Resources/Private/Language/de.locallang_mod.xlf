@@ -47,6 +47,7 @@
 			<trans-unit id="fieldStats"><target>DCE-Feld Infos</target></trans-unit>
 			<trans-unit id="dceStats"><target>DCE Infos</target></trans-unit>
 			<trans-unit id="dceContainerEnabled"><target>Container</target></trans-unit>
+			<trans-unit id="dceDetailpageEnabled"><target>Detailseite</target></trans-unit>
 			<trans-unit id="limitedToItems"><target>begrenzt auf %s Elemente</target></trans-unit>
 
 			<trans-unit id="actions"><target>Aktionen</target></trans-unit>
