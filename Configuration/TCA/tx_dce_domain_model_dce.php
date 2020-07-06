@@ -493,6 +493,7 @@ $dceTca = [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim',
+                'default' => 'contentObject[\'uid\']'
             ],
         ],
         'detailpage_use_slug_as_title' => [
@@ -721,5 +722,10 @@ if (!\T3\Dce\Compatibility::isTypo3Version()) {
     $dceFieldTca['interface'] = [
         'showRecordFieldList' => 'hidden,title,type',
     ];
+}
+
+if (!\T3\Dce\Compatibility::isTypo3Version('9.0.0')) {
+    unset($dceTca['columns']['detailpage_slug_expression']);
+    unset($dceTca['columns']['detailpage_use_slug_as_title']);
 }
 return $dceTca;

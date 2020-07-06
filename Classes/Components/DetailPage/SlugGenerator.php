@@ -64,7 +64,9 @@ class SlugGenerator
                 'contentObject' => $dce->getContentObject()
             ] + $dce->getGet()
         );
-        return $slug;
+        if ($slug) {
+            return (string) $slug;
+        }
     }
 
     /**
