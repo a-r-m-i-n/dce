@@ -15,3 +15,4 @@ Additional informations
         UserConditions
         CodeCaching
         FakingDetailpages
+        DceViewHelper

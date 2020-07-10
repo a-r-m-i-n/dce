@@ -942,6 +942,16 @@ class Dce extends AbstractEntity
     }
 
     /**
+     * Alias for render method
+     *
+     * @return string
+     */
+    public function getRender(): string
+    {
+        return $this->render();
+    }
+
+    /**
      * Checks if the display of detail page is triggered (by GET parameter in current request).
      * Always returns false, if detail page is not enabled for this DCE.
      *
@@ -957,16 +967,6 @@ class Dce extends AbstractEntity
     }
 
     /**
-     * Alias for render method
-     *
-     * @return string
-     */
-    public function getRender(): string
-    {
-        return $this->render();
-    }
-
-    /**
      * Renders the DCE detail page output
      *
      * @return string rendered output
@@ -979,6 +979,16 @@ class Dce extends AbstractEntity
             $dceDetailPageTitleProvider->generate($this);
         }
         return $this->renderFluidTemplate(DceTemplateTypes::DETAILPAGE);
+    }
+
+    /**
+     * Alias for renderDetailpage method
+     *
+     * @return string
+     */
+    public function getRenderDetailpage(): string
+    {
+        return $this->renderDetailpage();
     }
 
     /**

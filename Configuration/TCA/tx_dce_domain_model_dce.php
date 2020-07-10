@@ -23,7 +23,9 @@ $showItems = <<<TEXT
     container_identifier,container_template_type,container_template,container_template_file,
 
 --div--;${ll}tx_dce_domain_model_dce.detailpage,
-    enable_detailpage,detailpage_identifier,--palette--;${ll}tx_dce_domain_model_dce.detailpageSlugPalette;detailpage_slug,--palette--;${ll}tx_dce_domain_model_dce.detailpageTitlePalette;detailpage_title,
+    enable_detailpage,detailpage_identifier,
+    --palette--;${ll}tx_dce_domain_model_dce.detailpageSlugPalette;detailpage_slug,
+    --palette--;${ll}tx_dce_domain_model_dce.detailpageTitlePalette;detailpage_title,
     detailpage_template_type,detailpage_template,detailpage_template_file,
     
 --div--;${ll}tx_dce_domain_model_dce.backendTemplate,

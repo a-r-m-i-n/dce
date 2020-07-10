@@ -91,6 +91,11 @@ Detail pages
 
 + Use different templates for single DCE instances
 + Controlled by configurable ``$_GET`` parameter
++ Fake detail pages, thanks to **slugs** you can configure with **Symfony Expressions**
++ Also the detail page title can get adjusted with an expression
++ When **DCE container** is also enabled, content elements which' detail page is **not** triggered, on current page,
+  can get hidden automatically
+
 
 Easy templating (using Fluid)
 """""""""""""""""""""""""""""
@@ -99,6 +104,7 @@ Easy templating (using Fluid)
 + Inline Fluid templating support (code mirror editor)
 + Templates can also get exported to files
 + A helpful dropdown provides defined variables (fields), common Fluid view helpers and all DCE view helpers in the backend
++ DCE ViewHelper which allows you to fetch a content element based on DCE in any Fluid template: ``<dce:dce uid="1">{field.title}</dce:dce>``
 
 Simple Backend View
 """""""""""""""""""
@@ -121,3 +127,4 @@ More
 + TypoScript **User Condition** (to check if current page contains specific DCE)
 + Support for TYPO3's Import/Export extension
 + Deprecation notice free in TYPO3 9.5 LTS!
++ Complete documentation existing
