@@ -128,6 +128,11 @@ class Dce extends AbstractEntity
     protected $detailpageSlugExpression = '';
 
     /**
+     * @var string
+     */
+    protected $detailpageTitleExpression = '';
+
+    /**
      * @var string Allowed values: '', 'overwrite', 'prepend' or 'append'
      */
     protected $detailpageUseSlugAsTitle = '';
@@ -589,6 +594,17 @@ class Dce extends AbstractEntity
         return $this;
     }
 
+    public function getDetailpageTitleExpression(): string
+    {
+        return $this->detailpageTitleExpression;
+    }
+
+    public function setDetailpageTitleExpression(string $detailpageTitleExpression): self
+    {
+        $this->detailpageTitleExpression = $detailpageTitleExpression;
+        return $this;
+    }
+
     public function getDetailpageUseSlugAsTitle(): string
     {
         return $this->detailpageUseSlugAsTitle;
@@ -957,7 +973,7 @@ class Dce extends AbstractEntity
      */
     public function renderDetailpage(): string
     {
-        if ($this->getDetailpageUseSlugAsTitle() && !empty($this->getDetailpageSlugExpression())) {
+        if ($this->getDetailpageUseSlugAsTitle() && !empty($this->getDetailpageTitleExpression())) {
             /** @var PageTitleProvider $dceDetailPageTitleProvider */
             $dceDetailPageTitleProvider = GeneralUtility::makeInstance(PageTitleProvider::class);
             $dceDetailPageTitleProvider->generate($this);

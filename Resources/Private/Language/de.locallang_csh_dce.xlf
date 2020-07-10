@@ -36,8 +36,18 @@
 
 			<trans-unit id="enable_detailpage.description"><target>Wenn aktiviert, wird ein anderes Frontend-Template gerendert, wenn ein konfigurierter GET-Parameter die uid des jeweiligen Inhaltselementes beinhaltet.</target></trans-unit>
 			<trans-unit id="detailpage_identifier.description"><target>Dies ist der GET-Parameter der zwischen normalen und Detail-Template unterscheidet.</target></trans-unit>
-			<trans-unit id="detailpage_slug_expression.description"><target>Hier kann ein Symfony-Ausdruck definiert werden, um DCE Felder auszuwählen, welche als Slug verwendet werden sollen. Alle Feld-Variablen sind verfügbar. Um mehrere Felder zu verwenden: "firstName ~ '-' ~ lastName". Immer daran denken: Slugs auf einer Seiten müssen eindeutig sein!</target></trans-unit>
-			<trans-unit id="detailpage_use_slug_as_title.description"><target>Wenn ein Slug-Ausdruck definiert und diese Option aktiviert wurde, wird der reine Slug (ohne Entfernen, für eine URL, ungültiger Zeichen) als Seitentitel verwendet. Er kann den aktuellen Seitentitel ersetzen, voran- oder nachgestellt werden.</target></trans-unit>
+			<trans-unit id="detailpage_slug_expression.description"><target><![CDATA[
+                <p>Hier kann ein Symfony-Ausdruck definiert werden, um DCE Felder auszuwählen, welche als Slug verwendet werden sollen. Alle Feld-Variablen sind verfügbar.</p>
+                <p>Um mehrere Felder zu verwenden: <code>firstName ~ '-' ~ lastName</code></p>
+                <br>
+                <p>Mit <code>contentObject['uid']</code> kann auf die tt_content Datenbank-Row zugegriffen werden, um z.B. die UID auszulesen.</p>
+                <br>
+                <p>Auch die DCE-Instanz selbst ist verfügbar, z.B.: <code>dce.getTitle()</code>.</p>
+                <br>
+                <p><b>Immer daran denken:</b> Slugs auf einer Seiten müssen eindeutig sein! Und es muss ein zusätzlicher Routing Enhancer konfiguriert werden.</p>
+            ]]></target></trans-unit>
+			<trans-unit id="detailpage_title_expression.description"><target>Wie der Slug-Ausdruck. Wird für den Seitentitel der Detailseite verwendet und nicht wie der Slug, von ungültigen Zeichen etc., bereinigt.</target></trans-unit>
+			<trans-unit id="detailpage_use_slug_as_title.description"><target>Wenn ein Slug-Ausdruck für den Seitentitel definiert und diese Option aktiviert wurde, wird der Ausdruck als Seitentitel verwendet. Er kann den aktuellen Seitentitel ersetzen, voran- oder nachgestellt werden.</target></trans-unit>
 			<trans-unit id="detailpage_template_type.description"><target>Es ist möglich das Template in eine Datei auszulagern oder direkt hier zu bearbeiten.</target></trans-unit>
 			<trans-unit id="detailpage_template.description"><target>Dies ist das Fluid-Template für die Detailseiten-Ausgabe, welche durch einen konfigurierten GET-Parameter getriggert wird.</target></trans-unit>
 			<trans-unit id="detailpage_template_file.description"><target>Hier kann standardmäßig eine Datei aus einem konfigurierten File-Storage (z.B. fileadmin/) ausgewählt werden. Es ist aber auch möglich Pfade wie "EXT:mytemplate/.../MyDce.html" zu verwenden.</target></trans-unit>

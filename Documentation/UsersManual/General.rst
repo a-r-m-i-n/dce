@@ -73,8 +73,8 @@ be unique inside each DCE.
 
 .. note::
    The configuration for the fields is stored in **FlexForm (XML)** format. Look for TCEforms in the FlexForms section
-   of the :ref:`T3DataStructure <t3api:t3ds>` documentation to get detailed information for the definition of the
-   field configuration.
+   of the `T3DataStructure <https://docs.typo3.org/m/typo3/reference-coreapi/master/en-us/DataFormats/T3datastructure/Index.html>`_
+   documentation to get detailed information for the definition of the field configuration.
 
 To make it a bit easier there is a handy select box provided with the most used possible input field types.
 If you select one entry the corresponding FlexForm XML code is inserted in the configuration input field.

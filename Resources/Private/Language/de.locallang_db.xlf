@@ -46,6 +46,7 @@
             <trans-unit id="tx_dce_domain_model_dce.detailpage"><target>Detailseite</target></trans-unit>
             <trans-unit id="tx_dce_domain_model_dce.detailpageIdentifier"><target>Detailseiten-Identifikator (GET-Parameter)</target></trans-unit>
             <trans-unit id="tx_dce_domain_model_dce.detailpageSlugExpression"><target>Slug Ausdruck (Expression)</target></trans-unit>
+            <trans-unit id="tx_dce_domain_model_dce.detailpageTitleExpression"><target>Seitentitel Ausdruck (Expression)</target></trans-unit>
             <trans-unit id="tx_dce_domain_model_dce.useSlugAsTitle"><target>Verwende Slug Ausdruck als Seitentitel</target></trans-unit>
             <trans-unit id="tx_dce_domain_model_dce.useSlugAsTitle.no"><target>Nein, belasse Titel wie er ist</target></trans-unit>
             <trans-unit id="tx_dce_domain_model_dce.useSlugAsTitle.overwrite"><target>Ja, überschreibe den aktuellen Seitentitel</target></trans-unit>
@@ -54,6 +55,8 @@
             <trans-unit id="tx_dce_domain_model_dce.enableDetailpage"><target>Aktiviere Detailseite</target></trans-unit>
             <trans-unit id="tx_dce_domain_model_dce.detailpageTemplate"><target>Detailseiten-Template (Fluid)</target></trans-unit>
             <trans-unit id="tx_dce_domain_model_dce.detailpageTemplateFile"><target>Detailseiten-Template-Datei (Fluid)</target></trans-unit>
+            <trans-unit id="tx_dce_domain_model_dce.detailpageSlugPalette"><target>Detailseiten URL</target></trans-unit>
+            <trans-unit id="tx_dce_domain_model_dce.detailpageTitlePalette"><target>Detailseiten Titel</target></trans-unit>
 
             <trans-unit id="tx_dce_domain_model_dce.container"><target>DCE-Container</target></trans-unit>
             <trans-unit id="tx_dce_domain_model_dce.enableContainer"><target>Aktiviere DCE-Container</target></trans-unit>

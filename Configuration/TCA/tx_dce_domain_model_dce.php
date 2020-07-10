@@ -23,7 +23,7 @@ $showItems = <<<TEXT
     container_identifier,container_template_type,container_template,container_template_file,
 
 --div--;${ll}tx_dce_domain_model_dce.detailpage,
-    enable_detailpage,detailpage_identifier,--palette--;;detailpage_slug,
+    enable_detailpage,detailpage_identifier,--palette--;${ll}tx_dce_domain_model_dce.detailpageSlugPalette;detailpage_slug,--palette--;${ll}tx_dce_domain_model_dce.detailpageTitlePalette;detailpage_title,
     detailpage_template_type,detailpage_template,detailpage_template_file,
     
 --div--;${ll}tx_dce_domain_model_dce.backendTemplate,
@@ -89,7 +89,11 @@ $dceTca = [
             'canNotCollapse' => true
         ],
         'detailpage_slug' => [
-            'showitem' => 'detailpage_slug_expression,detailpage_use_slug_as_title',
+            'showitem' => 'detailpage_slug_expression',
+            'canNotCollapse' => true
+        ],
+        'detailpage_title' => [
+            'showitem' => 'detailpage_title_expression,detailpage_use_slug_as_title',
             'canNotCollapse' => true
         ],
     ],
@@ -497,6 +501,17 @@ $dceTca = [
                 'default' => 'contentObject[\'uid\']'
             ],
         ],
+        'detailpage_title_expression' => [
+            'exclude' => 0,
+            'label' => $ll . 'tx_dce_domain_model_dce.detailpageTitleExpression',
+            'displayCond' => 'FIELD:enable_detailpage:=:1',
+            'config' => [
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
+                'default' => ''
+            ],
+        ],
         'detailpage_use_slug_as_title' => [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dce.useSlugAsTitle',
@@ -728,5 +743,6 @@ if (!\T3\Dce\Compatibility::isTypo3Version()) {
 if (!\T3\Dce\Compatibility::isTypo3Version('9.0.0')) {
     unset($dceTca['columns']['detailpage_slug_expression']);
     unset($dceTca['columns']['detailpage_use_slug_as_title']);
+    unset($dceTca['columns']['detailpage_title_expression']);
 }
 return $dceTca;

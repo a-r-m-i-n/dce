@@ -14,4 +14,4 @@ Additional informations
         TcaMapping
         UserConditions
         CodeCaching
-        DetailPagesWithSlugs
+        FakingDetailpages

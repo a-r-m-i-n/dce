@@ -63,7 +63,10 @@ class PageTitleProvider extends AbstractPageTitleProvider
     private function buildDceTitle(Dce $dce): ?string
     {
         try {
-            return SlugGenerator::getSlugFromDce($dce);
+            return SlugGenerator::getSlugFromDce(
+                $dce,
+                $dce->getDetailpageTitleExpression()
+            );
         } catch (\Exception $e) {
         }
         return '';
