@@ -1,11 +1,7 @@
 <f:layout name="Backend" />
 <f:section name="header">
 	<dce:be.includeCssFile path="EXT:dce/Resources/Public/Css/dceModule.css" />
-	<h4 class="dceHeader">
-		<img class="bg-pink bg-logo" src="{f:uri.resource(path:'Icons/ext_icon_white.png')}" alt="{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang_mod.xlf:mlang_labels_tablabel')}" />
-		<span><f:translate key="LLL:EXT:dce/Resources/Private/Language/locallang_mod.xlf:mlang_labels_tablabel" /></span>
-		<span class="dceVersion">{dce:be.version.dce()}</span>
-	</h4>
+	<f:render partial="Module/ModuleHeader" />
 </f:section>
 <f:section name="content">
 	<f:alias map="{lll: 'LLL:EXT:dce/Resources/Private/Language/locallang_mod.xlf:'}">
@@ -18,7 +14,7 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-sm-12">
+			<div class="col-sm-12 col-md-12 col-lg-10">
 				<h1 class="hallOfFame">{f:translate(key:'{lll}hallOfFame')}</h1>
 				<p>{f:translate(key:'{lll}hallOfFameIntroText')}</p>
 

@@ -11,7 +11,7 @@ if (!defined('TYPO3_MODE')) {
 }
 
 $boot = function ($extensionKey) {
-    $extensionIconPath = 'EXT:' . $extensionKey . '/Resources/Public/Icons/ext_icon.svg';
+    $extensionIconPath = 'EXT:' . $extensionKey . '/Resources/Public/Icons/DceModuleIcon.svg';
 
     // Register backend module
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(

@@ -3,11 +3,7 @@
 <f:layout name="Backend" />
 <f:section name="header">
 	<dce:be.includeCssFile path="EXT:dce/Resources/Public/Css/dceModule.css" />
-	<h4 class="dceHeader">
-		<img class="bg-pink bg-logo" src="{f:uri.resource(path:'Icons/ext_icon_white.png')}" alt="{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang_mod.xlf:mlang_labels_tablabel')}" />
-		<span><f:translate key="LLL:EXT:dce/Resources/Private/Language/locallang_mod.xlf:mlang_labels_tablabel" /></span>
-		<span class="dceVersion">{dce:be.version.dce()}</span>
-	</h4>
+	<f:render partial="Module/ModuleHeader" />
 </f:section>
 <f:section name="content">
 	<f:alias map="{lll: 'LLL:EXT:dce/Resources/Private/Language/locallang_mod.xlf:'}">
@@ -36,6 +32,8 @@
 							<li class="divider"></li>
 							<li><a target="_blank" href="https://www.facebook.com/TYPO3.DCE.Extension">{f:translate(key:'{lll}help.facebook')}</a></li>
 							<li><a target="_blank" href="https://bitbucket.org/ArminVieweg/dce/">{f:translate(key:'{lll}help.bitbucket')}</a></li>
+							<li class="divider"></li>
+							<li><a target="_blank" href="https://v.ieweg.de">{f:translate(key:'{lll}help.authorWebsite')}</a></li>
 						</ul>
 					</div>
 				</div>

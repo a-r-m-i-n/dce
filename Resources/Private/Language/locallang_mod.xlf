@@ -27,6 +27,7 @@
             <trans-unit id="help.wiki"><source>Wiki</source></trans-unit>
             <trans-unit id="help.facebook"><source>DCE Facebook Page</source></trans-unit>
             <trans-unit id="help.bitbucket"><source>DCE on Bitbucket</source></trans-unit>
+            <trans-unit id="help.authorWebsite"><source>Author's Website</source></trans-unit>
 
             <trans-unit id="caution"><source>Caution!</source></trans-unit>
             <trans-unit id="hideContentElementsBasedOnDce"><source>%s content elements based on this DCE have been also disabled, to avoid errors in frontned. These content items will not get re-enabled automatically!</source></trans-unit>

@@ -22,14 +22,29 @@
 }
 
 h4.dceHeader {
+    position: relative;
     font-family: Share, Verdana, Arial, Helvetica, sans-serif;
     font-size: 20px;
-    margin-bottom: 3rem;
+    margin-bottom: 18px;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 h4.dceHeader img {
-    vertical-align: baseline;
+    vertical-align: text-bottom;
     margin-bottom: -1px;
+    margin-right: 0.25rem;
+}
+
+#copyright {
+    position: absolute;
+    right: 0;
+    text-align: right;
+    font-size: 12px;
+}
+#copyright img {
+    max-height: 45px;
+    margin-top: -6px;
 }
 
 div.nav-group {
@@ -51,18 +66,6 @@ div.nav-group {
     padding-top: 5px;
     margin-left: 2px;
     margin-right: 12px;
-}
-
-.typeicon .overlay {
-    position: absolute;
-    right: -6px;
-    bottom: -3px;
-    line-height: 0;
-    border-radius: 2px;
-}
-
-.bg-pink {
-    background: #ed2448;
 }
 
 .bg-logo {

@@ -22,6 +22,7 @@
 			<trans-unit id="help.wiki"><target>Wiki</target></trans-unit>
 			<trans-unit id="help.facebook"><target>DCE Facebook Seite</target></trans-unit>
 			<trans-unit id="help.bitbucket"><target>DCE auf Bitbucket</target></trans-unit>
+			<trans-unit id="help.authorWebsite"><target>Internetseite des Autors</target></trans-unit>
 
 			<trans-unit id="caution"><target>Achtung!</target></trans-unit>
 			<trans-unit id="hideContentElementsBasedOnDce"><target>%s Inhaltselemente, welche auf diesem DCE basieren wurden ebenfalls deaktiviert um Fehlermeldungen im Frontend zu vermeiden. Die deaktivierten Inhaltselemente werden nicht automatisch wieder aktiviert.</target></trans-unit>
