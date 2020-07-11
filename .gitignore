@@ -3,3 +3,8 @@
 vendor
 cachegrind.out.*
 .build
+/*.txt
+*.zip
+*.log
+/gource*
+/Documentation-GENERATED-temp/
