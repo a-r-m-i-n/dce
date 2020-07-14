@@ -8,6 +8,24 @@ Versions
 
 .. contents:: :local:
 
+2.6.0
+-----
+- [TASK] Update module icons and header
+- [TASK] Extend .gitignore
+- [DEVOPS] Apply fix for DDEV 1.15
+- [FEATURE] Add DceViewHelper
+- [FEATURE] Add dedicated "detailpage_title_expression" field for detailpage title generation
+- [TASK] Code style
+- [TASK] Show "Detail page" as badge in DCE module, when enabled
+- [BUGFIX] Do not show new slug settings in TYPO3 8
+- [TASK] Add documentation for new slug features
+- [FEATURE] Add "use slug as title" DCE option and provide new PageTitleProvider
+- [FEATURE] Slugs for detail pages
+- [BUGFIX] Register old "PageLayoutViewDrawItemHook" when EXT:gridelements is active
+
+Thanks to **Silverback** (https://silverback.st/) for sponsoring this release!
+
+
 2.5.2
 -----
 - [BUGFIX] Use old PageLayoutViewDrawItemHook when "fluidBasedPageModule" is disabled in TYPO3 10
