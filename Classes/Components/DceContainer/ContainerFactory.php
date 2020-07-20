@@ -85,7 +85,9 @@ class ContainerFactory
     protected static function getContentElementsInContainer(Dce $dce, bool $includeHidden = false) : array
     {
         $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tt_content');
-        $queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
+        if (TYPO3_MODE === 'FE') {
+            $queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
+        }
         if ($includeHidden) {
             $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class);
             $queryBuilder->getRestrictions()->removeByType(StartTimeRestriction::class);
