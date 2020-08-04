@@ -185,6 +185,14 @@ PHP;
 
 PHP;
 
+
+            if (ExtensionManagementUtility::isLoaded('container')) {
+                $sourceCode .= <<<PHP
+\$GLOBALS['TCA']['tt_content']['palettes']['$paletteIdentifier']['showitem'] .=
+    ',tx_container_parent';
+    
+PHP;
+            }
             if (ExtensionManagementUtility::isLoaded('gridelements')) {
                 $sourceCode .= <<<PHP
 \$GLOBALS['TCA']['tt_content']['palettes']['$paletteIdentifier']['showitem'] .=

@@ -126,5 +126,6 @@ More
 + **Direct output** option (enabled by default). Bypasses lib.contentElement - significant performance boost
 + TypoScript **User Condition** (to check if current page contains specific DCE)
 + Support for TYPO3's Import/Export extension
++ EXT:container and EXT:gridelements support
 + Deprecation notice free in TYPO3 9.5 LTS!
 + Complete documentation existing

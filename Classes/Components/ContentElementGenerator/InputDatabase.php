@@ -88,8 +88,10 @@ class InputDatabase implements InputInterface
 
         $dces = $this->buildDcesArray($dceModelRows, $dceFieldRowsByParentDce, $dceFieldRowsByParentDceField);
 
-        if (ExtensionManagementUtility::isLoaded('gridelements')) {
-            $dces = $this->ensureGridelementsFieldCompatibility($dces);
+        if (ExtensionManagementUtility::isLoaded('gridelements') ||
+            ExtensionManagementUtility::isLoaded('container')
+        ) {
+            $dces = $this->ensureContainerColPosFieldCompatibility($dces);
         }
         return $dces;
     }
@@ -185,7 +187,7 @@ class InputDatabase implements InputInterface
      * @param array $dces
      * @return array
      */
-    protected function ensureGridelementsFieldCompatibility(array $dces) : array
+    protected function ensureContainerColPosFieldCompatibility(array $dces) : array
     {
         foreach ($dces as $key => $dceRow) {
             $paletteFields = GeneralUtility::trimExplode(',', $dceRow['palette_fields'], true);

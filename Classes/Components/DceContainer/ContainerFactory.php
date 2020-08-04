@@ -145,6 +145,15 @@ class ContainerFactory
             );
         }
 
+        if (ExtensionManagementUtility::isLoaded('container') && $contentObject['tx_container_parent'] != '0') {
+            $queryBuilder->andWhere(
+                $queryBuilder->expr()->eq(
+                    'tx_container_parent',
+                    $queryBuilder->createNamedParameter($contentObject['tx_container_parent'], \PDO::PARAM_INT)
+                )
+            );
+        }
+
         if ($dce->getContainerItemLimit()) {
             $queryBuilder->setMaxResults($dce->getContainerItemLimit() - 1);
         }

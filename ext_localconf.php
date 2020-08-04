@@ -37,6 +37,7 @@ $boot = function ($extensionKey) {
                $GLOBALS['TYPO3_CONF_VARS']['SYS']['features']['fluidBasedPageModule'] === false
            )
         || \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('gridelements')
+        || \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('container')
     ) {
         // PageLayoutView DrawItem Hook for DCE content elements
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['tt_content_drawItem']['dce'] =

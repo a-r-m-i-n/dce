@@ -29,6 +29,9 @@
         "ext-json": "*",
         "typo3/cms-core": "^8.7 || ^9.5 || ^10.4"
     },
+    "suggest": {
+        "b13/container": "Brings clean container functionality to TYPO3 CMS, supported by DCE."
+    },
     "autoload": {
         "psr-4": {
             "T3\\Dce\\": "Classes"
