@@ -8,6 +8,13 @@ Versions
 
 .. contents:: :local:
 
+2.6.1
+-----
+- [BUGFIX] Add missing "classmap" argument in ext_emconf autoload section
+- [FEATURE] Add support for EXT:container
+- [BUGFIX] Only add FrontendRestrictionContainer when TYPO3_MODE equals "FE"
+
+
 2.6.0
 -----
 - [TASK] Update module icons and header
