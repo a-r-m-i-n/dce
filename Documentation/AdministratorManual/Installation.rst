@@ -16,7 +16,7 @@ Just require DCE on cli:
 
 ::
 
-    $ composer req t3/dce:"^2.5"
+    $ composer req t3/dce:"^2.7"
 
 
 When composer is done you need to enable the extension in the extension manager.

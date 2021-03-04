@@ -6,11 +6,15 @@ namespace T3\Dce\Controller;
  *  |
  *  | (c) 2012-2020 Armin Vieweg <armin@v.ieweg.de>
  */
+
+use Psr\Http\Message\ResponseInterface;
+use T3\Dce\Compatibility;
 use T3\Dce\Components\FlexformToTcaMapper\Mapper;
 use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Domain\Repository\DceRepository;
 use T3\Dce\Utility\File;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
+use TYPO3\CMS\Core\Http\Response;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
@@ -41,20 +45,26 @@ class DceModuleController extends ActionController
     /**
      * Index Action
      *
-     * @return void
+     * @return void|ResponseInterface
      */
-    public function indexAction() : void
+    public function indexAction()
     {
         $this->view->assign('dces', $this->dceRepository->findAllAndStatics(true));
+
+        if (Compatibility::isTypo3Version()) {
+            $response = $this->responseFactory->createResponse();
+            $response->getBody()->write($this->view->render());
+            return $response;
+        }
     }
 
     /**
      * @param Dce $dce
      * @param bool $perform
-     * @return void
+     * @return void|ResponseInterface
      * @throws \TYPO3\CMS\Core\Exception
      */
-    public function updateTcaMappingsAction(Dce $dce, $perform = false) : void
+    public function updateTcaMappingsAction(Dce $dce, $perform = false)
     {
         $contentElements = $this->dceRepository->findContentElementsBasedOnDce($dce);
         $this->view->assign('contentElements', $contentElements);
@@ -67,6 +77,11 @@ class DceModuleController extends ActionController
                 );
             }
             $this->view->assign('perform', true);
+        }
+        if (Compatibility::isTypo3Version()) {
+            $response = $this->responseFactory->createResponse();
+            $response->getBody()->write($this->view->render());
+            return $response;
         }
     }
 
@@ -94,12 +109,18 @@ class DceModuleController extends ActionController
     /**
      * Hall of fame Action
      *
-     * @return void
+     * @return void|ResponseInterface
      */
-    public function hallOfFameAction() : void
+    public function hallOfFameAction()
     {
         $donators = File::openJsonFile('EXT:dce/Resources/Private/Data/Donators.json');
         shuffle($donators);
         $this->view->assign('donators', $donators);
+
+        if (Compatibility::isTypo3Version()) {
+            $response = $this->responseFactory->createResponse();
+            $response->getBody()->write($this->view->render());
+            return $response;
+        }
     }
 }

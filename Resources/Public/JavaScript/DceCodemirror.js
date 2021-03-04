@@ -1,23 +1,22 @@
 define([
-    "jquery",
-    "../../../../typo3conf/ext/dce/Resources/Public/JavaScript/Contrib/codemirror/lib/codemirror",
-    "../../../../typo3conf/ext/dce/Resources/Public/JavaScript/Contrib/codemirror/mode/htmlmixed/htmlmixed"
-], function ($, Codemirror) {
+    "./Contrib/codemirror/lib/codemirror",
+    "./Contrib/codemirror/mode/htmlmixed/htmlmixed"
+], function (Codemirror) {
 
     var storage = {
         codemirrorCycle: 0,
         codemirrorEditors: []
     };
 
-    var initCodemirrorEditor = function ($textarea, mode) {
-        var textarea = $($textarea);
+    var initCodemirrorEditor = function (textareaSelector, mode) {
+        var textarea = document.querySelector(textareaSelector);
 
         // Do not init the same textarea twice
-        if (textarea.data('codemirrorCycle')) {
+        if (textarea.dataset.codemirrorCycle) {
             return;
         }
 
-        var editor = Codemirror.fromTextArea(textarea.get(0), {
+        var editor = Codemirror.fromTextArea(textarea, {
             mode: mode,
             htmlMode: true,
             indentUnit: 4,
@@ -29,43 +28,48 @@ define([
 
         storage.codemirrorCycle++;
         storage.codemirrorEditors.push(editor);
-        textarea.data('codemirrorCycle', storage.codemirrorCycle);
+        textarea.dataset.codemirrorCycle = storage.codemirrorCycle;
 
         setTimeout(function () {
             editor.refresh();
         }, 100);
 
-        $(document).on('click', function () {
+        document.addEventListener('click', function (event) {
             editor.refresh();
         });
 
-        textarea.closest('#dceConfigurationWizard').find('.availableTemplates').change(function () {
-            if ($(this).val()) {
-                var textarea = $(this).next('div').find('textarea').eq(0);
-                var editorId = textarea.data('codemirrorCycle');
-                var editor = storage.codemirrorEditors[editorId - 1];
 
-                editor.setValue($(this).val());
-                editor.focus();
-                $(this).val('');
-            }
-        });
+        var availableTemplates = textarea.closest('#dceConfigurationWizard').querySelector('.availableTemplates');
+        if (availableTemplates) {
+            availableTemplates.addEventListener('change', function (event) {
+                if (this.value) {
+                    var editorId = textarea.dataset.codemirrorCycle;
+                    var editor = storage.codemirrorEditors[editorId - 1];
 
-        textarea.closest('#dceConfigurationWizard').find('.availableVariables').change(function () {
-            if ($(this).val()) {
-                var textarea = $(this).next('div').find('textarea').eq(0);
-                var editorId = textarea.data('codemirrorCycle');
-                var editor = storage.codemirrorEditors[editorId - 1];
-
-                if ($(this).val().match(/^v:/)) {
-                    editor.replaceSelection('{' + $(this).val().replace(/.*?:(.*)/gi, '$1') + '}');
-                } else if ($(this).val().match(/^f:/)) {
-                    editor.replaceSelection($(this).val().replace(/.*?:([\s\S]*)/gi, '$1'));
+                    editor.setValue($(this).val());
+                    editor.focus();
+                    this.value = '';
                 }
-                editor.focus();
-                $(this).val('');
-            }
-        });
+            });
+        }
+
+        var availableVariables = textarea.closest('#dceConfigurationWizard').querySelector('.availableVariables');
+        if (availableVariables) {
+            availableVariables.addEventListener('change', function (event) {
+                if (this.value) {
+                    var editorId = textarea.dataset.codemirrorCycle;
+                    var editor = storage.codemirrorEditors[editorId - 1];
+
+                    if (this.value.match(/^v:/)) {
+                        editor.replaceSelection('{' + this.value.replace(/.*?:(.*)/gi, '$1') + '}');
+                    } else if (this.value.match(/^f:/)) {
+                        editor.replaceSelection(this.value.replace(/.*?:([\s\S]*)/gi, '$1'));
+                    }
+                    editor.focus();
+                    this.value = '';
+                }
+            });
+        }
     };
 
     return {initCodeMirrorEditor: initCodemirrorEditor};

@@ -7,6 +7,9 @@ namespace T3\Dce\Controller;
  *  | (c) 2012-2019 Armin Vieweg <armin@v.ieweg.de>
  *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
+
+use Psr\Http\Message\ResponseInterface;
+use T3\Dce\Compatibility;
 use T3\Dce\Components\DceContainer\ContainerFactory;
 use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Domain\Repository\DceRepository;
@@ -64,9 +67,9 @@ class DceController extends ActionController
     /**
      * Show Action which get called if a DCE get rendered in frontend
      *
-     * @return string output of dce in frontend
+     * @return string|ResponseInterface output of dce in frontend
      */
-    public function showAction() : string
+    public function showAction()
     {
         $contentObject = $this->configurationManager->getContentObject()->data;
         $config = $this->configurationManager->getConfiguration(
@@ -87,18 +90,28 @@ class DceController extends ActionController
             }
             $container = ContainerFactory::makeContainer($dce);
 
-            return $container->render();
+            if (!Compatibility::isTypo3Version()) {
+                return $container->render();
+            }
+            $response = $this->responseFactory->createResponse();
+            $response->getBody()->write($container->render());
+            return $response;
         }
 
-        return $dce->render();
+        if (!Compatibility::isTypo3Version()) {
+            return $dce->render();
+        }
+        $response = $this->responseFactory->createResponse();
+        $response->getBody()->write($dce->render());
+        return $response;
     }
 
     /**
      * Render preview action
      *
-     * @return string
+     * @return string|ResponseInterface
      */
-    public function renderPreviewAction() : string
+    public function renderPreviewAction()
     {
         $uid = (int) $this->settings['dceUid'];
         $contentObject = $this->dceRepository->getContentObject($this->settings['contentElementUid']);
@@ -115,8 +128,18 @@ class DceController extends ActionController
         );
 
         if ($previewType === 'header') {
-            return $dce->renderHeaderPreview();
+            if (!Compatibility::isTypo3Version()) {
+                return $dce->renderHeaderPreview();
+            }
+            $response = $this->responseFactory->createResponse();
+            $response->getBody()->write($dce->renderHeaderPreview());
+            return $response;
         }
-        return $dce->renderBodytextPreview();
+        if (!Compatibility::isTypo3Version()) {
+            return $dce->renderBodytextPreview();
+        }
+        $response = $this->responseFactory->createResponse();
+        $response->getBody()->write($dce->renderBodytextPreview());
+        return $response;
     }
 }

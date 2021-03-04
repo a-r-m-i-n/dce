@@ -14,15 +14,7 @@ DceOnCurrentPage
 
 This user condition checks if the current page contains a content element based on given DCE.
 
-Usage in TypoScript in **TYPO3 8.7**:
-
-.. code-block:: typoscript
-
-    [T3\Dce\Components\UserConditions\DceOnCurrentPage = 42]
-    [T3\Dce\Components\UserConditions\DceOnCurrentPage = teaser]
-
-
-Usage in TypoScript in **TYPO3 9.5**:
+Usage in TypoScript:
 
 .. code-block:: typoscript
 

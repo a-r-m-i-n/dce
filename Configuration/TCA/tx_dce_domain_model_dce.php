@@ -736,15 +736,10 @@ if (!\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('fluid_styled_
     $dceTca['columns']['direct_output']['config']['readOnly'] = true;
 }
 
-if (!\T3\Dce\Compatibility::isTypo3Version()) {
+if (!\T3\Dce\Compatibility::isTypo3Version('10.0.0')) {
     $dceFieldTca['interface'] = [
         'showRecordFieldList' => 'hidden,title,type',
     ];
 }
 
-if (!\T3\Dce\Compatibility::isTypo3Version('9.0.0')) {
-    unset($dceTca['columns']['detailpage_slug_expression']);
-    unset($dceTca['columns']['detailpage_use_slug_as_title']);
-    unset($dceTca['columns']['detailpage_title_expression']);
-}
 return $dceTca;

@@ -70,8 +70,9 @@ class DceCodeMirrorFieldRenderType extends AbstractFormElement
      */
     public function __construct(NodeFactory $nodeFactory, array $data)
     {
+        parent::__construct($nodeFactory, $data);
         $this->data = $data;
-        $this->uniqueIdentifier = uniqid();
+        $this->uniqueIdentifier = str_replace('.', '', uniqid('', true));
     }
 
     /**

@@ -116,6 +116,7 @@ h1.hallOfFame {
     padding: 5px 10px;
 }
 
+.well .icon,
 .well .icon img {
     width: 64px !important;
     height: 64px !important;

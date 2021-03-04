@@ -6,7 +6,7 @@ namespace T3\Dce\ViewHelpers\Be;
  *  |
  *  | (c) 2012-2020 Armin Vieweg <armin@v.ieweg.de>
  */
-use T3\Dce\Compatibility;
+use T3\Dce\Utility\BackendModuleLinkUtility;
 use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
@@ -45,6 +45,6 @@ class ModuleLinkViewHelper extends AbstractViewHelper
         RenderingContextInterface $renderingContext
     ) {
         $parameters = GeneralUtility::explodeUrl2Array($arguments['parameter']);
-        return Compatibility::getModuleUrl($arguments['module'], $parameters);
+        return BackendModuleLinkUtility::getModuleUrl($arguments['module'], $parameters);
     }
 }

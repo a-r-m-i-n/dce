@@ -19,7 +19,7 @@ Just change your requirements section to
 
 ::
 
-    "t3/dce": "^2.0"
+    "t3/dce": "^2.7"
 
 and perform ``composer update``.
 

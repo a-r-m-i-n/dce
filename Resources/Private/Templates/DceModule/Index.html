@@ -21,19 +21,19 @@
 				</div>
 
 				<div class="nav-group">
-					<div class="btn-group">
-						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<div class="dropdown btn-group">
+						<button type="button" class="btn btn-default dropdown-toggle" id="dropdownMenuHelp" data-bs-toggle="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							<core:icon identifier="actions-system-help-open" />
-							{f:translate(key:'{lll}help')} <span class="caret"></span>
+							{f:translate(key:'{lll}help')} <f:if condition="{dce:be.version.typo3(returnInt:'1')} < 10000000"><span class="caret"></span></f:if>
 						</button>
-						<ul class="dropdown-menu">
-							<li><a target="_blank" href="https://docs.typo3.org/typo3cms/extensions/dce/">{f:translate(key:'{lll}help.manual')}</a></li>
-							<li><a target="_blank" href="https://forge.typo3.org/projects/extension-dce/wiki/">{f:translate(key:'{lll}help.wiki')}</a></li>
-							<li class="divider"></li>
-							<li><a target="_blank" href="https://www.facebook.com/TYPO3.DCE.Extension">{f:translate(key:'{lll}help.facebook')}</a></li>
-							<li><a target="_blank" href="https://bitbucket.org/ArminVieweg/dce/">{f:translate(key:'{lll}help.bitbucket')}</a></li>
-							<li class="divider"></li>
-							<li><a target="_blank" href="https://v.ieweg.de">{f:translate(key:'{lll}help.authorWebsite')}</a></li>
+						<ul class="dropdown-menu" aria-labelledby="dropdownMenuHelp">
+							<li><a class="dropdown-item" target="_blank" href="https://docs.typo3.org/typo3cms/extensions/dce/">{f:translate(key:'{lll}help.manual')}</a></li>
+							<li><a class="dropdown-item" target="_blank" href="https://forge.typo3.org/projects/extension-dce/wiki/">{f:translate(key:'{lll}help.wiki')}</a></li>
+							<li class="dropdown-divider divider"></li>
+							<li><a class="dropdown-item" target="_blank" href="https://www.facebook.com/TYPO3.DCE.Extension">{f:translate(key:'{lll}help.facebook')}</a></li>
+							<li><a class="dropdown-item" target="_blank" href="https://bitbucket.org/ArminVieweg/dce/">{f:translate(key:'{lll}help.bitbucket')}</a></li>
+							<li class="dropdown-divider divider"></li>
+							<li><a class="dropdown-item" target="_blank" href="https://v.ieweg.de">{f:translate(key:'{lll}help.authorWebsite')}</a></li>
 						</ul>
 					</div>
 				</div>

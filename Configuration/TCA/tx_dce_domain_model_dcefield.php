@@ -315,7 +315,7 @@ $dceFieldTca = [
     ],
 ];
 
-if (!\T3\Dce\Compatibility::isTypo3Version()) {
+if (!\T3\Dce\Compatibility::isTypo3Version('10.0.0')) {
     $dceFieldTca['interface'] = [
         'showRecordFieldList' => 'hidden,title,type,variable',
     ];

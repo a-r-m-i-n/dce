@@ -13,14 +13,8 @@ use TYPO3\CMS\Core\Configuration\TypoScript\ConditionMatching\AbstractCondition;
 /**
  * Checks if the current page contains a DCE (instance).
  *
- * Usage in typoscript (8.7):
- * [T3\Dce\Components\UserConditions\DceOnCurrentPage = 42]
- * [T3\Dce\Components\UserConditions\DceOnCurrentPage = teaser]
- * or
- * [userFunc = ArminVieweg\Dce\UserConditions\user_dceOnCurrentPage(42)]
- * [userFunc = ArminVieweg\Dce\UserConditions\user_dceOnCurrentPage(teaser)]
+ * Usage in TypoScript:
  *
- * Usage in typoscript (9.5):
  * [dceOnCurrentPage("42")]
  * [dceOnCurrentPage("teaser")]
  *

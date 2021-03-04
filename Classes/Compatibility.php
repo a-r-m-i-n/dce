@@ -7,109 +7,28 @@
  */
 namespace T3\Dce {
 
-    use TYPO3\CMS\Backend\Routing\UriBuilder;
-    use TYPO3\CMS\Core\Context\Exception\AspectNotFoundException;
-    use TYPO3\CMS\Core\Context\Context;
-    use TYPO3\CMS\Core\Core\Environment;
-    use TYPO3\CMS\Core\Utility\GeneralUtility;
     use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
     /**
-     * Contains static methods, to tackle deprecation warnings in 9.5, but keep compatibility with 8.7
+     * Contains static methods, to tackle deprecation issues
      */
     class Compatibility
     {
         /**
-         * Checks if current TYPO3 version is 10.0.0 or greater (by default)
+         * Checks if current TYPO3 version is 11.0.0 or greater (by default)
          *
-         * @param string $version e.g. 10.0.0
+         * @param string $version e.g. 11.0.0
          * @return bool
          */
-        public static function isTypo3Version($version = '10.0.0') : bool
+        public static function isTypo3Version($version = '11.0.0') : bool
         {
             return VersionNumberUtility::convertVersionNumberToInteger(TYPO3_branch) >=
                 VersionNumberUtility::convertVersionNumberToInteger($version);
-        }
-
-        /**
-         * Returns the current sys_language_uid (in frontend)
-         *
-         * @return int|null
-         */
-        public static function getSysLanguageUid() : ?int
-        {
-            if (!static::isTypo3Version('9.0.0')) {
-                if (!isset($GLOBALS['TSFE'])) {
-                    return null;
-                }
-                return (int) $GLOBALS['TSFE']->sys_language_uid;
-            }
-            // TYPO3 9 way to fetch sys_language_uid
-            $context = GeneralUtility::makeInstance(Context::class);
-            try {
-                return (int) $context->getPropertyFromAspect('language', 'id', 0);
-            } catch (AspectNotFoundException $e) {
-            }
-            return null;
-        }
-
-        /**
-         * Returns the URL to a given module
-         *
-         * @param string $moduleName Name of the module
-         * @param array $urlParameters URL parameters that should be added as key value pairs
-         * @return string Calculated URL
-         * @throws \TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException
-         */
-        public static function getModuleUrl($moduleName, $urlParameters = []) : string
-        {
-            $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
-            try {
-                $uri = $uriBuilder->buildUriFromRoute($moduleName, $urlParameters);
-            } catch (\TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException $e) {
-                $uri = static::isTypo3Version('9.0.0')
-                    ? $uriBuilder->buildUriFromRoutePath($moduleName, $urlParameters)
-                    : $uriBuilder->buildUriFromModule($moduleName, $urlParameters);
-            }
-            return (string) $uri;
-        }
-
-        /**
-         * Returns the path to /var directory. Before TYPO3 9 it uses a hardcoded string.
-         * This method becomes unnecessary, when 8.7 support is dropped.
-         *
-         * @return string
-         */
-        public static function getVarPath(): string
-        {
-            if (!self::isTypo3Version('9.0.0')) {
-                return PATH_site . 'typo3temp/var';
-            }
-            return Environment::getVarPath();
         }
     }
 }
 
 // phpcs:disable
-
-/**
- * Compatibility Layer for old user condition
- */
-namespace ArminVieweg\Dce\UserConditions
-{
-    use T3\Dce\Components\UserConditions\DceOnCurrentPage;
-    use TYPO3\CMS\Core\Utility\GeneralUtility;
-
-    /**
-     * @param string|int $dceUidOrIdentifier
-     * @return bool
-     */
-    function user_dceOnCurrentPage($dceUidOrIdentifier) : bool
-    {
-        $condition = GeneralUtility::makeInstance(DceOnCurrentPage::class);
-        return $condition->matchCondition([$dceUidOrIdentifier]);
-    }
-}
 
 /**
  * Compatibility layer for view helpers

@@ -8,11 +8,13 @@ namespace T3\Dce\Hooks;
  */
 use T3\Dce\Compatibility;
 use T3\Dce\Domain\Repository\DceRepository;
+use T3\Dce\Utility\BackendModuleLinkUtility;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\PathUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
@@ -65,8 +67,10 @@ class DocHeaderButtonsHook
         if (!is_numeric($dceIdent)) {
             $dceIdent = 'dce_' . $dceIdent;
         }
-        $returnUrl = 'sysext/backend/Resources/Public/Html/Close.html';
-        return Compatibility::getModuleUrl(
+        $returnUrl = PathUtility::getAbsoluteWebPath(
+            GeneralUtility::getFileAbsFileName('EXT:dce/Resources/Public/Html/Close.html')
+        );
+        return BackendModuleLinkUtility::getModuleUrl(
             'record_edit',
             GeneralUtility::explodeUrl2Array('edit[tx_dce_domain_model_dce][' . $dceIdent . ']=edit' .
                 '&returnUrl=' . $returnUrl)

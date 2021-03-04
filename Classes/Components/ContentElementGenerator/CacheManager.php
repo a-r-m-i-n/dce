@@ -7,6 +7,7 @@ namespace T3\Dce\Components\ContentElementGenerator;
  *  | (c) 2019-2020 Armin Vieweg <armin@v.ieweg.de>
  */
 use T3\Dce\Compatibility;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -31,7 +32,7 @@ class CacheManager implements SingletonInterface
 
     public function __construct(string $cacheName = self::CACHE_NAME)
     {
-        $this->cachePath = Compatibility::getVarPath() . $this->getCachePath($cacheName);
+        $this->cachePath = Environment::getVarPath() . $this->getCachePath($cacheName);
         if (!file_exists($this->cachePath)) {
             $status = mkdir($this->cachePath, 0777, true);
             if (!$status || !file_exists($this->cachePath) || !is_dir($this->cachePath)) {
@@ -56,11 +57,6 @@ class CacheManager implements SingletonInterface
     {
         $cacheSegment = 'cache';
         $codeSegment = 'code';
-        // Remove this when 8.7 support is dropped
-        if (!Compatibility::isTypo3Version('9.0.0')) {
-            $cacheSegment = ucfirst($cacheSegment);
-            $codeSegment = ucfirst($codeSegment);
-        }
         return DIRECTORY_SEPARATOR . $cacheSegment .
                DIRECTORY_SEPARATOR . $codeSegment .
                DIRECTORY_SEPARATOR . $cacheName . DIRECTORY_SEPARATOR;

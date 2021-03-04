@@ -158,7 +158,7 @@ TEXT;
 \$GLOBALS['TCA']['tt_content']['palettes']['$paletteIdentifierHead']['canNotCollapse'] = true;
 \$GLOBALS['TCA']['tt_content']['palettes']['$paletteIdentifierHead']['showitem'] = '$dceCType';
 \$GLOBALS['TCA']['tt_content']['types']['$dceIdentifier']['showitem'] = '$showItem';
-if (\T3\Dce\Compatibility::isTypo3Version()) {
+if (\T3\Dce\Compatibility::isTypo3Version('10.0.0')) {
     \$GLOBALS['TCA']['tt_content']['types']['$dceIdentifier']['previewRenderer'] = 
         \T3\Dce\Components\BackendView\DcePreviewRenderer::class;
 }

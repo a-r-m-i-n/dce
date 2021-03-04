@@ -7,12 +7,13 @@ namespace T3\Dce\Domain\Repository;
  *  | (c) 2012-2020 Armin Vieweg <armin@v.ieweg.de>
  *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
-use T3\Dce\Compatibility;
 use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Domain\Model\DceField;
 use T3\Dce\Utility\DatabaseUtility;
 use T3\Dce\Utility\FlexformService;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Context\Exception\AspectNotFoundException;
 use TYPO3\CMS\Core\Database\Query\Restriction\EndTimeRestriction;
 use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
 use TYPO3\CMS\Core\Database\Query\Restriction\StartTimeRestriction;
@@ -566,7 +567,7 @@ class DceRepository extends Repository
                         $row = $pageRepository->getRecordOverlay(
                             $tableName,
                             $row,
-                            Compatibility::getSysLanguageUid(),
+                            $this->getSysLanguageUid(),
                             $GLOBALS['TSFE']->tmpl->setup['config.']['sys_language_overlay']
                         );
                     }
@@ -591,6 +592,17 @@ class DceRepository extends Repository
         }
         return $objects;
     }
+
+    private function getSysLanguageUid() : ?int
+    {
+        $context = GeneralUtility::makeInstance(Context::class);
+        try {
+            return (int) $context->getPropertyFromAspect('language', 'id', 0);
+        } catch (AspectNotFoundException $e) {
+        }
+        return null;
+    }
+
 
     /**
      * Resolves relations of tt_content row record stored in {contentObject}

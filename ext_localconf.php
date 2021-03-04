@@ -32,7 +32,7 @@ $boot = function ($extensionKey) {
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/impexp/class.tx_impexp.php']['before_writeRecordsRecords']['dce'] =
         \T3\Dce\Hooks\ImportExportHook::class . '->beforeWriteRecordsRecords';
 
-    if (!\T3\Dce\Compatibility::isTypo3Version()
+    if (!\T3\Dce\Compatibility::isTypo3Version('10.0.0')
         || (isset($GLOBALS['TYPO3_CONF_VARS']['SYS']['features']['fluidBasedPageModule']) &&
                $GLOBALS['TYPO3_CONF_VARS']['SYS']['features']['fluidBasedPageModule'] === false
            )
@@ -71,30 +71,17 @@ $boot = function ($extensionKey) {
     [\T3\Dce\UserFunction\CustomFieldValidation\NoLeadingNumberValidator::class] =
         'EXT:dce/Classes/UserFunction/CustomFieldValidation/NoLeadingNumberValidator.php';
 
-    // phpcs:disable
-    if (!\T3\Dce\Compatibility::isTypo3Version('9.0.0')) {
-        // Update Scripts (before v8)
-        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceMigrateOldNamespacesInFluidTemplateUpdate'] =
-            \T3\Dce\Updates\MigrateOldNamespacesInFluidTemplateUpdate::class;
-        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceMigrateDceFieldDatabaseRelationUpdate'] =
-            \T3\Dce\Updates\MigrateDceFieldDatabaseRelationUpdate::class;
-        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceMigrateFlexformSheetIdentifierUpdate'] =
-            \T3\Dce\Updates\MigrateFlexformSheetIdentifierUpdate::class;
-        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceFixMalformedDceFieldVariableNamesUpdate'] =
-            \T3\Dce\Updates\FixMalformedDceFieldVariableNamesUpdate::class;
-    } else {
-        // Update Scripts (v9 & v10)
-        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceMigrateOldNamespacesInFluidTemplateUpdate'] =
-            \T3\Dce\UpdateWizards\MigrateOldNamespacesInFluidTemplateUpdateWizard::class;
-        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceMigrateDceFieldDatabaseRelationUpdate'] =
-            \T3\Dce\UpdateWizards\MigrateDceFieldDatabaseRelationUpdateWizard::class;
-        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceMigrateFlexformSheetIdentifierUpdate'] =
-            \T3\Dce\UpdateWizards\MigrateFlexformSheetIdentifierUpdateWizard::class;
-        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceFixMalformedDceFieldVariableNamesUpdate'] =
-            \T3\Dce\UpdateWizards\FixMalformedDceFieldVariableNamesUpdateWizard::class;
-    }
-    // phpcs:enable
-    if (!\T3\Dce\Compatibility::isTypo3Version()) {
+    // Update Scripts (since TYPO3 v9)
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceMigrateOldNamespacesInFluidTemplateUpdate'] =
+        \T3\Dce\UpdateWizards\MigrateOldNamespacesInFluidTemplateUpdateWizard::class;
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceMigrateDceFieldDatabaseRelationUpdate'] =
+        \T3\Dce\UpdateWizards\MigrateDceFieldDatabaseRelationUpdateWizard::class;
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceMigrateFlexformSheetIdentifierUpdate'] =
+        \T3\Dce\UpdateWizards\MigrateFlexformSheetIdentifierUpdateWizard::class;
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceFixMalformedDceFieldVariableNamesUpdate'] =
+        \T3\Dce\UpdateWizards\FixMalformedDceFieldVariableNamesUpdateWizard::class;
+
+    if (!\T3\Dce\Compatibility::isTypo3Version('10.0.0')) {
         // Slot to extend SQL tables definitions
         /** @var \TYPO3\CMS\Extbase\SignalSlot\Dispatcher $signalSlotDispatcher */
         $signalSlotDispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
@@ -116,13 +103,13 @@ $boot = function ($extensionKey) {
 
     // Register Plugin to get Dce instance
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-        \T3\Dce\Compatibility::isTypo3Version() ? $extensionKey : 'T3.' . $extensionKey,
+        \T3\Dce\Compatibility::isTypo3Version('10.0.0') ? $extensionKey : 'T3.' . $extensionKey,
         'Dce',
         [
-            \T3\Dce\Compatibility::isTypo3Version() ? \T3\Dce\Controller\DceController::class : 'Dce' => 'renderDce'
+            \T3\Dce\Compatibility::isTypo3Version('10.0.0') ? \T3\Dce\Controller\DceController::class : 'Dce' => 'renderDce'
         ],
         [
-            \T3\Dce\Compatibility::isTypo3Version() ? \T3\Dce\Controller\DceController::class : 'Dce' => ''
+            \T3\Dce\Compatibility::isTypo3Version('10.0.0') ? \T3\Dce\Controller\DceController::class : 'Dce' => ''
         ]
     );
 
@@ -134,7 +121,7 @@ $boot = function ($extensionKey) {
     $generator->makePluginConfiguration();
 
     // Only for v8 and v9
-    if (!\T3\Dce\Compatibility::isTypo3Version() &&
+    if (!\T3\Dce\Compatibility::isTypo3Version('10.0.0') &&
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('linkvalidator')
     ) {
         /** @var \TYPO3\CMS\Extbase\SignalSlot\Dispatcher $signalSlotDispatcher */
@@ -178,15 +165,13 @@ $boot = function ($extensionKey) {
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['dce'] = ['T3\\Dce\\ViewHelpers'];
 
     // UserFunc TypoScript Condition (for expression language)
-    if (\T3\Dce\Compatibility::isTypo3Version('9.0.0')) {
-        $providerName = 'TYPO3\CMS\Core\ExpressionLanguage\TypoScriptConditionProvider';
-        $sectionName = 'additionalExpressionLanguageProvider';
-        if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS'][$providerName][$sectionName])) {
-            $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS'][$providerName][$sectionName] = [];
-        }
-        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS'][$providerName][$sectionName][] =
-            \T3\Dce\Components\UserConditions\TypoScriptConditionFunctionProvider::class;
+    $providerName = 'TYPO3\CMS\Core\ExpressionLanguage\TypoScriptConditionProvider';
+    $sectionName = 'additionalExpressionLanguageProvider';
+    if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS'][$providerName][$sectionName])) {
+        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS'][$providerName][$sectionName] = [];
     }
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS'][$providerName][$sectionName][] =
+        \T3\Dce\Components\UserConditions\TypoScriptConditionFunctionProvider::class;
 
     // Code Mirror Node for FormEngine
     if (TYPO3_REQUESTTYPE & TYPO3_REQUESTTYPE_BE) {
