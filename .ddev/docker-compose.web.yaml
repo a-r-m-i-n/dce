@@ -2,6 +2,9 @@ version: "3.6"
 services:
     web:
         environment:
+            - EXTENSION_KEY=dce
+            - PACKAGE_NAME=t3/dce
+
             - TYPO3_INSTALL_DB_DRIVER=mysqli
             - TYPO3_INSTALL_DB_USER=root
             - TYPO3_INSTALL_DB_PASSWORD=root
@@ -19,13 +22,13 @@ services:
               source: ../
               target: /var/www/dce
               consistency: cached
-            - v8-data:/var/www/html/v8
             - v9-data:/var/www/html/v9
             - v10-data:/var/www/html/v10
+            - v11-data:/var/www/html/v11
 volumes:
-    v8-data:
-        name: "${DDEV_SITENAME}-v8-data"
     v9-data:
         name: "${DDEV_SITENAME}-v9-data"
     v10-data:
         name: "${DDEV_SITENAME}-v10-data"
+    v11-data:
+        name: "${DDEV_SITENAME}-v11-data"
