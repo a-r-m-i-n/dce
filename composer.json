@@ -29,6 +29,13 @@
         "ext-json": "*",
         "typo3/cms-core": "^9.5 || ^10.4 || ^11.1"
     },
+    "require-dev": {
+        "t3/cms": "^10.4",
+        "friendsofphp/php-cs-fixer": "^2.18",
+        "phpstan/phpstan": "^0.12.80",
+        "jangregor/phpstan-prophecy": "^0.8",
+        "saschaegerer/phpstan-typo3": "^0.13"
+    },
     "suggest": {
         "b13/container": "Brings clean container functionality to TYPO3 CMS, supported by DCE."
     },
@@ -44,12 +51,20 @@
         "typo3-ter/dce": "*",
         "arminvieweg/dce": "*"
     },
-    "scripts": {
-        "phpcs": "phpcs --standard=psr2 --extensions=php ."
-    },
     "extra": {
         "typo3/cms": {
-            "extension-key": "dce"
+            "extension-key": "dce",
+            "cms-package-dir": "{$vendor-dir}/typo3/cms",
+            "web-dir": ".Build/public",
+            "app-dir": ".Build"
         }
+    },
+    "config": {
+        "vendor-dir": ".Build/vendor"
+    },
+    "scripts": {
+        "phpstan": "phpstan analyse -c Resources/Private/Build/phpstan.neon",
+        "phpcs": "php-cs-fixer fix --config Resources/Private/Build/php-cs-rules.php --ansi --verbose --diff --dry-run",
+        "phpcs:fix": "php-cs-fixer fix --config Resources/Private/Build/php-cs-rules.php --ansi"
     }
 }

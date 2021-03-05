@@ -1,0 +1,12 @@
+includes:
+  - ../../../.Build/vendor/jangregor/phpstan-prophecy/extension.neon
+  - ../../../.Build/vendor/saschaegerer/phpstan-typo3/extension.neon
+
+parameters:
+    level: 6
+    paths:
+        - ../../../Classes
+    checkMissingIterableValueType: false
+
+    ignoreErrors:
+        - '/Property.+does not accept TYPO3\\CMS\\Extbase\\Persistence\\ObjectStorage/'
