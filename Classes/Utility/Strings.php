@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types = 1);
+
 namespace T3\Dce\Utility;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -8,24 +11,26 @@ namespace T3\Dce\Utility;
  */
 
 /**
- * Helper class for strings
+ * Helper class for strings.
  */
 class Strings
 {
     /**
      * Truncates a string and pre-/appends a string.
-     * Unit tested by Kasper
+     * Unit tested by Kasper.
      *
      * @param string $charset The character set
-     * @param string $string Character string
-     * @param int $len Length (in characters)
-     * @param string $crop Crop signifier
+     * @param string $string  Character string
+     * @param int    $len     Length (in characters)
+     * @param string $crop    Crop signifier
+     *
      * @return string The shortened string
+     *
      * @see substr(), mb_strimwidth()
      */
-    public static function crop(string $charset, string $string, int $len, string $crop = '') : string
+    public static function crop(string $charset, string $string, int $len, string $crop = ''): string
     {
-        if ($len === 0 || mb_strlen($string, $charset) <= abs($len)) {
+        if (0 === $len || mb_strlen($string, $charset) <= abs($len)) {
             return $string;
         }
         if ($len > 0) {
@@ -33,6 +38,7 @@ class Strings
         } else {
             $string = $crop . mb_substr($string, $len, mb_strlen($string, $charset), $charset);
         }
+
         return $string;
     }
 }

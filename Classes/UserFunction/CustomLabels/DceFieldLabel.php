@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\UserFunction\CustomLabels;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -12,7 +13,7 @@ use T3\Dce\Utility\DatabaseUtility;
 use T3\Dce\Utility\LanguageService;
 
 /**
- * Extends TCA label of fields with variable key
+ * Extends TCA label of fields with variable key.
  */
 class DceFieldLabel
 {
@@ -23,14 +24,12 @@ class DceFieldLabel
      * It also respects section fields and child fields inside of sections
      * and marks them with a blue "n", which indicates that the section
      * variable contains an array with n records.
-     *
-     * @param array $parameter
-     * @return void
      */
-    public function getLabel(array &$parameter) : void
+    public function getLabel(array &$parameter): void
     {
         if (!isset($parameter['row']['variable']) || empty($parameter['row']['variable'])) {
             $parameter['title'] = LanguageService::sL($parameter['row']['title']);
+
             return;
         }
         if (!$this->isSectionChildField($parameter)) {
@@ -60,60 +59,50 @@ class DceFieldLabel
     }
 
     /**
-     * Translates title of DCEs itself
-     *
-     * @param array $parameter
-     * @return void
+     * Translates title of DCEs itself.
      */
-    public function getLabelDce(array &$parameter) : void
+    public function getLabelDce(array &$parameter): void
     {
         $parameter['title'] = LanguageService::sL($parameter['row']['title']);
     }
 
     /**
      * Checks if given parameters, belonging to a DCE field, is a
-     * child field of section
+     * child field of section.
      *
-     * @param array $parameter
      * @return bool TRUE if given field parameters are child field of section
      */
-    protected function isSectionChildField(array $parameter) : bool
+    protected function isSectionChildField(array $parameter): bool
     {
-        return  !empty($parameter['row']['parent_field']);
+        return !empty($parameter['row']['parent_field']);
     }
 
     /**
      * Checks if given parameters, belonging to a DCE field, is a
      * section field.
-     *
-     * @param array $parameter
-     * @return bool
      */
-    protected function isSectionField(array $parameter) : bool
+    protected function isSectionField(array $parameter): bool
     {
-        return (int) $parameter['row']['type'][0] === DceField::TYPE_SECTION;
+        return DceField::TYPE_SECTION === (int)$parameter['row']['type'][0];
     }
 
     /**
-     * Checks if given parameters, belonging to a DCE field, is a tab
-     *
-     * @param array $parameter
-     * @return bool
+     * Checks if given parameters, belonging to a DCE field, is a tab.
      */
-    protected function isTab(array $parameter) : bool
+    protected function isTab(array $parameter): bool
     {
-        return (int) $parameter['row']['type'][0] === DceField::TYPE_TAB;
+        return DceField::TYPE_TAB === (int)$parameter['row']['type'][0];
     }
 
     /**
-     * Get row of dce field of given uid (even for deleted fields)
+     * Get row of dce field of given uid (even for deleted fields).
      *
-     * @param int $uid
      * @return array|null dce field row
      */
-    protected function getDceFieldRecordByUid(int $uid) : ?array
+    protected function getDceFieldRecordByUid(int $uid): ?array
     {
         $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dcefield');
+
         return $queryBuilder
             ->select('*')
             ->from('tx_dce_domain_model_dcefield')

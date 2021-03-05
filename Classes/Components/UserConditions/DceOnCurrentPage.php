@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\Components\UserConditions;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -21,22 +22,21 @@ use TYPO3\CMS\Core\Configuration\TypoScript\ConditionMatching\AbstractCondition;
  * You can pass the uid (e.g. 42) or the identifier (e.g. teaser).
  *
  * @param int|string $dceUidOrIdentifier Uid of DCE type to check for
+ *
  * @return bool Returns true if the current page contains a DCE (instance)
  */
 class DceOnCurrentPage extends AbstractCondition
 {
     /**
-     * @param array $parameters
      * @param array $arguments See TypoScriptConditionFunctionProvider::getDceOnCurrentPageFunction()
-     * @return bool
      */
-    public function matchCondition(array $parameters, array $arguments = null) : bool
+    public function matchCondition(array $parameters, array $arguments = null): bool
     {
         if (TYPO3_MODE !== 'FE') {
             return false;
         }
 
-        $dceIdentifier = ltrim($parameters[0], " =");
+        $dceIdentifier = ltrim($parameters[0], ' =');
         if (is_numeric($dceIdentifier)) {
             $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dce');
             $dce = $queryBuilder
@@ -56,7 +56,7 @@ class DceOnCurrentPage extends AbstractCondition
             }
             $dceIdentifier = !empty($dce['identifier']) ? 'dce_' . $dce['identifier'] : 'dce_dceuid' . $dceIdentifier;
         } else {
-            if (strpos($dceIdentifier, 'dce_') !== 0) {
+            if (0 !== strpos($dceIdentifier, 'dce_')) {
                 $dceIdentifier = 'dce_' . $dceIdentifier;
             }
         }
@@ -67,6 +67,7 @@ class DceOnCurrentPage extends AbstractCondition
         }
 
         $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tt_content');
+
         return \count(
             $queryBuilder
                 ->select('uid')

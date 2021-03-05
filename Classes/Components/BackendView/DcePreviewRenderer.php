@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types = 1);
+
 namespace T3\Dce\Components\BackendView;
 
 use T3\Dce\Domain\Model\Dce;
@@ -15,7 +18,7 @@ class DcePreviewRenderer extends StandardContentPreviewRenderer
         $row = $item->getRecord();
 
         $dceUid = DatabaseUtility::getDceUidByContentElementRow($row);
-        if ($dceUid === 0) {
+        if (0 === $dceUid) {
             return parent::renderPageModulePreviewHeader($item);
         }
 
@@ -23,7 +26,8 @@ class DcePreviewRenderer extends StandardContentPreviewRenderer
             /** @var Dce $dce */
             $dce = DatabaseUtility::getDceObjectForContentElement($row['uid']);
         } catch (\Exception $exception) {
-            $headerContent = '<strong class="text-danger">' . $exception->getMessage() .'</strong>';
+            $headerContent = '<strong class="text-danger">' . $exception->getMessage() . '</strong>';
+
             return $headerContent;
         }
 
@@ -40,6 +44,7 @@ class DcePreviewRenderer extends StandardContentPreviewRenderer
         } else {
             $headerContent = $this->linkEditContent($dce->renderBackendTemplate('header'), $row);
         }
+
         return $headerContent;
     }
 
@@ -48,7 +53,7 @@ class DcePreviewRenderer extends StandardContentPreviewRenderer
         $row = $item->getRecord();
 
         $dceUid = DatabaseUtility::getDceUidByContentElementRow($row);
-        if ($dceUid === 0) {
+        if (0 === $dceUid) {
             return '';
         }
 
@@ -74,13 +79,14 @@ class DcePreviewRenderer extends StandardContentPreviewRenderer
         } else {
             $headerContent = $this->linkEditContent($dce->renderBackendTemplate('bodytext'), $row);
         }
+
         return $headerContent;
     }
 
     /**
-     * Add custom dce styles for Simple Backend View to page module
+     * Add custom dce styles for Simple Backend View to page module.
      */
-    protected function addPageViewStylesheets() : void
+    protected function addPageViewStylesheets(): void
     {
         /** @var AssetCollector $assetCollector */
         $assetCollector = GeneralUtility::makeInstance(AssetCollector::class);

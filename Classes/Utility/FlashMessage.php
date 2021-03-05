@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\Utility;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -11,7 +12,7 @@ use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * Utility for Flash Messages
+ * Utility for Flash Messages.
  */
 class FlashMessage
 {
@@ -21,18 +22,16 @@ class FlashMessage
     protected static $flashMessageQueue;
 
     /**
-     * @param string $message
      * @param string $title optional
-     * @param int $severity
-     * @return void
+     *
      * @throws \TYPO3\CMS\Core\Exception
      */
     public static function add(
         string $message,
         string $title = '',
         int $severity = \TYPO3\CMS\Core\Messaging\FlashMessage::WARNING
-    ) : void {
-        if (static::$flashMessageQueue === null) {
+    ): void {
+        if (null === static::$flashMessageQueue) {
             /** @var $flashMessageService FlashMessageService */
             $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
             static::$flashMessageQueue = $flashMessageService->getMessageQueueByIdentifier();

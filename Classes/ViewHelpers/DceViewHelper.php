@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\ViewHelpers;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -13,7 +14,7 @@ use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
- * Allows you to render a DCE content element, in any Fluid template
+ * Allows you to render a DCE content element, in any Fluid template.
  *
  * Example
  * =======
@@ -68,6 +69,7 @@ class DceViewHelper extends AbstractViewHelper
         $templateVariableContainer->add('fields', $fields = $dce->getGet());
         $templateVariableContainer->add('field', $fields);
         $templateVariableContainer->add('contentObject', $dce->getContentObject());
+
         return $renderChildrenClosure();
     }
 }

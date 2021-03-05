@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\ViewHelpers\Format;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -15,18 +16,15 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 class TinyViewHelper extends AbstractViewHelper
 {
     /**
-     * @var bool We accept value and children interchangeably, thus we must disable children escaping.
+     * @var bool we accept value and children interchangeably, thus we must disable children escaping
      */
     protected $escapeChildren = false;
 
     /**
-     * @var bool If we decode, we must not encode again after that.
+     * @var bool if we decode, we must not encode again after that
      */
     protected $escapeOutput = false;
 
-    /**
-     * @return void
-     */
     public function initializeArguments()
     {
         parent::initializeArguments();
@@ -34,9 +32,6 @@ class TinyViewHelper extends AbstractViewHelper
     }
 
     /**
-     * @param array $arguments
-     * @param \Closure $renderChildrenClosure
-     * @param RenderingContextInterface $renderingContext
      * @return string
      */
     public static function renderStatic(
@@ -45,9 +40,10 @@ class TinyViewHelper extends AbstractViewHelper
         RenderingContextInterface $renderingContext
     ) {
         $subject = $arguments['subject'];
-        if ($subject === null) {
-            $subject = (string) $renderChildrenClosure();
+        if (null === $subject) {
+            $subject = (string)$renderChildrenClosure();
         }
+
         return str_replace(["\r", "\n", "\t"], '', $subject);
     }
 }

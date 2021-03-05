@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\ViewHelpers\Be;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -10,14 +11,11 @@ use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
- * Gets the current language key as string
+ * Gets the current language key as string.
  */
 class CurrentLanguageViewHelper extends AbstractViewHelper
 {
     /**
-     * @param array $arguments
-     * @param \Closure $renderChildrenClosure
-     * @param RenderingContextInterface $renderingContext
      * @return string
      */
     public static function renderStatic(
@@ -32,6 +30,7 @@ class CurrentLanguageViewHelper extends AbstractViewHelper
         } elseif (\strlen($GLOBALS['BE_USER']->uc['lang']) > 0) {
             return $GLOBALS['BE_USER']->uc['lang'];
         }
+
         return 'default';
     }
 }

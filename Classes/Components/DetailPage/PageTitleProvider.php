@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types = 1);
+
 namespace T3\Dce\Components\DetailPage;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -19,7 +22,6 @@ class PageTitleProvider extends AbstractPageTitleProvider
      * @var array|null
      */
     private static $typoScriptSettings;
-
 
     public function generate(Dce $dce): void
     {
@@ -69,6 +71,7 @@ class PageTitleProvider extends AbstractPageTitleProvider
             );
         } catch (\Exception $e) {
         }
+
         return '';
     }
 
@@ -79,6 +82,7 @@ class PageTitleProvider extends AbstractPageTitleProvider
             $ts = $configManager->getConfiguration(ConfigurationManager::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
             self::$typoScriptSettings = $ts['config.']['pageTitleProviders.']['dce.'] ?? [];
         }
+
         return self::$typoScriptSettings;
     }
 
@@ -86,6 +90,7 @@ class PageTitleProvider extends AbstractPageTitleProvider
     {
         /** @var ContentObjectRenderer $cObj */
         $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
+
         return $cObj->stdWrap($dceTitle, ['noTrimWrap' => $noTrimWrapSetting]);
     }
 }

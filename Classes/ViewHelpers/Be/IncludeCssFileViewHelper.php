@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\ViewHelpers\Be;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -11,12 +12,12 @@ use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
- * This view helper adds inline css
+ * This view helper adds inline css.
  */
 class IncludeCssFileViewHelper extends AbstractViewHelper
 {
     /**
-     * Plain HTML should be returned, no output escaping allowed
+     * Plain HTML should be returned, no output escaping allowed.
      *
      * @var bool
      */
@@ -34,9 +35,6 @@ class IncludeCssFileViewHelper extends AbstractViewHelper
     }
 
     /**
-     * @param array $arguments
-     * @param \Closure $renderChildrenClosure
-     * @param RenderingContextInterface $renderingContext
      * @return string
      */
     public static function renderStatic(
@@ -47,8 +45,10 @@ class IncludeCssFileViewHelper extends AbstractViewHelper
         $absPath = File::get($arguments['path']);
         if ($absPath) {
             $contents = file_get_contents($absPath);
+
             return '<style>' . $contents . '</style>';
         }
+
         return '<script type="text/javascript">console.error("File ' . $arguments['path'] . ' not found.")</script>';
     }
 }

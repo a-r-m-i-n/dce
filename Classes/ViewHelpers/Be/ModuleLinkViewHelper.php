@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\ViewHelpers\Be;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -13,11 +14,10 @@ use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
- * This view helper returns a link to module in TYPO3 backend
+ * This view helper returns a link to module in TYPO3 backend.
  */
 class ModuleLinkViewHelper extends AbstractViewHelper
 {
-
     /**
      * Initialize arguments.
      *
@@ -33,10 +33,8 @@ class ModuleLinkViewHelper extends AbstractViewHelper
     /**
      * Resolve user name from backend user id.
      *
-     * @param array $arguments
-     * @param \Closure $renderChildrenClosure
-     * @param RenderingContextInterface $renderingContext
      * @return string Created module link
+     *
      * @throws RouteNotFoundException
      */
     public static function renderStatic(
@@ -45,6 +43,7 @@ class ModuleLinkViewHelper extends AbstractViewHelper
         RenderingContextInterface $renderingContext
     ) {
         $parameters = GeneralUtility::explodeUrl2Array($arguments['parameter']);
+
         return BackendModuleLinkUtility::getModuleUrl($arguments['module'], $parameters);
     }
 }

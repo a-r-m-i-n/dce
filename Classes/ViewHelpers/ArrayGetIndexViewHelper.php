@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\ViewHelpers;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -14,9 +15,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class ArrayGetIndexViewHelper extends AbstractViewHelper
 {
-    /**
-     * @return void
-     */
     public function initializeArguments()
     {
         parent::initializeArguments();
@@ -25,9 +23,6 @@ class ArrayGetIndexViewHelper extends AbstractViewHelper
     }
 
     /**
-     * @param array $arguments
-     * @param \Closure $renderChildrenClosure
-     * @param RenderingContextInterface $renderingContext
      * @return string
      */
     public static function renderStatic(
@@ -36,9 +31,10 @@ class ArrayGetIndexViewHelper extends AbstractViewHelper
         RenderingContextInterface $renderingContext
     ) {
         $subject = $arguments['subject'];
-        if ($subject === null) {
+        if (null === $subject) {
             $subject = $renderChildrenClosure();
         }
+
         return array_values($subject)[$arguments['index']];
     }
 }

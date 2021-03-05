@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\Controller;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -14,8 +15,8 @@ use T3\Dce\Components\DceContainer\ContainerFactory;
 use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Domain\Repository\DceRepository;
 use T3\Dce\Utility\TypoScript;
-use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 
@@ -26,14 +27,14 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
 class DceController extends ActionController
 {
     /**
-     * DCE Repository
+     * DCE Repository.
      *
      * @var DceRepository
      */
     protected $dceRepository;
 
     /**
-     * TypoScript Utility
+     * TypoScript Utility.
      *
      * @var TypoScript
      */
@@ -52,20 +53,18 @@ class DceController extends ActionController
     }
 
     /**
-     * Initialize Action
-     *
-     * @return void
+     * Initialize Action.
      */
-    public function initializeAction() : void
+    public function initializeAction(): void
     {
-        if ($this->settings === null) {
+        if (null === $this->settings) {
             $this->settings = [];
         }
         $this->settings = $this->typoScriptUtility->renderConfigurationArray($this->settings);
     }
 
     /**
-     * Show Action which get called if a DCE get rendered in frontend
+     * Show Action which get called if a DCE get rendered in frontend.
      *
      * @return string|ResponseInterface output of dce in frontend
      */
@@ -86,6 +85,7 @@ class DceController extends ActionController
         if ($dce->getEnableContainer()) {
             if (ContainerFactory::checkContentElementForBeingRendered($dce->getContentObject())) {
                 ContainerFactory::clearContentElementsToSkip($dce->getContentObject());
+
                 return ' ';
             }
             $container = ContainerFactory::makeContainer($dce);
@@ -95,6 +95,7 @@ class DceController extends ActionController
             }
             $response = $this->responseFactory->createResponse();
             $response->getBody()->write($container->render());
+
             return $response;
         }
 
@@ -103,17 +104,18 @@ class DceController extends ActionController
         }
         $response = $this->responseFactory->createResponse();
         $response->getBody()->write($dce->render());
+
         return $response;
     }
 
     /**
-     * Render preview action
+     * Render preview action.
      *
      * @return string|ResponseInterface
      */
     public function renderPreviewAction()
     {
-        $uid = (int) $this->settings['dceUid'];
+        $uid = (int)$this->settings['dceUid'];
         $contentObject = $this->dceRepository->getContentObject($this->settings['contentElementUid']);
         $previewType = $this->settings['previewType'];
 
@@ -127,12 +129,13 @@ class DceController extends ActionController
             true
         );
 
-        if ($previewType === 'header') {
+        if ('header' === $previewType) {
             if (!Compatibility::isTypo3Version()) {
                 return $dce->renderHeaderPreview();
             }
             $response = $this->responseFactory->createResponse();
             $response->getBody()->write($dce->renderHeaderPreview());
+
             return $response;
         }
         if (!Compatibility::isTypo3Version()) {
@@ -140,6 +143,7 @@ class DceController extends ActionController
         }
         $response = $this->responseFactory->createResponse();
         $response->getBody()->write($dce->renderBodytextPreview());
+
         return $response;
     }
 }

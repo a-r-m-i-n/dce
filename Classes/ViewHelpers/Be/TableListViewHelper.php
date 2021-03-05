@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\ViewHelpers\Be;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -8,12 +9,13 @@ namespace T3\Dce\ViewHelpers\Be;
  */
 
 /**
- * Table list view helper
+ * Table list view helper.
  */
 class TableListViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\TableListViewHelper
 {
     /**
      * @return string the rendered record list
+     *
      * @see localRecordList
      */
     public function render()

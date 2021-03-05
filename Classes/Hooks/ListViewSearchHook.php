@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\Hooks;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -17,12 +18,13 @@ class ListViewSearchHook
         $table,
         $currentPid
     ): array {
-        if ($table === 'tt_content') {
+        if ('tt_content' === $table) {
             $dceConstraint = $queryBuilder->expr()->andX(
                 'CType LIKE "dce_%" AND tx_dce_index LIKE "%' . $searchString . '%"'
             );
             $constraints[] = $dceConstraint;
         }
+
         return $constraints;
     }
 }

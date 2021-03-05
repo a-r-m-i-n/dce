@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\Controller;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -14,7 +15,6 @@ use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Domain\Repository\DceRepository;
 use T3\Dce\Utility\File;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
-use TYPO3\CMS\Core\Http\Response;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
@@ -32,18 +32,16 @@ class DceModuleController extends ActionController
     protected $dceRepository;
 
     /**
-     * Initialize Action
-     *
-     * @return void
+     * Initialize Action.
      */
-    public function initializeAction() : void
+    public function initializeAction(): void
     {
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         $this->dceRepository = $objectManager->get(DceRepository::class);
     }
 
     /**
-     * Index Action
+     * Index Action.
      *
      * @return void|ResponseInterface
      */
@@ -54,14 +52,16 @@ class DceModuleController extends ActionController
         if (Compatibility::isTypo3Version()) {
             $response = $this->responseFactory->createResponse();
             $response->getBody()->write($this->view->render());
+
             return $response;
         }
     }
 
     /**
-     * @param Dce $dce
      * @param bool $perform
+     *
      * @return void|ResponseInterface
+     *
      * @throws \TYPO3\CMS\Core\Exception
      */
     public function updateTcaMappingsAction(Dce $dce, $perform = false)
@@ -81,18 +81,18 @@ class DceModuleController extends ActionController
         if (Compatibility::isTypo3Version()) {
             $response = $this->responseFactory->createResponse();
             $response->getBody()->write($this->view->render());
+
             return $response;
         }
     }
 
     /**
-     * Clears Caches Action
+     * Clears Caches Action.
      *
-     * @return void
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
      */
-    public function clearCachesAction() : void
+    public function clearCachesAction(): void
     {
         /** @var DataHandler $dataHandler */
         $dataHandler = $this->objectManager->get(DataHandler::class);
@@ -107,7 +107,7 @@ class DceModuleController extends ActionController
     }
 
     /**
-     * Hall of fame Action
+     * Hall of fame Action.
      *
      * @return void|ResponseInterface
      */
@@ -120,6 +120,7 @@ class DceModuleController extends ActionController
         if (Compatibility::isTypo3Version()) {
             $response = $this->responseFactory->createResponse();
             $response->getBody()->write($this->view->render());
+
             return $response;
         }
     }

@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\Hooks;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -11,17 +12,16 @@ use T3\Dce\Domain\Repository\DceRepository;
 use T3\Dce\Utility\DatabaseUtility;
 
 /**
- * ke_search Hook
+ * ke_search Hook.
  */
 class KeSearchHook
 {
     /**
-     * Renders DCE frontend output and returns it as bodytext value
+     * Renders DCE frontend output and returns it as bodytext value.
      *
-     * @param string $bodytext Referenced content, which may get modified by this hook
-     * @param array $row tt_content row
+     * @param string                     $bodytext     Referenced content, which may get modified by this hook
+     * @param array                      $row          tt_content row
      * @param \tx_kesearch_indexer_types $indexerTypes
-     * @return void
      */
     public function modifyContentFromContentElement(&$bodytext, array $row, $indexerTypes)
     {
@@ -70,19 +70,18 @@ class KeSearchHook
     }
 
     /**
-     * Performing the same bodytext replacements like ke_search itself
+     * Performing the same bodytext replacements like ke_search itself.
      *
-     * @param string $bodytext
-     * @return string
      * @see \TeaminmediasPluswerk\KeSearch\Indexer\Types\Page::getContentFromContentElement()
      */
-    protected function sanitizeBodytext(string $bodytext) : string
+    protected function sanitizeBodytext(string $bodytext): string
     {
         // following lines prevents having words one after the other like: HelloAllTogether
         $bodytext = str_replace('<td', ' <td', $bodytext);
         $bodytext = str_replace('<br', ' <br', $bodytext);
         $bodytext = str_replace('<p', ' <p', $bodytext);
         $bodytext = str_replace('<li', ' <li', $bodytext);
+
         return strip_tags($bodytext);
     }
 }

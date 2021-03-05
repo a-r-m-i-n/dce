@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\Domain\Model;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -37,7 +38,7 @@ class Dce extends AbstractEntity
     protected $fields;
 
     /**
-     * When this DCE is located inside of a DceContainer this attribute contains its current position
+     * When this DCE is located inside of a DceContainer this attribute contains its current position.
      *
      * @var array|null
      */
@@ -212,176 +213,122 @@ class Dce extends AbstractEntity
      */
     protected $contentObject = [];
 
-
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
         $this->fields = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
     }
 
-    /**
-     * @return bool
-     */
     public function getHidden(): bool
     {
         return $this->hidden;
     }
 
-    /**
-     * @param bool $hidden
-     * @return self
-     */
     public function setHidden(bool $hidden): self
     {
         $this->hidden = $hidden;
+
         return $this;
     }
 
-    /**
-     * @return array|null
-     */
     public function getContainerIterator(): ?array
     {
         return $this->containerIterator;
     }
 
-    /**
-     * @param array|null $containerIterator
-     * @return self
-     */
     public function setContainerIterator(array $containerIterator = null): self
     {
         $this->containerIterator = $containerIterator;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * @param string $title
-     * @return self
-     */
     public function setTitle(string $title): self
     {
         $this->title = $title;
+
         return $this;
     }
 
     /**
-     * Returns configured identifier with "dce_" prefix or fallback, using the uid of the DCE
-     *
-     * @return string
+     * Returns configured identifier with "dce_" prefix or fallback, using the uid of the DCE.
      */
     public function getIdentifier(): string
     {
         return empty($this->identifier) ? 'dce_dceuid' . $this->getUid() : 'dce_' . $this->identifier;
     }
 
-    /**
-     * @param string $identifier
-     * @return self
-     */
     public function setIdentifier(string $identifier): self
     {
         $this->identifier = strtolower($identifier);
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getTemplateContent(): string
     {
         return $this->templateContent;
     }
 
-    /**
-     * @param string $templateContent
-     * @return self
-     */
     public function setTemplateContent(string $templateContent): self
     {
         $this->templateContent = $templateContent;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getTemplateFile(): string
     {
         return $this->templateFile;
     }
 
-    /**
-     * @param string $templateFile
-     * @return self
-     */
     public function setTemplateFile(string $templateFile): self
     {
         $this->templateFile = $templateFile;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getTemplateType(): string
     {
         return $this->templateType;
     }
 
-    /**
-     * @param string $templateType
-     * @return self
-     */
     public function setTemplateType(string $templateType): self
     {
         $this->templateType = $templateType;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getTemplateLayoutRootPath(): string
     {
         return $this->templateLayoutRootPath;
     }
 
-    /**
-     * @param string $templateLayoutRootPath
-     * @return self
-     */
     public function setTemplateLayoutRootPath(string $templateLayoutRootPath): self
     {
         $this->templateLayoutRootPath = $templateLayoutRootPath;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getTemplatePartialRootPath(): string
     {
         return $this->templatePartialRootPath;
     }
 
-    /**
-     * @param string $templatePartialRootPath
-     * @return self
-     */
     public function setTemplatePartialRootPath(string $templatePartialRootPath): self
     {
         $this->templatePartialRootPath = $templatePartialRootPath;
+
         return $this;
     }
 
@@ -395,191 +342,137 @@ class Dce extends AbstractEntity
 
     /**
      * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<DceField> $fields
-     * @return self
      */
     public function setFields(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $fields): self
     {
         $this->fields = $fields;
+
         return $this;
     }
 
     /**
      * @param \T3\Dce\Domain\Model\DceField $field The field to be added
-     * @return self
      */
-    public function addField(\T3\Dce\Domain\Model\DceField $field): self
+    public function addField(DceField $field): self
     {
         $this->fields->attach($field);
+
         return $this;
     }
 
     /**
      * @param \T3\Dce\Domain\Model\DceField $fieldToRemove The field to be removed
-     * @return self
      */
-    public function removeField(\T3\Dce\Domain\Model\DceField $fieldToRemove): self
+    public function removeField(DceField $fieldToRemove): self
     {
         $this->fields->detach($fieldToRemove);
+
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function getUseSimpleBackendView(): bool
     {
         return $this->useSimpleBackendView;
     }
 
-    /**
-     * @return bool
-     */
     public function isUseSimpleBackendView(): bool
     {
         return $this->useSimpleBackendView;
     }
 
-    /**
-     * @param bool $useSimpleBackendView
-     * @return self
-     */
     public function setUseSimpleBackendView(bool $useSimpleBackendView): self
     {
         $this->useSimpleBackendView = $useSimpleBackendView;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getBackendViewHeader(): string
     {
         return $this->backendViewHeader;
     }
 
-    /**
-     * @param string $backendViewHeader
-     * @return self
-     */
     public function setBackendViewHeader(string $backendViewHeader): self
     {
         $this->backendViewHeader = $backendViewHeader;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getBackendViewBodytext(): string
     {
         return $this->backendViewBodytext;
     }
 
-    /**
-     * @return array
-     */
     public function getBackendViewBodytextArray(): array
     {
         return GeneralUtility::trimExplode(',', $this->getBackendViewBodytext(), true) ?? [];
     }
 
-    /**
-     * @param string $backendViewBodytext
-     * @return self
-     */
     public function setBackendViewBodytext(string $backendViewBodytext): self
     {
         $this->backendViewBodytext = $backendViewBodytext;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getBackendTemplateType(): string
     {
         return $this->backendTemplateType;
     }
 
-    /**
-     * @param string $backendTemplateType
-     * @return self
-     */
     public function setBackendTemplateType(string $backendTemplateType): self
     {
         $this->backendTemplateType = $backendTemplateType;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getBackendTemplateContent(): string
     {
         return $this->backendTemplateContent;
     }
 
-    /**
-     * @param string $backendTemplateContent
-     * @return self
-     */
     public function setBackendTemplateContent(string $backendTemplateContent): self
     {
         $this->backendTemplateContent = $backendTemplateContent;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getBackendTemplateFile(): string
     {
         return $this->backendTemplateFile;
     }
 
-    /**
-     * @param string $backendTemplateFile
-     * @return self
-     */
     public function setBackendTemplateFile(string $backendTemplateFile): self
     {
         $this->backendTemplateFile = $backendTemplateFile;
+
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function getEnableDetailpage(): bool
     {
         return $this->enableDetailpage;
     }
 
-    /**
-     * @param bool $enableDetailpage
-     * @return self
-     */
     public function setEnableDetailpage(bool $enableDetailpage): self
     {
         $this->enableDetailpage = $enableDetailpage;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getDetailpageIdentifier(): string
     {
         return $this->detailpageIdentifier;
     }
 
-    /**
-     * @param string $detailpageIdentifier
-     * @return self
-     */
     public function setDetailpageIdentifier(string $detailpageIdentifier): self
     {
         $this->detailpageIdentifier = $detailpageIdentifier;
+
         return $this;
     }
 
@@ -591,6 +484,7 @@ class Dce extends AbstractEntity
     public function setDetailpageSlugExpression(string $detailpageSlugExpression): self
     {
         $this->detailpageSlugExpression = $detailpageSlugExpression;
+
         return $this;
     }
 
@@ -602,6 +496,7 @@ class Dce extends AbstractEntity
     public function setDetailpageTitleExpression(string $detailpageTitleExpression): self
     {
         $this->detailpageTitleExpression = $detailpageTitleExpression;
+
         return $this;
     }
 
@@ -613,262 +508,180 @@ class Dce extends AbstractEntity
     public function setDetailpageUseSlugAsTitle(string $detailpageUseSlugAsTitle): self
     {
         $this->detailpageUseSlugAsTitle = $detailpageUseSlugAsTitle;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getDetailpageTemplateType(): string
     {
         return $this->detailpageTemplateType;
     }
 
-    /**
-     * @param string $detailpageTemplateType
-     * @return self
-     */
     public function setDetailpageTemplateType(string $detailpageTemplateType): self
     {
         $this->detailpageTemplateType = $detailpageTemplateType;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getDetailpageTemplate(): string
     {
         return $this->detailpageTemplate;
     }
 
-    /**
-     * @param string $detailpageTemplate
-     * @return self
-     */
     public function setDetailpageTemplate(string $detailpageTemplate): self
     {
         $this->detailpageTemplate = $detailpageTemplate;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getDetailpageTemplateFile(): string
     {
         return $this->detailpageTemplateFile;
     }
 
-    /**
-     * @param string $detailpageTemplateFile
-     * @return self
-     */
     public function setDetailpageTemplateFile(string $detailpageTemplateFile): self
     {
         $this->detailpageTemplateFile = $detailpageTemplateFile;
+
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function getEnableContainer(): bool
     {
         return $this->enableContainer;
     }
 
-    /**
-     * @param bool $enableContainer
-     * @return self
-     */
     public function setEnableContainer(bool $enableContainer): self
     {
         $this->enableContainer = $enableContainer;
+
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getContainerItemLimit(): int
     {
         return $this->containerItemLimit;
     }
 
-    /**
-     * @param int $containerItemLimit
-     * @return self
-     */
     public function setContainerItemLimit(int $containerItemLimit): self
     {
         $this->containerItemLimit = $containerItemLimit;
+
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isContainerDetailAutohide(): bool
     {
         return $this->containerDetailAutohide;
     }
 
-    /**
-     * @param bool $containerDetailAutohide
-     * @return self
-     */
     public function setContainerDetailAutohide(bool $containerDetailAutohide): self
     {
         $this->containerDetailAutohide = $containerDetailAutohide;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getContainerTemplateType(): string
     {
         return $this->containerTemplateType;
     }
 
-    /**
-     * @param string $containerTemplateType
-     * @return self
-     */
     public function setContainerTemplateType(string $containerTemplateType): self
     {
         $this->containerTemplateType = $containerTemplateType;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getContainerTemplate(): string
     {
         return $this->containerTemplate;
     }
 
-    /**
-     * @param string $containerTemplate
-     * @return self
-     */
     public function setContainerTemplate(string $containerTemplate): self
     {
         $this->containerTemplate = $containerTemplate;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getContainerTemplateFile(): string
     {
         return $this->containerTemplateFile;
     }
 
-    /**
-     * @param string $containerTemplateFile
-     * @return self
-     */
     public function setContainerTemplateFile(string $containerTemplateFile): self
     {
         $this->containerTemplateFile = $containerTemplateFile;
+
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isWizardEnable(): bool
     {
         return $this->wizardEnable;
     }
 
-    /**
-     * @param bool $wizardEnable
-     * @return self
-     */
     public function setWizardEnable(bool $wizardEnable): self
     {
         $this->wizardEnable = $wizardEnable;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getWizardCategory(): string
     {
         return $this->wizardCategory;
     }
 
-    /**
-     * @param string $wizardCategory
-     * @return self
-     */
     public function setWizardCategory(string $wizardCategory): self
     {
         $this->wizardCategory = $wizardCategory;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getWizardDescription(): string
     {
         return $this->wizardDescription;
     }
 
-    /**
-     * @param string $wizardDescription
-     * @return self
-     */
     public function setWizardDescription(string $wizardDescription): self
     {
         $this->wizardDescription = $wizardDescription;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getWizardIcon(): string
     {
         $wizardIcon = $this->wizardIcon;
         if (empty($wizardIcon)) {
             return 'regular_text';
         }
+
         return $wizardIcon;
     }
 
-    /**
-     * @param string $wizardIcon
-     * @return self
-     */
     public function setWizardIcon(string $wizardIcon): self
     {
         $this->wizardIcon = $wizardIcon;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getWizardCustomIcon(): string
     {
         return $this->wizardCustomIcon;
     }
 
-    /**
-     * @param string $wizardCustomIcon
-     * @return self
-     */
     public function setWizardCustomIcon(string $wizardCustomIcon): self
     {
         $this->wizardCustomIcon = $wizardCustomIcon;
+
         return $this;
     }
 
@@ -877,9 +690,10 @@ class Dce extends AbstractEntity
      */
     public function getSelectedWizardIcon(): string
     {
-        if ($this->getWizardIcon() === 'custom') {
+        if ('custom' === $this->getWizardIcon()) {
             return $this->getWizardCustomIcon();
         }
+
         return $this->getWizardIcon();
     }
 
@@ -896,7 +710,6 @@ class Dce extends AbstractEntity
      * If not found, returns null.
      *
      * @param string $variable
-     * @return DceField|null
      */
     public function getFieldByVariable($variable): ?DceField
     {
@@ -906,30 +719,25 @@ class Dce extends AbstractEntity
                 return $field;
             }
         }
+
         return null;
     }
 
-    /**
-     * @return array
-     */
     public function getContentObject(): array
     {
         return $this->contentObject;
     }
 
-    /**
-     * @param array $contentObject
-     * @return self
-     */
     public function setContentObject(array $contentObject): self
     {
         $this->contentObject = $contentObject;
+
         return $this;
     }
 
     /**
      * Renders the default DCE output
-     * or the detail page output, if enabled and configured GET param is given
+     * or the detail page output, if enabled and configured GET param is given.
      *
      * @return string The rendered output
      */
@@ -938,13 +746,12 @@ class Dce extends AbstractEntity
         if ($this->isDetailPageTriggered()) {
             return $this->renderDetailpage();
         }
+
         return $this->renderFluidTemplate();
     }
 
     /**
-     * Alias for render method
-     *
-     * @return string
+     * Alias for render method.
      */
     public function getRender(): string
     {
@@ -954,20 +761,20 @@ class Dce extends AbstractEntity
     /**
      * Checks if the display of detail page is triggered (by GET parameter in current request).
      * Always returns false, if detail page is not enabled for this DCE.
-     *
-     * @return bool
      */
     public function isDetailPageTriggered(): bool
     {
         if ($this->getEnableDetailpage()) {
-            $detailUid = (int) GeneralUtility::_GP($this->getDetailpageIdentifier());
-            return $detailUid && (int) $this->getContentObject()['uid'] === $detailUid;
+            $detailUid = (int)GeneralUtility::_GP($this->getDetailpageIdentifier());
+
+            return $detailUid && (int)$this->getContentObject()['uid'] === $detailUid;
         }
+
         return false;
     }
 
     /**
-     * Renders the DCE detail page output
+     * Renders the DCE detail page output.
      *
      * @return string rendered output
      */
@@ -978,13 +785,12 @@ class Dce extends AbstractEntity
             $dceDetailPageTitleProvider = GeneralUtility::makeInstance(PageTitleProvider::class);
             $dceDetailPageTitleProvider->generate($this);
         }
+
         return $this->renderFluidTemplate(DceTemplateTypes::DETAILPAGE);
     }
 
     /**
-     * Alias for renderDetailpage method
-     *
-     * @return string
+     * Alias for renderDetailpage method.
      */
     public function getRenderDetailpage(): string
     {
@@ -992,9 +798,10 @@ class Dce extends AbstractEntity
     }
 
     /**
-     * Renders the DCE Backend Template
+     * Renders the DCE Backend Template.
      *
      * @param string $section If set just 'header' or 'bodytext' part is returned
+     *
      * @return string|null rendered output
      */
     public function renderBackendTemplate(string $section = ''): ?string
@@ -1004,15 +811,16 @@ class Dce extends AbstractEntity
         $fullBackendTemplate = $this->renderFluidTemplate(DceTemplateTypes::BACKEND_TEMPLATE);
         if (!empty($section)) {
             $backendTemplateParts = GeneralUtility::trimExplode($backendTemplateSeparator, $fullBackendTemplate);
-            return $section === 'bodytext' ? $backendTemplateParts[1] : $backendTemplateParts[0];
+
+            return 'bodytext' === $section ? $backendTemplateParts[1] : $backendTemplateParts[0];
         }
+
         return $fullBackendTemplate;
     }
 
     /**
-     * Creates and renders fluid template
+     * Creates and renders fluid template.
      *
-     * @param int $templateType
      * @return string Rendered and trimmed template
      */
     protected function renderFluidTemplate(int $templateType = DceTemplateTypes::DEFAULT): string
@@ -1024,7 +832,7 @@ class Dce extends AbstractEntity
         $variables = [
             'contentObject' => $this->getContentObject(),
             'fields' => $fields,
-            'field' => $fields
+            'field' => $fields,
         ];
         $fluidTemplate->assignMultiple($variables);
 
@@ -1063,13 +871,12 @@ class Dce extends AbstractEntity
             }
         }
         static::$fieldsCache[$contentObject['uid']] = $fields;
+
         return $fields;
     }
 
     /**
-     * Checks if this DCE has fields, which map their values to TCA columns
-     *
-     * @return bool
+     * Checks if this DCE has fields, which map their values to TCA columns.
      */
     public function getHasTcaMappings(): bool
     {
@@ -1080,30 +887,28 @@ class Dce extends AbstractEntity
                 return true;
             }
         }
+
         return false;
     }
 
     /**
-     * Checks if this DCE adds new fields to TCA of tt_content
-     *
-     * @return bool
+     * Checks if this DCE adds new fields to TCA of tt_content.
      */
     public function getAddsNewFieldsToTca(): bool
     {
         /** @var DceField $field */
         foreach ($this->getFields() ?? [] as $field) {
             $newTcaFieldName = $field->getNewTcaFieldName();
-            if ($field->getMapTo() === '*newcol' && !empty($newTcaFieldName)) {
+            if ('*newcol' === $field->getMapTo() && !empty($newTcaFieldName)) {
                 return true;
             }
         }
+
         return false;
     }
 
     /**
-     * Get content element rows based on this DCE
-     *
-     * @return array|null
+     * Get content element rows based on this DCE.
      */
     public function getRelatedContentElementRows(): ?array
     {
@@ -1122,14 +927,15 @@ class Dce extends AbstractEntity
             );
         $rows = DatabaseUtility::getRowsFromQueryBuilder($queryBuilder, 'uid');
         static::$fieldsCache[$this->getIdentifier()] = $rows;
+
         return $rows;
     }
 
     /**
      * This method provides access to field values of this DCE. Usage in your fluid templates:
-     * {dce.get.fieldname}
+     * {dce.get.fieldname}.
      *
-     * @return array Key is field name, value is mixed.
+     * @return array key is field name, value is mixed
      */
     public function getGet(): array
     {
@@ -1143,15 +949,16 @@ class Dce extends AbstractEntity
      * $this->fields for the part. If the field exist its value will returned.
      *
      * @param string $name
-     * @param array $arguments
+     *
      * @return mixed
+     *
      * @deprecated Do not use "{dce.fieldname}" anymore to access field values of DCE object.
      *             Use "{dce.get.fieldname}" in your Fluid templates instead.
      * @see Dce::getGet()
      */
     public function __call($name, array $arguments)
     {
-        if (strpos($name, 'get') === 0 && \strlen($name) > 3) {
+        if (0 === strpos($name, 'get') && \strlen($name) > 3) {
             trigger_error(
                 'Do not use "{dce.fieldname}" anymore to access field values of DCE object. ' .
                 'Use "{dce.get.fieldname}" in your Fluid templates instead.',
@@ -1175,6 +982,7 @@ class Dce extends AbstractEntity
                 }
             }
         }
+
         return null;
     }
 }

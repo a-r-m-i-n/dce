@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\Utility;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -18,9 +19,7 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
 class DatabaseUtility
 {
     /**
-     * Get TYPO3s Connection Pool
-     *
-     * @return ConnectionPool
+     * Get TYPO3s Connection Pool.
      */
     public static function getConnectionPool(): ConnectionPool
     {
@@ -29,11 +28,7 @@ class DatabaseUtility
 
     /**
      * Give it a non executed QueryBuilder to fetch result as array
-     * You have the possibility to add a col as ArrayKey
-     *
-     * @param QueryBuilder $queryBuilder
-     * @param string $columnAsKey
-     * @return array
+     * You have the possibility to add a col as ArrayKey.
      */
     public static function getRowsFromQueryBuilder(QueryBuilder $queryBuilder, string $columnAsKey = ''): array
     {
@@ -46,16 +41,16 @@ class DatabaseUtility
                 $rows[] = $row;
             }
         }
+
         return $rows;
     }
 
     /**
-     * Get all tables and table configuration of all configured databases
+     * Get all tables and table configuration of all configured databases.
      *
-     * @return array
      * @throws \Doctrine\DBAL\DBALException
      */
-    public static function adminGetTables() : array
+    public static function adminGetTables(): array
     {
         $tables = [];
         foreach (static::getConnectionPool()->getConnectionNames() as $connectionName) {
@@ -64,16 +59,16 @@ class DatabaseUtility
                 $tables[$tableName] = $tableName;
             }
         }
+
         return $tables;
     }
 
     /**
-     * Get all fields and field configuration of given $tableName
+     * Get all fields and field configuration of given $tableName.
      *
-     * @param string $tableName
      * @return array Key is column name, value is an assoc array with "Type" key
      */
-    public static function adminGetFields(string $tableName) : array
+    public static function adminGetFields(string $tableName): array
     {
         $columns = static::getConnectionPool()->getConnectionForTable($tableName)->getSchemaManager()
             ->listTableColumns($tableName);
@@ -81,32 +76,35 @@ class DatabaseUtility
         $fields = [];
         foreach ($columns as $column) {
             $fields[$column->getName()] = [
-                'Type' => $column->getType()
+                'Type' => $column->getType(),
             ];
         }
+
         return $fields;
     }
 
     /**
-     * Gets dce uid by content element uid
+     * Gets dce uid by content element uid.
      *
      * @param array $row of tt_content record
+     *
      * @return int uid of DCE used for this content element
      */
-    public static function getDceUidByContentElementRow(array $row) : int
+    public static function getDceUidByContentElementRow(array $row): int
     {
         return DceRepository::extractUidFromCTypeOrIdentifier($row['CType']) ?? 0;
     }
 
     /**
-     * Creates DCE domain object for a given content element
+     * Creates DCE domain object for a given content element.
      *
      * @param array|int|string|null $contentElement The content element database record (or UID)
+     *
      * @return Dce|null The constructed DCE object or null
      */
-    public static function getDceObjectForContentElement($contentElement = null) : ?Dce
+    public static function getDceObjectForContentElement($contentElement = null): ?Dce
     {
-        if ($contentElement === null || (\is_string($contentElement) && strpos($contentElement, 'NEW') === 0)) {
+        if (null === $contentElement || (\is_string($contentElement) && 0 === strpos($contentElement, 'NEW'))) {
             throw new \InvalidArgumentException('This is a new content element, can\'t create DCE instance from it.');
         }
         // Make this method more comfortable:
@@ -149,6 +147,7 @@ class DatabaseUtility
             $flexData['settings'] ?? [],
             $contentElement
         );
+
         return $dce;
     }
 }

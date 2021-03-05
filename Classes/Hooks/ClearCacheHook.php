@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\Hooks;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -9,7 +10,7 @@ namespace T3\Dce\Hooks;
 use T3\Dce\Components\ContentElementGenerator\CacheManager;
 
 /**
- * Flushes DCE code cache files
+ * Flushes DCE code cache files.
  *
  * @see $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc']['dce']
  */

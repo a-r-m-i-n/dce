@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types = 1);
+
 namespace T3\Dce\UpdateWizards;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -12,7 +15,7 @@ use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
 /**
- * Migrates old namespaces in fluid templates
+ * Migrates old namespaces in fluid templates.
  */
 class MigrateOldNamespacesInFluidTemplateUpdateWizard implements UpgradeWizardInterface
 {
@@ -39,7 +42,7 @@ class MigrateOldNamespacesInFluidTemplateUpdateWizard implements UpgradeWizardIn
 
     public function executeUpdate(): bool
     {
-        return (bool) $this->update();
+        return (bool)$this->update();
     }
 
     public function updateNecessary(): bool
@@ -54,34 +57,34 @@ class MigrateOldNamespacesInFluidTemplateUpdateWizard implements UpgradeWizardIn
         $updateTemplates = 0;
         foreach ($dceRows as $dceRow) {
             // Frontend Template
-            if ($dceRow['template_type'] === 'file') {
-                $updateTemplates += (int) $this->doesFileTemplateRequiresUpdate($dceRow, 'template_file');
+            if ('file' === $dceRow['template_type']) {
+                $updateTemplates += (int)$this->doesFileTemplateRequiresUpdate($dceRow, 'template_file');
             } else {
-                $updateTemplates += (int) $this->doesInlineTemplateRequiresUpdate($dceRow, 'template_content');
+                $updateTemplates += (int)$this->doesInlineTemplateRequiresUpdate($dceRow, 'template_content');
             }
 
             // Backend Templates
-            if ($dceRow['backend_template_type'] === 'file') {
-                $updateTemplates += (int) $this->doesFileTemplateRequiresUpdate($dceRow, 'backend_template_file');
+            if ('file' === $dceRow['backend_template_type']) {
+                $updateTemplates += (int)$this->doesFileTemplateRequiresUpdate($dceRow, 'backend_template_file');
             } else {
-                $updateTemplates += (int) $this->doesInlineTemplateRequiresUpdate($dceRow, 'backend_template_content');
+                $updateTemplates += (int)$this->doesInlineTemplateRequiresUpdate($dceRow, 'backend_template_content');
             }
 
             // Detail Template
-            if ($dceRow['detailpage_template_type'] === 'file') {
-                $updateTemplates += (int) $this->doesFileTemplateRequiresUpdate($dceRow, 'detailpage_template_file');
+            if ('file' === $dceRow['detailpage_template_type']) {
+                $updateTemplates += (int)$this->doesFileTemplateRequiresUpdate($dceRow, 'detailpage_template_file');
             } else {
-                $updateTemplates += (int) $this->doesInlineTemplateRequiresUpdate($dceRow, 'detailpage_template');
+                $updateTemplates += (int)$this->doesInlineTemplateRequiresUpdate($dceRow, 'detailpage_template');
             }
 
             if ($dceRow['enable_container']) {
-                if ($dceRow['container_template_type'] === 'file') {
-                    $updateTemplates += (int) $this->doesFileTemplateRequiresUpdate(
+                if ('file' === $dceRow['container_template_type']) {
+                    $updateTemplates += (int)$this->doesFileTemplateRequiresUpdate(
                         $dceRow,
                         'container_template_file'
                     );
                 } else {
-                    $updateTemplates += (int) $this->doesInlineTemplateRequiresUpdate(
+                    $updateTemplates += (int)$this->doesInlineTemplateRequiresUpdate(
                         $dceRow,
                         'container_template'
                     );
@@ -92,8 +95,10 @@ class MigrateOldNamespacesInFluidTemplateUpdateWizard implements UpgradeWizardIn
         if ($updateTemplates > 0) {
             $this->description = 'You have ' . $updateTemplates . ' DCE template(s) with old namespace. ' .
                 'They need to get updated.';
+
             return true;
         }
+
         return false;
     }
 
@@ -108,21 +113,21 @@ class MigrateOldNamespacesInFluidTemplateUpdateWizard implements UpgradeWizardIn
 
         foreach ($dceRows as $dceRow) {
             // Frontend Template
-            if ($dceRow['template_type'] === 'file') {
+            if ('file' === $dceRow['template_type']) {
                 $this->updateFileTemplate($dceRow, 'template_file');
             } else {
                 $this->updateInlineTemplate($dceRow, 'template_content');
             }
 
             // Backend Templates
-            if ($dceRow['backend_template_type'] === 'file') {
+            if ('file' === $dceRow['backend_template_type']) {
                 $this->updateFileTemplate($dceRow, 'backend_template_file');
             } else {
                 $this->updateInlineTemplate($dceRow, 'backend_template_content');
             }
 
             // Detail Template
-            if ($dceRow['detailpage_template_type'] === 'file') {
+            if ('file' === $dceRow['detailpage_template_type']) {
                 $this->updateFileTemplate($dceRow, 'detailpage_template_file');
             } else {
                 $this->updateInlineTemplate($dceRow, 'detailpage_template');
@@ -130,98 +135,87 @@ class MigrateOldNamespacesInFluidTemplateUpdateWizard implements UpgradeWizardIn
 
             // Container Template
             if ($dceRow['enable_container']) {
-                if ($dceRow['container_template_type'] === 'file') {
+                if ('file' === $dceRow['container_template_type']) {
                     $this->updateFileTemplate($dceRow, 'container_template_file');
                 } else {
                     $this->updateInlineTemplate($dceRow, 'container_template');
                 }
             }
         }
+
         return true;
     }
 
     /**
-     * Checks if given inline template requires update
-     *
-     * @param array $dceRow
-     * @param string $column
-     * @return bool
+     * Checks if given inline template requires update.
      */
-    protected function doesInlineTemplateRequiresUpdate(array $dceRow, string $column) : bool
+    protected function doesInlineTemplateRequiresUpdate(array $dceRow, string $column): bool
     {
         return $this->templateNeedUpdate($dceRow[$column] ?? '');
     }
 
     /**
-     * Checks if given file template requires update
-     *
-     * @param array $dceRow
-     * @param string $column
-     * @return bool
+     * Checks if given file template requires update.
      */
-    protected function doesFileTemplateRequiresUpdate(array $dceRow, string $column) : bool
+    protected function doesFileTemplateRequiresUpdate(array $dceRow, string $column): bool
     {
         $file = File::get($dceRow[$column]);
         if (empty($file)) {
             return false;
         }
+
         return $this->templateNeedUpdate(file_get_contents($file));
     }
 
     /**
-     * Checks if given code needs an update
-     *
-     * @param string $templateContent
-     * @return bool
+     * Checks if given code needs an update.
      */
-    protected function templateNeedUpdate(string $templateContent) : bool
+    protected function templateNeedUpdate(string $templateContent): bool
     {
-        return strpos($templateContent, $this->namespaceOld) !== false ||
-            strpos($templateContent, $this->namespaceOld2) !== false ||
-            strpos($templateContent, $this->namespaceOld3) !== false ||
-            strpos($templateContent, 'dce:format.raw') !== false ||
-            strpos($templateContent, 'dce:image') !== false  ||
-            strpos($templateContent, 'dce:uri.image') !== false ;
+        return false !== strpos($templateContent, $this->namespaceOld) ||
+            false !== strpos($templateContent, $this->namespaceOld2) ||
+            false !== strpos($templateContent, $this->namespaceOld3) ||
+            false !== strpos($templateContent, 'dce:format.raw') ||
+            false !== strpos($templateContent, 'dce:image') ||
+            false !== strpos($templateContent, 'dce:uri.image');
     }
 
     /**
-     * Updates inline templates in given DCE row
+     * Updates inline templates in given DCE row.
      *
-     * @param array $dceRow
-     * @param string $column
-     * @return bool|null Returns true on success, false on error and null if no update has been performed.
+     * @return bool|null returns true on success, false on error and null if no update has been performed
      */
-    protected function updateInlineTemplate(array $dceRow, string $column) : ?bool
+    protected function updateInlineTemplate(array $dceRow, string $column): ?bool
     {
         $templateContent = $dceRow[$column] ?? '';
         if ($this->templateNeedUpdate($templateContent)) {
             $updatedTemplateContent = $this->performTemplateUpdates($templateContent);
 
             $connection = DatabaseUtility::getConnectionPool()->getConnectionForTable('tx_dce_domain_model_dce');
+
             return (bool)$connection->update(
                 'tx_dce_domain_model_dce',
                 [
-                    $column => $updatedTemplateContent
+                    $column => $updatedTemplateContent,
                 ],
                 [
-                    'uid' => (int) $dceRow['uid']
+                    'uid' => (int)$dceRow['uid'],
                 ]
             );
         }
+
         return null;
     }
 
     /**
-     * Updates file based templates in given DCE row
+     * Updates file based templates in given DCE row.
      *
-     * @param array $dceRow
-     * @param string $column
-     * @return bool|null Returns true on success, false on error and null if no update has been performed.
+     * @return bool|null returns true on success, false on error and null if no update has been performed
      */
-    protected function updateFileTemplate(array $dceRow, string $column) : ?bool
+    protected function updateFileTemplate(array $dceRow, string $column): ?bool
     {
         $file = File::get($dceRow[$column]);
-        if (!is_writeable($file)) {
+        if (!is_writable($file)) {
             return false;
         }
 
@@ -231,18 +225,17 @@ class MigrateOldNamespacesInFluidTemplateUpdateWizard implements UpgradeWizardIn
             if (!file_exists($file)) {
                 $file = Environment::getPublicPath() . '/' . $file;
             }
-            return (bool) file_put_contents($file, $updatedTemplateContent);
+
+            return (bool)file_put_contents($file, $updatedTemplateContent);
         }
+
         return null;
     }
 
     /**
-     * Performs updates to given DCE template code
-     *
-     * @param string $templateContent
-     * @return string
+     * Performs updates to given DCE template code.
      */
-    protected function performTemplateUpdates(string $templateContent) : string
+    protected function performTemplateUpdates(string $templateContent): string
     {
         $content = str_replace(
             [$this->namespaceOld, $this->namespaceOld2, $this->namespaceOld3],
@@ -252,6 +245,7 @@ class MigrateOldNamespacesInFluidTemplateUpdateWizard implements UpgradeWizardIn
         $content = str_replace('dce:format.raw', 'f:format.raw', $content);
         $content = str_replace('dce:image', 'f:image', $content);
         $content = str_replace('dce:uri.image', 'f:uri.image', $content);
+
         return $content;
     }
 

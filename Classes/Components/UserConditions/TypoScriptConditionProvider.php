@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\Components\UserConditions;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -9,14 +10,14 @@ namespace T3\Dce\Components\UserConditions;
 use TYPO3\CMS\Core\ExpressionLanguage\AbstractProvider;
 
 /**
- * Required class to register TypoScriptConditionFunctionProvider
+ * Required class to register TypoScriptConditionFunctionProvider.
  */
 class TypoScriptConditionProvider extends AbstractProvider
 {
     public function __construct()
     {
         $this->expressionLanguageProviders = [
-            TypoScriptConditionFunctionProvider::class
+            TypoScriptConditionFunctionProvider::class,
         ];
     }
 }

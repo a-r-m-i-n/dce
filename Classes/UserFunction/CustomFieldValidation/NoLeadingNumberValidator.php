@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\UserFunction\CustomFieldValidation;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -14,10 +15,10 @@ use TYPO3\CMS\Core\Messaging\FlashMessage;
 class NoLeadingNumberValidator extends AbstractFieldValidator
 {
     /**
-     * PHP Validation to disallow leading numbers
+     * PHP Validation to disallow leading numbers.
      *
-     * @param string $value
      * @param bool $silent When true no flash messages get created
+     *
      * @return mixed|string Updated string, which fits the requirements
      */
     public function evaluateFieldValue(string $value, bool $silent = false)
@@ -35,6 +36,7 @@ class NoLeadingNumberValidator extends AbstractFieldValidator
                 );
             }
         }
+
         return $matches[1];
     }
 }

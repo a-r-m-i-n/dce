@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\UserFunction\CustomFieldValidation;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -12,25 +13,25 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
- * Abstract class for DCE form validators
+ * Abstract class for DCE form validators.
  */
 abstract class AbstractFieldValidator
 {
     /**
-     * JavaScript validation
+     * JavaScript validation.
      *
      * @return string javascript function code for js validation
      */
-    public function returnFieldJs() : string
+    public function returnFieldJs(): string
     {
         return 'return value;';
     }
 
     /**
-     * PHP Validation
+     * PHP Validation.
      *
-     * @param string $value
      * @param bool $silent When true no flash messages should get created
+     *
      * @return mixed
      */
     public function evaluateFieldValue(string $value, bool $silent = false)
@@ -39,21 +40,18 @@ abstract class AbstractFieldValidator
     }
 
     /**
-     * Adds a flash message
+     * Adds a flash message.
      *
      * @param string $message
-     * @param string $title optional message title
-     * @param int $severity optional severity code
-     * @return void
+     * @param string $title    optional message title
+     * @param int    $severity optional severity code
+     *
      * @throws \InvalidArgumentException
      */
-    protected function addFlashMessage($message, $title = '', $severity = FlashMessage::OK) : void
+    protected function addFlashMessage($message, $title = '', $severity = FlashMessage::OK): void
     {
         if (!\is_string($message)) {
-            throw new \InvalidArgumentException(
-                'The flash message must be string, ' . \gettype($message) . ' given.',
-                1243258395
-            );
+            throw new \InvalidArgumentException('The flash message must be string, ' . \gettype($message) . ' given.', 1243258395);
         }
 
         /** @var FlashMessage $message */
@@ -73,11 +71,12 @@ abstract class AbstractFieldValidator
     /**
      * Returns the translation of current language, stored in locallang_db.xlf.
      *
-     * @param string $key key in locallang_db.xlf to translate
-     * @param array $arguments optional arguments
+     * @param string $key       key in locallang_db.xlf to translate
+     * @param array  $arguments optional arguments
+     *
      * @return string Translated text
      */
-    protected function translate(string $key, array $arguments = []) : string
+    protected function translate(string $key, array $arguments = []): string
     {
         return LocalizationUtility::translate(
             'LLL:EXT:dce/Resources/Private/Language/locallang_db.xlf:' . $key,

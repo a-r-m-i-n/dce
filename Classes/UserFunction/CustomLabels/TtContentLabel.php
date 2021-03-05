@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\UserFunction\CustomLabels;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -13,7 +14,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
- * Extends TCA label of fields with variable key
+ * Extends TCA label of fields with variable key.
  */
 class TtContentLabel
 {
@@ -21,11 +22,8 @@ class TtContentLabel
      * User function to get custom labels for tt_content.
      * This is required, when content elements based on DCE use
      * the Simple Backend View.
-     *
-     * @param array $parameter
-     * @return void
      */
-    public function getLabel(array &$parameter) : void
+    public function getLabel(array &$parameter): void
     {
         if ((\is_string($parameter['row']['CType']) || \is_array($parameter['row']['CType'])) &&
             $this->isDceContentElement($parameter['row'])
@@ -35,6 +33,7 @@ class TtContentLabel
                 $dce = DatabaseUtility::getDceObjectForContentElement($parameter['row']['uid']);
             } catch (\Exception $exception) {
                 $parameter['title'] = 'ERROR: ' . $exception->getMessage();
+
                 return;
             }
 
@@ -45,10 +44,12 @@ class TtContentLabel
                 $headerContent = $simpleBackendViewUtility->getHeaderContent($dce, true);
                 if (!empty($headerContent)) {
                     $parameter['title'] = $headerContent;
+
                     return;
                 }
             } else {
                 $parameter['title'] = trim(strip_tags($dce->renderBackendTemplate('header')));
+
                 return;
             }
         }
@@ -56,18 +57,16 @@ class TtContentLabel
     }
 
     /**
-     * Checks if given tt_content row is a content element based on DCE
-     *
-     * @param array $row
-     * @return bool
+     * Checks if given tt_content row is a content element based on DCE.
      */
-    protected function isDceContentElement(array $row) : bool
+    protected function isDceContentElement(array $row): bool
     {
         $cType = $row['CType'];
         if (\is_array($cType)) {
             // For any reason the CType can be an array with one entry
             $cType = reset($cType);
         }
-        return strpos($cType, 'dce_') !== false;
+
+        return false !== strpos($cType, 'dce_');
     }
 }

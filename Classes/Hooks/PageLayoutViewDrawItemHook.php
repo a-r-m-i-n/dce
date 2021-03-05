@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\Hooks;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -17,7 +18,7 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * PageLayoutView DrawItem Hook for DCE content elements
+ * PageLayoutView DrawItem Hook for DCE content elements.
  *
  * @deprecated Only used before TYPO3 v10
  */
@@ -29,14 +30,13 @@ class PageLayoutViewDrawItemHook implements PageLayoutViewDrawItemHookInterface
     protected $stylesAdded = false;
 
     /**
-     * Disable rendering restrictions for dce content elements
+     * Disable rendering restrictions for dce content elements.
      *
-     * @param PageLayoutView $parentObject
-     * @param bool $drawItem
+     * @param bool   $drawItem
      * @param string $headerContent
      * @param string $itemContent
-     * @param array $row #
-     * @return void
+     * @param array  $row           #
+     *
      * @throws ResourceDoesNotExistException
      */
     public function preProcess(
@@ -47,7 +47,7 @@ class PageLayoutViewDrawItemHook implements PageLayoutViewDrawItemHookInterface
         array &$row
     ) {
         $dceUid = DatabaseUtility::getDceUidByContentElementRow($row);
-        if ($dceUid === 0) {
+        if (0 === $dceUid) {
             return;
         }
 
@@ -55,7 +55,8 @@ class PageLayoutViewDrawItemHook implements PageLayoutViewDrawItemHookInterface
             /** @var Dce $dce */
             $dce = DatabaseUtility::getDceObjectForContentElement($row['uid']);
         } catch (\Exception $exception) {
-            $headerContent = '<strong class="text-danger">' . $exception->getMessage() .'</strong>';
+            $headerContent = '<strong class="text-danger">' . $exception->getMessage() . '</strong>';
+
             return;
         }
 
@@ -83,11 +84,9 @@ class PageLayoutViewDrawItemHook implements PageLayoutViewDrawItemHookInterface
     }
 
     /**
-     * Add custom dce styles for Simple Backend View to page module
-     *
-     * @return void
+     * Add custom dce styles for Simple Backend View to page module.
      */
-    protected function addPageViewStylesheets() : void
+    protected function addPageViewStylesheets(): void
     {
         if ($this->stylesAdded) {
             return;

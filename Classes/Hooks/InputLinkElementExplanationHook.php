@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\Hooks;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -9,17 +10,13 @@ namespace T3\Dce\Hooks;
 
 /**
  * Provides informations about EXT: path
- * and does not return "not implemented type ext" in typolink wizard
+ * and does not return "not implemented type ext" in typolink wizard.
  *
  * @see \TYPO3\CMS\Backend\Form\Element\InputLinkElement::getLinkExplanation()
  */
 class InputLinkElementExplanationHook
 {
-    /**
-     * @param array $linkData
-     * @return array
-     */
-    public function getFormData(array $linkData) : array
+    public function getFormData(array $linkData): array
     {
         $urlParts = explode('/', $linkData['url']);
         $ext = reset($urlParts);
@@ -27,9 +24,10 @@ class InputLinkElementExplanationHook
         if (strlen($file) <= 15 && count($urlParts) > 2) {
             $file = prev($urlParts) . '/' . $file;
         }
+
         return [
             'text' => $ext . (count($urlParts) > 2 ? '/.../' : '/') . $file,
-            'icon' => ''
+            'icon' => '',
         ];
     }
 }

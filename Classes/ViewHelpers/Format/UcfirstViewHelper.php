@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\ViewHelpers\Format;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -10,13 +11,10 @@ use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
- * Make a string's first character uppercase in given subject
+ * Make a string's first character uppercase in given subject.
  */
 class UcfirstViewHelper extends AbstractViewHelper
 {
-    /**
-     * @return void
-     */
     public function initializeArguments()
     {
         parent::initializeArguments();
@@ -24,9 +22,6 @@ class UcfirstViewHelper extends AbstractViewHelper
     }
 
     /**
-     * @param array $arguments
-     * @param \Closure $renderChildrenClosure
-     * @param RenderingContextInterface $renderingContext
      * @return string
      */
     public static function renderStatic(
@@ -35,9 +30,10 @@ class UcfirstViewHelper extends AbstractViewHelper
         RenderingContextInterface $renderingContext
     ) {
         $subject = $arguments['subject'];
-        if ($subject === null) {
-            $subject = (string) $renderChildrenClosure();
+        if (null === $subject) {
+            $subject = (string)$renderChildrenClosure();
         }
+
         return ucfirst($subject);
     }
 }

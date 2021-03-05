@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\Components\DceContainer;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -7,7 +8,6 @@ namespace T3\Dce\Components\DceContainer;
  *  | (c) 2012-2021 Armin Vieweg <armin@v.ieweg.de>
  *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
-use T3\Dce\Compatibility;
 use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Domain\Repository\DceRepository;
 use T3\Dce\Utility\DatabaseUtility;
@@ -21,23 +21,18 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
  * ContainerFactory
- * Builds DCE Containers, which wrap grouped DCEs
+ * Builds DCE Containers, which wrap grouped DCEs.
  */
 class ContainerFactory
 {
     /**
-     * Contains uids of content elements which can be skipped
+     * Contains uids of content elements which can be skipped.
      *
      * @var array
      */
     protected static $toSkip = [];
 
-    /**
-     * @param Dce $dce
-     * @param bool $includeHidden
-     * @return Container
-     */
-    public static function makeContainer(Dce $dce, bool $includeHidden = false) : Container
+    public static function makeContainer(Dce $dce, bool $includeHidden = false): Container
     {
         $contentObject = $dce->getContentObject();
         static::$toSkip[$contentObject['uid']][] = $contentObject['uid'];
@@ -52,7 +47,7 @@ class ContainerFactory
         /** @var DceRepository $dceRepository */
         $dceRepository = $objectManager->get(DceRepository::class);
         foreach ($contentElements as $index => $contentElement) {
-            $dceInstance = $dceRepository->getDceInstance((int) $contentElement['uid']);
+            $dceInstance = $dceRepository->getDceInstance((int)$contentElement['uid']);
             $dceInstance->setContainerIterator(static::createContainerIteratorArray($index, $total));
             $container->addDce($dceInstance);
 
@@ -72,17 +67,14 @@ class ContainerFactory
                 static::$toSkip[$contentObject['uid']][] = $contentElement['_LOCALIZED_UID'];
             }
         }
+
         return $container;
     }
 
     /**
-     * Get content elements rows of following content elements in current row
-     *
-     * @param Dce $dce
-     * @param bool $includeHidden
-     * @return array
+     * Get content elements rows of following content elements in current row.
      */
-    protected static function getContentElementsInContainer(Dce $dce, bool $includeHidden = false) : array
+    protected static function getContentElementsInContainer(Dce $dce, bool $includeHidden = false): array
     {
         $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tt_content');
         if (TYPO3_MODE === 'FE') {
@@ -130,8 +122,8 @@ class ContainerFactory
         }
 
         if (ExtensionManagementUtility::isLoaded('gridelements')
-            && $contentObject['tx_gridelements_container'] != '0'
-            && $contentObject['tx_gridelements_columns'] != '0'
+            && '0' != $contentObject['tx_gridelements_container']
+            && '0' != $contentObject['tx_gridelements_columns']
         ) {
             $queryBuilder->andWhere(
                 $queryBuilder->expr()->eq(
@@ -145,7 +137,7 @@ class ContainerFactory
             );
         }
 
-        if (ExtensionManagementUtility::isLoaded('container') && $contentObject['tx_container_parent'] != '0') {
+        if (ExtensionManagementUtility::isLoaded('container') && '0' != $contentObject['tx_container_parent']) {
             $queryBuilder->andWhere(
                 $queryBuilder->expr()->eq(
                     'tx_container_parent',
@@ -169,7 +161,7 @@ class ContainerFactory
         $contentElementsInContainer = [];
         foreach ($resolvedContentElements as $rawContentElement) {
             if (($contentObject['uid'] !== $rawContentElement['uid'] &&
-                 $rawContentElement['tx_dce_new_container'] === 1
+                 1 === $rawContentElement['tx_dce_new_container']
                 )
                 || $rawContentElement['CType'] !== $dce->getIdentifier()
             ) {
@@ -177,6 +169,7 @@ class ContainerFactory
             }
             $contentElementsInContainer[] = $rawContentElement;
         }
+
         return $contentElementsInContainer;
     }
 
@@ -184,9 +177,10 @@ class ContainerFactory
      * Checks if DCE content element should be skipped instead of rendered.
      *
      * @param array|int $contentElement
+     *
      * @return bool Returns true when this content element has been rendered already
      */
-    public static function checkContentElementForBeingRendered($contentElement) : bool
+    public static function checkContentElementForBeingRendered($contentElement): bool
     {
         $flattenContentElementsToSkip = iterator_to_array(
             new \RecursiveIteratorIterator(new \RecursiveArrayIterator(static::$toSkip)),
@@ -198,6 +192,7 @@ class ContainerFactory
         if (\is_int($contentElement)) {
             return \in_array($contentElement, $flattenContentElementsToSkip);
         }
+
         return false;
     }
 
@@ -206,11 +201,10 @@ class ContainerFactory
      * should render the same content element twice (using reference e.g.).
      *
      * @param int|array|null $contentElement
-     * @return void
      */
-    public static function clearContentElementsToSkip($contentElement = null) : void
+    public static function clearContentElementsToSkip($contentElement = null): void
     {
-        if ($contentElement === null) {
+        if (null === $contentElement) {
             static::$toSkip = [];
         } else {
             $groupContentElementsIndex = null;
@@ -228,29 +222,28 @@ class ContainerFactory
                 }
                 reset($groupedContentElementsToSkip);
             }
-            if ($groupContentElementsIndex !== null) {
+            if (null !== $groupContentElementsIndex) {
                 unset(static::$toSkip[$groupContentElementsIndex]);
             }
         }
     }
 
     /**
-     * Resolves CType="shortcut" content elements
+     * Resolves CType="shortcut" content elements.
      *
      * @param array $rawContentElements array with tt_content rows
-     * @return array
      */
-    protected static function resolveShortcutElements(array $rawContentElements) : array
+    protected static function resolveShortcutElements(array $rawContentElements): array
     {
         $resolvedContentElements = [];
         foreach ($rawContentElements as $rawContentElement) {
-            if ($rawContentElement['CType'] === 'shortcut') {
+            if ('shortcut' === $rawContentElement['CType']) {
                 // resolve records stored with "table_name:uid"
                 $aLinked = explode(',', $rawContentElement['records']);
                 foreach ($aLinked as $sLinkedEl) {
                     $iPos = strrpos($sLinkedEl, '_');
-                    $table = ($iPos !== false) ? substr($sLinkedEl, 0, $iPos) : 'tt_content';
-                    $uid = ($iPos !== false) ? substr($sLinkedEl, $iPos + 1) : '0';
+                    $table = (false !== $iPos) ? substr($sLinkedEl, 0, $iPos) : 'tt_content';
+                    $uid = (false !== $iPos) ? substr($sLinkedEl, $iPos + 1) : '0';
 
                     $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable($table);
                     $linkedContentElements = $queryBuilder
@@ -274,6 +267,7 @@ class ContainerFactory
                 $resolvedContentElements[] = $rawContentElement;
             }
         }
+
         return $resolvedContentElements;
     }
 
@@ -282,18 +276,17 @@ class ContainerFactory
      *
      * @param int $index starting with 0
      * @param int $total total amount of DCEs in container
-     * @return array
      */
-    protected static function createContainerIteratorArray(int $index, int $total) : array
+    protected static function createContainerIteratorArray(int $index, int $total): array
     {
         return [
-            'isOdd' => $index % 2 === 0,
-            'isEven' => $index % 2 !== 0,
-            'isFirst' => $index === 0,
+            'isOdd' => 0 === $index % 2,
+            'isEven' => 0 !== $index % 2,
+            'isFirst' => 0 === $index,
             'isLast' => $index === $total - 1,
             'cycle' => $index + 1,
             'index' => $index,
-            'total' => $total
+            'total' => $total,
         ];
     }
 }

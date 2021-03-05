@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\Domain\Repository;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -9,7 +10,7 @@ namespace T3\Dce\Domain\Repository;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
- * DCE field repository
+ * DCE field repository.
  */
 class DceFieldRepository extends Repository
 {

@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\Utility;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -9,33 +10,30 @@ namespace T3\Dce\Utility;
 use TYPO3\CMS\Core\Core\Bootstrap;
 
 /**
- * LanguageService utility
+ * LanguageService utility.
  */
 class LanguageService
 {
     /**
-     * Initializes LanguageObject if necessary
-     *
-     * @return void
+     * Initializes LanguageObject if necessary.
      */
-    protected static function initialize() : void
+    protected static function initialize(): void
     {
         Bootstrap::getInstance()->initializeBackendUser();
         Bootstrap::getInstance()->initializeLanguageObject();
     }
 
     /**
-     * splitLabel function
+     * splitLabel function.
      *
      * All translations are based on $LOCAL_LANG variables.
      * 'language-splitted' labels can therefore refer to a local-lang file + index.
      * Refer to 'Inside TYPO3' for more details
      *
      * @param string|null $input Label key/reference
-     * @param bool $hsc If set, the return value is htmlspecialchar'ed
-     * @return string
+     * @param bool        $hsc   If set, the return value is htmlspecialchar'ed
      */
-    public static function sL(?string $input, bool $hsc = false) : string
+    public static function sL(?string $input, bool $hsc = false): string
     {
         if (!$input) {
             return '';
@@ -43,6 +41,7 @@ class LanguageService
         if (!$GLOBALS['LANG']) {
             static::initialize();
         }
+
         return $GLOBALS['LANG']->sL($input, $hsc);
     }
 }

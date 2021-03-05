@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\ViewHelpers;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -9,13 +10,10 @@ namespace T3\Dce\ViewHelpers;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
- * Returns the url of current page
+ * Returns the url of current page.
  */
 class ThisUrlViewHelper extends AbstractViewHelper
 {
-    /**
-     * @return void
-     */
     public function initializeArguments()
     {
         parent::initializeArguments();
@@ -46,6 +44,7 @@ class ThisUrlViewHelper extends AbstractViewHelper
         if ($this->arguments['urlencode']) {
             $url = urlencode($url);
         }
+
         return $url;
     }
 }

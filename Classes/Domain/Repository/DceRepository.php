@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\Domain\Repository;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -37,7 +38,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 use TYPO3\CMS\Frontend\Page\PageRepository;
 
 /**
- * DCE repository
+ * DCE repository.
  */
 class DceRepository extends Repository
 {
@@ -52,9 +53,7 @@ class DceRepository extends Repository
     private static $defaultQuerySettingsInstance;
 
     /**
-     * DceRepository constructor
-     *
-     * @param ObjectManagerInterface $objectManager
+     * DceRepository constructor.
      */
     public function __construct(ObjectManagerInterface $objectManager)
     {
@@ -62,12 +61,9 @@ class DceRepository extends Repository
     }
 
     /**
-     * Returns database DCEs and static DCEs as merged array
-     *
-     * @param bool $includeHidden
-     * @return array
+     * Returns database DCEs and static DCEs as merged array.
      */
-    public function findAllAndStatics(bool $includeHidden = false) : array
+    public function findAllAndStatics(bool $includeHidden = false): array
     {
         if ($includeHidden) {
             /** @var Typo3QuerySettings $querySettings */
@@ -76,20 +72,21 @@ class DceRepository extends Repository
             $this->setDefaultQuerySettings($querySettings);
         }
         $this->setDefaultOrderings(['sorting' => QueryInterface::ORDER_ASCENDING]);
+
         return $this->findAll()->toArray();
     }
 
     /**
-     * Returns a DCE from the instance cache
+     * Returns a DCE from the instance cache.
      *
      * @param int $uid Content object uid
-     * @return Dce|null
      */
-    public function findInCacheByContentObjectUid(int $uid) : ?Dce
+    public function findInCacheByContentObjectUid(int $uid): ?Dce
     {
         if (array_key_exists($uid, static::$dceInstanceCache)) {
             return static::$dceInstanceCache[$uid];
         }
+
         return null;
     }
 
@@ -98,18 +95,14 @@ class DceRepository extends Repository
      * fieldList triggers the fillFields which gives the dce its contents
      * and values.
      *
-     * @param int $uid
-     * @param array $fieldList
-     * @param array $contentObject
      * @param bool $doNotCache If true forces to not use the internal cache
-     * @return Dce
      */
     public function findAndBuildOneByUid(
         int $uid,
         array $fieldList,
         array $contentObject,
         bool $doNotCache = false
-    ) : Dce {
+    ): Dce {
         if (!$doNotCache && array_key_exists($contentObject['uid'], static::$dceInstanceCache)) {
             return static::$dceInstanceCache[$contentObject['uid']];
         }
@@ -126,18 +119,17 @@ class DceRepository extends Repository
         $this->processFillingFields($dce, \is_array($contentObject) ? $contentObject : [], $fieldList);
         $dce->setContentObject(\is_array($contentObject) ? $this->resolveContentObjectRelations($contentObject) : []);
         static::$dceInstanceCache[$contentObject['uid']] = $dce;
+
         return $dce;
     }
 
     /**
-     * Returns content element rows based on given DCE object
-     *
-     * @param Dce $dce
-     * @return array|null
+     * Returns content element rows based on given DCE object.
      */
-    public function findContentElementsBasedOnDce(Dce $dce) : ?array
+    public function findContentElementsBasedOnDce(Dce $dce): ?array
     {
         $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tt_content');
+
         return $queryBuilder
             ->select('*')
             ->from('tt_content')
@@ -153,19 +145,16 @@ class DceRepository extends Repository
 
     /**
      * Clones the fields of a dce separately, because cloning the dce just
-     * refers the fields
-     *
-     * @param Dce $dce
-     * @return void
+     * refers the fields.
      */
-    protected function cloneFields(Dce $dce) : void
+    protected function cloneFields(Dce $dce): void
     {
         /** @var $clonedFields ObjectStorage */
         $clonedFields = GeneralUtility::makeInstance(ObjectStorage::class);
         /** @var $field DceField */
         foreach ($dce->getFields() ?? [] as $field) {
             $field = clone $field;
-            if ($field->getType() === DceField::TYPE_ELEMENT || $field->getType() === DceField::TYPE_SECTION) {
+            if (DceField::TYPE_ELEMENT === $field->getType() || DceField::TYPE_SECTION === $field->getType()) {
                 if ($field->getSectionFields()) {
                     /** @var $clonedSectionFields ObjectStorage */
                     $clonedSectionFields = GeneralUtility::makeInstance(
@@ -186,14 +175,12 @@ class DceRepository extends Repository
     }
 
     /**
-     * Disable the respect of enable fields in defaultQuerySettings
-     *
-     * @return void
+     * Disable the respect of enable fields in defaultQuerySettings.
      */
-    protected function disableRespectOfEnableFields() : void
+    protected function disableRespectOfEnableFields(): void
     {
         if (!self::$defaultQuerySettingsInstance) {
-            /** @var $querySettings Typo3QuerySettings */
+            /* @var $querySettings Typo3QuerySettings */
             self::$defaultQuerySettingsInstance = GeneralUtility::makeInstance(Typo3QuerySettings::class);
             self::$defaultQuerySettingsInstance->setIgnoreEnableFields(true)->setIncludeDeleted(true);
         }
@@ -201,18 +188,15 @@ class DceRepository extends Repository
     }
 
     /**
-     * Walk through the fields and section fields to fill them
+     * Walk through the fields and section fields to fill them.
      *
-     * @param Dce $dce
      * @param array $fieldList Field list. Key must contain field variable, value its value.
-     * @param array $contentObject
-     * @return void
      */
     protected function processFillingFields(
         Dce $dce,
         array $contentObject,
         array $fieldList = null
-    ) : void {
+    ): void {
         $fieldList = $fieldList ?: [];
         foreach ($fieldList as $fieldVariable => $fieldValue) {
             $dceField = $dce->getFieldByVariable($fieldVariable);
@@ -239,7 +223,7 @@ class DceRepository extends Repository
                                     );
                                 }
                             }
-                            $i++;
+                            ++$i;
                         }
                     }
                 } else {
@@ -255,14 +239,6 @@ class DceRepository extends Repository
      * objects or database operations will be do,if not just the given
      * $fieldValue will be add to $dceField->_value. Value of sectionFields
      * will be filled differently.
-     *
-     * @param DceField $dceField
-     * @param string $fieldValue
-     * @param string $xmlIdentifier
-     * @param bool $isSectionField
-     * @param array $contentObject
-     * @param int $sectionFieldIndex
-     * @return void
      */
     protected function fillFields(
         DceField $dceField,
@@ -271,8 +247,7 @@ class DceRepository extends Repository
         bool $isSectionField = false,
         array $contentObject = [],
         int $sectionFieldIndex = 0
-    ) : void {
-
+    ): void {
         $xmlWrapping = 'xml-' . $xmlIdentifier;
         $dceFieldConfiguration = GeneralUtility::xml2array(
             '<' . $xmlWrapping . '>' . $dceField->getConfiguration() . '</' . $xmlWrapping . '>'
@@ -291,7 +266,7 @@ class DceRepository extends Repository
                 $objects = current($objects);
             }
         }
-        if ($isSectionField === false) {
+        if (false === $isSectionField) {
             if (isset($objects)) {
                 $dceField->setValue($objects);
             } else {
@@ -309,14 +284,14 @@ class DceRepository extends Repository
     }
 
     /**
-     * Detects fields
+     * Detects fields.
      *
-     * @param array $record
      * @return array The record with DCE attributes
      */
-    protected function getDceFieldsByRecord(array $record) : array
+    protected function getDceFieldsByRecord(array $record): array
     {
         $flexformData = FlexformService::get()->convertFlexFormContentToArray($record['pi_flexform'], 'lDEF', 'vDEF');
+
         return isset($flexformData['settings']) && \is_array($flexformData['settings'])
             ? $flexformData['settings']
             : [];
@@ -327,10 +302,11 @@ class DceRepository extends Repository
      * Returns FALSE if CType is not a DCE one.
      *
      * @param string|array $cType or DCE identifier
+     *
      * @return int|null uid or null
      * @static
      */
-    public static function extractUidFromCTypeOrIdentifier($cType) : ?int
+    public static function extractUidFromCTypeOrIdentifier($cType): ?int
     {
         if (\is_array($cType)) {
             // For any reason the CType can be an array with one entry
@@ -340,10 +316,10 @@ class DceRepository extends Repository
             return null;
         }
         if (StringUtility::beginsWith($cType, 'dceuid')) {
-            return (int) substr($cType, 6);
+            return (int)substr($cType, 6);
         }
         if (StringUtility::beginsWith($cType, 'dce_dceuid')) {
-            return (int) substr($cType, 10);
+            return (int)substr($cType, 10);
         }
         if (StringUtility::beginsWith($cType, 'dce_')) {
             /** @var self $repo */
@@ -361,62 +337,56 @@ class DceRepository extends Repository
                 ->fetch();
 
             if (isset($row['uid'])) {
-                return (int) $row['uid'];
+                return (int)$row['uid'];
             }
         }
+
         return null;
     }
 
     /**
      * Converts a given dce uid to a dce CType.
      *
-     * @param int $uid
      * @return string|bool Returns converted CType. If given uid is invalid
      *                     returns FALSE
      * @static
      */
-    public static function convertUidToCtype(int $uid) : ?string
+    public static function convertUidToCtype(int $uid): ?string
     {
-        if ($uid === 0) {
+        if (0 === $uid) {
             return null;
         }
+
         return 'dce_dceuid' . $uid;
     }
 
     /**
      * Checks if given field configuration allows to load sub items
-     * (assoc array or objects)
-     *
-     * @param array $fieldConfiguration
-     * @return bool
+     * (assoc array or objects).
      */
-    protected function hasRelatedObjects(array $fieldConfiguration) : bool
+    protected function hasRelatedObjects(array $fieldConfiguration): bool
     {
         return \in_array($fieldConfiguration['type'], ['group', 'inline', 'select'])
-                && (($fieldConfiguration['type'] === 'select' && !empty($fieldConfiguration['foreign_table']))
-                    || ($fieldConfiguration['type'] === 'inline' && !empty($fieldConfiguration['foreign_table']))
-                    || ($fieldConfiguration['type'] === 'group' && !empty($fieldConfiguration['allowed'])));
+                && (('select' === $fieldConfiguration['type'] && !empty($fieldConfiguration['foreign_table']))
+                    || ('inline' === $fieldConfiguration['type'] && !empty($fieldConfiguration['foreign_table']))
+                    || ('group' === $fieldConfiguration['type'] && !empty($fieldConfiguration['allowed'])));
     }
 
     /**
      * Creates array of assoc array or objects, depending
-     * on given field configuration
+     * on given field configuration.
      *
-     * @param string $fieldValue Comma separated list of uids
-     * @param array $dceFieldConfiguration
-     * @param array $contentObject Content object (required by FAL viewhelper)
-     * @return array
+     * @param string $fieldValue    Comma separated list of uids
+     * @param array  $contentObject Content object (required by FAL viewhelper)
      */
     protected function createObjectsByFieldConfiguration(
         string $fieldValue,
         array $dceFieldConfiguration,
         array $contentObject
-    ) : array {
+    ): array {
         $objects = [];
 
-
-
-        if ($dceFieldConfiguration['type'] === 'group') {
+        if ('group' === $dceFieldConfiguration['type']) {
             $className = $dceFieldConfiguration['allowed'];
             $tableNames = GeneralUtility::trimExplode(',', $dceFieldConfiguration['allowed'], true);
         } else {
@@ -428,7 +398,7 @@ class DceRepository extends Repository
         if ($dceFieldConfiguration['dce_load_entity_class']) {
             $className = $dceFieldConfiguration['dce_load_entity_class'];
         } else {
-            while (strpos($className, '_') !== false) {
+            while (false !== strpos($className, '_')) {
                 $position = strpos($className, '_') + 1;
                 $className = substr($className, 0, $position - 1) . '-' . strtoupper(substr($className, $position, 1)) .
                     substr($className, $position + 1);
@@ -436,12 +406,12 @@ class DceRepository extends Repository
 
             $className = ucfirst(str_replace('-', '_', $className));
         }
-        if ($dceFieldConfiguration['dce_get_fal_objects'] && strtolower($className) === 'sys_file') {
+        if ($dceFieldConfiguration['dce_get_fal_objects'] && 'sys_file' === strtolower($className)) {
             $className = File::class;
         }
 
-        if ($dceFieldConfiguration['dce_get_fal_objects'] && strtolower($className) === 'sys_file_reference') {
-            $contentObjectUid = (int) ($contentObject['_LOCALIZED_UID'] ?? $contentObject['uid']);
+        if ($dceFieldConfiguration['dce_get_fal_objects'] && 'sys_file_reference' === strtolower($className)) {
+            $contentObjectUid = (int)($contentObject['_LOCALIZED_UID'] ?? $contentObject['uid']);
             $fileReferences = [];
             if (TYPO3_MODE === 'FE') {
                 $fileRepository = GeneralUtility::makeInstance(
@@ -475,9 +445,9 @@ class DceRepository extends Repository
                             $referenceUid
                         );
                         if ($fileReferenceData) {
-                            if ($fileReferenceData['t3ver_label'] !== 'DELETED!' &&
-                                $fileReferenceData['hidden'] !== '1' &&
-                                $fileReferenceData['deleted'] !== '1'
+                            if ('DELETED!' !== $fileReferenceData['t3ver_label'] &&
+                                '1' !== $fileReferenceData['hidden'] &&
+                                '1' !== $fileReferenceData['deleted']
                             ) {
                                 $fileReferences[] = $fileFactory->createFileReferenceObject($fileReferenceData);
                             }
@@ -485,6 +455,7 @@ class DceRepository extends Repository
                     }
                 }
             }
+
             return $fileReferences;
         }
 
@@ -493,7 +464,7 @@ class DceRepository extends Repository
         } else {
             $repositoryName = str_replace('\\Model\\', '\\Repository\\', $className) . 'Repository';
         }
-        if (strtolower($className) === 'sys_file_collection') {
+        if ('sys_file_collection' === strtolower($className)) {
             $specialClass = 'FileCollection';
             $className = AbstractFileCollection::class;
             $repositoryName = FileCollectionRepository::class;
@@ -502,33 +473,33 @@ class DceRepository extends Repository
         if (class_exists($className) && class_exists($repositoryName)) {
             // Extbase object found
             /** @var ObjectManager $objectManager */
-            $objectManager = isset($this->objectManager)
-                ? $this->objectManager
-                : GeneralUtility::makeInstance(ObjectManager::class);
+            $objectManager = $this->objectManager
+                ?? GeneralUtility::makeInstance(ObjectManager::class);
             /** @var $repository Repository */
             $repository = $objectManager->get($repositoryName);
 
             foreach (GeneralUtility::trimExplode(',', $fieldValue, true) as $uid) {
                 $uid = (int)$uid;
                 $object = $repository->findByUid($uid);
-                if ($specialClass === 'FileCollection') {
+                if ('FileCollection' === $specialClass) {
                     $object->loadContents();
                 }
                 $objects[] = $object;
             }
+
             return $objects;
         }
         // No class found... load DB record and return assoc
         foreach (GeneralUtility::trimExplode(',', $fieldValue, true) as $uid) {
             $enableFields = '';
 
-            if (\count($tableNames) === 1) {
-                $uid = (int) $uid;
+            if (1 === \count($tableNames)) {
+                $uid = (int)$uid;
                 $tableName = $tableNames[0];
             } else {
                 $position = strrpos($uid, '_');
                 $tableName = substr($uid, 0, $position);
-                $uid = (int) substr($uid, $position + 1);
+                $uid = (int)substr($uid, $position + 1);
             }
 
             if (empty($tableName)) {
@@ -561,7 +532,7 @@ class DceRepository extends Repository
             }
             foreach ($recordRows as $row) {
                 if ($dceFieldConfiguration['dce_enable_autotranslation']) {
-                    if ($tableName === 'pages') {
+                    if ('pages' === $tableName) {
                         $row = $pageRepository->getPageOverlay($row);
                     } else {
                         $row = $pageRepository->getRecordOverlay(
@@ -576,7 +547,7 @@ class DceRepository extends Repository
                 // Add field with tableName
                 $row['_table'] = $tableName;
 
-                if ($tableName === 'tt_content') {
+                if ('tt_content' === $tableName) {
                     $dceUid = static::extractUidFromCTypeOrIdentifier($row['CType']);
                     if ($dceUid) {
                         $objects[] = $this->findAndBuildOneByUid(
@@ -590,28 +561,30 @@ class DceRepository extends Repository
                 $objects[] = $row;
             }
         }
+
         return $objects;
     }
 
-    private function getSysLanguageUid() : ?int
+    private function getSysLanguageUid(): ?int
     {
         $context = GeneralUtility::makeInstance(Context::class);
         try {
-            return (int) $context->getPropertyFromAspect('language', 'id', 0);
+            return (int)$context->getPropertyFromAspect('language', 'id', 0);
         } catch (AspectNotFoundException $e) {
         }
+
         return null;
     }
 
-
     /**
      * Resolves relations of tt_content row record stored in {contentObject}
-     * It resolves: media, assets and categories
+     * It resolves: media, assets and categories.
      *
      * @param array $contentObjectArray which contains
+     *
      * @return array Processed content object array
      */
-    protected function resolveContentObjectRelations(array $contentObjectArray) : array
+    protected function resolveContentObjectRelations(array $contentObjectArray): array
     {
         /** @var FileRepository $fileRepository */
         $fileRepository = GeneralUtility::makeInstance(FileRepository::class);
@@ -636,9 +609,8 @@ class DceRepository extends Repository
         // Resolve categories
         if (array_key_exists('categories', $processedContentObject)) {
             /** @var ObjectManager $objectManager */
-            $objectManager = isset($this->objectManager)
-                ? $this->objectManager
-                : GeneralUtility::makeInstance(ObjectManager::class);
+            $objectManager = $this->objectManager
+                ?? GeneralUtility::makeInstance(ObjectManager::class);
             /** @var CategoryRepository $categoryRepository */
             $categoryRepository = $objectManager->get(CategoryRepository::class);
 
@@ -691,20 +663,21 @@ class DceRepository extends Repository
                 }
             }
         }
+
         return $processedContentObject;
     }
 
     /**
-     * Get DCE Instance
+     * Get DCE Instance.
      *
      * @param int $contentElementUid Uid of content element (tt_content)
-     * @return Dce
      */
     public function getDceInstance(int $contentElementUid): Dce
     {
         $contentObject = $this->getContentObject($contentElementUid);
         $uid = $this->extractUidFromCTypeOrIdentifier($contentObject['CType']);
         $this->settings = $this->simulateContentElementSettings($contentElementUid);
+
         return $this->findAndBuildOneByUid(
             $uid,
             $this->settings,
@@ -713,12 +686,9 @@ class DceRepository extends Repository
     }
 
     /**
-     * Simulates content element settings, which is necessary in backend context
-     *
-     * @param int $contentElementUid
-     * @return array
+     * Simulates content element settings, which is necessary in backend context.
      */
-    public function simulateContentElementSettings(int $contentElementUid) : array
+    public function simulateContentElementSettings(int $contentElementUid): array
     {
         $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tt_content');
         $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class);
@@ -737,17 +707,18 @@ class DceRepository extends Repository
             ->fetch();
 
         $flexData = FlexformService::get()->convertFlexFormContentToArray($row['pi_flexform'], 'lDEF', 'vDEF');
+
         return $flexData['settings'] ?? [];
     }
 
-
     /**
-     * Returns an array with properties of content element with given uid
+     * Returns an array with properties of content element with given uid.
      *
      * @param int $uid of content element to get
+     *
      * @return array|bool|null with all properties of given content element uid
      */
-    public function getContentObject(int $uid) : ?array
+    public function getContentObject(int $uid): ?array
     {
         $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tt_content');
         $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class);

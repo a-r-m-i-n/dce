@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types = 1);
+
 namespace T3\Dce\UpdateWizards;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -7,13 +10,13 @@ namespace T3\Dce\UpdateWizards;
  *  | (c) 2020-2021 Armin Vieweg <armin@v.ieweg.de>
  */
 use T3\Dce\Utility\DatabaseUtility;
-use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 use TYPO3\CMS\Core\Charset\CharsetConverter;
 use TYPO3\CMS\Core\Configuration\FlexForm\FlexFormTools;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
 /**
- * Migrate Flexform sheet identifier
+ * Migrate Flexform sheet identifier.
  *
  * In the past DCE named tabs in flexform configuration like this:
  * <sheet0></sheet0>
@@ -51,7 +54,7 @@ class MigrateFlexformSheetIdentifierUpdateWizard implements UpgradeWizardInterfa
 
     public function executeUpdate(): bool
     {
-        return (bool) $this->update();
+        return (bool)$this->update();
     }
 
     public function updateNecessary(): bool
@@ -78,16 +81,16 @@ class MigrateFlexformSheetIdentifierUpdateWizard implements UpgradeWizardInterfa
             $connection->update(
                 'tx_dce_domain_model_dcefield',
                 [
-                    'variable' => $tabRow['variable']
+                    'variable' => $tabRow['variable'],
                 ],
                 [
-                    'uid' => $tabRow['uid']
+                    'uid' => $tabRow['uid'],
                 ]
             );
 
             if (!isset($tabsGroupedByDce[$tabRow['parent_dce']])) {
                 $tabsGroupedByDce[$tabRow['parent_dce']] = [];
-                if ($tabRow['sorting'] !== '1') {
+                if ('1' !== $tabRow['sorting']) {
                     $tabsGroupedByDce[$tabRow['parent_dce']][] = ['variable' => 'tabGeneral'];
                 }
             }
@@ -116,18 +119,18 @@ class MigrateFlexformSheetIdentifierUpdateWizard implements UpgradeWizardInterfa
                 $newFlexformData = ['data' => []];
                 if (!empty($flexformData['data'])) {
                     foreach ($flexformData['data'] as $sheetIdentifier => $sheetData) {
-                        if ($i === 0) {
+                        if (0 === $i) {
                             // First sheet
                             $newFlexformData['data']['sheet.tabGeneral'] = $sheetData;
-                            $i++;
+                            ++$i;
                             continue;
                         }
-                        if (strpos($sheetIdentifier, '.') === false) {
+                        if (false === strpos($sheetIdentifier, '.')) {
                             $newFlexformData['data']['sheet.' . $tabs[$i]['variable']] = $sheetData;
                         } else {
                             $newFlexformData['data'][$sheetIdentifier] = $sheetData;
                         }
-                        $i++;
+                        ++$i;
                     }
                 }
 
@@ -135,10 +138,10 @@ class MigrateFlexformSheetIdentifierUpdateWizard implements UpgradeWizardInterfa
                 $connection->update(
                     'tt_content',
                     [
-                        'pi_flexform' => $flexFormTools->flexArray2Xml($newFlexformData, true)
+                        'pi_flexform' => $flexFormTools->flexArray2Xml($newFlexformData, true),
                     ],
                     [
-                        'uid' => (int) $contentElement['uid']
+                        'uid' => (int)$contentElement['uid'],
                     ]
                 );
             }
@@ -151,7 +154,7 @@ class MigrateFlexformSheetIdentifierUpdateWizard implements UpgradeWizardInterfa
             $newFlexformData = ['data' => []];
             if (!empty($flexformData['data'])) {
                 foreach ($flexformData['data'] as $sheetIdentifier => $sheetData) {
-                    if ($sheetIdentifier === 'sheet0') {
+                    if ('sheet0' === $sheetIdentifier) {
                         $newFlexformData['data']['sheet.tabGeneral'] = $sheetData;
                     } else {
                         $newFlexformData['data'][$sheetIdentifier] = $sheetData;
@@ -162,24 +165,26 @@ class MigrateFlexformSheetIdentifierUpdateWizard implements UpgradeWizardInterfa
             $connection->update(
                 'tt_content',
                 [
-                    'pi_flexform' => $flexFormTools->flexArray2Xml($newFlexformData, true)
+                    'pi_flexform' => $flexFormTools->flexArray2Xml($newFlexformData, true),
                 ],
                 [
-                    'uid' => (int) $contentElement['uid']
+                    'uid' => (int)$contentElement['uid'],
                 ]
             );
         }
+
         return true;
     }
 
     /**
-     * Returns tabs (DceFields with type=1) without set variable field
+     * Returns tabs (DceFields with type=1) without set variable field.
      *
      * @return array DceField rows
      */
-    protected function getUpdatableDceFields() : array
+    protected function getUpdatableDceFields(): array
     {
         $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dcefield');
+
         return $queryBuilder
             ->select('*')
             ->from('tx_dce_domain_model_dcefield')
@@ -196,13 +201,14 @@ class MigrateFlexformSheetIdentifierUpdateWizard implements UpgradeWizardInterfa
     }
 
     /**
-     * Returns content elements, based on DCE, with old sheet identifier
+     * Returns content elements, based on DCE, with old sheet identifier.
      *
      * @return array tt_content rows
      */
-    protected function getUpdatableContentElements() : array
+    protected function getUpdatableContentElements(): array
     {
         $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tt_content');
+
         return $queryBuilder
             ->select('*')
             ->from('tt_content')
@@ -224,14 +230,16 @@ class MigrateFlexformSheetIdentifierUpdateWizard implements UpgradeWizardInterfa
      * Converts given fieldTitle to variable name (in UpperCamelCase).
      *
      * @param string $fieldTitle The title you want to convert
+     *
      * @return string The converted variable name in UpperCamelCase
      */
-    protected function convertFieldTitleToVariable(string $fieldTitle) : string
+    protected function convertFieldTitleToVariable(string $fieldTitle): string
     {
         /** @var CharsetConverter $charsetConverter */
         $charsetConverter = GeneralUtility::makeInstance(CharsetConverter::class);
         $variable = $charsetConverter->specCharsToASCII('utf-8', $fieldTitle);
         $variable = preg_replace('/[^A-Z0-9]/i', '_', $variable);
+
         return GeneralUtility::underscoredToUpperCamelCase($variable);
     }
 

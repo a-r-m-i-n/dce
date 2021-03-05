@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\ViewHelpers;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -14,13 +15,10 @@ use TYPO3\CMS\Frontend\Page\PageRepository;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
- * Receives FAL FileReference objects
+ * Receives FAL FileReference objects.
  */
 class FalViewHelper extends AbstractViewHelper
 {
-    /**
-     * @return void
-     */
     public function initializeArguments()
     {
         parent::initializeArguments();
@@ -62,9 +60,9 @@ class FalViewHelper extends AbstractViewHelper
      */
     public function render()
     {
-        $contentObjectUid = (int) $this->arguments['contentObject']['uid'];
+        $contentObjectUid = (int)$this->arguments['contentObject']['uid'];
         if ($this->arguments['localizedUid']) {
-            $contentObjectUid = (int) ($this->arguments['contentObject']['_LOCALIZED_UID'] !== null)
+            $contentObjectUid = (int)(null !== $this->arguments['contentObject']['_LOCALIZED_UID'])
                 ? $this->arguments['contentObject']['_LOCALIZED_UID']
                 : $this->arguments['contentObject']['uid'];
         }
@@ -100,8 +98,9 @@ class FalViewHelper extends AbstractViewHelper
         $fileRepository = GeneralUtility::makeInstance(FileRepository::class);
         $result = [];
         foreach ($rows as $referenceUid) {
-            $result[] = $fileRepository->findFileReferenceByUid((int) $referenceUid['uid']);
+            $result[] = $fileRepository->findFileReferenceByUid((int)$referenceUid['uid']);
         }
+
         return $result;
     }
 }

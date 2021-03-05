@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\Domain\Model;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -43,7 +44,8 @@ class DceField extends AbstractEntity
     protected $configuration = '';
 
     /**
-     * TCA column name to map $this->_value to
+     * TCA column name to map $this->_value to.
+     *
      * @var string
      */
     protected $mapTo = '';
@@ -79,81 +81,58 @@ class DceField extends AbstractEntity
     protected $value = '';
 
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
         $this->sectionFields = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
     }
 
-    /**
-     * @return int
-     */
     public function getType(): int
     {
         return $this->type;
     }
 
-    /**
-     * @param int $type
-     * @return self
-     */
     public function setType(int $type): self
     {
         $this->type = $type;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * @param string $title
-     * @return self
-     */
     public function setTitle(string $title): self
     {
         $this->title = $title;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getVariable(): string
     {
         return $this->variable;
     }
 
-    /**
-     * @param string $variable
-     * @return self
-     */
     public function setVariable(string $variable): self
     {
         $this->variable = $variable;
+
         return $this;
     }
 
     /**
      * Returns field configuration as xml string.
      * Also it replaces the string "{$variable}" with the actual variable name of this field (used in FAL config).
-     *
-     * @return string
      */
     public function getConfiguration(): string
     {
         return str_replace('{$variable}', $this->getVariable(), $this->configuration);
     }
 
-    /**
-     * @return array
-     */
     public function getConfigurationAsArray(): array
     {
         $configuration = '<dceFieldConfiguration>' . $this->getConfiguration() . '</dceFieldConfiguration>';
@@ -161,71 +140,53 @@ class DceField extends AbstractEntity
         if (array_key_exists('dceFieldConfiguration', $configurationArray)) {
             return $configurationArray['dceFieldConfiguration'];
         }
+
         return $configurationArray;
     }
 
     /**
      * @param string $configuration xml string
-     * @return self
      */
     public function setConfiguration(string $configuration): self
     {
         $this->configuration = $configuration;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getMapTo(): string
     {
         return $this->mapTo;
     }
 
-    /**
-     * @param string $mapTo
-     * @return self
-     */
     public function setMapTo(string $mapTo): self
     {
         $this->mapTo = $mapTo;
+
         return $this;
     }
 
-
-    /**
-     * @return string
-     */
     public function getNewTcaFieldName(): string
     {
         return $this->newTcaFieldName;
     }
 
-    /**
-     * @param string $newTcaFieldName
-     * @return self
-     */
     public function setNewTcaFieldName(string $newTcaFieldName): self
     {
         $this->newTcaFieldName = $newTcaFieldName;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getNewTcaFieldType(): string
     {
         return $this->newTcaFieldType;
     }
 
-    /**
-     * @param string $newTcaFieldType
-     * @return self
-     */
     public function setNewTcaFieldType(string $newTcaFieldType): self
     {
         $this->newTcaFieldType = $newTcaFieldType;
+
         return $this;
     }
 
@@ -239,22 +200,23 @@ class DceField extends AbstractEntity
 
     /**
      * @param mixed $value
-     * @return self
      */
     public function setValue($value): self
     {
         $this->value = $value;
+
         return $this;
     }
 
     /**
-     * Checks if section field count is greater than zero
+     * Checks if section field count is greater than zero.
      *
      * @return bool Returns TRUE when section fields existing, otherwise returns FALSE
      */
     public function hasSectionFields(): bool
     {
         $sectionFields = $this->getSectionFields();
+
         return isset($sectionFields) && \count($sectionFields) > 0;
     }
 
@@ -266,33 +228,24 @@ class DceField extends AbstractEntity
         return $this->sectionFields;
     }
 
-    /**
-     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $sectionFields
-     * @return self
-     */
     public function setSectionFields(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $sectionFields): self
     {
         $this->sectionFields = $sectionFields;
+
         return $this;
     }
 
-    /**
-     * @param DceField $sectionField
-     * @return self
-     */
-    public function addSectionField(DceField $sectionField) : self
+    public function addSectionField(DceField $sectionField): self
     {
         $this->sectionFields->attach($sectionField);
+
         return $this;
     }
 
-    /**
-     * @param DceField $sectionField
-     * @return self
-     */
-    public function removeSectionField(DceField $sectionField) : self
+    public function removeSectionField(DceField $sectionField): self
     {
         $this->sectionFields->detach($sectionField);
+
         return $this;
     }
 
@@ -301,9 +254,8 @@ class DceField extends AbstractEntity
      * If not found, returns null.
      *
      * @param string $variable
-     * @return DceField|null
      */
-    public function getSectionFieldByVariable($variable) : ?DceField
+    public function getSectionFieldByVariable($variable): ?DceField
     {
         $sectionFields = $this->getSectionFields();
         if (isset($sectionFields)) {
@@ -314,92 +266,78 @@ class DceField extends AbstractEntity
                 }
             }
         }
+
         return null;
     }
 
     /**
-     * Get ParentDce
-     *
-     * @return Dce|null
+     * Get ParentDce.
      */
-    public function getParentDce() : ?Dce
+    public function getParentDce(): ?Dce
     {
         return $this->parentDce;
     }
 
     /**
-     * Set ParentDce
-     *
-     * @param Dce $parentDce
-     * @return self
+     * Set ParentDce.
      */
-    public function setParentDce(Dce $parentDce) : self
+    public function setParentDce(Dce $parentDce): self
     {
         $this->parentDce = $parentDce;
+
         return $this;
     }
 
     /**
-     * Get ParentField
-     *
-     * @return DceField|null
+     * Get ParentField.
      */
-    public function getParentField() : ?DceField
+    public function getParentField(): ?DceField
     {
         return $this->parentField;
     }
 
     /**
-     * Set ParentField
-     *
-     * @param DceField $parentField
-     * @return self
+     * Set ParentField.
      */
-    public function setParentField(DceField $parentField) : self
+    public function setParentField(DceField $parentField): self
     {
         $this->parentField = $parentField;
+
         return $this;
     }
 
     /**
-     * Checks if the field is of type element
-     *
-     * @return bool
+     * Checks if the field is of type element.
      */
-    public function isElement() : bool
+    public function isElement(): bool
     {
-        return ($this->getType() === self::TYPE_ELEMENT);
+        return self::TYPE_ELEMENT === $this->getType();
     }
 
     /**
-     * Checks if the field is of type section
-     *
-     * @return bool
+     * Checks if the field is of type section.
      */
-    public function isSection() : bool
+    public function isSection(): bool
     {
-        return $this->getType() === self::TYPE_SECTION;
+        return self::TYPE_SECTION === $this->getType();
     }
 
     /**
-     * Checks if the field is of type tab
-     *
-     * @return bool
+     * Checks if the field is of type tab.
      */
-    public function isTab() : bool
+    public function isTab(): bool
     {
-        return ($this->getType() === self::TYPE_TAB);
+        return self::TYPE_TAB === $this->getType();
     }
 
     /**
-     * Checks if given xml configuration refers to FAL
-     *
-     * @return bool
+     * Checks if given xml configuration refers to FAL.
      */
-    public function isFal() : bool
+    public function isFal(): bool
     {
         $configuration = $this->getConfigurationAsArray();
         $configuration = $configuration['config'];
-        return $configuration['type'] === 'inline' && $configuration['foreign_table'] === 'sys_file_reference';
+
+        return 'inline' === $configuration['type'] && 'sys_file_reference' === $configuration['foreign_table'];
     }
 }

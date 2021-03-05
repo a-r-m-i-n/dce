@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\ViewHelpers\Format;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -10,13 +11,10 @@ use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
- * Escapes charlist in given subject
+ * Escapes charlist in given subject.
  */
 class AddcslashesViewHelper extends AbstractViewHelper
 {
-    /**
-     * @return void
-     */
     public function initializeArguments()
     {
         parent::initializeArguments();
@@ -25,9 +23,6 @@ class AddcslashesViewHelper extends AbstractViewHelper
     }
 
     /**
-     * @param array $arguments
-     * @param \Closure $renderChildrenClosure
-     * @param RenderingContextInterface $renderingContext
      * @return string
      */
     public static function renderStatic(
@@ -36,9 +31,10 @@ class AddcslashesViewHelper extends AbstractViewHelper
         RenderingContextInterface $renderingContext
     ) {
         $subject = $arguments['subject'];
-        if ($subject === null) {
-            $subject = (string) $renderChildrenClosure();
+        if (null === $subject) {
+            $subject = (string)$renderChildrenClosure();
         }
+
         return addcslashes($subject, $arguments['charlist']);
     }
 }

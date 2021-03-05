@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\ViewHelpers\Format;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -10,13 +11,10 @@ use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
- * Returns the given subject with encircling curly braces
+ * Returns the given subject with encircling curly braces.
  */
 class WrapWithCurlyBracesViewHelper extends AbstractViewHelper
 {
-    /**
-     * @return void
-     */
     public function initializeArguments()
     {
         parent::initializeArguments();
@@ -26,9 +24,6 @@ class WrapWithCurlyBracesViewHelper extends AbstractViewHelper
     }
 
     /**
-     * @param array $arguments
-     * @param \Closure $renderChildrenClosure
-     * @param RenderingContextInterface $renderingContext
      * @return string
      */
     public static function renderStatic(
@@ -37,9 +32,10 @@ class WrapWithCurlyBracesViewHelper extends AbstractViewHelper
         RenderingContextInterface $renderingContext
     ) {
         $subject = $arguments['subject'];
-        if ($subject === null) {
+        if (null === $subject) {
             $subject = $renderChildrenClosure();
         }
+
         return '{' . $arguments['prepend'] . $subject . $arguments['append'] . '}';
     }
 }

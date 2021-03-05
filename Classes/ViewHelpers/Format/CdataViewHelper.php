@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\ViewHelpers\Format;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -14,9 +15,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class CdataViewHelper extends AbstractViewHelper
 {
-    /**
-     * @return void
-     */
     public function initializeArguments()
     {
         parent::initializeArguments();
@@ -24,9 +22,6 @@ class CdataViewHelper extends AbstractViewHelper
     }
 
     /**
-     * @param array $arguments
-     * @param \Closure $renderChildrenClosure
-     * @param RenderingContextInterface $renderingContext
      * @return string
      */
     public static function renderStatic(
@@ -35,9 +30,10 @@ class CdataViewHelper extends AbstractViewHelper
         RenderingContextInterface $renderingContext
     ) {
         $subject = $arguments['subject'];
-        if ($subject === null) {
-            $subject = (string) $renderChildrenClosure();
+        if (null === $subject) {
+            $subject = (string)$renderChildrenClosure();
         }
+
         return '<![CDATA[' . $subject . ']]>';
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\UserFunction;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -14,23 +15,22 @@ use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
- * ItemProfFunc UserFunctions
+ * ItemProfFunc UserFunctions.
  */
 class ItemsProcFunc
 {
     /**
-     * Add DceFields
+     * Add DceFields.
      *
      * @param array $parameters Referenced parameter array
-     * @return void
      */
-    public function getDceFields(array &$parameters) : void
+    public function getDceFields(array &$parameters): void
     {
         if (!isset($parameters['row']['uid']) || !is_numeric($parameters['row']['uid'])) {
             return;
         }
         $parameters['items'][] = [LocalizationUtility::translate('dceTitle', 'dce'), '*dcetitle'];
-        if ($parameters['config']['size'] === 1) {
+        if (1 === $parameters['config']['size']) {
             $parameters['items'][] = [LocalizationUtility::translate('empty', 'dce'), '*empty'];
         }
         if ($parameters['row']['enable_container']) {
@@ -58,7 +58,7 @@ class ItemsProcFunc
         if (!empty($dceFields)) {
             foreach ($dceFields as $dceField) {
                 $label = LanguageService::sL($dceField['title']);
-                if ($dceField['type'] === '2') {
+                if ('2' === $dceField['type']) {
                     $label .= ' (' . LocalizationUtility::translate('section', 'dce') . ')';
                 }
                 $parameters['items'][] = [$label, $dceField['variable']];
@@ -67,13 +67,13 @@ class ItemsProcFunc
     }
 
     /**
-     * Add available tt_content columns for TCA mapping
+     * Add available tt_content columns for TCA mapping.
      *
      * @param array $parameters Referenced parameter array
-     * @return void
+     *
      * @throws \Doctrine\DBAL\DBALException
      */
-    public function getAvailableTtContentColumnsForTcaMapping(array &$parameters) : void
+    public function getAvailableTtContentColumnsForTcaMapping(array &$parameters): void
     {
         $excludedColumns = [
             'uid',
@@ -93,8 +93,8 @@ class ItemsProcFunc
             'tx_dce_slug',
         ];
         // Do not show column which has been provided by itself
-        if ($parameters['table'] === 'tx_dce_domain_model_dcefield' &&
-            $parameters['row']['map_to'] === '*newcol' &&
+        if ('tx_dce_domain_model_dcefield' === $parameters['table'] &&
+            '*newcol' === $parameters['row']['map_to'] &&
             !empty($parameters['row']['new_tca_field_name'])
         ) {
             $excludedColumns[] = $parameters['row']['new_tca_field_name'];
@@ -116,10 +116,8 @@ class ItemsProcFunc
     }
 
     /**
-     * Add available tt_content columns for palette fields
+     * Add available tt_content columns for palette fields.
      *
-     * @param array $parameters
-     * @return void
      * @throws \Doctrine\DBAL\DBALException
      */
     public function getAvailableTtContentColumnsForPaletteFields(array &$parameters)
@@ -167,12 +165,9 @@ class ItemsProcFunc
     }
 
     /**
-     * Adds available wizard icons
-     *
-     * @param array $parameters
-     * @return void
+     * Adds available wizard icons.
      */
-    public function getAvailableWizardIcons(array &$parameters) : void
+    public function getAvailableWizardIcons(array &$parameters): void
     {
         $identifiers = [
             'content-header',
@@ -186,14 +181,14 @@ class ItemsProcFunc
             'content-special-shortcut',
             'content-elements-login',
             'content-elements-mailform',
-            'content-plugin'
+            'content-plugin',
         ];
 
         foreach ($identifiers as $identifier) {
             $parameters['items'][] = [
                 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xlf:wizardIcon.' . $identifier,
                 $identifier,
-                $identifier
+                $identifier,
             ];
         }
         $ll = 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xlf:';

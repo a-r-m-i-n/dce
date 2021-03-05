@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\Components\ContentElementGenerator;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -35,7 +36,7 @@ class Generator
     protected $outputTcaAndFlexForm;
 
     /**
-     * Generator constructor
+     * Generator constructor.
      */
     public function __construct()
     {
@@ -54,10 +55,7 @@ class Generator
         );
     }
 
-    /**
-     * @return void
-     */
-    public function makeTca() : void
+    public function makeTca(): void
     {
         try {
             $this->outputTcaAndFlexForm->generate();
@@ -65,10 +63,7 @@ class Generator
         }
     }
 
-    /**
-     * @return void
-     */
-    public function makePluginConfiguration() : void
+    public function makePluginConfiguration(): void
     {
         try {
             $this->outputPlugin->generate();

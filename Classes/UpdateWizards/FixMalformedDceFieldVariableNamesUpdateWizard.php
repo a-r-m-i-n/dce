@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types = 1);
+
 namespace T3\Dce\UpdateWizards;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -43,7 +46,7 @@ class FixMalformedDceFieldVariableNamesUpdateWizard implements UpgradeWizardInte
 
     public function executeUpdate(): bool
     {
-        return (bool) $this->update();
+        return (bool)$this->update();
     }
 
     public function updateNecessary(): bool
@@ -54,6 +57,7 @@ class FixMalformedDceFieldVariableNamesUpdateWizard implements UpgradeWizardInte
             'But it updates the DceField record and all tt_content records based on this DCE.' . PHP_EOL .
             'Caution! Please make sure that you\'ve migrated the mm-relation of dce fields to 1:n ' .
             'before executing this update wizard.';
+
         return \count($malformedDceFields) > 0;
     }
 
@@ -67,15 +71,15 @@ class FixMalformedDceFieldVariableNamesUpdateWizard implements UpgradeWizardInte
             $connection->update(
                 'tx_dce_domain_model_dcefield',
                 [
-                    'variable' => $this->fixVariableName($malformedVariableName)
+                    'variable' => $this->fixVariableName($malformedVariableName),
                 ],
                 [
-                    'uid' => (int) $malformedDceField['uid']
+                    'uid' => (int)$malformedDceField['uid'],
                 ]
             );
 
             // Update tt_content records based on the DCE regarding current field
-            if ($malformedDceField['parent_dce'] == 0) {
+            if (0 == $malformedDceField['parent_dce']) {
                 // get section field and then DCE (thanks god, that section fields are limited to be not nestable!^^)
                 $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable(
                     'tx_dce_domain_model_dcefield'
@@ -113,11 +117,11 @@ class FixMalformedDceFieldVariableNamesUpdateWizard implements UpgradeWizardInte
                 $updatedFlexform = str_replace(
                     [
                         '"settings.' . $malformedVariableName . '"', // Fix variable names
-                        '<field index="' . $malformedVariableName . '">' // Fix section field names
+                        '<field index="' . $malformedVariableName . '">', // Fix section field names
                     ],
                     [
                         '"settings.' . $this->fixVariableName($malformedVariableName) . '"',
-                        '<field index="' . $this->fixVariableName($malformedVariableName) . '">'
+                        '<field index="' . $this->fixVariableName($malformedVariableName) . '">',
                     ],
                     $contentElement['pi_flexform']
                 );
@@ -126,14 +130,15 @@ class FixMalformedDceFieldVariableNamesUpdateWizard implements UpgradeWizardInte
                 $connection->update(
                     'tt_content',
                     [
-                        'pi_flexform' => $updatedFlexform
+                        'pi_flexform' => $updatedFlexform,
                     ],
                     [
-                        'uid' => (int) $contentElement['uid']
+                        'uid' => (int)$contentElement['uid'],
                     ]
                 );
             }
         }
+
         return true;
     }
 
@@ -141,13 +146,14 @@ class FixMalformedDceFieldVariableNamesUpdateWizard implements UpgradeWizardInte
      * Returns DceField rows of fields with malformed variable name.
      * A malformed variable:
      * - starts with integer and/or
-     * - is not lowerCamelCase
+     * - is not lowerCamelCase.
      *
      * @return array DceField rows
+     *
      * @see \T3\Dce\UserFunction\CustomFieldValidation\NoLeadingNumberValidator
      * @see \T3\Dce\UserFunction\CustomFieldValidation\LowerCamelCaseValidator
      */
-    protected function getDceFieldsWithMalformedVariableNames() : array
+    protected function getDceFieldsWithMalformedVariableNames(): array
     {
         $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dcefield');
         $dceFieldRows = $queryBuilder
@@ -168,60 +174,58 @@ class FixMalformedDceFieldVariableNamesUpdateWizard implements UpgradeWizardInte
                 $malformedDceFields[] = $dceFieldRow;
             }
         }
+
         return $malformedDceFields;
     }
 
     /**
-     * Returns instance of LowerCamelCaseValidator
-     *
-     * @return LowerCamelCaseValidator
+     * Returns instance of LowerCamelCaseValidator.
      */
-    protected function getLowerCamelCaseValidator() : LowerCamelCaseValidator
+    protected function getLowerCamelCaseValidator(): LowerCamelCaseValidator
     {
         /** @var LowerCamelCaseValidator $lowerCamelCaseValidator */
         $lowerCamelCaseValidator = GeneralUtility::makeInstance(
             LowerCamelCaseValidator::class
         );
+
         return $lowerCamelCaseValidator;
     }
 
     /**
-     * Returns instance of NoLeadingNumberValidator
-     *
-     * @return NoLeadingNumberValidator
+     * Returns instance of NoLeadingNumberValidator.
      */
-    protected function getNoLeadingNumberValidator() : NoLeadingNumberValidator
+    protected function getNoLeadingNumberValidator(): NoLeadingNumberValidator
     {
         /** @var NoLeadingNumberValidator $noLeadingNumberValidator */
         $noLeadingNumberValidator = GeneralUtility::makeInstance(
             NoLeadingNumberValidator::class
         );
+
         return $noLeadingNumberValidator;
     }
 
     /**
-     * Fix given variable name
+     * Fix given variable name.
      *
      * @param string $variableName e.g. "4ExampleValue"
+     *
      * @return string "exampleValue"
      */
-    protected function fixVariableName(string $variableName) : string
+    protected function fixVariableName(string $variableName): string
     {
         $lowerCamelCaseValidator = $this->getLowerCamelCaseValidator();
         $noLeadingNumberValidator = $this->getNoLeadingNumberValidator();
 
         $updatedVariableName = $lowerCamelCaseValidator->evaluateFieldValue($variableName, true);
         $updatedVariableName = $noLeadingNumberValidator->evaluateFieldValue($updatedVariableName, true);
+
         return $updatedVariableName;
     }
 
     /**
-     * Returns the identifier of dce with given uid
-     *
-     * @param int $dceUid
-     * @return string
+     * Returns the identifier of dce with given uid.
      */
-    protected function getDceIdentifier(int $dceUid) : string
+    protected function getDceIdentifier(int $dceUid): string
     {
         $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dce');
         $dce = $queryBuilder

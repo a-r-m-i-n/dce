@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\ViewHelpers\Be\Version;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -12,13 +13,10 @@ use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
- * Gets the current version of DCE
+ * Gets the current version of DCE.
  */
 class DceViewHelper extends AbstractViewHelper
 {
-    /**
-     * @return void
-     */
     public function initializeArguments()
     {
         parent::initializeArguments();
@@ -26,10 +24,8 @@ class DceViewHelper extends AbstractViewHelper
     }
 
     /**
-     * @param array $arguments
-     * @param \Closure $renderChildrenClosure
-     * @param RenderingContextInterface $renderingContext
      * @return string
+     *
      * @throws \TYPO3\CMS\Core\Package\Exception
      */
     public static function renderStatic(
@@ -42,6 +38,7 @@ class DceViewHelper extends AbstractViewHelper
                 ExtensionManagementUtility::getExtensionVersion('dce')
             );
         }
+
         return ExtensionManagementUtility::getExtensionVersion('dce');
     }
 }

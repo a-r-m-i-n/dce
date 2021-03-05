@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\ViewHelpers;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -13,7 +14,7 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
- * FileInfo viewhelper
+ * FileInfo viewhelper.
  *
  * Usage example for sections:
  *
@@ -36,9 +37,6 @@ class FileInfoViewHelper extends AbstractViewHelper
      */
     protected static $files = [];
 
-    /**
-     * @return void
-     */
     public function initializeArguments()
     {
         parent::initializeArguments();
@@ -52,6 +50,7 @@ class FileInfoViewHelper extends AbstractViewHelper
      * priority.
      *
      * @return string
+     *
      * @throws \Exception
      */
     public function render()
@@ -59,21 +58,19 @@ class FileInfoViewHelper extends AbstractViewHelper
         $file = $this->getFile($this->arguments['fileUid']);
         $properties = array_merge($file->_getMetaData(), $file->getProperties());
         if (!array_key_exists($this->arguments['attribute'], $properties)) {
-            throw new \Exception(
-                'Given file in DCE\'s fileInfo view helper has no attribute named "' .
-                $this->arguments['attribute'] . '". Most common, available attributes are: ' .
-                'title, description, alternative, width, height, name, extension, size and uid',
-                1429046106
-            );
+            throw new \Exception('Given file in DCE\'s fileInfo view helper has no attribute named "' . $this->arguments['attribute'] . '". Most common, available attributes are: ' . 'title, description, alternative, width, height, name, extension, size and uid', 1429046106);
         }
+
         return $properties[$this->arguments['attribute']];
     }
 
     /**
-     * Get file
+     * Get file.
      *
      * @param int $fileUid
+     *
      * @return File
+     *
      * @throws \Exception
      */
     protected function getFile($fileUid)
@@ -86,23 +83,25 @@ class FileInfoViewHelper extends AbstractViewHelper
             throw new \Exception('No file found with uid "' . (int)$fileUid . '"!', 1429046285);
         }
         self::$files[$fileUid] = $file;
+
         return $file;
     }
 
     /**
-     * Get file repository and stores it in static property
+     * Get file repository and stores it in static property.
      *
      * @return FileRepository
      */
     protected function getFileRepository()
     {
-        if (self::$fileRepository !== null) {
+        if (null !== self::$fileRepository) {
             return self::$fileRepository;
         }
         /** @var ObjectManager $objectManager */
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        /** @var FileRepository $fileRepository */
+        /* @var FileRepository $fileRepository */
         self::$fileRepository = $objectManager->get(FileRepository::class);
+
         return self::$fileRepository;
     }
 }

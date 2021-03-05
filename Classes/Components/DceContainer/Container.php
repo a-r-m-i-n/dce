@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\Components\DceContainer;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -7,8 +8,8 @@ namespace T3\Dce\Components\DceContainer;
  *  | (c) 2012-2021 Armin Vieweg <armin@v.ieweg.de>
  *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
-use T3\Dce\Components\TemplateRenderer\StandaloneViewFactory;
 use T3\Dce\Components\TemplateRenderer\DceTemplateTypes;
+use T3\Dce\Components\TemplateRenderer\StandaloneViewFactory;
 use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Utility\DatabaseUtility;
 use T3\Dce\Utility\PageTS;
@@ -19,7 +20,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
- * The DCE Container
+ * The DCE Container.
  */
 class Container
 {
@@ -39,9 +40,7 @@ class Container
     protected $dces = [];
 
     /**
-     * Container constructor
-     *
-     * @param Dce $firstDceInContainer
+     * Container constructor.
      */
     public function __construct(Dce $firstDceInContainer)
     {
@@ -52,30 +51,27 @@ class Container
     }
 
     /**
-     * Adds DceModel which contains the content element data
-     *
-     * @param Dce $dce
-     * @return void
+     * Adds DceModel which contains the content element data.
      */
-    public function addDce(Dce $dce) : void
+    public function addDce(Dce $dce): void
     {
         $this->dces[] = $dce;
     }
 
     /**
-     * Renders the container template, which includes all DCEs
-     *
-     * @return string
+     * Renders the container template, which includes all DCEs.
      */
-    public function render() : string
+    public function render(): string
     {
         foreach ($this->dces as $dceInContainer) {
             if ($dceInContainer->isContainerDetailAutohide() && $dceInContainer->isDetailPageTriggered()) {
                 $this->view->assign('dces', [$dceInContainer]);
+
                 return $this->view->render();
             }
         }
         $this->view->assign('dces', $this->dces);
+
         return $this->view->render();
     }
 
@@ -85,7 +81,7 @@ class Container
      *
      * @return string Hex color, e.g. "#ff0066"
      */
-    public function getContainerColor() : string
+    public function getContainerColor(): string
     {
         if (empty($this->dces)) {
             return '#fff';
@@ -94,7 +90,7 @@ class Container
         /** @var Dce $firstDce */
         $firstDce = current($this->dces);
         $contentObject = $firstDce->getContentObject();
-        if ($contentObject['sys_language_uid'] !== '0') {
+        if ('0' !== $contentObject['sys_language_uid']) {
             $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tt_content');
             $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class);
             $queryBuilder->getRestrictions()->removeByType(StartTimeRestriction::class);
@@ -116,6 +112,7 @@ class Container
         }
 
         $colors = array_values(PageTS::get('tx_dce.defaults.simpleBackendView.containerGroupColors'));
-        return (string) $colors[$contentObject['uid'] % \count($colors)];
+
+        return (string)$colors[$contentObject['uid'] % \count($colors)];
     }
 }

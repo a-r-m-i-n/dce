@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types = 1);
+
 namespace T3\Dce\UpdateWizards;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -11,7 +14,7 @@ use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
 /**
- * Migrate m:n-relation of dce fields to 1:n-relation
+ * Migrate m:n-relation of dce fields to 1:n-relation.
  */
 class MigrateDceFieldDatabaseRelationUpdateWizard implements UpgradeWizardInterface
 {
@@ -34,7 +37,7 @@ class MigrateDceFieldDatabaseRelationUpdateWizard implements UpgradeWizardInterf
 
     public function executeUpdate(): bool
     {
-        return (bool) $this->update();
+        return (bool)$this->update();
     }
 
     public function updateNecessary(): bool
@@ -48,6 +51,7 @@ class MigrateDceFieldDatabaseRelationUpdateWizard implements UpgradeWizardInterf
                 'The database table of DceFields has no "parent_dce" and/or "parent_field" and/or ' .
                 '"sorting" column. Please execute "Compare current database with ' .
                 'specification" in Important Actions section here in Install Tool.';
+
             return true;
         }
 
@@ -57,26 +61,30 @@ class MigrateDceFieldDatabaseRelationUpdateWizard implements UpgradeWizardInterf
             // Check of source table is existing
             $dceFieldTableName = $this->getSourceTableNameForDceField();
             $secionFieldTableName = $this->getSourceTableNameForSectionField();
-            if ($dceFieldTableName === null || $secionFieldTableName === null) {
+            if (null === $dceFieldTableName || null === $secionFieldTableName) {
                 $this->description = 'FATAL ERROR!' . PHP_EOL .
                     'The script was not able to find source tables!!! ' .
                     'Two of these tables are missing (one of each group):' . PHP_EOL .
-                    '- tx_dce_dce_dcefield_mm' . PHP_EOL.
+                    '- tx_dce_dce_dcefield_mm' . PHP_EOL .
                     '- zzz_deleted_tx_dce_dce_dcefield_mm' . PHP_EOL . PHP_EOL .
                     '- tx_dce_dcefield_sectionfields_mm' . PHP_EOL .
                     '- zzz_deleted_tx_dce_dcefield_sectionfields_mm';
+
                 return true;
             }
             $this->description = 'You have ' . \count($updatableDceFields) . ' dce fields which need to get updated. ' .
                 'The old relations are taking from "' . $dceFieldTableName . '" and "' . $secionFieldTableName .
                 '" table.';
+
             return true;
         }
+
         return false;
     }
 
     /**
      * @param string|array|mixed $customMessages Used in older TYPO3 versions
+     *
      * @return bool
      */
     public function update($customMessages = null): ?bool
@@ -99,14 +107,14 @@ class MigrateDceFieldDatabaseRelationUpdateWizard implements UpgradeWizardInterf
         foreach ($sectionFieldRelations as $sectionFieldRelation) {
             $updateValues = [
                 'parent_field' => $sectionFieldRelation['uid_local'],
-                'sorting' => $sectionFieldRelation['sorting']
+                'sorting' => $sectionFieldRelation['sorting'],
             ];
             $connection = DatabaseUtility::getConnectionPool()->getConnectionForTable('tx_dce_domain_model_dcefield');
             $connection->update(
                 'tx_dce_domain_model_dcefield',
                 $updateValues,
                 [
-                    'uid' => (int) $sectionFieldRelation['uid_foreign']
+                    'uid' => (int)$sectionFieldRelation['uid_foreign'],
                 ]
             );
         }
@@ -171,7 +179,7 @@ class MigrateDceFieldDatabaseRelationUpdateWizard implements UpgradeWizardInterf
                     );
                     $dceFieldInsertUid = $connection->lastInsertId('tx_dce_domain_model_dcefield');
 
-                    if ((int) $dceField['type'] === 2) {
+                    if (2 === (int)$dceField['type']) {
                         $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable(
                             'tx_dce_domain_model_dcefield'
                         );
@@ -216,11 +224,11 @@ class MigrateDceFieldDatabaseRelationUpdateWizard implements UpgradeWizardInterf
                     $connection->update(
                         $sourceTableName,
                         [
-                            'uid_foreign' => $dceFieldInsertUid
+                            'uid_foreign' => $dceFieldInsertUid,
                         ],
                         [
-                            'uid_local' => (int) $dceFieldRelation['uid_local'],
-                            'uid_foreign' => (int) $dceFieldRelation['uid_foreign']
+                            'uid_local' => (int)$dceFieldRelation['uid_local'],
+                            'uid_foreign' => (int)$dceFieldRelation['uid_foreign'],
                         ]
                     );
                 }
@@ -243,14 +251,14 @@ class MigrateDceFieldDatabaseRelationUpdateWizard implements UpgradeWizardInterf
             }
             $updateValues = [
                 'parent_dce' => $dceFieldRelation['uid_local'],
-                'sorting' => $dceFieldRelation['sorting']
+                'sorting' => $dceFieldRelation['sorting'],
             ];
             $connection = DatabaseUtility::getConnectionPool()->getConnectionForTable('tx_dce_domain_model_dcefield');
             $connection->update(
                 'tx_dce_domain_model_dcefield',
                 $updateValues,
                 [
-                    'uid' => (int) $dceFieldRelation['uid_foreign']
+                    'uid' => (int)$dceFieldRelation['uid_foreign'],
                 ]
             );
         }
@@ -287,17 +295,19 @@ class MigrateDceFieldDatabaseRelationUpdateWizard implements UpgradeWizardInterf
                 )
                 ->execute();
         }
+
         return true;
     }
 
     /**
-     * Returns DceFields without set parent field
+     * Returns DceFields without set parent field.
      *
      * @return array DceField row
      */
-    protected function getUpdatableDceFields() : array
+    protected function getUpdatableDceFields(): array
     {
         $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dcefield');
+
         return $queryBuilder
             ->select('*')
             ->from('tx_dce_domain_model_dcefield')
@@ -319,10 +329,9 @@ class MigrateDceFieldDatabaseRelationUpdateWizard implements UpgradeWizardInterf
      * Get source table name for DceField. If no source table existing
      * the method returns null. Otherwise the table name.
      *
-     * @return string|null
      * @throws \Doctrine\DBAL\DBALException
      */
-    protected function getSourceTableNameForDceField() : ?string
+    protected function getSourceTableNameForDceField(): ?string
     {
         $tables = DatabaseUtility::adminGetTables();
         if (array_key_exists('tx_dce_dce_dcefield_mm', $tables)) {
@@ -334,6 +343,7 @@ class MigrateDceFieldDatabaseRelationUpdateWizard implements UpgradeWizardInterf
         )) {
             return 'zzz_deleted_tx_dce_dce_dcefield_mm';
         }
+
         return null;
     }
 
@@ -341,10 +351,9 @@ class MigrateDceFieldDatabaseRelationUpdateWizard implements UpgradeWizardInterf
      * Get source table name for Section Field. If no source table existing
      * the method returns null. Otherwise the table name.
      *
-     * @return string|null
      * @throws \Doctrine\DBAL\DBALException
      */
-    protected function getSourceTableNameForSectionField() : ?string
+    protected function getSourceTableNameForSectionField(): ?string
     {
         $tables = DatabaseUtility::adminGetTables();
         if (array_key_exists('tx_dce_dcefield_sectionfields_mm', $tables)) {
@@ -356,6 +365,7 @@ class MigrateDceFieldDatabaseRelationUpdateWizard implements UpgradeWizardInterf
         )) {
             return 'zzz_deleted_tx_dce_dcefield_sectionfields_mm';
         }
+
         return null;
     }
 

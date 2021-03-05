@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\Components\ContentElementGenerator;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -12,13 +13,13 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * Class InputDatabase
+ * Class InputDatabase.
  */
 class InputDatabase implements InputInterface
 {
     /**
      * Returns all available DCE as array with this format
-     * (just most important fields listed):
+     * (just most important fields listed):.
      *
      * DCE
      *    |_ uid
@@ -33,9 +34,10 @@ class InputDatabase implements InputInterface
      *    |_ ...
      *
      * @return array with DCE -> containing tabs -> containing fields
+     *
      * @throws \Doctrine\DBAL\DBALException
      */
-    public function getDces() : array
+    public function getDces(): array
     {
         $tables = DatabaseUtility::adminGetTables();
         if (!\array_key_exists('tx_dce_domain_model_dce', $tables) ||
@@ -93,18 +95,14 @@ class InputDatabase implements InputInterface
         ) {
             $dces = $this->ensureContainerColPosFieldCompatibility($dces);
         }
+
         return $dces;
     }
 
-    /**
-     * @param array|null $dceFieldRows
-     * @param string $parentFieldName
-     * @return array
-     */
     protected function getFieldRowsByParentFieldName(
         ?array $dceFieldRows,
         string $parentFieldName = 'parent_dce'
-    ) : array {
+    ): array {
         $rowsByParent = [];
         foreach ($dceFieldRows ?? [] as $dceFieldRow) {
             if (!isset($rowsByParent[$dceFieldRow[$parentFieldName]])) {
@@ -113,28 +111,23 @@ class InputDatabase implements InputInterface
             $rowsByParent[$dceFieldRow[$parentFieldName]][] = $dceFieldRow;
             unset($dceFieldRow);
         }
+
         return $rowsByParent;
     }
 
-    /**
-     * @param array|null $dceModelRows
-     * @param array $dceFieldRowsByParentDce
-     * @param array $dceFieldRowsByParentDceField
-     * @return array
-     */
     protected function buildDcesArray(
         ?array $dceModelRows,
         array $dceFieldRowsByParentDce,
         array $dceFieldRowsByParentDceField
-    ) : array {
+    ): array {
         $dces = [];
         foreach ($dceModelRows as $row) {
             $tabs = [
                 0 => [
                     'title' => 'LLL:EXT:dce/Resources/Private/Language/locallang.xlf:generaltab',
                     'variable' => 'tabGeneral',
-                    'fields' => []
-                ]
+                    'fields' => [],
+                ],
             ];
             $index = 0;
             if (empty($dceFieldRowsByParentDce[$row['uid']])) {
@@ -142,9 +135,9 @@ class InputDatabase implements InputInterface
                 continue;
             }
             foreach ((array)$dceFieldRowsByParentDce[$row['uid']] as $row2) {
-                if ($row2['type'] === '1') {
+                if ('1' === $row2['type']) {
                     // Create new Tab
-                    $index++;
+                    ++$index;
                     $tabs[$index] = [];
                     $tabs[$index]['title'] = $row2['title'];
                     $tabs[$index]['variable'] = $row2['variable'];
@@ -152,10 +145,10 @@ class InputDatabase implements InputInterface
                     continue;
                 }
 
-                if ($row2['type'] === '2') {
+                if ('2' === $row2['type']) {
                     $sectionFields = [];
                     foreach ((array)$dceFieldRowsByParentDceField[$row2['uid']] as $row3) {
-                        if ($row3['type'] === '0') {
+                        if ('0' === $row3['type']) {
                             // add fields of section to fields
                             $sectionFields[] = $row3;
                         }
@@ -168,26 +161,24 @@ class InputDatabase implements InputInterface
                     $tabs[$index]['fields'][] = $row2;
                 }
             }
-            if (\count($tabs[0]['fields']) === 0) {
+            if (0 === \count($tabs[0]['fields'])) {
                 unset($tabs[0]);
             }
 
             $row['identifier'] = !empty($row['identifier']) ? 'dce_' . $row['identifier'] : 'dce_dceuid' . $row['uid'];
             $row['tabs'] = $tabs;
-            $row['hasCustomWizardIcon'] = $row['wizard_icon'] === 'custom';
+            $row['hasCustomWizardIcon'] = 'custom' === $row['wizard_icon'];
             $dces[] = $row;
         }
+
         return $dces;
     }
 
     /**
      * Iterates through given DCE rows and add field "colPos" to DCE palettes
      * if not already set.
-     *
-     * @param array $dces
-     * @return array
      */
-    protected function ensureContainerColPosFieldCompatibility(array $dces) : array
+    protected function ensureContainerColPosFieldCompatibility(array $dces): array
     {
         foreach ($dces as $key => $dceRow) {
             $paletteFields = GeneralUtility::trimExplode(',', $dceRow['palette_fields'], true);
@@ -196,6 +187,7 @@ class InputDatabase implements InputInterface
             }
             $dces[$key]['palette_fields'] = implode(', ', $paletteFields);
         }
+
         return $dces;
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\UserFunction\CustomFieldValidation;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -15,10 +16,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class LowerCamelCaseValidator extends AbstractFieldValidator
 {
     /**
-     * PHP Validation to check lowerCamelCase
+     * PHP Validation to check lowerCamelCase.
      *
-     * @param string $value
      * @param bool $silent When true no flash messages get created
+     *
      * @return mixed|string Updated string, which fits the requirements
      */
     public function evaluateFieldValue(string $value, bool $silent = false)
@@ -26,7 +27,7 @@ class LowerCamelCaseValidator extends AbstractFieldValidator
         $originalValue = $value;
         $value = lcfirst($value);
         $value = str_replace('-', '_', $value);
-        if (strpos($value, '_') !== false) {
+        if (false !== strpos($value, '_')) {
             $value = GeneralUtility::underscoredToLowerCamelCase($value);
         }
 
@@ -37,6 +38,7 @@ class LowerCamelCaseValidator extends AbstractFieldValidator
                 FlashMessage::NOTICE
             );
         }
+
         return $value;
     }
 }

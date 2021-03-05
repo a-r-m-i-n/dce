@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\Components\ContentElementGenerator;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -6,7 +7,6 @@ namespace T3\Dce\Components\ContentElementGenerator;
  *  |
  *  | (c) 2019-2021 Armin Vieweg <armin@v.ieweg.de>
  */
-use T3\Dce\Compatibility;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -29,7 +29,6 @@ class CacheManager implements SingletonInterface
      */
     private $enabled = true;
 
-
     public function __construct(string $cacheName = self::CACHE_NAME)
     {
         $this->cachePath = Environment::getVarPath() . $this->getCachePath($cacheName);
@@ -50,18 +49,17 @@ class CacheManager implements SingletonInterface
     /**
      * Builds cache path, based on current TYPO3 version.
      *
-     * @param string $cacheName
      * @return string
      */
     protected function getCachePath(string $cacheName)
     {
         $cacheSegment = 'cache';
         $codeSegment = 'code';
+
         return DIRECTORY_SEPARATOR . $cacheSegment .
                DIRECTORY_SEPARATOR . $codeSegment .
                DIRECTORY_SEPARATOR . $cacheName . DIRECTORY_SEPARATOR;
     }
-
 
     protected function buildCacheFilePathByKey(string $key): string
     {
@@ -73,6 +71,7 @@ class CacheManager implements SingletonInterface
         if (!$this->enabled) {
             return false;
         }
+
         return file_exists($this->buildCacheFilePathByKey($key));
     }
 
@@ -81,6 +80,7 @@ class CacheManager implements SingletonInterface
         if ($this->has($key)) {
             return file_get_contents($this->buildCacheFilePathByKey($key));
         }
+
         return null;
     }
 
@@ -92,37 +92,29 @@ class CacheManager implements SingletonInterface
         }
 
         // Prepend php opening tag and append empty comment line
-        $value = '<?php' . PHP_EOL. PHP_EOL . $value . PHP_EOL . PHP_EOL . '#' . PHP_EOL;
+        $value = '<?php' . PHP_EOL . PHP_EOL . $value . PHP_EOL . PHP_EOL . '#' . PHP_EOL;
 
         $status = file_put_contents($path, $value);
         if (!$status) {
-            throw new \RuntimeException(
-                'Unable to write to cache file "' . $path . '"! Please check write permissions.'
-            );
+            throw new \RuntimeException('Unable to write to cache file "' . $path . '"! Please check write permissions.');
         }
         GeneralUtility::fixPermissions($path);
     }
 
     /**
-     * Requires given PHP cache file
-     *
-     * @param string $key
+     * Requires given PHP cache file.
      */
     public function requireOnce(string $key): void
     {
         $path = $this->buildCacheFilePathByKey($key);
         if (!file_exists($path)) {
-            throw new \RuntimeException(
-                'Unable to require cache file "' . $path . '"! Please ensure to write cache file, before accessing it.'
-            );
+            throw new \RuntimeException('Unable to require cache file "' . $path . '"! Please ensure to write cache file, before accessing it.');
         }
         require_once $path;
     }
 
     /**
      * Removes cache item, if existing.
-     *
-     * @param string $key
      */
     public function remove(string $key): void
     {
@@ -130,9 +122,7 @@ class CacheManager implements SingletonInterface
         if (file_exists($path)) {
             $status = unlink($path);
             if (!$status || file_exists($path)) {
-                throw new \RuntimeException(
-                    'Unable to delete old cache file "' . $path  . '"! Please check write permissions.'
-                );
+                throw new \RuntimeException('Unable to delete old cache file "' . $path . '"! Please check write permissions.');
             }
         }
     }

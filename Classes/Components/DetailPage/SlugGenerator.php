@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types = 1);
+
 namespace T3\Dce\Components\DetailPage;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -31,7 +34,6 @@ class SlugGenerator
      */
     protected $slugHelper;
 
-
     public function __construct(
         DceRepository $dceRepository = null,
         SlugHelper $slugHelper = null
@@ -61,40 +63,36 @@ class SlugGenerator
             $expression,
             [
                 'dce' => $dce,
-                'contentObject' => $dce->getContentObject()
+                'contentObject' => $dce->getContentObject(),
             ] + $dce->getGet()
         );
         if ($slug) {
-            return (string) $slug;
+            return (string)$slug;
         }
     }
 
     /**
      * @param int $uid Given tt_content uid must be a DCE content element
-     * @param int $pid
-     * @param string $expression
-     * @return SlugValue
      */
     public function makeSlug(int $uid, int $pid, string $expression): SlugValue
     {
         $dce = $this->dceRepository->getDceInstance($uid);
 
         $slug = self::getSlugFromDce($dce, $expression);
-        $sanitizedSlug = $this->slugHelper->sanitize((string) $slug);
+        $sanitizedSlug = $this->slugHelper->sanitize((string)$slug);
         $sanitizedSlug = $this->replaceSlashesFromSlug($sanitizedSlug);
         $finalSlug = $this->checkForUniqueSlug($sanitizedSlug, $uid, $pid);
         if (empty($finalSlug)) {
-            throw new EmptySlugException(
-                'Unable to generate slug for DCE content element (tt_content) with uid ' . $uid . '. ' .
-                'Used expression: ' . $expression
-            );
+            throw new EmptySlugException('Unable to generate slug for DCE content element (tt_content) with uid ' . $uid . '. ' . 'Used expression: ' . $expression);
         }
+
         return new SlugValue($finalSlug, $finalSlug === $sanitizedSlug);
     }
 
     protected function replaceSlashesFromSlug(string $slug): string
     {
         $replaced = preg_replace('/[^a-z0-9\-]/i', '-', $slug);
+
         return preg_replace('/\-{2,}/', '-', $replaced);
     }
 
@@ -129,6 +127,7 @@ class SlugGenerator
         if ($statement->rowCount() > 0) {
             $slug .= '-' . $uid;
         }
+
         return $slug;
     }
 }

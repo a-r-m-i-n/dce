@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\Components\TemplateRenderer;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -28,22 +29,22 @@ class DceTemplateTypes
         self::DEFAULT => [
             'type' => 'template_type',
             'inline' => 'template_content',
-            'file' => 'template_file'
+            'file' => 'template_file',
         ],
         self::DETAILPAGE => [
             'type' => 'detailpage_template_type',
             'inline' => 'detailpage_template',
-            'file' => 'detailpage_template_file'
+            'file' => 'detailpage_template_file',
         ],
         self::CONTAINER => [
             'type' => 'container_template_type',
             'inline' => 'container_template',
-            'file' => 'container_template_file'
+            'file' => 'container_template_file',
         ],
         self::BACKEND_TEMPLATE => [
             'type' => 'backend_template_type',
             'inline' => 'backend_template_content',
-            'file' => 'backend_template_file'
-        ]
+            'file' => 'backend_template_file',
+        ],
     ];
 }

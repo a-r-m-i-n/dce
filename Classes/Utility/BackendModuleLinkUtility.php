@@ -1,4 +1,7 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types = 1);
+
 namespace T3\Dce\Utility;
 
 use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
@@ -8,13 +11,14 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class BackendModuleLinkUtility
 {
     /**
-     * Returns the URL to a given module
+     * Returns the URL to a given module.
      *
-     * @param string $moduleName Name of the module
-     * @param array $urlParameters URL parameters that should be added as key value pairs
+     * @param string $moduleName    Name of the module
+     * @param array  $urlParameters URL parameters that should be added as key value pairs
+     *
      * @return string Calculated URL
      */
-    public static function getModuleUrl(string $moduleName, array $urlParameters = []) : string
+    public static function getModuleUrl(string $moduleName, array $urlParameters = []): string
     {
         $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
         try {
@@ -22,7 +26,7 @@ class BackendModuleLinkUtility
         } catch (RouteNotFoundException $e) {
             $uri = $uriBuilder->buildUriFromRoutePath($moduleName, $urlParameters);
         }
-        return (string) $uri;
-    }
 
+        return (string)$uri;
+    }
 }

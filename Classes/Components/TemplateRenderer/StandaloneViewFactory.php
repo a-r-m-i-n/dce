@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\Components\TemplateRenderer;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -14,7 +15,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
- * The Template Factory
+ * The Template Factory.
  */
 class StandaloneViewFactory implements SingletonInterface
 {
@@ -25,27 +26,24 @@ class StandaloneViewFactory implements SingletonInterface
 
     /**
      * Makes a new Fluid StandaloneView instance
-     * with set DCE layout and partial root paths
-     *
-     * @return StandaloneView
+     * with set DCE layout and partial root paths.
      */
-    public function makeNewDceView() : StandaloneView
+    public function makeNewDceView(): StandaloneView
     {
         /** @var StandaloneView $fluidTemplate */
         $fluidTemplate = GeneralUtility::makeInstance(StandaloneView::class);
         $fluidTemplate->setLayoutRootPaths([File::get('EXT:dce/Resources/Private/Layouts/')]);
         $fluidTemplate->setPartialRootPaths([File::get('EXT:dce/Resources/Private/Partials/')]);
+
         return $fluidTemplate;
     }
 
     /**
-     * Creates new standalone view or returns cached one, if existing
+     * Creates new standalone view or returns cached one, if existing.
      *
-     * @param Dce $dce
      * @param int $templateType see class constants
-     * @return StandaloneView
      */
-    public function getDceTemplateView(Dce $dce, int $templateType) : StandaloneView
+    public function getDceTemplateView(Dce $dce, int $templateType): StandaloneView
     {
         $cacheKey = $dce->getUid();
         if ($dce->getEnableContainer()) {
@@ -62,11 +60,12 @@ class StandaloneViewFactory implements SingletonInterface
         $this->setPartialRootPaths($view, $dce);
 
         $this->setAssignedVariables($view);
-        if ($templateType !== DceTemplateTypes::CONTAINER) {
+        if (DceTemplateTypes::CONTAINER !== $templateType) {
             $view->assign('dce', $dce);
         }
 
         self::$fluidTemplateCache[$cacheKey][$templateType] = $view;
+
         return $view;
     }
 
@@ -74,16 +73,14 @@ class StandaloneViewFactory implements SingletonInterface
      * Applies the correct template (inline or file) to given StandaloneView instance.
      * The given templateType is respected.
      *
-     * @param Dce $dce
      * @param int $templateType see class constants
-     * @return void
      */
-    protected function applyDceTemplateTypeToView(StandaloneView $view, Dce $dce, int $templateType) : void
+    protected function applyDceTemplateTypeToView(StandaloneView $view, Dce $dce, int $templateType): void
     {
         $templateFields = DceTemplateTypes::$templateFields[$templateType];
         $typeGetter = 'get' . ucfirst(GeneralUtility::underscoredToLowerCamelCase($templateFields['type']));
 
-        if ($dce->$typeGetter() === 'inline') {
+        if ('inline' === $dce->$typeGetter()) {
             $inlineTemplateGetter = 'get' . ucfirst(
                 GeneralUtility::underscoredToLowerCamelCase($templateFields['inline'])
             );
@@ -101,11 +98,7 @@ class StandaloneViewFactory implements SingletonInterface
         }
     }
 
-    /**
-     * @param StandaloneView $view
-     * @param Dce $dce
-     */
-    protected function setLayoutRootPaths(StandaloneView $view, Dce $dce) : void
+    protected function setLayoutRootPaths(StandaloneView $view, Dce $dce): void
     {
         $layoutRootPaths = $view->getLayoutRootPaths();
         if (!empty($dce->getTemplateLayoutRootPath())) {
@@ -114,11 +107,7 @@ class StandaloneViewFactory implements SingletonInterface
         $view->setLayoutRootPaths($layoutRootPaths);
     }
 
-    /**
-     * @param StandaloneView $view
-     * @param Dce $dce
-     */
-    protected function setPartialRootPaths(StandaloneView $view, Dce $dce) : void
+    protected function setPartialRootPaths(StandaloneView $view, Dce $dce): void
     {
         $partialRootPaths = $view->getPartialRootPaths();
         if (!empty($dce->getTemplatePartialRootPath())) {
@@ -127,11 +116,7 @@ class StandaloneViewFactory implements SingletonInterface
         $view->setPartialRootPaths($partialRootPaths);
     }
 
-    /**
-     * @param StandaloneView $view
-     * @return void
-     */
-    protected function setAssignedVariables(StandaloneView $view) : void
+    protected function setAssignedVariables(StandaloneView $view): void
     {
         if (TYPO3_MODE === 'FE' && isset($GLOBALS['TSFE'])) {
             $view->assign('TSFE', $GLOBALS['TSFE']);

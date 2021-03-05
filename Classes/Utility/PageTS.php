@@ -1,4 +1,5 @@
 <?php
+
 namespace T3\Dce\Utility;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -12,7 +13,7 @@ use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * PageTS utility
+ * PageTS utility.
  */
 class PageTS
 {
@@ -24,9 +25,10 @@ class PageTS
     /**
      * Returns value of given path in pageTS of current page.
      *
-     * @param string $path separated with dots. e.g.: "tx_dce.defaults.example"
-     * @param mixed $default Optional. Value which should be returned if path is not existing or value empty
-     * @param int $id Optional. Set id of page from which PageTS should get loaded
+     * @param string $path    separated with dots. e.g.: "tx_dce.defaults.example"
+     * @param mixed  $default Optional. Value which should be returned if path is not existing or value empty
+     * @param int    $id      Optional. Set id of page from which PageTS should get loaded
+     *
      * @return mixed
      */
     public static function get(string $path, $default = null, int $id = 0)
@@ -44,6 +46,7 @@ class PageTS
         } catch (\Exception $e) {
             return $default;
         }
-        return $default !== null && empty($value) ? $default : $value;
+
+        return null !== $default && empty($value) ? $default : $value;
     }
 }
