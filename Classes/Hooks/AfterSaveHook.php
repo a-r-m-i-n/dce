@@ -4,7 +4,7 @@ namespace T3\Dce\Hooks;
 /*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2020 Armin Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2021 Armin Vieweg <armin@v.ieweg.de>
  *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
 

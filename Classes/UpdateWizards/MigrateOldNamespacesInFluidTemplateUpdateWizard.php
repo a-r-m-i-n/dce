@@ -4,7 +4,7 @@ namespace T3\Dce\UpdateWizards;
 /*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2020 Armin Vieweg <armin@v.ieweg.de>
+ *  | (c) 2020-2021 Armin Vieweg <armin@v.ieweg.de>
  */
 use T3\Dce\Utility\DatabaseUtility;
 use T3\Dce\Utility\File;
