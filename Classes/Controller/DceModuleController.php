@@ -58,13 +58,12 @@ class DceModuleController extends ActionController
     }
 
     /**
+     * @param Dce  $dce
      * @param bool $perform
      *
      * @return void|ResponseInterface
-     *
-     * @throws \TYPO3\CMS\Core\Exception
      */
-    public function updateTcaMappingsAction(Dce $dce, $perform = false)
+    public function updateTcaMappingsAction($dce, $perform = false)
     {
         $contentElements = $this->dceRepository->findContentElementsBasedOnDce($dce);
         $this->view->assign('contentElements', $contentElements);

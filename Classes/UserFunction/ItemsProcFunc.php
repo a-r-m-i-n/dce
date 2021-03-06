@@ -109,7 +109,7 @@ class ItemsProcFunc
         $parameters['items'][] = [LocalizationUtility::translate('chooseExistingField', 'dce'), '--div--'];
         foreach (array_keys($tcaColumns) as $fieldName) {
             if (!empty($dbColumns[$fieldName]['Type']) && !\in_array($fieldName, $excludedColumns, true)) {
-                $columnInfo = '"' . $dbColumns[$fieldName]['Type'] . '"';
+                $columnInfo = '"' . trim($dbColumns[$fieldName]['Type'], ' \\') . '"';
                 $parameters['items'][] = [$fieldName . ' - ' . $columnInfo . '', $fieldName];
             }
         }
