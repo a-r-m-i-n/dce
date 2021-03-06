@@ -53,7 +53,7 @@ class SlugGenerator
 
     public static function getSlugFromDce(Dce $dce, ?string $expression = null): ?string
     {
-        if (!self::$expressionLanguage) {
+        if (!isset(self::$expressionLanguage)) {
             self::$expressionLanguage = GeneralUtility::makeInstance(ExpressionLanguage::class);
         }
         if (!$expression) {
@@ -69,6 +69,8 @@ class SlugGenerator
         if ($slug) {
             return (string)$slug;
         }
+
+        return null;
     }
 
     /**
@@ -96,7 +98,7 @@ class SlugGenerator
         return preg_replace('/\-{2,}/', '-', $replaced);
     }
 
-    protected function checkForUniqueSlug($slug, $uid, $pid)
+    protected function checkForUniqueSlug(string $slug, int $uid, int $pid): string
     {
         if (empty($slug)) {
             return $slug;

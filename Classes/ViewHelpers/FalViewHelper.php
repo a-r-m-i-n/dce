@@ -11,7 +11,6 @@ namespace T3\Dce\ViewHelpers;
 use T3\Dce\Utility\DatabaseUtility;
 use TYPO3\CMS\Core\Resource\FileRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Frontend\Page\PageRepository;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -71,8 +70,6 @@ class FalViewHelper extends AbstractViewHelper
             $contentObjectUid = $this->arguments['uid'];
         }
 
-        /** @var PageRepository $pageRepository */
-        $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
         $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('sys_file_reference');
         $queryBuilder
             ->select('uid')

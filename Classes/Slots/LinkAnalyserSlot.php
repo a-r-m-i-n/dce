@@ -59,7 +59,7 @@ class LinkAnalyserSlot
     /**
      * @param \TYPO3\CMS\Linkvalidator\Event\BeforeRecordIsAnalyzedEvent $event
      */
-    public function dispatchEvent($event)
+    public function dispatchEvent($event): void
     {
         [$results, $record] = $this->beforeAnalyzeRecord(
             $event->getResults(),

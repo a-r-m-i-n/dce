@@ -83,7 +83,7 @@ class DocHeaderButtonsHook
     {
         $contentUid = $this->getContentUid();
         if (null !== $contentUid && $GLOBALS['BE_USER']->isAdmin()) {
-            /** @var $tceMain DataHandler */
+            /** @var DataHandler $tceMain */
             $tceMain = GeneralUtility::makeInstance(DataHandler::class);
             $contentRecord = $tceMain->recordInfo('tt_content', $contentUid, 'CType');
             $cType = current($contentRecord);
@@ -132,7 +132,7 @@ class DocHeaderButtonsHook
      */
     protected function getDceUid($contentUid): ?int
     {
-        /** @var $tceMain DataHandler */
+        /** @var DataHandler $tceMain */
         $tceMain = GeneralUtility::makeInstance(DataHandler::class);
         $contentRecord = $tceMain->recordInfo('tt_content', $contentUid, 'CType');
         $cType = current($contentRecord);

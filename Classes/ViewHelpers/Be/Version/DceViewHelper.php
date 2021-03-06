@@ -34,7 +34,7 @@ class DceViewHelper extends AbstractViewHelper
         RenderingContextInterface $renderingContext
     ) {
         if ($arguments['returnInt']) {
-            return VersionNumberUtility::convertVersionNumberToInteger(
+            return (string)VersionNumberUtility::convertVersionNumberToInteger(
                 ExtensionManagementUtility::getExtensionVersion('dce')
             );
         }

@@ -340,9 +340,6 @@ class Dce extends AbstractEntity
         return $this->fields;
     }
 
-    /**
-     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<DceField> $fields
-     */
     public function setFields(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $fields): self
     {
         $this->fields = $fields;
@@ -851,13 +848,13 @@ class Dce extends AbstractEntity
             return static::$fieldsCache[$contentObject['uid']];
         }
         $fields = [];
-        /** @var $field DceField */
+        /** @var DceField $field */
         foreach ($this->getFields() ?? [] as $field) {
             if ($field->isTab()) {
                 continue;
             }
             if ($field->hasSectionFields()) {
-                /** @var $sectionField DceField */
+                /** @var DceField $sectionField */
                 foreach ($field->getSectionFields() as $sectionField) {
                     $sectionFieldValues = $sectionField->getValue();
                     if (\is_array($sectionFieldValues)) {

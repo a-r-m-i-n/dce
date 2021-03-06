@@ -8,6 +8,8 @@ namespace T3\Dce\Components\DceContainer;
  *  | (c) 2012-2021 Armin Vieweg <armin@v.ieweg.de>
  *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
+
+use T3\Dce\Compatibility;
 use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Domain\Repository\DceRepository;
 use T3\Dce\Utility\DatabaseUtility;
@@ -77,7 +79,7 @@ class ContainerFactory
     protected static function getContentElementsInContainer(Dce $dce, bool $includeHidden = false): array
     {
         $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tt_content');
-        if (TYPO3_MODE === 'FE') {
+        if (Compatibility::isFrontendMode()) {
             $queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
         }
         if ($includeHidden) {
@@ -112,7 +114,7 @@ class ContainerFactory
             )
         );
 
-        if (TYPO3_MODE === 'FE') {
+        if (Compatibility::isFrontendMode()) {
             $queryBuilder->andWhere(
                 $queryBuilder->expr()->eq(
                     'sys_language_uid',
@@ -176,7 +178,7 @@ class ContainerFactory
     /**
      * Checks if DCE content element should be skipped instead of rendered.
      *
-     * @param array|int $contentElement
+     * @param array|int|mixed $contentElement
      *
      * @return bool Returns true when this content element has been rendered already
      */

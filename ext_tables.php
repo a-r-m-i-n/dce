@@ -22,8 +22,6 @@ $boot = function ($extensionKey) {
         [
             \T3\Dce\Compatibility::isTypo3Version('10.0.0') ? \T3\Dce\Controller\DceModuleController::class : 'DceModule' =>
                 'index,clearCaches,hallOfFame,updateTcaMappings',
-            \T3\Dce\Compatibility::isTypo3Version('10.0.0') ? \T3\Dce\Controller\DceController::class : 'Dce' =>
-                'renderPreview'
         ],
         [
             'access' => 'user,group',

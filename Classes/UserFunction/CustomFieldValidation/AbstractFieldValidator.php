@@ -63,7 +63,7 @@ abstract class AbstractFieldValidator
             true
         );
 
-        /** @var $flashMessageService FlashMessageService */
+        /** @var FlashMessageService $flashMessageService */
         $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
         $flashMessageService->getMessageQueueByIdentifier()->addMessage($message);
     }

@@ -7,6 +7,8 @@ namespace T3\Dce\XClass;
  *  |
  *  | (c) 2012-2021 Armin Vieweg <armin@v.ieweg.de>
  */
+
+use TYPO3\CMS\Core\Database\Query\Expression\CompositeExpression;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 
 /**
@@ -24,7 +26,7 @@ class LiveSearch extends \TYPO3\CMS\Backend\Search\LiveSearch\LiveSearch
      *
      * @param string $tableName
      *
-     * @return string
+     * @return CompositeExpression|string
      */
     protected function makeQuerySearchByTable(QueryBuilder &$queryBuilder, $tableName, array $fieldsToSearchWithin)
     {
@@ -42,7 +44,7 @@ class LiveSearch extends \TYPO3\CMS\Backend\Search\LiveSearch\LiveSearch
      *
      * @param string $queryString
      */
-    public function setQueryString($queryString)
+    public function setQueryString($queryString): void
     {
         parent::setQueryString($queryString);
         $this->queryString = $queryString;

@@ -225,7 +225,7 @@ class SimpleBackendView
     protected function getContainerFlag(Dce $dce): string
     {
         if (!$dce->getEnableContainer()) {
-            return false;
+            return '';
         }
         if (ContainerFactory::checkContentElementForBeingRendered($dce->getContentObject())) {
             return static::$lastContainerColor;

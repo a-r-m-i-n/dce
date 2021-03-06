@@ -161,7 +161,7 @@ class InputDatabase implements InputInterface
                     $tabs[$index]['fields'][] = $row2;
                 }
             }
-            if (0 === \count($tabs[0]['fields'])) {
+            if (isset($tabs[0]['fields']) && 0 === \count($tabs[0]['fields'])) {
                 unset($tabs[0]);
             }
 

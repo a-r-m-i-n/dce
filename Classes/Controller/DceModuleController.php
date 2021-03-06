@@ -49,7 +49,7 @@ class DceModuleController extends ActionController
     {
         $this->view->assign('dces', $this->dceRepository->findAllAndStatics(true));
 
-        if (Compatibility::isTypo3Version()) {
+        if (isset($this->responseFactory) && Compatibility::isTypo3Version()) {
             $response = $this->responseFactory->createResponse();
             $response->getBody()->write($this->view->render());
 
@@ -78,7 +78,7 @@ class DceModuleController extends ActionController
             }
             $this->view->assign('perform', true);
         }
-        if (Compatibility::isTypo3Version()) {
+        if (isset($this->responseFactory) && Compatibility::isTypo3Version()) {
             $response = $this->responseFactory->createResponse();
             $response->getBody()->write($this->view->render());
 
@@ -117,7 +117,7 @@ class DceModuleController extends ActionController
         shuffle($donators);
         $this->view->assign('donators', $donators);
 
-        if (Compatibility::isTypo3Version()) {
+        if (isset($this->responseFactory) && Compatibility::isTypo3Version()) {
             $response = $this->responseFactory->createResponse();
             $response->getBody()->write($this->view->render());
 

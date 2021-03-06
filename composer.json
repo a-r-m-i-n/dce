@@ -27,10 +27,11 @@
     "require": {
         "php": ">=7.3",
         "ext-json": "*",
-        "typo3/cms-core": "^9.5 || ^10.4 || ^11.1"
+        "typo3/cms-core": "^9.5 || ^10.4 || ^11.0"
     },
     "require-dev": {
         "t3/cms": "^10.4",
+        "typo3/cms-linkvalidator": "^10.4",
         "friendsofphp/php-cs-fixer": "^2.18",
         "phpstan/phpstan": "^0.12.80",
         "jangregor/phpstan-prophecy": "^0.8",

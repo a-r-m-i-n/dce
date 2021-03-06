@@ -19,11 +19,10 @@ class KeSearchHook
     /**
      * Renders DCE frontend output and returns it as bodytext value.
      *
-     * @param string                     $bodytext     Referenced content, which may get modified by this hook
-     * @param array                      $row          tt_content row
-     * @param \tx_kesearch_indexer_types $indexerTypes
+     * @param string $bodytext Referenced content, which may get modified by this hook
+     * @param array  $row      tt_content row
      */
-    public function modifyContentFromContentElement(&$bodytext, array $row, $indexerTypes)
+    public function modifyContentFromContentElement(&$bodytext, array $row): void
     {
         $dceUid = DceRepository::extractUidFromCTypeOrIdentifier($row['CType']);
         if (!$dceUid) {

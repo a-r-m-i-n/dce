@@ -45,7 +45,7 @@ class PageLayoutViewDrawItemHook implements PageLayoutViewDrawItemHookInterface
         &$headerContent,
         &$itemContent,
         array &$row
-    ) {
+    ): void {
         $dceUid = DatabaseUtility::getDceUidByContentElementRow($row);
         if (0 === $dceUid) {
             return;

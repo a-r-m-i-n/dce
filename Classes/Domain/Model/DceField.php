@@ -259,7 +259,7 @@ class DceField extends AbstractEntity
     {
         $sectionFields = $this->getSectionFields();
         if (isset($sectionFields)) {
-            /** @var $sectionField DceField */
+            /** @var DceField $sectionField */
             foreach ($this->getSectionFields() as $sectionField) {
                 if ($sectionField->getVariable() === $variable) {
                     return $sectionField;

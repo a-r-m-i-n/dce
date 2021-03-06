@@ -47,6 +47,7 @@ class Mapper
             $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable(
                 'tx_dce_domain_model_dcefield'
             );
+            /** @var array|bool $rows */
             $rows = $queryBuilder
                 ->select('*')
                 ->from('tx_dce_domain_model_dcefield')
@@ -149,7 +150,7 @@ class Mapper
             ->execute()
             ->fetchAll();
 
-        if (!isset($piFlexform) || empty($piFlexform) || 0 === \count($dceFieldsWithMapping)) {
+        if (empty($piFlexform) || 0 === \count($dceFieldsWithMapping)) {
             return;
         }
 
@@ -188,7 +189,7 @@ class Mapper
             $databaseColumns = DatabaseUtility::adminGetFields('tt_content');
             foreach (array_keys($updateData) as $columnName) {
                 if (!array_key_exists($columnName, $databaseColumns)) {
-                    throw new \InvalidArgumentException('You\'ve mapped the DCE field "' . $fieldName . '" (of DCE with uid ' . $dceUid . ') to the ' . 'non-existing tt_content column "' . $columnName . '". Please update your mapping or ensure ' . 'that the tt_content column is existing.');
+                    throw new \InvalidArgumentException('You\'ve mapped the DCE field "' . ($fieldName ?? '') . '" (of DCE with uid ' . $dceUid . ') to the ' . 'non-existing tt_content column "' . $columnName . '". Please update your mapping or ensure ' . 'that the tt_content column is existing.');
                 }
             }
             $connection = DatabaseUtility::getConnectionPool()->getConnectionForTable('tt_content');

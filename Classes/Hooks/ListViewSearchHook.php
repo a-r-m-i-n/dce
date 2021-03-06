@@ -14,9 +14,8 @@ class ListViewSearchHook
     public function makeSearchStringConstraints(
         QueryBuilder $queryBuilder,
         array $constraints,
-        $searchString,
-        $table,
-        $currentPid
+        string $searchString,
+        string $table
     ): array {
         if ('tt_content' === $table) {
             $dceConstraint = $queryBuilder->expr()->andX(

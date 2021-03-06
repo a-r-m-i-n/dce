@@ -19,8 +19,8 @@ class LanguageService
      */
     protected static function initialize(): void
     {
-        Bootstrap::getInstance()->initializeBackendUser();
-        Bootstrap::getInstance()->initializeLanguageObject();
+        Bootstrap::initializeBackendUser();
+        Bootstrap::initializeLanguageObject();
     }
 
     /**

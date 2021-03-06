@@ -117,10 +117,8 @@ class ItemsProcFunc
 
     /**
      * Add available tt_content columns for palette fields.
-     *
-     * @throws \Doctrine\DBAL\DBALException
      */
-    public function getAvailableTtContentColumnsForPaletteFields(array &$parameters)
+    public function getAvailableTtContentColumnsForPaletteFields(array &$parameters): void
     {
         $excludedColumns = [
             'uid',

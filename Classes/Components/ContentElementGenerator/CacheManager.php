@@ -35,7 +35,7 @@ class CacheManager implements SingletonInterface
         if (!file_exists($this->cachePath)) {
             $status = mkdir($this->cachePath, 0777, true);
             if (!$status || !file_exists($this->cachePath) || !is_dir($this->cachePath)) {
-                throw new \RuntimeException('Unable to create cache directory "', $this->cachePath . '"!');
+                throw new \RuntimeException('Unable to create cache directory "' . $this->cachePath . '"!', 1615032065);
             }
         }
 
@@ -84,7 +84,7 @@ class CacheManager implements SingletonInterface
         return null;
     }
 
-    public function set(string $key, $value): void
+    public function set(string $key, string $value): void
     {
         $path = $this->buildCacheFilePathByKey($key);
         if ($this->has($key)) {

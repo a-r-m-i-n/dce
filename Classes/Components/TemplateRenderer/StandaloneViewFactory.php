@@ -7,6 +7,8 @@ namespace T3\Dce\Components\TemplateRenderer;
  *  |
  *  | (c) 2012-2021 Armin Vieweg <armin@v.ieweg.de>
  */
+
+use T3\Dce\Compatibility;
 use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Utility\File;
 use TYPO3\CMS\Core\SingletonInterface;
@@ -118,7 +120,7 @@ class StandaloneViewFactory implements SingletonInterface
 
     protected function setAssignedVariables(StandaloneView $view): void
     {
-        if (TYPO3_MODE === 'FE' && isset($GLOBALS['TSFE'])) {
+        if (isset($GLOBALS['TSFE']) && Compatibility::isFrontendMode()) {
             $view->assign('TSFE', $GLOBALS['TSFE']);
             $view->assign('page', $GLOBALS['TSFE']->page);
 

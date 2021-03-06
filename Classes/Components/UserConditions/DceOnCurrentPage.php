@@ -8,6 +8,8 @@ namespace T3\Dce\Components\UserConditions;
  *  | (c) 2012-2021 Armin Vieweg <armin@v.ieweg.de>
  *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
+
+use T3\Dce\Compatibility;
 use T3\Dce\Utility\DatabaseUtility;
 use TYPO3\CMS\Core\Configuration\TypoScript\ConditionMatching\AbstractCondition;
 
@@ -28,11 +30,11 @@ use TYPO3\CMS\Core\Configuration\TypoScript\ConditionMatching\AbstractCondition;
 class DceOnCurrentPage extends AbstractCondition
 {
     /**
-     * @param array $arguments See TypoScriptConditionFunctionProvider::getDceOnCurrentPageFunction()
+     * @param array|null $arguments See TypoScriptConditionFunctionProvider::getDceOnCurrentPageFunction()
      */
     public function matchCondition(array $parameters, array $arguments = null): bool
     {
-        if (TYPO3_MODE !== 'FE') {
+        if (!Compatibility::isFrontendMode()) {
             return false;
         }
 

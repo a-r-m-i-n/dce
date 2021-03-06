@@ -35,6 +35,7 @@ use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
  */
 class MigrateFlexformSheetIdentifierUpdateWizard implements UpgradeWizardInterface
 {
+    /** @var string */
     protected $description = '';
 
     public function getIdentifier(): string
@@ -107,7 +108,7 @@ class MigrateFlexformSheetIdentifierUpdateWizard implements UpgradeWizardInterfa
                 ->where(
                     $queryBuilder->expr()->eq(
                         'CType',
-                        $queryBuilder->createNamedParameter($this->getDceIdentifier($dceUid), \PDO::PARAM_STR)
+                        $queryBuilder->createNamedParameter(FixMalformedDceFieldVariableNamesUpdateWizard::getDceIdentifier($dceUid))
                     )
                 )
                 ->execute()

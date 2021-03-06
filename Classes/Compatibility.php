@@ -7,6 +7,8 @@
  */
 
 namespace T3\Dce {
+    use TYPO3\CMS\Core\Information\Typo3Version;
+    use TYPO3\CMS\Core\Utility\GeneralUtility;
     use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
     /**
@@ -17,12 +19,34 @@ namespace T3\Dce {
         /**
          * Checks if current TYPO3 version is 11.0.0 or greater (by default).
          *
-         * @param string $version e.g. 11.0.0
+         * @param string $version
          */
         public static function isTypo3Version($version = '11.0.0'): bool
         {
-            return VersionNumberUtility::convertVersionNumberToInteger(TYPO3_branch) >=
+            /** @var Typo3Version $typo3Version */
+            $typo3Version = GeneralUtility::makeInstance(Typo3Version::class);
+
+            return VersionNumberUtility::convertVersionNumberToInteger($typo3Version->getBranch()) >=
                 VersionNumberUtility::convertVersionNumberToInteger($version);
+        }
+
+        public static function getPageRepositoryClassName(): string
+        {
+            if (!self::isTypo3Version('10.0.0')) {
+                return \TYPO3\CMS\Frontend\Page\PageRepository::class;
+            }
+
+            return \TYPO3\CMS\Core\Domain\Repository\PageRepository::class;
+        }
+
+        public static function isFrontendMode(): bool
+        {
+            if (self::isTypo3Version('10.0.0')) {
+                return ($GLOBALS['TYPO3_REQUEST'] ?? null) instanceof \Psr\Http\Message\ServerRequestInterface &&
+                    \TYPO3\CMS\Core\Http\ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend();
+            }
+
+            return defined('TYPO3_MODE') && TYPO3_MODE === 'FE';
         }
     }
 }
@@ -70,9 +94,6 @@ namespace ArminVieweg\Dce\ViewHelpers\Be
     {
     }
     class ModuleLinkViewHelper extends \T3\Dce\ViewHelpers\Be\ModuleLinkViewHelper
-    {
-    }
-    class TableListViewHelper extends \T3\Dce\ViewHelpers\Be\TableListViewHelper
     {
     }
 }

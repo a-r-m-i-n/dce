@@ -27,6 +27,7 @@ use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
  */
 class FixMalformedDceFieldVariableNamesUpdateWizard implements UpgradeWizardInterface
 {
+    /** @var string */
     protected $description = '';
 
     public function getIdentifier(): string
@@ -225,7 +226,7 @@ class FixMalformedDceFieldVariableNamesUpdateWizard implements UpgradeWizardInte
     /**
      * Returns the identifier of dce with given uid.
      */
-    protected function getDceIdentifier(int $dceUid): string
+    public static function getDceIdentifier(int $dceUid): string
     {
         $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dce');
         $dce = $queryBuilder

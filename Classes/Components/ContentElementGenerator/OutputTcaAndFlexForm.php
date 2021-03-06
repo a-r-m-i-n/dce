@@ -216,8 +216,8 @@ class OutputTcaAndFlexForm
         $xml->appendChild($root);
 
         $meta = $xml->createElement('meta');
-        $meta->appendChild($xml->createElement('langDisable', 1));
-        $meta->appendChild($xml->createElement('langDatabaseOverlay', 1));
+        $meta->appendChild($xml->createElement('langDisable', '1'));
+        $meta->appendChild($xml->createElement('langDatabaseOverlay', '1'));
         $root->appendChild($meta);
 
         $sheets = $xml->createElement('sheets');
@@ -243,7 +243,7 @@ class OutputTcaAndFlexForm
                     $tv->appendChild($title = $xml->createElement('title'));
                     $title->appendChild($xml->createCDATASection($dceField['title']));
 
-                    $field->appendChild($xml->createElement('section', 1));
+                    $field->appendChild($xml->createElement('section', '1'));
                     $field->appendChild($xml->createElement('type', 'array'));
 
                     $section = $xml->createElement('el');

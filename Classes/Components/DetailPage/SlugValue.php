@@ -11,8 +11,14 @@ namespace T3\Dce\Components\DetailPage;
  */
 class SlugValue
 {
+    /**
+     * @var string
+     */
     protected $slug;
 
+    /**
+     * @var bool
+     */
     protected $unique;
 
     public function __construct(string $slug, bool $unique)

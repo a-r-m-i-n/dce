@@ -7,6 +7,7 @@ namespace T3\Dce\Utility;
  *  |
  *  | (c) 2012-2021 Armin Vieweg <armin@v.ieweg.de>
  */
+use TYPO3\CMS\Core\Service\FlexFormService as CoreFlexFormService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -14,15 +15,11 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class FlexformService
 {
-    /**
-     * @return object|\TYPO3\CMS\Core\Service\FlexFormService|\TYPO3\CMS\Extbase\Service\FlexFormService
-     */
-    public static function get()
+    public static function get(): CoreFlexFormService
     {
-        if (!class_exists(\TYPO3\CMS\Core\Service\FlexFormService::class)) {
-            return GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Service\FlexFormService::class);
-        }
+        /** @var CoreFlexFormService $flexFormService */
+        $flexFormService = GeneralUtility::makeInstance(CoreFlexFormService::class);
 
-        return GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\FlexFormService::class);
+        return $flexFormService;
     }
 }

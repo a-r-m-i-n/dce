@@ -7,6 +7,9 @@ namespace T3\Dce\ViewHelpers\Be\Version;
  *  |
  *  | (c) 2012-2021 Armin Vieweg <armin@v.ieweg.de>
  */
+
+use TYPO3\CMS\Core\Information\Typo3Version;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
@@ -30,10 +33,12 @@ class Typo3ViewHelper extends AbstractViewHelper
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
     ) {
+        /** @var Typo3Version $typo3Version */
+        $typo3Version = GeneralUtility::makeInstance(Typo3Version::class);
         if ($arguments['returnInt']) {
-            return VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
+            return (string)VersionNumberUtility::convertVersionNumberToInteger($typo3Version->getVersion());
         }
 
-        return TYPO3_version;
+        return $typo3Version->getVersion();
     }
 }

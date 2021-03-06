@@ -75,7 +75,7 @@ class DceController extends ActionController
             ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK
         );
 
-        /** @var $dce Dce */
+        /** @var Dce $dce */
         $dce = $this->dceRepository->findAndBuildOneByUid(
             DceRepository::extractUidFromCTypeOrIdentifier('dce_' . $config['pluginName']),
             $this->settings,
@@ -90,7 +90,7 @@ class DceController extends ActionController
             }
             $container = ContainerFactory::makeContainer($dce);
 
-            if (!Compatibility::isTypo3Version()) {
+            if (!isset($this->responseFactory) || !Compatibility::isTypo3Version()) {
                 return $container->render();
             }
             $response = $this->responseFactory->createResponse();
@@ -99,50 +99,11 @@ class DceController extends ActionController
             return $response;
         }
 
-        if (!Compatibility::isTypo3Version()) {
+        if (!isset($this->responseFactory) || !Compatibility::isTypo3Version()) {
             return $dce->render();
         }
         $response = $this->responseFactory->createResponse();
         $response->getBody()->write($dce->render());
-
-        return $response;
-    }
-
-    /**
-     * Render preview action.
-     *
-     * @return string|ResponseInterface
-     */
-    public function renderPreviewAction()
-    {
-        $uid = (int)$this->settings['dceUid'];
-        $contentObject = $this->dceRepository->getContentObject($this->settings['contentElementUid']);
-        $previewType = $this->settings['previewType'];
-
-        $this->settings = $this->dceRepository->simulateContentElementSettings($this->settings['contentElementUid']);
-
-        /** @var $dce Dce */
-        $dce = clone $this->dceRepository->findAndBuildOneByUid(
-            $uid,
-            $this->settings,
-            $contentObject,
-            true
-        );
-
-        if ('header' === $previewType) {
-            if (!Compatibility::isTypo3Version()) {
-                return $dce->renderHeaderPreview();
-            }
-            $response = $this->responseFactory->createResponse();
-            $response->getBody()->write($dce->renderHeaderPreview());
-
-            return $response;
-        }
-        if (!Compatibility::isTypo3Version()) {
-            return $dce->renderBodytextPreview();
-        }
-        $response = $this->responseFactory->createResponse();
-        $response->getBody()->write($dce->renderBodytextPreview());
 
         return $response;
     }

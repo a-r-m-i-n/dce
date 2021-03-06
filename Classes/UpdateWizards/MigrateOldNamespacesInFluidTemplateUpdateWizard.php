@@ -19,10 +19,15 @@ use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
  */
 class MigrateOldNamespacesInFluidTemplateUpdateWizard implements UpgradeWizardInterface
 {
+    /** @var string */
     protected $description = '';
+    /** @var string */
     protected $namespaceOld = '{namespace dce=Tx_Dce_ViewHelpers}';
+    /** @var string */
     protected $namespaceOld2 = '{namespace dce=ArminVieweg\Dce\ViewHelpers}';
+    /** @var string */
     protected $namespaceOld3 = '{namespace dce=T3\Dce\ViewHelpers}';
+    /** @var string */
     protected $namespaceNew = '';
 
     public function getIdentifier(): string

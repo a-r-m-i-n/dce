@@ -16,7 +16,7 @@ use T3\Dce\Components\ContentElementGenerator\CacheManager;
  */
 class ClearCacheHook
 {
-    public function flushDceCache()
+    public function flushDceCache(): void
     {
         CacheManager::makeInstance()->flush();
     }

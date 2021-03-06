@@ -8,6 +8,8 @@ namespace T3\Dce\Domain\Repository;
  *  | (c) 2012-2021 Armin Vieweg <armin@v.ieweg.de>
  *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
+
+use T3\Dce\Compatibility;
 use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Domain\Model\DceField;
 use T3\Dce\Utility\DatabaseUtility;
@@ -15,10 +17,12 @@ use T3\Dce\Utility\FlexformService;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Context\Exception\AspectNotFoundException;
+use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Database\Query\Restriction\EndTimeRestriction;
 use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
 use TYPO3\CMS\Core\Database\Query\Restriction\StartTimeRestriction;
 use TYPO3\CMS\Core\Database\RelationHandler;
+use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Resource\Collection\AbstractFileCollection;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\FileCollectionRepository;
@@ -35,7 +39,6 @@ use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
-use TYPO3\CMS\Frontend\Page\PageRepository;
 
 /**
  * DCE repository.
@@ -108,7 +111,7 @@ class DceRepository extends Repository
         }
         $this->disableRespectOfEnableFields();
 
-        /** @var $dce Dce */
+        /** @var Dce $dce */
         $dce = $this->findByUid($uid);
 
         if (!$dce instanceof Dce) {
@@ -116,8 +119,8 @@ class DceRepository extends Repository
         }
         $dce = clone $dce;
         $this->cloneFields($dce);
-        $this->processFillingFields($dce, \is_array($contentObject) ? $contentObject : [], $fieldList);
-        $dce->setContentObject(\is_array($contentObject) ? $this->resolveContentObjectRelations($contentObject) : []);
+        $this->processFillingFields($dce, $contentObject, $fieldList);
+        $dce->setContentObject($this->resolveContentObjectRelations($contentObject));
         static::$dceInstanceCache[$contentObject['uid']] = $dce;
 
         return $dce;
@@ -149,19 +152,19 @@ class DceRepository extends Repository
      */
     protected function cloneFields(Dce $dce): void
     {
-        /** @var $clonedFields ObjectStorage */
+        /** @var ObjectStorage $clonedFields */
         $clonedFields = GeneralUtility::makeInstance(ObjectStorage::class);
-        /** @var $field DceField */
+        /** @var DceField $field */
         foreach ($dce->getFields() ?? [] as $field) {
             $field = clone $field;
             if (DceField::TYPE_ELEMENT === $field->getType() || DceField::TYPE_SECTION === $field->getType()) {
                 if ($field->getSectionFields()) {
-                    /** @var $clonedSectionFields ObjectStorage */
+                    /** @var ObjectStorage $clonedSectionFields */
                     $clonedSectionFields = GeneralUtility::makeInstance(
                         ObjectStorage::class
                     );
                     foreach ($field->getSectionFields() as $sectionField) {
-                        /** @var $clonedSectionField DceField */
+                        /** @var DceField $clonedSectionField */
                         $clonedSectionField = clone $sectionField;
                         $clonedSectionField->setValue(null);
                         $clonedSectionFields->attach($clonedSectionField);
@@ -322,7 +325,7 @@ class DceRepository extends Repository
             return (int)substr($cType, 10);
         }
         if (StringUtility::beginsWith($cType, 'dce_')) {
-            /** @var self $repo */
+            /** @var QueryBuilder $queryBuilder */
             $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dce');
             $row = $queryBuilder
                 ->select('uid')
@@ -346,10 +349,6 @@ class DceRepository extends Repository
 
     /**
      * Converts a given dce uid to a dce CType.
-     *
-     * @return string|bool Returns converted CType. If given uid is invalid
-     *                     returns FALSE
-     * @static
      */
     public static function convertUidToCtype(int $uid): ?string
     {
@@ -413,7 +412,7 @@ class DceRepository extends Repository
         if ($dceFieldConfiguration['dce_get_fal_objects'] && 'sys_file_reference' === strtolower($className)) {
             $contentObjectUid = (int)($contentObject['_LOCALIZED_UID'] ?? $contentObject['uid']);
             $fileReferences = [];
-            if (TYPO3_MODE === 'FE') {
+            if (Compatibility::isFrontendMode()) {
                 $fileRepository = GeneralUtility::makeInstance(
                     FileRepository::class
                 );
@@ -423,7 +422,7 @@ class DceRepository extends Repository
                     $contentObjectUid
                 );
             } else {
-                /** @var $relationHandler RelationHandler */
+                /** @var RelationHandler $relationHandler */
                 $relationHandler = GeneralUtility::makeInstance(RelationHandler::class);
                 $relationHandler->start(
                     '',
@@ -472,14 +471,12 @@ class DceRepository extends Repository
 
         if (class_exists($className) && class_exists($repositoryName)) {
             // Extbase object found
-            /** @var ObjectManager $objectManager */
-            $objectManager = $this->objectManager
-                ?? GeneralUtility::makeInstance(ObjectManager::class);
-            /** @var $repository Repository */
-            $repository = $objectManager->get($repositoryName);
+            /** @var Repository $repository */
+            $repository = GeneralUtility::makeInstance($repositoryName);
 
             foreach (GeneralUtility::trimExplode(',', $fieldValue, true) as $uid) {
                 $uid = (int)$uid;
+                /** @var \TYPO3\CMS\Core\Resource\Collection\StaticFileCollection|object $object */
                 $object = $repository->findByUid($uid);
                 if ('FileCollection' === $specialClass) {
                     $object->loadContents();
@@ -525,9 +522,10 @@ class DceRepository extends Repository
 
             $pageRepository = $GLOBALS['TSFE']->sys_page;
             if ($dceFieldConfiguration['dce_enable_autotranslation']) {
-                if (!$pageRepository instanceof PageRepository) {
+                $pageRepoClassName = Compatibility::getPageRepositoryClassName();
+                if (!$pageRepository instanceof $pageRepoClassName) {
                     /** @var PageRepository $pageRepository */
-                    $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
+                    $pageRepository = GeneralUtility::makeInstance($pageRepoClassName);
                 }
             }
             foreach ($recordRows as $row) {
@@ -586,6 +584,10 @@ class DceRepository extends Repository
      */
     protected function resolveContentObjectRelations(array $contentObjectArray): array
     {
+        if (empty($contentObjectArray)) {
+            return $contentObjectArray;
+        }
+
         /** @var FileRepository $fileRepository */
         $fileRepository = GeneralUtility::makeInstance(FileRepository::class);
         $processedContentObject = $contentObjectArray;
@@ -676,11 +678,11 @@ class DceRepository extends Repository
     {
         $contentObject = $this->getContentObject($contentElementUid);
         $uid = $this->extractUidFromCTypeOrIdentifier($contentObject['CType']);
-        $this->settings = $this->simulateContentElementSettings($contentElementUid);
+        $settings = $this->simulateContentElementSettings($contentElementUid);
 
         return $this->findAndBuildOneByUid(
             $uid,
-            $this->settings,
+            $settings,
             $contentObject
         );
     }
@@ -716,7 +718,7 @@ class DceRepository extends Repository
      *
      * @param int $uid of content element to get
      *
-     * @return array|bool|null with all properties of given content element uid
+     * @return array|null with all properties of given content element uid
      */
     public function getContentObject(int $uid): ?array
     {

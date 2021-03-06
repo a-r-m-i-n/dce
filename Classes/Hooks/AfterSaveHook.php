@@ -138,6 +138,7 @@ class AfterSaveHook
                 if (!empty($dceRow['detailpage_slug_expression'])) {
                     /** @var SlugGenerator $generator */
                     $generator = GeneralUtility::makeInstance(SlugGenerator::class);
+                    $slug = null;
                     try {
                         $slug = $generator->makeSlug($this->uid, $contentRow['pid'], $dceRow['detailpage_slug_expression']);
                     } catch (SyntaxError $e) {
@@ -299,7 +300,7 @@ class AfterSaveHook
      *
      * @throws \TYPO3\CMS\Core\Exception
      */
-    protected function hideContentElementsBasedOnDce(string $dceIdentifier)
+    protected function hideContentElementsBasedOnDce(string $dceIdentifier): void
     {
         $updatedContentElementsCount = 0;
         $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tt_content');
@@ -349,10 +350,8 @@ class AfterSaveHook
 
     /**
      * Checks the CType of current content element and return TRUE if it is a dce. Otherwise return FALSE.
-     *
-     * @return bool
      */
-    protected function isDceContentElement(DataHandler $pObj)
+    protected function isDceContentElement(DataHandler $pObj): bool
     {
         return (bool)$this->getDceUid($pObj);
     }
@@ -360,14 +359,9 @@ class AfterSaveHook
     /**
      * Investigates the uid of entry.
      *
-     * @param $id
-     * @param $table
-     * @param $status
-     * @param $pObj
-     *
-     * @return int
+     * @param string|int $id
      */
-    protected function getUid($id, $table, $status, $pObj)
+    protected function getUid($id, string $table, string $status, DataHandler $pObj): int
     {
         $uid = $id;
         if ('new' === $status) {
@@ -389,7 +383,7 @@ class AfterSaveHook
     /**
      * Check if tx_dce_dce matches given dce identifier. Update if not.
      */
-    protected function checkAndUpdateDceRelationField(array $contentRow, string $dceIdentifier)
+    protected function checkAndUpdateDceRelationField(array $contentRow, string $dceIdentifier): void
     {
         $dceUid = DceRepository::extractUidFromCTypeOrIdentifier($dceIdentifier);
         if ($dceUid && $dceUid !== (int)$contentRow['tx_dce_dce']) {

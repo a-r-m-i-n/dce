@@ -7,6 +7,7 @@ namespace T3\Dce\ViewHelpers\Be;
  *  |
  *  | (c) 2012-2021 Armin Vieweg <armin@v.ieweg.de>
  */
+use T3\Dce\Compatibility;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -23,7 +24,7 @@ class CurrentLanguageViewHelper extends AbstractViewHelper
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
     ) {
-        if (TYPO3_MODE === 'FE') {
+        if (Compatibility::isFrontendMode()) {
             if (isset($GLOBALS['TSFE']->config['config']['language'])) {
                 return $GLOBALS['TSFE']->config['config']['language'];
             }

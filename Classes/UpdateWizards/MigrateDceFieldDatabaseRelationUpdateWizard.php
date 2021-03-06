@@ -18,6 +18,7 @@ use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
  */
 class MigrateDceFieldDatabaseRelationUpdateWizard implements UpgradeWizardInterface
 {
+    /** @var string */
     protected $description = '';
 
     public function getIdentifier(): string
@@ -285,7 +286,7 @@ class MigrateDceFieldDatabaseRelationUpdateWizard implements UpgradeWizardInterf
             );
             $queryBuilder
                 ->update('tx_dce_domain_model_dcefield')
-                ->set('deleted', 1)
+                ->set('deleted', '1')
                 ->where(
                     $queryBuilder->expr()->in(
                         'uid',
