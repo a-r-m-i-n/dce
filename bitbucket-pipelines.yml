@@ -1,17 +1,15 @@
-image: composer:1
+image: composer:2
 
 pipelines:
-  default:
-  - step:
-      caches:
-        - composer
-      script:
-        - mkdir -p .build/test-reports
-        - composer global require composer/composer:"^1.0" phploc/phploc squizlabs/php_codesniffer phpmd/phpmd phpmetrics/phpmetrics --no-progress --no-suggest
-        - /tmp/vendor/bin/phploc .
-        - /tmp/vendor/bin/phpmd . text cleancode,design,codesize,naming,unusedcode --ignore-violations-on-exit
-        - /tmp/vendor/bin/phpmetrics --exclude=vendor,tests --extensions=php .
-        - /tmp/vendor/bin/phpcs --extensions=php --standard=PSR2 .
+    default:
+        - step:
+            caches:
+                - composer
+                - builddir
+            script:
+                - composer install --no-progress --no-scripts --ignore-platform-reqs
+                - composer run check
 definitions:
-  caches:
-    composer: /tmp
+    caches:
+        builddir: .Build
+

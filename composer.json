@@ -64,6 +64,13 @@
         "vendor-dir": ".Build/vendor"
     },
     "scripts": {
+        "check": [
+            "@phpcs",
+            "@phpstan"
+        ],
+        "fix": [
+            "@phpcs:fix"
+        ],
         "phpstan": "phpstan analyse -c Resources/Private/Build/phpstan.neon",
         "phpcs": "php-cs-fixer fix --config Resources/Private/Build/php-cs-rules.php --ansi --verbose --diff --dry-run",
         "phpcs:fix": "php-cs-fixer fix --config Resources/Private/Build/php-cs-rules.php --ansi"
