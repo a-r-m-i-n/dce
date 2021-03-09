@@ -1,4 +1,4 @@
-﻿.. include:: ../Includes.txt
+.. include:: ../Includes.txt
 
 .. _introduction:
 
@@ -29,7 +29,7 @@ The Idea Behind DCE
 
 **D** ynamic **C** ontent **E** lements (DCE)
 
-The name and basic functionality were inspired  by TemplaVoila‘s FCE (Flexible Content Element) feature.
+The name and basic functionality were inspired by TemplaVoila‘s FCE (Flexible Content Element) feature.
 FCE was one of the last missing major features to replace TemplaVoila entirely.
 
 .. note::

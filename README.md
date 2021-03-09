@@ -15,7 +15,7 @@ Based on Extbase, Fluid and over 8 years of experience.
 
 ## Installation
 
-You can install DCE in TYPO3 CMS using the [TER](https://extensions.typo3.org/extension/dce/) 
+You can install DCE in TYPO3 CMS using the [TER](https://extensions.typo3.org/extension/dce/)
 or use composer to fetch DCE from [packagist](https://packagist.org/packages/t3/dce):
 
 ```
@@ -46,7 +46,7 @@ DCE ships a DDEV configuration, which allows you to test DCE in any TYPO3 versio
 - 9.5
 - 10.4
 
-It uses Apache2 with php-fpm (7.2) enabled. 
+It uses Apache2 with php-fpm (7.2) enabled.
 
 ### Requirements
 

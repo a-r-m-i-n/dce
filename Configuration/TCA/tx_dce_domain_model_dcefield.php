@@ -94,7 +94,7 @@ $dceFieldTca = [
                     ['', 0],
                 ],
                 'foreign_table' => 'tx_dce_domain_model_dcefield',
-                'foreign_table_where' => 'AND tx_dce_domain_model_dcefield.pid=###CURRENT_PID### 
+                'foreign_table_where' => 'AND tx_dce_domain_model_dcefield.pid=###CURRENT_PID###
                                           AND tx_dce_domain_model_dcefield.sys_language_uid IN (-1,0)',
             ],
         ],

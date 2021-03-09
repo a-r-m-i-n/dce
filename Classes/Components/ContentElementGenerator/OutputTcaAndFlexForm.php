@@ -153,7 +153,7 @@ class OutputTcaAndFlexForm
             \$GLOBALS['TCA']['tt_content']['palettes']['$paletteIdentifierHead']['showitem'] = '$dceCType';
             \$GLOBALS['TCA']['tt_content']['types']['$dceIdentifier']['showitem'] = '$showItem';
             if (\T3\Dce\Compatibility::isTypo3Version('10.0.0')) {
-                \$GLOBALS['TCA']['tt_content']['types']['$dceIdentifier']['previewRenderer'] = 
+                \$GLOBALS['TCA']['tt_content']['types']['$dceIdentifier']['previewRenderer'] =
                     \T3\Dce\Components\BackendView\DcePreviewRenderer::class;
             }
 
@@ -183,21 +183,21 @@ class OutputTcaAndFlexForm
                 $sourceCode .= <<<PHP
                     \$GLOBALS['TCA']['tt_content']['palettes']['$paletteIdentifier']['showitem'] .=
                         ',tx_container_parent';
-                        
+
                     PHP;
             }
             if (ExtensionManagementUtility::isLoaded('gridelements')) {
                 $sourceCode .= <<<PHP
                     \$GLOBALS['TCA']['tt_content']['palettes']['$paletteIdentifier']['showitem'] .=
                         ',tx_gridelements_container,tx_gridelements_columns';
-                        
+
                     PHP;
             }
             if (ExtensionManagementUtility::isLoaded('flux')) {
                 $sourceCode .= <<<PHP
                     \$GLOBALS['TCA']['tt_content']['palettes']['$paletteIdentifier']['showitem'] .=
                         ',tx_flux_column,tx_flux_parent';
-                        
+
                     PHP;
             }
         }

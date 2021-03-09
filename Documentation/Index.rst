@@ -1,4 +1,4 @@
-﻿.. include:: Includes.txt
+.. include:: Includes.txt
 
 
 .. _start:
@@ -26,7 +26,7 @@ Dynamic Content Elements (DCE)
 		TYPO3 CMS, DCE, FCE, Content elements, Dynamic Content Elements
 
 	:Copyright:
-		2012-2020
+		2012-2021
 
 	:Author:
 		Armin Vieweg

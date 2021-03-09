@@ -12,4 +12,3 @@ pipelines:
 definitions:
     caches:
         builddir: .Build
-
