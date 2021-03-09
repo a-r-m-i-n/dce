@@ -8,16 +8,19 @@ namespace T3\Dce\Components\BackendView;
  *  | (c) 2012-2021 Armin Vieweg <armin@v.ieweg.de>
  *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
+use Symfony\Component\ExpressionLanguage\SyntaxError;
 use T3\Dce\Components\DceContainer\ContainerFactory;
 use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Domain\Model\DceField;
 use T3\Dce\Utility\DatabaseUtility;
+use T3\Dce\Utility\DceExpressionUtility;
 use T3\Dce\Utility\LanguageService;
 use T3\Dce\Utility\PageTS as PageTsUtility;
 use T3\Dce\Utility\Strings as StringUtility;
 use TYPO3\CMS\Core\Resource\Exception\ResourceDoesNotExistException;
 use TYPO3\CMS\Core\Resource\ProcessedFile;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
@@ -37,6 +40,20 @@ class SimpleBackendView
      */
     public function getHeaderContent(Dce $dce, bool $textOnly = false): string
     {
+        if ($dce->isBackendViewHeaderUseExpression() && !empty($dce->getBackendViewHeaderExpression())) {
+            /** @var DceExpressionUtility $dceExpressionUtility */
+            $dceExpressionUtility = GeneralUtility::makeInstance(DceExpressionUtility::class);
+            $errClass = '';
+            try {
+                $result = $dceExpressionUtility->evaluate($dce->getBackendViewHeaderExpression(), $dce);
+            } catch (SyntaxError $e) {
+                $errClass = ' text-danger';
+                $result = 'ERR: Invalid header expression (' . $e->getMessage() . ')';
+            }
+
+            return $textOnly ? trim($result) : '<strong class="dceHeader' . $errClass . '">' . trim($result) . '</strong>';
+        }
+
         if ('*empty' === $dce->getBackendViewHeader()) {
             return '';
         }

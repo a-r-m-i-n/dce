@@ -23,6 +23,15 @@
 
 			<trans-unit id="use_simple_backend_view.description"><target>Dies aktiviert die einfache Backend-Ansicht. Wird es deaktiviert kann über ein Fluid template die Backend-Ausgabe beliebig angepasst werden.</target></trans-unit>
 			<trans-unit id="backend_view_header.description"><target>Wähle ein Feld das als Header dargestellt werden, soll im Backend (Seiten-Ansicht)</target></trans-unit>
+			<trans-unit id="backend_view_header_expression.description"><target><![CDATA[
+                <p>Hier kann ein Symfony-Ausdruck definiert werden, um DCE Felder auszuwählen, welche als Header verwendet werden sollen. Alle Feld-Variablen sind verfügbar.</p>
+                <p>Um mehrere Felder zu verwenden: <code>firstName ~ '-' ~ lastName</code></p>
+                <br>
+                <p>Mit <code>contentObject['uid']</code> kann auf die tt_content Datenbank-Row zugegriffen werden, um z.B. die UID auszulesen.</p>
+                <br>
+                <p>Auch die DCE-Instanz selbst ist verfügbar, z.B.: <code>dce.getTitle()</code>.</p>
+            ]]></target></trans-unit>
+			<trans-unit id="backend_view_header_use_expression.description"><target>Wenn diese Option aktiviert wird, wird statt dem Dropdown ein Input-Feld angezeigt, in dem ein Symfony Ausdruck (Expression) für den Header gesetzt werden kann.</target></trans-unit>
 			<trans-unit id="backend_view_bodytext.description"><target>Hier können mehrere Felder des DCE gewählt werden. Sie werden im Bodytext, als Tabelle dargestellt. Inkl. Bilder-Support.</target></trans-unit>
 			<trans-unit id="backend_template_type.description"><target>Es ist möglich das Template in eine Datei auszulagern oder direkt hier zu bearbeiten.</target></trans-unit>
 			<trans-unit id="backend_template_content.description"><target>Dies ist das Fluid-Template für die Backend-Ausgabe (im Seiten-Modul) dieses DCEs. Es wird empfohlen das mitgelieferte "BackendTemplate" Layout zu verwenden, welches Sektionen für "header" und "bodytext" bereitstellt.</target></trans-unit>

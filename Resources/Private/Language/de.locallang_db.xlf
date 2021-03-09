@@ -82,6 +82,8 @@
 
             <trans-unit id="tx_dce_domain_model_dce.useSimpleBackendView"><target>Benutze einfache Backend-Ansicht</target></trans-unit>
             <trans-unit id="tx_dce_domain_model_dce.backendViewHeader"><target>Header-Feld (welcher Feldwert soll als Überschrift benutzt werden)</target></trans-unit>
+            <trans-unit id="tx_dce_domain_model_dce.backendViewHeaderExpression"><target>Header Ausdruck (Expression)</target></trans-unit>
+            <trans-unit id="tx_dce_domain_model_dce.backendViewHeaderUseExpression"><source>Benutze Ausdruck (Expression) für Header-Feld</source></trans-unit>
             <trans-unit id="tx_dce_domain_model_dce.backendViewBodytext"><target>Bodytext-Felder (welche Feldtitel und -werte sollen im Bodytext aufgelistet werden)</target></trans-unit>
 
             <trans-unit id="tx_dce_domain_model_dcefield"><target>DCE Feld</target></trans-unit>

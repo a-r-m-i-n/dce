@@ -16,3 +16,4 @@ Additional informations
         CodeCaching
         FakingDetailpages
         DceViewHelper
+        DceExpressionUtility

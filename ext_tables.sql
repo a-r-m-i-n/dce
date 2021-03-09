@@ -29,6 +29,8 @@ CREATE TABLE tx_dce_domain_model_dce (
 
 	use_simple_backend_view tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	backend_view_header varchar(255) DEFAULT '*dcetitle' NOT NULL,
+	backend_view_header_expression text,
+    backend_view_header_use_expression tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	backend_view_bodytext text,
 
 	backend_template_type varchar(255) DEFAULT '' NOT NULL,

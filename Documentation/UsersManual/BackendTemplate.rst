@@ -29,7 +29,30 @@ This example looks like this in backend:
    :alt: DCE Container when Simple Backend View is enabled
 
 
-You can make some adjustments here, using PageTS.
+.. _users-manual-backendtemplate_header_expression:
+
+Expression for header field
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Since DCE 2.7 you can enable a checkbox, which reveals an input field. There you can use Symfony Expressions to
+output more than one field in content element's header.
+
+.. tip::
+   The header is also used as label (in list view and select dropdowns).
+
+.. image:: Images/backend-view-simple-expression.png
+   :alt: Enabled Symfony expression for simple backend view header field
+
+This header expression will - for example - generate the following header: **Teaser: My second teaser**
+
+.. note::
+   On this page, you see how Symfony expressions in DCE work: :ref:`additional-informations-dce-expression-utility`
+
+
+PageTS configuration
+~~~~~~~~~~~~~~~~~~~~
+
+You can make some adjustments here, using PageTS:
 
 .. code-block:: typoscript
 
@@ -40,6 +63,11 @@ You can make some adjustments here, using PageTS.
 
             imageWidth = 50c
             imageHeight = 50c
+
+            containerGroupColors {
+                10 = #0079BF
+                # ...
+            }
         }
     }
 

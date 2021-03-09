@@ -93,6 +93,14 @@ class Dce extends AbstractEntity
      */
     protected $backendViewHeader = '';
 
+    /** @var string
+     */
+    protected $backendViewHeaderExpression = '';
+
+    /** @var bool
+     */
+    protected $backendViewHeaderUseExpression = false;
+
     /**
      * @var string
      */
@@ -392,6 +400,30 @@ class Dce extends AbstractEntity
     public function setBackendViewHeader(string $backendViewHeader): self
     {
         $this->backendViewHeader = $backendViewHeader;
+
+        return $this;
+    }
+
+    public function getBackendViewHeaderExpression(): string
+    {
+        return $this->backendViewHeaderExpression;
+    }
+
+    public function setBackendViewHeaderExpression(string $backendViewHeaderExpression): self
+    {
+        $this->backendViewHeaderExpression = $backendViewHeaderExpression;
+
+        return $this;
+    }
+
+    public function isBackendViewHeaderUseExpression(): bool
+    {
+        return $this->backendViewHeaderUseExpression;
+    }
+
+    public function setBackendViewHeaderUseExpression(bool $backendViewHeaderUseExpression): self
+    {
+        $this->backendViewHeaderUseExpression = $backendViewHeaderUseExpression;
 
         return $this;
     }

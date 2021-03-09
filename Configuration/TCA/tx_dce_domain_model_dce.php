@@ -29,7 +29,7 @@ $showItems = <<<TEXT
     detailpage_template_type,detailpage_template,detailpage_template_file,
 
 --div--;${ll}tx_dce_domain_model_dce.backendTemplate,
-    use_simple_backend_view,backend_view_header,backend_view_bodytext,
+    use_simple_backend_view,--palette--;;backend_view_header_settings,backend_view_bodytext,
     backend_template_type,backend_template_content,backend_template_file,
 
 --div--;${ll}tx_dce_domain_model_dce.wizard,
@@ -96,6 +96,10 @@ $dceTca = [
         ],
         'detailpage_title' => [
             'showitem' => 'detailpage_title_expression,detailpage_use_slug_as_title',
+            'canNotCollapse' => true
+        ],
+        'backend_view_header_settings' => [
+            'showitem' => 'backend_view_header,backend_view_header_expression,backend_view_header_use_expression',
             'canNotCollapse' => true
         ],
     ],
@@ -364,7 +368,12 @@ $dceTca = [
         'backend_view_header' => [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dce.backendViewHeader',
-            'displayCond' => 'FIELD:use_simple_backend_view:=:1',
+            'displayCond' => [
+                'AND' => [
+                    'FIELD:use_simple_backend_view:=:1',
+                    'FIELD:backend_view_header_use_expression:!=:1'
+                ]
+            ],
             'onChange' => 'reload',
             'config' => [
                 'type' => 'select',
@@ -373,6 +382,32 @@ $dceTca = [
                 'size' => 1,
                 'minitems' => 0,
                 'maxitems' => 1
+            ],
+        ],
+        'backend_view_header_expression' => [
+            'exclude' => 0,
+            'label' => $ll . 'tx_dce_domain_model_dce.backendViewHeaderExpression',
+            'displayCond' => [
+                'AND' => [
+                    'FIELD:use_simple_backend_view:=:1',
+                    'FIELD:backend_view_header_use_expression:=:1'
+                ]
+            ],
+            'config' => [
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
+                'default' => 'dce.getTitle()'
+            ],
+        ],
+        'backend_view_header_use_expression' => [
+            'exclude' => 0,
+            'label' => $ll . 'tx_dce_domain_model_dce.backendViewHeaderUseExpression',
+            'displayCond' => 'FIELD:use_simple_backend_view:=:1',
+            'onChange' => 'reload',
+            'config' => [
+                'type' => 'check',
+                'default' => '0'
             ],
         ],
         'backend_view_bodytext' => [

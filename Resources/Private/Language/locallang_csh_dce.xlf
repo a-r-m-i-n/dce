@@ -23,6 +23,15 @@
 
             <trans-unit id="use_simple_backend_view.description"><source>This enables the simple backend view. When you uncheck this you get a backend Fluid template for custom backend output.</source></trans-unit>
             <trans-unit id="backend_view_header.description"><source>Choose the field in this DCE which should be displayed as header in backend's page view.</source></trans-unit>
+            <trans-unit id="backend_view_header_expression.description"><source><![CDATA[
+                <p>Here you can define a symfony expression, to define the DCE fields you want to use as header. All field variables are available.</p>
+                <p>You can concatenate multiple fields, like this: <code>firstName ~ ' ' ~ lastName</code></p>
+                <br>
+                <p>With <code>contentObject['uid']</code> you can access the tt_content row, to e.g. fetch the uid.</p>
+                <br>
+                <p>Also the DCE instance itself is available, e.g.: <code>dce.getTitle()</code>.</p>
+            ]]></source></trans-unit>
+            <trans-unit id="backend_view_header_use_expression.description"><source>When enabled, you get an input field where you can enter a Symfony expression, instead of a select dropdown.</source></trans-unit>
             <trans-unit id="backend_view_bodytext.description"><source>Here you can select several fields from your DCE. They get displayed in a table. With support of images.</source></trans-unit>
             <trans-unit id="backend_template_type.description"><source>You can outsource the template to a file or edit the template right here in the inline editor.</source></trans-unit>
             <trans-unit id="backend_template_content.description"><source>Here you edit the Fluid template for the backend output (in page module) of this DCE. Please use provided "BackendTemplate" layout, which provides sections for "header" and "bodytext".</source></trans-unit>

@@ -9,21 +9,16 @@ namespace T3\Dce\Components\DetailPage;
  *  |
  *  | (c) 2020-2021 Armin Vieweg <armin@v.ieweg.de>
  */
-use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Domain\Repository\DceRepository;
 use T3\Dce\Utility\DatabaseUtility;
+use T3\Dce\Utility\DceExpressionUtility;
 use TYPO3\CMS\Core\DataHandling\SlugHelper;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 class SlugGenerator
 {
-    /**
-     * @var ExpressionLanguage
-     */
-    private static $expressionLanguage;
-
     /**
      * @var DceRepository
      */
@@ -53,24 +48,13 @@ class SlugGenerator
 
     public static function getSlugFromDce(Dce $dce, ?string $expression = null): ?string
     {
-        if (!isset(self::$expressionLanguage)) {
-            self::$expressionLanguage = GeneralUtility::makeInstance(ExpressionLanguage::class);
-        }
+        /** @var DceExpressionUtility $dceExpressionUtility */
+        $dceExpressionUtility = GeneralUtility::makeInstance(DceExpressionUtility::class);
         if (!$expression) {
             $expression = $dce->getDetailpageSlugExpression();
         }
-        $slug = self::$expressionLanguage->evaluate(
-            $expression,
-            [
-                'dce' => $dce,
-                'contentObject' => $dce->getContentObject(),
-            ] + $dce->getGet()
-        );
-        if ($slug) {
-            return (string)$slug;
-        }
 
-        return null;
+        return $dceExpressionUtility->evaluate($expression, $dce); // Generated slug
     }
 
     /**

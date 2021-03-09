@@ -92,6 +92,8 @@
 
             <trans-unit id="tx_dce_domain_model_dce.useSimpleBackendView"><source>Use simple backend view</source></trans-unit>
             <trans-unit id="tx_dce_domain_model_dce.backendViewHeader"><source>Header field (which field value should be used as header)</source></trans-unit>
+            <trans-unit id="tx_dce_domain_model_dce.backendViewHeaderExpression"><source>Header expression</source></trans-unit>
+            <trans-unit id="tx_dce_domain_model_dce.backendViewHeaderUseExpression"><source>Use expression for header field</source></trans-unit>
             <trans-unit id="tx_dce_domain_model_dce.backendViewBodytext"><source>Bodytext fields (which labels and values of fields should be listed in bodytext)</source></trans-unit>
 
             <trans-unit id="tx_dce_domain_model_dcefield"><source>DCE Field</source></trans-unit>
