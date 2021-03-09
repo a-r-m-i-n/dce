@@ -289,6 +289,10 @@ class AfterSaveHook
                 }
             }
         }
+
+        if ('tx_dce_domain_model_dce' === $table && 'new' === $status && isset($fieldArray['t3_origuid']) && !empty($fieldArray['t3_origuid'])) {
+            $this->dataHandler->updateDB('tx_dce_domain_model_dce', $this->uid, ['title' => $fieldArray['title'] . ' copy']);
+        }
     }
 
     // phpcs:enable

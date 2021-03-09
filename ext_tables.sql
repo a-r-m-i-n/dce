@@ -78,14 +78,9 @@ CREATE TABLE tx_dce_domain_model_dce (
 	t3ver_move_id int(11) DEFAULT '0' NOT NULL,
 	t3_origuid int(11) DEFAULT '0' NOT NULL,
 
-	sys_language_uid int(11) DEFAULT '0' NOT NULL,
-	l10n_parent int(11) DEFAULT '0' NOT NULL,
-	l10n_diffsource mediumblob,
-
 	PRIMARY KEY (uid),
 	KEY parent (pid),
-	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
-	KEY language (l10n_parent,sys_language_uid)
+	KEY t3ver_oid (t3ver_oid,t3ver_wsid)
 );
 
 #
@@ -127,15 +122,10 @@ CREATE TABLE tx_dce_domain_model_dcefield (
 	t3ver_move_id int(11) DEFAULT '0' NOT NULL,
 	t3_origuid int(11) DEFAULT '0' NOT NULL,
 
-	sys_language_uid int(11) DEFAULT '0' NOT NULL,
-	l10n_parent int(11) DEFAULT '0' NOT NULL,
-	l10n_diffsource mediumblob,
-
 	PRIMARY KEY (uid),
 	KEY parent (pid),
 	KEY parent_dce (parent_dce),
-	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
-	KEY language (l10n_parent,sys_language_uid)
+	KEY t3ver_oid (t3ver_oid,t3ver_wsid)
 );
 
 #
