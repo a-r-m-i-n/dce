@@ -8,6 +8,17 @@ Versions
 
 .. contents:: :local:
 
+2.7.0
+-----
+- [BUGFIX] Remove unused language fields and fix copying/duplicating DCEs on root level
+- [FEATURE] Symfony expressions for Simple Backend View header
+- [BUGFIX] Fix non-rendered container items, when content elements get rendered multiple times
+- [BUGFIX] Update outdated color picker config
+- [DEVOPS] Update DDEV environment and add project environment with Composer
+- [TASK] Add required "extra.typo3/cms.extension-key" value
+- [FEATURE] TYPO3 11 Compatibility (dropped TYPO3 8 support)
+
+
 2.6.1
 -----
 - [BUGFIX] Add missing "classmap" argument in ext_emconf autoload section
