@@ -28,11 +28,14 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
 class ContainerFactory
 {
     /**
-     * Contains uids of content elements which can be skipped.
-     *
-     * @var array
+     * @var array contains uids of content elements which can be skipped
      */
     protected static $toSkip = [];
+
+    /**
+     * @var array|int[] Caches uids of containers, in case contents are rendered multiple times on same page
+     */
+    protected static $cachedContainers = [];
 
     public static function makeContainer(Dce $dce, bool $includeHidden = false): Container
     {
@@ -69,6 +72,7 @@ class ContainerFactory
                 static::$toSkip[$contentObject['uid']][] = $contentElement['_LOCALIZED_UID'];
             }
         }
+        self::$cachedContainers[] = $contentObject['uid'];
 
         return $container;
     }
@@ -184,6 +188,9 @@ class ContainerFactory
      */
     public static function checkContentElementForBeingRendered($contentElement): bool
     {
+        if (in_array((int)$contentElement['uid'], self::$cachedContainers, true)) {
+            return false;
+        }
         $flattenContentElementsToSkip = iterator_to_array(
             new \RecursiveIteratorIterator(new \RecursiveArrayIterator(static::$toSkip)),
             false
