@@ -32,8 +32,13 @@ class LiveSearch extends \TYPO3\CMS\Backend\Search\LiveSearch\LiveSearch
     {
         $whereClause = (string)parent::makeQuerySearchByTable($queryBuilder, $tableName, $fieldsToSearchWithin);
         if ('tt_content' === $tableName) {
-            $whereClause .= ' OR ' .
-                $queryBuilder->expr()->orX('CType LIKE "dce_%" AND tx_dce_index LIKE "%' . $this->queryString . '%"');
+            $whereClause .= ' OR ' . $queryBuilder->expr()->andX(
+                $queryBuilder->expr()->like('CType', $queryBuilder->createNamedParameter('dce_%')),
+                $queryBuilder->expr()->like(
+                    'tx_dce_index',
+                    $queryBuilder->createNamedParameter('%' . $queryBuilder->escapeLikeWildcards($this->queryString) . '%')
+                )
+            );
         }
 
         return $whereClause;

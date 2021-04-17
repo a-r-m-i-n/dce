@@ -19,7 +19,11 @@ class ListViewSearchHook
     ): array {
         if ('tt_content' === $table) {
             $dceConstraint = $queryBuilder->expr()->andX(
-                'CType LIKE "dce_%" AND tx_dce_index LIKE "%' . $searchString . '%"'
+                $queryBuilder->expr()->like('CType', '"dce_%"'),
+                $queryBuilder->expr()->like(
+                    'tx_dce_index',
+                    $queryBuilder->quote('%' . $queryBuilder->escapeLikeWildcards($searchString) . '%')
+                )
             );
             $constraints[] = $dceConstraint;
         }
