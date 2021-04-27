@@ -8,6 +8,12 @@ Versions
 
 .. contents:: :local:
 
+2.7.1
+-----
+
+- Security related bugfix release
+
+
 2.7.0
 -----
 - [BUGFIX] Remove unused language fields and fix copying/duplicating DCEs on root level
@@ -17,6 +23,12 @@ Versions
 - [DEVOPS] Update DDEV environment and add project environment with Composer
 - [TASK] Add required "extra.typo3/cms.extension-key" value
 - [FEATURE] TYPO3 11 Compatibility (dropped TYPO3 8 support)
+
+
+2.6.2
+-----
+
+- Security related bugfix release
 
 
 2.6.1
