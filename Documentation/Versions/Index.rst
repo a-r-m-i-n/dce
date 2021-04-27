@@ -8,6 +8,12 @@ Versions
 
 .. contents:: :local:
 
+2.6.2
+-----
+
+- Security related bugfix release
+
+
 2.6.1
 -----
 - [BUGFIX] Add missing "classmap" argument in ext_emconf autoload section
