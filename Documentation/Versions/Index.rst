@@ -8,6 +8,15 @@ Versions
 
 .. contents:: :local:
 
+2.7.2
+-----
+
+- [DEVOPS] Fixing code style issues
+- [BUGFIX] Do not perform file_exists after unlinking (deleting) cache file
+- [BUGFIX] Do not clear DCE caches everytime any TYPO3 cache gets cleared
+- [BUGFIX] Fix typehinting for updateTcaMappingsAction in DceModuleController
+
+
 2.7.1
 -----
 
