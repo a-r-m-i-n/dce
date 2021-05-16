@@ -8,6 +8,7 @@ namespace T3\Dce\Hooks;
  *  | (c) 2019-2021 Armin Vieweg <armin@v.ieweg.de>
  */
 use T3\Dce\Components\ContentElementGenerator\CacheManager;
+use TYPO3\CMS\Core\DataHandling\DataHandler;
 
 /**
  * Flushes DCE code cache files.
@@ -16,8 +17,10 @@ use T3\Dce\Components\ContentElementGenerator\CacheManager;
  */
 class ClearCacheHook
 {
-    public function flushDceCache(): void
+    public function flushDceCache(array $parameters, DataHandler $dataHandler): void
     {
-        CacheManager::makeInstance()->flush();
+        if (isset($parameters['cacheCmd']) && $parameters['cacheCmd'] === 'all') {
+            CacheManager::makeInstance()->flush();
+        }
     }
 }
