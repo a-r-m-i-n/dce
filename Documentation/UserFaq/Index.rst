@@ -161,9 +161,9 @@ In the Fluid template you can write following:
 
 ::
 
-	<a href="{f:uri.image(image:'{field.yourPicture}')}" class="whatEverYourCssLibraryWantHere">
-		<f:image image="{field.yourPicture}" alt="Thumbnail" maxWidth="100" maxHeight="100" />
-	</a>
+    <a href="{f:uri.image(image:'{field.yourPicture}')}" class="whatEverYourCssLibraryWantHere">
+        <f:image image="{field.yourPicture}" alt="Thumbnail" maxWidth="100" maxHeight="100" />
+    </a>
 
 With the f:image view helper a thumbnail of the image, that should be shown, is issued.
 TYPO3 creates an image with a reduced size and stores it in *fileadmin/_processed_/*.
@@ -199,7 +199,7 @@ You have to enclose the RTE field with the format.html view helper to get the HT
 
 ::
 
-	<f:format.html>{field.rteField}</f:format.html>
+    <f:format.html>{field.rteField}</f:format.html>
 
 You can also use the inline notation:
 
@@ -242,7 +242,7 @@ The link to changeover to the detail page looks like this:
 
 ::
 
-	<f:link.page pageUid="{page.uid}" additionalParams="{detailUid: '{contentObject.uid}'}">Detail</f:link.page>
+    <f:link.page pageUid="{page.uid}" additionalParams="{detailUid: '{contentObject.uid}'}">Detail</f:link.page>
 
 Where detailUid is the value of the field "Detail page identifier (get parameter)" you have set on the
 "Detail page" tab.
@@ -282,7 +282,7 @@ If you want to rename this group just use this code in PageTS:
 
 ::
 
-	mod.wizards.newContentElement.wizardItems.dce.header = Whatever you want
+    mod.wizards.newContentElement.wizardItems.dce.header = Whatever you want
 
 
 How to update DCE from (very) old versions?

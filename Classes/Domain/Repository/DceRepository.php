@@ -183,7 +183,7 @@ class DceRepository extends Repository
     protected function disableRespectOfEnableFields(): void
     {
         if (!self::$defaultQuerySettingsInstance) {
-            /* @var $querySettings Typo3QuerySettings */
+            // @var $querySettings Typo3QuerySettings
             self::$defaultQuerySettingsInstance = GeneralUtility::makeInstance(Typo3QuerySettings::class);
             self::$defaultQuerySettingsInstance->setIgnoreEnableFields(true)->setIncludeDeleted(true);
         }
@@ -522,6 +522,7 @@ class DceRepository extends Repository
 
             $pageRepository = $GLOBALS['TSFE']->sys_page;
             if ($dceFieldConfiguration['dce_enable_autotranslation']) {
+                /** @var class-string $pageRepoClassName */
                 $pageRepoClassName = Compatibility::getPageRepositoryClassName();
                 if (!$pageRepository instanceof $pageRepoClassName) {
                     /** @var PageRepository $pageRepository */

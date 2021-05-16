@@ -77,7 +77,7 @@
         "phpstan": "phpstan analyse -c Resources/Private/Build/phpstan.neon",
         "phpcs": "php-cs-fixer fix --config Resources/Private/Build/php-cs-rules.php --ansi --verbose --diff --dry-run",
         "phpcs:fix": "php-cs-fixer fix --config Resources/Private/Build/php-cs-rules.php --ansi",
-        "ec": "ec -n -e Documentation-GENERATED -e .Build",
-        "ec:fix": "ec -n -e Documentation-GENERATED -e .Build --fix"
+        "ec": "ec -n -e Documentation-GENERATED -e .Build -e Resources/Public/JavaScript/Contrib",
+        "ec:fix": "ec -n -e Documentation-GENERATED -e .Build -e Resources/Public/JavaScript/Contrib --fix"
     }
 }

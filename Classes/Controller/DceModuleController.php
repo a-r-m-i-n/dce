@@ -56,8 +56,8 @@ class DceModuleController extends ActionController
     }
 
     /**
-     * @param \T3\Dce\Domain\Model\Dce  $dce
-     * @param bool $perform
+     * @param \T3\Dce\Domain\Model\Dce $dce
+     * @param bool                     $perform
      *
      * @return void|ResponseInterface
      */

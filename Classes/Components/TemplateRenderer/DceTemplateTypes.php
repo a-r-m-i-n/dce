@@ -13,13 +13,13 @@ namespace T3\Dce\Components\TemplateRenderer;
  */
 class DceTemplateTypes
 {
-    /* Identifier for: "default DCE templates" */
+    // Identifier for: "default DCE templates"
     public const DEFAULT = 0;
-    /* Identifier for: "detail page templates" */
+    // Identifier for: "detail page templates"
     public const DETAILPAGE = 3;
-    /* Identifier for: "dce container templates" */
+    // Identifier for: "dce container templates"
     public const CONTAINER = 4;
-    /* Identifier for: "backend template" */
+    // Identifier for: "backend template"
     public const BACKEND_TEMPLATE = 5;
 
     /**

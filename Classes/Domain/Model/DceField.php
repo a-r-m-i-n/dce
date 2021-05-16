@@ -16,11 +16,11 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
  */
 class DceField extends AbstractEntity
 {
-    /* Field Type: Element */
+    // Field Type: Element
     public const TYPE_ELEMENT = 0;
-    /* Field Type: Tab */
+    // Field Type: Tab
     public const TYPE_TAB = 1;
-    /* Field Type: Section */
+    // Field Type: Section
     public const TYPE_SECTION = 2;
 
     /**

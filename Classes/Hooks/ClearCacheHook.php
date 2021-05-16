@@ -19,7 +19,7 @@ class ClearCacheHook
 {
     public function flushDceCache(array $parameters, DataHandler $dataHandler): void
     {
-        if (isset($parameters['cacheCmd']) && $parameters['cacheCmd'] === 'all') {
+        if (isset($parameters['cacheCmd']) && 'all' === $parameters['cacheCmd']) {
             CacheManager::makeInstance()->flush();
         }
     }

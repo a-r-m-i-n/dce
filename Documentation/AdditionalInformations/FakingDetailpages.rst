@@ -150,13 +150,13 @@ the f:cObject view helper from within the templates, so we modify this lib:
 
     [request.getQueryParams()['detailDceUid'] > 0]
         lib.dynamicContent.20.select.uidInList {
-     		override.cObject = TEXT
-     		override.cObject.data = GP:detailDceUid
-     		override.cObject.intval = 1
-     		override.if {
-     			value.data = register:colPos
-    			equals = 0
-     		}
+             override.cObject = TEXT
+             override.cObject.data = GP:detailDceUid
+             override.cObject.intval = 1
+             override.if {
+                 value.data = register:colPos
+                equals = 0
+             }
         }
     [end]
 

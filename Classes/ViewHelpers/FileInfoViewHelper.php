@@ -99,7 +99,7 @@ class FileInfoViewHelper extends AbstractViewHelper
         }
         /** @var ObjectManager $objectManager */
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        /* @var FileRepository $fileRepository */
+        // @var FileRepository $fileRepository
         self::$fileRepository = $objectManager->get(FileRepository::class);
 
         return self::$fileRepository;

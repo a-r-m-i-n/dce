@@ -170,7 +170,7 @@ $dceFieldTca = [
                     'showTemplates' => true,
                 ],
                 'default' => '<config>
-	<type>input</type>
+    <type>input</type>
 </config>'
             ],
         ],

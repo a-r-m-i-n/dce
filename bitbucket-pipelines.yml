@@ -7,7 +7,7 @@ pipelines:
                 - composer
                 - builddir
             script:
-                - composer install --no-progress --no-scripts --ignore-platform-reqs
+                - composer install --no-progress --ignore-platform-reqs
                 - composer run check
 definitions:
     caches:

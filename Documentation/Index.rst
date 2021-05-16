@@ -9,43 +9,43 @@ Dynamic Content Elements (DCE)
 
 .. only:: html
 
-	:Classification:
-		dce
+    :Classification:
+        dce
 
-	:Version:
-		|release|
+    :Version:
+        |release|
 
-	:Language:
-		en
+    :Language:
+        en
 
-	:Description:
-		Best flexform based content elements since 2012. With TCA mapping feature, simple backend view and much more
-		features which makes it super easy to create own content element types.
+    :Description:
+        Best flexform based content elements since 2012. With TCA mapping feature, simple backend view and much more
+        features which makes it super easy to create own content element types.
 
-	:Keywords:
-		TYPO3 CMS, DCE, FCE, Content elements, Dynamic Content Elements
+    :Keywords:
+        TYPO3 CMS, DCE, FCE, Content elements, Dynamic Content Elements
 
-	:Copyright:
-		2012-2021
+    :Copyright:
+        2012-2021
 
-	:Author:
-		Armin Vieweg
+    :Author:
+        Armin Vieweg
 
-	:Email:
-		armin@v.ieweg.de
+    :Email:
+        armin@v.ieweg.de
 
-	:License:
-		This document is published under the Open Content License
-		available from http://www.opencontent.org/opl.shtml
+    :License:
+        This document is published under the Open Content License
+        available from http://www.opencontent.org/opl.shtml
 
-	:Rendered:
-		|today|
+    :Rendered:
+        |today|
 
-	The content of this document is related to TYPO3,
-	a GNU/GPL CMS/Framework available from `www.typo3.org <http://www.typo3.org/>`_.
+    The content of this document is related to TYPO3,
+    a GNU/GPL CMS/Framework available from `www.typo3.org <http://www.typo3.org/>`_.
 
 
-	**Table of Contents**
+    **Table of Contents**
 
 .. toctree::
         :maxdepth: 2
