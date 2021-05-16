@@ -121,7 +121,7 @@ class CacheManager implements SingletonInterface
         $path = $this->buildCacheFilePathByKey($key);
         if (file_exists($path)) {
             $status = unlink($path);
-            if (!$status || file_exists($path)) {
+            if (!$status) {
                 throw new \RuntimeException('Unable to delete old cache file "' . $path . '"! Please check write permissions.');
             }
         }
