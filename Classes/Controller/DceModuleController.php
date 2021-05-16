@@ -7,11 +7,9 @@ namespace T3\Dce\Controller;
  *  |
  *  | (c) 2012-2021 Armin Vieweg <armin@v.ieweg.de>
  */
-
 use Psr\Http\Message\ResponseInterface;
 use T3\Dce\Compatibility;
 use T3\Dce\Components\FlexformToTcaMapper\Mapper;
-use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Domain\Repository\DceRepository;
 use T3\Dce\Utility\File;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
@@ -58,7 +56,7 @@ class DceModuleController extends ActionController
     }
 
     /**
-     * @param Dce  $dce
+     * @param \T3\Dce\Domain\Model\Dce  $dce
      * @param bool $perform
      *
      * @return void|ResponseInterface
