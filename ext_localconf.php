@@ -183,5 +183,5 @@ $boot = function ($extensionKey) {
     }
 };
 
-$boot($_EXTKEY ?? 'dce');
+$boot('dce');
 unset($boot);
