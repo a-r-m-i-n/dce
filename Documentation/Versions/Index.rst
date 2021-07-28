@@ -8,6 +8,16 @@ Versions
 
 .. contents:: :local:
 
+2.7.3
+-----
+
+- [BUGFIX] Remove usage of $_EXTKEY
+- [TASK] Cleanup ext_tables.sql
+- [TASK] Remove "starttime" and "endtime" from DCE's TCA
+- [DOC] Improve README
+- [DOC] Add Gridelements notice (resolveChildFlexFormData)
+
+
 2.7.2
 -----
 
