@@ -33,8 +33,8 @@ class CacheManager implements SingletonInterface
     {
         $this->cachePath = Environment::getVarPath() . $this->getCachePath($cacheName);
         if (!file_exists($this->cachePath)) {
-            $status = mkdir($this->cachePath, 0777, true);
-            if (!$status || !file_exists($this->cachePath) || !is_dir($this->cachePath)) {
+            GeneralUtility::mkdir_deep($this->cachePath);
+            if (!file_exists($this->cachePath) || !is_dir($this->cachePath)) {
                 throw new \RuntimeException('Unable to create cache directory "' . $this->cachePath . '"!', 1615032065);
             }
         }
