@@ -33,8 +33,6 @@ $dceFieldTca = [
         'sortby' => 'sorting',
         'enablecolumns' => [
             'disabled' => 'hidden',
-            'starttime' => 'starttime',
-            'endtime' => 'endtime',
         ],
         'type' => 'type',
         'typeicon_column' => 'type',
@@ -89,38 +87,6 @@ $dceFieldTca = [
             'config' => [
                 'type' => 'passthrough',
             ]
-        ],
-        'starttime' => [
-            'exclude' => 1,
-            'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.starttime',
-            'config' => [
-                'renderType' => 'inputDateTime',
-                'type' => 'input',
-                'size' => 13,
-                'eval' => 'datetime',
-                'checkbox' => 0,
-                'default' => 0,
-                'range' => [
-                    'lower' => mktime(0, 0, 0, date('m'), date('d'), date('Y'))
-                ],
-                'behaviour' => ['allowLanguageSynchronization' => false],
-            ],
-        ],
-        'endtime' => [
-            'exclude' => 1,
-            'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.endtime',
-            'config' => [
-                'renderType' => 'inputDateTime',
-                'type' => 'input',
-                'size' => 13,
-                'eval' => 'datetime',
-                'checkbox' => 0,
-                'default' => 0,
-                'range' => [
-                    'lower' => mktime(0, 0, 0, date('m'), date('d'), date('Y'))
-                ],
-                'behaviour' => ['allowLanguageSynchronization' => false],
-            ],
         ],
         'type' => [
             'exclude' => 0,

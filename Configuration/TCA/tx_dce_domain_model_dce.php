@@ -58,8 +58,6 @@ $dceTca = [
         'sortby' => 'sorting',
         'enablecolumns' => [
             'disabled' => 'hidden',
-            'starttime' => 'starttime',
-            'endtime' => 'endtime',
         ],
         'iconfile' => 'EXT:dce/Resources/Public/Icons/ext_icon.png',
         'copyAfterDuplFields' => 'fields',
