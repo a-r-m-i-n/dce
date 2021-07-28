@@ -2,8 +2,6 @@
 # Table structure for table 'tx_dce_domain_model_dce'
 #
 CREATE TABLE tx_dce_domain_model_dce (
-	uid int(11) NOT NULL auto_increment,
-	pid int(11) DEFAULT '0' NOT NULL,
 
 	identifier varchar(255) DEFAULT '' NOT NULL,
 	title varchar(255) DEFAULT '' NOT NULL,
@@ -56,37 +54,14 @@ CREATE TABLE tx_dce_domain_model_dce (
     container_detail_autohide tinyint(4) unsigned DEFAULT '1' NOT NULL,
 	container_template_type varchar(255) DEFAULT '' NOT NULL,
 	container_template text,
-	container_template_file varchar(255) DEFAULT '' NOT NULL,
+	container_template_file varchar(255) DEFAULT '' NOT NULL
 
-	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
-	crdate int(11) unsigned DEFAULT '0' NOT NULL,
-	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
-	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	sorting int(11) unsigned DEFAULT '0' NOT NULL,
-
-	t3ver_oid int(11) DEFAULT '0' NOT NULL,
-	t3ver_id int(11) DEFAULT '0' NOT NULL,
-	t3ver_wsid int(11) DEFAULT '0' NOT NULL,
-	t3ver_label varchar(255) DEFAULT '' NOT NULL,
-	t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
-	t3ver_stage int(11) DEFAULT '0' NOT NULL,
-	t3ver_count int(11) DEFAULT '0' NOT NULL,
-	t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
-	t3ver_move_id int(11) DEFAULT '0' NOT NULL,
-	t3_origuid int(11) DEFAULT '0' NOT NULL,
-
-	PRIMARY KEY (uid),
-	KEY parent (pid),
-	KEY t3ver_oid (t3ver_oid,t3ver_wsid)
 );
 
 #
 # Table structure for table 'tx_dce_domain_model_dcefield'
 #
 CREATE TABLE tx_dce_domain_model_dcefield (
-	uid int(11) NOT NULL auto_increment,
-	pid int(11) DEFAULT '0' NOT NULL,
 
 	title varchar(255) DEFAULT '' NOT NULL,
 	variable varchar(255) DEFAULT '' NOT NULL,
@@ -100,36 +75,18 @@ CREATE TABLE tx_dce_domain_model_dcefield (
 	parent_dce int(11) DEFAULT '0' NOT NULL,
 	parent_field int(11) DEFAULT '0' NOT NULL,
 
-	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
-	crdate int(11) unsigned DEFAULT '0' NOT NULL,
-	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
-	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	sorting int(11) DEFAULT '0' NOT NULL,
+    KEY parent_dce (parent_dce)
 
-	t3ver_oid int(11) DEFAULT '0' NOT NULL,
-	t3ver_id int(11) DEFAULT '0' NOT NULL,
-	t3ver_wsid int(11) DEFAULT '0' NOT NULL,
-	t3ver_label varchar(255) DEFAULT '' NOT NULL,
-	t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
-	t3ver_stage int(11) DEFAULT '0' NOT NULL,
-	t3ver_count int(11) DEFAULT '0' NOT NULL,
-	t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
-	t3ver_move_id int(11) DEFAULT '0' NOT NULL,
-	t3_origuid int(11) DEFAULT '0' NOT NULL,
-
-	PRIMARY KEY (uid),
-	KEY parent (pid),
-	KEY parent_dce (parent_dce),
-	KEY t3ver_oid (t3ver_oid,t3ver_wsid)
 );
 
 #
 # Table structure for table 'tt_content'
 #
 CREATE TABLE tt_content (
+
 	tx_dce_dce int(11) DEFAULT '0' NOT NULL,
 	tx_dce_index mediumtext,
 	tx_dce_slug varchar(255) DEFAULT '' NOT NULL,
 	tx_dce_new_container tinyint(4) unsigned DEFAULT '0' NOT NULL
+
 );
