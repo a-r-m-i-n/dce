@@ -166,9 +166,10 @@ class ContainerFactory
 
         $contentElementsInContainer = [];
         foreach ($resolvedContentElements as $rawContentElement) {
-            if (($contentObject['uid'] !== $rawContentElement['uid'] &&
+            if ((
+                $contentObject['uid'] !== $rawContentElement['uid'] &&
                  1 === $rawContentElement['tx_dce_new_container']
-                )
+            )
                 || $rawContentElement['CType'] !== $dce->getIdentifier()
             ) {
                 return $contentElementsInContainer;

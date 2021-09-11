@@ -32,11 +32,11 @@
     "require-dev": {
         "t3/cms": "^10.4",
         "typo3/cms-linkvalidator": "^10.4",
-        "friendsofphp/php-cs-fixer": "^2.18",
-        "phpstan/phpstan": "^0.12.80",
+        "friendsofphp/php-cs-fixer": "^3.1",
+        "phpstan/phpstan": "^0.12.98",
         "jangregor/phpstan-prophecy": "^0.8",
         "saschaegerer/phpstan-typo3": "^0.13",
-        "armin/editorconfig-cli": "^1.1"
+        "armin/editorconfig-cli": "^1.5"
     },
     "suggest": {
         "b13/container": "Brings clean container functionality to TYPO3 CMS, supported by DCE."

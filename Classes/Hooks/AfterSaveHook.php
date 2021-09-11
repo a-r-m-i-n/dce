@@ -9,6 +9,7 @@ namespace T3\Dce\Hooks;
  *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
 
+use Doctrine\DBAL\Driver\Statement;
 use Symfony\Component\ExpressionLanguage\SyntaxError;
 use T3\Dce\Components\DetailPage\EmptySlugException;
 use T3\Dce\Components\DetailPage\SlugGenerator;
@@ -231,6 +232,7 @@ class AfterSaveHook
                 $dceIdentifier = !empty($dceRow['identifier']) ? 'dce_' . $dceRow['identifier']
                     : 'dce_dceuid' . $this->uid;
                 $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tt_content');
+                /** @var Statement $statement */
                 $statement = $queryBuilder
                     ->select('uid', 'pid')
                     ->from('tt_content')

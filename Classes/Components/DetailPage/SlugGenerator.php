@@ -9,6 +9,8 @@ namespace T3\Dce\Components\DetailPage;
  *  |
  *  | (c) 2020-2021 Armin Vieweg <armin@v.ieweg.de>
  */
+
+use Doctrine\DBAL\Driver\Statement;
 use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Domain\Repository\DceRepository;
 use T3\Dce\Utility\DatabaseUtility;
@@ -88,6 +90,7 @@ class SlugGenerator
             return $slug;
         }
         $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tt_content');
+        /** @var Statement $statement */
         $statement = $queryBuilder
             ->select('uid')
             ->from('tt_content')
