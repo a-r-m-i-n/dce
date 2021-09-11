@@ -8,14 +8,13 @@ namespace T3\Dce\Components\ContentElementGenerator;
  *  | (c) 2019-2021 Armin Vieweg <armin@v.ieweg.de>
  */
 use TYPO3\CMS\Core\Core\Environment;
-use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Simplified CacheManager for generated DCE code.
  * For PHP code only!
  */
-class CacheManager implements SingletonInterface
+class CacheManager
 {
     public const CACHE_NAME = 'cache_dce';
 
