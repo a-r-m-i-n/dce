@@ -7,6 +7,8 @@ namespace T3\Dce\Components\ContentElementGenerator;
  *  |
  *  | (c) 2012-2021 Armin Vieweg <armin@v.ieweg.de>
  */
+
+use T3\Dce\Compatibility;
 use T3\Dce\Components\FlexformToTcaMapper\Mapper;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -43,14 +45,20 @@ class OutputTcaAndFlexForm
         if (!$this->cacheManager->has(self::CACHE_KEY)) {
             $sourceCode = '';
 
-            $sourceCode .= <<<PHP
-                \$GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'][] = [
-                    0 => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xlf:tx_dce_domain_model_dce_long',
-                    1 => '--div--'
-                ];
+            if (Compatibility::isTypo3Version('10.4')) {
+                $sourceCode .= <<<PHP
+                    \$GLOBALS['TCA']['tt_content']['columns']['CType']['config']['itemGroups']['dce'] =
+                        'LLL:EXT:dce/Resources/Private/Language/locallang_db.xlf:tx_dce_domain_model_dce_long';
+                    PHP;
+            } else {
+                $sourceCode .= <<<PHP
+                    \$GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'][] = [
+                        0 => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xlf:tx_dce_domain_model_dce_long',
+                        1 => '--div--'
+                    ];
 
-                PHP;
-
+                    PHP;
+            }
             $fieldRowsWithNewColumns = Mapper::getDceFieldRowsWithNewTcaColumns();
             if (\count($fieldRowsWithNewColumns) > 0) {
                 $newColumns = [];
@@ -104,13 +112,14 @@ class OutputTcaAndFlexForm
             : $dce['wizard_icon'];
 
         $sourceCode .= <<<PHP
-            \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTcaSelectItem(
+            use T3\Dce\Compatibility;\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTcaSelectItem(
                 'tt_content',
                 'CType',
                 [
                     '$dceTitle',
                     '$dceIdentifier',
                     '$dceIcon',
+                    Compatibility::isTypo3Version('10.4') ? 'dce' : null
                 ]
             );
 
