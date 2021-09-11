@@ -77,7 +77,7 @@ class DceController extends ActionController
 
         /** @var Dce $dce */
         $dce = $this->dceRepository->findAndBuildOneByUid(
-            DceRepository::extractUidFromCTypeOrIdentifier('dce_' . $config['pluginName']),
+            $this->dceRepository::extractUidFromCTypeOrIdentifier('dce_' . $config['pluginName']),
             $this->settings,
             $contentObject
         );
