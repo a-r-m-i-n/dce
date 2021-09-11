@@ -8,6 +8,16 @@ Versions
 
 .. contents:: :local:
 
+2.7.4
+-----
+
+- [BUGFIX] Fix usage of iconGroups in tt_content's CType configuration
+- [DEVOPS] Update php-cs-fixer and phpstan
+- [CLEANUP] Indention fixes
+- [TASK] Make DCE's CacheManager non-singleton
+- [TASK] Use correct file permissions when creating cache folder
+
+
 2.7.3
 -----
 
