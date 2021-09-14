@@ -112,14 +112,14 @@ class OutputTcaAndFlexForm
             : $dce['wizard_icon'];
 
         $sourceCode .= <<<PHP
-            use T3\Dce\Compatibility;\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTcaSelectItem(
+            \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTcaSelectItem(
                 'tt_content',
                 'CType',
                 [
                     '$dceTitle',
                     '$dceIdentifier',
                     '$dceIcon',
-                    Compatibility::isTypo3Version('10.4') ? 'dce' : null
+                    \T3\Dce\Compatibility::isTypo3Version('10.4') ? 'dce' : null
                 ]
             );
 
