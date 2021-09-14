@@ -8,6 +8,13 @@ Versions
 
 .. contents:: :local:
 
+2.7.5
+-----
+
+- [BUGFIX] Fix accidentally added namespace import when creating DCE cache
+- [TASK] Use DceRepository instance for extracting uid from CType
+
+
 2.7.4
 -----
 
