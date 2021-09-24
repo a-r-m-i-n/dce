@@ -8,6 +8,12 @@ Versions
 
 .. contents:: :local:
 
+2.7.6
+-----
+
+- [BUGFIX] Fix DceCodeMirrorFieldRenderType declaration
+
+
 2.7.5
 -----
 
