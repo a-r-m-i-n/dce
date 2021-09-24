@@ -29,13 +29,6 @@ class DceCodeMirrorFieldRenderType extends AbstractFormElement
     protected $resultArray;
 
     /**
-     * Global options from NodeFactory.
-     *
-     * @var array
-     */
-    protected $data;
-
-    /**
      * @var string
      */
     protected $uniqueIdentifier;
