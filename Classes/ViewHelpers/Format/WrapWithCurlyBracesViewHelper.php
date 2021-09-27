@@ -15,6 +15,9 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class WrapWithCurlyBracesViewHelper extends AbstractViewHelper
 {
+    protected $escapeChildren = false;
+    protected $escapeOutput = false;
+
     public function initializeArguments()
     {
         parent::initializeArguments();
