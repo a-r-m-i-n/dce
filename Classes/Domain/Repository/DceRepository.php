@@ -471,8 +471,10 @@ class DceRepository extends Repository
 
         if (class_exists($className) && class_exists($repositoryName)) {
             // Extbase object found
+            /** @var ObjectManager $objectManager */
+            $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
             /** @var Repository $repository */
-            $repository = GeneralUtility::makeInstance($repositoryName);
+            $repository = $objectManager->get($repositoryName);
 
             foreach (GeneralUtility::trimExplode(',', $fieldValue, true) as $uid) {
                 $uid = (int)$uid;
