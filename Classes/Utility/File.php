@@ -29,7 +29,8 @@ class File
             $filePath = $file;
             if (GeneralUtility::isFirstPartOfStr($filePath, 'file:')) {
                 $combinedIdentifier = substr($file, 5);
-                $resourceFactory = ResourceFactory::getInstance();
+                /** @var ResourceFactory $resourceFactory */
+                $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
 
                 $fileOrFolder = $resourceFactory->retrieveFileOrFolderObject($combinedIdentifier);
                 $filePath = $fileOrFolder->getPublicUrl();

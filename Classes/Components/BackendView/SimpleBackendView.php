@@ -219,7 +219,9 @@ class SimpleBackendView
 
         $imageTags = [];
         foreach (array_keys($rows) as $fileReferenceUid) {
-            $fileReference = ResourceFactory::getInstance()->getFileReferenceObject($fileReferenceUid, []);
+            /** @var ResourceFactory $resourceFactory */
+            $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
+            $fileReference = $resourceFactory->getFileReferenceObject($fileReferenceUid, []);
             $fileObject = $fileReference->getOriginalFile();
             if ($fileObject->isMissing()) {
                 continue;
