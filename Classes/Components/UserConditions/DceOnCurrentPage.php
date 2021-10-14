@@ -8,10 +8,8 @@ namespace T3\Dce\Components\UserConditions;
  *  | (c) 2012-2021 Armin Vieweg <armin@v.ieweg.de>
  *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
-
 use T3\Dce\Compatibility;
 use T3\Dce\Utility\DatabaseUtility;
-use TYPO3\CMS\Core\Configuration\TypoScript\ConditionMatching\AbstractCondition;
 
 /**
  * Checks if the current page contains a DCE (instance).
@@ -27,12 +25,9 @@ use TYPO3\CMS\Core\Configuration\TypoScript\ConditionMatching\AbstractCondition;
  *
  * @return bool Returns true if the current page contains a DCE (instance)
  */
-class DceOnCurrentPage extends AbstractCondition
+class DceOnCurrentPage
 {
-    /**
-     * @param array|null $arguments See TypoScriptConditionFunctionProvider::getDceOnCurrentPageFunction()
-     */
-    public function matchCondition(array $parameters, array $arguments = null): bool
+    public function matchCondition(array $parameters): bool
     {
         if (!Compatibility::isFrontendMode()) {
             return false;
@@ -81,7 +76,7 @@ class DceOnCurrentPage extends AbstractCondition
                     ),
                     $queryBuilder->expr()->eq(
                         'CType',
-                        $queryBuilder->createNamedParameter($dceIdentifier, \PDO::PARAM_STR)
+                        $queryBuilder->createNamedParameter($dceIdentifier)
                     )
                 )
                 ->execute()
