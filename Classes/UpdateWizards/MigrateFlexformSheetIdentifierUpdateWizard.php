@@ -194,7 +194,10 @@ class MigrateFlexformSheetIdentifierUpdateWizard implements UpgradeWizardInterfa
                     'type',
                     $queryBuilder->createNamedParameter(1, \PDO::PARAM_INT)
                 ),
-                'variable = ""'
+                $queryBuilder->expr()->eq(
+                    'variable',
+                    $queryBuilder->createNamedParameter('')
+                )
             )
             ->orderBy('sorting', 'ASC')
             ->execute()
