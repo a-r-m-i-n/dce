@@ -8,6 +8,15 @@ Versions
 
 .. contents:: :local:
 
+2.7.7
+-----
+
+- [TASK] Replace ResourceFactory::getInstance() calls
+- [BUGFIX] Use DBAL expressions in update wizards
+- [BUGFIX] Use ObjectManager when creating new Extbase repository instance
+- [BUGFIX] Fix escaping of WrapWithCurlyBracesViewHelper
+
+
 2.7.6
 -----
 
