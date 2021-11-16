@@ -84,7 +84,7 @@ class AfterSaveHook
         DataHandler $pObj
     ): void {
         $this->extConfiguration = unserialize(
-            $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dce'],
+            $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dce'] ?? serialize([]),
             ['allowed_classes' => false]
         );
         $this->dataHandler = $pObj;

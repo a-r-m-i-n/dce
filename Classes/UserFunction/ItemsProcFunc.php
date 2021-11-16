@@ -151,7 +151,7 @@ class ItemsProcFunc
         $parameters['items'][] = ['--linebreak--', '--linebreak3--'];
         foreach (array_keys($tcaColumns) as $fieldName) {
             if (!empty($dbColumns[$fieldName]['Type']) && !\in_array($fieldName, $excludedColumns, true)) {
-                $label = trim($GLOBALS['LANG']->sL($tcaColumns[$fieldName]['label']), ': ');
+                $label = trim($GLOBALS['LANG']->sL($tcaColumns[$fieldName]['label'] ?? ''), ': ');
                 if (empty($label)) {
                     $label = $fieldName;
                 } else {
