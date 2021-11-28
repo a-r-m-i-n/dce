@@ -255,7 +255,7 @@ Sometimes you need a wrapping element in HTML template, for all content elements
 gridelements, because it brings columns to content elements which are structured in database.
 
 You can also use the DCE feature "DCE Container", which simulates a container for certain content elements in a row,
-based on the same DCE. This article tells you more: https://forge.typo3.org/projects/extension-dce/wiki/DCE_Container
+based on the same DCE.
 
 
 How to add content elements to my DCE
@@ -283,12 +283,3 @@ If you want to rename this group just use this code in PageTS:
 ::
 
     mod.wizards.newContentElement.wizardItems.dce.header = Whatever you want
-
-
-How to update DCE from (very) old versions?
--------------------------------------------
-
-Checkout these links:
-
-- https://forge.typo3.org/projects/extension-dce/wiki/Updating-DCE-0x-to-1x
-- https://forge.typo3.org/projects/extension-dce/wiki/Updating-DCE-from-version-below-12

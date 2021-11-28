@@ -8,9 +8,9 @@ Support
 
 Open tasks
 ----------
-See all open tasks `here`_ in the forge bug tracker.
+See all open tasks `here`_ in the Github issue tracker.
 
-.. _here: https://forge.typo3.org/projects/extension-dce/issues
+.. _here: https://github.com/a-r-m-i-n/dce/issues
 
 
 Facebook page
