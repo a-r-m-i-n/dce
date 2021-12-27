@@ -36,6 +36,12 @@ Any other content element type interrupts the container.
 .. caution::
    Shortcuts are supported, but when your Container starts with a CType:"shortcut" item, it will fail.
 
+.. note::
+   Since DCE version 2.8, DCE container also works inside of EXT:news detail view. Thanks to `web-crossing GmbH`_
+   for sponsoring.
+
+.. _web-crossing GmbH: https://www.web-crossing.com/
+
 
 Container item limit
 ====================

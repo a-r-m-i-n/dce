@@ -13,6 +13,7 @@ use T3\Dce\Compatibility;
 use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Domain\Repository\DceRepository;
 use T3\Dce\Utility\DatabaseUtility;
+use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Database\Query\Restriction\EndTimeRestriction;
 use TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer;
 use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
@@ -45,7 +46,15 @@ class ContainerFactory
         /** @var Container $container */
         $container = GeneralUtility::makeInstance(Container::class, $dce);
 
-        $contentElements = static::getContentElementsInContainer($dce, $includeHidden);
+        $newsParameters = GeneralUtility::_GET('tx_news_pi1');
+        if (isset($newsParameters['news']) && !empty($newsParameters['news'])) {
+            // Content elements on news detail page
+            $contentElements = static::getContentElementsInContainer($dce, $includeHidden, (int)$newsParameters['news']);
+        } else {
+            // Regular content elements
+            $contentElements = static::getContentElementsInContainer($dce, $includeHidden);
+        }
+
         $total = \count($contentElements);
 
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
@@ -80,21 +89,9 @@ class ContainerFactory
     /**
      * Get content elements rows of following content elements in current row.
      */
-    protected static function getContentElementsInContainer(Dce $dce, bool $includeHidden = false): array
+    protected static function getContentElementsInContainer(Dce $dce, bool $includeHidden = false, int $newsUid = 0): array
     {
-        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tt_content');
-        if (Compatibility::isFrontendMode()) {
-            $queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
-        }
-        if ($includeHidden) {
-            $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class);
-            $queryBuilder->getRestrictions()->removeByType(StartTimeRestriction::class);
-            $queryBuilder->getRestrictions()->removeByType(EndTimeRestriction::class);
-        }
-
-        $queryBuilder
-            ->select('*')
-            ->from('tt_content');
+        $queryBuilder = self::createQueryBuilder($includeHidden);
 
         $contentObject = $dce->getContentObject();
         $sortColumn = $GLOBALS['TCA']['tt_content']['ctrl']['sortby'];
@@ -117,6 +114,13 @@ class ContainerFactory
                 $queryBuilder->createNamedParameter($contentObject['uid'], \PDO::PARAM_INT)
             )
         );
+
+        if ($newsUid > 0) {
+            $queryBuilder->andWhere($queryBuilder->expr()->eq(
+                'tx_news_related_news',
+                $queryBuilder->createNamedParameter($newsUid, \PDO::PARAM_INT)
+            ));
+        }
 
         if (Compatibility::isFrontendMode()) {
             $queryBuilder->andWhere(
@@ -298,5 +302,24 @@ class ContainerFactory
             'index' => $index,
             'total' => $total,
         ];
+    }
+
+    private static function createQueryBuilder(bool $includeHidden = false): QueryBuilder
+    {
+        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tt_content');
+        if (Compatibility::isFrontendMode()) {
+            $queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
+        }
+        if ($includeHidden) {
+            $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class);
+            $queryBuilder->getRestrictions()->removeByType(StartTimeRestriction::class);
+            $queryBuilder->getRestrictions()->removeByType(EndTimeRestriction::class);
+        }
+
+        $queryBuilder
+            ->select('*')
+            ->from('tt_content');
+
+        return $queryBuilder;
     }
 }
