@@ -8,6 +8,18 @@ Versions
 
 .. contents:: :local:
 
+2.8.0
+-----
+
+This version has been sponsored by `web-crossing GmbH`_.
+
+.. _web-crossing GmbH: https://www.web-crossing.com/
+
+- [FEATURE] Support DCE container within EXT:news detail view
+- [DOCS] Remove invalid links to forge.typo3.org
+- [BUGFIX] Remove unnecessary extend of AbstractCondition
+
+
 2.7.7
 -----
 
