@@ -184,7 +184,7 @@ class TypoScript
         $typoscript = $this->configurationManager->getConfiguration(
             ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT
         );
-        $typoscript = $typoscript['plugin.'][$extkey . '.']['settings.'];
+        $typoscript = $typoscript['plugin.'][$extkey . '.']['settings.'] ?? [];
         foreach ($settings as $key => $setting) {
             if ('' === $setting && \is_array($typoscript) && array_key_exists($key, $typoscript)) {
                 $settings[$key] = $typoscript[$key];

@@ -88,12 +88,12 @@ class DceCodeMirrorFieldRenderType extends AbstractFormElement
         $fluidTemplate->assign('parameters', $data['parameterArray']['fieldConf']['config']['parameters']);
 
         if ('htmlmixed' === $data['parameterArray']['fieldConf']['config']['parameters']['mode']) {
-            if (!(bool)$data['parameterArray']['fieldConf']['config']['parameters']['doNotShowFields']) {
+            if (!isset($data['parameterArray']['fieldConf']['config']['parameters']['doNotShowFields'])) {
                 $fluidTemplate->assign('availableFields', $this->getAvailableFields());
             }
             $fluidTemplate->assign(
                 'showFields',
-                !(bool)$data['parameterArray']['fieldConf']['config']['parameters']['doNotShowFields']
+                !isset($data['parameterArray']['fieldConf']['config']['parameters']['doNotShowFields'])
             );
             $fluidTemplate->assign('famousViewHelpers', $this->getFamousViewHelpers());
             $fluidTemplate->assign('dceViewHelpers', $this->getDceViewHelpers());

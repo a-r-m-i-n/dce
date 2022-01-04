@@ -167,7 +167,7 @@ $boot = function ($extensionKey) {
     // UserFunc TypoScript Condition (for expression language)
     $providerName = 'TYPO3\CMS\Core\ExpressionLanguage\TypoScriptConditionProvider';
     $sectionName = 'additionalExpressionLanguageProvider';
-    if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS'][$providerName][$sectionName])) {
+    if (!isset($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS'][$providerName][$sectionName])) {
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS'][$providerName][$sectionName] = [];
     }
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS'][$providerName][$sectionName][] =

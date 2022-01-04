@@ -50,7 +50,9 @@ class StandaloneViewFactory implements SingletonInterface
         $cacheKey = $dce->getUid();
         if ($dce->getEnableContainer()) {
             $containerIterator = $dce->getContainerIterator();
-            $cacheKey .= '-' . $containerIterator['index'];
+            if (null !== $containerIterator && isset($containerIterator['index'])) {
+                $cacheKey .= '-' . $containerIterator['index'];
+            }
         }
         if (isset(self::$fluidTemplateCache[$cacheKey][$templateType])) {
             return self::$fluidTemplateCache[$cacheKey][$templateType];

@@ -175,7 +175,8 @@ class SimpleBackendView
             return \count($field->getValue()) . ' ' . $label;
         }
 
-        if ('check' === $field->getConfigurationAsArray()['type']) {
+        $configArray = $field->getConfigurationAsArray();
+        if (isset($configArray['type']) && 'check' === $configArray['type']) {
             return $field->getValue() ? '<i class="fa fa-check"></i>' : '<i class="fa fa-not"></i>';
         }
 
