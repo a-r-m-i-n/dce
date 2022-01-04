@@ -42,9 +42,6 @@ class AfterSaveHook
     /** @var array all properties of current record */
     protected $fieldArray = [];
 
-    /** @var array extension settings */
-    protected $extConfiguration = [];
-
     /**
      * If variable in given fieldSettings is set, it will be returned.
      * Otherwise a new variableName will be returned, based on the type of the field.
@@ -83,10 +80,6 @@ class AfterSaveHook
         array $fieldArray,
         DataHandler $pObj
     ): void {
-        $this->extConfiguration = unserialize(
-            $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['dce'],
-            ['allowed_classes' => false]
-        );
         $this->dataHandler = $pObj;
         $this->fieldArray = [];
         foreach ($fieldArray as $key => $value) {
