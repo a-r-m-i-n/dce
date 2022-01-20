@@ -677,12 +677,14 @@ class DceRepository extends Repository
      * Get DCE Instance.
      *
      * @param int $contentElementUid Uid of content element (tt_content)
+     * @param array|null $contentObject
+     * @return Dce
      */
-    public function getDceInstance(int $contentElementUid): Dce
+    public function getDceInstance(int $contentElementUid, ?array $contentObject = null): Dce
     {
-        $contentObject = $this->getContentObject($contentElementUid);
+        $contentObject = $contentObject ?? $this->getContentObject($contentElementUid);
         $uid = $this->extractUidFromCTypeOrIdentifier($contentObject['CType']);
-        $settings = $this->simulateContentElementSettings($contentElementUid);
+        $settings = $this->simulateContentElementSettings($contentObject['_LOCALIZED_UID'] ?? $contentObject['uid']);
 
         return $this->findAndBuildOneByUid(
             $uid,

@@ -61,7 +61,7 @@ class ContainerFactory
         /** @var DceRepository $dceRepository */
         $dceRepository = $objectManager->get(DceRepository::class);
         foreach ($contentElements as $index => $contentElement) {
-            $dceInstance = $dceRepository->getDceInstance((int)$contentElement['uid']);
+            $dceInstance = $dceRepository->getDceInstance((int)$contentElement['uid'], $contentElement);
             $dceInstance->setContainerIterator(static::createContainerIteratorArray($index, $total));
             $container->addDce($dceInstance);
 
@@ -178,6 +178,13 @@ class ContainerFactory
             ) {
                 return $contentElementsInContainer;
             }
+
+            if ($rawContentElement['sys_language_uid'] > 0 && $rawContentElement['uid'] !== $rawContentElement['l18n_parent'] && !isset($rawContentElement['_LOCALIZED_UID'])) {
+                // Make what PageRepository->versionOL would do
+                $rawContentElement['_LOCALIZED_UID'] = $rawContentElement['uid'];
+                $rawContentElement['uid'] = $rawContentElement['l18n_parent'];
+            }
+
             $contentElementsInContainer[] = $rawContentElement;
         }
 
