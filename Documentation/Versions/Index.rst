@@ -8,6 +8,19 @@ Versions
 
 .. contents:: :local:
 
+2.8.1
+-----
+
+**10th Anniversary of the DCE extension for TYPO3** 🎉 2012-2022
+
+- [TASK] Update copyright
+- [TASK] Prevent exception in backend module, when a DCE has no custom icon set
+- [TASK] Remove file picker wizard (inputLink) for DCE template paths
+- [BUGFIX] Apply language overlay to translated container elements
+- [BUGFIX] Remove unused extension configuration in AfterSaveHook
+- [BUGFIX] Fix PHP warning, when accessing non existing array key (PHP 8 support)
+
+
 2.8.0
 -----
 
