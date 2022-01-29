@@ -264,17 +264,7 @@ $dceTca = [
             'displayCond' => 'FIELD:template_type:IN:file',
             'config' => [
                 'type' => 'input',
-                'renderType' => 'inputLink',
                 'size' => 30,
-                'eval' => 'required',
-                'fieldControl' => [
-                    'linkPopup' => [
-                        'options' => [
-                            'blindLinkOptions' => 'page,folder,url,mail,spec',
-                            'blindLinkFields' => 'title,target,class,params'
-                        ]
-                    ]
-                ]
             ],
         ],
         'cache_dce' => [
@@ -434,17 +424,8 @@ $dceTca = [
             'label' => $ll . 'tx_dce_domain_model_dce.backendTemplateFile',
             'config' => [
                 'type' => 'input',
-                'renderType' => 'inputLink',
                 'size' => 30,
                 'eval' => 'required',
-                'fieldControl' => [
-                    'linkPopup' => [
-                        'options' => [
-                            'blindLinkOptions' => 'page,folder,url,mail,spec',
-                            'blindLinkFields' => 'title,target,class,params'
-                        ]
-                    ]
-                ],
             ],
             'displayCond' => [
                 'AND' => [
@@ -570,17 +551,8 @@ $dceTca = [
             'label' => $ll . 'tx_dce_domain_model_dce.detailpageTemplateFile',
             'config' => [
                 'type' => 'input',
-                'renderType' => 'inputLink',
                 'size' => 30,
                 'eval' => 'required',
-                'fieldControl' => [
-                    'linkPopup' => [
-                        'options' => [
-                            'blindLinkOptions' => 'page,folder,url,mail,spec',
-                            'blindLinkFields' => 'title,target,class,params'
-                        ]
-                    ]
-                ],
             ],
             'displayCond' => [
                 'AND' => [
@@ -667,17 +639,8 @@ $dceTca = [
             'label' => $ll . 'tx_dce_domain_model_dce.containerTemplateFile',
             'config' => [
                 'type' => 'input',
-                'renderType' => 'inputLink',
                 'size' => 30,
                 'eval' => 'required',
-                'fieldControl' => [
-                    'linkPopup' => [
-                        'options' => [
-                            'blindLinkOptions' => 'page,folder,url,mail,spec',
-                            'blindLinkFields' => 'title,target,class,params'
-                        ]
-                    ]
-                ],
             ],
             'displayCond' => [
                 'AND' => [

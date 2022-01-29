@@ -13,13 +13,13 @@
 
 			<trans-unit id="template_type.description"><target>Es ist möglich das Template in eine Datei auszulagern oder direkt hier zu bearbeiten.</target></trans-unit>
 			<trans-unit id="template_content.description"><target>Dies ist das Fluid-Template für die Frontend-Ausgabe von diesem DCEDCE.</target></trans-unit>
-			<trans-unit id="template_file.description"><target>Hier kann standardmäßig eine Datei aus einem konfigurierten File-Storage (z.B. fileadmin/) ausgewählt werden. Es ist aber auch möglich Pfade wie "EXT:mytemplate/.../MyDce.html" zu verwenden.</target></trans-unit>
+			<trans-unit id="template_file.description"><target>Hier muss der Pfad zu einer Template-Datei angegeben werden. Dateien können direkt aus z.B. fileadmin/ bezogen werden, es ist aber auch möglich Pfade wie "EXT:mytemplate/.../MyDce.html" zu verwenden.</target></trans-unit>
 
 			<trans-unit id="enable_container.description"><target>Wenn diese Option aktiviert wird, werden alle Inhaltselemente die auf dem selben DCE basieren und in einer Reihe liegen, mit einem Container-Template umschlossen.</target></trans-unit>
 			<trans-unit id="container_item_limit.description"><target>Wenn das Container Limit erreicht ist, werden weitere Elemente in einem neuen Container zusammengefasst.</target></trans-unit>
 			<trans-unit id="container_template_type.description"><target>Es ist möglich das Template in eine Datei auszulagern oder direkt hier zu bearbeiten.</target></trans-unit>
 			<trans-unit id="container_template.description"><target>Dies ist das Fluid-Template für den Container, der um die verschiedenen Inhaltselemente herum gerendert wird.</target></trans-unit>
-			<trans-unit id="container_template_file.description"><target>Hier kann standardmäßig eine Datei aus einem konfigurierten File-Storage (z.B. fileadmin/) ausgewählt werden. Es ist aber auch möglich Pfade wie "EXT:mytemplate/.../MyDce.html" zu verwenden.</target></trans-unit>
+			<trans-unit id="container_template_file.description"><target>Hier muss der Pfad zu einer Template-Datei angegeben werden. Dateien können direkt aus z.B. fileadmin/ bezogen werden, es ist aber auch möglich Pfade wie "EXT:mytemplate/.../MyDce.html" zu verwenden.</target></trans-unit>
 
 			<trans-unit id="use_simple_backend_view.description"><target>Dies aktiviert die einfache Backend-Ansicht. Wird es deaktiviert kann über ein Fluid template die Backend-Ausgabe beliebig angepasst werden.</target></trans-unit>
 			<trans-unit id="backend_view_header.description"><target>Wähle ein Feld das als Header dargestellt werden, soll im Backend (Seiten-Ansicht)</target></trans-unit>
@@ -35,7 +35,7 @@
 			<trans-unit id="backend_view_bodytext.description"><target>Hier können mehrere Felder des DCE gewählt werden. Sie werden im Bodytext, als Tabelle dargestellt. Inkl. Bilder-Support.</target></trans-unit>
 			<trans-unit id="backend_template_type.description"><target>Es ist möglich das Template in eine Datei auszulagern oder direkt hier zu bearbeiten.</target></trans-unit>
 			<trans-unit id="backend_template_content.description"><target>Dies ist das Fluid-Template für die Backend-Ausgabe (im Seiten-Modul) dieses DCEs. Es wird empfohlen das mitgelieferte "BackendTemplate" Layout zu verwenden, welches Sektionen für "header" und "bodytext" bereitstellt.</target></trans-unit>
-			<trans-unit id="backend_template_file.description"><target>Hier kann standardmäßig eine Datei aus einem konfigurierten File-Storage (z.B. fileadmin/) ausgewählt werden. Es ist aber auch möglich Pfade wie "EXT:mytemplate/.../MyDce.html" zu verwenden.</target></trans-unit>
+			<trans-unit id="backend_template_file.description"><target>Hier muss der Pfad zu einer Template-Datei angegeben werden. Dateien können direkt aus z.B. fileadmin/ bezogen werden, es ist aber auch möglich Pfade wie "EXT:mytemplate/.../MyDce.html" zu verwenden.</target></trans-unit>
 
 			<trans-unit id="wizard_icon.description"><target>Welches Icon soll das DCE im Backend haben? Wenn "custom" gewählt wurde, können eigene Icons verwendet werden.</target></trans-unit>
 			<trans-unit id="wizard_custom_icon.description"><target>Bitte den Pfad zum Icon eingeben.</target></trans-unit>
@@ -59,7 +59,7 @@
 			<trans-unit id="detailpage_use_slug_as_title.description"><target>Wenn ein Slug-Ausdruck für den Seitentitel definiert und diese Option aktiviert wurde, wird der Ausdruck als Seitentitel verwendet. Er kann den aktuellen Seitentitel ersetzen, voran- oder nachgestellt werden.</target></trans-unit>
 			<trans-unit id="detailpage_template_type.description"><target>Es ist möglich das Template in eine Datei auszulagern oder direkt hier zu bearbeiten.</target></trans-unit>
 			<trans-unit id="detailpage_template.description"><target>Dies ist das Fluid-Template für die Detailseiten-Ausgabe, welche durch einen konfigurierten GET-Parameter getriggert wird.</target></trans-unit>
-			<trans-unit id="detailpage_template_file.description"><target>Hier kann standardmäßig eine Datei aus einem konfigurierten File-Storage (z.B. fileadmin/) ausgewählt werden. Es ist aber auch möglich Pfade wie "EXT:mytemplate/.../MyDce.html" zu verwenden.</target></trans-unit>
+			<trans-unit id="detailpage_template_file.description"><target>Hier muss der Pfad zu einer Template-Datei angegeben werden. Dateien können direkt aus z.B. fileadmin/ bezogen werden, es ist aber auch möglich Pfade wie "EXT:mytemplate/.../MyDce.html" zu verwenden.</target></trans-unit>
 
 			<trans-unit id="cache_dce.description"><target>Wenn der DCE-Cache deaktiviert wird, kann dies Auswirkungen auf die Render-Performance haben.</target></trans-unit>
 			<trans-unit id="direct_output.description"><target>Wenn aktiviert wird fluid_styled_content (lib.contentElement) umgangen. Das verhinert das "csc-default"-Wrap in der HTMl-Ausgabe und erhöht die Performance signifikant.</target></trans-unit>

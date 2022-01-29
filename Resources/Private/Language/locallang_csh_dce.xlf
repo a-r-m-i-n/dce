@@ -13,13 +13,13 @@
 
             <trans-unit id="template_type.description"><source>You can outsource the template to a file or edit the template right here in the inline editor.</source></trans-unit>
             <trans-unit id="template_content.description"><source>Here you edit the Fluid template for the frontend output of this DCE.</source></trans-unit>
-            <trans-unit id="template_file.description"><source>By default you can choose files from configured file storages (e.g. fileadmin/). But you can also enter paths like "EXT:mytemplate/.../MyDce.html".</source></trans-unit>
+            <trans-unit id="template_file.description"><source>Here you need to set the path to a template file. Files can be used directly from e.g. fileadmin/, but you can also enter paths like "EXT:mytemplate/.../MyDce.html".</source></trans-unit>
 
             <trans-unit id="enable_container.description"><source>When you enable this option, all DCEs of same type in a row will get wrapped by a container template.</source></trans-unit>
             <trans-unit id="container_item_limit.description"><source>When the container item limit is set, a new container will be forced when the limit is reached.</source></trans-unit>
             <trans-unit id="container_template_type.description"><source>You can outsource the template to a file or edit the template right here in the inline editor.</source></trans-unit>
             <trans-unit id="container_template.description"><source>Here you edit the Fluid template for the container wrapped around the instances of this DCE.</source></trans-unit>
-            <trans-unit id="container_template_file.description"><source>By default you can choose files from configured file storages (e.g. fileadmin/). But you can also enter paths like "EXT:mytemplate/.../MyDce.html".</source></trans-unit>
+            <trans-unit id="container_template_file.description"><source>Here you need to set the path to a template file. Files can be used directly from e.g. fileadmin/, but you can also enter paths like "EXT:mytemplate/.../MyDce.html".</source></trans-unit>
 
             <trans-unit id="use_simple_backend_view.description"><source>This enables the simple backend view. When you uncheck this you get a backend Fluid template for custom backend output.</source></trans-unit>
             <trans-unit id="backend_view_header.description"><source>Choose the field in this DCE which should be displayed as header in backend's page view.</source></trans-unit>
@@ -35,7 +35,7 @@
             <trans-unit id="backend_view_bodytext.description"><source>Here you can select several fields from your DCE. They get displayed in a table. With support of images.</source></trans-unit>
             <trans-unit id="backend_template_type.description"><source>You can outsource the template to a file or edit the template right here in the inline editor.</source></trans-unit>
             <trans-unit id="backend_template_content.description"><source>Here you edit the Fluid template for the backend output (in page module) of this DCE. Please use provided "BackendTemplate" layout, which provides sections for "header" and "bodytext".</source></trans-unit>
-            <trans-unit id="backend_template_file.description"><source>By default you can choose files from configured file storages (e.g. fileadmin/). But you can also enter paths like "EXT:mytemplate/.../MyDce.html".</source></trans-unit>
+            <trans-unit id="backend_template_file.description"><source>Here you need to set the path to a template file. Files can be used directly from e.g. fileadmin/, but you can also enter paths like "EXT:mytemplate/.../MyDce.html".</source></trans-unit>
 
             <trans-unit id="wizard_icon.description"><source>Which icon should the DCE have in backend? You can choose "custom" to upload your own icons.</source></trans-unit>
             <trans-unit id="wizard_custom_icon.description"><source>Enter the path to your custom icon.</source></trans-unit>
@@ -59,7 +59,7 @@
             <trans-unit id="detailpage_use_slug_as_title.description"><source>When you've defined a slug expression for page title and enable this option, the expression is applied as page title. You can prepend, append or overwrite the current page title.</source></trans-unit>
             <trans-unit id="detailpage_template_type.description"><source>You can outsource the template to a file or edit the template right here in the inline editor.</source></trans-unit>
             <trans-unit id="detailpage_template.description"><source>Here you edit the Fluid template for the detail page output of this DCE, which is triggered by configured GET parameter.</source></trans-unit>
-            <trans-unit id="detailpage_template_file.description"><source>By default you can choose files from configured file storages (e.g. fileadmin/). But you can also enter paths like "EXT:mytemplate/.../MyDce.html".</source></trans-unit>
+            <trans-unit id="detailpage_template_file.description"><source>Here you need to set the path to a template file. Files can be used directly from e.g. fileadmin/, but you can also enter paths like "EXT:mytemplate/.../MyDce.html".</source></trans-unit>
 
             <trans-unit id="cache_dce.description"><source>If you disable the DCE cache, it may impact your page render performance.</source></trans-unit>
             <trans-unit id="direct_output.description"><source>When enabled, it bypasses fluid_styled_content (lib.contentElement). This disables the "csc-default" wrap in html output and increases performance significantly.</source></trans-unit>
