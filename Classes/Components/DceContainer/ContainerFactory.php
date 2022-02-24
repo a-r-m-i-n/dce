@@ -179,7 +179,7 @@ class ContainerFactory
                 return $contentElementsInContainer;
             }
 
-            if ($rawContentElement['sys_language_uid'] > 0 && $rawContentElement['uid'] !== $rawContentElement['l18n_parent'] && !isset($rawContentElement['_LOCALIZED_UID'])) {
+            if ($rawContentElement['sys_language_uid'] > 0 && !empty($rawContentElement['l18n_parent']) && $rawContentElement['uid'] !== $rawContentElement['l18n_parent'] && !isset($rawContentElement['_LOCALIZED_UID'])) {
                 // Make what PageRepository->versionOL would do
                 $rawContentElement['_LOCALIZED_UID'] = $rawContentElement['uid'];
                 $rawContentElement['uid'] = $rawContentElement['l18n_parent'];
