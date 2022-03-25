@@ -7,6 +7,7 @@ namespace T3\Dce\Utility;
  *  |
  *  | (c) 2012-2022 Armin Vieweg <armin@v.ieweg.de>
  */
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\LinkHandling\LinkService;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -40,7 +41,7 @@ class File
 
                 /** @var \TYPO3\CMS\Core\Resource\File $resolvedFile */
                 $resolvedFile = $linkService->resolveByStringRepresentation($filePath)['file'];
-                $filePath = $resolvedFile->getPublicUrl();
+                $filePath = Environment::getPublicPath() . $resolvedFile->getPublicUrl();
             }
 
             return GeneralUtility::getFileAbsFileName($filePath);
