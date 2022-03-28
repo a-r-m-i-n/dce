@@ -7,6 +7,7 @@ namespace T3\Dce\ViewHelpers;
  *  |
  *  | (c) 2012-2022 Armin Vieweg <armin@v.ieweg.de>
  */
+use T3\Dce\Compatibility;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\FileRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -56,7 +57,13 @@ class FileInfoViewHelper extends AbstractViewHelper
     public function render()
     {
         $file = $this->getFile($this->arguments['fileUid']);
-        $properties = array_merge($file->_getMetaData(), $file->getProperties());
+
+        if (Compatibility::isTypo3Version('10.0.0')) {
+            $properties = array_merge($file->getMetaData()->get(), $file->getProperties());
+        } else {
+            $properties = array_merge($file->_getMetaData(), $file->getProperties());
+        }
+
         if (!array_key_exists($this->arguments['attribute'], $properties)) {
             throw new \Exception('Given file in DCE\'s fileInfo view helper has no attribute named "' . $this->arguments['attribute'] . '". Most common, available attributes are: ' . 'title, description, alternative, width, height, name, extension, size and uid', 1429046106);
         }
