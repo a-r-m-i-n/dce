@@ -8,6 +8,16 @@ Versions
 
 .. contents:: :local:
 
+2.8.2
+-----
+
+- [DEPRECATION] Mark "file:" and "t3://" as template path deprecated
+- [BUGFIX] Do not use deprecated method in FileInfoViewHelper
+- [BUGFIX] Prepend Environment::getPublicPath() to resolved t3://file links
+- [BUGFIX] Do not apply langauge overlay, when in free mode
+- [BUGFIX] TCA output flexform (thanks to Sebastian Iffland)
+
+
 2.8.1
 -----
 
