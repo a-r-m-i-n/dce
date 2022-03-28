@@ -28,7 +28,14 @@ class File
     {
         try {
             $filePath = $file;
+            /**
+             * @deprecated  The file: and the t3:// link formats are deprecated. Please use EXT: or absolute paths, instead.
+             */
             if (GeneralUtility::isFirstPartOfStr($filePath, 'file:')) {
+                trigger_error(
+                    'Do not use "file:" for DCE template files! ("' . $filePath . '" given)',
+                    E_USER_DEPRECATED
+                );
                 $combinedIdentifier = substr($file, 5);
                 /** @var ResourceFactory $resourceFactory */
                 $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
@@ -36,6 +43,10 @@ class File
                 $fileOrFolder = $resourceFactory->retrieveFileOrFolderObject($combinedIdentifier);
                 $filePath = $fileOrFolder->getPublicUrl();
             } elseif (GeneralUtility::isFirstPartOfStr($filePath, 't3://')) {
+                trigger_error(
+                    'Do not use "t3://" for DCE template files! ("' . $filePath . '" given)',
+                    E_USER_DEPRECATED
+                );
                 /** @var LinkService $linkService */
                 $linkService = GeneralUtility::makeInstance(LinkService::class);
 

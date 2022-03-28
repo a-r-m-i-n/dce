@@ -29,6 +29,11 @@ stored in the file system.
 
 The **EXT:** syntax is supported and encouraged to use, to point to template files provided by a template extension.
 
+.. caution::
+   The ``t3://file=uid=1`` syntax is still supported, but will be removed in next major version of DCE.
+   Template files should not be stored using FAL, which requires additional database queries, just to the path of the
+   template file.
+
 
 Inline
 ++++++
