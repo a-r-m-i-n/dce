@@ -8,6 +8,13 @@ Versions
 
 .. contents:: :local:
 
+2.8.3
+-----
+
+- [BUGFIX] Add missing slash when resolving t3:// links
+- [TASK] Simplify ext_emconf Georg Ringer*
+
+
 2.8.2
 -----
 
