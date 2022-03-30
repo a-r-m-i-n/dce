@@ -12,7 +12,7 @@ Versions
 -----
 
 - [BUGFIX] Add missing slash when resolving t3:// links
-- [TASK] Simplify ext_emconf Georg Ringer*
+- [TASK] Simplify ext_emconf
 
 
 2.8.2
