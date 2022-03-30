@@ -7,6 +7,8 @@ namespace T3\Dce\Utility;
  *  |
  *  | (c) 2012-2022 Armin Vieweg <armin@v.ieweg.de>
  */
+use T3\Dce\Compatibility;
+use T3\Dce\Configuration\BackendConfigurationManager;
 use TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser;
 use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -18,26 +20,42 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  */
 class TypoScript
 {
+    public const EXTKEY = 'tx_dce';
+
+    public const CONTEXT_PLUGIN = 'plugin';
+    public const CONTEXT_MODULE = 'module';
+
     /**
-     * Content Object Renderer.
-     *
      * @var ContentObjectRenderer
      */
     protected $contentObject;
 
     /**
-     * Configuration Manager.
-     *
      * @var ConfigurationManagerInterface
      */
     protected $configurationManager = null;
 
     /**
+     * @var BackendConfigurationManager
+     */
+    protected $backendConfigurationManager = null;
+
+    /**
      * Injects the configurationManager.
+     * @param ConfigurationManagerInterface $configurationManager
      */
     public function injectConfigurationManager(ConfigurationManagerInterface $configurationManager): void
     {
         $this->configurationManager = $configurationManager;
+    }
+
+    /**
+     * Injects the backendConfigurationManager.
+     * @param BackendConfigurationManager $backendConfigurationManager
+     */
+    public function injectBackendConfigurationManager(BackendConfigurationManager $backendConfigurationManager): void
+    {
+        $this->backendConfigurationManager = $backendConfigurationManager;
     }
 
     /**
@@ -52,7 +70,8 @@ class TypoScript
      * Converts given TypoScript string to array.
      *
      * @param string $typoScriptString Typoscript text piece
-     * @param bool   $returnPlainArray if TRUE a plain array will be returned
+     * @param bool $returnPlainArray if TRUE a plain array will be returned
+     * @return array
      */
     public function parseTypoScriptString(string $typoScriptString, bool $returnPlainArray = false): array
     {
@@ -69,12 +88,10 @@ class TypoScript
     /**
      * Converts given array to TypoScript.
      *
-     * @param array  $typoScriptArray The array to convert to string
-     * @param string $addKey          Prefix given values with given key
-     *                                (eg. lib.whatever = {...})
-     * @param int    $tab             Internal
-     * @param bool   $init            Internal
-     *
+     * @param array $typoScriptArray The array to convert to string
+     * @param string $addKey Prefix given values with given key (eg. lib.whatever = {...})
+     * @param int $tab Internal
+     * @param bool $init Internal
      * @return string TypoScript
      */
     public function convertArrayToTypoScript(
@@ -124,8 +141,9 @@ class TypoScript
     }
 
     /**
-     * Converts given typoScriptArray to plain array.
+     * Removes all trailing dots recursively from given typoscript array
      *
+     * @param array $typoScriptArray
      * @return array plain array
      */
     public function convertTypoScriptArrayToPlainArray(array $typoScriptArray): array
@@ -171,20 +189,36 @@ class TypoScript
     }
 
     /**
+     * Get typoscript configuration from a specific
+     *
+     * @param int $pageUid
+     * @param string $context
+     * @return array
+     */
+    public function getTyposcriptSettingsByPageUid(int $pageUid): array
+    {
+        $this->backendConfigurationManager->setCurrentPageId($pageUid);
+        $typoscript = $this->backendConfigurationManager->getTypoScriptSetup() ?? [];
+        $context = $this->getCurrentContext();
+        return $this->convertTypoScriptArrayToPlainArray(
+            $typoscript[$context . '.'][self::EXTKEY . '.'] ?? []
+        );
+    }
+
+    /**
      * Overwrite flexform values with typoscript if flexform value is empty and
      * typoscript value exists.
      *
      * @param array $settings Settings from flexform
-     *
      * @return array enhanced settings
      */
     protected function enhanceSettingsWithTypoScript(array $settings): array
     {
-        $extkey = 'tx_dce';
+        $context = $this->getCurrentContext();
         $typoscript = $this->configurationManager->getConfiguration(
             ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT
         );
-        $typoscript = $typoscript['plugin.'][$extkey . '.']['settings.'] ?? [];
+        $typoscript = $typoscript[$context . '.'][self::EXTKEY . '.']['settings.'] ?? [];
         foreach ($settings as $key => $setting) {
             if ('' === $setting && \is_array($typoscript) && array_key_exists($key, $typoscript)) {
                 $settings[$key] = $typoscript[$key];
@@ -192,6 +226,11 @@ class TypoScript
         }
 
         return $settings;
+    }
+
+    protected function getCurrentContext(): string
+    {
+        return (Compatibility::isFrontendMode()) ? TypoScript::CONTEXT_PLUGIN : TypoScript::CONTEXT_MODULE;
     }
 
     /**

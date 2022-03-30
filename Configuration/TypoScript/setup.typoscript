@@ -1,0 +1,27 @@
+plugin.tx_dce {
+    view {
+        templateRootPaths {
+            0 = {$plugin.tx_dce.view.templateRootPath}
+        }
+        partialRootPaths {
+            0 = {$plugin.tx_dce.view.partialRootPath}
+        }
+        layoutRootPaths {
+            0 = {$plugin.tx_dce.view.layoutRootPath}
+        }
+    }
+}
+
+module.tx_dce {
+    view {
+        templateRootPaths {
+            0 = EXT:dce/Resources/Private/Templates/
+        }
+        partialRootPaths {
+            0 = EXT:dce/Resources/Private/Partials/
+        }
+        layoutRootPaths {
+            0 = EXT:dce/Resources/Private/Layouts/
+        }
+    }
+}

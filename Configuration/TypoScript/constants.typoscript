@@ -1,0 +1,10 @@
+plugin.tx_dce {
+    view {
+        # cat=plugin.tx_dce/file; type=string; label=Path to template layouts (FE)
+        layoutRootPath = EXT:dce/Resources/Private/Layouts/
+        # cat=plugin.tx_dce/file; type=string; label=Path to template root (FE)
+        templateRootPath = EXT:dce/Resources/Private/Templates/
+        # cat=plugin.tx_dce/file; type=string; label=Path to template partials (FE)
+        partialRootPath = EXT:dce/Resources/Private/Partials/
+    }
+}
