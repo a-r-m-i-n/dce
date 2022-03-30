@@ -32,10 +32,20 @@ class StandaloneViewFactory implements SingletonInterface
      */
     public function makeNewDceView(): StandaloneView
     {
+        $settings = $this->getTyposcriptViewPaths();
+
+        $layouts = $settings['layoutRootPaths'];
+        array_unshift($layouts, 'EXT:dce/Resources/Private/Partials/');
+        $this->resolvePaths($layouts);
+
+        $partials = $settings['partialRootPaths'];
+        array_unshift($partials, 'EXT:dce/Resources/Private/Partials/');
+        $this->resolvePaths($partials);
+
         /** @var StandaloneView $fluidTemplate */
         $fluidTemplate = GeneralUtility::makeInstance(StandaloneView::class);
-        $fluidTemplate->setLayoutRootPaths([File::get('EXT:dce/Resources/Private/Layouts/')]);
-        $fluidTemplate->setPartialRootPaths([File::get('EXT:dce/Resources/Private/Partials/')]);
+        $fluidTemplate->setLayoutRootPaths($layouts);
+        $fluidTemplate->setPartialRootPaths($partials);
 
         return $fluidTemplate;
     }
@@ -44,6 +54,7 @@ class StandaloneViewFactory implements SingletonInterface
      * Creates new standalone view or returns cached one, if existing.
      *
      * @param int $templateType see class constants
+     * @return StandaloneView
      */
     public function getDceTemplateView(Dce $dce, int $templateType): StandaloneView
     {
@@ -86,8 +97,8 @@ class StandaloneViewFactory implements SingletonInterface
 
         if ('inline' === $dce->$typeGetter()) {
             $inlineTemplateGetter = 'get' . ucfirst(
-                GeneralUtility::underscoredToLowerCamelCase($templateFields['inline'])
-            );
+                    GeneralUtility::underscoredToLowerCamelCase($templateFields['inline'])
+                );
             $view->setTemplateSource($dce->$inlineTemplateGetter() . ' ');
         } else {
             $fileTemplateGetter = 'get' . ucfirst(GeneralUtility::underscoredToLowerCamelCase($templateFields['file']));
@@ -132,5 +143,39 @@ class StandaloneViewFactory implements SingletonInterface
                 $typoScriptService->convertTypoScriptArrayToPlainArray($GLOBALS['TSFE']->tmpl->setup)
             );
         }
+    }
+
+    /**
+     * Returns the typoscript configuration for path : plugin.tx_dce.view
+     * @return array
+     */
+    protected function getTyposcriptViewPaths(): array
+    {
+        $views = [
+            'layoutRootPaths' => [0 => 'EXT:dce/Resources/Private/Layouts/'],
+            'templateRootPaths' => [0 => 'EXT:dce/Resources/Private/Templates/'],
+            'partialRootPaths' => [0 => 'EXT:dce/Resources/Private/Partials/'],
+        ];
+
+        if (isset($GLOBALS['TSFE']) && Compatibility::isFrontendMode()) {
+            $typoScriptService = GeneralUtility::makeInstance(TypoScriptService::class);
+            $settings = $typoScriptService->convertTypoScriptArrayToPlainArray($GLOBALS['TSFE']->tmpl->setup);
+
+            if (isset($settings['plugin']['tx_dce']['view']))
+                $views = $settings['plugin']['tx_dce']['view'];
+        }
+
+        return $views;
+    }
+
+    /**
+     * Resolve file paths for entire array
+     * @param array $paths
+     */
+    protected function resolvePaths(array &$paths): void
+    {
+        $paths = array_map(function ($path) {
+            return File::get($path);
+        }, $paths);
     }
 }
