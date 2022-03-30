@@ -52,7 +52,7 @@ class File
 
                 /** @var \TYPO3\CMS\Core\Resource\File $resolvedFile */
                 $resolvedFile = $linkService->resolveByStringRepresentation($filePath)['file'];
-                $filePath = Environment::getPublicPath() . $resolvedFile->getPublicUrl();
+                $filePath = Environment::getPublicPath() . DIRECTORY_SEPARATOR . $resolvedFile->getPublicUrl();
             }
 
             return GeneralUtility::getFileAbsFileName($filePath);
