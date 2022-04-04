@@ -7,6 +7,9 @@ namespace T3\Dce\Utility;
  *  |
  *  | (c) 2012-2022 Armin Vieweg <armin@v.ieweg.de>
  */
+
+use T3\Dce\Compatibility;
+use T3\Dce\Configuration\BackendConfigurationManager;
 use TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser;
 use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -18,6 +21,11 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  */
 class TypoScript
 {
+    public const EXTKEY = 'tx_dce';
+
+    public const CONTEXT_PLUGIN = 'plugin';
+    public const CONTEXT_MODULE = 'module';
+
     /**
      * Content Object Renderer.
      *
@@ -33,11 +41,22 @@ class TypoScript
     protected $configurationManager = null;
 
     /**
-     * Injects the configurationManager.
+     * Configuration Manager.
+     *
+     * @var BackendConfigurationManager
      */
-    public function injectConfigurationManager(ConfigurationManagerInterface $configurationManager): void
+    protected $backendConfigurationManager = null;
+
+    /**
+     * TypoScript constructor.
+     *
+     * @param ConfigurationManagerInterface $configurationManager
+     * @param BackendConfigurationManager $backendConfigurationManager
+     */
+    public function __construct(ConfigurationManagerInterface $configurationManager, BackendConfigurationManager $backendConfigurationManager)
     {
         $this->configurationManager = $configurationManager;
+        $this->backendConfigurationManager = $backendConfigurationManager;
     }
 
     /**
@@ -52,7 +71,8 @@ class TypoScript
      * Converts given TypoScript string to array.
      *
      * @param string $typoScriptString Typoscript text piece
-     * @param bool   $returnPlainArray if TRUE a plain array will be returned
+     * @param bool $returnPlainArray if TRUE a plain array will be returned
+     * @return array
      */
     public function parseTypoScriptString(string $typoScriptString, bool $returnPlainArray = false): array
     {
@@ -69,11 +89,11 @@ class TypoScript
     /**
      * Converts given array to TypoScript.
      *
-     * @param array  $typoScriptArray The array to convert to string
-     * @param string $addKey          Prefix given values with given key
+     * @param array $typoScriptArray The array to convert to string
+     * @param string $addKey Prefix given values with given key
      *                                (eg. lib.whatever = {...})
-     * @param int    $tab             Internal
-     * @param bool   $init            Internal
+     * @param int $tab Internal
+     * @param bool $init Internal
      *
      * @return string TypoScript
      */
@@ -82,7 +102,8 @@ class TypoScript
         string $addKey = '',
         int $tab = 0,
         bool $init = true
-    ): string {
+    ): string
+    {
         $typoScript = '';
         if ('' !== $addKey) {
             $typoScript .= str_repeat("\t", (0 === $tab) ? $tab : $tab - 1) . $addKey . " {\n";
@@ -124,16 +145,31 @@ class TypoScript
     }
 
     /**
-     * Converts given typoScriptArray to plain array.
+     * Removes all trailing dots recursively from TS settings array
      *
+     * @param array $plainArray
      * @return array plain array
      */
-    public function convertTypoScriptArrayToPlainArray(array $typoScriptArray): array
+    public function convertTypoScriptArrayToPlainArray(array $plainArray): array
     {
         /** @var TypoScriptService $typoScriptService */
         $typoScriptService = GeneralUtility::makeInstance(TypoScriptService::class);
 
-        return $typoScriptService->convertTypoScriptArrayToPlainArray($typoScriptArray);
+        return $typoScriptService->convertTypoScriptArrayToPlainArray($plainArray);
+    }
+
+    /**
+     * Returns an array with Typoscript the old way (with dot).
+     *
+     * @param array $typoScriptArray
+     * @return array plain array
+     */
+    public function convertPlainArrayToTypoScriptArray(array $typoScriptArray): array
+    {
+        /** @var TypoScriptService $typoScriptService */
+        $typoScriptService = GeneralUtility::makeInstance(TypoScriptService::class);
+
+        return $typoScriptService->convertPlainArrayToTypoScriptArray($typoScriptArray);
     }
 
     /**
@@ -171,6 +207,26 @@ class TypoScript
     }
 
     /**
+     * Get typoscript configuration from a specific
+     *
+     * @param int $pageUid
+     * @param string $context
+     * @return array
+     */
+    public function getTyposcriptSettingsByPageUid(int $pageUid): array
+    {
+        $context = $this->getCurrentContext();
+
+        $this->backendConfigurationManager->setCurrentPageId($pageUid);
+        $typoscript = $this->backendConfigurationManager->getTypoScriptSetup() ?? [];
+        $typoscript = $this->convertTypoScriptArrayToPlainArray(
+            $typoscript[$context . '.'][self::EXTKEY . '.'] ?? []
+        );
+
+        return $typoscript;
+    }
+
+    /**
      * Overwrite flexform values with typoscript if flexform value is empty and
      * typoscript value exists.
      *
@@ -180,11 +236,11 @@ class TypoScript
      */
     protected function enhanceSettingsWithTypoScript(array $settings): array
     {
-        $extkey = 'tx_dce';
+        $context = $this->getCurrentContext();
         $typoscript = $this->configurationManager->getConfiguration(
             ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT
         );
-        $typoscript = $typoscript['plugin.'][$extkey . '.']['settings.'] ?? [];
+        $typoscript = $typoscript[$context . '.'][self::EXTKEY . '.']['settings.'] ?? [];
         foreach ($settings as $key => $setting) {
             if ('' === $setting && \is_array($typoscript) && array_key_exists($key, $typoscript)) {
                 $settings[$key] = $typoscript[$key];
@@ -222,5 +278,10 @@ class TypoScript
         }
 
         return $dottedConfiguration;
+    }
+
+    protected function getCurrentContext()
+    {
+        return (Compatibility::isFrontendMode()) ? TypoScript::CONTEXT_PLUGIN : TypoScript::CONTEXT_MODULE;
     }
 }

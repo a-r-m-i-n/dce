@@ -11,6 +11,7 @@ namespace T3\Dce\Components\TemplateRenderer;
 use T3\Dce\Compatibility;
 use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Utility\File;
+use T3\Dce\Utility\TypoScript;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -27,24 +28,39 @@ class StandaloneViewFactory implements SingletonInterface
     protected static $fluidTemplateCache = [];
 
     /**
+     * @var TypoScript
+     */
+    protected $typoscript;
+
+    /**
+     * StandaloneViewFactory constructor.
+     * @param TypoScript $typoscript
+     */
+    public function __construct(TypoScript $typoscript)
+    {
+        $this->typoscript = $typoscript;
+    }
+
+    /**
      * Makes a new Fluid StandaloneView instance
      * with set DCE layout and partial root paths.
      */
     public function makeNewDceView(): StandaloneView
     {
-        $settings = $this->getTyposcriptViewPaths();
-
-        $layouts = $settings['layoutRootPaths'];
-        array_unshift($layouts, 'EXT:dce/Resources/Private/Partials/');
-        $this->resolvePaths($layouts);
-
-        $partials = $settings['partialRootPaths'];
-        array_unshift($partials, 'EXT:dce/Resources/Private/Partials/');
-        $this->resolvePaths($partials);
-
         /** @var StandaloneView $fluidTemplate */
         $fluidTemplate = GeneralUtility::makeInstance(StandaloneView::class);
+        $views = $this->getTyposcriptViewPaths();
+
+        $layouts = $views['layoutRootPaths'];
+        $this->resolvePaths($layouts);
         $fluidTemplate->setLayoutRootPaths($layouts);
+
+        $templates = $views['templateRootPaths'];
+        $this->resolvePaths($templates);
+        $fluidTemplate->setTemplateRootPaths($templates);
+
+        $partials = $views['partialRootPaths'];
+        $this->resolvePaths($partials);
         $fluidTemplate->setPartialRootPaths($partials);
 
         return $fluidTemplate;
@@ -53,6 +69,7 @@ class StandaloneViewFactory implements SingletonInterface
     /**
      * Creates new standalone view or returns cached one, if existing.
      *
+     * @param Dce $dce
      * @param int $templateType see class constants
      * @return StandaloneView
      */
@@ -88,6 +105,8 @@ class StandaloneViewFactory implements SingletonInterface
      * Applies the correct template (inline or file) to given StandaloneView instance.
      * The given templateType is respected.
      *
+     * @param StandaloneView $view
+     * @param Dce $dce
      * @param int $templateType see class constants
      */
     protected function applyDceTemplateTypeToView(StandaloneView $view, Dce $dce, int $templateType): void
@@ -96,19 +115,25 @@ class StandaloneViewFactory implements SingletonInterface
         $typeGetter = 'get' . ucfirst(GeneralUtility::underscoredToLowerCamelCase($templateFields['type']));
 
         if ('inline' === $dce->$typeGetter()) {
-            $inlineTemplateGetter = 'get' . ucfirst(
-                    GeneralUtility::underscoredToLowerCamelCase($templateFields['inline'])
-                );
+            $inlineTemplateGetter = 'get' . ucfirst(GeneralUtility::underscoredToLowerCamelCase($templateFields['inline']));
             $view->setTemplateSource($dce->$inlineTemplateGetter() . ' ');
         } else {
             $fileTemplateGetter = 'get' . ucfirst(GeneralUtility::underscoredToLowerCamelCase($templateFields['file']));
-            $filePath = File::get($dce->$fileTemplateGetter());
+            $templateName = $dce->$fileTemplateGetter();
 
-            if (!file_exists($filePath)) {
-                $view->setTemplateSource('');
-            } else {
-                $templateContent = file_get_contents($filePath);
-                $view->setTemplateSource($templateContent . ' ');
+            // try to render using typoscript files paths
+            $view->setTemplate($templateName);
+
+            // if the file does not exists, try using fullpath
+            if (!$view->hasTemplate()) {
+                $filePath = File::get($dce->$fileTemplateGetter());
+
+                if (!file_exists($filePath)) {
+                    $view->setTemplateSource('');
+                } else {
+                    $templateContent = file_get_contents($filePath);
+                    $view->setTemplateSource($templateContent . ' ');
+                }
             }
         }
     }
@@ -151,19 +176,19 @@ class StandaloneViewFactory implements SingletonInterface
      */
     protected function getTyposcriptViewPaths(): array
     {
+        // default views settings because TSFE is null when creating a new dce
         $views = [
             'layoutRootPaths' => [0 => 'EXT:dce/Resources/Private/Layouts/'],
             'templateRootPaths' => [0 => 'EXT:dce/Resources/Private/Templates/'],
             'partialRootPaths' => [0 => 'EXT:dce/Resources/Private/Partials/'],
         ];
 
-        if (isset($GLOBALS['TSFE']) && Compatibility::isFrontendMode()) {
-            $typoScriptService = GeneralUtility::makeInstance(TypoScriptService::class);
-            $settings = $typoScriptService->convertTypoScriptArrayToPlainArray($GLOBALS['TSFE']->tmpl->setup);
+        $pageUid = (isset($GLOBALS['TSFE'])) ? $GLOBALS['TSFE']->id : 1;
 
-            if (isset($settings['plugin']['tx_dce']['view']))
-                $views = $settings['plugin']['tx_dce']['view'];
-        }
+        $typoscriptSettings = $this->typoscript->getTyposcriptSettingsByPageUid($pageUid);
+
+        if (isset($typoscriptSettings['view']))
+            $views = $typoscriptSettings['view'];
 
         return $views;
     }

@@ -1,13 +1,19 @@
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+    T3\Dce\:
+        resource: '../Classes/*'
     T3\Dce\Slots\TablesDefinitionIsBeingBuiltSlot:
         tags:
-            - name: event.listener
-              identifier: 'dce-tables-definition-is-being-built-slot'
-              event: TYPO3\CMS\Core\Database\Event\AlterTableDefinitionStatementsEvent
-              method: 'addSchema'
+            -   name: event.listener
+                identifier: 'dce-tables-definition-is-being-built-slot'
+                event: TYPO3\CMS\Core\Database\Event\AlterTableDefinitionStatementsEvent
+                method: 'addSchema'
     T3\Dce\Slots\LinkAnalyserSlot:
         tags:
-            - name: event.listener
-              identifier: 'dce-link-analyser-slot'
-              event: TYPO3\CMS\Linkvalidator\Event\BeforeRecordIsAnalyzedEvent
-              method: 'dispatchEvent'
+            -   name: event.listener
+                identifier: 'dce-link-analyser-slot'
+                event: TYPO3\CMS\Linkvalidator\Event\BeforeRecordIsAnalyzedEvent
+                method: 'dispatchEvent'
