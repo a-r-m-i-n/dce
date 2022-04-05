@@ -1,15 +1,15 @@
 plugin.tx_dce {
     view {
         layoutRootPaths {
-            0 = EXT:dce/Resources/Private/Layouts/
+            0 = {$plugin.tx_dce.view.layoutRootPath}
         }
 
         templateRootPaths {
-            0 = EXT:dce/Resources/Private/Templates/
+            0 = {$plugin.tx_dce.view.templateRootPath}
         }
 
         partialRootPaths {
-            0 = EXT:dce/Resources/Private/Partials/
+            0 = {$plugin.tx_dce.view.partialRootPath}
         }
     }
 }
