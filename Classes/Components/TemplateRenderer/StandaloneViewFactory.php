@@ -15,6 +15,7 @@ use T3\Dce\Utility\TypoScript;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
@@ -28,17 +29,19 @@ class StandaloneViewFactory implements SingletonInterface
     protected static $fluidTemplateCache = [];
 
     /**
+     * Typoscript Utility.
+     *
      * @var TypoScript
      */
-    protected $typoscript;
+    protected $typoscriptUtility;
 
     /**
-     * StandaloneViewFactory constructor.
-     * @param TypoScript $typoscript
+     * Class constructor
      */
-    public function __construct(TypoScript $typoscript)
+    public function __construct()
     {
-        $this->typoscript = $typoscript;
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        $this->typoscriptUtility = $objectManager->get(TypoScript::class);
     }
 
     /**
@@ -185,7 +188,7 @@ class StandaloneViewFactory implements SingletonInterface
 
         $pageUid = (isset($GLOBALS['TSFE'])) ? $GLOBALS['TSFE']->id : 1;
 
-        $typoscriptSettings = $this->typoscript->getTyposcriptSettingsByPageUid($pageUid);
+        $typoscriptSettings = $this->typoscriptUtility->getTyposcriptSettingsByPageUid($pageUid);
 
         if (isset($typoscriptSettings['view']))
             $views = $typoscriptSettings['view'];

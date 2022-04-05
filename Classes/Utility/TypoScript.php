@@ -14,6 +14,7 @@ use TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser;
 use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /**
@@ -28,34 +29,37 @@ class TypoScript
 
     /**
      * Content Object Renderer.
-     *
      * @var ContentObjectRenderer
      */
     protected $contentObject;
 
     /**
      * Configuration Manager.
-     *
      * @var ConfigurationManagerInterface
      */
     protected $configurationManager = null;
 
     /**
-     * Configuration Manager.
-     *
+     * Backend Configuration Manager.
      * @var BackendConfigurationManager
      */
     protected $backendConfigurationManager = null;
 
     /**
-     * TypoScript constructor.
-     *
+     * Injects the configurationManager.
      * @param ConfigurationManagerInterface $configurationManager
-     * @param BackendConfigurationManager $backendConfigurationManager
      */
-    public function __construct(ConfigurationManagerInterface $configurationManager, BackendConfigurationManager $backendConfigurationManager)
+    public function injectConfigurationManager(ConfigurationManagerInterface $configurationManager): void
     {
         $this->configurationManager = $configurationManager;
+    }
+
+    /**
+     * Injects the backendConfigurationManager.
+     * @param BackendConfigurationManager $backendConfigurationManager
+     */
+    public function injectBackendConfigurationManager(BackendConfigurationManager $backendConfigurationManager): void
+    {
         $this->backendConfigurationManager = $backendConfigurationManager;
     }
 
