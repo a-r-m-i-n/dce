@@ -93,5 +93,6 @@ If this checkbox is checked (enabled by default) a copied tt_content record, bas
 Fluid layout and partial root path
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The two last fields define for all Fluid templates where to find the layouts and the partials.
+The two last fields define for all Fluid templates folders where to find the layouts and the partials.
 Layouts and partials can be part of Fluid templates and are used to avoid redundancies and keep the code cleaner.
+These folders will be added to the list that administrators can setup using Typoscript.
