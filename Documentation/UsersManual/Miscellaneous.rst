@@ -94,5 +94,8 @@ Fluid layout and partial root path
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The two last fields define for all Fluid templates folders where to find the layouts and the partials.
+
+The administrators can setup multiple folder paths for layouts and partials with priority order.
+These 2 fields will allow you to add one more entry if you want to use specific file.
+
 Layouts and partials can be part of Fluid templates and are used to avoid redundancies and keep the code cleaner.
-These folders will be added to the list that administrators can setup using Typoscript.
