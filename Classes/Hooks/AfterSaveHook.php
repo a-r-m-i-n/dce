@@ -117,7 +117,7 @@ class AfterSaveHook
                         'uid' => $this->uid,
                         'CType' => $dceIdentifier,
                     ],
-                    $this->fieldArray['pi_flexform']
+                    $this->fieldArray['pi_flexform'] ?? []
                 );
                 unset($dceIdentifier);
             } else {
