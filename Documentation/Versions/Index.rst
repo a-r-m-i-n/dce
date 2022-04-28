@@ -8,6 +8,13 @@ Versions
 
 .. contents:: :local:
 
+2.8.4
+-----
+
+- [BUGFIX] Remove replace for "typo3-ter/dce" in composer.json (Daniel Haupt)
+- [BUGFIX] Prevent undefined array key warning in AfterSaveHook (creationell)
+
+
 2.8.3
 -----
 
