@@ -49,7 +49,6 @@
         ]
     },
     "replace": {
-        "typo3-ter/dce": "*",
         "arminvieweg/dce": "*"
     },
     "extra": {
