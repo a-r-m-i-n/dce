@@ -60,14 +60,14 @@ class FalViewHelper extends AbstractViewHelper
     public function render()
     {
         $contentObjectUid = (int)$this->arguments['contentObject']['uid'];
-        if ($this->arguments['localizedUid']) {
-            $contentObjectUid = (int)(null !== $this->arguments['contentObject']['_LOCALIZED_UID'])
-                ? $this->arguments['contentObject']['_LOCALIZED_UID']
-                : $this->arguments['contentObject']['uid'];
+        if ($this->arguments['localizedUid'] ?? false) {
+            $contentObjectUid = (int)(null !== ($this->arguments['contentObject']['_LOCALIZED_UID'] ?? null))
+                ? (int)($this->arguments['contentObject']['_LOCALIZED_UID'] ?? 0)
+                : (int)($this->arguments['contentObject']['uid'] ?? 0);
         }
 
-        if ($this->arguments['uid'] > 0) {
-            $contentObjectUid = $this->arguments['uid'];
+        if ((int)($this->arguments['uid'] ?? 0) > 0) {
+            $contentObjectUid = (int)$this->arguments['uid'];
         }
 
         $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('sys_file_reference');
