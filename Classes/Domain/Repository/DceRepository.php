@@ -385,12 +385,12 @@ class DceRepository extends Repository
     ): array {
         $objects = [];
 
-        if ('group' === $dceFieldConfiguration['type']) {
-            $className = $dceFieldConfiguration['allowed'];
-            $tableNames = GeneralUtility::trimExplode(',', $dceFieldConfiguration['allowed'], true);
+        if ('group' === $dceFieldConfiguration['type'] ?? false) {
+            $className = $dceFieldConfiguration['allowed'] ?? '';
+            $tableNames = GeneralUtility::trimExplode(',', $className, true);
         } else {
-            $className = $dceFieldConfiguration['foreign_table'];
-            $tableNames = GeneralUtility::trimExplode(',', $dceFieldConfiguration['foreign_table'], true);
+            $className = $dceFieldConfiguration['foreign_table'] ?? '';
+            $tableNames = GeneralUtility::trimExplode(',', $className, true);
         }
 
         $specialClass = null;
@@ -418,7 +418,7 @@ class DceRepository extends Repository
                 );
                 $fileReferences = $fileRepository->findByRelation(
                     'tt_content',
-                    $dceFieldConfiguration['foreign_match_fields']['fieldname'],
+                    $dceFieldConfiguration['foreign_match_fields']['fieldname'] ?? '',
                     $contentObjectUid
                 );
             } else {
@@ -507,7 +507,7 @@ class DceRepository extends Repository
             }
 
             $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable($tableName);
-            if ($dceFieldConfiguration['dce_ignore_enablefields']) {
+            if ($dceFieldConfiguration['dce_ignore_enablefields'] ?? false) {
                 $queryBuilder->getRestrictions()->removeAll();
             }
 
@@ -524,7 +524,7 @@ class DceRepository extends Repository
                 ->fetchAll();
 
             $pageRepository = $GLOBALS['TSFE']->sys_page;
-            if ($dceFieldConfiguration['dce_enable_autotranslation']) {
+            if ($dceFieldConfiguration['dce_enable_autotranslation'] ?? false) {
                 /** @var class-string $pageRepoClassName */
                 $pageRepoClassName = Compatibility::getPageRepositoryClassName();
                 if (!$pageRepository instanceof $pageRepoClassName) {
@@ -533,7 +533,7 @@ class DceRepository extends Repository
                 }
             }
             foreach ($recordRows as $row) {
-                if ($dceFieldConfiguration['dce_enable_autotranslation']) {
+                if ($dceFieldConfiguration['dce_enable_autotranslation'] ?? false) {
                     if ('pages' === $tableName) {
                         $row = $pageRepository->getPageOverlay($row);
                     } else {
