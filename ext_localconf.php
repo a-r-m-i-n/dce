@@ -80,6 +80,17 @@ $boot = function ($extensionKey) {
         \T3\Dce\UpdateWizards\MigrateFlexformSheetIdentifierUpdateWizard::class;
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceFixMalformedDceFieldVariableNamesUpdate'] =
         \T3\Dce\UpdateWizards\FixMalformedDceFieldVariableNamesUpdateWizard::class;
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceFileToFalUpdate'] =
+        \T3\Dce\UpdateWizards\FileToFalUpdateWizard::class;
+
+    // Logger for update scripts
+    $GLOBALS['TYPO3_CONF_VARS']['LOG']['T3']['Dce']['UpdateWizards']['writerConfiguration'] = [
+        \TYPO3\CMS\Core\Log\LogLevel::DEBUG => [
+            \TYPO3\CMS\Core\Log\Writer\FileWriter::class => [
+                'logFile' => \TYPO3\CMS\Core\Core\Environment::getVarPath() . '/log/dce_update_wizards.log'
+            ],
+        ],
+    ];
 
     if (!\T3\Dce\Compatibility::isTypo3Version('10.0.0')) {
         // Slot to extend SQL tables definitions

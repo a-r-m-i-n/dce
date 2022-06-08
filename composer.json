@@ -26,6 +26,7 @@
     "require": {
         "php": ">=7.3",
         "ext-json": "*",
+        "ext-dom": "*",
         "typo3/cms-core": "^9.5 || ^10.4 || ^11.0"
     },
     "require-dev": {

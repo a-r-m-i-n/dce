@@ -129,9 +129,15 @@ class DceRepository extends Repository
     /**
      * Returns content element rows based on given DCE object.
      */
-    public function findContentElementsBasedOnDce(Dce $dce): ?array
+    public function findContentElementsBasedOnDce(Dce $dce, bool $respectEnableFields = true): ?array
     {
         $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tt_content');
+
+        if (!$respectEnableFields) {
+            $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class);
+            $queryBuilder->getRestrictions()->removeByType(StartTimeRestriction::class);
+            $queryBuilder->getRestrictions()->removeByType(EndTimeRestriction::class);
+        }
 
         return $queryBuilder
             ->select('*')
@@ -143,7 +149,7 @@ class DceRepository extends Repository
                 )
             )
             ->execute()
-            ->fetchAll() ?? null;
+            ->fetchAll();
     }
 
     /**
