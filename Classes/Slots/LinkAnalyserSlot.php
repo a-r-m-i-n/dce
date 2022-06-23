@@ -41,6 +41,7 @@ class LinkAnalyserSlot
                     // Check for typolink (string, without new lines or < > signs)
                     if (\is_string($fieldValue) &&
                         false === strpos($fieldValue, "\n") &&
+                        false === strpos($fieldValue, ' ') &&
                         false === strpos($fieldValue, '<') &&
                         false === strpos($fieldValue, '>')
                     ) {
