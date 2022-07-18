@@ -149,3 +149,5 @@ Now, ``field.images`` contains the collection of FileReference objects, which we
 
 We just need to remove the usage of ``-> dce:explode()`` view helper and apply the same changes to the image view helper,
 as we did for a single image.
+
+This adjustment also works with images inside of sections (there, ``sys_file`` is being used instead of ``sys_file_reference``).
