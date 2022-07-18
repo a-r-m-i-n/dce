@@ -62,6 +62,11 @@ $boot = function ($extensionKey) {
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects'][\TYPO3\CMS\Backend\Search\LiveSearch\LiveSearch::class] = [
         'className' => \T3\Dce\XClass\LiveSearch::class,
     ];
+    if (!\T3\Dce\Compatibility::isTypo3Version()) {
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects'][\TYPO3\CMS\Backend\Search\LiveSearch\LiveSearch::class] = [
+            'className' => \T3\Dce\XClass\Compatibility\LiveSearch::class,
+        ];
+    }
 
     // Special tce validators (eval)
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tce']['formevals']

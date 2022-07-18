@@ -1,6 +1,6 @@
 <?php
 
-namespace T3\Dce\XClass;
+namespace T3\Dce\XClass\Compatibility;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
@@ -12,7 +12,7 @@ use TYPO3\CMS\Core\Database\Query\Expression\CompositeExpression;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 
 /**
- * XClass LiveSearch
+ * XClass LiveSearch for TYPO3 9 and 10
  */
 class LiveSearch extends \TYPO3\CMS\Backend\Search\LiveSearch\LiveSearch
 {
@@ -28,7 +28,7 @@ class LiveSearch extends \TYPO3\CMS\Backend\Search\LiveSearch\LiveSearch
      *
      * @return CompositeExpression|string
      */
-    protected function makeQuerySearchByTable(QueryBuilder $queryBuilder, $tableName, array $fieldsToSearchWithin)
+    protected function makeQuerySearchByTable(QueryBuilder &$queryBuilder, $tableName, array $fieldsToSearchWithin)
     {
         $whereClause = (string)parent::makeQuerySearchByTable($queryBuilder, $tableName, $fieldsToSearchWithin);
         if ('tt_content' === $tableName) {
