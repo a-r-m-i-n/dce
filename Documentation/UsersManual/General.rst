@@ -168,3 +168,24 @@ If you load a page via group field, then always this page is loaded, regardless 
 Using this attribute shows the translated page if it exists (``$GLOBALS['TSFE']->sys_page->getPageOverlay()``).
 
 That also works with other records, not only with records of the pages table, then ``getRecordOverlay()`` will be used.
+
+dce_skip_translation
+~~~~~~~~~~~~~~~~~~~~
+
+::
+
+    <dce_skip_translation>1</dce_skip_translation>
+
+When a DCE field got this option set, DCE fields act like ``l10n_mode => 'exclude'`` in TCA. Normally FlexForms does
+not support this behaviour.
+
+In backend, a field with this option set is only visible, when:
+
+- You are on default language (``sys_language_uid = 0``) **or**
+- the translated DCE content element has no ``l18n_parent`` set
+
+To achieve this, DCE modifies the displayCond for the field, in XML configuration - when you already defined some
+display conditions, they get merged (using ``<and>``).
+
+In frontend, the field value will get overwritten by the field value of the ``l18n_parent``-element, no matter which values
+are stored in pi_flexform.

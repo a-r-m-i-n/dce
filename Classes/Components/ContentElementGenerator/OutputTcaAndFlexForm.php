@@ -296,9 +296,19 @@ class OutputTcaAndFlexForm
 
                     $conf = new \DOMDocument();
                     $conf->loadXML('<root>' . $dceField['configuration'] . '</root>');
-
+                    /** @var \DOMElement $firstChildNode */
+                    $firstChildNode = $conf->childNodes[0];
                     /** @var \DOMElement $childNode */
-                    foreach ($conf->childNodes[0]->childNodes as $childNode) {
+                    foreach ($firstChildNode->childNodes as $childNode) {
+                        if ($childNode->tagName === 'config') {
+                            /** @var \DOMElement $childConfigNode */
+                            foreach ($childNode->childNodes as $childConfigNode) {
+                                if ($childConfigNode->tagName === 'dce_skip_translation') {
+                                    $this->applyDisplayCondForSkipTranslation($firstChildNode, $conf);
+                                }
+                            }
+                        }
+
                         $node = $xml->importNode($childNode, true);
                         $tce->appendChild($node);
                     }
@@ -306,11 +316,66 @@ class OutputTcaAndFlexForm
                 $tabElements->appendChild($field);
                 $tabRoot->appendChild($tabElements);
             }
-
             $sheets->appendChild($tab);
         }
         $root->appendChild($sheets);
 
         return $xml->saveXML();
+    }
+
+    /**
+     * Modifies displayCond when "dce_skip_translation" is enabled
+     * to hide a field in foreign language, when a l18n_parent is set
+     */
+    private function applyDisplayCondForSkipTranslation(\DOMElement $firstChildNode, \DOMDocument $domDocument): void
+    {
+        $existingValue = null;
+        $existingDisplayCond = null;
+        // Check for existing displayCond for this field, which need to get merged
+        if ($firstChildNode->getElementsByTagName('displayCond')->length > 0) {
+            $existingDisplayCond = $firstChildNode->getElementsByTagName('displayCond')->item(0);
+            if (isset($existingDisplayCond)) {
+                if ($existingDisplayCond->childNodes->item(0) instanceof \DOMText) {
+                    $existingValue = $existingDisplayCond->textContent;
+                } else {
+                    $existingValue = $existingDisplayCond->childNodes;
+                }
+            }
+        }
+        // Build new displayCond
+        $value1 = $domDocument->createElement('value1', 'FIELD:parentRec.sys_language_uid:=:0');
+        $value2 = $domDocument->createElement('value2', 'FIELD:parentRec.l18n_parent:=:0');
+        $or = $domDocument->createElement('or');
+        $or->appendChild($value1);
+        $or->appendChild($value2);
+
+        // Apply existing displayCond (if given)
+        $and = null;
+        if ($existingValue !== null) {
+            if (is_string($existingValue)) {
+                $value3 = $domDocument->createElement('value1', $existingValue);
+            } else {
+                $value3 = $existingValue;
+            }
+            $and = $domDocument->createElement('and');
+            if ($value3 instanceof \DOMNodeList) {
+                foreach ($value3 as $value) {
+                    $and->appendChild($value);
+                }
+            } else {
+                $and->appendChild($value3);
+            }
+            $and->appendChild($or);
+        }
+
+        // Add new displayCond to XML
+        $newNode = $domDocument->createElement('displayCond');
+        $newNode->appendChild($and ?? $or);
+        $firstChildNode->appendChild($newNode);
+
+        // Remove existing displayCond from XML (if given)
+        if ($existingDisplayCond) {
+            $existingDisplayCond->parentNode->removeChild($existingDisplayCond);
+        }
     }
 }

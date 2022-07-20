@@ -275,6 +275,19 @@ class DceRepository extends Repository
                 $objects = current($objects);
             }
         }
+
+        if (isset($dceFieldConfiguration['dce_skip_translation']) && !empty($dceFieldConfiguration['dce_skip_translation'])
+            && $contentObject['l18n_parent'] > 0 && $this->getSysLanguageUid() > 0
+        ) {
+            // Hides fields in translated elements, when they've got a connection to l18n_parent set (see OutputTcaAndFlexForm::applyDisplayCondForSkipTranslation)
+            // Overwriting those values with connected element's value
+            $parentLangDce = $this->getDceInstance($contentObject['l18n_parent']);
+            $parentLangField = $parentLangDce->getFieldByVariable($dceField->getVariable());
+            if (isset($parentLangField)) {
+                $fieldValue = $parentLangField->getValue();
+            }
+        }
+
         if (false === $isSectionField) {
             if (isset($objects)) {
                 $dceField->setValue($objects);

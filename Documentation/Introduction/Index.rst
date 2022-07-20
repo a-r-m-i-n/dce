@@ -68,6 +68,7 @@ Fields and tabs
 + Helpful dropdown in the backend, containing common used TCA snippets
 + Also supports Sections (from TemplaVoila) - but it is **not recommended** to use
 + TCA Mapping feature
++ The custom FlexForm config option "dce_skip_translation", brings ``l10n_mode => 'exclude'`` behaviour (TCA only feature) to FlexForms
 
 Schema loading
 """"""""""""""
