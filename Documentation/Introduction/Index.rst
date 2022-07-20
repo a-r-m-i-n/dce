@@ -96,6 +96,7 @@ Detail pages
 + Also the detail page title can get adjusted with an expression
 + When **DCE container** is also enabled, content elements which' detail page is **not** triggered, on current page,
   can get hidden automatically
++ DCE provides a custom XML Sitemap data provider (EXT:seo) to index detail pages of DCEs, like regular pages
 
 
 Easy templating (using Fluid)
