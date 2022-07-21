@@ -189,3 +189,5 @@ display conditions, they get merged (using ``<and>``).
 
 In frontend, the field value will get overwritten by the field value of the ``l18n_parent``-element, no matter which values
 are stored in pi_flexform.
+
+This feature is not supported for section fields.

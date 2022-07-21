@@ -277,7 +277,7 @@ class DceRepository extends Repository
         }
 
         if (isset($dceFieldConfiguration['dce_skip_translation']) && !empty($dceFieldConfiguration['dce_skip_translation'])
-            && $contentObject['l18n_parent'] > 0 && $this->getSysLanguageUid() > 0
+            && $contentObject['l18n_parent'] > 0 && $contentObject['sys_language_uid'] > 0
         ) {
             // Hides fields in translated elements, when they've got a connection to l18n_parent set (see OutputTcaAndFlexForm::applyDisplayCondForSkipTranslation)
             // Overwriting those values with connected element's value
@@ -285,6 +285,9 @@ class DceRepository extends Repository
             $parentLangField = $parentLangDce->getFieldByVariable($dceField->getVariable());
             if (isset($parentLangField)) {
                 $fieldValue = $parentLangField->getValue();
+                if (isset($objects)) {
+                    $objects = $fieldValue;
+                }
             }
         }
 
@@ -702,11 +705,12 @@ class DceRepository extends Repository
     public function getDceInstance(int $contentElementUid, ?array $contentObject = null): Dce
     {
         $contentObject = $contentObject ?? $this->getContentObject($contentElementUid);
-        $uid = $this->extractUidFromCTypeOrIdentifier($contentObject['CType']);
+        $dceUid = $this->extractUidFromCTypeOrIdentifier($contentObject['CType']);
         $settings = $this->simulateContentElementSettings($contentObject['_LOCALIZED_UID'] ?? $contentObject['uid']);
+        $settings = $this->completeFieldList($settings, $dceUid);
 
         return $this->findAndBuildOneByUid(
-            $uid,
+            $dceUid,
             $settings,
             $contentObject
         );
@@ -736,6 +740,25 @@ class DceRepository extends Repository
         $flexData = FlexformService::get()->convertFlexFormContentToArray($row['pi_flexform'], 'lDEF', 'vDEF');
 
         return $flexData['settings'] ?? [];
+    }
+
+    public function completeFieldList(array $fieldList, int $dceUid): array
+    {
+        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dcefield');
+        $fieldRows = $queryBuilder
+            ->select('variable')
+            ->from('tx_dce_domain_model_dcefield')
+            ->where($queryBuilder->expr()->eq('parent_dce', $queryBuilder->createNamedParameter($dceUid)))
+            ->execute()
+            ->fetchAll();
+
+        foreach ($fieldRows as $fieldRow) {
+            if (!array_key_exists($fieldRow['variable'], $fieldList)) {
+                $fieldList[$fieldRow['variable']] = '';
+            }
+        }
+
+        return $fieldList;
     }
 
     /**
