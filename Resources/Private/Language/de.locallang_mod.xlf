@@ -19,9 +19,9 @@
 			<trans-unit id="donateText"><target>Wenn Ihnen die DCE Extension gefällt, können Sie die weitere Entwicklung der Extension mit einer Spende unterstützen.</target></trans-unit>
 			<trans-unit id="help"><target>Hilfe</target></trans-unit>
 			<trans-unit id="help.manual"><target>Dokumentation</target></trans-unit>
-			<trans-unit id="help.wiki"><target>Wiki</target></trans-unit>
+			<trans-unit id="help.issues"><target>Ticket-System</target></trans-unit>
 			<trans-unit id="help.facebook"><target>DCE Facebook Seite</target></trans-unit>
-			<trans-unit id="help.bitbucket"><target>DCE auf Bitbucket</target></trans-unit>
+			<trans-unit id="help.github"><target>DCE auf Github</target></trans-unit>
 			<trans-unit id="help.authorWebsite"><target>Internetseite des Autors</target></trans-unit>
 
 			<trans-unit id="caution"><target>Achtung!</target></trans-unit>

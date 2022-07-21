@@ -24,9 +24,9 @@
             <trans-unit id="donateText"><source>If you like the dce extension, feel free to donate some funds to support further development.</source></trans-unit>
             <trans-unit id="help"><source>Help</source></trans-unit>
             <trans-unit id="help.manual"><source>Manual</source></trans-unit>
-            <trans-unit id="help.wiki"><source>Wiki</source></trans-unit>
+            <trans-unit id="help.issues"><source>Issue tracker</source></trans-unit>
             <trans-unit id="help.facebook"><source>DCE Facebook Page</source></trans-unit>
-            <trans-unit id="help.bitbucket"><source>DCE on Bitbucket</source></trans-unit>
+            <trans-unit id="help.github"><source>DCE on Github</source></trans-unit>
             <trans-unit id="help.authorWebsite"><source>Author's Website</source></trans-unit>
 
             <trans-unit id="caution"><source>Caution!</source></trans-unit>
