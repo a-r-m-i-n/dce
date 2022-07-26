@@ -124,8 +124,8 @@ class DetailPagesXmlSitemapDataProvider extends AbstractXmlSitemapDataProvider
             ->from('pages')
             ->where(...$constraints)
             ->orderBy('uid', 'ASC')
-            ->executeQuery()
-            ->fetchAllAssociative();
+            ->execute()
+            ->fetchAll();
 
         return $pages;
     }
@@ -144,8 +144,8 @@ class DetailPagesXmlSitemapDataProvider extends AbstractXmlSitemapDataProvider
             ->andWhere($queryBuilder->expr()->like('CType', $queryBuilder->createNamedParameter($queryBuilder->escapeLikeWildcards('dce_') . '%')))
             ->orderBy('colPos', 'ASC')
             ->addOrderBy('sorting', 'ASC')
-            ->executeQuery()
-            ->fetchAllAssociative();
+            ->execute()
+            ->fetchAll();
 
 
         $dceRowsWithDetailPage = [];
