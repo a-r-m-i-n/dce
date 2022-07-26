@@ -54,7 +54,7 @@ A field has three types available:
   You may also rename the first "General" tab by creating a tab as the first item.
 - **Section**
   **It is highly encouraged to not use sections anymore!**
-  Check if DCE Container can help you or use EXT:gridelements for your purposes.
+  Check if DCE Container can help you or use EXT:container for your purposes.
 
 Common to all types is the *title* field, where you define a speaking label for the editor.
 You can use ``LLL:`` reference here. For the type *Tab* there are no more options to define.
@@ -168,6 +168,9 @@ If you load a page via group field, then always this page is loaded, regardless 
 Using this attribute shows the translated page if it exists (``$GLOBALS['TSFE']->sys_page->getPageOverlay()``).
 
 That also works with other records, not only with records of the pages table, then ``getRecordOverlay()`` will be used.
+
+
+.. _users-manual-general-skip-translation:
 
 dce_skip_translation
 ~~~~~~~~~~~~~~~~~~~~

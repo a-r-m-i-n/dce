@@ -64,6 +64,7 @@ This converts all Fluid templates which still uses namespace declarations like
 
 These are not required anymore, because ``dce:`` is globally registered in Fluid, when DCE is installed.
 
+.. _administrator-upgrade-wizards-file2fal:
 
 FileToFalUpdate
 ~~~~~~~~~~~~~~~

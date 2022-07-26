@@ -20,20 +20,8 @@ FlexForms allows you to define dynamic content structures, without the need to e
 
 .. note::
    FlexForms allows defining dynamic forms, which get stored as XML in tt_content column "pi_flexform".
-   This makes it impossible to perform queries on fields defined in your DCE, unless you've enabled
+   This makes it hard to perform queries on fields defined in your DCE content elements, unless you've enabled.
    :ref:`TCA mapping <additional-informations-tca-mapping>`
-
-
-The Idea Behind DCE
--------------------
-
-**D** ynamic **C** ontent **E** lements (DCE)
-
-The name and basic functionality were inspired by TemplaVoila‘s FCE (Flexible Content Element) feature.
-FCE was one of the last missing major features to replace TemplaVoila entirely.
-
-.. note::
-   TemplaVoila was a popular template extension for TYPO3, which used FlexForms for everything.
 
 
 Content Elements in TYPO3
@@ -43,8 +31,8 @@ TYPO3 itself provides a bunch of content elements (CE) with EXT:fluid_styled_con
 You can easily hide unused elements or fields, but it is not that easy to build new content element types (CTypes).
 
 If you want to extend content elements in TYPO3 natively, you need to write an extension and provide the custom TCA
-configuration. Also, you need to provide a hook, if you want to define the look-like of your content element in the backend
-as well.
+configuration on your own. Also, you need to provide a hook or implement a preview renderer, if you want to define
+the look-like of your content element in the backend, too.
 
 Goals of DCE
 ------------
@@ -59,6 +47,9 @@ Goals of DCE
 DCE Features
 ------------
 
++ Maintained over 10 years
+
+
 Fields and tabs
 """""""""""""""
 
@@ -66,38 +57,43 @@ Fields and tabs
 + Separate multiple fields with tabs (better overview)
 + Full TCA support
 + Helpful dropdown in the backend, containing common used TCA snippets
-+ Also supports Sections (from TemplaVoila) - but it is **not recommended** to use
-+ TCA Mapping feature
-+ The custom FlexForm config option "dce_skip_translation", brings ``l10n_mode => 'exclude'`` behaviour (TCA only feature) to FlexForms
++ TCA Mapping feature, which allows you to map single values from FlexForm XML to an existing or new column in tt_content
++ Custom FlexForm config option "dce_skip_translation", brings ``l10n_mode => 'exclude'`` behaviour (TCA only feature) to FlexForms
 
 Schema loading
 """"""""""""""
 
++ More custom FlexForm config options, starting with "dce_" to fetch objects instead of uid lists
 + Special handling for ``group``, ``select`` and ``inline`` fields, which relates to different records
-+ Converts comma-separated lists of uids to ready to use arrays or objects
++ Converts comma-separated lists of uids to ready to use associative arrays or objects/models
 + Uses Extbase models (instead of associated arrays, if the requested table has one configured)
 + Resolves FAL relations (media) automatically
++ Resolves assigned categories (``sys_category``) automatically
++ Resolves file collections (``sys_file_collection``) automatically
 
 DCE Container
 """""""""""""
 
 + Creates **virtual container** around several content elements of the same CType
++ Fluid template of container can get adjusted
 + Useful for e.g. sliders
 + You can define a maximum of items per container
 + You can interrupt a container manually, in each content element
 + Containers are visually highlighted in page module (backend)
++ Used colors to identify several containers are configurable (via PageTS)
++ When container items also got detail pages enabled, you can hide all other content elements in container,
+  when the detail page is active
 
 Detail pages
 """"""""""""
 
-+ Use different templates for single DCE instances
++ Use a different templates for single DCE instances
 + Controlled by configurable ``$_GET`` parameter
 + Fake detail pages, thanks to **slugs** you can configure with **Symfony Expressions**
 + Also the detail page title can get adjusted with an expression
 + When **DCE container** is also enabled, content elements which' detail page is **not** triggered, on current page,
   can get hidden automatically
 + DCE provides a custom XML Sitemap data provider (EXT:seo) to index detail pages of DCEs, like regular pages
-
 
 Easy templating (using Fluid)
 """""""""""""""""""""""""""""

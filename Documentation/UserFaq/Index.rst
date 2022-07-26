@@ -251,8 +251,8 @@ Where detailUid is the value of the field "Detail page identifier (get parameter
 How to wrap my content elements with a container?
 -------------------------------------------------
 
-Sometimes you need a wrapping element in HTML template, for all content elements from same type. We recommend to use
-gridelements, because it brings columns to content elements which are structured in database.
+Sometimes you need a wrapping element in HTML template, for all content elements from same type. I recommend to use
+EXT:container, because it brings columns to content elements which are structured in database.
 
 You can also use the DCE feature "DCE Container", which simulates a container for certain content elements in a row,
 based on the same DCE.
@@ -264,7 +264,7 @@ How to add content elements to my DCE
 If you are looking for a way to create columns and put content elements in these columns right in page modules -
 this is not supported by DCE.
 
-For this case I recommend the `grid elements extension <http://typo3.org/extensions/repository/view/gridelements>`_.
+For this case I recommend the `EXT:container extension <https://typo3.org/extensions/repository/view/container>`_.
 
 But if you create a group or select field you may define the tt_content table and add existing content elements.
 This is not much comfortable but very flexible, because you may also add any other table of any extension installed.

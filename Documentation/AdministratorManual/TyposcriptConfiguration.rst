@@ -9,7 +9,7 @@ TypoScript configuration
 Files root paths
 ^^^^^^^^^^^^^^^^
 
-Since version 1.9 DCE is able to load and use template files from multiple locations.
+Since version 2.9 DCE is able to load and use template files from multiple locations.
 You can check the default configuration in ``Configuration/TypoScript/setup.typoscript``.
 
 Example of setup override:
