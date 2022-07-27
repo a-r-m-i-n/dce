@@ -545,7 +545,7 @@ class DceRepository extends Repository
                 ->execute()
                 ->fetchAll();
 
-            $pageRepository = $GLOBALS['TSFE']->sys_page;
+            $pageRepository = isset($GLOBALS['TSFE']) ? $GLOBALS['TSFE']->sys_page : null;
             if ($dceFieldConfiguration['dce_enable_autotranslation'] ?? false) {
                 /** @var class-string $pageRepoClassName */
                 $pageRepoClassName = Compatibility::getPageRepositoryClassName();
@@ -563,7 +563,7 @@ class DceRepository extends Repository
                             $tableName,
                             $row,
                             $this->getSysLanguageUid(),
-                            $GLOBALS['TSFE']->tmpl->setup['config.']['sys_language_overlay']
+                            isset($GLOBALS['TSFE']) ? $GLOBALS['TSFE']->tmpl->setup['config.']['sys_language_overlay'] : ''
                         );
                     }
                 }
