@@ -194,3 +194,5 @@ In frontend, the field value will get overwritten by the field value of the ``l1
 are stored in pi_flexform.
 
 This feature is not supported for section fields.
+
+Special Thanks to **Silverback** (https://silverback.st/) who sponsored this feature!

@@ -178,3 +178,5 @@ You just need to adjust the default EXT:seo TypoScript configuration like this:
 
 Then, DCE content elements with detailpage enabled will also provide an entry in XML sitemap pages section.
 Priority and change frequency is taken from the page record, where the DCE is located on.
+
+Special Thanks to **Silverback** (https://silverback.st/) who sponsored this feature!
