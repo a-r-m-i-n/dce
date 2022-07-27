@@ -25,6 +25,9 @@ class TtContentLabel
      */
     public function getLabel(array &$parameter): void
     {
+        if (!isset($parameter['row'])) {
+            return;
+        }
         if ((\is_string($parameter['row']['CType']) || \is_array($parameter['row']['CType'])) &&
             $this->isDceContentElement($parameter['row'])
         ) {
