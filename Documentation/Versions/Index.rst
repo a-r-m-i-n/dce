@@ -8,6 +8,28 @@ Versions
 
 .. contents:: :local:
 
+2.9.0
+-----
+
+- [DOCS] Thanks to the feature sponsor **Silverback**
+- [BUGFIX] Avoid php warning in TtContentLabel, when being used in Recycler module
+- [BUGFIX] Fix PHP 8.0 warnings in DceRepository
+- [BUGFIX] Use Compatibility layer to get FQCN of PageRepository
+- [BUGFIX] Use old Doctrine query builder syntax in DetailPagesXmlSitemapDataProvider
+- [TASK] Update links in DCE module help menu
+- :ref:`[FEATURE] Added ability to use TypoScript to configure Fluid root file paths (partials & layouts) <administrator-manual-typoscript-configuration>`
+  Thanks to Romain Tiger for contributing this feature!
+- :ref:`[FEATURE] Add "dce_skip_translation" field option <users-manual-general-skip-translation>`
+- [BUGFIX] Provide LiveSearch XClass for older TYPO3 version (9&10)
+- :ref:`[FEATURE] Add XML sitemap data provider for DCEs with detailpage enabled <additional-informations-faking-detail-pages-tips-xml>`
+- [BUGFIX] Fix migration of section fields in File2FAL Update wizard
+- :ref:`[FEATURE] File to FAL update wizard <administrator-upgrade-wizards-file2fal>`
+- [BUGFIX] Fix link analyser for DCEs
+- [BUGFIX] Do not treat texts with spaces as link (in LinkAnalyserSlot)
+- [BUGFIX] Fix undefined array keys in DceRepository (for PHP 8)
+- [BUGFIX] Fix undefined array key in FalViewHelper (for PHP 8)
+
+
 2.8.4
 -----
 

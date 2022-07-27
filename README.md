@@ -19,7 +19,7 @@ You can install DCE in TYPO3 CMS using the [TER](https://extensions.typo3.org/ex
 or use composer to fetch DCE from [packagist](https://packagist.org/packages/t3/dce):
 
 ```
-composer req t3/dce:"^2.7"
+composer req t3/dce:"^2.9"
 ```
 
 
@@ -40,7 +40,7 @@ In case you can't provide code but want to support DCE anyway, here is my [PayPa
 
 ## DDEV Environment
 
-DCE ships a DDEV configuration, which allows you to test DCE in any TYPO3 version:
+DCE ships a [DDEV configuration](https://github.com/a-r-m-i-n/ddev-for-typo3-extensions), which allows you to test DCE in any TYPO3 version:
 
 - 9.5
 - 10.4
