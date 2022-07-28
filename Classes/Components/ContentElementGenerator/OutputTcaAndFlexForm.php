@@ -300,10 +300,10 @@ class OutputTcaAndFlexForm
                     $firstChildNode = $conf->childNodes[0];
                     /** @var \DOMElement $childNode */
                     foreach ($firstChildNode->childNodes as $childNode) {
-                        if ($childNode->tagName === 'config') {
+                        if ($childNode instanceof \DOMElement && $childNode->tagName === 'config') {
                             /** @var \DOMElement $childConfigNode */
                             foreach ($childNode->childNodes as $childConfigNode) {
-                                if ($childConfigNode->tagName === 'dce_skip_translation') {
+                                if ($childConfigNode instanceof \DOMElement && $childConfigNode->tagName === 'dce_skip_translation') {
                                     $this->applyDisplayCondForSkipTranslation($firstChildNode, $conf);
                                 }
                             }
