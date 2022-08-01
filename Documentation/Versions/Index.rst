@@ -8,6 +8,14 @@ Versions
 
 .. contents:: :local:
 
+2.9.1
+-----
+
+- [BUGFIX] Do not show File2FAL update wizard, when no elements to migrate found
+- [BUGFIX] Do not use deprecated ResourceFactory::getInstance() method in File2Fal wizard
+- [BUGFIX] Do not throw warnings when EXT:container is installed
+
+
 2.9.0
 -----
 
