@@ -162,7 +162,7 @@ class FileToFalUpdateWizard implements UpgradeWizardInterface, LoggerAwareInterf
 
         }
 
-        return true;
+        return count($allElementRows) > 0;
     }
 
     public function update(): ?bool
