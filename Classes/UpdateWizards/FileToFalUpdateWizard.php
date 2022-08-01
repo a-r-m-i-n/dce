@@ -373,7 +373,8 @@ class FileToFalUpdateWizard implements UpgradeWizardInterface, LoggerAwareInterf
 
         // Index all new media files in FAL
         $this->logger->debug('All found media files moved. Start indexing new files in FAL');
-        $storage = ResourceFactory::getInstance()->getStorageObject(self::FILEADMIN_STORAGE_UID);
+        $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
+        $storage = $resourceFactory->getStorageObject(self::FILEADMIN_STORAGE_UID);
         $currentEvaluatePermissionsValue = $storage->getEvaluatePermissions();
         $storage->setEvaluatePermissions(false);
         $indexer = GeneralUtility::makeInstance(Indexer::class, $storage);
