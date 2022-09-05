@@ -65,6 +65,10 @@ class DetailPagesXmlSitemapDataProvider extends AbstractXmlSitemapDataProvider
             // Check for DCE content elements, with detail pages BEGIN
             $dceElements = $this->getDceContentElementsWithDetailPage($page['uid']);
             foreach ($dceElements as $dceElement) {
+                if ($dceElement['sys_language_uid'] !== $languageAspect->getId()) {
+                    continue;
+                }
+
                 /** @var Dce $dce */
                 $dce = $dceElement['_dce'];
                 $this->items[] = [
