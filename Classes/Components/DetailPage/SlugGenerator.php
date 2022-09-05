@@ -90,6 +90,14 @@ class SlugGenerator
             return $slug;
         }
         $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tt_content');
+
+        $contentElementRow = (clone $queryBuilder)
+            ->select('sys_language_uid')
+            ->from('tt_content')
+            ->where('uid=' . $uid)
+            ->execute()
+            ->fetch();
+
         /** @var Statement $statement */
         $statement = $queryBuilder
             ->select('uid')
@@ -104,6 +112,12 @@ class SlugGenerator
                 $queryBuilder->expr()->eq(
                     'pid',
                     $queryBuilder->createNamedParameter($pid, \PDO::PARAM_INT)
+                )
+            )
+            ->andWhere(
+                $queryBuilder->expr()->eq(
+                    'sys_language_uid',
+                    $queryBuilder->createNamedParameter($contentElementRow['sys_language_uid'], \PDO::PARAM_INT)
                 )
             )
             ->andWhere(
