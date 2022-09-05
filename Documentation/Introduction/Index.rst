@@ -20,8 +20,8 @@ FlexForms allows you to define dynamic content structures, without the need to e
 
 .. note::
    FlexForms allows defining dynamic forms, which get stored as XML in tt_content column "pi_flexform".
-   This makes it hard to perform queries on fields defined in your DCE content elements, unless you've enabled.
-   :ref:`TCA mapping <additional-informations-tca-mapping>`
+   This makes it hard to perform queries on fields defined in your DCE content elements, unless you've enabled
+   :ref:`TCA mapping <additional-informations-tca-mapping>`_.
 
 
 Content Elements in TYPO3
@@ -47,7 +47,8 @@ Goals of DCE
 DCE Features
 ------------
 
-+ Maintained over 10 years
++ Over 10 years of experience
++ `Hundreds of installations per day <https://packagist.org/packages/t3/dce/stats>`_ in TYPO3 CMS projects
 
 
 Fields and tabs
@@ -125,5 +126,4 @@ More
 + TypoScript **User Condition** (to check if current page contains specific DCE)
 + Support for TYPO3's Import/Export extension
 + EXT:container and EXT:gridelements support
-+ Deprecation notice free in TYPO3 9.5 LTS!
-+ Complete documentation existing
++ Complete documentation

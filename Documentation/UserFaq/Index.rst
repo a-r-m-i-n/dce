@@ -43,6 +43,7 @@ for easy usage in Fluid template (**{contentObject.xxx}**):
 - categories
 - assets
 
+
 How to nest DCE content elements?
 ---------------------------------
 
@@ -106,8 +107,6 @@ Since DCE 2.1 you can access fields of child DCEs this way:
     <li>{childDce.get.myCoolField}</li>
 
 The previous way to access field values, has been marked as deprecated and will be removed in next major version of DCE.
-
-
 
 
 Am I also able to use file collections?
@@ -218,21 +217,9 @@ You can access directly the TypoScript with ``{tsSetup.lib.xyz.value}``.
 How to migrate old image fields to new FAL fields?
 --------------------------------------------------
 
-Well, this is a problem, which is not solved yet. Of course you can change the field configuration to inline FAL, but
-the already stored data/images are not compatible with FAL.
-
-If you do this, you will get this exception: ``#1300096564: uid of file has to be numeric.``
-
-The old way of image handling was that the name of the file is stored inside of the field. The new FAL way is an ``uid``
-of the equivalent FAL record. There is no conversion tool existing AFAIK.
-
-Furthermore these filenames are inside of an FlexFormXML, so the steps of a conversion would be:
-
-1. Identify DCEs using old images (by DCE configuration)
-2. Get tt_content records and convert FlexFormXML to array
-3. Get the old filename and find FAL record
-4. Replace filename with ``uid`` of FAL record
-5. Save the tt_content record and update the field configuration
+Since DCE 2.9 there is a `File to FAL update wizard <administrator-upgrade-wizards-file2fal>`_ existing. It moves all
+referenced media files from ``/uploads`` to ``/fileadmin/uploads``, indexes moved files to FAL and replace the filenames
+in FlexForm data with *sys_file* or *sys_file_reference* uids.
 
 
 How to link to the detail page?
@@ -252,24 +239,11 @@ How to wrap my content elements with a container?
 -------------------------------------------------
 
 Sometimes you need a wrapping element in HTML template, for all content elements from same type. I recommend to use
-EXT:container, because it brings columns to content elements which are structured in database.
+`EXT:container <https://extensions.typo3.org/extension/container>`_, because it brings columns to content elements
+which are structured in database.
 
-You can also use the DCE feature "DCE Container", which simulates a container for certain content elements in a row,
-based on the same DCE.
-
-
-How to add content elements to my DCE
--------------------------------------
-
-If you are looking for a way to create columns and put content elements in these columns right in page modules -
-this is not supported by DCE.
-
-For this case I recommend the `EXT:container extension <https://typo3.org/extensions/repository/view/container>`_.
-
-But if you create a group or select field you may define the tt_content table and add existing content elements.
-This is not much comfortable but very flexible, because you may also add any other table of any extension installed.
-And with the *dce_load_schema* flag you will receive an assosiative array of requested row, or if the table is from an
-Extbase extension you will get a model of the requested table.
+You can also use the DCE feature `DCE Container <users-manual-dcecontainer>`_, which simulates a container for
+certain content elements in a row, based on the same DCE.
 
 
 How to change the long title in content wizard for DCE group

@@ -15,7 +15,7 @@ Overview
 --------
 
 First, you need to login to TYPO3 backend **with administrator privileges**. Those are required to create or edit DCEs.
-Content elements made by DCE can be used with regular editor privileges.
+Content elements made by DCE, can be also used with regular editor privileges.
 
 You'll find DCE under "Admin Tools" in the main menu. It shows you a list of all DCEs existing in the database:
 
@@ -36,7 +36,7 @@ Click the button "Create new DCE" and enter the title of your new dynamic conten
 Also, we set the identifier to "teaser". Later this will be prefixed with "dce\_" and used as CType of this
 new content element.
 
-Now create a new field, keep the default type "Element" and enter "Title" as field title.
+Now, create a new field, keep the default type "Element" and enter "Title" as field title.
 Set variable to "title".
 
 .. attention::
