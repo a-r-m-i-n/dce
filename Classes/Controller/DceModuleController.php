@@ -11,6 +11,7 @@ use Psr\Http\Message\ResponseInterface;
 use T3\Dce\Compatibility;
 use T3\Dce\Components\FlexformToTcaMapper\Mapper;
 use T3\Dce\Domain\Repository\DceRepository;
+use T3\Dce\Utility\BackendModuleSortingUtility;
 use T3\Dce\Utility\File;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -45,7 +46,11 @@ class DceModuleController extends ActionController
      */
     public function indexAction()
     {
-        $this->view->assign('dces', $this->dceRepository->findAllAndStatics(true));
+        $sortOrder = BackendModuleSortingUtility::getSortingAndOrdering($this->request);
+
+        $this->view->assign('dces', $this->dceRepository->findAllAndStatics(true, $sortOrder['sort'], $sortOrder['order']));
+        $this->view->assign('currentSort', $sortOrder['sort']);
+        $this->view->assign('currentOrder', $sortOrder['order']);
 
         if (isset($this->responseFactory) && Compatibility::isTypo3Version()) {
             $response = $this->responseFactory->createResponse();
