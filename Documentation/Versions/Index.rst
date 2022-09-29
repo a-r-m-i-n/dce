@@ -8,6 +8,16 @@ Versions
 
 .. contents:: :local:
 
+2.9.2
+-----
+
+- [BUGFIX] Respect hidden DCEs in FileToFalUpdateWizard
+- [DOCS] Improve docs
+- [BUGFIX] Respect content element's language when checking for unique slug
+- [BUGFIX] Respect current language in DetailPagesXmlSitemapDataProvider
+- [BUGFIX] Fix PHP warning in FalViewHelper
+
+
 2.9.1
 -----
 
