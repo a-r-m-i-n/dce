@@ -16,6 +16,7 @@ use T3\Dce\Domain\Repository\DceRepository;
 use T3\Dce\Utility\DatabaseUtility;
 use T3\Dce\Utility\FlexformService;
 use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\Resource\Index\Indexer;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Resource\ResourceStorage;
@@ -99,7 +100,7 @@ class FileToFalUpdateWizard implements UpgradeWizardInterface, LoggerAwareInterf
             $affectedDceNames .= '- ' . $affectedDceRow['title'] . ' (uid=' . $affectedDceRow['uid'] . ')' . PHP_EOL;
 
             /** @var Dce $dce */
-            $dce = $this->dceRepository->findByUid($affectedDceRow['uid']);
+            $dce = $this->dceRepository->findByUidIncludingHidden($affectedDceRow['uid']);
             $allElementRows = array_merge($allElementRows, $elementRows = $this->dceRepository->findContentElementsBasedOnDce($dce, false));
             foreach ($elementRows as $elementRow) {
                 $flexformData = FlexformService::get()->convertFlexFormContentToArray($elementRow['pi_flexform']);
@@ -255,6 +256,7 @@ class FileToFalUpdateWizard implements UpgradeWizardInterface, LoggerAwareInterf
                 $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable(
                     'tx_dce_domain_model_dcefield'
                 );
+                $queryBuilder->getRestrictions()->removeAll()->add(new DeletedRestriction());
                 $dceRow = $queryBuilder
                     ->select('*')
                     ->from('tx_dce_domain_model_dce')
@@ -320,7 +322,7 @@ class FileToFalUpdateWizard implements UpgradeWizardInterface, LoggerAwareInterf
         foreach ($affectedDceRows as $affectedDceRow) {
             $this->logger->debug('Migrating DCE ' . $affectedDceRow['title'] . ' (uid=' . $affectedDceRow['uid'] . ')');
             /** @var Dce $dce */
-            $dce = $this->dceRepository->findByUid($affectedDceRow['uid']);
+            $dce = $this->dceRepository->findByUidIncludingHidden($affectedDceRow['uid']);
             $elementRows = $this->dceRepository->findContentElementsBasedOnDce($dce, false);
             foreach ($elementRows as $elementRow) {
                 $this->logger->debug('Processing images of tt_content element with uid ' . $elementRow['uid'] . ' (CType: ' . $elementRow['CType'] . ')');
