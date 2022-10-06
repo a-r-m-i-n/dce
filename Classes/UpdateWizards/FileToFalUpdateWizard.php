@@ -97,6 +97,9 @@ class FileToFalUpdateWizard implements UpgradeWizardInterface, LoggerAwareInterf
         $affectedDceNames = '';
         $imagesMissingText = '';
         foreach ($affectedDceRows as $affectedDceRow) {
+            if (!$affectedDceRow['uid']) {
+                continue;
+            }
             $affectedDceNames .= '- ' . $affectedDceRow['title'] . ' (uid=' . $affectedDceRow['uid'] . ')' . PHP_EOL;
 
             /** @var Dce $dce */
