@@ -8,6 +8,13 @@ Versions
 
 .. contents:: :local:
 
+2.9.3
+-----
+
+- [BUGFIX] Fix undefined array keys (for PHP 8)
+- [BUGFIX] Do not try to migrate DCEs without valid UID
+
+
 2.9.2
 -----
 
