@@ -98,6 +98,10 @@ class SlugGenerator
             ->execute()
             ->fetch();
 
+        if (!$contentElementRow) {
+            return $slug;
+        }
+
         /** @var Statement $statement */
         $statement = $queryBuilder
             ->select('uid')

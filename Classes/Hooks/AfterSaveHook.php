@@ -200,11 +200,11 @@ class AfterSaveHook
             // Adds or removes *containerflag from simple backend view, when container is en- or disabled
             if (array_key_exists('enable_container', $fieldArray)) {
                 if ('1' === $fieldArray['enable_container']) {
-                    $items = GeneralUtility::trimExplode(',', $dceRow['backend_view_bodytext'], true);
+                    $items = GeneralUtility::trimExplode(',', $dceRow['backend_view_bodytext'] ?? '', true);
                     $items[] = '*containerflag';
                 } else {
                     $items = ArrayUtility::removeArrayEntryByValue(
-                        GeneralUtility::trimExplode(',', $dceRow['backend_view_bodytext'], true),
+                        GeneralUtility::trimExplode(',', $dceRow['backend_view_bodytext'] ?? '', true),
                         '*containerflag'
                     );
                 }
@@ -364,7 +364,7 @@ class AfterSaveHook
     {
         $uid = $id;
         if ('new' === $status) {
-            if (!$pObj->substNEWwithIDs[$id]) {
+            if (!($pObj->substNEWwithIDs[$id] ?? null)) {
                 //postProcessFieldArray
                 $uid = 0;
             } else {
