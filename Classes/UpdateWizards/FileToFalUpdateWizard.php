@@ -626,8 +626,8 @@ XML;
                         }
 
                         $node = $xpath->query(
-                            "//field[@index='settings." . $affectedFieldRow['_parent_section_field']['variable'] . "']//field[@index='" . $sectionIndexKey . "']//field[@index='" . $affectedFieldRow['variable'] . "']/value
-                            |//field[@index='settings." . $affectedFieldRow['_parent_section_field']['variable'] . "']//section[@index='" . $sectionIndexKey . "']//field[@index='" . $affectedFieldRow['variable'] . "']/value"
+                            "//field[@index='settings." . $affectedFieldRow['_parent_section_field']['variable'] . "']//field[@index='" . $sectionIndexKey . "']//field[@index='" . $affectedFieldRow['variable'] . "']/value"
+                            ."|//field[@index='settings." . $affectedFieldRow['_parent_section_field']['variable'] . "']//section[@index='" . $sectionIndexKey . "']//field[@index='" . $affectedFieldRow['variable'] . "']/value"
                         );
                         $node->item(0)->nodeValue = implode(',', $fileUids);
                     }
