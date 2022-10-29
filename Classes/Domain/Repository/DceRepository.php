@@ -63,6 +63,19 @@ class DceRepository extends Repository
         parent::__construct($objectManager);
     }
 
+    public function findByUidIncludingHidden(int $uid): ?Dce
+    {
+        /** @var Typo3QuerySettings $querySettings */
+        $querySettings = GeneralUtility::makeInstance(Typo3QuerySettings::class);
+        $querySettings->setIgnoreEnableFields(true);
+
+        $query = $this->createQuery();
+        $query->setQuerySettings($querySettings);
+        $query->matching($query->equals('uid', $uid));
+
+        return $query->execute()->getFirst();
+    }
+
     /**
      * Returns database DCEs and static DCEs as merged array.
      */
