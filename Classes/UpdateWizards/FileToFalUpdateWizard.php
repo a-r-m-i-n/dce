@@ -254,26 +254,29 @@ class FileToFalUpdateWizard implements UpgradeWizardInterface, LoggerAwareInterf
                     $affectedFieldRow['_parent_section_field'] = $sectionFieldRow;
                     $dceUid = (int)$sectionFieldRow['parent_dce'];
                 }
-
-
-                $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable(
-                    'tx_dce_domain_model_dcefield'
-                );
-                $queryBuilder->getRestrictions()->removeAll()->add(new DeletedRestriction());
-                $dceRow = $queryBuilder
-                    ->select('*')
-                    ->from('tx_dce_domain_model_dce')
-                    ->where(
-                        $queryBuilder->expr()->eq(
-                            'uid',
-                            $queryBuilder->createNamedParameter($dceUid)
+                
+                if (!array_key_exists($dceUid, $affectedDceRows)) {
+                    $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable(
+                        'tx_dce_domain_model_dcefield'
+                    );
+                    $queryBuilder->getRestrictions()->removeAll()->add(new DeletedRestriction());
+                    $dceRow = $queryBuilder
+                        ->select('*')
+                        ->from('tx_dce_domain_model_dce')
+                        ->where(
+                            $queryBuilder->expr()->eq(
+                                'uid',
+                                $queryBuilder->createNamedParameter($dceUid)
+                            )
                         )
-                    )
-                    ->execute()
-                    ->fetch();
-
-                $affectedDceRows[$dceUid] = $dceRow;
-                $affectedDceRows[$dceUid]['_affectedFields'] = [$affectedFieldRow];
+                        ->execute()
+                        ->fetch();
+                        
+                    $affectedDceRows[$dceUid] = $dceRow;
+                    $affectedDceRows[$dceUid]['_affectedFields'] = [$affectedFieldRow];
+                } else {
+                    $affectedDceRows[$dceUid]['_affectedFields'][] = $affectedFieldRow;
+                }
             } else {
                 $affectedDceRows[$dceUid]['_affectedFields'][] = $affectedFieldRow;
             }
