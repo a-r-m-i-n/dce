@@ -48,10 +48,11 @@
 						<th><f:render section="td_header_field" arguments="{title: 'DCE', sortingField:'title', currentSort:currentSort, currentOrder:currentOrder}"/></th>
 						<th>Status</th>
 						<th>Identifier</th>
-						<th><f:render section="td_header_field" arguments="{title: 'UID', sortingField:'sorting', currentSort:currentSort, currentOrder:currentOrder}"/></th>
+						<th><f:render section="td_header_field" arguments="{title: 'UID', sortingField:'uid', currentSort:currentSort, currentOrder:currentOrder}"/></th>
 						<th>{f:translate(key:'{lll}usage')}</th>
 						<th>{f:translate(key:'{lll}dceStats')}</th>
 						<th>{f:translate(key:'{lll}fieldStats')}</th>
+						<th><f:render section="td_header_field" arguments="{title: 'Sorting', sortingField:'sorting', currentSort:currentSort, currentOrder:currentOrder}"/></th>
 						<th></th>
 					</tr>
 					</thead>
@@ -77,12 +78,12 @@
 	<f:if condition="{currentSort} == {sortingField}">
 		<f:then>
 			<f:if condition="{currentOrder} == 'DESC'">
-				<f:then><f:link.action action="index" arguments="{sort:sortingField, order:0}">{title} <core:icon identifier="actions-caret-up"/></f:link.action></f:then>
-				<f:else><f:link.action action="index" arguments="{sort:sortingField, order:1}">{title} <core:icon identifier="actions-caret-down"/></f:link.action></f:else>
+				<f:then><f:link.action action="index" arguments="{sorting:sortingField, ordering:'ASC', updateSorting:'1'}">{title} <core:icon identifier="actions-caret-up"/></f:link.action></f:then>
+				<f:else><f:link.action action="index" arguments="{sorting:sortingField, ordering:'DESC', updateSorting:'1'}">{title} <core:icon identifier="actions-caret-down"/></f:link.action></f:else>
 			</f:if>
 		</f:then>
 		<f:else>
-			<f:link.action action="index" arguments="{sort:sortingField, order:0}">{title}</f:link.action>
+			<f:link.action action="index" arguments="{sorting:sortingField, ordering:'ASC', updateSorting:'1'}">{title}</f:link.action>
 		</f:else>
 	</f:if>
 </f:section>

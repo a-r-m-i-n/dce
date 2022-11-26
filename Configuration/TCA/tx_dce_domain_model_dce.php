@@ -117,6 +117,11 @@ $dceTca = [
                 'type' => 'check',
             ],
         ],
+        'sorting' => [
+            'config' => [
+                'type' => 'passthrough',
+            ],
+        ],
         'title' => [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dce.title',
