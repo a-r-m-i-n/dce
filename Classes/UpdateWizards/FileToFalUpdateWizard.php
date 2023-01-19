@@ -537,7 +537,7 @@ XML;
                             $file = $resourceFactory->getFileObjectByStorageAndIdentifier(self::FILEADMIN_STORAGE_UID, $newPath);
                         } catch (\InvalidArgumentException $e) {
                         }
-                        if (!$file) {
+                        if (!isset($file)) {
                             throw new \RuntimeException('Unable to get file from fileadmin storage with identifier "' . $newPath . '"');
                         }
 
@@ -563,7 +563,9 @@ XML;
 
                     $xpath = new \DOMXPath($conf);
                     $node = $xpath->query("//field[@index='settings." . $affectedFieldRow['variable'] . "']/value");
-                    $node->item(0)->nodeValue = count($media);
+                    if (count($media) > 0) {
+                        $node->item(0)->nodeValue = (string)count($media);
+                    }
                     $updatedFlexform = $conf->saveXML();
 
                     $ttContentConnection->update('tt_content', [
@@ -618,7 +620,7 @@ XML;
                                 $file = $resourceFactory->getFileObjectByStorageAndIdentifier(self::FILEADMIN_STORAGE_UID, $newPath);
                             } catch (\InvalidArgumentException $e) {
                             }
-                            if (!$file) {
+                            if (!isset($file)) {
                                 throw new \RuntimeException('Unable to get file from fileadmin storage with identifier "' . $newPath . '"');
                             }
                             $fileUids[] = $file->getUid();
@@ -649,8 +651,7 @@ XML;
         /** @var ResourceStorage $fileStorage */
         $fileStorage = $this->fileStorageRepository->findByUid(self::FILEADMIN_STORAGE_UID);
         $fileStorageConfiguration = $fileStorage->getStorageRecord()['configuration'];
-        $flexformConfig = FlexformService::get()->convertFlexFormContentToArray($fileStorageConfiguration);
 
-        return Environment::getPublicPath() . DIRECTORY_SEPARATOR . $flexformConfig['basePath'];
+        return Environment::getPublicPath() . DIRECTORY_SEPARATOR . $fileStorageConfiguration['basePath'];
     }
 }
