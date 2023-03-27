@@ -148,7 +148,7 @@ class OutputTcaAndFlexForm
 
         $paletteIdentifier = 'dce_palette_' . $dceIdentifier;
         $showItem = <<<TEXT
-            --palette--;;${paletteIdentifier}_head,
+            --palette--;;{$paletteIdentifier}_head,
             --palette--;;$paletteIdentifier,
             pi_flexform,$showAccessTabCode$showMediaTabCode$showCategoryTabCode
             --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.extended

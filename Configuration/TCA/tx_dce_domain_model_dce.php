@@ -15,29 +15,29 @@ $ll = 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xlf:';
 $showItems = <<<TEXT
 --palette--;;general_header,fields,
 
---div--;${ll}tx_dce_domain_model_dce.template,
+--div--;{$ll}tx_dce_domain_model_dce.template,
     template_type,template_content,template_file,
 
---div--;${ll}tx_dce_domain_model_dce.container,
+--div--;{$ll}tx_dce_domain_model_dce.container,
     enable_container,container_item_limit,container_detail_autohide,
     container_identifier,container_template_type,container_template,container_template_file,
 
---div--;${ll}tx_dce_domain_model_dce.detailpage,
+--div--;{$ll}tx_dce_domain_model_dce.detailpage,
     enable_detailpage,detailpage_identifier,
-    --palette--;${ll}tx_dce_domain_model_dce.detailpageSlugPalette;detailpage_slug,
-    --palette--;${ll}tx_dce_domain_model_dce.detailpageTitlePalette;detailpage_title,
+    --palette--;{$ll}tx_dce_domain_model_dce.detailpageSlugPalette;detailpage_slug,
+    --palette--;{$ll}tx_dce_domain_model_dce.detailpageTitlePalette;detailpage_title,
     detailpage_template_type,detailpage_template,detailpage_template_file,
 
---div--;${ll}tx_dce_domain_model_dce.backendTemplate,
+--div--;{$ll}tx_dce_domain_model_dce.backendTemplate,
     use_simple_backend_view,--palette--;;backend_view_header_settings,backend_view_bodytext,
     backend_template_type,backend_template_content,backend_template_file,
 
---div--;${ll}tx_dce_domain_model_dce.wizard,
+--div--;{$ll}tx_dce_domain_model_dce.wizard,
     wizard_icon,wizard_custom_icon,wizard_enable,wizard_category,wizard_description,
 
---div--;${ll}tx_dce_domain_model_dce.miscellaneous,
+--div--;{$ll}tx_dce_domain_model_dce.miscellaneous,
     --palette--;;misc,flexform_label,hide_default_ce_wrap,
-    --palette--;${ll}tx_dce_domain_model_dce.contentRelationsPalette;content_relations,
+    --palette--;{$ll}tx_dce_domain_model_dce.contentRelationsPalette;content_relations,
     palette_fields,prevent_header_copy_suffix,template_layout_root_path,template_partial_root_path
 TEXT;
 
