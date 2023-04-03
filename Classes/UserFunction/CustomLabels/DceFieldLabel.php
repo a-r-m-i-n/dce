@@ -28,7 +28,7 @@ class DceFieldLabel
     public function getLabel(array &$parameter): void
     {
         if (!isset($parameter['row']['variable']) || empty($parameter['row']['variable'])) {
-            $parameter['title'] = LanguageService::sL($parameter['row']['title']);
+            $parameter['title'] = (isset($parameter['row']['title'])) ? LanguageService::sL($parameter['row']['title']) : '';
 
             return;
         }
