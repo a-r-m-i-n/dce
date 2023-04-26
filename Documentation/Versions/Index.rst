@@ -8,6 +8,16 @@ Versions
 
 .. contents:: :local:
 
+2.9.4
+-----
+
+- [BUGFIX] Fix PHP 8.1 issues in File to Fal Update Wizard (thanks to Peter Kraume)
+- [BUGFIX] Fix PHP 8.1 issue in label_userFunc (thanks to Peter Kraume)
+- [BUGFIX] Fix non-existing array keys warnings
+- [BUGFIX] Fix deprecated usage of ${var}
+- [TASK] Fix warnings in backend (thanks to Georg Ringer)
+
+
 2.9.3
 -----
 
