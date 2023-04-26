@@ -841,7 +841,7 @@ class Dce extends AbstractEntity
         if (!empty($section)) {
             $backendTemplateParts = GeneralUtility::trimExplode($backendTemplateSeparator, $fullBackendTemplate);
 
-            return 'bodytext' === $section ? $backendTemplateParts[1] : $backendTemplateParts[0];
+            return 'bodytext' === $section ? ($backendTemplateParts[1] ?? null) : ($backendTemplateParts[0] ?? null);
         }
 
         return $fullBackendTemplate;
