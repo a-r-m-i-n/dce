@@ -146,15 +146,17 @@ class InputDatabase implements InputInterface
                 }
 
                 if ('2' === $row2['type']) {
-                    $sectionFields = [];
-                    foreach ((array)$dceFieldRowsByParentDceField[$row2['uid']] as $row3) {
-                        if ('0' === $row3['type']) {
-                            // add fields of section to fields
-                            $sectionFields[] = $row3;
+                    if (array_key_exists($row2['uid'], $dceFieldRowsByParentDceField)) {
+                        $sectionFields = [];
+                        foreach ((array)$dceFieldRowsByParentDceField[$row2['uid']] as $row3) {
+                            if ('0' === $row3['type']) {
+                                // add fields of section to fields
+                                $sectionFields[] = $row3;
+                            }
                         }
+                        $row2['section_fields'] = $sectionFields;
+                        $tabs[$index]['fields'][] = $row2;
                     }
-                    $row2['section_fields'] = $sectionFields;
-                    $tabs[$index]['fields'][] = $row2;
                 } else {
                     // usual element
                     $row2['configuration'] = str_replace('{$variable}', $row2['variable'], $row2['configuration']);
