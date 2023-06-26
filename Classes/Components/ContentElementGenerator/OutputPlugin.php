@@ -56,7 +56,7 @@ class OutputPlugin implements OutputInterface
                 }
                 $dceIdentifier = $dce['identifier'];
                 $dceIdentifierSkipFirst4Chars = substr($dceIdentifier, 4);
-                $dceCache = $dce['cache_dce'] ? '[]' : "['Dce' => 'show']";
+                $dceCache = $dce['cache_dce'] ? '[]' : "[\T3\Dce\Compatibility::isTypo3Version('10.0.0') ? \T3\Dce\Controller\DceController::class : 'Dce' => 'show']";
                 $sourceCode .= <<<PHP
                     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
                         \T3\Dce\Compatibility::isTypo3Version('10.0.0') ? 'dce' : 'T3.dce',
