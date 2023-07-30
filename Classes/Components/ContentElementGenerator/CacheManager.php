@@ -5,7 +5,7 @@ namespace T3\Dce\Components\ContentElementGenerator;
 /*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2019-2022 Armin Vieweg <armin@v.ieweg.de>
+ *  | (c) 2019-2023 Armin Vieweg <armin@v.ieweg.de>
  */
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;

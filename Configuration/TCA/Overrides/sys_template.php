@@ -4,7 +4,7 @@
  *  | under GNU General Public License.
  *  |
  *  | (c) 2022 Romain Tiger <romain.tiger@cameros.fr>
- *  |     2022 Armin Vieweg <armin@v.ieweg.de>
+ *  |     2022-2023 Armin Vieweg <armin@v.ieweg.de>
  */
 
 if (!defined('TYPO3_MODE')) {

@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2022 Armin Vieweg <armin@v.ieweg.de>
+ *  | (c) 2022-2023 Armin Vieweg <armin@v.ieweg.de>
  */
 namespace T3\Dce\Seo\XmlSitemap;
 
