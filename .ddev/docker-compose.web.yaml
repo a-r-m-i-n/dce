@@ -13,7 +13,7 @@ services:
             - TYPO3_INSTALL_DB_UNIX_SOCKET=
             - TYPO3_INSTALL_DB_USE_EXISTING=0
             - TYPO3_INSTALL_ADMIN_USER=admin
-            - TYPO3_INSTALL_ADMIN_PASSWORD=password
+            - TYPO3_INSTALL_ADMIN_PASSWORD=Password:joh316
             - TYPO3_INSTALL_SITE_NAME=EXT:dce Dev Environment
             - TYPO3_INSTALL_SITE_SETUP_TYPE=site
             - TYPO3_INSTALL_WEB_SERVER_CONFIG=apache
@@ -22,13 +22,10 @@ services:
               source: ../
               target: /var/www/dce
               consistency: cached
-            - v9-data:/var/www/html/v9
-            - v10-data:/var/www/html/v10
             - v11-data:/var/www/html/v11
+            - v12-data:/var/www/html/v12
 volumes:
-    v9-data:
-        name: "${DDEV_SITENAME}-v9-data"
-    v10-data:
-        name: "${DDEV_SITENAME}-v10-data"
     v11-data:
         name: "${DDEV_SITENAME}-v11-data"
+    v12-data:
+        name: "${DDEV_SITENAME}-v12-data"

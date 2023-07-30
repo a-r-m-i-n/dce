@@ -8,9 +8,9 @@ Based on Extbase, Fluid and over 8 years of experience.
 
 ### Screenshots
 
-![DCE General Configuration](Documentation/FirstSteps/Images/first-dce.png "DCE General Configuration")
+![DCE General Configuration](Documentation/FirstSteps/Images/first-dce.png)
 
-![Inline Templating in DCE](Documentation/FirstSteps/Images/template-default.png "Inline Templating in DCE")
+![Inline Templating in DCE](Documentation/FirstSteps/Images/template-default.png)
 
 
 ## Installation
@@ -42,11 +42,10 @@ In case you can't provide code but want to support DCE anyway, here is my [PayPa
 
 DCE ships a [DDEV configuration](https://github.com/a-r-m-i-n/ddev-for-typo3-extensions), which allows you to test DCE in any TYPO3 version:
 
-- 9.5
-- 10.4
-- 11.x
+- 11.5
+- 12.4
 
-It uses Apache2 with php-fpm (7.4) enabled.
+It uses Apache2 with php-fpm (8.1) enabled.
 
 ### Requirements
 
@@ -62,20 +61,12 @@ It uses Apache2 with php-fpm (7.4) enabled.
     ```
 2. Next execute one of the following commands
     ```
-    ddev install-v9
-    ddev install-v10
     ddev install-v11
+    ddev install-v12
     ddev install-all
     ```
-   *Note: You can also skip the initial ``ddev start`` and enter one of the install commands first*
 3. On https://dce.ddev.site/ you get a brief overview of the environments
 
-When you ``ddev stop`` your containers, all files will be remain in Docker volume. To clean up use:
-```
-docker volume rm dce-v9-data
-docker volume rm dce-v10-data
-docker volume rm dce-v11-data
-```
 
 ### Scripts
 
