@@ -860,6 +860,7 @@ class Dce extends AbstractEntity
         $fields = $this->getFieldsAsArray();
         $variables = [
             'contentObject' => $this->getContentObject(),
+            'data' => $this->getContentObject(),
             'fields' => $fields,
             'field' => $fields,
         ];

@@ -97,7 +97,7 @@ Available base variables
 Besides the custom created variables, they are also some variables existing which are available in all DCEs:
 
 + ``{dce}`` - The DCE object. To access field values use: ``{dce.get.fieldName}``
-+ ``{contentObject}`` - The content object row, this DCE instance is based on. It contains all tt_content properties.
++ ``{contentObject}`` and ``{data}`` - The content object row, this DCE instance is based on. It contains all tt_content properties.
 + ``{TSFE}`` - The TypoScript frontend controller
 + ``{page}`` - Properties of the current page
 + ``{tsSetup}`` - TypoScript setup of the current page
