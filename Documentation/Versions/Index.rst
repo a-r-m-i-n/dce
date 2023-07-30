@@ -8,6 +8,17 @@ Versions
 
 .. contents:: :local:
 
+2.9.5
+-----
+
+- [TASK] Update copyrights
+- [BUGFIX] Remove "useCacheHash" from link.typoscript code snippet
+- [TASK] Assign "data" variable to Fluid template as alias for "contentObject"
+- [BUGFIX] Fix disabling of DCE cache
+- [BUGFIX] Remove wrong php requirements in ext_emconf.php
+- [DEVOPS] Upgrade DDEV configuration
+
+
 2.9.4
 -----
 
