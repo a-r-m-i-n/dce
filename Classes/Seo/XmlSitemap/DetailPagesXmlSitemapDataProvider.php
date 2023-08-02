@@ -1,24 +1,21 @@
 <?php
-
 declare(strict_types=1);
+namespace T3\Dce\Seo\XmlSitemap;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
  *  | (c) 2022-2023 Armin Vieweg <armin@v.ieweg.de>
  */
-namespace T3\Dce\Seo\XmlSitemap;
-
 use Psr\Http\Message\ServerRequestInterface;
-use T3\Dce\Compatibility;
 use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Domain\Repository\DceRepository;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Context\LanguageAspect;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryHelper;
+use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Seo\XmlSitemap\AbstractXmlSitemapDataProvider;
 
@@ -38,16 +35,14 @@ class DetailPagesXmlSitemapDataProvider extends AbstractXmlSitemapDataProvider
     {
         parent::__construct($request, $key, $config, $cObj);
 
-        /** @var ObjectManager $objectManager */
-        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $this->dceRepository = $objectManager->get(DceRepository::class);
-
+        $this->dceRepository = GeneralUtility::makeInstance(DceRepository::class);
         $this->generateItems();
     }
 
     protected function generateItems(): void
     {
-        $pageRepository = GeneralUtility::makeInstance(Compatibility::getPageRepositoryClassName());
+        /** @var PageRepository $pageRepository */
+        $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
         $pages = $pageRepository->getPagesOverlay($this->getPages());
         $languageAspect = $this->getCurrentLanguageAspect();
         foreach ($pages as $page) {
@@ -128,8 +123,8 @@ class DetailPagesXmlSitemapDataProvider extends AbstractXmlSitemapDataProvider
             ->from('pages')
             ->where(...$constraints)
             ->orderBy('uid', 'ASC')
-            ->execute()
-            ->fetchAll();
+            ->executeQuery()
+            ->fetchAllAssociative();
 
         return $pages;
     }
@@ -148,8 +143,8 @@ class DetailPagesXmlSitemapDataProvider extends AbstractXmlSitemapDataProvider
             ->andWhere($queryBuilder->expr()->like('CType', $queryBuilder->createNamedParameter($queryBuilder->escapeLikeWildcards('dce_') . '%')))
             ->orderBy('colPos', 'ASC')
             ->addOrderBy('sorting', 'ASC')
-            ->execute()
-            ->fetchAll();
+            ->executeQuery()
+            ->fetchAllAssociative();
 
 
         $dceRowsWithDetailPage = [];

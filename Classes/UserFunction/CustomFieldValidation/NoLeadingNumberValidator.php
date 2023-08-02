@@ -7,32 +7,25 @@ namespace T3\Dce\UserFunction\CustomFieldValidation;
  *  |
  *  | (c) 2012-2023 Armin Vieweg <armin@v.ieweg.de>
  */
-use TYPO3\CMS\Core\Messaging\FlashMessage;
+use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 
 /**
  * TCA custom validator which checks the input and disallows leading numbers.
  */
 class NoLeadingNumberValidator extends AbstractFieldValidator
 {
-    /**
-     * PHP Validation to disallow leading numbers.
-     *
-     * @param bool $silent When true no flash messages get created
-     *
-     * @return mixed|string Updated string, which fits the requirements
-     */
-    public function evaluateFieldValue(string $value, bool $silent = false)
+    public function evaluateFieldValue(string $value, string $isIn, bool $set = false)
     {
         preg_match('/^\d*(.*)/i', $value, $matches);
         if ($matches[0] !== $matches[1]) {
             if (empty($matches[1])) {
-                $matches[1] = 'field' . uniqid();
+                $matches[1] = 'field' . uniqid('', true);
             }
-            if (!$silent) {
+            if ($set) {
                 $this->addFlashMessage(
                     $this->translate('tx_dce_formeval_noLeadingNumber', [$value, $matches[1]]),
                     $this->translate('tx_dce_formeval_headline', [$value]),
-                    FlashMessage::NOTICE
+                    ContextualFeedbackSeverity::NOTICE
                 );
             }
         }

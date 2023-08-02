@@ -8,8 +8,6 @@ namespace T3\Dce\Components\DceContainer;
  *  | (c) 2012-2023 Armin Vieweg <armin@v.ieweg.de>
  *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
-
-use T3\Dce\Compatibility;
 use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Domain\Repository\DceRepository;
 use T3\Dce\Utility\DatabaseUtility;
@@ -18,9 +16,9 @@ use TYPO3\CMS\Core\Database\Query\Restriction\EndTimeRestriction;
 use TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer;
 use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
 use TYPO3\CMS\Core\Database\Query\Restriction\StartTimeRestriction;
+use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
  * ContainerFactory
@@ -37,8 +35,14 @@ class ContainerFactory
      * @var array|int[] Caches uids of containers, in case contents are rendered multiple times on same page
      */
     protected static $cachedContainers = [];
+    private DceRepository $dceRepository;
 
-    public static function makeContainer(Dce $dce, bool $includeHidden = false): Container
+    public function __construct(DceRepository $dceRepository)
+    {
+        $this->dceRepository = $dceRepository;
+    }
+
+    public function makeContainer(Dce $dce, bool $includeHidden = false): Container
     {
         $contentObject = $dce->getContentObject();
         static::$toSkip[$contentObject['uid']][] = $contentObject['uid'];
@@ -46,8 +50,8 @@ class ContainerFactory
         /** @var Container $container */
         $container = GeneralUtility::makeInstance(Container::class, $dce);
 
-        $newsParameters = GeneralUtility::_GET('tx_news_pi1');
-        if (isset($newsParameters['news']) && !empty($newsParameters['news'])) {
+        $newsParameters = $_GET['tx_news_pi1'] ?? [];
+        if (!empty($newsParameters['news'])) {
             // Content elements on news detail page
             $contentElements = static::getContentElementsInContainer($dce, $includeHidden, (int)$newsParameters['news']);
         } else {
@@ -57,26 +61,23 @@ class ContainerFactory
 
         $total = \count($contentElements);
 
-        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        /** @var DceRepository $dceRepository */
-        $dceRepository = $objectManager->get(DceRepository::class);
         foreach ($contentElements as $index => $contentElement) {
-            $dceInstance = $dceRepository->getDceInstance((int)$contentElement['uid'], $contentElement);
+            $dceInstance = $this->dceRepository->getDceInstance((int)$contentElement['uid'], $contentElement);
             $dceInstance->setContainerIterator(static::createContainerIteratorArray($index, $total));
             $container->addDce($dceInstance);
 
-            if (!\in_array($contentElement['uid'], static::$toSkip[$contentObject['uid']])) {
+            if (!in_array($contentElement['uid'], static::$toSkip[$contentObject['uid']])) {
                 static::$toSkip[$contentObject['uid']][] = $contentElement['uid'];
             }
 
             if (!empty($contentElement['l18n_parent']) &&
-                !\in_array($contentElement['l18n_parent'], static::$toSkip[$contentObject['uid']])
+                !in_array($contentElement['l18n_parent'], static::$toSkip[$contentObject['uid']])
             ) {
                 static::$toSkip[$contentObject['uid']][] = $contentElement['l18n_parent'];
             }
 
             if (!empty($contentElement['_LOCALIZED_UID']) &&
-                !\in_array($contentElement['_LOCALIZED_UID'], static::$toSkip[$contentObject['uid']])
+                !in_array($contentElement['_LOCALIZED_UID'], static::$toSkip[$contentObject['uid']])
             ) {
                 static::$toSkip[$contentObject['uid']][] = $contentElement['_LOCALIZED_UID'];
             }
@@ -122,7 +123,7 @@ class ContainerFactory
             ));
         }
 
-        if (Compatibility::isFrontendMode()) {
+        if (ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend()) {
             $queryBuilder->andWhere(
                 $queryBuilder->expr()->eq(
                     'sys_language_uid',
@@ -161,8 +162,8 @@ class ContainerFactory
         }
         $rawContentElements = $queryBuilder
             ->orderBy($sortColumn, 'ASC')
-            ->execute()
-            ->fetchAll();
+            ->executeQuery()
+            ->fetchAllAssociative();
 
         array_unshift($rawContentElements, $contentObject);
 
@@ -207,11 +208,11 @@ class ContainerFactory
             new \RecursiveIteratorIterator(new \RecursiveArrayIterator(static::$toSkip)),
             false
         );
-        if (\is_array($contentElement)) {
-            return \in_array($contentElement['uid'], $flattenContentElementsToSkip);
+        if (is_array($contentElement)) {
+            return in_array($contentElement['uid'], $flattenContentElementsToSkip);
         }
         if (\is_int($contentElement)) {
-            return \in_array($contentElement, $flattenContentElementsToSkip);
+            return in_array($contentElement, $flattenContentElementsToSkip);
         }
 
         return false;
@@ -230,7 +231,7 @@ class ContainerFactory
         } else {
             $groupContentElementsIndex = null;
             foreach (static::$toSkip as $parentIndex => $groupedContentElementsToSkip) {
-                if (\is_array($contentElement)) {
+                if (is_array($contentElement)) {
                     if (\end($groupedContentElementsToSkip) === $contentElement['uid']) {
                         $groupContentElementsIndex = $parentIndex;
                         break;
@@ -277,8 +278,8 @@ class ContainerFactory
                             )
                         )
                         ->orderBy($GLOBALS['TCA'][$table]['ctrl']['sortby'], 'ASC')
-                        ->execute()
-                        ->fetchAll();
+                        ->executeQuery()
+                        ->fetchAllAssociative();
 
                     foreach ($linkedContentElements as $linkedContentElement) {
                         $resolvedContentElements[] = $linkedContentElement;
@@ -314,7 +315,7 @@ class ContainerFactory
     private static function createQueryBuilder(bool $includeHidden = false): QueryBuilder
     {
         $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tt_content');
-        if (Compatibility::isFrontendMode()) {
+        if (ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend()) {
             $queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
         }
         if ($includeHidden) {

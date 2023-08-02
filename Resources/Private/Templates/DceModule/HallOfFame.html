@@ -1,43 +1,43 @@
-<f:layout name="Backend" />
+<f:layout name="Backend"/>
 <f:section name="header">
-	<dce:be.includeCssFile path="EXT:dce/Resources/Public/Css/dceModule.css" />
-	<f:render partial="Module/ModuleHeader" />
+    <f:render partial="Module/ModuleHeader"/>
 </f:section>
 <f:section name="content">
-	<f:alias map="{lll: 'LLL:EXT:dce/Resources/Private/Language/locallang_mod.xlf:'}">
-		<div class="row space-bottom">
-			<div class="col-lg-12">
-				<div class="nav-group">
-					<f:link.action action="index" class="btn btn-default"><i class="fa fa-arrow-left"></i> {f:translate(key:'{lll}back')}</f:link.action>
-					<f:render partial="Module/Donate" arguments="{primary:'1'}" />
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-12 col-md-12 col-lg-10">
-				<h1 class="hallOfFame">{f:translate(key:'{lll}hallOfFame')}</h1>
-				<p>{f:translate(key:'{lll}hallOfFameIntroText')}</p>
+    <f:alias map="{lll: 'LLL:EXT:dce/Resources/Private/Language/locallang_mod.xlf:'}">
+        <div class="row space-bottom">
+            <div class="col-lg-12">
+                <div class="nav-group">
+                    <f:link.action action="index" class="btn btn-default"><i class="fa fa-arrow-left"></i> {f:translate(key:'{lll}back')}</f:link.action>
+                    <f:render partial="Module/Donate" arguments="{primary:'1'}"/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-10">
+                <h1 class="hallOfFame">{f:translate(key:'{lll}hallOfFame')}</h1>
+                <p>{f:translate(key:'{lll}hallOfFameIntroText')}</p>
 
-				<div class="row">
-					<f:for each="{donators}" as="donator">
-						<div class="col-md-6 col-lg-4">
-							<div class="well">
-								<div class="icon">
-									<img src="{f:uri.resource(path:'Icons/trophy.svg')}" height="64" width="64"
-										 alt="{f:translate(key:'{lll}trophyAlt')}" title="{f:translate(key:'{lll}trophyTitle', arguments:'{0:donator.name}')}">
-								</div>
-								<div class="donator">
-									<span class="name">{donator.name}</span>
-									<f:if condition="{donator.url}">
-										<br><f:link.external uri="{donator.url}" target="_blank">{donator.url}</f:link.external>
-									</f:if>
-								</div>
-								<div class="clear"></div>
-							</div>
-						</div>
-					</f:for>
-				</div>
-			</div>
-		</div>
-	</f:alias>
+                <div class="row">
+                    <f:for each="{donators}" as="donator">
+                        <div class="col-md-6 col-lg-4">
+                            <div class="well">
+                                <div class="icon">
+                                    <img src="{f:uri.resource(path:'Icons/trophy.svg')}" height="64" width="64"
+                                         alt="{f:translate(key:'{lll}trophyAlt')}" title="{f:translate(key:'{lll}trophyTitle', arguments:'{0:donator.name}')}">
+                                </div>
+                                <div class="donator">
+                                    <span class="name">{donator.name}</span>
+                                    <f:if condition="{donator.url}">
+                                        <br>
+                                        <f:link.external uri="{donator.url}" target="_blank">{donator.url}</f:link.external>
+                                    </f:if>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </f:for>
+                </div>
+            </div>
+        </div>
+    </f:alias>
 </f:section>

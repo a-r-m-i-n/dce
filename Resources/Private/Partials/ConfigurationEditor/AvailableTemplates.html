@@ -1,10 +1,10 @@
-<select class="availableTemplates select" id="templates_{uniqueIdentifier}">
-	<option></option>
-	<f:for each="{availableTemplates}" key="group" as="templates">
-		<optgroup label="TYPE: {group}" class="c-divider">
-			<f:for each="{templates}" as="templateValue" key="templateName">
-				<option value="{templateValue}">{templateName}</option>
-			</f:for>
-		</optgroup>
-	</f:for>
+<select class="availableTemplates form-select mb-1" id="templates_{uniqueIdentifier}">
+    <option></option>
+    <f:for each="{availableTemplates}" key="group" as="templates">
+        <optgroup label="TYPE: {group}" class="c-divider">
+            <f:for each="{templates}" as="templateValue" key="templateName">
+                <option value="{templateValue}">{templateName}</option>
+            </f:for>
+        </optgroup>
+    </f:for>
 </select>

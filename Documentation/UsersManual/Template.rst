@@ -149,6 +149,8 @@ Example:
 dce:GP
 ~~~~~~
 
+**Deprecated: Will not work in TYPO3 v13 anymore**
+
 Gets ``$_GET`` or ``$_POST`` variables from current request.
 
 Example:

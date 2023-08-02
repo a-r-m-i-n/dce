@@ -6,10 +6,6 @@
  *  | (c) 2012-2023 Armin Vieweg <armin@v.ieweg.de>
  */
 
-if (!defined('TYPO3_MODE')) {
-    die('Access denied.');
-}
-
 $newTtContentColumns = [
     'tx_dce_dce' => [
         'label' => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xlf:tt_content.tx_dce_dce',

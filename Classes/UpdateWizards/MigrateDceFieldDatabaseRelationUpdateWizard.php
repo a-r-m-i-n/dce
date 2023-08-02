@@ -102,8 +102,8 @@ class MigrateDceFieldDatabaseRelationUpdateWizard implements UpgradeWizardInterf
         $sectionFieldRelations = $queryBuilder
             ->select('*')
             ->from($this->getSourceTableNameForSectionField())
-            ->execute()
-            ->fetchAll();
+            ->executeQuery()
+            ->fetchAllAssociative();
 
         foreach ($sectionFieldRelations as $sectionFieldRelation) {
             $updateValues = [
@@ -147,8 +147,8 @@ class MigrateDceFieldDatabaseRelationUpdateWizard implements UpgradeWizardInterf
                 )
             )
             ->orderBy('A.uid_foreign', 'ASC')
-            ->execute()
-            ->fetchAll();
+            ->executeQuery()
+            ->fetchAllAssociative();
 
         $dceFieldUid = 0;
         foreach ($dceFieldRelations as $dceFieldRelation) {
@@ -165,8 +165,8 @@ class MigrateDceFieldDatabaseRelationUpdateWizard implements UpgradeWizardInterf
                             $queryBuilder->createNamedParameter($dceFieldRelation['uid_foreign'], \PDO::PARAM_INT)
                         )
                     )
-                    ->execute()
-                    ->fetchAll();
+                    ->executeQuery()
+                    ->fetchAllAssociative();
 
                 foreach ($dceFields as $dceField) {
                     $dceFieldData = $dceField;
@@ -202,8 +202,8 @@ class MigrateDceFieldDatabaseRelationUpdateWizard implements UpgradeWizardInterf
                                     $queryBuilder->createNamedParameter($dceField['uid'], \PDO::PARAM_INT)
                                 )
                             )
-                            ->execute()
-                            ->fetchAll();
+                            ->executeQuery()
+                            ->fetchAllAssociative();
 
                         foreach ($dceSectionFields as $dceSectionField) {
                             $dceSectionFieldData = $dceSectionField;
@@ -243,8 +243,8 @@ class MigrateDceFieldDatabaseRelationUpdateWizard implements UpgradeWizardInterf
         $dceFieldRelations = $queryBuilder
             ->select('*')
             ->from($sourceTableName)
-            ->execute()
-            ->fetchAll();
+            ->executeQuery()
+            ->fetchAllAssociative();
 
         foreach ($dceFieldRelations as $dceFieldRelation) {
             if (!array_key_exists($dceFieldRelation['uid_local'], $availableDces)) {
@@ -275,7 +275,7 @@ class MigrateDceFieldDatabaseRelationUpdateWizard implements UpgradeWizardInterf
                 'This means, no MM relation was existing for these fields. So they were lost in the ' .
                 'past anyway. Setting deleted=1 to these fields. (uids: ' . implode(',', $dceFieldUids) . ')';
 
-            if (\is_array($customMessages)) {
+            if (is_array($customMessages)) {
                 $customMessages[] = $message;
             } else {
                 $customMessages = $message;
@@ -294,7 +294,7 @@ class MigrateDceFieldDatabaseRelationUpdateWizard implements UpgradeWizardInterf
                             ->createNamedParameter($dceFieldUids, Connection::PARAM_INT_ARRAY)
                     )
                 )
-                ->execute();
+                ->executeQuery();
         }
 
         return true;
@@ -322,15 +322,13 @@ class MigrateDceFieldDatabaseRelationUpdateWizard implements UpgradeWizardInterf
                     $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
                 )
             )
-            ->execute()
-            ->fetchAll();
+            ->executeQuery()
+            ->fetchAllAssociative();
     }
 
     /**
      * Get source table name for DceField. If no source table existing
      * the method returns null. Otherwise the table name.
-     *
-     * @throws \Doctrine\DBAL\DBALException
      */
     protected function getSourceTableNameForDceField(): ?string
     {
@@ -351,8 +349,6 @@ class MigrateDceFieldDatabaseRelationUpdateWizard implements UpgradeWizardInterf
     /**
      * Get source table name for Section Field. If no source table existing
      * the method returns null. Otherwise the table name.
-     *
-     * @throws \Doctrine\DBAL\DBALException
      */
     protected function getSourceTableNameForSectionField(): ?string
     {

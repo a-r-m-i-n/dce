@@ -9,6 +9,7 @@ namespace T3\Dce\UserFunction\CustomFieldValidation;
  */
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
+use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
@@ -17,38 +18,7 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  */
 abstract class AbstractFieldValidator
 {
-    /**
-     * JavaScript validation.
-     *
-     * @return string javascript function code for js validation
-     */
-    public function returnFieldJs(): string
-    {
-        return 'return value;';
-    }
-
-    /**
-     * PHP Validation.
-     *
-     * @param bool $silent When true no flash messages should get created
-     *
-     * @return mixed
-     */
-    public function evaluateFieldValue(string $value, bool $silent = false)
-    {
-        return $value;
-    }
-
-    /**
-     * Adds a flash message.
-     *
-     * @param string $message
-     * @param string $title    optional message title
-     * @param int    $severity optional severity code
-     *
-     * @throws \InvalidArgumentException
-     */
-    protected function addFlashMessage($message, $title = '', $severity = FlashMessage::OK): void
+    protected function addFlashMessage(string $message, string $title = '', ContextualFeedbackSeverity $severity = ContextualFeedbackSeverity::OK): void
     {
         if (!\is_string($message)) {
             throw new \InvalidArgumentException('The flash message must be string, ' . \gettype($message) . ' given.', 1243258395);

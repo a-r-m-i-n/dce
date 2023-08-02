@@ -10,14 +10,19 @@ namespace T3\Dce\UserFunction\CustomLabels;
 use T3\Dce\Components\BackendView\SimpleBackendView;
 use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Utility\DatabaseUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
  * Extends TCA label of fields with variable key.
  */
 class TtContentLabel
 {
+    private SimpleBackendView $simpleBackendView;
+
+    public function __construct(SimpleBackendView $simpleBackendView)
+    {
+        $this->simpleBackendView = $simpleBackendView;
+    }
+
     /**
      * User function to get custom labels for tt_content.
      * This is required, when content elements based on DCE use
@@ -28,12 +33,27 @@ class TtContentLabel
         if (!isset($parameter['row'])) {
             return;
         }
-        if ((\is_string($parameter['row']['CType']) || \is_array($parameter['row']['CType'])) &&
+        if ((\is_string($parameter['row']['CType']) || is_array($parameter['row']['CType'])) &&
             $this->isDceContentElement($parameter['row'])
         ) {
             try {
+                $dceUid = $parameter['row']['uid'] ?? null;
+                if (!$dceUid) {
+                    $dceUid = array_keys($_GET['edit']['tt_content'])[0];
+                }
+
+                if ($dceUid === 0) {
+                    $parameter['title'] = 'New DCE';
+                    return;
+                }
+
+                if ($dceUid === null || $dceUid < 0) {
+                    return;
+                }
+
+
                 /** @var Dce $dce */
-                $dce = DatabaseUtility::getDceObjectForContentElement($parameter['row']['uid']);
+                $dce = DatabaseUtility::getDceObjectForContentElement($dceUid, true);
             } catch (\Exception $exception) {
                 $parameter['title'] = 'ERROR: ' . $exception->getMessage();
 
@@ -41,10 +61,7 @@ class TtContentLabel
             }
 
             if ($dce->isUseSimpleBackendView()) {
-                $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-                /** @var SimpleBackendView $simpleBackendViewUtility */
-                $simpleBackendViewUtility = $objectManager->get(SimpleBackendView::class);
-                $headerContent = $simpleBackendViewUtility->getHeaderContent($dce, true);
+                $headerContent = $this->simpleBackendView->getHeaderContent($dce, true);
                 if (!empty($headerContent)) {
                     $parameter['title'] = $headerContent;
 
@@ -65,11 +82,11 @@ class TtContentLabel
     protected function isDceContentElement(array $row): bool
     {
         $cType = $row['CType'];
-        if (\is_array($cType)) {
+        if (is_array($cType)) {
             // For any reason the CType can be an array with one entry
             $cType = reset($cType);
         }
 
-        return false !== strpos($cType, 'dce_');
+        return str_starts_with($cType, 'dce_');
     }
 }

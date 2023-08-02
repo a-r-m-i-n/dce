@@ -72,8 +72,8 @@ to be used in the Fluid template. Variable names have to be written in **lowerCa
 be unique inside each DCE.
 
 .. note::
-   The configuration for the fields is stored in **FlexForm (XML)** format. Look for TCEforms in the FlexForms section
-   of the `T3DataStructure <https://docs.typo3.org/m/typo3/reference-coreapi/master/en-us/DataFormats/T3datastructure/Index.html>`_
+   The configuration for the fields is stored in **FlexForm (XML)** format. Look for ``<el>`` in the FlexForms section
+   of the `T3DataStructure <https://docs.typo3.org/m/typo3/reference-coreapi/main/en-us/ApiOverview/DataFormats/T3datastructure/Index.html>`_
    documentation to get detailed information for the definition of the field configuration.
 
 To make it a bit easier there is a handy select box provided with the most used possible input field types.

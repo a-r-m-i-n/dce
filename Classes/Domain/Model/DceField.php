@@ -126,11 +126,10 @@ class DceField extends AbstractEntity
 
     /**
      * Returns field configuration as xml string.
-     * Also it replaces the string "{$variable}" with the actual variable name of this field (used in FAL config).
      */
     public function getConfiguration(): string
     {
-        return str_replace('{$variable}', $this->getVariable(), $this->configuration);
+        return $this->configuration;
     }
 
     public function getConfigurationAsArray(): array
@@ -338,6 +337,7 @@ class DceField extends AbstractEntity
         $configuration = $this->getConfigurationAsArray();
         $configuration = $configuration['config'];
 
-        return 'inline' === $configuration['type'] && 'sys_file_reference' === $configuration['foreign_table'];
+        return ('inline' === $configuration['type'] && 'sys_file_reference' === $configuration['foreign_table']) ||
+            'file' === $configuration['type'];
     }
 }

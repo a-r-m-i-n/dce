@@ -35,8 +35,6 @@ class OutputPlugin implements OutputInterface
     /**
      * Injects plugin configuration
      * Call this in ext_localconf.php.
-     *
-     * @throws \TYPO3\CMS\Core\Cache\Exception\InvalidDataException
      */
     public function generate(): void
     {
@@ -56,13 +54,13 @@ class OutputPlugin implements OutputInterface
                 }
                 $dceIdentifier = $dce['identifier'];
                 $dceIdentifierSkipFirst4Chars = substr($dceIdentifier, 4);
-                $dceCache = $dce['cache_dce'] ? '[]' : "[\T3\Dce\Compatibility::isTypo3Version('10.0.0') ? \T3\Dce\Controller\DceController::class : 'Dce' => 'show']";
+                $dceCache = $dce['cache_dce'] ? '[]' : "[\T3\Dce\Controller\DceController::class => 'show']";
                 $sourceCode .= <<<PHP
                     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-                        \T3\Dce\Compatibility::isTypo3Version('10.0.0') ? 'dce' : 'T3.dce',
+                        'dce',
                         '$dceIdentifierSkipFirst4Chars',
                         [
-                            \T3\Dce\Compatibility::isTypo3Version('10.0.0') ? \T3\Dce\Controller\DceController::class : 'Dce' => 'show',
+                            \T3\Dce\Controller\DceController::class => 'show',
                         ],
                         $dceCache,
                         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
@@ -142,22 +140,8 @@ class OutputPlugin implements OutputInterface
                 }
 
                 if ($dce['wizard_enable']) {
-                    if ($dce['hasCustomWizardIcon'] && !empty($dce['wizard_custom_icon'])) {
-                        $wizardCustomIcon = $dce['wizard_custom_icon'];
-                        $sourceCode .= <<<PHP
-                            \$iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-                                \TYPO3\CMS\Core\Imaging\IconRegistry::class
-                            );
-                            \$iconRegistry->registerIcon(
-                                "ext-dce-$dceIdentifier-customwizardicon",
-                                \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
-                                ['source' => '$wizardCustomIcon']
-                            );
-
-                            PHP;
-                    }
-
-                    $iconIdentifierCode = $dce['hasCustomWizardIcon'] ? "ext-dce-$dceIdentifier-customwizardicon"
+                    $iconIdentifierCode = $dce['hasCustomWizardIcon']
+                        ? 'ext-dce-' . $dceIdentifier . '-customwizardicon'
                         : $dce['wizard_icon'];
 
                     $wizardCategory = $dce['wizard_category'] ?? '';

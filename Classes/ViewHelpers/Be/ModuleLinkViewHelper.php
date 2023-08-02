@@ -8,7 +8,6 @@ namespace T3\Dce\ViewHelpers\Be;
  *  | (c) 2012-2023 Armin Vieweg <armin@v.ieweg.de>
  */
 use T3\Dce\Utility\BackendModuleLinkUtility;
-use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
@@ -18,11 +17,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class ModuleLinkViewHelper extends AbstractViewHelper
 {
-    /**
-     * Initialize arguments.
-     *
-     * @throws \TYPO3Fluid\Fluid\Core\ViewHelper\Exception
-     */
     public function initializeArguments()
     {
         parent::initializeArguments();
@@ -34,8 +28,6 @@ class ModuleLinkViewHelper extends AbstractViewHelper
      * Resolve user name from backend user id.
      *
      * @return string Created module link
-     *
-     * @throws RouteNotFoundException
      */
     public static function renderStatic(
         array $arguments,

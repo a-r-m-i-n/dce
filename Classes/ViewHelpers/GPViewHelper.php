@@ -14,6 +14,8 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 /**
  * GP viewhelper which returns get or post variables using _GP method of TYPO3\CMS\Core\Utility\GeneralUtility.
  * Never use this viewhelper for direct output!! This would provoke XSS (Cross site scripting).
+ *
+ * @deprecated Will not work anymore in TYPO3 v13
  */
 class GPViewHelper extends AbstractViewHelper
 {

@@ -10,11 +10,9 @@ router_https_port: "443"
 xdebug_enabled: false
 additional_hostnames:
     - docs.dce
-    - v11.dce
     - v12.dce
 additional_fqdns: []
 provider: default
 use_dns_when_possible: true
 extra_services:
-    - v11-data
     - v12-data

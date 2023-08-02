@@ -1,75 +1,28 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2020-04-21T12:00:00Z" product-name="dce">
+	<file source-language="en" datatype="plaintext" original="messages" product-name="dce">
 		<header/>
 		<body>
-            <trans-unit id=".id"><source>DCE record</source></trans-unit>
-            <trans-unit id=".details"><source>This record defines how the new content element type should look like.</source></trans-unit>
+            <trans-unit id="template_file.description"><source>Here you need to set the path to a template file. Template path must start with "EXT:".</source></trans-unit>
+            <trans-unit id="backend_view_header_expression.description"><source><![CDATA[Here you can define a symfony expression, to define the DCE fields you want to use as header. All field variables are available.
+                You can concatenate multiple fields, like this: firstName ~ ' ' ~ lastName
 
-            <trans-unit id="title.description"><source>Here you name the new content element type. You can use "LLL:" references here.</source></trans-unit>
-            <trans-unit id="identifier.description"><source>The identifier is used for CType of new content elements based on this DCE. The identifier you enter is prefixed with "dce_". If the identifier remains empty, the uid of this DCE is used for CType. The identifier must be written in lowercase, undercores are allowed.</source></trans-unit>
-            <trans-unit id="hidden.description"><source>When you disable this DCE, all content elements existing based on this DCE, will get also hidden. Otherwise they would cause errors, because disabled DCEs can not get rendered.</source></trans-unit>
-            <trans-unit id="fields.description"><source>Here you can define dynamically fields and arrange them in tabs. Those fields can get used in templates.</source></trans-unit>
-
-            <trans-unit id="template_type.description"><source>You can outsource the template to a file or edit the template right here in the inline editor.</source></trans-unit>
-            <trans-unit id="template_content.description"><source>Here you edit the Fluid template for the frontend output of this DCE.</source></trans-unit>
-            <trans-unit id="template_file.description"><source>Here you need to set the path to a template file. Files can be used directly from e.g. fileadmin/, but you can also enter paths like "EXT:mytemplate/.../MyDce.html".</source></trans-unit>
-
-            <trans-unit id="enable_container.description"><source>When you enable this option, all DCEs of same type in a row will get wrapped by a container template.</source></trans-unit>
-            <trans-unit id="container_item_limit.description"><source>When the container item limit is set, a new container will be forced when the limit is reached.</source></trans-unit>
-            <trans-unit id="container_template_type.description"><source>You can outsource the template to a file or edit the template right here in the inline editor.</source></trans-unit>
-            <trans-unit id="container_template.description"><source>Here you edit the Fluid template for the container wrapped around the instances of this DCE.</source></trans-unit>
-            <trans-unit id="container_template_file.description"><source>Here you need to set the path to a template file. Files can be used directly from e.g. fileadmin/, but you can also enter paths like "EXT:mytemplate/.../MyDce.html".</source></trans-unit>
-
-            <trans-unit id="use_simple_backend_view.description"><source>This enables the simple backend view. When you uncheck this you get a backend Fluid template for custom backend output.</source></trans-unit>
-            <trans-unit id="backend_view_header.description"><source>Choose the field in this DCE which should be displayed as header in backend's page view.</source></trans-unit>
-            <trans-unit id="backend_view_header_expression.description"><source><![CDATA[
-                <p>Here you can define a symfony expression, to define the DCE fields you want to use as header. All field variables are available.</p>
-                <p>You can concatenate multiple fields, like this: <code>firstName ~ ' ' ~ lastName</code></p>
-                <br>
-                <p>With <code>contentObject['uid']</code> you can access the tt_content row, to e.g. fetch the uid.</p>
-                <br>
-                <p>Also the DCE instance itself is available, e.g.: <code>dce.getTitle()</code>.</p>
+                With contentObject['uid'] you can access the tt_content row, to e.g. fetch the uid.
+                Also the DCE instance itself is available, e.g.: dce.getTitle().
             ]]></source></trans-unit>
-            <trans-unit id="backend_view_header_use_expression.description"><source>When enabled, you get an input field where you can enter a Symfony expression, instead of a select dropdown.</source></trans-unit>
-            <trans-unit id="backend_view_bodytext.description"><source>Here you can select several fields from your DCE. They get displayed in a table. With support of images.</source></trans-unit>
-            <trans-unit id="backend_template_type.description"><source>You can outsource the template to a file or edit the template right here in the inline editor.</source></trans-unit>
-            <trans-unit id="backend_template_content.description"><source>Here you edit the Fluid template for the backend output (in page module) of this DCE. Please use provided "BackendTemplate" layout, which provides sections for "header" and "bodytext".</source></trans-unit>
-            <trans-unit id="backend_template_file.description"><source>Here you need to set the path to a template file. Files can be used directly from e.g. fileadmin/, but you can also enter paths like "EXT:mytemplate/.../MyDce.html".</source></trans-unit>
-
-            <trans-unit id="wizard_icon.description"><source>Which icon should the DCE have in backend? You can choose "custom" to upload your own icons.</source></trans-unit>
-            <trans-unit id="wizard_custom_icon.description"><source>Enter the path to your custom icon.</source></trans-unit>
-            <trans-unit id="wizard_enable.description"><source>Should this DCE also be displayed in wizard for new content elements?</source></trans-unit>
-            <trans-unit id="wizard_category.description"><source>The wizard for new content elements provides tabs for different categories. Here you can choose in which tab this content element should appear.</source></trans-unit>
-            <trans-unit id="wizard_description.description"><source>Description displayed in new content element wizard. You can use "LLL:" references here.</source></trans-unit>
-
-            <trans-unit id="enable_detailpage.description"><source>This allows you to render a different frontend template, when a configured GET parameter is containing the uid of a certain tt_content element based on this DCE.</source></trans-unit>
             <trans-unit id="detailpage_identifier.description"><source>This is the GET parameter which is checked. The given content element will render the detail template, if this request parameter is given.</source></trans-unit>
-            <trans-unit id="detailpage_slug_expression.description"><source><![CDATA[
-                <p>Here you can define a symfony expression, to define the DCE fields you want to use as slug. All field variables are available.</p>
-                <p>You can concatenate multiple fields, like this: <code>firstName ~ '-' ~ lastName</code></p>
-                <br>
-                <p>With <code>contentObject['uid']</code> you can access the tt_content row, to e.g. fetch the uid.</p>
-                <br>
-                <p>Also the DCE instance itself is available, e.g.: <code>dce.getTitle()</code>.</p>
-                <br>
-                <p><b>Keep in mind:</b> Slugs on same page must be unique! And you need to apply an additional Routing Enhancer configuration.</p>
+            <trans-unit id="detailpage_slug_expression.description"><source><![CDATA[Here you can define a symfony expression, to define the DCE fields you want to use as slug. All field variables are available.
+                You can concatenate multiple fields, like this: firstName ~ '-' ~ lastName
+
+                With contentObject['uid'] you can access the tt_content row, to e.g. fetch the uid.
+                Also the DCE instance itself is available, e.g.: dce.getTitle().
+
+                Keep in mind: Slugs on same page must be unique! And you need to apply an additional Routing Enhancer configuration.
             ]]></source></trans-unit>
             <trans-unit id="detailpage_title_expression.description"><source>Same as slug expression, just for the page title of the detail page. The page title get not sanitized, like the slug.</source></trans-unit>
             <trans-unit id="detailpage_use_slug_as_title.description"><source>When you've defined a slug expression for page title and enable this option, the expression is applied as page title. You can prepend, append or overwrite the current page title.</source></trans-unit>
-            <trans-unit id="detailpage_template_type.description"><source>You can outsource the template to a file or edit the template right here in the inline editor.</source></trans-unit>
-            <trans-unit id="detailpage_template.description"><source>Here you edit the Fluid template for the detail page output of this DCE, which is triggered by configured GET parameter.</source></trans-unit>
-            <trans-unit id="detailpage_template_file.description"><source>Here you need to set the path to a template file. Files can be used directly from e.g. fileadmin/, but you can also enter paths like "EXT:mytemplate/.../MyDce.html".</source></trans-unit>
-
-            <trans-unit id="cache_dce.description"><source>If you disable the DCE cache, it may impact your page render performance.</source></trans-unit>
             <trans-unit id="direct_output.description"><source>When enabled, it bypasses fluid_styled_content (lib.contentElement). This disables the "csc-default" wrap in html output and increases performance significantly.</source></trans-unit>
             <trans-unit id="flexform_label.description"><source>Flexforms can have a separate title. The configured default LLL key points to "Contents:"</source></trans-unit>
-            <trans-unit id="show_access_tab.description"><source>If enabled, a new "Access" tab is displayed in content elements. Visibility fields get automatically removed from DCE palette, if configured.</source></trans-unit>
-            <trans-unit id="show_media_tab.description"><source>Displays "Media" tab in content elements. You can access the media in your Fluid template with: {contentObject.media} or {contentObject.assets}</source></trans-unit>
-            <trans-unit id="show_media_tab.show_category_tab"><source>Displays "Category" tab in content elements. You can access the categories in your Fluid template with: {contentObject.categories}</source></trans-unit>
-            <trans-unit id="palette_fields.show_category_tab"><source>Above the flexform field there is a TCA palette containing several TCA fields, in each content element. Here you can define the TCA fields to be displayed.</source></trans-unit>
-            <trans-unit id="template_layout_root_path.show_category_tab"><source>Define a path to be added to Fluid layout root paths. This affects all templates of this DCE.</source></trans-unit>
-            <trans-unit id="template_partial_root_path.show_category_tab"><source>Define a path to be added to Fluid partial root paths. This affects all templates of this DCE.</source></trans-unit>
         </body>
 	</file>
 </xliff>

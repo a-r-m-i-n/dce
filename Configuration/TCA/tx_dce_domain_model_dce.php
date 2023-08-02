@@ -6,11 +6,8 @@
  *  | (c) 2012-2023 Armin Vieweg <armin@v.ieweg.de>
  */
 
-if (!defined('TYPO3_MODE')) {
-    die('Access denied.');
-}
-
 $ll = 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xlf:';
+$csh = 'LLL:EXT:dce/Resources/Private/Language/locallang_csh_dce.xlf:';
 
 $showItems = <<<TEXT
 --palette--;;general_header,fields,
@@ -33,7 +30,7 @@ $showItems = <<<TEXT
     backend_template_type,backend_template_content,backend_template_file,
 
 --div--;{$ll}tx_dce_domain_model_dce.wizard,
-    wizard_icon,wizard_custom_icon,wizard_enable,wizard_category,wizard_description,
+    wizard_enable,wizard_category,wizard_description,wizard_icon,wizard_custom_icon,
 
 --div--;{$ll}tx_dce_domain_model_dce.miscellaneous,
     --palette--;;misc,flexform_label,hide_default_ce_wrap,
@@ -50,7 +47,6 @@ $dceTca = [
         'rootLevel' => 1,
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
-        'cruser_id' => 'cruser_id',
         'dividers2tabs' => true,
         'versioningWS' => true,
         'origUid' => 't3_origuid',
@@ -59,7 +55,7 @@ $dceTca = [
         'enablecolumns' => [
             'disabled' => 'hidden',
         ],
-        'iconfile' => 'EXT:dce/Resources/Public/Icons/ext_icon.png',
+        'iconfile' => 'EXT:dce/Resources/Public/Icons/Extension.png',
         'copyAfterDuplFields' => 'fields',
     ],
     'types' => [
@@ -102,14 +98,6 @@ $dceTca = [
         ],
     ],
     'columns' => [
-        't3ver_label' => [
-            'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.versionLabel',
-            'config' => [
-                'type' => 'input',
-                'size' => 30,
-                'max' => 255,
-            ]
-        ],
         'hidden' => [
             'exclude' => 1,
             'label' => $ll . 'tx_dce_domain_model_dce.hidden',
@@ -123,7 +111,8 @@ $dceTca = [
             'config' => [
                 'type' => 'input',
                 'size' => 30,
-                'eval' => 'trim,required',
+                'required' => true,
+                'eval' => 'trim',
             ],
         ],
         'identifier' => [
@@ -152,7 +141,6 @@ $dceTca = [
                     'levelLinksPosition' => 'bottom',
                     'useSortable' => 1,
                     'showPossibleLocalizationRecords' => 1,
-                    'showRemovedLocalizationRecords' => 1,
                     'showAllLocalizationLink' => 1,
                     'showSynchronizationLink' => 1,
                     'enabledControls' => [
@@ -180,13 +168,35 @@ $dceTca = [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'items' => [
-                    [$ll . 'tx_dce_domain_model_dce', '--div--'],
-                    [$ll . 'tx_dce_domain_model_dce_long', 'dce'],
-                    [$ll . 'typo3_default_categories', '--div--'],
-                    ['LLL:EXT:backend/Resources/Private/Language/locallang_db_new_content_el.xlf:common', 'common'],
-                    ['LLL:EXT:backend/Resources/Private/Language/locallang_db_new_content_el.xlf:special', 'special'],
-                    ['LLL:EXT:backend/Resources/Private/Language/locallang_db_new_content_el.xlf:forms', 'forms'],
-                    ['LLL:EXT:backend/Resources/Private/Language/locallang_db_new_content_el.xlf:plugins', 'plugins'],
+                    [
+                        'group' => 'dce',
+                        'label' => $ll . 'tx_dce_domain_model_dce_long',
+                        'value' => 'dce',
+                    ],
+                    [
+                        'group' => 'typo3',
+                        'label' => 'LLL:EXT:backend/Resources/Private/Language/locallang_db_new_content_el.xlf:common',
+                        'value' => 'common',
+                    ],
+                    [
+                        'group' => 'typo3',
+                        'label' => 'LLL:EXT:backend/Resources/Private/Language/locallang_db_new_content_el.xlf:special',
+                        'value' => 'special',
+                    ],
+                    [
+                        'group' => 'typo3',
+                        'label' => 'LLL:EXT:backend/Resources/Private/Language/locallang_db_new_content_el.xlf:forms',
+                        'value' => 'forms',
+                    ],
+                    [
+                        'group' => 'typo3',
+                        'label' => 'LLL:EXT:backend/Resources/Private/Language/locallang_db_new_content_el.xlf:plugins',
+                        'value' => 'plugins',
+                    ],
+                ],
+                'itemGroups' => [
+                    'dce' => $ll . 'tx_dce_domain_model_dce',
+                    'typo3' => $ll . 'typo3_default_categories',
                 ],
             ],
         ],
@@ -224,7 +234,7 @@ $dceTca = [
             'config' => [
                 'type' => 'input',
                 'size' => 30,
-                'eval' => 'required',
+                'required' => true,
             ],
         ],
         'template_type' => [
@@ -235,8 +245,14 @@ $dceTca = [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'items' => [
-                    [$ll . 'tx_dce_domain_model_dce.templateType.inline', 'inline'],
-                    [$ll . 'tx_dce_domain_model_dce.templateType.file', 'file'],
+                    [
+                        'label' => $ll . 'tx_dce_domain_model_dce.templateType.inline',
+                        'value' => 'inline',
+                    ],
+                    [
+                        'label' => $ll . 'tx_dce_domain_model_dce.templateType.file',
+                        'value' => 'file',
+                    ],
                 ],
             ],
         ],
@@ -261,9 +277,11 @@ $dceTca = [
         'template_file' => [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dce.templateFile',
+            'description' => $csh . 'template_file.description',
             'displayCond' => 'FIELD:template_type:IN:file',
             'config' => [
                 'type' => 'input',
+                'required' => true,
                 'size' => 30,
             ],
         ],
@@ -302,9 +320,11 @@ $dceTca = [
         'flexform_label' => [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dce.flexformLabel',
+            'description' => $csh . 'flexform_label.description',
             'config' => [
                 'type' => 'input',
-                'eval' => 'trim,required',
+                'required' => true,
+                'eval' => 'trim',
                 'default' => $ll . 'tx_dce_domain_model_dce.flexformLabel.default',
                 'size' => 30
             ],
@@ -341,6 +361,7 @@ $dceTca = [
         'backend_view_header_expression' => [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dce.backendViewHeaderExpression',
+            'description' => $csh . 'backend_view_header_expression.description',
             'displayCond' => [
                 'AND' => [
                     'FIELD:use_simple_backend_view:=:1',
@@ -386,8 +407,14 @@ $dceTca = [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'items' => [
-                    [$ll . 'tx_dce_domain_model_dce.backendTemplateType.inline', 'inline'],
-                    [$ll . 'tx_dce_domain_model_dce.backendTemplateType.file', 'file'],
+                    [
+                        'label' => $ll . 'tx_dce_domain_model_dce.backendTemplateType.inline',
+                        'value'=> 'inline',
+                    ],
+                    [
+                        'label' => $ll . 'tx_dce_domain_model_dce.backendTemplateType.file',
+                        'value'=> 'file',
+                    ],
                 ],
             ],
             'displayCond' => 'FIELD:use_simple_backend_view:!=:1',
@@ -422,10 +449,11 @@ $dceTca = [
         'backend_template_file' => [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dce.backendTemplateFile',
+            'description' => $csh . 'template_file.description',
             'config' => [
                 'type' => 'input',
                 'size' => 30,
-                'eval' => 'required',
+                'required' => true,
             ],
             'displayCond' => [
                 'AND' => [
@@ -463,6 +491,7 @@ $dceTca = [
         'detailpage_identifier' => [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dce.detailpageIdentifier',
+            'description' => $csh . 'detailpage_identifier.description',
             'displayCond' => 'FIELD:enable_detailpage:=:1',
             'config' => [
                 'type' => 'input',
@@ -475,6 +504,7 @@ $dceTca = [
         'detailpage_slug_expression' => [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dce.detailpageSlugExpression',
+            'description' => $csh . 'detailpage_slug_expression.description',
             'displayCond' => 'FIELD:enable_detailpage:=:1',
             'config' => [
                 'type' => 'input',
@@ -486,6 +516,7 @@ $dceTca = [
         'detailpage_title_expression' => [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dce.detailpageTitleExpression',
+            'description' => $csh . 'detailpage_title_expression.description',
             'displayCond' => 'FIELD:enable_detailpage:=:1',
             'config' => [
                 'type' => 'input',
@@ -497,15 +528,28 @@ $dceTca = [
         'detailpage_use_slug_as_title' => [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dce.useSlugAsTitle',
+            'description' => $csh . 'detailpage_use_slug_as_title.description',
             'displayCond' => 'FIELD:enable_detailpage:=:1',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'items' => [
-                    [$ll . 'tx_dce_domain_model_dce.useSlugAsTitle.no', ''],
-                    [$ll . 'tx_dce_domain_model_dce.useSlugAsTitle.overwrite', 'overwrite'],
-                    [$ll . 'tx_dce_domain_model_dce.useSlugAsTitle.prepend', 'prepend'],
-                    [$ll . 'tx_dce_domain_model_dce.useSlugAsTitle.append', 'append'],
+                    [
+                        'label' => $ll . 'tx_dce_domain_model_dce.useSlugAsTitle.no',
+                        'value' => '',
+                    ],
+                    [
+                        'label' => $ll . 'tx_dce_domain_model_dce.useSlugAsTitle.overwrite',
+                        'value' => 'overwrite',
+                    ],
+                    [
+                        'label' => $ll . 'tx_dce_domain_model_dce.useSlugAsTitle.prepend',
+                        'value' => 'prepend',
+                    ],
+                    [
+                        'label' => $ll . 'tx_dce_domain_model_dce.useSlugAsTitle.append',
+                        'value' => 'append',
+                    ],
                 ],
             ],
         ],
@@ -518,8 +562,14 @@ $dceTca = [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'items' => [
-                    [$ll . 'tx_dce_domain_model_dce.templateType.inline', 'inline'],
-                    [$ll . 'tx_dce_domain_model_dce.templateType.file', 'file'],
+                    [
+                        'label' => $ll . 'tx_dce_domain_model_dce.templateType.inline',
+                        'value' => 'inline',
+                    ],
+                    [
+                        'label' => $ll . 'tx_dce_domain_model_dce.templateType.file',
+                        'value' => 'file',
+                    ],
                 ],
             ],
         ],
@@ -549,10 +599,11 @@ $dceTca = [
         'detailpage_template_file' => [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dce.detailpageTemplateFile',
+            'description' => $csh . 'template_file.description',
             'config' => [
                 'type' => 'input',
                 'size' => 30,
-                'eval' => 'required',
+                'required' => true,
             ],
             'displayCond' => [
                 'AND' => [
@@ -603,8 +654,14 @@ $dceTca = [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'items' => [
-                    [$ll . 'tx_dce_domain_model_dce.templateType.inline', 'inline'],
-                    [$ll . 'tx_dce_domain_model_dce.templateType.file', 'file'],
+                    [
+                        'label' => $ll . 'tx_dce_domain_model_dce.templateType.inline',
+                        'value' => 'inline',
+                    ],
+                    [
+                        'label' => $ll . 'tx_dce_domain_model_dce.templateType.file',
+                        'value' => 'file',
+                    ],
                 ],
             ],
         ],
@@ -637,10 +694,11 @@ $dceTca = [
         'container_template_file' => [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dce.containerTemplateFile',
+            'description' => $csh . 'template_file.description',
             'config' => [
                 'type' => 'input',
                 'size' => 30,
-                'eval' => 'required',
+                'required' => true,
             ],
             'displayCond' => [
                 'AND' => [
@@ -674,6 +732,7 @@ $dceTca = [
         'direct_output' => [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dce.directOutput',
+            'description' => $csh . 'direct_output.description',
             'config' => [
                 'type' => 'check',
                 'default' => 1
@@ -696,12 +755,6 @@ if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('css_styled_con
 if (!\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('fluid_styled_content')) {
     $dceTca['palettes']['content_relations']['showitem'] = 'show_access_tab,show_category_tab';
     $dceTca['columns']['direct_output']['config']['readOnly'] = true;
-}
-
-if (!\T3\Dce\Compatibility::isTypo3Version('10.0.0')) {
-    $dceFieldTca['interface'] = [
-        'showRecordFieldList' => 'hidden,title,type',
-    ];
 }
 
 return $dceTca;

@@ -34,8 +34,6 @@ class InputDatabase implements InputInterface
      *    |_ ...
      *
      * @return array with DCE -> containing tabs -> containing fields
-     *
-     * @throws \Doctrine\DBAL\DBALException
      */
     public function getDces(): array
     {
@@ -52,8 +50,8 @@ class InputDatabase implements InputInterface
             ->from('tx_dce_domain_model_dce')
             ->where('pid=0 AND deleted=0 AND hidden=0')
             ->orderBy('sorting', 'asc')
-            ->execute()
-            ->fetchAll();
+            ->executeQuery()
+            ->fetchAllAssociative();
 
         $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dcefield');
         $dceFieldRows = $queryBuilder
@@ -68,8 +66,8 @@ class InputDatabase implements InputInterface
             ->where('df.pid=0 AND df.deleted=0 and df.hidden=0 AND d.hidden=0 and d.deleted=0')
             ->orderBy('d.sorting', 'ASC')
             ->addOrderBy('df.sorting', 'ASC')
-            ->execute()
-            ->fetchAll();
+            ->executeQuery()
+            ->fetchAllAssociative();
 
         $dceFieldRowsByParentDce = $this->getFieldRowsByParentFieldName($dceFieldRows);
 
@@ -80,8 +78,8 @@ class InputDatabase implements InputInterface
             ->where('parent_field > 0')
             ->orderBy('df.parent_field', 'ASC')
             ->addOrderBy('df.sorting', 'ASC')
-            ->execute()
-            ->fetchAll();
+            ->executeQuery()
+            ->fetchAllAssociative();
 
         $dceFieldRowsByParentDceField = $this->getFieldRowsByParentFieldName(
             $dceFieldRowsSortedByParentFields,
@@ -159,7 +157,6 @@ class InputDatabase implements InputInterface
                     }
                 } else {
                     // usual element
-                    $row2['configuration'] = str_replace('{$variable}', $row2['variable'], $row2['configuration']);
                     $tabs[$index]['fields'][] = $row2;
                 }
             }
@@ -184,7 +181,7 @@ class InputDatabase implements InputInterface
     {
         foreach ($dces as $key => $dceRow) {
             $paletteFields = GeneralUtility::trimExplode(',', $dceRow['palette_fields'], true);
-            if (!\in_array('colPos', $paletteFields, true)) {
+            if (!in_array('colPos', $paletteFields, true)) {
                 $paletteFields[] = 'colPos';
             }
             $dces[$key]['palette_fields'] = implode(', ', $paletteFields);

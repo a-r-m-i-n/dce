@@ -1,15 +1,28 @@
 <config>
-	<type>input</type>
-	<renderType>inputLink</renderType>
-	<size>30</size>
-	<eval>trim</eval>
-	<softref>typolink,typolink_tag,images,url</softref>
-	<fieldControl>
-		<linkPopup>
-			<options>
-				<!--<blindLinkOptions>file,mail,page,spec,url</blindLinkOptions>-->
-				<!--<blindLinkFields>class,params,target,title</blindLinkFields>-->
-			</options>
-		</linkPopup>
-	</fieldControl>
+    <type>link</type>
+    <size>30</size>
+    <allowedTypes type="array">
+        <numIndex index="0">page</numIndex>
+        <numIndex index="1">url</numIndex>
+        <numIndex index="2">record</numIndex>
+        <numIndex index="3">file</numIndex>
+        <numIndex index="4">folder</numIndex>
+        <numIndex index="5">email</numIndex>
+        <numIndex index="6">telephone</numIndex>
+    </allowedTypes>
+<!--
+    <appearance>
+        <allowedFileExtensions type="array">
+            <numIndex index="0">jpg</numIndex>
+            <numIndex index="1">png</numIndex>
+        </allowedFileExtensions>
+        <allowedOptions type="array">
+            <numIndex index="0">class</numIndex>
+            <numIndex index="1">params</numIndex>
+            <numIndex index="2">target</numIndex>
+            <numIndex index="3">title</numIndex>
+            <numIndex index="4">rel</numIndex>
+        </allowedOptions>
+    </appearance>
+-->
 </config>

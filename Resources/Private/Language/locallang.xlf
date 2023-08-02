@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2020-04-21T12:00:00Z" product-name="dce">
+	<file source-language="en" datatype="plaintext" original="messages" product-name="dce">
 		<header/>
 		<body>
             <trans-unit id="generaltab"><source>General</source></trans-unit>
@@ -28,6 +28,7 @@
             <trans-unit id="contentElementCreatedByFrontendHeader"><source>*Created or updated by frontend*</source></trans-unit>
             <trans-unit id="contentElementCreatedByFrontendBodytext"><source><![CDATA[<!-- Please update! -->If a content element based on DCE, has been created in frontend context, it is not possible to render this preview texts, because in frontend extbase resources are not always available. <em>(eID: %s)</em>]]></source></trans-unit>
 
+            <trans-unit id="dceFields"><source>DCE fields</source></trans-unit>
             <trans-unit id="noTitle"><source>No title</source></trans-unit>
             <trans-unit id="section"><source>Section</source></trans-unit>
             <trans-unit id="dceTitle"><source>*DCE title*</source></trans-unit>

@@ -1,8 +1,9 @@
 <config>
-	<type>text</type>
-	<rows>5</rows>
-	<cols>30</cols>
-	<eval>trim,required</eval>
-	<enableRichtext>1</enableRichtext>
-	<richtextConfiguration>default</richtextConfiguration>
+    <type>text</type>
+    <rows>5</rows>
+    <cols>30</cols>
+    <required>1</required>
+    <eval>trim</eval>
+    <enableRichtext>1</enableRichtext>
+    <richtextConfiguration>default</richtextConfiguration>
 </config>

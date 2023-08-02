@@ -17,7 +17,6 @@ use T3\Dce\Utility\DceExpressionUtility;
 use T3\Dce\Utility\LanguageService;
 use T3\Dce\Utility\PageTS as PageTsUtility;
 use T3\Dce\Utility\Strings as StringUtility;
-use TYPO3\CMS\Core\Resource\Exception\ResourceDoesNotExistException;
 use TYPO3\CMS\Core\Resource\ProcessedFile;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -32,6 +31,12 @@ class SimpleBackendView
      * @var string
      */
     protected static $lastContainerColor = '';
+    private ContainerFactory $containerFactory;
+
+    public function __construct(ContainerFactory $containerFactory)
+    {
+        $this->containerFactory = $containerFactory;
+    }
 
     /**
      * Returns configured rendered field value.
@@ -80,14 +85,12 @@ class SimpleBackendView
      * Returns table of configured rendered field values.
      *
      * @param array $row Content element row
-     *
-     * @throws ResourceDoesNotExistException
      */
     public function getBodytextContent(Dce $dce, array $row): string
     {
         $fields = [];
         foreach ($dce->getBackendViewBodytextArray() as $fieldIdentifier) {
-            if (0 === strpos($fieldIdentifier, '*')) {
+            if (str_starts_with($fieldIdentifier, '*')) {
                 $fields[] = $fieldIdentifier;
             } else {
                 $dceField = $dce->getFieldByVariable($fieldIdentifier);
@@ -141,8 +144,6 @@ class SimpleBackendView
      * @param array $row Content element row
      *
      * @return string Rendered DceField value for simple backend view
-     *
-     * @throws ResourceDoesNotExistException
      */
     protected function renderDceFieldValue(DceField $field, array $row): string
     {
@@ -150,7 +151,7 @@ class SimpleBackendView
             $sectionRowAmount = 0;
             foreach ($field->getSectionFields() as $sectionField) {
                 $sectionFieldValue = $sectionField->getValue();
-                if (\is_array($sectionFieldValue)) {
+                if (is_array($sectionFieldValue)) {
                     $sectionRowAmount = \count($sectionFieldValue);
                 }
             }
@@ -165,7 +166,7 @@ class SimpleBackendView
             return $this->getFalMediaPreview($field, $row);
         }
 
-        if (\is_array($field->getValue()) || $field->getValue() instanceof \Countable) {
+        if (is_array($field->getValue()) || $field->getValue() instanceof \Countable) {
             if (1 === \count($field->getValue())) {
                 $label = LocalizationUtility::translate('entry', 'dce');
             } else {
@@ -183,11 +184,6 @@ class SimpleBackendView
         return $field->getValue();
     }
 
-    /**
-     * Get FAL media preview.
-     *
-     * @throws ResourceDoesNotExistException
-     */
     protected function getFalMediaPreview(DceField $field, array $row): string
     {
         $fieldConfiguration = $field->getConfigurationAsArray();
@@ -205,7 +201,7 @@ class SimpleBackendView
                 $queryBuilder->expr()->eq(
                     'fieldname',
                     $queryBuilder->createNamedParameter(
-                        stripslashes($fieldConfiguration['foreign_match_fields']['fieldname']),
+                        stripslashes($fieldConfiguration['foreign_match_fields']['fieldname'] ?? 'settings.' . $field->getVariable()),
                         \PDO::PARAM_STR
                     )
                 ),
@@ -247,10 +243,10 @@ class SimpleBackendView
         if (!$dce->getEnableContainer()) {
             return '';
         }
-        if (ContainerFactory::checkContentElementForBeingRendered($dce->getContentObject())) {
+        if ($this->containerFactory->checkContentElementForBeingRendered($dce->getContentObject())) {
             return static::$lastContainerColor;
         }
-        $container = ContainerFactory::makeContainer($dce, true);
+        $container = $this->containerFactory->makeContainer($dce, true);
         static::$lastContainerColor = $container->getContainerColor();
 
         return static::$lastContainerColor;

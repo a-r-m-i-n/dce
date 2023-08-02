@@ -23,16 +23,11 @@ class DceViewHelper extends AbstractViewHelper
         $this->registerArgument('returnInt', 'boolean', 'Returns the version number as integer if true', false, false);
     }
 
-    /**
-     * @return string
-     *
-     * @throws \TYPO3\CMS\Core\Package\Exception
-     */
     public static function renderStatic(
         array $arguments,
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
-    ) {
+    ): string {
         if ($arguments['returnInt']) {
             return (string)VersionNumberUtility::convertVersionNumberToInteger(
                 ExtensionManagementUtility::getExtensionVersion('dce')

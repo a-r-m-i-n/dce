@@ -16,7 +16,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class CacheManager
 {
-    public const CACHE_NAME = 'cache_dce';
+    public const CACHE_NAME = 'dce';
 
     /**
      * @var string

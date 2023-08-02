@@ -34,6 +34,6 @@ class IsArrayViewHelper extends AbstractViewHelper
             $subject = $renderChildrenClosure();
         }
 
-        return \is_array($subject);
+        return is_array($subject);
     }
 }

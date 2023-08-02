@@ -43,8 +43,8 @@ class KeSearchHook
                     $queryBuilder->createNamedParameter('tx_dce_index', \PDO::PARAM_STR)
                 )
             )
-            ->execute()
-            ->fetchColumn(0);
+            ->executeQuery()
+            ->fetchFirstColumn();
 
         if (!$dceFieldsWithMappingsAmount) {
             return;
@@ -60,8 +60,8 @@ class KeSearchHook
                     $queryBuilder->createNamedParameter($row['uid'], \PDO::PARAM_INT)
                 )
             )
-            ->execute()
-            ->fetch();
+            ->executeQuery()
+            ->fetchAssociative();
 
         if (is_array($fullRow) && $fullRow['tx_dce_index']) {
             $bodytext = $this->sanitizeBodytext($fullRow['tx_dce_index']);

@@ -1,126 +1,126 @@
 [
-	{
-		"name": "Silverback",
-		"url": "silverback.st"
-	},
-	{
-		"name": "Philipp Holdener",
-		"url": "www.holdesign.ch"
-	},
-	{
-		"name": "Florian Boos",
-		"url": ""
-	},
-	{
-		"name": "Sebastian Schmal",
-		"url": "www.ingeniumdesign.de"
-	},
-	{
-		"name": "David Bascom",
-		"url": "www.99grad.de"
-	},
-	{
-		"name": "Thomas Schwuchow",
-		"url": ""
-	},
-	{
-		"name": "Internetagentur Weymayer GmbH",
-		"url": "www.weymayer.at"
-	},
-	{
-		"name": "Werbeagentur MediaMill",
-		"url": "www.mediamill.de"
-	},
-	{
-		"name": "Andre Lindner",
-		"url": ""
-	},
-	{
-		"name": "Rene Kreupl",
-		"url": ""
-	},
-	{
-		"name": "PHTH - Philipp Thiele",
-		"url": "www.phth.de"
-	},
-	{
-		"name": "Lars Zimmermann",
-		"url": "www.artworx3d.de"
-	},
-	{
-		"name": "sitegeist media solutions GmbH",
-		"url": "www.sitegeist.de"
-	},
-	{
-		"name": "CMT - Casa Minniti Taormina",
-		"url": ""
-	},
-	{
-		"name": "COSMOTO · Konzept, Design & Propaganda",
-		"url": ""
-	},
-	{
-		"name": "Daniel Kurfess",
-		"url": ""
-	},
-	{
-		"name": "Sauerland-Design",
-		"url": "www.sauerland-design.de"
-	},
-	{
-		"name": "Steven Böhm",
-		"url": ""
-	},
-	{
-		"name": "mehrwert intermediale kommunikation GmbH",
-		"url": "www.mehrwert.de"
-	},
-	{
-		"name": "jansass GmbH",
-		"url": "www.jansass.com"
-	},
-	{
-		"name": "Fa. QUADRONET®",
-		"url": "www.internetmacher.de"
-	},
-	{
-		"name": "Alexander Obert",
-		"url": ""
-	},
-	{
-		"name": "Motus",
-		"url": "www.motus.com.hr"
-	},
-	{
-		"name": "Michael Oehlhof",
-		"url": ""
-	},
-	{
-		"name": "Patrick Schriner",
-		"url": ""
-	},
-	{
-		"name": "Christian Krick",
-		"url": ""
-	},
-	{
-		"name": "Joachim Emde",
-		"url": "https://www.emde-it-loesungen.de/"
-	},
-	{
-		"name": "Stephan Grass",
-		"url": ""
-	},
-	{
-		"name": "Welke Digital GmbH & Co. KG",
-		"url": "https://www.wcg.de/"
-	},
-	{
-		"name": "zazudesign",
-		"url": "https://www.zazudesign.de/"
-	},
-	{
-		"name": "SU Productions GmbH",
-		"url": "https://www.suproductions.ch"
-	}
+    {
+        "name": "Silverback",
+        "url": "silverback.st"
+    },
+    {
+        "name": "Philipp Holdener",
+        "url": "www.holdesign.ch"
+    },
+    {
+        "name": "Florian Boos",
+        "url": ""
+    },
+    {
+        "name": "Sebastian Schmal",
+        "url": "www.ingeniumdesign.de"
+    },
+    {
+        "name": "David Bascom",
+        "url": "www.99grad.de"
+    },
+    {
+        "name": "Thomas Schwuchow",
+        "url": ""
+    },
+    {
+        "name": "Internetagentur Weymayer GmbH",
+        "url": "www.weymayer.at"
+    },
+    {
+        "name": "Werbeagentur MediaMill",
+        "url": "www.mediamill.de"
+    },
+    {
+        "name": "Andre Lindner",
+        "url": ""
+    },
+    {
+        "name": "Rene Kreupl",
+        "url": ""
+    },
+    {
+        "name": "PHTH - Philipp Thiele",
+        "url": "www.phth.de"
+    },
+    {
+        "name": "Lars Zimmermann",
+        "url": "www.artworx3d.de"
+    },
+    {
+        "name": "sitegeist media solutions GmbH",
+        "url": "www.sitegeist.de"
+    },
+    {
+        "name": "CMT - Casa Minniti Taormina",
+        "url": ""
+    },
+    {
+        "name": "COSMOTO · Konzept, Design & Propaganda",
+        "url": ""
+    },
+    {
+        "name": "Daniel Kurfess",
+        "url": ""
+    },
+    {
+        "name": "Sauerland-Design",
+        "url": "www.sauerland-design.de"
+    },
+    {
+        "name": "Steven Böhm",
+        "url": ""
+    },
+    {
+        "name": "mehrwert intermediale kommunikation GmbH",
+        "url": "www.mehrwert.de"
+    },
+    {
+        "name": "jansass GmbH",
+        "url": "www.jansass.com"
+    },
+    {
+        "name": "Fa. QUADRONET®",
+        "url": "www.internetmacher.de"
+    },
+    {
+        "name": "Alexander Obert",
+        "url": ""
+    },
+    {
+        "name": "Motus",
+        "url": "www.motus.com.hr"
+    },
+    {
+        "name": "Michael Oehlhof",
+        "url": ""
+    },
+    {
+        "name": "Patrick Schriner",
+        "url": ""
+    },
+    {
+        "name": "Christian Krick",
+        "url": ""
+    },
+    {
+        "name": "Joachim Emde",
+        "url": "https://www.emde-it-loesungen.de/"
+    },
+    {
+        "name": "Stephan Grass",
+        "url": ""
+    },
+    {
+        "name": "Welke Digital GmbH & Co. KG",
+        "url": "https://www.wcg.de/"
+    },
+    {
+        "name": "zazudesign",
+        "url": "https://www.zazudesign.de/"
+    },
+    {
+        "name": "SU Productions GmbH",
+        "url": "https://www.suproductions.ch"
+    }
 ]

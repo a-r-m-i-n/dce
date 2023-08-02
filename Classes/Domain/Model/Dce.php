@@ -731,7 +731,7 @@ class Dce extends AbstractEntity
      */
     public function getSelectedWizardIconPath(): string
     {
-        return File::get($this->getSelectedWizardIcon());
+        return GeneralUtility::getFileAbsFileName($this->getSelectedWizardIcon());
     }
 
     /**
@@ -794,7 +794,7 @@ class Dce extends AbstractEntity
     public function isDetailPageTriggered(): bool
     {
         if ($this->getEnableDetailpage()) {
-            $detailUid = (int)GeneralUtility::_GP($this->getDetailpageIdentifier());
+            $detailUid = (int)($_GET[$this->getDetailpageIdentifier()] ?? 0);
 
             return $detailUid && (int)$this->getContentObject()['uid'] === $detailUid;
         }
@@ -866,7 +866,12 @@ class Dce extends AbstractEntity
         ];
         $fluidTemplate->assignMultiple($variables);
 
-        return trim($fluidTemplate->render());
+        $renderedTemplate = $fluidTemplate->render();
+        if ($renderedTemplate === null) {
+            return '';
+        }
+
+        return trim($renderedTemplate);
     }
 
     /**
@@ -890,7 +895,7 @@ class Dce extends AbstractEntity
                 /** @var DceField $sectionField */
                 foreach ($field->getSectionFields() as $sectionField) {
                     $sectionFieldValues = $sectionField->getValue();
-                    if (\is_array($sectionFieldValues)) {
+                    if (is_array($sectionFieldValues)) {
                         foreach ($sectionFieldValues as $i => $value) {
                             $fields[$field->getVariable()][$i][$sectionField->getVariable()] = $value;
                         }
@@ -970,49 +975,5 @@ class Dce extends AbstractEntity
     public function getGet(): array
     {
         return $this->getFieldsAsArray();
-    }
-
-    /**
-     * Magic PHP method.
-     * Checks if called and not existing method begins with "get". If yes, extract the part behind the get.
-     * If a method in $this exists which matches this part, it will be called. Otherwise it will be searched in
-     * $this->fields for the part. If the field exist its value will returned.
-     *
-     * @param string $name
-     *
-     * @return mixed
-     *
-     * @deprecated Do not use "{dce.fieldname}" anymore to access field values of DCE object.
-     *             Use "{dce.get.fieldname}" in your Fluid templates instead.
-     * @see Dce::getGet()
-     */
-    public function __call($name, array $arguments)
-    {
-        if (0 === strpos($name, 'get') && \strlen($name) > 3) {
-            trigger_error(
-                'Do not use "{dce.fieldname}" anymore to access field values of DCE object. ' .
-                'Use "{dce.get.fieldname}" in your Fluid templates instead.',
-                E_USER_DEPRECATED
-            );
-
-            $variable = lcfirst(substr($name, 3));
-            if (method_exists($this, $variable)) {
-                return $this->$variable();
-            }
-
-            $field = $this->getFieldByVariable($variable);
-            if ($field instanceof DceField) {
-                if ($field->isSection()) {
-                    $fieldsArray = $this->getFieldsAsArray();
-                    if (array_key_exists($variable, $fieldsArray)) {
-                        return $fieldsArray[$variable];
-                    }
-                } else {
-                    return $field->getValue();
-                }
-            }
-        }
-
-        return null;
     }
 }

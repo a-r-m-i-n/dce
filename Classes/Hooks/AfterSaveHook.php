@@ -8,8 +8,6 @@ namespace T3\Dce\Hooks;
  *  | (c) 2012-2023 Armin Vieweg <armin@v.ieweg.de>
  *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
-
-use Doctrine\DBAL\Driver\Statement;
 use Symfony\Component\ExpressionLanguage\SyntaxError;
 use T3\Dce\Components\DetailPage\EmptySlugException;
 use T3\Dce\Components\DetailPage\SlugGenerator;
@@ -18,7 +16,7 @@ use T3\Dce\Domain\Repository\DceRepository;
 use T3\Dce\Utility\DatabaseUtility;
 use T3\Dce\Utility\FlashMessage;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
-use TYPO3\CMS\Core\Messaging\AbstractMessage;
+use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
@@ -139,7 +137,7 @@ class AfterSaveHook
                         FlashMessage::add(
                             LocalizationUtility::translate(self::LLL . 'slugUpdateFailed', 'Dce', [$e->getMessage()]),
                             LocalizationUtility::translate(self::LLL . 'caution', 'Dce'),
-                            AbstractMessage::ERROR
+                            ContextualFeedbackSeverity::ERROR
                         );
                     } catch (EmptySlugException $e) {
                         $this->dataHandler->updateDB('tt_content', $this->uid, [
@@ -148,7 +146,7 @@ class AfterSaveHook
                         FlashMessage::add(
                             LocalizationUtility::translate(self::LLL . 'unableToGenerateSlug', 'Dce'),
                             LocalizationUtility::translate(self::LLL . 'caution', 'Dce'),
-                            AbstractMessage::WARNING
+                            ContextualFeedbackSeverity::WARNING
                         );
                     }
                     if ($slug) {
@@ -156,7 +154,7 @@ class AfterSaveHook
                             FlashMessage::add(
                                 LocalizationUtility::translate(self::LLL . 'slugNotUnique', 'Dce', [$slug]),
                                 LocalizationUtility::translate(self::LLL . 'caution', 'Dce'),
-                                AbstractMessage::NOTICE
+                                ContextualFeedbackSeverity::NOTICE
                             );
                         }
                         $this->dataHandler->updateDB('tt_content', $this->uid, [
@@ -189,7 +187,7 @@ class AfterSaveHook
                     'You did some changes (in DceField with uid ' . $this->uid . ') which affects the sql schema of ' .
                     'tt_content table. Please don\'t forget to update database schema (in e.g. Install Tool)!',
                     'SQL schema changes detected!',
-                    \TYPO3\CMS\Core\Messaging\FlashMessage::NOTICE
+                    ContextualFeedbackSeverity::NOTICE
                 );
             }
         }
@@ -225,7 +223,7 @@ class AfterSaveHook
                 $dceIdentifier = !empty($dceRow['identifier']) ? 'dce_' . $dceRow['identifier']
                     : 'dce_dceuid' . $this->uid;
                 $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tt_content');
-                /** @var Statement $statement */
+
                 $statement = $queryBuilder
                     ->select('uid', 'pid')
                     ->from('tt_content')
@@ -235,11 +233,11 @@ class AfterSaveHook
                             $queryBuilder->createNamedParameter($dceIdentifier, \PDO::PARAM_STR)
                         )
                     )
-                    ->execute();
+                    ->executeQuery();
 
                 if ($statement->rowCount() > 0) {
                     $generator = GeneralUtility::makeInstance(SlugGenerator::class);
-                    while ($contentRow = $statement->fetch()) {
+                    while ($contentRow = $statement->fetchAssociative()) {
                         $slug = null;
                         if (!empty($dceRow['detailpage_slug_expression'])) {
                             try {
@@ -252,7 +250,7 @@ class AfterSaveHook
                                 FlashMessage::add(
                                     LocalizationUtility::translate(self::LLL . 'slugsUpdateFailed', 'Dce', [$e->getMessage()]),
                                     LocalizationUtility::translate(self::LLL . 'error', 'Dce'),
-                                    AbstractMessage::ERROR
+                                    ContextualFeedbackSeverity::ERROR
                                 );
 
                                 return;
@@ -263,7 +261,7 @@ class AfterSaveHook
                                 FlashMessage::add(
                                     LocalizationUtility::translate(self::LLL . 'emptySlugGenerated', 'Dce', [$contentRow['uid'], $contentRow['pid']]),
                                     LocalizationUtility::translate(self::LLL . 'caution', 'Dce'),
-                                    AbstractMessage::WARNING
+                                    ContextualFeedbackSeverity::WARNING
                                 );
                             }
                             if ($slug) {
@@ -279,7 +277,7 @@ class AfterSaveHook
                     FlashMessage::add(
                         LocalizationUtility::translate(self::LLL . 'slugsUpdated', 'Dce', [$statement->rowCount()]),
                         LocalizationUtility::translate(self::LLL . 'info', 'Dce'),
-                        AbstractMessage::NOTICE
+                        ContextualFeedbackSeverity::NOTICE
                     );
                 }
             }
@@ -296,8 +294,6 @@ class AfterSaveHook
      * Disables content elements based on this deactivated DCE. Also display flash message
      * about the amount of content elements affected and a notice, that these content elements
      * will not get re-enabled when enabling the DCE again.
-     *
-     * @throws \TYPO3\CMS\Core\Exception
      */
     protected function hideContentElementsBasedOnDce(string $dceIdentifier): void
     {
@@ -312,9 +308,9 @@ class AfterSaveHook
                     $queryBuilder->createNamedParameter($dceIdentifier, \PDO::PARAM_STR)
                 )
             )
-            ->execute();
+            ->executeQuery();
 
-        while ($row = $statement->fetch()) {
+        while ($row = $statement->fetchAssociative()) {
             $this->dataHandler->updateDB('tt_content', $row['uid'], ['hidden' => 1]);
             ++$updatedContentElementsCount;
         }
@@ -331,7 +327,7 @@ class AfterSaveHook
         FlashMessage::add(
             $message,
             LocalizationUtility::translate(self::LLL . 'caution', 'Dce'),
-            AbstractMessage::INFO
+            ContextualFeedbackSeverity::INFO
         );
     }
 

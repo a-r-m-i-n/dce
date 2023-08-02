@@ -1,5 +1,4 @@
 <config>
-	<type>input</type>
-	<renderType>colorpicker</renderType>
-	<size>10</size>
+    <type>color</type>
+    <size>10</size>
 </config>

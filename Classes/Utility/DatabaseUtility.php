@@ -8,13 +8,13 @@ namespace T3\Dce\Utility;
  *  | (c) 2012-2023 Armin Vieweg <armin@v.ieweg.de>
  *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
+use InvalidArgumentException;
 use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Domain\Repository\DceRepository;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 class DatabaseUtility
 {
@@ -32,9 +32,9 @@ class DatabaseUtility
      */
     public static function getRowsFromQueryBuilder(QueryBuilder $queryBuilder, string $columnAsKey = ''): array
     {
-        $statement = $queryBuilder->execute();
+        $statement = $queryBuilder->executeQuery();
         $rows = [];
-        while ($row = $statement->fetch()) {
+        while ($row = $statement->fetchAssociative()) {
             if (!empty($columnAsKey)) {
                 $rows[$row[$columnAsKey]] = $row;
             } else {
@@ -47,15 +47,13 @@ class DatabaseUtility
 
     /**
      * Get all tables and table configuration of all configured databases.
-     *
-     * @throws \Doctrine\DBAL\DBALException
      */
     public static function adminGetTables(): array
     {
         $tables = [];
         foreach (static::getConnectionPool()->getConnectionNames() as $connectionName) {
             $connection = static::getConnectionPool()->getConnectionByName($connectionName);
-            foreach ($connection->getSchemaManager()->listTableNames() as $tableName) {
+            foreach ($connection->createSchemaManager()->listTableNames() as $tableName) {
                 $tables[$tableName] = $tableName;
             }
         }
@@ -70,7 +68,7 @@ class DatabaseUtility
      */
     public static function adminGetFields(string $tableName): array
     {
-        $columns = static::getConnectionPool()->getConnectionForTable($tableName)->getSchemaManager()
+        $columns = static::getConnectionPool()->getConnectionForTable($tableName)->createSchemaManager()
             ->listTableColumns($tableName);
 
         $fields = [];
@@ -102,10 +100,10 @@ class DatabaseUtility
      *
      * @return Dce|null The constructed DCE object or null
      */
-    public static function getDceObjectForContentElement($contentElement = null): ?Dce
+    public static function getDceObjectForContentElement(mixed $contentElement = null, bool $doNotCache = false): ?Dce
     {
-        if (null === $contentElement || (\is_string($contentElement) && 0 === strpos($contentElement, 'NEW'))) {
-            throw new \InvalidArgumentException('This is a new content element, can\'t create DCE instance from it.');
+        if (null === $contentElement || (is_string($contentElement) && str_starts_with($contentElement, 'NEW'))) {
+            throw new InvalidArgumentException('This is a new content element, can\'t create DCE instance from it.');
         }
         // Make this method more comfortable:
         // Retrieve content element record if only UID is given.
@@ -131,23 +129,20 @@ class DatabaseUtility
             );
         }
 
-        // Make instance of "DceRepository" and "FlexFormService"
-        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         /** @var DceRepository $dceRepository */
-        $dceRepository = $objectManager->get(DceRepository::class);
+        $dceRepository = GeneralUtility::makeInstance(DceRepository::class);
 
         // Convert flexform XML to array
-        $flexData = FlexformService::get()
-                        ->convertFlexFormContentToArray($contentElement['pi_flexform'], 'lDEF', 'vDEF');
+        $flexData = FlexformService::get()->convertFlexFormContentToArray($contentElement['pi_flexform']);
 
         // Retrieve DCE domain model object
         $dceUid = self::getDceUidByContentElementRow($contentElement);
-        $dce = $dceRepository->findAndBuildOneByUid(
+
+        return $dceRepository->findAndBuildOneByUid(
             $dceUid,
             $flexData['settings'] ?? [],
-            $contentElement
+            $contentElement,
+            $doNotCache
         );
-
-        return $dce;
     }
 }

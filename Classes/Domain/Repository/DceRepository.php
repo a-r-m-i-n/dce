@@ -8,8 +8,6 @@ namespace T3\Dce\Domain\Repository;
  *  | (c) 2012-2023 Armin Vieweg <armin@v.ieweg.de>
  *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
-
-use T3\Dce\Compatibility;
 use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Domain\Model\DceField;
 use T3\Dce\Utility\DatabaseUtility;
@@ -17,12 +15,15 @@ use T3\Dce\Utility\FlexformService;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Context\Exception\AspectNotFoundException;
+use TYPO3\CMS\Core\Database\Connection;
+use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Database\Query\Restriction\EndTimeRestriction;
 use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
 use TYPO3\CMS\Core\Database\Query\Restriction\StartTimeRestriction;
 use TYPO3\CMS\Core\Database\RelationHandler;
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
+use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Resource\Collection\AbstractFileCollection;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\FileCollectionRepository;
@@ -30,11 +31,7 @@ use TYPO3\CMS\Core\Resource\FileRepository;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\StringUtility;
 use TYPO3\CMS\Extbase\Domain\Model\Category;
-use TYPO3\CMS\Extbase\Domain\Repository\CategoryRepository;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
-use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
@@ -54,14 +51,6 @@ class DceRepository extends Repository
      * @var Typo3QuerySettings|null
      */
     private static $defaultQuerySettingsInstance;
-
-    /**
-     * DceRepository constructor.
-     */
-    public function __construct(ObjectManagerInterface $objectManager)
-    {
-        parent::__construct($objectManager);
-    }
 
     public function findByUidIncludingHidden(int $uid): ?Dce
     {
@@ -161,8 +150,8 @@ class DceRepository extends Repository
                     $queryBuilder->createNamedParameter($dce->getIdentifier(), \PDO::PARAM_STR)
                 )
             )
-            ->execute()
-            ->fetchAll();
+            ->executeQuery()
+            ->fetchAllAssociative();
     }
 
     /**
@@ -223,7 +212,7 @@ class DceRepository extends Repository
         foreach ($fieldList as $fieldVariable => $fieldValue) {
             $dceField = $dce->getFieldByVariable($fieldVariable);
             if ($dceField) {
-                if (\is_array($fieldValue)) {
+                if (is_array($fieldValue)) {
                     $i = 0;
                     foreach ($fieldValue as $sectionFieldValues) {
                         $sectionFieldValues = current($sectionFieldValues);
@@ -275,10 +264,11 @@ class DceRepository extends Repository
             '<' . $xmlWrapping . '>' . $dceField->getConfiguration() . '</' . $xmlWrapping . '>'
         );
 
-        if (\is_array($dceFieldConfiguration)) {
+        if (is_array($dceFieldConfiguration)) {
             $dceFieldConfiguration = $dceFieldConfiguration['config'];
-            if (isset($dceFieldConfiguration['dce_load_schema']) && !empty($dceFieldConfiguration['dce_load_schema']) && $this->hasRelatedObjects($dceFieldConfiguration)) {
+            if (!empty($dceFieldConfiguration['dce_load_schema'] ?? null) && $this->hasRelatedObjects($dceFieldConfiguration)) {
                 $objects = $this->createObjectsByFieldConfiguration(
+                    $dceField->getVariable(),
                     $fieldValue,
                     $dceFieldConfiguration,
                     $contentObject
@@ -312,7 +302,7 @@ class DceRepository extends Repository
             }
         } else {
             $sectionFieldValues = $dceField->getValue();
-            if (!\is_array($sectionFieldValues)) {
+            if (!is_array($sectionFieldValues)) {
                 $sectionFieldValues = [];
             }
 
@@ -330,7 +320,7 @@ class DceRepository extends Repository
     {
         $flexformData = FlexformService::get()->convertFlexFormContentToArray($record['pi_flexform'], 'lDEF', 'vDEF');
 
-        return isset($flexformData['settings']) && \is_array($flexformData['settings'])
+        return isset($flexformData['settings']) && is_array($flexformData['settings'])
             ? $flexformData['settings']
             : [];
     }
@@ -346,20 +336,20 @@ class DceRepository extends Repository
      */
     public static function extractUidFromCTypeOrIdentifier($cType): ?int
     {
-        if (\is_array($cType)) {
+        if (is_array($cType)) {
             // For any reason the CType can be an array with one entry
             $cType = reset($cType);
         }
         if (!$cType) {
             return null;
         }
-        if (StringUtility::beginsWith($cType, 'dceuid')) {
+        if (str_starts_with($cType, 'dceuid')) {
             return (int)substr($cType, 6);
         }
-        if (StringUtility::beginsWith($cType, 'dce_dceuid')) {
+        if (str_starts_with($cType, 'dce_dceuid')) {
             return (int)substr($cType, 10);
         }
-        if (StringUtility::beginsWith($cType, 'dce_')) {
+        if (str_starts_with($cType, 'dce_')) {
             /** @var QueryBuilder $queryBuilder */
             $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dce');
             $row = $queryBuilder
@@ -371,8 +361,8 @@ class DceRepository extends Repository
                         $queryBuilder->createNamedParameter(addslashes(substr($cType, 4)), \PDO::PARAM_STR)
                     )
                 )
-                ->execute()
-                ->fetch();
+                ->executeQuery()
+                ->fetchAssociative();
 
             if (isset($row['uid'])) {
                 return (int)$row['uid'];
@@ -400,10 +390,12 @@ class DceRepository extends Repository
      */
     protected function hasRelatedObjects(array $fieldConfiguration): bool
     {
-        return \in_array($fieldConfiguration['type'], ['group', 'inline', 'select'])
+        return in_array($fieldConfiguration['type'], ['group', 'inline', 'select', 'file'])
                 && (('select' === $fieldConfiguration['type'] && !empty($fieldConfiguration['foreign_table']))
                     || ('inline' === $fieldConfiguration['type'] && !empty($fieldConfiguration['foreign_table']))
-                    || ('group' === $fieldConfiguration['type'] && !empty($fieldConfiguration['allowed'])));
+                    || ('group' === $fieldConfiguration['type'] && !empty($fieldConfiguration['allowed']))
+                    || ('file' === $fieldConfiguration['type'])
+            );
     }
 
     /**
@@ -414,6 +406,7 @@ class DceRepository extends Repository
      * @param array  $contentObject Content object (required by FAL viewhelper)
      */
     protected function createObjectsByFieldConfiguration(
+        string $fieldName,
         string $fieldValue,
         array $dceFieldConfiguration,
         array $contentObject
@@ -432,7 +425,7 @@ class DceRepository extends Repository
         if (isset($dceFieldConfiguration['dce_load_entity_class']) && $dceFieldConfiguration['dce_load_entity_class']) {
             $className = $dceFieldConfiguration['dce_load_entity_class'];
         } else {
-            while (false !== strpos($className, '_')) {
+            while (str_contains($className, '_')) {
                 $position = strpos($className, '_') + 1;
                 $className = substr($className, 0, $position - 1) . '-' . strtoupper(substr($className, $position, 1)) .
                     substr($className, $position + 1);
@@ -443,34 +436,58 @@ class DceRepository extends Repository
         if (isset($dceFieldConfiguration['dce_get_fal_objects']) && $dceFieldConfiguration['dce_get_fal_objects'] && 'sys_file' === strtolower($className)) {
             $className = File::class;
         }
-
-        if (isset($dceFieldConfiguration['dce_get_fal_objects']) && $dceFieldConfiguration['dce_get_fal_objects'] && 'sys_file_reference' === strtolower($className)) {
+        if (isset($dceFieldConfiguration['dce_get_fal_objects']) && $dceFieldConfiguration['dce_get_fal_objects'] &&
+            ('sys_file_reference' === strtolower($className) || $dceFieldConfiguration['type'] === 'file')
+        ) {
             $contentObjectUid = (int)($contentObject['_LOCALIZED_UID'] ?? $contentObject['uid']);
             $fileReferences = [];
-            if (Compatibility::isFrontendMode()) {
+            if (ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend()) {
                 $fileRepository = GeneralUtility::makeInstance(
                     FileRepository::class
                 );
                 $fileReferences = $fileRepository->findByRelation(
                     'tt_content',
-                    $dceFieldConfiguration['foreign_match_fields']['fieldname'] ?? '',
+                    $dceFieldConfiguration['foreign_match_fields']['fieldname'] ?? 'settings.' . $fieldName,
                     $contentObjectUid
                 );
             } else {
+                $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('sys_file_reference');
+                $relations = $queryBuilder
+                    ->select('uid')
+                    ->from('sys_file_reference')
+                    ->where(
+                        $queryBuilder->expr()->eq(
+                            'uid_foreign',
+                            $queryBuilder->createNamedParameter($contentObjectUid, Connection::PARAM_INT)
+                        ),
+                        $queryBuilder->expr()->eq(
+                            'tablenames',
+                            $queryBuilder->createNamedParameter('tt_content')
+                        ),
+                        $queryBuilder->expr()->eq(
+                            'fieldname',
+                            $queryBuilder->createNamedParameter('settings.' . $fieldName)
+                        )
+                    )
+                    ->orderBy('sorting_foreign')
+                    ->executeQuery()
+                    ->fetchFirstColumn();
+
                 /** @var RelationHandler $relationHandler */
                 $relationHandler = GeneralUtility::makeInstance(RelationHandler::class);
                 $relationHandler->start(
-                    '',
+                    implode(',', $relations),
                     'sys_file_reference',
                     '',
-                    $contentObjectUid,
+                    0,
                     'tt_content',
                     $dceFieldConfiguration
                 );
+                $referenceUids = [];
                 if (isset($relationHandler->tableArray['sys_file_reference']) && !empty($relationHandler->tableArray['sys_file_reference'])) {
                     $referenceUids = $relationHandler->tableArray['sys_file_reference'];
                 }
-                if (isset($referenceUids) && !empty($referenceUids)) {
+                if (!empty($referenceUids)) {
                     /** @var ResourceFactory $fileFactory */
                     $fileFactory = GeneralUtility::makeInstance(ResourceFactory::class);
                     foreach ($referenceUids as $referenceUid) {
@@ -494,7 +511,7 @@ class DceRepository extends Repository
             return $fileReferences;
         }
 
-        if (false === strpos($className, '\\')) {
+        if (!str_contains($className, '\\')) {
             $repositoryName = str_replace('_Model_', '_Repository_', $className) . 'Repository';
         } else {
             $repositoryName = str_replace('\\Model\\', '\\Repository\\', $className) . 'Repository';
@@ -507,10 +524,8 @@ class DceRepository extends Repository
 
         if (class_exists($className) && class_exists($repositoryName)) {
             // Extbase object found
-            /** @var ObjectManager $objectManager */
-            $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
             /** @var Repository $repository */
-            $repository = $objectManager->get($repositoryName);
+            $repository = GeneralUtility::makeInstance($repositoryName);
 
             foreach (GeneralUtility::trimExplode(',', $fieldValue, true) as $uid) {
                 $uid = (int)$uid;
@@ -555,16 +570,14 @@ class DceRepository extends Repository
                         $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
                     )
                 )
-                ->execute()
-                ->fetchAll();
+                ->executeQuery()
+                ->fetchAllAssociative();
 
             $pageRepository = isset($GLOBALS['TSFE']) ? $GLOBALS['TSFE']->sys_page : null;
             if ($dceFieldConfiguration['dce_enable_autotranslation'] ?? false) {
-                /** @var class-string $pageRepoClassName */
-                $pageRepoClassName = Compatibility::getPageRepositoryClassName();
-                if (!$pageRepository instanceof $pageRepoClassName) {
+                if (!$pageRepository instanceof PageRepository) {
                     /** @var PageRepository $pageRepository */
-                    $pageRepository = GeneralUtility::makeInstance($pageRepoClassName);
+                    $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
                 }
             }
             foreach ($recordRows as $row) {
@@ -649,11 +662,8 @@ class DceRepository extends Repository
 
         // Resolve categories
         if (array_key_exists('categories', $processedContentObject)) {
-            /** @var ObjectManager $objectManager */
-            $objectManager = $this->objectManager
-                ?? GeneralUtility::makeInstance(ObjectManager::class);
             /** @var CategoryRepository $categoryRepository */
-            $categoryRepository = $objectManager->get(CategoryRepository::class);
+            $categoryRepository = GeneralUtility::makeInstance(CategoryRepository::class);
 
             $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('sys_category');
             $statement = $queryBuilder
@@ -695,9 +705,9 @@ class DceRepository extends Repository
                         $queryBuilder->createNamedParameter('categories', \PDO::PARAM_STR)
                     )
                 )
-                ->execute();
+                ->executeQuery();
             $processedContentObject['categories'] = [];
-            while ($categoryRow = $statement->fetch()) {
+            while ($categoryRow = $statement->fetchAssociative()) {
                 $category = $categoryRepository->findByUid($categoryRow['uid']);
                 if ($category instanceof Category) {
                     $processedContentObject['categories'][] = $categoryRepository->findByUid($categoryRow['uid']);
@@ -747,8 +757,8 @@ class DceRepository extends Repository
                     $queryBuilder->createNamedParameter($contentElementUid, \PDO::PARAM_INT)
                 )
             )
-            ->execute()
-            ->fetch();
+            ->executeQuery()
+            ->fetchAssociative();
 
         $flexData = FlexformService::get()->convertFlexFormContentToArray($row['pi_flexform'], 'lDEF', 'vDEF');
 
@@ -762,8 +772,8 @@ class DceRepository extends Repository
             ->select('variable')
             ->from('tx_dce_domain_model_dcefield')
             ->where($queryBuilder->expr()->eq('parent_dce', $queryBuilder->createNamedParameter($dceUid)))
-            ->execute()
-            ->fetchAll();
+            ->executeQuery()
+            ->fetchAllAssociative();
 
         foreach ($fieldRows as $fieldRow) {
             if (!array_key_exists($fieldRow['variable'], $fieldList)) {
@@ -797,7 +807,7 @@ class DceRepository extends Repository
                     $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
                 )
             )
-            ->execute()
-            ->fetch() ?: null;
+            ->executeQuery()
+            ->fetchAssociative() ?: null;
     }
 }

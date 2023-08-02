@@ -1,13 +1,61 @@
 services:
-    T3\Dce\Slots\TablesDefinitionIsBeingBuiltSlot:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    T3\Dce\:
+        resource: '../Classes/*'
+        exclude:
+            - '../Classes/Domain/Model/*'
+            - '../Classes/Configuration/*'
+
+    T3\Dce\Components\DceContainer\ContainerFactory:
+        public: true
+    T3\Dce\Components\BackendView\SimpleBackendView:
+        public: true
+    T3\Dce\Components\DetailPage\SlugGenerator:
+        public: true
+    T3\Dce\UserFunction\CustomLabels\TtContentLabel:
+        public: true
+    T3\Dce\UserFunction\CustomLabels\DceFieldLabel:
+        public: true
+    T3\Dce\UpdateWizards\FileToFalUpdateWizard:
+        public: true
+    T3\Dce\UserFunction\ItemsProcFunc:
+        public: true
+
+    # Event Listeners
+    T3\Dce\EventListener\ModifyButtonBarEventListener:
         tags:
             - name: event.listener
-              identifier: 'dce-tables-definition-is-being-built-slot'
+              identifier: 'dce-modify-button-bar-event-listener'
+              event: TYPO3\CMS\Backend\Template\Components\ModifyButtonBarEvent
+
+    T3\Dce\EventListener\TablesDefinitionIsBeingBuiltEventListener:
+        tags:
+            - name: event.listener
+              identifier: 'dce-tables-definition-is-being-built-event-listener'
               event: TYPO3\CMS\Core\Database\Event\AlterTableDefinitionStatementsEvent
               method: 'addSchema'
-    T3\Dce\Slots\LinkAnalyserSlot:
+
+    T3\Dce\EventListener\LinkAnalyserEventListener:
         tags:
             - name: event.listener
-              identifier: 'dce-link-analyser-slot'
+              identifier: 'dce-link-analyser-event-listener'
               event: TYPO3\CMS\Linkvalidator\Event\BeforeRecordIsAnalyzedEvent
               method: 'dispatchEvent'
+
+    T3\Dce\EventListener\ModifyDatabaseQueryForRecordListingEventListener:
+        tags:
+            - name: event.listener
+              identifier: 'dce-list-module-search-event-listener'
+              event: TYPO3\CMS\Backend\View\Event\ModifyDatabaseQueryForRecordListingEvent
+              method: 'extendSearchStringConstraints'
+
+    T3\Dce\EventListener\ModifyQueryForLiveSearchEventListener:
+        tags:
+            -   name: event.listener
+                identifier: 'dce-live-search-event-listener'
+                event: TYPO3\CMS\Backend\Search\Event\ModifyQueryForLiveSearchEvent
+                method: 'extendSearchStringConstraints'

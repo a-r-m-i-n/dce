@@ -33,7 +33,7 @@ class PageTS
      */
     public static function get(string $path, $default = null, int $id = 0)
     {
-        $id = $id ?: GeneralUtility::_GP('id');
+        $id = $id > 0 ? $id : (int)($_GET['id'] ?? 0);
         if (!isset(static::$pageTsContent[$id])) {
             /** @var TypoScriptService $typoScriptService */
             $typoScriptService = GeneralUtility::makeInstance(TypoScriptService::class);

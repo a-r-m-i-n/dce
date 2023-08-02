@@ -22,10 +22,7 @@ services:
               source: ../
               target: /var/www/dce
               consistency: cached
-            - v11-data:/var/www/html/v11
             - v12-data:/var/www/html/v12
 volumes:
-    v11-data:
-        name: "${DDEV_SITENAME}-v11-data"
     v12-data:
         name: "${DDEV_SITENAME}-v12-data"

@@ -7,7 +7,7 @@ namespace T3\Dce\UserFunction\CustomFieldValidation;
  *  |
  *  | (c) 2012-2023 Armin Vieweg <armin@v.ieweg.de>
  */
-use TYPO3\CMS\Core\Messaging\FlashMessage;
+use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -15,27 +15,20 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class LowerCamelCaseValidator extends AbstractFieldValidator
 {
-    /**
-     * PHP Validation to check lowerCamelCase.
-     *
-     * @param bool $silent When true no flash messages get created
-     *
-     * @return mixed|string Updated string, which fits the requirements
-     */
-    public function evaluateFieldValue(string $value, bool $silent = false)
+    public function evaluateFieldValue(string $value, string $isIn, bool $set = false)
     {
         $originalValue = $value;
         $value = lcfirst($value);
         $value = str_replace('-', '_', $value);
-        if (false !== strpos($value, '_')) {
+        if (str_contains($value, '_')) {
             $value = GeneralUtility::underscoredToLowerCamelCase($value);
         }
 
-        if ($originalValue !== $value && !empty($value) && !$silent) {
+        if ($originalValue !== $value && !empty($value) && $set) {
             $this->addFlashMessage(
                 $this->translate('tx_dce_formeval_lowerCamelCase', [$originalValue, $value]),
                 $this->translate('tx_dce_formeval_headline', [$value]),
-                FlashMessage::NOTICE
+                ContextualFeedbackSeverity::NOTICE
             );
         }
 

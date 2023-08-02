@@ -7,63 +7,24 @@ namespace T3\Dce\Utility;
  *  |
  *  | (c) 2012-2023 Armin Vieweg <armin@v.ieweg.de>
  */
-use T3\Dce\Compatibility;
-use T3\Dce\Configuration\BackendConfigurationManager;
+use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser;
 use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
-/**
- * Utility for TypoScript.
- */
 class TypoScript
 {
     public const EXTKEY = 'tx_dce';
-
     public const CONTEXT_PLUGIN = 'plugin';
     public const CONTEXT_MODULE = 'module';
 
-    /**
-     * @var ContentObjectRenderer
-     */
-    protected $contentObject;
+    private ContentObjectRenderer $contentObject;
 
-    /**
-     * @var ConfigurationManagerInterface
-     */
-    protected $configurationManager = null;
-
-    /**
-     * @var BackendConfigurationManager
-     */
-    protected $backendConfigurationManager = null;
-
-    /**
-     * Injects the configurationManager.
-     * @param ConfigurationManagerInterface $configurationManager
-     */
-    public function injectConfigurationManager(ConfigurationManagerInterface $configurationManager): void
+    public function __construct(private ConfigurationManagerInterface $configurationManager)
     {
-        $this->configurationManager = $configurationManager;
-    }
-
-    /**
-     * Injects the backendConfigurationManager.
-     * @param BackendConfigurationManager $backendConfigurationManager
-     */
-    public function injectBackendConfigurationManager(BackendConfigurationManager $backendConfigurationManager): void
-    {
-        $this->backendConfigurationManager = $backendConfigurationManager;
-    }
-
-    /**
-     * Initialize this settings utility.
-     */
-    public function initializeObject(): void
-    {
-        $this->contentObject = $this->configurationManager->getContentObject();
+        $this->contentObject = GeneralUtility::makeInstance(ContentObjectRenderer::class);
     }
 
     /**
@@ -109,8 +70,8 @@ class TypoScript
         }
         ++$tab;
         foreach ($typoScriptArray as $key => $value) {
-            if (!\is_array($value)) {
-                if (false === strpos($value, "\n")) {
+            if (!is_array($value)) {
+                if (!str_contains($value, "\n")) {
                     $typoScript .= str_repeat("\t", (0 === $tab) ? $tab : $tab - 1) . $key . ' = ' . $value . "\n";
                 } else {
                     if ('configuration' === $key) {
@@ -197,8 +158,10 @@ class TypoScript
      */
     public function getTyposcriptSettingsByPageUid(int $pageUid): array
     {
-        $this->backendConfigurationManager->setCurrentPageId($pageUid);
-        $typoscript = $this->backendConfigurationManager->getTypoScriptSetup() ?? [];
+        $backendConfigurationManager = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Configuration\BackendConfigurationManager::class);
+
+//        $this->backendConfigurationManager->setCurrentPageId($pageUid);
+        $typoscript = $backendConfigurationManager->getTypoScriptSetup() ?? [];
         $context = $this->getCurrentContext();
         return $this->convertTypoScriptArrayToPlainArray(
             $typoscript[$context . '.'][self::EXTKEY . '.'] ?? []
@@ -220,7 +183,7 @@ class TypoScript
         );
         $typoscript = $typoscript[$context . '.'][self::EXTKEY . '.']['settings.'] ?? [];
         foreach ($settings as $key => $setting) {
-            if ('' === $setting && \is_array($typoscript) && array_key_exists($key, $typoscript)) {
+            if ('' === $setting && is_array($typoscript) && array_key_exists($key, $typoscript)) {
                 $settings[$key] = $typoscript[$key];
             }
         }
@@ -230,7 +193,7 @@ class TypoScript
 
     protected function getCurrentContext(): string
     {
-        return (Compatibility::isFrontendMode()) ? TypoScript::CONTEXT_PLUGIN : TypoScript::CONTEXT_MODULE;
+        return (ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend()) ? TypoScript::CONTEXT_PLUGIN : TypoScript::CONTEXT_MODULE;
     }
 
     /**
@@ -250,7 +213,7 @@ class TypoScript
     {
         $dottedConfiguration = [];
         foreach ($configuration as $key => $value) {
-            if (\is_array($value)) {
+            if (is_array($value)) {
                 if (array_key_exists('_typoScriptNodeValue', $value)) {
                     $dottedConfiguration[$key] = $value['_typoScriptNodeValue'];
                 }

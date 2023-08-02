@@ -9,7 +9,7 @@ composer config extra.typo3/cms.web-dir public -d /var/www/html/$VERSION
 composer config repositories.$EXTENSION_KEY path ../../$EXTENSION_KEY -d /var/www/html/$VERSION
 composer config --no-plugins allow-plugins.typo3/cms-composer-installers true -d /var/www/html/$VERSION
 composer config --no-plugins allow-plugins.typo3/class-alias-loader true -d /var/www/html/$VERSION
-composer req t3/cms:'^12' georgringer/news:'^11' $PACKAGE_NAME:'*@dev' --no-progress -n -d /var/www/html/$VERSION
+composer req t3/cms:'^12' typo3/cms-seo:'^12' typo3/cms-linkvalidator:'^12' georgringer/news:'^11' b13/container:'^2.2' $PACKAGE_NAME:'*@dev' --no-progress -n -d /var/www/html/$VERSION
 
 cd /var/www/html/$VERSION
 

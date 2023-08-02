@@ -8,33 +8,42 @@ namespace T3\Dce\UserFunction;
  *  | (c) 2012-2023 Armin Vieweg <armin@v.ieweg.de>
  *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
+use Doctrine\DBAL\ArrayParameterType;
+use Psr\Container\ContainerInterface;
 use T3\Dce\Components\FlexformToTcaMapper\Mapper;
 use T3\Dce\Utility\DatabaseUtility;
 use T3\Dce\Utility\LanguageService;
-use TYPO3\CMS\Core\Database\Connection;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/**
- * ItemProfFunc UserFunctions.
- */
 class ItemsProcFunc
 {
-    /**
-     * Add DceFields.
-     *
-     * @param array $parameters Referenced parameter array
-     */
+    public function __construct(private ContainerInterface $container)
+    {
+    }
+
     public function getDceFields(array &$parameters): void
     {
         if (!isset($parameters['row']['uid']) || !is_numeric($parameters['row']['uid'])) {
             return;
         }
-        $parameters['items'][] = [LocalizationUtility::translate('dceTitle', 'dce'), '*dcetitle'];
+
+        $ll = 'LLL:EXT:dce/Resources/Private/Language/locallang.xlf:';
+
+        $parameters['items'][] = [
+            'label' => $ll . 'dceTitle',
+            'value' => '*dcetitle',
+        ];
         if (1 === $parameters['config']['size']) {
-            $parameters['items'][] = [LocalizationUtility::translate('empty', 'dce'), '*empty'];
+            $parameters['items'][] = [
+                'label' => $ll . 'empty',
+                'value' => '*empty',
+            ];
         }
-        if ($parameters['row']['enable_container']) {
-            $parameters['items'][] = [LocalizationUtility::translate('containerflag', 'dce'), '*containerflag'];
+        if ($parameters['row']['enable_container'] && $parameters['field'] !== 'backend_view_header') {
+            $parameters['items'][] = [
+                'label' => $ll . 'containerflag',
+                'value' => '*containerflag',
+            ];
         }
 
         $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dcefield');
@@ -44,35 +53,35 @@ class ItemsProcFunc
             ->where(
                 $queryBuilder->expr()->eq(
                     'parent_dce',
-                    $queryBuilder->createNamedParameter($parameters['row']['uid'], \PDo::PARAM_INT)
+                    $queryBuilder->createNamedParameter($parameters['row']['uid'], \PDO::PARAM_INT)
                 ),
                 $queryBuilder->expr()->in(
                     'type',
-                    $queryBuilder->createNamedParameter([0, 2], Connection::PARAM_INT_ARRAY)
+                    $queryBuilder->createNamedParameter([0, 2], ArrayParameterType::INTEGER)
                 )
             )
             ->orderBy('sorting', 'ASC')
-            ->execute()
-            ->fetchAll();
+            ->executeQuery()
+            ->fetchAllAssociative();
 
         if (!empty($dceFields)) {
+            $parameters['items'][] = [
+                'label' => $ll . 'dceFields',
+                'value' => '--div--',
+            ];
+
             foreach ($dceFields as $dceField) {
-                $label = LanguageService::sL($dceField['title']);
                 if ('2' === $dceField['type']) {
-                    $label .= ' (' . LocalizationUtility::translate('section', 'dce') . ')';
+                    continue;
                 }
-                $parameters['items'][] = [$label, $dceField['variable']];
+                $parameters['items'][] = [
+                    'label' => LanguageService::sL($dceField['title']),
+                    'value' => $dceField['variable'],
+                ];
             }
         }
     }
 
-    /**
-     * Add available tt_content columns for TCA mapping.
-     *
-     * @param array $parameters Referenced parameter array
-     *
-     * @throws \Doctrine\DBAL\DBALException
-     */
     public function getAvailableTtContentColumnsForTcaMapping(array &$parameters): void
     {
         $excludedColumns = [
@@ -102,22 +111,40 @@ class ItemsProcFunc
         $tcaColumns = $GLOBALS['TCA']['tt_content']['columns'];
         $dbColumns = DatabaseUtility::adminGetFields('tt_content');
 
-        $parameters['items'][] = [LocalizationUtility::translate('chooseOption', 'dce'), '--div--'];
-        $parameters['items'][] = [LocalizationUtility::translate('noMapping', 'dce'), ''];
-        $parameters['items'][] = [LocalizationUtility::translate('mapToIndexColumn', 'dce'), 'tx_dce_index'];
-        $parameters['items'][] = [LocalizationUtility::translate('newcol', 'dce'), '*newcol'];
-        $parameters['items'][] = [LocalizationUtility::translate('chooseExistingField', 'dce'), '--div--'];
+        $ll = 'LLL:EXT:dce/Resources/Private/Language/locallang.xlf:';
+
+        $parameters['items'][] = [
+            'label' => $ll . 'chooseOption',
+            'value' => '--div--',
+        ];
+        $parameters['items'][] = [
+            'label' => $ll . 'noMapping',
+            'value' => '',
+        ];
+        $parameters['items'][] = [
+            'label' => $ll . 'mapToIndexColumn',
+            'value' => 'tx_dce_index',
+        ];
+        $parameters['items'][] = [
+            'label' => $ll . 'newcol',
+            'value' => '*newcol',
+        ];
+
+        $parameters['items'][] = [
+            'label' => $ll . 'chooseExistingField',
+            'value' => '--div--',
+        ];
         foreach (array_keys($tcaColumns) as $fieldName) {
-            if (!empty($dbColumns[$fieldName]['Type']) && !\in_array($fieldName, $excludedColumns, true)) {
-                $columnInfo = '"' . trim($dbColumns[$fieldName]['Type'], ' \\') . '"';
-                $parameters['items'][] = [$fieldName . ' - ' . $columnInfo . '', $fieldName];
+            if (!empty($dbColumns[$fieldName]['Type']) && !in_array($fieldName, $excludedColumns, true)) {
+                $columnInfo = '"' . trim($dbColumns[$fieldName]['Type']->getName(), ' \\') . '"';
+                $parameters['items'][] = [
+                    'label' => $fieldName . ' - ' . $columnInfo,
+                    'value' => $fieldName,
+                ];
             }
         }
     }
 
-    /**
-     * Add available tt_content columns for palette fields.
-     */
     public function getAvailableTtContentColumnsForPaletteFields(array &$parameters): void
     {
         $excludedColumns = [
@@ -150,7 +177,7 @@ class ItemsProcFunc
         $parameters['items'][] = ['--linebreak--', '--linebreak2--'];
         $parameters['items'][] = ['--linebreak--', '--linebreak3--'];
         foreach (array_keys($tcaColumns) as $fieldName) {
-            if (!empty($dbColumns[$fieldName]['Type']) && !\in_array($fieldName, $excludedColumns, true)) {
+            if (!empty($dbColumns[$fieldName]['Type']) && !in_array($fieldName, $excludedColumns, true)) {
                 $label = '';
                 if (isset($tcaColumns[$fieldName]['label'])) {
                     $label = trim($GLOBALS['LANG']->sL($tcaColumns[$fieldName]['label']), ': ');
@@ -160,16 +187,17 @@ class ItemsProcFunc
                 } else {
                     $label .= ' (' . $fieldName . ')';
                 }
-                $parameters['items'][] = [$label, $fieldName];
+                $parameters['items'][] = [
+                    'label' => $label,
+                    'value' => $fieldName,
+                ];
             }
         }
     }
 
-    /**
-     * Adds available wizard icons.
-     */
     public function getAvailableWizardIcons(array &$parameters): void
     {
+        // Default Icons
         $identifiers = [
             'content-header',
             'content-textpic',
@@ -192,8 +220,28 @@ class ItemsProcFunc
                 $identifier,
             ];
         }
+
+        // Custom Icon
         $ll = 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xlf:';
         $parameters['items'][] = [$ll . 'wizardIcon.custom', '--div--'];
         $parameters['items'][] = [$ll . 'wizardIcon.customIcon', 'custom'];
+
+        // TYPO3 Core Icons
+        $parameters['items'][] = [$ll . 'wizardIcon.core', '--div--'];
+
+        $absoluteIconDeclarationPath = GeneralUtility::getFileAbsFileName('EXT:core/Resources/Public/Icons/T3Icons/icons.json');
+        $json = json_decode(file_get_contents($absoluteIconDeclarationPath) ?: '', true, 512, JSON_THROW_ON_ERROR);
+        foreach ($json['icons'] ?? [] as $declaration) {
+            $parameters['items'][] = [$declaration['identifier'], $declaration['identifier'], $declaration['identifier']];
+        }
+
+        // TYPO3 Extension Icons
+        $parameters['items'][] = [$ll . 'wizardIcon.extensions', '--div--'];
+
+        /** @var \ArrayObject  $extensionIcons */
+        $extensionIcons = $this->container->get('icons');
+        foreach ($extensionIcons as $identifier => $config) {
+            $parameters['items'][] = [$identifier, $identifier, $identifier];
+        }
     }
 }

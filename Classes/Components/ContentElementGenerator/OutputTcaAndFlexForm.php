@@ -7,8 +7,6 @@ namespace T3\Dce\Components\ContentElementGenerator;
  *  |
  *  | (c) 2012-2023 Armin Vieweg <armin@v.ieweg.de>
  */
-
-use T3\Dce\Compatibility;
 use T3\Dce\Components\FlexformToTcaMapper\Mapper;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -45,20 +43,11 @@ class OutputTcaAndFlexForm
         if (!$this->cacheManager->has(self::CACHE_KEY)) {
             $sourceCode = '';
 
-            if (Compatibility::isTypo3Version('10.4')) {
-                $sourceCode .= <<<PHP
-                    \$GLOBALS['TCA']['tt_content']['columns']['CType']['config']['itemGroups']['dce'] =
-                        'LLL:EXT:dce/Resources/Private/Language/locallang_db.xlf:tx_dce_domain_model_dce_long';
-                    PHP;
-            } else {
-                $sourceCode .= <<<PHP
-                    \$GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'][] = [
-                        0 => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xlf:tx_dce_domain_model_dce_long',
-                        1 => '--div--'
-                    ];
+            $sourceCode .= <<<PHP
+                \$GLOBALS['TCA']['tt_content']['columns']['CType']['config']['itemGroups']['dce'] =
+                    'LLL:EXT:dce/Resources/Private/Language/locallang_db.xlf:tx_dce_domain_model_dce_long';
+            PHP;
 
-                    PHP;
-            }
             $fieldRowsWithNewColumns = Mapper::getDceFieldRowsWithNewTcaColumns();
             if (\count($fieldRowsWithNewColumns) > 0) {
                 $newColumns = [];
@@ -72,16 +61,18 @@ class OutputTcaAndFlexForm
                 $sourceCode .= <<<PHP
                     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('tt_content', $newColumnsAsCode);
 
-                    PHP;
+                PHP;
             }
 
             $sourceCode .= <<<PHP
-                \$GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'][] = [
-                    0 => 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xlf:tx_dce_domain_model_dce.miscellaneous',
-                    1 => '--div--'
-                ];
+            \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTcaSelectItemGroup(
+                'tt_content',
+                'CType',
+                'dce',
+                'LLL:EXT:dce/Resources/Private/Language/locallang_db.xlf:tx_dce_domain_model_dce.miscellaneous'
+            );
 
-                PHP;
+            PHP;
 
             foreach ($this->input->getDces() as $dce) {
                 $sourceCode .= $this->generateTcaForDces($dce) . PHP_EOL;
@@ -108,18 +99,17 @@ class OutputTcaAndFlexForm
         $dceIdentifier = $dce['identifier'];
 
         $dceTitle = addcslashes($dce['title'], "'");
-        $dceIcon = $dce['hasCustomWizardIcon'] ? 'ext-dce-' . $dceIdentifier . '-customwizardicon'
-            : $dce['wizard_icon'];
+        $dceIcon = $dce['hasCustomWizardIcon'] ? 'ext-dce-' . $dceIdentifier . '-customwizardicon' : $dce['wizard_icon'];
 
         $sourceCode .= <<<PHP
             \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTcaSelectItem(
                 'tt_content',
                 'CType',
                 [
-                    '$dceTitle',
-                    '$dceIdentifier',
-                    '$dceIcon',
-                    \T3\Dce\Compatibility::isTypo3Version('10.4') ? 'dce' : null
+                    'label' => '$dceTitle',
+                    'value' => '$dceIdentifier',
+                    'icon' => '$dceIcon',
+                    'group' => 'dce'
                 ]
             );
 
@@ -158,13 +148,10 @@ class OutputTcaAndFlexForm
         $dceCType = 'CType' . ($dce['enable_container'] ? ',tx_dce_new_container' : '');
 
         $sourceCode .= <<<PHP
-            \$GLOBALS['TCA']['tt_content']['palettes']['$paletteIdentifierHead']['canNotCollapse'] = true;
             \$GLOBALS['TCA']['tt_content']['palettes']['$paletteIdentifierHead']['showitem'] = '$dceCType';
             \$GLOBALS['TCA']['tt_content']['types']['$dceIdentifier']['showitem'] = '$showItem';
-            if (\T3\Dce\Compatibility::isTypo3Version('10.0.0')) {
-                \$GLOBALS['TCA']['tt_content']['types']['$dceIdentifier']['previewRenderer'] =
-                    \T3\Dce\Components\BackendView\DcePreviewRenderer::class;
-            }
+            \$GLOBALS['TCA']['tt_content']['types']['$dceIdentifier']['previewRenderer'] =
+                \T3\Dce\Components\BackendView\DcePreviewRenderer::class;
 
             PHP;
 
@@ -183,7 +170,6 @@ class OutputTcaAndFlexForm
             );
 
             $sourceCode .= <<<PHP
-                \$GLOBALS['TCA']['tt_content']['palettes']['$paletteIdentifier']['canNotCollapse'] = true;
                 \$GLOBALS['TCA']['tt_content']['palettes']['$paletteIdentifier']['showitem'] = '$paletteFields';
 
                 PHP;
@@ -274,8 +260,7 @@ class OutputTcaAndFlexForm
                         $sectionField = $xml->createElement($dceSectionField['variable']);
                         $sectionFields->appendChild($sectionField);
 
-                        $sectionField->appendChild($tce = $xml->createElement('TCEforms'));
-                        $tce->appendChild($label = $xml->createElement('label'));
+                        $sectionField->appendChild($label = $xml->createElement('label'));
                         $label->appendChild($xml->createCDATASection($dceSectionField['title']));
 
                         $conf = new \DOMDocument();
@@ -284,14 +269,13 @@ class OutputTcaAndFlexForm
                         /** @var \DOMElement $childNode */
                         foreach ($conf->childNodes[0]->childNodes as $childNode) {
                             $node = $xml->importNode($childNode, true);
-                            $tce->appendChild($node);
+                            $sectionField->appendChild($node);
                         }
                     }
                     $sectionContainer->appendChild($sectionFields);
                 } else {
                     // Regular fields
-                    $field->appendChild($tce = $xml->createElement('TCEforms'));
-                    $tce->appendChild($title = $xml->createElement('label'));
+                    $field->appendChild($title = $xml->createElement('label'));
                     $title->appendChild($xml->createCDATASection($dceField['title']));
 
                     $conf = new \DOMDocument();
@@ -310,7 +294,7 @@ class OutputTcaAndFlexForm
                         }
 
                         $node = $xml->importNode($childNode, true);
-                        $tce->appendChild($node);
+                        $field->appendChild($node);
                     }
                 }
                 $tabElements->appendChild($field);

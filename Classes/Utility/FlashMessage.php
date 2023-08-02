@@ -9,6 +9,7 @@ namespace T3\Dce\Utility;
  */
 use TYPO3\CMS\Core\Messaging\FlashMessageQueue;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
+use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -21,15 +22,10 @@ class FlashMessage
      */
     protected static $flashMessageQueue;
 
-    /**
-     * @param string $title optional
-     *
-     * @throws \TYPO3\CMS\Core\Exception
-     */
     public static function add(
         string $message,
         string $title = '',
-        int $severity = \TYPO3\CMS\Core\Messaging\FlashMessage::WARNING
+        ContextualFeedbackSeverity $severity = ContextualFeedbackSeverity::WARNING
     ): void {
         if (null === static::$flashMessageQueue) {
             /** @var FlashMessageService $flashMessageService */

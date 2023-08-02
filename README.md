@@ -3,7 +3,7 @@
 ## What is DCE?
 
 DCE is an extension for TYPO3 CMS, which creates easily and fast *dynamic content elements*.
-Based on Extbase, Fluid and over 8 years of experience.
+Based on Extbase, Fluid and over 10 years of experience.
 
 
 ### Screenshots
@@ -19,7 +19,7 @@ You can install DCE in TYPO3 CMS using the [TER](https://extensions.typo3.org/ex
 or use composer to fetch DCE from [packagist](https://packagist.org/packages/t3/dce):
 
 ```
-composer req t3/dce:"^2.9"
+composer req t3/dce:"^3.0"
 ```
 
 
@@ -42,7 +42,6 @@ In case you can't provide code but want to support DCE anyway, here is my [PayPa
 
 DCE ships a [DDEV configuration](https://github.com/a-r-m-i-n/ddev-for-typo3-extensions), which allows you to test DCE in any TYPO3 version:
 
-- 11.5
 - 12.4
 
 It uses Apache2 with php-fpm (8.1) enabled.
@@ -59,13 +58,11 @@ It uses Apache2 with php-fpm (8.1) enabled.
     ```
     ddev start
     ```
-2. Next execute one of the following commands
+2. Next execute the following commands
     ```
-    ddev install-v11
     ddev install-v12
-    ddev install-all
     ```
-3. On https://dce.ddev.site/ you get a brief overview of the environments
+3. On https://dce.ddev.site/ you get a brief overview of the environment
 
 
 ### Scripts

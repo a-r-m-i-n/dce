@@ -6,9 +6,8 @@
  *  | (c) 2012-2023 Armin Vieweg <armin@v.ieweg.de>
  */
 
-if (!defined('TYPO3_MODE')) {
-    die('Access denied.');
-}
+use T3\Dce\UserFunction\CustomFieldValidation\LowerCamelCaseValidator;
+use T3\Dce\UserFunction\CustomFieldValidation\NoLeadingNumberValidator;
 
 $ll = 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xlf:';
 $extensionPath = \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(
@@ -25,7 +24,6 @@ $dceFieldTca = [
         'rootLevel' => true,
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
-        'cruser_id' => 'cruser_id',
         'dividers2tabs' => true,
         'versioningWS' => true,
         'origUid' => 't3_origuid',
@@ -67,14 +65,6 @@ $dceFieldTca = [
         'tca_options' => ['showitem' => 'map_to,new_tca_field_name,new_tca_field_type', 'canNotCollapse' => true]
     ],
     'columns' => [
-        't3ver_label' => [
-            'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.versionLabel',
-            'config' => [
-                'type' => 'input',
-                'size' => 30,
-                'max' => 255,
-            ]
-        ],
         'hidden' => [
             'exclude' => 1,
             'label' => $ll . 'tx_dce_domain_model_dcefield.hidden',
@@ -96,9 +86,18 @@ $dceFieldTca = [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'items' => [
-                    [$ll . 'tx_dce_domain_model_dcefield.type.element', 0],
-                    [$ll . 'tx_dce_domain_model_dcefield.type.tab', 1],
-                    [$ll . 'tx_dce_domain_model_dcefield.type.section', 2],
+                    [
+                        'label' => $ll . 'tx_dce_domain_model_dcefield.type.element',
+                        'value' => 0,
+                    ],
+                    [
+                        'label' => $ll . 'tx_dce_domain_model_dcefield.type.tab',
+                        'value' => 1,
+                    ],
+                    [
+                        'label' => $ll . 'tx_dce_domain_model_dcefield.type.section',
+                        'value' => 2,
+                    ],
                 ],
             ],
             'displayCond' => 'FIELD:parent_field:=:0'
@@ -109,7 +108,8 @@ $dceFieldTca = [
             'config' => [
                 'type' => 'input',
                 'size' => 15,
-                'eval' => 'trim,required'
+                'required' => true,
+                'eval' => 'trim'
             ],
         ],
         'variable' => [
@@ -118,9 +118,8 @@ $dceFieldTca = [
             'config' => [
                 'type' => 'input',
                 'size' => 15,
-                'eval' => 'trim,required,is_in,
-                           T3\Dce\UserFunction\CustomFieldValidation\NoLeadingNumberValidator,
-                           T3\Dce\UserFunction\CustomFieldValidation\LowerCamelCaseValidator',
+                'required' => true,
+                'eval' => 'trim,is_in,' . NoLeadingNumberValidator::class . ',' . LowerCamelCaseValidator::class,
                 'is_in' => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890_',
             ],
         ],
@@ -160,7 +159,8 @@ $dceFieldTca = [
             'label' => $ll . 'tx_dce_domain_model_dcefield.newTcaFieldName',
             'config' => [
                 'type' => 'input',
-                'eval' => 'trim,required,lower'
+                'required' => true,
+                'eval' => 'trim,lower'
             ],
             'displayCond' => [
                 'AND' => [
@@ -175,7 +175,8 @@ $dceFieldTca = [
             'config' => [
                 'type' => 'input',
                 'default' => 'auto',
-                'eval' => 'trim,required'
+                'required' => true,
+                'eval' => 'trim'
             ],
             'displayCond' => [
                 'AND' => [
@@ -209,7 +210,6 @@ $dceFieldTca = [
                     'levelLinksPosition' => 'bottom',
                     'useSortable' => 1,
                     'showPossibleLocalizationRecords' => 1,
-                    'showRemovedLocalizationRecords' => 1,
                     'showAllLocalizationLink' => 1,
                     'showSynchronizationLink' => 1,
                     'enabledControls' => [
@@ -226,7 +226,8 @@ $dceFieldTca = [
             'config' => [
                 'type' => 'input',
                 'size' => 15,
-                'eval' => 'trim,required'
+                'required' => true,
+                'eval' => 'trim'
             ],
         ],
         'parent_dce' => [
@@ -246,11 +247,5 @@ $dceFieldTca = [
         ],
     ],
 ];
-
-if (!\T3\Dce\Compatibility::isTypo3Version('10.0.0')) {
-    $dceFieldTca['interface'] = [
-        'showRecordFieldList' => 'hidden,title,type,variable',
-    ];
-}
 
 return $dceFieldTca;

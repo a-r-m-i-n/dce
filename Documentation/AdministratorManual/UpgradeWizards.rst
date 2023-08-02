@@ -152,3 +152,9 @@ We just need to remove the usage of ``-> dce:explode()`` view helper and apply t
 as we did for a single image.
 
 This adjustment also works with images inside of sections (there, ``sys_file`` is being used instead of ``sys_file_reference``).
+
+
+InlineFalToFileUpdate
+~~~~~~~~~~~~~~~~~~~~~
+
+Migrates old FAL `type: inline` DCE field configurations to new `type: file`.

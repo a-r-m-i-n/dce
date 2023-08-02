@@ -1,46 +1,15 @@
 <div id="dceConfigurationWizard">
-	<f:if condition="{parameters.showTemplates}">
-		<f:then>
-			<f:render partial="ConfigurationEditor/AvailableTemplates" arguments="{uniqueIdentifier:uniqueIdentifier, availableTemplates:availableTemplates}"  />
-		</f:then>
-		<f:else>
-			<f:render partial="ConfigurationEditor/AvailableVariables" arguments="{showFields:showFields,uniqueIdentifier:uniqueIdentifier, availableFields:availableFields, famousViewHelpers:famousViewHelpers, dceViewHelpers:dceViewHelpers}"  />
-		</f:else>
-	</f:if>
-	<div>
-		<textarea class="dce-codemirror" data-mode="{parameters.mode}" id="codemirror_{uniqueIdentifier}" name={name} cols="80" rows="15" onchange="{onChangeFunc}">{value}</textarea>
-	</div>
+    <f:if condition="{parameters.showTemplates}">
+        <f:then>
+            <f:render partial="ConfigurationEditor/AvailableTemplates" arguments="{uniqueIdentifier:uniqueIdentifier, availableTemplates:availableTemplates}"/>
+        </f:then>
+        <f:else>
+            <f:render partial="ConfigurationEditor/AvailableVariables" arguments="{showFields:showFields,uniqueIdentifier:uniqueIdentifier, availableFields:availableFields, famousViewHelpers:famousViewHelpers, dceViewHelpers:dceViewHelpers}"/>
+        </f:else>
+    </f:if>
+    <div>
+        <textarea class="dce-code-editor form-control t3js-formengine-textarea formengine-textarea" data-mode="{parameters.mode}"
+                  id="dce-code-editor-{uniqueIdentifier}" name="{name}" cols="80" rows="3"
+                  data-formengine-input-name="{name}">{value}</textarea>
+    </div>
 </div>
-
-<script type="text/javascript">
-	require(['TYPO3/CMS/Dce/DceCodemirror', 'jquery'], function(DceCodemirror, $) {
-		$('.typo3-newRecordLink a.t3js-create-new-button').click(function(){
-			var $newButton = $(this);
-			var amountTextareaBefore = $newButton.closest('.form-group').find('textarea.dce-codemirror').length;
-			var timer = setInterval(function(){
-				var newAmount = $newButton.closest('.form-group').find('textarea.dce-codemirror').length;
-				if (amountTextareaBefore >= newAmount) {
-					return;
-				}
-				clearInterval(timer);
-				var $textareas = $newButton.closest('.form-group').find('textarea.dce-codemirror');
-				$.each($textareas, function(){
-					var $textarea = $(this);
-					DceCodemirror.initCodeMirrorEditor('#' + $textarea.attr('id'), '{parameters.mode}');
-				});
-			}, 100);
-		});
-
-		$('.panel-heading').click(function(event){
-			var $panel = $(this);
-			var timer = setInterval(function(){
-				var $textarea = $panel.parent().find('textarea.dce-codemirror');
-				if ($textarea.length === 0) {
-					return;
-				}
-				DceCodemirror.initCodeMirrorEditor('#' + $textarea.attr('id'), '{parameters.mode}');
-				clearInterval(timer);
-			}, 100);
-		});
-	});
-</script>
