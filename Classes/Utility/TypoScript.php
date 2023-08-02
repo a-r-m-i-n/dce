@@ -7,8 +7,8 @@ namespace T3\Dce\Utility;
  *  |
  *  | (c) 2012-2023 Armin Vieweg <armin@v.ieweg.de>
  */
-use T3\Dce\Compatibility;
 use T3\Dce\Configuration\BackendConfigurationManager;
+use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser;
 use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -40,29 +40,19 @@ class TypoScript
      */
     protected $backendConfigurationManager = null;
 
-    /**
-     * Injects the configurationManager.
-     * @param ConfigurationManagerInterface $configurationManager
-     */
-    public function injectConfigurationManager(ConfigurationManagerInterface $configurationManager): void
+
+//    /**
+//     * Injects the backendConfigurationManager.
+//     * @param BackendConfigurationManager $backendConfigurationManager
+//     */
+//    public function injectBackendConfigurationManager(BackendConfigurationManager $backendConfigurationManager): void
+//    {
+//        $this->backendConfigurationManager = $backendConfigurationManager;
+//    }
+
+    public function __construct(ConfigurationManagerInterface $configurationManager)
     {
         $this->configurationManager = $configurationManager;
-    }
-
-    /**
-     * Injects the backendConfigurationManager.
-     * @param BackendConfigurationManager $backendConfigurationManager
-     */
-    public function injectBackendConfigurationManager(BackendConfigurationManager $backendConfigurationManager): void
-    {
-        $this->backendConfigurationManager = $backendConfigurationManager;
-    }
-
-    /**
-     * Initialize this settings utility.
-     */
-    public function initializeObject(): void
-    {
         $this->contentObject = $this->configurationManager->getContentObject();
     }
 
@@ -197,8 +187,10 @@ class TypoScript
      */
     public function getTyposcriptSettingsByPageUid(int $pageUid): array
     {
-        $this->backendConfigurationManager->setCurrentPageId($pageUid);
-        $typoscript = $this->backendConfigurationManager->getTypoScriptSetup() ?? [];
+        $backendConfigurationManager = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Configuration\BackendConfigurationManager::class);
+
+//        $this->backendConfigurationManager->setCurrentPageId($pageUid);
+        $typoscript = $backendConfigurationManager->getTypoScriptSetup() ?? [];
         $context = $this->getCurrentContext();
         return $this->convertTypoScriptArrayToPlainArray(
             $typoscript[$context . '.'][self::EXTKEY . '.'] ?? []
@@ -230,7 +222,7 @@ class TypoScript
 
     protected function getCurrentContext(): string
     {
-        return (Compatibility::isFrontendMode()) ? TypoScript::CONTEXT_PLUGIN : TypoScript::CONTEXT_MODULE;
+        return (ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend()) ? TypoScript::CONTEXT_PLUGIN : TypoScript::CONTEXT_MODULE;
     }
 
     /**

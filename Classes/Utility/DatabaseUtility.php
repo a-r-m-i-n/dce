@@ -14,7 +14,6 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 class DatabaseUtility
 {
@@ -32,9 +31,9 @@ class DatabaseUtility
      */
     public static function getRowsFromQueryBuilder(QueryBuilder $queryBuilder, string $columnAsKey = ''): array
     {
-        $statement = $queryBuilder->execute();
+        $statement = $queryBuilder->executeQuery();
         $rows = [];
-        while ($row = $statement->fetch()) {
+        while ($row = $statement->fetchAssociative()) {
             if (!empty($columnAsKey)) {
                 $rows[$row[$columnAsKey]] = $row;
             } else {
@@ -102,7 +101,7 @@ class DatabaseUtility
      *
      * @return Dce|null The constructed DCE object or null
      */
-    public static function getDceObjectForContentElement($contentElement = null): ?Dce
+    public static function getDceObjectForContentElement($contentElement = null, bool $doNotCache = false): ?Dce
     {
         if (null === $contentElement || (\is_string($contentElement) && 0 === strpos($contentElement, 'NEW'))) {
             throw new \InvalidArgumentException('This is a new content element, can\'t create DCE instance from it.');
@@ -131,10 +130,8 @@ class DatabaseUtility
             );
         }
 
-        // Make instance of "DceRepository" and "FlexFormService"
-        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         /** @var DceRepository $dceRepository */
-        $dceRepository = $objectManager->get(DceRepository::class);
+        $dceRepository = GeneralUtility::makeInstance(DceRepository::class);
 
         // Convert flexform XML to array
         $flexData = FlexformService::get()
@@ -145,7 +142,8 @@ class DatabaseUtility
         $dce = $dceRepository->findAndBuildOneByUid(
             $dceUid,
             $flexData['settings'] ?? [],
-            $contentElement
+            $contentElement,
+            $doNotCache
         );
 
         return $dce;

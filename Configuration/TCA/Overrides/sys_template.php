@@ -7,10 +7,6 @@
  *  |     2022-2023 Armin Vieweg <armin@v.ieweg.de>
  */
 
-if (!defined('TYPO3_MODE')) {
-    die('Access denied.');
-}
-
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile(
     'dce',
     'Configuration/TypoScript',

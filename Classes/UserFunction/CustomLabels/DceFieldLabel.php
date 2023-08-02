@@ -63,7 +63,9 @@ class DceFieldLabel
      */
     public function getLabelDce(array &$parameter): void
     {
-        $parameter['title'] = LanguageService::sL($parameter['row']['title']);
+        if ($parameter['row']['title'] ?? null) {
+            $parameter['title'] = LanguageService::sL($parameter['row']['title']);
+        }
     }
 
     /**
@@ -112,7 +114,7 @@ class DceFieldLabel
                     $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
                 )
             )
-            ->execute()
-            ->fetch() ?: null;
+            ->executeQuery()
+            ->fetchAssociative() ?: null;
     }
 }

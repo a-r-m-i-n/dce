@@ -8,64 +8,47 @@ namespace T3\Dce\Controller;
  *  | (c) 2012-2023 Armin Vieweg <armin@v.ieweg.de>
  */
 use Psr\Http\Message\ResponseInterface;
-use T3\Dce\Compatibility;
 use T3\Dce\Components\FlexformToTcaMapper\Mapper;
+use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Domain\Repository\DceRepository;
 use T3\Dce\Utility\File;
+use TYPO3\CMS\Backend\Template\ModuleTemplate;
+use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
-/**
- * DCE Module Controller
- * Provides the backend DCE module, for faster and easier access to DCEs.
- */
 class DceModuleController extends ActionController
 {
-    /**
-     * @var DceRepository
-     */
-    protected $dceRepository;
+    private ModuleTemplate $moduleTemplate;
 
-    /**
-     * Initialize Action.
-     */
-    public function initializeAction(): void
-    {
-        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $this->dceRepository = $objectManager->get(DceRepository::class);
+    public function __construct(
+        private readonly DceRepository $dceRepository,
+        private readonly DataHandler $dataHandler,
+        private readonly ModuleTemplateFactory $moduleTemplateFactory
+    ) {
     }
 
-    /**
-     * Index Action.
-     *
-     * @return void|ResponseInterface
-     */
+    public function initializeAction()
+    {
+        $this->moduleTemplate = $this->moduleTemplateFactory->create($this->request);
+        $this->moduleTemplate->setTitle('DCE Backend Module');
+        $this->moduleTemplate->getDocHeaderComponent()->disable();
+    }
+
     public function indexAction()
     {
-        $this->view->assign('dces', $this->dceRepository->findAllAndStatics(true));
+        $this->moduleTemplate->assign('dces', $this->dceRepository->findAllAndStatics(true));
 
-        if (isset($this->responseFactory) && Compatibility::isTypo3Version()) {
-            $response = $this->responseFactory->createResponse();
-            $response->getBody()->write($this->view->render());
-
-            return $response;
-        }
+        return $this->moduleTemplate->renderResponse();
     }
 
-    /**
-     * @param \T3\Dce\Domain\Model\Dce $dce
-     * @param bool                     $perform
-     *
-     * @return void|ResponseInterface
-     */
-    public function updateTcaMappingsAction($dce, $perform = false)
+    public function updateTcaMappingsAction(Dce $dce, bool $perform = false): ResponseInterface
     {
         $contentElements = $this->dceRepository->findContentElementsBasedOnDce($dce);
-        $this->view->assign('contentElements', $contentElements);
-        $this->view->assign('dce', $dce);
+        $this->moduleTemplate->assign('contentElements', $contentElements);
+        $this->moduleTemplate->assign('dce', $dce);
         if ($perform) {
             foreach ($contentElements as $contentElement) {
                 Mapper::saveFlexformValuesToTca(
@@ -73,52 +56,37 @@ class DceModuleController extends ActionController
                     $contentElement['pi_flexform']
                 );
             }
-            $this->view->assign('perform', true);
+            $this->moduleTemplate->assign('perform', true);
         }
-        if (isset($this->responseFactory) && Compatibility::isTypo3Version()) {
-            $response = $this->responseFactory->createResponse();
-            $response->getBody()->write($this->view->render());
 
-            return $response;
-        }
+        return $this->moduleTemplate->renderResponse();
     }
 
     /**
      * Clears Caches Action.
-     *
-     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
-     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
      */
-    public function clearCachesAction(): void
+    public function clearCachesAction(): ResponseInterface
     {
-        /** @var DataHandler $dataHandler */
-        $dataHandler = $this->objectManager->get(DataHandler::class);
-        $dataHandler->start([], []);
-        $dataHandler->clear_cacheCmd('all');
+        $this->dataHandler->start([], []);
+        $this->dataHandler->clear_cacheCmd('all');
         $translateKey = 'LLL:EXT:dce/Resources/Private/Language/locallang_mod.xlf:';
         $this->addFlashMessage(
             LocalizationUtility::translate($translateKey . 'clearCachesFlashMessage', 'dce'),
             LocalizationUtility::translate($translateKey . 'clearCaches', 'dce')
         );
-        $this->redirect('index');
+
+        return $this->redirect('index');
     }
 
-    /**
-     * Hall of fame Action.
-     *
-     * @return void|ResponseInterface
-     */
-    public function hallOfFameAction()
+    public function hallOfFameAction(): ResponseInterface
     {
-        $donators = File::openJsonFile('EXT:dce/Resources/Private/Data/Donators.json');
+        $content = file_get_contents(GeneralUtility::getFileAbsFileName('EXT:dce/Resources/Private/Data/Donators.json'));
+        $donators = json_decode($content, true, 512, JSON_THROW_ON_ERROR) ?? [];
         shuffle($donators);
         $this->view->assign('donators', $donators);
 
-        if (isset($this->responseFactory) && Compatibility::isTypo3Version()) {
-            $response = $this->responseFactory->createResponse();
-            $response->getBody()->write($this->view->render());
+        $this->moduleTemplate->assign('donators', $donators);
 
-            return $response;
-        }
+        return $this->moduleTemplate->renderResponse();
     }
 }

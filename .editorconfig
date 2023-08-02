@@ -9,11 +9,3 @@ trim_trailing_whitespace = true
 [{*.css,*.js,*.json,*.yaml,*.yml,*.php,*.md,*.rst}]
 indent_style = space
 indent_size = 4
-
-[*Contrib/*.js]
-charset = unset
-end_of_line = unset
-insert_final_newline = unset
-trim_trailing_whitespace = unset
-indent_size = unset
-indent_style = unset

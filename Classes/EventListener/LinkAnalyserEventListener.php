@@ -1,6 +1,6 @@
 <?php
 
-namespace T3\Dce\Slots;
+namespace T3\Dce\EventListener;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
@@ -10,27 +10,21 @@ namespace T3\Dce\Slots;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\StringUtility;
+use TYPO3\CMS\Linkvalidator\Event\BeforeRecordIsAnalyzedEvent;
 use TYPO3\CMS\Linkvalidator\LinkAnalyzer;
 
-/**
- * Class LinkAnalyserSlot.
- */
-class LinkAnalyserSlot
+class LinkAnalyserEventListener
 {
-    /**
-     * @param string $table
-     */
     public function beforeAnalyzeRecord(
         array $results,
         array $record,
-        $table,
+        string $table,
         array $fields,
         LinkAnalyzer $linkAnalyser
     ): array {
         if ('tt_content' === $table && !empty($record['pi_flexform'])) {
             $rawRecord = BackendUtility::getRecord('tt_content', $record['uid'], '*');
-            if (0 !== strpos($rawRecord['CType'], 'dce_')) {
+            if (!str_starts_with($rawRecord['CType'], 'dce_')) {
                 return [$results, $record, $table, $fields, $linkAnalyser];
             }
             /** @var array|string $flexformArray */
@@ -42,17 +36,17 @@ class LinkAnalyserSlot
 
             $newFlexformContent = '';
             foreach ($flexformData as $key => $fieldValue) {
-                if (!StringUtility::endsWith($key, 'vDEF')) {
+                if (!str_ends_with($key, 'vDEF')) {
                     continue;
                 }
 
-                if (!empty($fieldValue) && !is_numeric($fieldValue) && false !== strpos($fieldValue, '://')) {
+                if (!empty($fieldValue) && !is_numeric($fieldValue) && str_contains($fieldValue, '://')) {
                     // Check for typolink (string, without new lines or < > signs)
                     if (\is_string($fieldValue) &&
-                        false === strpos($fieldValue, "\n") &&
-                        false === strpos($fieldValue, ' ') &&
-                        false === strpos($fieldValue, '<') &&
-                        false === strpos($fieldValue, '>')
+                        !str_contains($fieldValue, "\n") &&
+                        !str_contains($fieldValue, ' ') &&
+                        !str_contains($fieldValue, '<') &&
+                        !str_contains($fieldValue, '>')
                     ) {
                         $fieldValue = '<a href="' . $fieldValue . '">Typolink</a>';
                     }
@@ -66,10 +60,7 @@ class LinkAnalyserSlot
         return [$results, $record, $table, $fields, $linkAnalyser];
     }
 
-    /**
-     * @param \TYPO3\CMS\Linkvalidator\Event\BeforeRecordIsAnalyzedEvent $event
-     */
-    public function dispatchEvent($event): void
+    public function dispatchEvent(BeforeRecordIsAnalyzedEvent $event): void
     {
         [$results, $record] = $this->beforeAnalyzeRecord(
             $event->getResults(),

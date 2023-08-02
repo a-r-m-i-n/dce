@@ -32,6 +32,12 @@ class SimpleBackendView
      * @var string
      */
     protected static $lastContainerColor = '';
+    private ContainerFactory $containerFactory;
+
+    public function __construct(ContainerFactory $containerFactory)
+    {
+        $this->containerFactory = $containerFactory;
+    }
 
     /**
      * Returns configured rendered field value.
@@ -205,7 +211,7 @@ class SimpleBackendView
                 $queryBuilder->expr()->eq(
                     'fieldname',
                     $queryBuilder->createNamedParameter(
-                        stripslashes($fieldConfiguration['foreign_match_fields']['fieldname']),
+                        stripslashes($fieldConfiguration['foreign_match_fields']['fieldname'] ?? 'settings.' . $field->getVariable()),
                         \PDO::PARAM_STR
                     )
                 ),
@@ -247,10 +253,10 @@ class SimpleBackendView
         if (!$dce->getEnableContainer()) {
             return '';
         }
-        if (ContainerFactory::checkContentElementForBeingRendered($dce->getContentObject())) {
+        if ($this->containerFactory->checkContentElementForBeingRendered($dce->getContentObject())) {
             return static::$lastContainerColor;
         }
-        $container = ContainerFactory::makeContainer($dce, true);
+        $container = $this->containerFactory->makeContainer($dce, true);
         static::$lastContainerColor = $container->getContainerColor();
 
         return static::$lastContainerColor;

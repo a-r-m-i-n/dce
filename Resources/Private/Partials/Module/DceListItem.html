@@ -34,12 +34,12 @@
         <td class="status">
             <f:if condition="{dce.hidden} == 1">
                 <f:then>
-                    <span class="label label-danger text-uppercase">{f:translate(key:'{lll}disabled')}</span>
+                    <span class="badge badge-danger text-uppercase">{f:translate(key:'{lll}disabled')}</span>
                 </f:then>
                 <f:else>
                     <f:if condition="{dce.fields -> f:count()} == 0">
-                        <f:then><span class="label label-warning text-uppercase">{f:translate(key:'{lll}nofields')}</span></f:then>
-                        <f:else><span class="label label-success text-uppercase">{f:translate(key:'{lll}enabled')}</span></f:else>
+                        <f:then><span class="badge badge-warning text-uppercase">{f:translate(key:'{lll}nofields')}</span></f:then>
+                        <f:else><span class="badge badge-success text-uppercase">{f:translate(key:'{lll}enabled')}</span></f:else>
                     </f:if>
                 </f:else>
             </f:if>
@@ -63,38 +63,38 @@
         </td>
         <td class="dceStats">
             <f:if condition="{dce.enableContainer}">
-                <span class="label label-default label-darker">
+                <span class="badge badge-default badge-darker">
                     <span class="text-uppercase">{f:translate(key:'{lll}dceContainerEnabled')}</span>
                     <f:if condition="{dce.containerItemLimit}">({f:translate(key:'{lll}limitedToItems', arguments:'{0:\'{dce.containerItemLimit}\'}')})</f:if>
                 </span>
             </f:if>
             <f:if condition="{dce.enableDetailpage}">
-                <span class="label label-default label-darker">
+                <span class="badge badge-default badge-darker">
                     <span class="text-uppercase">{f:translate(key:'{lll}dceDetailpageEnabled')}</span>
                 </span>
             </f:if>
         </td>
         <td class="fieldStats">
-            <span class="label label-default label-darker">{dce.fields -> f:count()} {f:translate(key:'{lll}fields')}</span>
+            <span class="badge badge-default badge-darker">{dce.fields -> f:count()} {f:translate(key:'{lll}fields')}</span>
             <f:if condition="{dce.hasTcaMappings}">
                 <f:if condition="{dce.addsNewFieldsToTca}">
-                    <f:then><span title="{f:translate(key:'{lll}tcaplus')}" class="label label-danger">TCA+</span></f:then>
-                    <f:else><span title="{f:translate(key:'{lll}tca')}" class="label label-danger">TCA</span></f:else>
+                    <f:then><span title="{f:translate(key:'{lll}tcaplus')}" class="badge badge-danger">TCA+</span></f:then>
+                    <f:else><span title="{f:translate(key:'{lll}tca')}" class="badge badge-danger">TCA</span></f:else>
                 </f:if>
             </f:if>
         </td>
         <td>
             <div class="pull-right">
+                <a href="{f:render(partial:'Module/OpenDce', arguments:'{uid:\'{dce.uid}\'}') -> dce:format.tiny()}" class="btn btn-primary btn-wide">
+                    <core:icon identifier="actions-open" size="small" />
+                    {f:translate(key:'{lll}edit')}
+                </a>
                 <f:if condition="{dce.hasTcaMappings}">
                     <f:link.action class="btn btn-default btn-large" action="updateTcaMappings" arguments="{dce:dce}">
                         <core:icon identifier="actions-refresh" />
                         <f:translate key="{lll}updateTcaMappings" />
                     </f:link.action>
                 </f:if>
-                <a href="{f:render(partial:'Module/OpenDce', arguments:'{uid:\'{dce.uid}\'}') -> dce:format.tiny()}" class="btn btn-primary btn-wide">
-                    <i class="fa fa-edit"></i>
-                    {f:translate(key:'{lll}edit')}
-                </a>
             </div>
         </td>
     </tr>

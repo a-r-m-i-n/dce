@@ -1,6 +1,6 @@
 <?php
 
-namespace T3\Dce\Slots;
+namespace T3\Dce\EventListener;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
@@ -11,15 +11,8 @@ namespace T3\Dce\Slots;
 use T3\Dce\Components\FlexformToTcaMapper\Mapper;
 use T3\Dce\Utility\DatabaseUtility;
 
-/**
- * Class TablesDefinitionIsBeingBuiltSlot
- * Signal defined in \TYPO3\CMS\Install\Service\SqlExpectedSchemaService.
- */
-class TablesDefinitionIsBeingBuiltSlot
+class TablesDefinitionIsBeingBuiltEventListener
 {
-    /**
-     * @throws \Doctrine\DBAL\DBALException
-     */
     public function extendTtContentTable(array $sqlStrings): array
     {
         if ($this->checkRequiredFieldsExisting()) {
@@ -31,8 +24,6 @@ class TablesDefinitionIsBeingBuiltSlot
 
     /**
      * Checks if required fields are already in database.
-     *
-     * @throws \Doctrine\DBAL\DBALException
      */
     protected function checkRequiredFieldsExisting(): bool
     {

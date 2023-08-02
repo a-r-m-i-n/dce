@@ -104,8 +104,8 @@ class Container
                         $queryBuilder->createNamedParameter($contentObject['l18n_parent'], \PDO::PARAM_INT)
                     )
                 )
-                ->execute()
-                ->fetch();
+                ->executeQuery()
+                ->fetchAssociative();
             if ($originalRow) {
                 $contentObject = $originalRow;
             }

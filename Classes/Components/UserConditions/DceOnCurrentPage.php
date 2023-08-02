@@ -8,8 +8,8 @@ namespace T3\Dce\Components\UserConditions;
  *  | (c) 2012-2023 Armin Vieweg <armin@v.ieweg.de>
  *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
-use T3\Dce\Compatibility;
 use T3\Dce\Utility\DatabaseUtility;
+use TYPO3\CMS\Core\Http\ApplicationType;
 
 /**
  * Checks if the current page contains a DCE (instance).
@@ -29,7 +29,7 @@ class DceOnCurrentPage
 {
     public function matchCondition(array $parameters): bool
     {
-        if (!Compatibility::isFrontendMode()) {
+        if (!ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend()) {
             return false;
         }
 
@@ -45,8 +45,8 @@ class DceOnCurrentPage
                         $queryBuilder->createNamedParameter($dceIdentifier, \PDO::PARAM_INT)
                     )
                 )
-                ->execute()
-                ->fetch();
+                ->executeQuery()
+                ->fetchAssociative();
 
             if (!$dce) {
                 return false;
@@ -79,8 +79,8 @@ class DceOnCurrentPage
                         $queryBuilder->createNamedParameter($dceIdentifier)
                     )
                 )
-                ->execute()
-                ->fetchAll()
+                ->executeQuery()
+                ->fetchAllAssociative()
         ) > 0;
     }
 }

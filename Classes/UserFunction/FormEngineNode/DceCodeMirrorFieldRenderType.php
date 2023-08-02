@@ -14,50 +14,22 @@ use T3\Dce\Utility\File;
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
 use TYPO3\CMS\Backend\Form\NodeFactory;
 use TYPO3\CMS\Core\Database\Connection;
+use TYPO3\CMS\Core\Page\JavaScriptModuleInstruction;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\PathUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
- * Codemirror text area field.
+ * Note: Currently (since DCE 3.0) the CodeMirror editor is not included in DCE extension anymore
+ *       It is planned to reimplement CodeMirror integration (ES6) in future DCE versions (based on EXT:t3editor)
  */
 class DceCodeMirrorFieldRenderType extends AbstractFormElement
 {
-    /**
-     * @var array
-     */
-    protected $resultArray;
+    private array $resultArray = [];
 
-    /**
-     * @var string
-     */
-    protected $uniqueIdentifier;
+    private string $uniqueIdentifier = '';
 
-    /**
-     * Main render method.
-     *
-     * @return array As defined in initializeResultArray() of AbstractNode
-     */
-    public function render()
-    {
-        $mode = $this->data['parameterArray']['fieldConf']['config']['parameters']['mode'];
-        $this->resultArray = $this->initializeResultArray();
-        $this->resultArray['stylesheetFiles'][] =
-            'EXT:dce/Resources/Public/JavaScript/Contrib/codemirror/lib/codemirror.css';
-        $this->resultArray['stylesheetFiles'][] =
-            'EXT:dce/Resources/Public/Css/custom_codemirror.css';
-        $this->resultArray['requireJsModules'][] = [
-            'TYPO3/CMS/Dce/DceCodemirror' => 'function(DceCodemirror, $) { DceCodemirror.initCodeMirrorEditor("#codemirror_' .
-                $this->uniqueIdentifier . '", "' . $mode . '"); }',
-        ];
-        $this->resultArray['html'] = $this->getCodemirrorFieldHtml($this->data);
-
-        return $this->resultArray;
-    }
-
-    /**
-     * All nodes get an instance of the NodeFactory and the main data array.
-     */
     public function __construct(NodeFactory $nodeFactory, array $data)
     {
         parent::__construct($nodeFactory, $data);
@@ -65,25 +37,33 @@ class DceCodeMirrorFieldRenderType extends AbstractFormElement
         $this->uniqueIdentifier = str_replace('.', '', uniqid('', true));
     }
 
+    public function render(): array
+    {
+        $this->resultArray = $this->initializeResultArray();
+
+        $this->resultArray['stylesheetFiles'][] = PathUtility::getPublicResourceWebPath('EXT:dce/Resources/Public/Css/CodeEditor.css');
+        $this->resultArray['javaScriptModules'][] = JavaScriptModuleInstruction::create('@t3/dce/code-editor');
+
+        $this->resultArray['html'] = $this->getCodeEditorFieldHtml($this->data);
+
+        return $this->resultArray;
+    }
+
     /**
      * Uses a Fluid template to render the HTML code required for the Codemirror field and helpful dropdown.
      */
-    public function getCodemirrorFieldHtml(array $data): string
+    public function getCodeEditorFieldHtml(array $data): string
     {
         /** @var StandaloneViewFactory $viewFactory */
         $viewFactory = GeneralUtility::makeInstance(StandaloneViewFactory::class);
         /** @var StandaloneView $fluidTemplate */
         $fluidTemplate = $viewFactory->makeNewDceView();
-        $fluidTemplate->setTemplatePathAndFilename(File::get(
+        $fluidTemplate->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
             'EXT:dce/Resources/Private/Templates/DceUserFields/Codemirror.html'
         ));
 
         $fluidTemplate->assign('name', $data['parameterArray']['itemFormElName']);
         $fluidTemplate->assign('value', $data['parameterArray']['itemFormElValue']);
-        $fluidTemplate->assign(
-            'onChangeFunc',
-            htmlspecialchars(implode('', $data['parameterArray']['fieldChangeFunc']))
-        );
         $fluidTemplate->assign('uniqueIdentifier', $this->uniqueIdentifier);
         $fluidTemplate->assign('parameters', $data['parameterArray']['fieldConf']['config']['parameters']);
 
@@ -104,10 +84,7 @@ class DceCodeMirrorFieldRenderType extends AbstractFormElement
         return $fluidTemplate->render();
     }
 
-    /**
-     * Get fields which can be used as variables.
-     */
-    protected function getAvailableFields(): array
+    private function getAvailableFields(): array
     {
         $fields = [];
         $rowFields = GeneralUtility::trimExplode(',', $this->data['databaseRow']['fields']);
@@ -139,10 +116,10 @@ class DceCodeMirrorFieldRenderType extends AbstractFormElement
                     )
                 )
                 ->orderBy('sorting', 'ASC')
-                ->execute()
-                ->fetchAll();
+                ->executeQuery()
+                ->fetchAllAssociative();
 
-            if (\is_array($rows)) {
+            if (is_array($rows)) {
                 foreach ($rows as $row) {
                     if ('2' === $row['type']) {
                         $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable(
@@ -158,8 +135,8 @@ class DceCodeMirrorFieldRenderType extends AbstractFormElement
                                 )
                             )
                             ->orderBy('sorting', 'ASC')
-                            ->execute()
-                            ->fetchAll();
+                            ->executeQuery()
+                            ->fetchAllAssociative();
                         $row['hasSectionFields'] = true;
                         $row['sectionFields'] = $sectionFields;
                     }
@@ -171,7 +148,7 @@ class DceCodeMirrorFieldRenderType extends AbstractFormElement
         return $fields;
     }
 
-    protected function getAvailableTemplates(): array
+    private function getAvailableTemplates(): array
     {
         $path = ExtensionManagementUtility::extPath('dce') . 'Resources/Public/CodeSnippets/ConfigurationTemplates/';
         $templates = GeneralUtility::get_dirs($path);
@@ -192,21 +169,21 @@ class DceCodeMirrorFieldRenderType extends AbstractFormElement
         return $templates;
     }
 
-    protected function getFamousViewHelpers(): array
+    private function getFamousViewHelpers(): array
     {
-        return $this->getViewhelpers(
+        return $this->getViewHelpers(
             ExtensionManagementUtility::extPath('dce') . 'Resources/Public/CodeSnippets/FamousViewHelpers/'
         );
     }
 
-    protected function getDceViewHelpers(): array
+    private function getDceViewHelpers(): array
     {
-        return $this->getViewhelpers(
+        return $this->getViewHelpers(
             ExtensionManagementUtility::extPath('dce') . 'Resources/Public/CodeSnippets/DceViewHelpers/'
         );
     }
 
-    protected function getViewhelpers(string $path): array
+    private function getViewHelpers(string $path): array
     {
         $files = GeneralUtility::getFilesInDir($path);
         $viewHelpers = [];

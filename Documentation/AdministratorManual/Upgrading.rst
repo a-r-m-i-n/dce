@@ -7,41 +7,34 @@
 Upgrading DCE
 -------------
 
-Upgrading to latest version 2.0 is simple, when you are at least on **TYPO3 8.7** and **DCE 1.5**.
+New version 3.0 of DCE and TYPO3 v12 contain various changes, which requires some manual adjustments.
 
 DCE provides some upgrade wizards in install tool of TYPO3, which pop up when necessary.
 
 
-With composer
-=============
+Steps
+=====
 
 Just change your requirements section to
 
 ::
 
-    "t3/dce": "^2.7"
+    "t3/dce": "^3.0"
 
 and perform ``composer update``.
 
 Then go to TYPO3 Install Tool and check (and perform) the **upgrade wizards** and **database compare**!
 
+Also, make sure you've deleted the DCE cache files (located in `var/cache/code/cache_dce`).
 
-Without composer
-================
 
-Because DCE 2.0 changed namespaces an update may occure error messages, like:
+Templates in fileadmin
+======================
+
+If you still use DCE templates located in fileadmin, loaded via FAL, you need to make manual adjustments.
+
+The only way to load DCE template files, is using the `EXT:` syntax. For example:
 
 ::
 
-    Fatal error: Class 'T3\Dce\ViewHelpers\ArrayGetIndexViewHelper' not found
-
-
-When you already have this error, you can simply delete the ``typo3conf/autoload`` folder. TYPO3 will recreate it.
-
-
-To avoid this error before it happens, perform these steps:
-
-1. Uninstall DCE in extension manager
-2. Perform update (manual upload or TER update)
-3. Reinstall DCE
-4. Go to install tool and perform the **upgrade wizards** and **database compare**
+    EXT:my_provider_extension/Resources/Private/Templates/Dce/MyDce.html

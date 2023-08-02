@@ -69,8 +69,8 @@ class Mapper
                         $queryBuilder->createNamedParameter('', \PDO::PARAM_STR)
                     )
                 )
-                ->execute()
-                ->fetchAll();
+                ->executeQuery()
+                ->fetchAllAssociative();
         } catch (\Exception $exception) {
             return [];
         }
@@ -147,8 +147,8 @@ class Mapper
                     $queryBuilder->createNamedParameter('', \PDO::PARAM_STR)
                 )
             )
-            ->execute()
-            ->fetchAll();
+            ->executeQuery()
+            ->fetchAllAssociative();
 
         if (empty($piFlexform) || 0 === \count($dceFieldsWithMapping)) {
             return;
@@ -189,7 +189,9 @@ class Mapper
             $databaseColumns = DatabaseUtility::adminGetFields('tt_content');
             foreach (array_keys($updateData) as $columnName) {
                 if (!array_key_exists($columnName, $databaseColumns)) {
-                    throw new \InvalidArgumentException('You\'ve mapped the DCE field "' . ($fieldName ?? '') . '" (of DCE with uid ' . $dceUid . ') to the ' . 'non-existing tt_content column "' . $columnName . '". Please update your mapping or ensure ' . 'that the tt_content column is existing.');
+                    $tcaMappings = array_flip($fieldToTcaMappings);
+                    $fieldName = $tcaMappings[$columnName];
+                    throw new \InvalidArgumentException('You\'ve mapped the DCE field "' . ($fieldName ?? '') . '" (of DCE with uid ' . $dceUid . ') to the ' . 'non-existing tt_content column "' . $columnName . '". Please update your mapping or ensure ' . 'that the tt_content column is existing in database.');
                 }
             }
             $connection = DatabaseUtility::getConnectionPool()->getConnectionForTable('tt_content');

@@ -7,11 +7,9 @@ namespace T3\Dce\ViewHelpers;
  *  |
  *  | (c) 2012-2023 Armin Vieweg <armin@v.ieweg.de>
  */
-use T3\Dce\Compatibility;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\FileRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -28,10 +26,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class FileInfoViewHelper extends AbstractViewHelper
 {
-    /**
-     * @var FileRepository
-     */
-    protected static $fileRepository;
+    protected static FileRepository $fileRepository;
 
     /**
      * @var array
@@ -57,12 +52,7 @@ class FileInfoViewHelper extends AbstractViewHelper
     public function render()
     {
         $file = $this->getFile($this->arguments['fileUid']);
-
-        if (Compatibility::isTypo3Version('10.0.0')) {
-            $properties = array_merge($file->getMetaData()->get(), $file->getProperties());
-        } else {
-            $properties = array_merge($file->_getMetaData(), $file->getProperties());
-        }
+        $properties = array_merge($file->getMetaData()->get(), $file->getProperties());
 
         if (!array_key_exists($this->arguments['attribute'], $properties)) {
             throw new \Exception('Given file in DCE\'s fileInfo view helper has no attribute named "' . $this->arguments['attribute'] . '". Most common, available attributes are: ' . 'title, description, alternative, width, height, name, extension, size and uid', 1429046106);
@@ -104,10 +94,8 @@ class FileInfoViewHelper extends AbstractViewHelper
         if (null !== self::$fileRepository) {
             return self::$fileRepository;
         }
-        /** @var ObjectManager $objectManager */
-        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        // @var FileRepository $fileRepository
-        self::$fileRepository = $objectManager->get(FileRepository::class);
+
+        self::$fileRepository = GeneralUtility::makeInstance(FileRepository::class);
 
         return self::$fileRepository;
     }

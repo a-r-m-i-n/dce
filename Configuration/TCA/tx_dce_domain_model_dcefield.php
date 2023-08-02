@@ -6,9 +6,8 @@
  *  | (c) 2012-2023 Armin Vieweg <armin@v.ieweg.de>
  */
 
-if (!defined('TYPO3_MODE')) {
-    die('Access denied.');
-}
+use T3\Dce\UserFunction\CustomFieldValidation\LowerCamelCaseValidator;
+use T3\Dce\UserFunction\CustomFieldValidation\NoLeadingNumberValidator;
 
 $ll = 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xlf:';
 $extensionPath = \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(
@@ -109,7 +108,8 @@ $dceFieldTca = [
             'config' => [
                 'type' => 'input',
                 'size' => 15,
-                'eval' => 'trim,required'
+                'required' => true,
+                'eval' => 'trim'
             ],
         ],
         'variable' => [
@@ -118,9 +118,8 @@ $dceFieldTca = [
             'config' => [
                 'type' => 'input',
                 'size' => 15,
-                'eval' => 'trim,required,is_in,
-                           T3\Dce\UserFunction\CustomFieldValidation\NoLeadingNumberValidator,
-                           T3\Dce\UserFunction\CustomFieldValidation\LowerCamelCaseValidator',
+                'required' => true,
+                'eval' => 'trim,is_in,' . NoLeadingNumberValidator::class . ',' . LowerCamelCaseValidator::class,
                 'is_in' => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890_',
             ],
         ],
@@ -160,7 +159,8 @@ $dceFieldTca = [
             'label' => $ll . 'tx_dce_domain_model_dcefield.newTcaFieldName',
             'config' => [
                 'type' => 'input',
-                'eval' => 'trim,required,lower'
+                'required' => true,
+                'eval' => 'trim,lower'
             ],
             'displayCond' => [
                 'AND' => [
@@ -175,7 +175,8 @@ $dceFieldTca = [
             'config' => [
                 'type' => 'input',
                 'default' => 'auto',
-                'eval' => 'trim,required'
+                'required' => true,
+                'eval' => 'trim'
             ],
             'displayCond' => [
                 'AND' => [
@@ -226,7 +227,8 @@ $dceFieldTca = [
             'config' => [
                 'type' => 'input',
                 'size' => 15,
-                'eval' => 'trim,required'
+                'required' => true,
+                'eval' => 'trim'
             ],
         ],
         'parent_dce' => [
@@ -246,11 +248,5 @@ $dceFieldTca = [
         ],
     ],
 ];
-
-if (!\T3\Dce\Compatibility::isTypo3Version('10.0.0')) {
-    $dceFieldTca['interface'] = [
-        'showRecordFieldList' => 'hidden,title,type,variable',
-    ];
-}
 
 return $dceFieldTca;

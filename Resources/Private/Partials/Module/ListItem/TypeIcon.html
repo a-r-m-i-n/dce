@@ -2,17 +2,10 @@
 <div class="typeicon">
 	<f:if condition="{dce.wizardIcon} == 'custom'">
 		<f:then>
-			<f:if condition="{dce.selectedWizardIconPath}">
-				<f:then>
-					<f:image src="{dce.selectedWizardIconPath}" width="32c" height="32" />
-				</f:then>
-				<f:else>
-					<f:image src="{f:uri.resource(path: 'Icons/DceModuleIcon.svg')}" width="32c" height="32" />
-				</f:else>
-			</f:if>
+			<core:icon identifier="ext-dce-{dce.identifier}-customwizardicon" size="medium" />
 		</f:then>
 		<f:else>
-			<core:icon identifier="{dce.selectedWizardIcon}" size="default" />
+			<core:icon identifier="{dce.selectedWizardIcon}" size="medium" />
 		</f:else>
 	</f:if>
 </div>

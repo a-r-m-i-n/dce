@@ -22,7 +22,6 @@ use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Resource\ResourceStorage;
 use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
 /**
@@ -50,12 +49,10 @@ class FileToFalUpdateWizard implements UpgradeWizardInterface, LoggerAwareInterf
      */
     private $fileStorageRepository;
 
-    public function __construct()
+    public function __construct(DceRepository $dceRepository, StorageRepository $fileStorageRepository)
     {
-        /** @var ObjectManager $objectManager */
-        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $this->dceRepository = $objectManager->get(DceRepository::class);
-        $this->fileStorageRepository = $objectManager->get(StorageRepository::class);
+        $this->dceRepository = $dceRepository;
+        $this->fileStorageRepository = $fileStorageRepository;
     }
 
     public function getIdentifier(): string
@@ -120,7 +117,7 @@ class FileToFalUpdateWizard implements UpgradeWizardInterface, LoggerAwareInterf
                     if ($affectedFieldRow['parent_dce'] === 0) {
                         // Resolve section field contents
                         $images = '';
-                        foreach ($flexformData[$affectedFieldRow['_parent_section_field']['variable']] as $key => $child) {
+                        foreach ($flexformData[$affectedFieldRow['_parent_section_field']['variable']] ?? [] as $key => $child) {
                             $child = reset($child);
                             $images .= $child[$affectedFieldRow['variable']];
                             $images .= ',';
@@ -222,8 +219,8 @@ class FileToFalUpdateWizard implements UpgradeWizardInterface, LoggerAwareInterf
                     )
                 )
             )
-            ->execute()
-            ->fetchAll();
+            ->executeQuery()
+            ->fetchAllAssociative();
     }
 
     private function getAffectedDceRows(?array $affectedFieldRows): array
@@ -248,8 +245,8 @@ class FileToFalUpdateWizard implements UpgradeWizardInterface, LoggerAwareInterf
                                 $queryBuilder->createNamedParameter($affectedFieldRow['parent_field'])
                             )
                         )
-                        ->execute()
-                        ->fetch();
+                        ->executeQuery()
+                        ->fetchAssociative();
 
                     $affectedFieldRow['_parent_section_field'] = $sectionFieldRow;
                     $dceUid = (int)$sectionFieldRow['parent_dce'];
@@ -269,8 +266,8 @@ class FileToFalUpdateWizard implements UpgradeWizardInterface, LoggerAwareInterf
                             $queryBuilder->createNamedParameter($dceUid)
                         )
                     )
-                    ->execute()
-                    ->fetch();
+                    ->executeQuery()
+                    ->fetchAssociative();
 
                 $affectedDceRows[$dceUid] = $dceRow;
                 $affectedDceRows[$dceUid]['_affectedFields'] = [$affectedFieldRow];

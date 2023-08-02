@@ -12,6 +12,7 @@ namespace T3\Dce\UpdateWizards;
 use T3\Dce\Utility\DatabaseUtility;
 use T3\Dce\Utility\File;
 use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
 /**
@@ -56,8 +57,8 @@ class MigrateOldNamespacesInFluidTemplateUpdateWizard implements UpgradeWizardIn
         $dceRows = $queryBuilder
             ->select('*')
             ->from('tx_dce_domain_model_dce')
-            ->execute()
-            ->fetchAll();
+            ->executeQuery()
+            ->fetchAllAssociative();
 
         $updateTemplates = 0;
         foreach ($dceRows as $dceRow) {
@@ -113,8 +114,8 @@ class MigrateOldNamespacesInFluidTemplateUpdateWizard implements UpgradeWizardIn
         $dceRows = $queryBuilder
             ->select('*')
             ->from('tx_dce_domain_model_dce')
-            ->execute()
-            ->fetchAll();
+            ->executeQuery()
+            ->fetchAllAssociative();
 
         foreach ($dceRows as $dceRow) {
             // Frontend Template
@@ -164,7 +165,7 @@ class MigrateOldNamespacesInFluidTemplateUpdateWizard implements UpgradeWizardIn
      */
     protected function doesFileTemplateRequiresUpdate(array $dceRow, string $column): bool
     {
-        $file = File::get($dceRow[$column]);
+        $file = GeneralUtility::getFileAbsFileName($dceRow[$column]);
         if (empty($file)) {
             return false;
         }
@@ -219,7 +220,7 @@ class MigrateOldNamespacesInFluidTemplateUpdateWizard implements UpgradeWizardIn
      */
     protected function updateFileTemplate(array $dceRow, string $column): ?bool
     {
-        $file = File::get($dceRow[$column]);
+        $file = GeneralUtility::getFileAbsFileName($dceRow[$column]);
         if (!is_writable($file)) {
             return false;
         }

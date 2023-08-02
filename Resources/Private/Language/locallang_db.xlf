@@ -6,6 +6,9 @@
             <trans-unit id="wizardIcon.default"><source>Default TYPO3 icons</source></trans-unit>
             <trans-unit id="wizardIcon.custom"><source>Custom icon</source></trans-unit>
             <trans-unit id="wizardIcon.customIcon"><source>Use custom icon in field below</source></trans-unit>
+            <trans-unit id="wizardIcon.core"><source>TYPO3 Core Icons</source></trans-unit>
+            <trans-unit id="wizardIcon.extensions"><source>TYPO3 Extension Icons</source></trans-unit>
+
             <trans-unit id="wizardIcon.content-header"><source>Header</source></trans-unit>
             <trans-unit id="wizardIcon.content-textpic"><source>Textpic</source></trans-unit>
             <trans-unit id="wizardIcon.content-bullets"><source>Bullets</source></trans-unit>
@@ -32,7 +35,7 @@
             <trans-unit id="tx_dce_domain_model_dce.fields"><source>Fields</source></trans-unit>
             <trans-unit id="tx_dce_domain_model_dce.wizard"><source>Icon &amp; Wizard</source></trans-unit>
             <trans-unit id="tx_dce_domain_model_dce.wizardIcon"><source>DCE icon</source></trans-unit>
-            <trans-unit id="tx_dce_domain_model_dce.wizardCustomIcon"><source>DCE custom icon (relative or EXT: path to icon, 24x24 pixel)</source></trans-unit>
+            <trans-unit id="tx_dce_domain_model_dce.wizardCustomIcon"><source>DCE custom icon (EXT: path to icon)</source></trans-unit>
             <trans-unit id="tx_dce_domain_model_dce.wizardEnable"><source>Show DCE in content element Wizard</source></trans-unit>
             <trans-unit id="tx_dce_domain_model_dce.wizardCategory"><source>Wizard category</source></trans-unit>
             <trans-unit id="tx_dce_domain_model_dce.wizardDescription"><source>Wizard description</source></trans-unit>

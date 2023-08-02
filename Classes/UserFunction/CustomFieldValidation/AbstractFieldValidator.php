@@ -18,28 +18,6 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 abstract class AbstractFieldValidator
 {
     /**
-     * JavaScript validation.
-     *
-     * @return string javascript function code for js validation
-     */
-    public function returnFieldJs(): string
-    {
-        return 'return value;';
-    }
-
-    /**
-     * PHP Validation.
-     *
-     * @param bool $silent When true no flash messages should get created
-     *
-     * @return mixed
-     */
-    public function evaluateFieldValue(string $value, bool $silent = false)
-    {
-        return $value;
-    }
-
-    /**
      * Adds a flash message.
      *
      * @param string $message

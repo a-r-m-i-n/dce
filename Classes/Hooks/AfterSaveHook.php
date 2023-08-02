@@ -225,7 +225,7 @@ class AfterSaveHook
                 $dceIdentifier = !empty($dceRow['identifier']) ? 'dce_' . $dceRow['identifier']
                     : 'dce_dceuid' . $this->uid;
                 $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tt_content');
-                /** @var Statement $statement */
+
                 $statement = $queryBuilder
                     ->select('uid', 'pid')
                     ->from('tt_content')
@@ -235,11 +235,11 @@ class AfterSaveHook
                             $queryBuilder->createNamedParameter($dceIdentifier, \PDO::PARAM_STR)
                         )
                     )
-                    ->execute();
+                    ->executeQuery();
 
                 if ($statement->rowCount() > 0) {
                     $generator = GeneralUtility::makeInstance(SlugGenerator::class);
-                    while ($contentRow = $statement->fetch()) {
+                    while ($contentRow = $statement->fetchAssociative()) {
                         $slug = null;
                         if (!empty($dceRow['detailpage_slug_expression'])) {
                             try {
@@ -312,9 +312,9 @@ class AfterSaveHook
                     $queryBuilder->createNamedParameter($dceIdentifier, \PDO::PARAM_STR)
                 )
             )
-            ->execute();
+            ->executeQuery();
 
-        while ($row = $statement->fetch()) {
+        while ($row = $statement->fetchAssociative()) {
             $this->dataHandler->updateDB('tt_content', $row['uid'], ['hidden' => 1]);
             ++$updatedContentElementsCount;
         }

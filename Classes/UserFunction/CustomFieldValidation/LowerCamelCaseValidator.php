@@ -15,14 +15,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class LowerCamelCaseValidator extends AbstractFieldValidator
 {
-    /**
-     * PHP Validation to check lowerCamelCase.
-     *
-     * @param bool $silent When true no flash messages get created
-     *
-     * @return mixed|string Updated string, which fits the requirements
-     */
-    public function evaluateFieldValue(string $value, bool $silent = false)
+    public function evaluateFieldValue(string $value, string $isIn, bool $set = false)
     {
         $originalValue = $value;
         $value = lcfirst($value);
@@ -31,7 +24,7 @@ class LowerCamelCaseValidator extends AbstractFieldValidator
             $value = GeneralUtility::underscoredToLowerCamelCase($value);
         }
 
-        if ($originalValue !== $value && !empty($value) && !$silent) {
+        if ($originalValue !== $value && !empty($value) && $set) {
             $this->addFlashMessage(
                 $this->translate('tx_dce_formeval_lowerCamelCase', [$originalValue, $value]),
                 $this->translate('tx_dce_formeval_headline', [$value]),

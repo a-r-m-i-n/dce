@@ -94,8 +94,8 @@ class FixMalformedDceFieldVariableNamesUpdateWizard implements UpgradeWizardInte
                             $queryBuilder->createNamedParameter($malformedDceField['parent_field'], \PDO::PARAM_INT)
                         )
                     )
-                    ->execute()
-                    ->fetch();
+                    ->executeQuery()
+                    ->fetchAssociative();
                 $dceUid = $sectionParent['parent_dce'];
             } else {
                 $dceUid = $malformedDceField['parent_dce'];
@@ -111,8 +111,8 @@ class FixMalformedDceFieldVariableNamesUpdateWizard implements UpgradeWizardInte
                         $queryBuilder->createNamedParameter($this->getDceIdentifier($dceUid))
                     )
                 )
-                ->execute()
-                ->fetchAll();
+                ->executeQuery()
+                ->fetchAllAssociative();
 
             foreach ($contentElements as $contentElement) {
                 $updatedFlexform = str_replace(
@@ -166,8 +166,8 @@ class FixMalformedDceFieldVariableNamesUpdateWizard implements UpgradeWizardInte
                     $queryBuilder->createNamedParameter('')
                 )
             )
-            ->execute()
-            ->fetchAll();
+            ->executeQuery()
+            ->fetchAllAssociative();
 
         $lowerCamelCaseValidator = $this->getLowerCamelCaseValidator();
         $noLeadingNumberValidator = $this->getNoLeadingNumberValidator();
@@ -243,8 +243,8 @@ class FixMalformedDceFieldVariableNamesUpdateWizard implements UpgradeWizardInte
                     $queryBuilder->createNamedParameter($dceUid, \PDO::PARAM_INT)
                 )
             )
-            ->execute()
-            ->fetch();
+            ->executeQuery()
+            ->fetchAssociative();
 
         return is_array($dce) && !empty($dce['identifier']) ? 'dce_' . $dce['identifier'] : 'dce_dceuid' . $dceUid;
     }

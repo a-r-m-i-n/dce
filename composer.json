@@ -24,19 +24,10 @@
         }
     ],
     "require": {
-        "php": ">=7.3",
+        "php": "^8.1",
         "ext-json": "*",
         "ext-dom": "*",
-        "typo3/cms-core": "^9.5 || ^10.4 || ^11.0"
-    },
-    "require-dev": {
-        "t3/cms": "^10.4",
-        "typo3/cms-linkvalidator": "^10.4",
-        "friendsofphp/php-cs-fixer": "^3.1",
-        "phpstan/phpstan": "^0.12.98",
-        "jangregor/phpstan-prophecy": "^0.8",
-        "saschaegerer/phpstan-typo3": "^0.13",
-        "armin/editorconfig-cli": "^1.5"
+        "typo3/cms-core": "^12.4"
     },
     "suggest": {
         "b13/container": "Brings clean container functionality to TYPO3 CMS, supported by DCE."
@@ -44,10 +35,7 @@
     "autoload": {
         "psr-4": {
             "T3\\Dce\\": "Classes"
-        },
-        "files": [
-            "Classes/Compatibility.php"
-        ]
+        }
     },
     "replace": {
         "arminvieweg/dce": "*"
@@ -55,28 +43,12 @@
     "extra": {
         "typo3/cms": {
             "extension-key": "dce",
-            "cms-package-dir": "{$vendor-dir}/typo3/cms",
-            "web-dir": ".Build/public",
-            "app-dir": ".Build"
+            "Package": {
+                "serviceProvider": "T3\\Dce\\ServiceProvider",
+                "protected": true,
+                "partOfFactoryDefault": true,
+                "partOfMinimalUsableSystem": true
+            }
         }
-    },
-    "config": {
-        "vendor-dir": ".Build/vendor"
-    },
-    "scripts": {
-        "check": [
-            "@ec",
-            "@phpcs",
-            "@phpstan"
-        ],
-        "fix": [
-            "@ec:fix",
-            "@phpcs:fix"
-        ],
-        "phpstan": "phpstan analyse -c Resources/Private/Build/phpstan.neon",
-        "phpcs": "php-cs-fixer fix --config Resources/Private/Build/php-cs-rules.php --ansi --verbose --diff --dry-run",
-        "phpcs:fix": "php-cs-fixer fix --config Resources/Private/Build/php-cs-rules.php --ansi",
-        "ec": "ec -n -e Documentation-GENERATED -e .Build -e Resources/Public/JavaScript/Contrib",
-        "ec:fix": "ec -n -e Documentation-GENERATED -e .Build -e Resources/Public/JavaScript/Contrib --fix"
     }
 }

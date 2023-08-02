@@ -2,7 +2,6 @@
 
 <f:layout name="Backend" />
 <f:section name="header">
-	<dce:be.includeCssFile path="EXT:dce/Resources/Public/Css/dceModule.css" />
 	<f:render partial="Module/ModuleHeader" />
 </f:section>
 <f:section name="content">
@@ -10,21 +9,21 @@
 		<div class="row space-bottom">
 			<div class="col-lg-12">
 				<div class="nav-group">
-					<a href="{f:render(partial:'Module/NewDceLink') -> dce:format.tiny()}" class="btn btn-primary"><i class="fa fa-plus-circle"></i>  {f:translate(key:'{lll}createNewDce')}</a>
+					<a href="{f:render(partial:'Module/NewDceLink') -> dce:format.tiny()}" class="btn btn-primary"><core:icon identifier="actions-plus-circle-alt" size="small" />  {f:translate(key:'{lll}createNewDce')}</a>
 					<a href="{f:render(partial:'Module/ListViewLink') -> dce:format.tiny()}" class="btn btn-default"><core:icon identifier="actions-system-list-open" /> {f:translate(key:'{lll}goToListView')}</a>
 					<f:link.action action="clearCaches" class="btn btn-default"><core:icon identifier="actions-system-cache-clear-impact-high" /> {f:translate(key:'{lll}clearCaches')}</f:link.action>
 				</div>
 
 				<div class="nav-group">
-					<f:link.action action="hallOfFame" class="btn btn-default"><i class="fa fa-trophy"></i> {f:translate(key:'{lll}hallOfFame')}</f:link.action>
+					<f:link.action action="hallOfFame" class="btn btn-default"><core:icon identifier="actions-trophy" size="small" /> {f:translate(key:'{lll}hallOfFame')}</f:link.action>
 					<f:render partial="Module/Donate" arguments="{primary:1}" />
 				</div>
 
 				<div class="nav-group">
 					<div class="dropdown btn-group">
-						<button type="button" class="btn btn-default dropdown-toggle" id="dropdownMenuHelp" data-bs-toggle="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<button type="button" class="btn btn-default dropdown-toggle" id="dropdownMenuHelp" data-bs-toggle="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="fa-solidlse">
 							<core:icon identifier="actions-system-help-open" />
-							{f:translate(key:'{lll}help')} <f:if condition="{dce:be.version.typo3(returnInt:'1')} < 10000000"><span class="caret"></span></f:if>
+							{f:translate(key:'{lll}help')}
 						</button>
 						<ul class="dropdown-menu" aria-labelledby="dropdownMenuHelp">
 							<li><a class="dropdown-item" target="_blank" href="https://docs.typo3.org/typo3cms/extensions/dce/">{f:translate(key:'{lll}help.manual')}</a></li>
@@ -39,8 +38,8 @@
 				</div>
 			</div>
 		</div>
-		<div class="row space-bottom">
-			<div class="col-lg-10">
+		<div class=" space-bottom">
+			<div class="">
 				<f:flashMessages />
 				<table class="table table-striped">
 					<thead>

@@ -9,7 +9,6 @@ namespace T3\Dce\ViewHelpers;
  */
 use T3\Dce\Domain\Repository\DceRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -57,9 +56,7 @@ class DceViewHelper extends AbstractViewHelper
         $contentElementUid = $arguments['uid'];
 
         if (!self::$dceRepository) {
-            /** @var ObjectManager $objectManager */
-            $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-            self::$dceRepository = $objectManager->get(DceRepository::class);
+            self::$dceRepository = GeneralUtility::makeInstance(DceRepository::class);
         }
 
         $dce = self::$dceRepository->getDceInstance($contentElementUid);

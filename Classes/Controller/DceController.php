@@ -8,48 +8,22 @@ namespace T3\Dce\Controller;
  *  | (c) 2012-2023 Armin Vieweg <armin@v.ieweg.de>
  *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
-
 use Psr\Http\Message\ResponseInterface;
-use T3\Dce\Compatibility;
 use T3\Dce\Components\DceContainer\ContainerFactory;
-use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Domain\Repository\DceRepository;
 use T3\Dce\Utility\TypoScript;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 
-/**
- * DCE Controller
- * Handles the output of content element based on DCEs in front- and backend.
- */
 class DceController extends ActionController
 {
-    /**
-     * DCE Repository.
-     *
-     * @var DceRepository
-     */
-    protected $dceRepository;
+    public array $temporaryDceProperties = [];
 
-    /**
-     * TypoScript Utility.
-     *
-     * @var TypoScript
-     */
-    protected $typoScriptUtility;
-
-    /**
-     * @var array
-     */
-    public $temporaryDceProperties = [];
-
-    public function __construct()
-    {
-        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $this->dceRepository = $objectManager->get(DceRepository::class);
-        $this->typoScriptUtility = $objectManager->get(TypoScript::class);
+    public function __construct(
+        private readonly DceRepository $dceRepository,
+        private readonly TypoScript $typoScriptUtility,
+        private readonly ContainerFactory $containerFactory
+    ) {
     }
 
     /**
@@ -63,12 +37,7 @@ class DceController extends ActionController
         $this->settings = $this->typoScriptUtility->renderConfigurationArray($this->settings);
     }
 
-    /**
-     * Show Action which get called if a DCE get rendered in frontend.
-     *
-     * @return string|ResponseInterface output of dce in frontend
-     */
-    public function showAction()
+    public function showAction(): ResponseInterface
     {
         $contentObject = $this->configurationManager->getContentObject()->data;
         $config = $this->configurationManager->getConfiguration(
@@ -78,7 +47,6 @@ class DceController extends ActionController
         $dceUid = $this->dceRepository::extractUidFromCTypeOrIdentifier('dce_' . $config['pluginName']);
         $fieldList = $this->dceRepository->completeFieldList($this->settings, $dceUid);
 
-        /** @var Dce $dce */
         $dce = $this->dceRepository->findAndBuildOneByUid(
             $dceUid,
             $fieldList,
@@ -89,22 +57,19 @@ class DceController extends ActionController
             if (ContainerFactory::checkContentElementForBeingRendered($dce->getContentObject())) {
                 ContainerFactory::clearContentElementsToSkip($dce->getContentObject());
 
-                return ' ';
-            }
-            $container = ContainerFactory::makeContainer($dce);
+                $response = $this->responseFactory->createResponse();
+                $response->getBody()->write(' ');
 
-            if (!isset($this->responseFactory) || !Compatibility::isTypo3Version()) {
-                return $container->render();
+                return $response;
             }
+            $container = $this->containerFactory->makeContainer($dce);
+
             $response = $this->responseFactory->createResponse();
             $response->getBody()->write($container->render());
 
             return $response;
         }
 
-        if (!isset($this->responseFactory) || !Compatibility::isTypo3Version()) {
-            return $dce->render();
-        }
         $response = $this->responseFactory->createResponse();
         $response->getBody()->write($dce->render());
 

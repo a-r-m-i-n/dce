@@ -111,8 +111,8 @@ class MigrateFlexformSheetIdentifierUpdateWizard implements UpgradeWizardInterfa
                         $queryBuilder->createNamedParameter(FixMalformedDceFieldVariableNamesUpdateWizard::getDceIdentifier($dceUid))
                     )
                 )
-                ->execute()
-                ->fetchAll();
+                ->executeQuery()
+                ->fetchAllAssociative();
 
             foreach ($contentElements as $contentElement) {
                 $flexformData = GeneralUtility::xml2array($contentElement['pi_flexform']);
@@ -200,8 +200,8 @@ class MigrateFlexformSheetIdentifierUpdateWizard implements UpgradeWizardInterfa
                 )
             )
             ->orderBy('sorting', 'ASC')
-            ->execute()
-            ->fetchAll();
+            ->executeQuery()
+            ->fetchAllAssociative();
     }
 
     /**
@@ -226,8 +226,8 @@ class MigrateFlexformSheetIdentifierUpdateWizard implements UpgradeWizardInterfa
                     $queryBuilder->createNamedParameter('%<sheet index=\"sheet0\">%')
                 )
             )
-            ->execute()
-            ->fetchAll();
+            ->executeQuery()
+            ->fetchAllAssociative();
     }
 
     /**

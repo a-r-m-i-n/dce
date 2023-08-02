@@ -20,7 +20,7 @@
             <trans-unit id="tx_dce_domain_model_dce.fields"><target>Felder</target></trans-unit>
             <trans-unit id="tx_dce_domain_model_dce.wizard"><target>Icon &amp; Wizard</target></trans-unit>
             <trans-unit id="tx_dce_domain_model_dce.wizardIcon"><target>DCE Icon</target></trans-unit>
-            <trans-unit id="tx_dce_domain_model_dce.wizardCustomIcon"><target>Benutzerdefiniertes DCE Icon (relativer oder EXT: Pfad zum Icon, 24x24 Pixel)</target></trans-unit>
+            <trans-unit id="tx_dce_domain_model_dce.wizardCustomIcon"><target>Benutzerdefiniertes DCE Icon (EXT: Pfad zum Icon)</target></trans-unit>
             <trans-unit id="tx_dce_domain_model_dce.wizardEnable"><target>Zeige DCE in Wizard zum Anlegen neuer Content-Elemente</target></trans-unit>
             <trans-unit id="tx_dce_domain_model_dce.wizardCategory"><target>Wizard Kategorie</target></trans-unit>
             <trans-unit id="tx_dce_domain_model_dce.wizardDescription"><target>Wizard Beschreibung</target></trans-unit>

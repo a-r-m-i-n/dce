@@ -17,35 +17,17 @@ use T3\Dce\Utility\DatabaseUtility;
 use T3\Dce\Utility\DceExpressionUtility;
 use TYPO3\CMS\Core\DataHandling\SlugHelper;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 class SlugGenerator
 {
-    /**
-     * @var DceRepository
-     */
-    protected $dceRepository;
-
-    /**
-     * @var SlugHelper
-     */
-    protected $slugHelper;
+    protected DceRepository $dceRepository;
+    protected SlugHelper $slugHelper;
 
     public function __construct(
-        DceRepository $dceRepository = null,
-        SlugHelper $slugHelper = null
+        DceRepository $dceRepository
     ) {
-        /** @var ObjectManager $objectManager */
-        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        if (!$dceRepository) {
-            $dceRepository = $objectManager->get(DceRepository::class);
-        }
         $this->dceRepository = $dceRepository;
-
-        if (!$slugHelper) {
-            $slugHelper = GeneralUtility::makeInstance(SlugHelper::class, 'tt_content', 'tx_dce_slug', []);
-        }
-        $this->slugHelper = $slugHelper;
+        $this->slugHelper = GeneralUtility::makeInstance(SlugHelper::class, 'tt_content', 'tx_dce_slug', []);;
     }
 
     public static function getSlugFromDce(Dce $dce, ?string $expression = null): ?string
@@ -95,8 +77,8 @@ class SlugGenerator
             ->select('sys_language_uid')
             ->from('tt_content')
             ->where('uid=' . $uid)
-            ->execute()
-            ->fetch();
+            ->executeQuery()
+            ->fetchAssociative();
 
         if (!$contentElementRow) {
             return $slug;
@@ -130,7 +112,7 @@ class SlugGenerator
                     $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
                 )
             )
-            ->execute();
+            ->executeQuery();
         if ($statement->rowCount() > 0) {
             $slug .= '-' . $uid;
         }

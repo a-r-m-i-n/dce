@@ -7,14 +7,12 @@ namespace T3\Dce\Components\TemplateRenderer;
  *  |
  *  | (c) 2012-2023 Armin Vieweg <armin@v.ieweg.de>
  */
-use T3\Dce\Compatibility;
 use T3\Dce\Domain\Model\Dce;
-use T3\Dce\Utility\File;
 use T3\Dce\Utility\TypoScript;
+use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
@@ -37,10 +35,9 @@ class StandaloneViewFactory implements SingletonInterface
     /**
      * Class constructor
      */
-    public function __construct()
+    public function __construct(TypoScript $typoScriptUtility)
     {
-        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $this->typoscriptUtility = $objectManager->get(TypoScript::class);
+        $this->typoscriptUtility = $typoScriptUtility;
     }
 
     /**
@@ -119,7 +116,7 @@ class StandaloneViewFactory implements SingletonInterface
 
             // if the file does not exists, try using fullpath
             if (!$view->hasTemplate()) {
-                $filePath = File::get($dce->$fileTemplateGetter());
+                $filePath = GeneralUtility::getFileAbsFileName($dce->$fileTemplateGetter());
 
                 if (!file_exists($filePath)) {
                     $view->setTemplateSource('');
@@ -135,7 +132,7 @@ class StandaloneViewFactory implements SingletonInterface
     {
         $layoutRootPaths = $view->getLayoutRootPaths();
         if (!empty($dce->getTemplateLayoutRootPath())) {
-            $layoutRootPaths[] = File::get($dce->getTemplateLayoutRootPath());
+            $layoutRootPaths[] = GeneralUtility::getFileAbsFileName($dce->getTemplateLayoutRootPath());
         }
         $view->setLayoutRootPaths($layoutRootPaths);
     }
@@ -144,14 +141,14 @@ class StandaloneViewFactory implements SingletonInterface
     {
         $partialRootPaths = $view->getPartialRootPaths();
         if (!empty($dce->getTemplatePartialRootPath())) {
-            $partialRootPaths[] = File::get($dce->getTemplatePartialRootPath());
+            $partialRootPaths[] = GeneralUtility::getFileAbsFileName($dce->getTemplatePartialRootPath());
         }
         $view->setPartialRootPaths($partialRootPaths);
     }
 
     protected function setAssignedVariables(StandaloneView $view): void
     {
-        if (isset($GLOBALS['TSFE']) && Compatibility::isFrontendMode()) {
+        if (isset($GLOBALS['TSFE']) && ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend()) {
             $view->assign('TSFE', $GLOBALS['TSFE']);
             $view->assign('page', $GLOBALS['TSFE']->page);
 
@@ -190,7 +187,7 @@ class StandaloneViewFactory implements SingletonInterface
     protected function resolvePaths(array $paths): array
     {
         return array_map(static function ($path) {
-            return File::get($path);
+            return GeneralUtility::getFileAbsFileName($path);
         }, $paths);
     }
 }

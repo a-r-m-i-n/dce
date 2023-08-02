@@ -8,10 +8,13 @@ namespace T3\Dce\UserFunction;
  *  | (c) 2012-2023 Armin Vieweg <armin@v.ieweg.de>
  *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
+
+use Psr\Container\ContainerInterface;
 use T3\Dce\Components\FlexformToTcaMapper\Mapper;
 use T3\Dce\Utility\DatabaseUtility;
 use T3\Dce\Utility\LanguageService;
 use TYPO3\CMS\Core\Database\Connection;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
@@ -19,6 +22,10 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  */
 class ItemsProcFunc
 {
+    public function __construct(private ContainerInterface $container)
+    {
+    }
+
     /**
      * Add DceFields.
      *
@@ -52,8 +59,8 @@ class ItemsProcFunc
                 )
             )
             ->orderBy('sorting', 'ASC')
-            ->execute()
-            ->fetchAll();
+            ->executeQuery()
+            ->fetchAllAssociative();
 
         if (!empty($dceFields)) {
             foreach ($dceFields as $dceField) {
@@ -109,7 +116,7 @@ class ItemsProcFunc
         $parameters['items'][] = [LocalizationUtility::translate('chooseExistingField', 'dce'), '--div--'];
         foreach (array_keys($tcaColumns) as $fieldName) {
             if (!empty($dbColumns[$fieldName]['Type']) && !\in_array($fieldName, $excludedColumns, true)) {
-                $columnInfo = '"' . trim($dbColumns[$fieldName]['Type'], ' \\') . '"';
+                $columnInfo = '"' . trim($dbColumns[$fieldName]['Type']->getName(), ' \\') . '"';
                 $parameters['items'][] = [$fieldName . ' - ' . $columnInfo . '', $fieldName];
             }
         }
@@ -170,6 +177,7 @@ class ItemsProcFunc
      */
     public function getAvailableWizardIcons(array &$parameters): void
     {
+        // Default Icons
         $identifiers = [
             'content-header',
             'content-textpic',
@@ -192,8 +200,28 @@ class ItemsProcFunc
                 $identifier,
             ];
         }
+
+        // Custom Icon
         $ll = 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xlf:';
         $parameters['items'][] = [$ll . 'wizardIcon.custom', '--div--'];
         $parameters['items'][] = [$ll . 'wizardIcon.customIcon', 'custom'];
+
+        // TYPO3 Core Icons
+        $parameters['items'][] = [$ll . 'wizardIcon.core', '--div--'];
+
+        $absoluteIconDeclarationPath = GeneralUtility::getFileAbsFileName('EXT:core/Resources/Public/Icons/T3Icons/icons.json');
+        $json = json_decode(file_get_contents($absoluteIconDeclarationPath) ?: '', true, 512, JSON_THROW_ON_ERROR);
+        foreach ($json['icons'] ?? [] as $declaration) {
+            $parameters['items'][] = [$declaration['identifier'], $declaration['identifier'], $declaration['identifier']];
+        }
+
+        // TYPO3 Extension Icons
+        $parameters['items'][] = [$ll . 'wizardIcon.extensions', '--div--'];
+
+        /** @var \ArrayObject  $extensionIcons */
+        $extensionIcons = $this->container->get('icons');
+        foreach ($extensionIcons as $identifier => $config) {
+            $parameters['items'][] = [$identifier, $identifier, $identifier];
+        }
     }
 }

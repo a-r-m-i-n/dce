@@ -6,10 +6,6 @@
  *  | (c) 2012-2023 Armin Vieweg <armin@v.ieweg.de>
  */
 
-if (!defined('TYPO3_MODE')) {
-    die('Access denied.');
-}
-
 $ll = 'LLL:EXT:dce/Resources/Private/Language/locallang_db.xlf:';
 
 $showItems = <<<TEXT
@@ -33,7 +29,7 @@ $showItems = <<<TEXT
     backend_template_type,backend_template_content,backend_template_file,
 
 --div--;{$ll}tx_dce_domain_model_dce.wizard,
-    wizard_icon,wizard_custom_icon,wizard_enable,wizard_category,wizard_description,
+    wizard_enable,wizard_category,wizard_description,wizard_icon,wizard_custom_icon,
 
 --div--;{$ll}tx_dce_domain_model_dce.miscellaneous,
     --palette--;;misc,flexform_label,hide_default_ce_wrap,
@@ -123,7 +119,8 @@ $dceTca = [
             'config' => [
                 'type' => 'input',
                 'size' => 30,
-                'eval' => 'trim,required',
+                'required' => true,
+                'eval' => 'trim',
             ],
         ],
         'identifier' => [
@@ -224,7 +221,7 @@ $dceTca = [
             'config' => [
                 'type' => 'input',
                 'size' => 30,
-                'eval' => 'required',
+                'required' => true,
             ],
         ],
         'template_type' => [
@@ -304,7 +301,8 @@ $dceTca = [
             'label' => $ll . 'tx_dce_domain_model_dce.flexformLabel',
             'config' => [
                 'type' => 'input',
-                'eval' => 'trim,required',
+                'required' => true,
+                'eval' => 'trim',
                 'default' => $ll . 'tx_dce_domain_model_dce.flexformLabel.default',
                 'size' => 30
             ],
@@ -425,7 +423,7 @@ $dceTca = [
             'config' => [
                 'type' => 'input',
                 'size' => 30,
-                'eval' => 'required',
+                'required' => true,
             ],
             'displayCond' => [
                 'AND' => [
@@ -552,7 +550,7 @@ $dceTca = [
             'config' => [
                 'type' => 'input',
                 'size' => 30,
-                'eval' => 'required',
+                'required' => true,
             ],
             'displayCond' => [
                 'AND' => [
@@ -640,7 +638,7 @@ $dceTca = [
             'config' => [
                 'type' => 'input',
                 'size' => 30,
-                'eval' => 'required',
+                'required' => true,
             ],
             'displayCond' => [
                 'AND' => [
@@ -696,12 +694,6 @@ if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('css_styled_con
 if (!\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('fluid_styled_content')) {
     $dceTca['palettes']['content_relations']['showitem'] = 'show_access_tab,show_category_tab';
     $dceTca['columns']['direct_output']['config']['readOnly'] = true;
-}
-
-if (!\T3\Dce\Compatibility::isTypo3Version('10.0.0')) {
-    $dceFieldTca['interface'] = [
-        'showRecordFieldList' => 'hidden,title,type',
-    ];
 }
 
 return $dceTca;
