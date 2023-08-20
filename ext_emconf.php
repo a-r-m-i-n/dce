@@ -25,7 +25,6 @@ $EM_CONF[$_EXTKEY] = [
     ],
     'autoload' => [
         'psr-4' => ['T3\\Dce\\' => 'Classes'],
-        'classmap' => ['Classes/Compatibility.php'],
     ],
 ];
 // @codingStandardsIgnoreEnd
