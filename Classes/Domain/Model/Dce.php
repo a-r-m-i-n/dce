@@ -50,6 +50,11 @@ class Dce extends AbstractEntity
     protected $hidden = false;
 
     /**
+     * @var int
+     */
+    protected $sorting;
+
+    /**
      * @var string
      */
     protected $title = '';
@@ -239,6 +244,22 @@ class Dce extends AbstractEntity
         $this->hidden = $hidden;
 
         return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSorting(): int
+    {
+        return $this->sorting;
+    }
+
+    /**
+     * @param int $sorting
+     */
+    public function setSorting(int $sorting): void
+    {
+        $this->sorting = $sorting;
     }
 
     public function getContainerIterator(): ?array

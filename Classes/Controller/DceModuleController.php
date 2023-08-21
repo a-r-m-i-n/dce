@@ -11,11 +11,15 @@ use Psr\Http\Message\ResponseInterface;
 use T3\Dce\Compatibility;
 use T3\Dce\Components\FlexformToTcaMapper\Mapper;
 use T3\Dce\Domain\Repository\DceRepository;
+use T3\Dce\Utility\BackendModuleSortingUtility;
 use T3\Dce\Utility\File;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
+use TYPO3\CMS\Core\Session\SessionManager;
+use TYPO3\CMS\Core\Session\UserSessionManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
@@ -45,7 +49,11 @@ class DceModuleController extends ActionController
      */
     public function indexAction()
     {
-        $this->view->assign('dces', $this->dceRepository->findAllAndStatics(true));
+        $sortingArray = BackendModuleSortingUtility::getSortingAndOrdering($this->request);
+
+        $this->view->assign('dces', $this->dceRepository->findAllAndStatics(true, $sortingArray['sorting'], $sortingArray['ordering']));
+        $this->view->assign('currentSort', $sortingArray['sorting']);
+        $this->view->assign('currentOrder', $sortingArray['ordering']);
 
         if (isset($this->responseFactory) && Compatibility::isTypo3Version()) {
             $response = $this->responseFactory->createResponse();

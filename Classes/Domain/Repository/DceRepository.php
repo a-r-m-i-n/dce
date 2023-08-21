@@ -79,7 +79,7 @@ class DceRepository extends Repository
     /**
      * Returns database DCEs and static DCEs as merged array.
      */
-    public function findAllAndStatics(bool $includeHidden = false): array
+    public function findAllAndStatics(bool $includeHidden = false, $sortingField = "sorting", $ordering = QueryInterface::ORDER_ASCENDING): array
     {
         if ($includeHidden) {
             /** @var Typo3QuerySettings $querySettings */
@@ -87,7 +87,7 @@ class DceRepository extends Repository
             $querySettings->setIgnoreEnableFields(true);
             $this->setDefaultQuerySettings($querySettings);
         }
-        $this->setDefaultOrderings(['sorting' => QueryInterface::ORDER_ASCENDING]);
+        $this->setDefaultOrderings([$sortingField => $ordering]);
 
         return $this->findAll()->toArray();
     }
