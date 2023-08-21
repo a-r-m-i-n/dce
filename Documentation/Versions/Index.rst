@@ -8,6 +8,18 @@ Versions
 
 .. contents:: :local:
 
+3.0.0
+-----
+
+- Added TYPO3 12.4 LTS support
+- Dropped v10 and v11 support
+- Applied Massive refactorings
+
+Checkout :ref:`Upgrading DCE section <administrator-upgrading>`
+
+Thanks to **Stephan Bauer** for testing and supporting.
+
+
 2.9.5
 -----
 
