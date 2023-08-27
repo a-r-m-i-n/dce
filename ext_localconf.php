@@ -48,6 +48,8 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceFileToFal
     \T3\Dce\UpdateWizards\FileToFalUpdateWizard::class;
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceInlineFalToFileUpdateWizard'] =
     \T3\Dce\UpdateWizards\InlineFalToFileUpdateWizard::class;
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceMigrateFlexformSysFileReferencesUpdateWizard'] =
+    \T3\Dce\UpdateWizards\MigrateFlexformSysFileReferencesUpdateWizard::class;
 
 // Logger for update scripts
 $GLOBALS['TYPO3_CONF_VARS']['LOG']['T3']['Dce']['UpdateWizards']['writerConfiguration'] = [

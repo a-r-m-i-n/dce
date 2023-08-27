@@ -146,3 +146,9 @@ InlineFalToFileUpdate
 ~~~~~~~~~~~~~~~~~~~~~
 
 Migrates old FAL `type: inline` DCE field configurations to new `type: file`.
+
+
+MigrateFlexformSysFileReferencesUpdate
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Migrates records in `sys_file_reference` used by DCEs (FlexForms).
