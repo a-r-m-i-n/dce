@@ -8,6 +8,13 @@ Versions
 
 .. contents:: :local:
 
+3.0.1
+-----
+
+- [TASK] Provide upgrade wizard for FlexForm sys_file_references
+- [TASK] Remove MigrateOldNamespacesInFluidTemplateUpdateWizard
+
+
 3.0.0
 -----
 
