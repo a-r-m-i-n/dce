@@ -52,18 +52,6 @@ The FlexForm configuration looks like this now:
 
 The very first sheet has the identifier/variable "tabGeneral" by default. This wizard takes are about this.
 
-
-MigrateOldNamespacesInFluidTemplateUpdate
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-This converts all Fluid templates which still uses namespace declarations like
-
-::
-
-    {namespace dce=ArminVieweg\Dce\ViewHelpers}
-
-These are not required anymore, because ``dce:`` is globally registered in Fluid, when DCE is installed.
-
 .. _administrator-upgrade-wizards-file2fal:
 
 FileToFalUpdate

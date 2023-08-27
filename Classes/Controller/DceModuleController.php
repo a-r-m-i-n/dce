@@ -11,7 +11,6 @@ use Psr\Http\Message\ResponseInterface;
 use T3\Dce\Components\FlexformToTcaMapper\Mapper;
 use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Domain\Repository\DceRepository;
-use T3\Dce\Utility\File;
 use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
