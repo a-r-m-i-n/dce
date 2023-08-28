@@ -14,6 +14,7 @@ use T3\Dce\Components\FlexformToTcaMapper\Mapper;
 use T3\Dce\Utility\DatabaseUtility;
 use T3\Dce\Utility\LanguageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 class ItemsProcFunc
 {
@@ -71,11 +72,16 @@ class ItemsProcFunc
             ];
 
             foreach ($dceFields as $dceField) {
+                $label = LanguageService::sL($dceField['title']);
                 if ('2' === $dceField['type']) {
-                    continue;
+                    if ('backend_view_header' === $parameters['field']) {
+                        continue;
+                    }
+
+                    $label .= ' (' . LocalizationUtility::translate('section', 'dce') . ')';
                 }
                 $parameters['items'][] = [
-                    'label' => LanguageService::sL($dceField['title']),
+                    'label' => $label,
                     'value' => $dceField['variable'],
                 ];
             }
