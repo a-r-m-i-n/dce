@@ -8,6 +8,14 @@ Versions
 
 .. contents:: :local:
 
+3.0.2
+-----
+
+- [BUGFIX] Fix DCE icon in backend module
+- [BUGFIX] Allow DCE in legacy installations
+- [BUGFIX] Restore section fields in Simple backend view
+
+
 3.0.1
 -----
 
