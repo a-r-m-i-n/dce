@@ -45,7 +45,7 @@
             "extension-key": "dce",
             "Package": {
                 "serviceProvider": "T3\\Dce\\ServiceProvider",
-                "protected": true,
+                "protected": false,
                 "partOfFactoryDefault": true,
                 "partOfMinimalUsableSystem": true
             }
