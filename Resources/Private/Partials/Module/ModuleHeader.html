@@ -5,7 +5,11 @@
         </a>
     </div>
 
-    <img src="{f:uri.resource(path:'Icons/DceModuleHeaderIcon.svg')}" width="24" alt="{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang_mod.xlf:mlang_labels_tablabel')}" />
-    <span><f:translate key="LLL:EXT:dce/Resources/Private/Language/locallang_mod.xlf:mlang_labels_tablabel" /></span>
-    <span class="dceVersion">{dce:be.version.dce()}</span>
+    <div class="d-flex align-items-center">
+        <img src="{f:uri.resource(path:'Icons/Extension_x2.png')}" width="32" alt="{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang_mod.xlf:mlang_labels_tablabel')}" />
+        <div class="ms-2">
+            <span><f:translate key="LLL:EXT:dce/Resources/Private/Language/locallang_mod.xlf:mlang_labels_tablabel" /></span>
+            <span class="dceVersion">{dce:be.version.dce()}</span>
+        </div>
+    </div>
 </h4>

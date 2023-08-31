@@ -51,6 +51,12 @@ h4.dceHeader img {
     margin-top: -6px;
 }
 
+@media (max-width: 660px) {
+    #copyright {
+        position: static;
+    }
+}
+
 div.nav-group {
     margin-right: 30px;
     float: left;
@@ -62,6 +68,10 @@ div.nav-group {
 
 .space-bottom {
     margin-bottom: 24px;
+}
+
+.space-bottom .btn {
+    margin-bottom: .5rem;
 }
 
 .typeicon {
