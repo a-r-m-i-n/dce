@@ -68,6 +68,9 @@ class InlineFalToFileUpdateWizard implements UpgradeWizardInterface
             if (isset($flexformConfig['root']['config']['maxitems'])) {
                 $newConfig .= '    <maxitems>' . $flexformConfig['root']['config']['maxitems'] . '</maxitems>' . PHP_EOL;
             }
+            if (isset($flexformConfig['root']['config']['overrideChildTca']['columns']['uid_local']['config']['appearance']['elementBrowserAllowed'])) {
+                $newConfig .= '    <allowed>' . $flexformConfig['root']['config']['overrideChildTca']['columns']['uid_local']['config']['appearance']['elementBrowserAllowed'] . '</allowed>' . PHP_EOL;
+            }
             $newConfig .= PHP_EOL;
             if (isset($flexformConfig['root']['config']['dce_load_schema'])) {
                 $newConfig .= '    <dce_load_schema>' . $flexformConfig['root']['config']['dce_load_schema'] . '</dce_load_schema>' . PHP_EOL;
