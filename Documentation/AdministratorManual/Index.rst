@@ -15,3 +15,4 @@ Administrator manual
         EditDceButton
         Upgrading
         UpgradeWizards
+        ExtendingConfigurationCodeSnippets

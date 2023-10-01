@@ -9,10 +9,11 @@ namespace T3\Dce\UserFunction\FormEngineNode;
  *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
 use T3\Dce\Components\TemplateRenderer\StandaloneViewFactory;
+use T3\Dce\Event\ModifyConfigurationTemplateCodeSnippetsEvent;
 use T3\Dce\Utility\DatabaseUtility;
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
-use TYPO3\CMS\Backend\Form\NodeFactory;
 use TYPO3\CMS\Core\Database\Connection;
+use TYPO3\CMS\Core\EventDispatcher\EventDispatcher;
 use TYPO3\CMS\Core\Page\JavaScriptModuleInstruction;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -25,27 +26,28 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
  */
 class DceCodeMirrorFieldRenderType extends AbstractFormElement
 {
-    private array $resultArray = [];
-
     private string $uniqueIdentifier;
 
-    public function __construct(NodeFactory $nodeFactory, array $data)
+    public function __construct(private readonly EventDispatcher $eventDispatcher)
     {
-        parent::__construct($nodeFactory, $data);
-        $this->data = $data;
         $this->uniqueIdentifier = str_replace('.', '', uniqid('', true));
+    }
+
+    public function setData(array $data): void
+    {
+        $this->data = $data;
     }
 
     public function render(): array
     {
-        $this->resultArray = $this->initializeResultArray();
+        $resultArray = $this->initializeResultArray();
 
-        $this->resultArray['stylesheetFiles'][] = PathUtility::getPublicResourceWebPath('EXT:dce/Resources/Public/Css/CodeEditor.css');
-        $this->resultArray['javaScriptModules'][] = JavaScriptModuleInstruction::create('@t3/dce/code-editor');
+        $resultArray['stylesheetFiles'][] = PathUtility::getPublicResourceWebPath('EXT:dce/Resources/Public/Css/CodeEditor.css');
+        $resultArray['javaScriptModules'][] = JavaScriptModuleInstruction::create('@t3/dce/code-editor');
 
-        $this->resultArray['html'] = $this->getCodeEditorFieldHtml($this->data);
+        $resultArray['html'] = $this->getCodeEditorFieldHtml($this->data);
 
-        return $this->resultArray;
+        return $resultArray;
     }
 
     /**
@@ -162,10 +164,13 @@ class DceCodeMirrorFieldRenderType extends AbstractFormElement
             $keyNoNumber = preg_replace('/.*? (.*)/', '$1', $key);
 
             unset($templates[$key]);
-            $templates[$keyNoNumber] = $files;
+            $templates['TYPE: ' . $keyNoNumber] = $files;
         }
 
-        return $templates;
+        $event = new ModifyConfigurationTemplateCodeSnippetsEvent($templates);
+        $this->eventDispatcher->dispatch($event);
+
+        return $event->getTemplates();
     }
 
     private function getFamousViewHelpers(): array
