@@ -9,6 +9,7 @@ const initDceCodeEditor = function (textarea) {
                 textarea.focus();
                 this.value = '';
                 FormEngineValidation.markFieldAsChanged(textarea);
+                adjustTextareaHeight(textarea);
             }
         });
     }
@@ -18,12 +19,12 @@ const initDceCodeEditor = function (textarea) {
         availableVariables.addEventListener('change', function (event) {
             if (this.value) {
                 if (this.value.match(/^v:/)) {
-                    insertCode(textarea, '{' + this.value.replace(/.*?:(.*)/gi, '$1') + '}')
+                    insertCode(textarea, '{' + this.value.replace(/.*?:(.*)/gi, '$1') + '}');
                 } else if (this.value.match(/^f:/)) {
-                    insertCode(textarea, this.value.replace(/.*?:([\s\S]*)/gi, '$1'))
+                    insertCode(textarea, this.value.replace(/.*?:([\s\S]*)/gi, '$1'));
                 }
 
-                textarea.focus()
+                textarea.focus();
                 this.value = '';
             }
         });
@@ -52,6 +53,7 @@ const insertCode = function(textarea, code) {
     textarea.selectionStart = textarea.selectionEnd = start + code.length;
 
     FormEngineValidation.markFieldAsChanged(textarea);
+    adjustTextareaHeight(textarea);
 }
 
 const indentCodeHandler = function(textarea) {
