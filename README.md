@@ -19,7 +19,7 @@ You can install DCE in TYPO3 CMS using the [TER](https://extensions.typo3.org/ex
 or use composer to fetch DCE from [packagist](https://packagist.org/packages/t3/dce):
 
 ```
-composer req t3/dce:"^3.0"
+composer req t3/dce:"^3.1"
 ```
 
 

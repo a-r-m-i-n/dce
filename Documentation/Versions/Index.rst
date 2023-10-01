@@ -8,6 +8,17 @@ Versions
 
 .. contents:: :local:
 
+3.1.0
+-----
+
+- [BUGFIX] Fix adjusting height when in inserting code and disable spellcheck
+- :ref:`[FEATURE] Add ModifyConfigurationTemplateCodeSnippetsEvent <administrator-manual-extending-configuration-code-snippets>`
+- [BUGFIX] Removed unused $isIn parameter in custom field validators
+- [TASK] Refactor DCE's TypoScript utility
+- [TASK] Add migration for type file `allowed` config (**Thanks to Nikita Hovratov**)
+- [BUGFIX] Do not pass null value to linkEditContent method, in DcePreviewRenderer
+
+
 3.0.2
 -----
 
