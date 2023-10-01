@@ -15,7 +15,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class LowerCamelCaseValidator extends AbstractFieldValidator
 {
-    public function evaluateFieldValue(string $value, string $isIn, bool $set = false)
+    public function evaluateFieldValue(string $value, bool $set = false)
     {
         $originalValue = $value;
         $value = lcfirst($value);

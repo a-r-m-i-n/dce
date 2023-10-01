@@ -14,7 +14,7 @@ use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
  */
 class NoLeadingNumberValidator extends AbstractFieldValidator
 {
-    public function evaluateFieldValue(string $value, string $isIn, bool $set = false)
+    public function evaluateFieldValue(string $value, bool $set = false)
     {
         preg_match('/^\d*(.*)/i', $value, $matches);
         if ($matches[0] !== $matches[1]) {
