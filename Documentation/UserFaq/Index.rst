@@ -211,7 +211,7 @@ You can also use the inline notation:
 How to access variables of other DCE elements?
 ----------------------------------------------
 
-You can access directly the TypoScript with ``{tsSetup.lib.xyz.value}``.
+In frontend, you can access directly the TypoScript setup from current page, using ``{tsSetup.lib.xyz.value}``.
 
 
 How to migrate old image fields to new FAL fields?

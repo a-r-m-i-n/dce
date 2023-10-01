@@ -11,31 +11,16 @@ namespace T3\Dce\Controller;
 use Psr\Http\Message\ResponseInterface;
 use T3\Dce\Components\DceContainer\ContainerFactory;
 use T3\Dce\Domain\Repository\DceRepository;
-use T3\Dce\Utility\TypoScript;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 class DceController extends ActionController
 {
-    public array $temporaryDceProperties = [];
-
     public function __construct(
         private readonly DceRepository $dceRepository,
-        private readonly TypoScript $typoScriptUtility,
         private readonly ContainerFactory $containerFactory
     ) {
-    }
-
-    /**
-     * Initialize Action.
-     */
-    public function initializeAction(): void
-    {
-        if (null === $this->settings) {
-            $this->settings = [];
-        }
-        $this->settings = $this->typoScriptUtility->renderConfigurationArray($this->settings);
     }
 
     public function showAction(): ResponseInterface

@@ -98,9 +98,9 @@ Besides the custom created variables, they are also some variables existing whic
 
 + ``{dce}`` - The DCE object. To access field values use: ``{dce.get.fieldName}``
 + ``{contentObject}`` and ``{data}`` - The content object row, this DCE instance is based on. It contains all tt_content properties.
-+ ``{TSFE}`` - The TypoScript frontend controller
-+ ``{page}`` - Properties of the current page
-+ ``{tsSetup}`` - TypoScript setup of the current page
++ ``{TSFE}`` - The TypoScript frontend controller (only available in frontend - deprecated, will get removed with TYPO3 v13)
++ ``{page}`` - Properties of the current page (only available in frontend)
++ ``{tsSetup}`` - TypoScript setup of the current page (only available in frontend)
 
 
 Famous view helper

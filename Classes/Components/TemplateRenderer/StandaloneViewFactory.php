@@ -11,7 +11,6 @@ use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Utility\TypoScript;
 use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\Core\Rendering\RenderingContext;
 use TYPO3\CMS\Fluid\View\StandaloneView;
@@ -138,15 +137,12 @@ class StandaloneViewFactory implements SingletonInterface
 
     protected function setAssignedVariables(StandaloneView $view): void
     {
-        if (isset($GLOBALS['TSFE']) && ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend()) {
+        if (ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend()) {
+            // TODO: $GLOBALS['TSFE'] is deprecated and will get removed in TYPO3 v13
             $view->assign('TSFE', $GLOBALS['TSFE']);
             $view->assign('page', $GLOBALS['TSFE']->page);
 
-            $typoScriptService = GeneralUtility::makeInstance(TypoScriptService::class);
-            $view->assign(
-                'tsSetup',
-                $typoScriptService->convertTypoScriptArrayToPlainArray($GLOBALS['TSFE']->tmpl->setup)
-            );
+            $view->assign('tsSetup', $this->typoScriptUtility->getTypoScriptSetupArray());
         }
     }
 
@@ -162,10 +158,9 @@ class StandaloneViewFactory implements SingletonInterface
             'partialRootPaths' => [0 => 'EXT:dce/Resources/Private/Partials/'],
         ];
 
-        $pageUid = (isset($GLOBALS['TSFE'])) ? $GLOBALS['TSFE']->id : 1;
-        $typoScriptSettings = $this->typoScriptUtility->getTyposcriptSettingsByPageUid($pageUid);
-        if (isset($typoScriptSettings['view'])) {
-            $viewsPaths = $typoScriptSettings['view'];
+        $typoScriptSetup = $this->typoScriptUtility->getTypoScriptSetupArray();
+        if ($typoScriptSetup && isset($typoScriptSetup['plugin']['tx_dce']['view'])) {
+            $viewsPaths = $typoScriptSetup['plugin']['tx_dce']['view'];
         }
 
         return $viewsPaths;

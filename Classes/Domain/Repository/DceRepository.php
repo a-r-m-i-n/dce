@@ -573,6 +573,7 @@ class DceRepository extends Repository
                 ->executeQuery()
                 ->fetchAllAssociative();
 
+            // TODO: $GLOBALS['TSFE'] is deprecated and will get removed in TYPO3 v13
             $pageRepository = isset($GLOBALS['TSFE']) ? $GLOBALS['TSFE']->sys_page : null;
             if ($dceFieldConfiguration['dce_enable_autotranslation'] ?? false) {
                 if (!$pageRepository instanceof PageRepository) {

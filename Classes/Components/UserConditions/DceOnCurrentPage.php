@@ -58,6 +58,7 @@ class DceOnCurrentPage
             }
         }
 
+        // TODO: $GLOBALS['TSFE'] is deprecated and will get removed in TYPO3 v13
         $currentPageUid = $GLOBALS['TSFE']->id;
         if (isset($GLOBALS['TSFE']->page['content_from_pid']) && $GLOBALS['TSFE']->page['content_from_pid'] > 0) {
             $currentPageUid = $GLOBALS['TSFE']->page['content_from_pid'];
