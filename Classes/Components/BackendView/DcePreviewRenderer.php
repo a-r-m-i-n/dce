@@ -77,7 +77,7 @@ class DcePreviewRenderer extends StandardContentPreviewRenderer
                 $row
             );
         } else {
-            $headerContent = $this->linkEditContent($dce->renderBackendTemplate('bodytext'), $row);
+            $headerContent = $this->linkEditContent($dce->renderBackendTemplate('bodytext') ?? '', $row);
         }
 
         return $headerContent;
