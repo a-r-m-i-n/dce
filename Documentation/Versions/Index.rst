@@ -8,6 +8,12 @@ Versions
 
 .. contents:: :local:
 
+3.1.1
+-----
+
+- [BUGFIX] Provide JavaScript module "@t3/dce/code-editor" in FormEngine page init
+
+
 3.1.0
 -----
 
