@@ -23,6 +23,8 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
 /**
  * Note: Currently (since DCE 3.0) the CodeMirror editor is not included in DCE extension anymore
  *       It is planned to reimplement CodeMirror integration (ES6) in future DCE versions (based on EXT:t3editor)
+ *
+ * @see \T3\Dce\EventListener\AfterFormEnginePageInitializedEventListener::loadDceCodeEditor
  */
 class DceCodeMirrorFieldRenderType extends AbstractFormElement
 {

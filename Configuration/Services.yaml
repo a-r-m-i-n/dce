@@ -61,3 +61,10 @@ services:
                 identifier: 'dce-live-search-event-listener'
                 event: TYPO3\CMS\Backend\Search\Event\ModifyQueryForLiveSearchEvent
                 method: 'extendSearchStringConstraints'
+
+    T3\Dce\EventListener\AfterFormEnginePageInitializedEventListener:
+        tags:
+            -   name: event.listener
+                identifier: 'dce-after-form-engine-page-init-event-listener'
+                event: TYPO3\CMS\Backend\Controller\Event\AfterFormEnginePageInitializedEvent
+                method: 'loadDceCodeEditor'
