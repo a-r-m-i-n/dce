@@ -8,6 +8,12 @@ Versions
 
 .. contents:: :local:
 
+3.1.2
+-----
+
+- [BUGFIX] Return early in TtContentLabel when special case "new" (**Thanks to Nikita Hovratov**)
+
+
 3.1.1
 -----
 
