@@ -42,7 +42,7 @@ class TtContentLabel
                     $dceUid = array_keys($_GET['edit']['tt_content'])[0];
                 }
 
-                if ($dceUid === 0 || $_GET['edit']['tt_content'][$dceUid] === 'new') {
+                if ($dceUid === 0 || ($_GET['edit']['tt_content'][$dceUid] ?? '') === 'new') {
                     $parameter['title'] = 'New DCE';
                     return;
                 }
