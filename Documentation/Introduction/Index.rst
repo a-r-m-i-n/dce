@@ -21,7 +21,7 @@ FlexForms allows you to define dynamic content structures, without the need to e
 .. note::
    FlexForms allows defining dynamic forms, which get stored as XML in tt_content column "pi_flexform".
    This makes it hard to perform queries on fields defined in your DCE content elements, unless you've enabled
-   :ref:`TCA mapping <additional-informations-tca-mapping>`_.
+   :ref:`TCA mapping <additional-informations-tca-mapping>`.
 
 
 Content Elements in TYPO3
