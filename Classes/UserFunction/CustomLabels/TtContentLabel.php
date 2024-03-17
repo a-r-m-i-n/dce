@@ -30,7 +30,7 @@ class TtContentLabel
      */
     public function getLabel(array &$parameter): void
     {
-        if (!isset($parameter['row'])) {
+        if (!isset($parameter['row']) || !isset($parameter['row']['CType'])) {
             return;
         }
         if ((\is_string($parameter['row']['CType']) || is_array($parameter['row']['CType'])) &&
