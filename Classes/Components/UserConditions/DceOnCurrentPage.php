@@ -29,7 +29,7 @@ class DceOnCurrentPage
 {
     public function matchCondition(array $parameters): bool
     {
-        if (!ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend()) {
+        if (!isset($GLOBALS['TYPO3_REQUEST']) || !ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend()) {
             return false;
         }
 

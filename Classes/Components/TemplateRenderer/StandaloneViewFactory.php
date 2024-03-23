@@ -33,7 +33,10 @@ class StandaloneViewFactory implements SingletonInterface
         $fluidTemplate = GeneralUtility::makeInstance(StandaloneView::class);
 
         $renderingContext = $fluidTemplate->getRenderingContext();
-        if ($renderingContext instanceof RenderingContext && null === $renderingContext->getRequest()) {
+        if (isset($GLOBALS['TYPO3_REQUEST'])
+            && $renderingContext instanceof RenderingContext
+            && null === $renderingContext->getRequest()
+        ) {
             $renderingContext->setRequest($GLOBALS['TYPO3_REQUEST']);
         }
 

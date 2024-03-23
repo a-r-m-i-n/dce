@@ -441,7 +441,7 @@ class DceRepository extends Repository
         ) {
             $contentObjectUid = (int)($contentObject['_LOCALIZED_UID'] ?? $contentObject['uid']);
             $fileReferences = [];
-            if (ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend()) {
+            if (isset($GLOBALS['TYPO3_REQUEST']) && ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend()) {
                 $fileRepository = GeneralUtility::makeInstance(
                     FileRepository::class
                 );

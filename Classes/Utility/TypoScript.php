@@ -18,6 +18,10 @@ class TypoScript
 
     public function getTypoScriptSetupArray(): ?array
     {
+        if (!isset($GLOBALS['TYPO3_REQUEST'])) {
+            return null;
+        }
+
         /** @var FrontendTypoScript|null $frontendTypoScript */
         $frontendTypoScript = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript');
         if (!$frontendTypoScript) {
