@@ -8,6 +8,18 @@ Versions
 
 .. contents:: :local:
 
+3.1.3
+-----
+
+- [TASK] Update copyrights
+- [TASK] Add "softref" configuration to RTE field code snippet
+- [BUGFIX] Fix usage of `$parameters['row']['enable_container']` in ItemsProcFunc
+- [BUGFIX] Fix usage of `$GLOBALS['TYPO3_REQUEST']`
+- [BUGFIX] Fix icon color of btn-primary in backend module
+- [DOCS] Fix syntax for reference (**Thanks to Sybille Peters**)
+- [BUGFIX] Fix TtContentLabel userfunction in case of incomplete data (**Thanks to Sybille Peters**)
+
+
 3.1.2
 -----
 
