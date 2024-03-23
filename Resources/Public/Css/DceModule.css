@@ -7,6 +7,9 @@ body {
     border-color: #a02035 !important;
     color: #fff !important;
 }
+.btn-primary svg {
+    fill: #fff;
+}
 
 .btn-secondary {
     background-color: #666 !important;
