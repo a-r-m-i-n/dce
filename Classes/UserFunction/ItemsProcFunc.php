@@ -40,7 +40,10 @@ class ItemsProcFunc
                 'value' => '*empty',
             ];
         }
-        if ($parameters['row']['enable_container'] && $parameters['field'] !== 'backend_view_header') {
+        if (isset($parameters['row']['enable_container'])
+            && $parameters['row']['enable_container']
+            && $parameters['field'] !== 'backend_view_header'
+        ) {
             $parameters['items'][] = [
                 'label' => $ll . 'containerflag',
                 'value' => '*containerflag',
