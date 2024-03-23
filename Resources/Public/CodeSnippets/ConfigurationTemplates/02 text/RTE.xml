@@ -6,4 +6,5 @@
     <eval>trim</eval>
     <enableRichtext>1</enableRichtext>
     <richtextConfiguration>default</richtextConfiguration>
+    <softref>typolink_tag,email[subst],url</softref>
 </config>
