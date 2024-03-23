@@ -4,7 +4,7 @@ namespace T3\Dce\EventListener;
 /*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2023 Armin Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2024 Armin Vieweg <armin@v.ieweg.de>
  */
 use T3\Dce\Domain\Repository\DceRepository;
 use T3\Dce\Utility\BackendModuleLinkUtility;
