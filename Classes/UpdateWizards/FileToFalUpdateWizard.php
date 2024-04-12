@@ -93,47 +93,51 @@ class FileToFalUpdateWizard implements UpgradeWizardInterface, LoggerAwareInterf
         $allElementRows = [];
         $affectedDceNames = '';
         $imagesMissingText = '';
-        foreach ($affectedDceRows as $affectedDceRow) {
-            if (!$affectedDceRow['uid']) {
-                continue;
-            }
-            $affectedDceNames .= '- ' . $affectedDceRow['title'] . ' (uid=' . $affectedDceRow['uid'] . ')' . PHP_EOL;
+        if($affectedDceRows) {
+            foreach ($affectedDceRows as $affectedDceRow) {
+                    if (!isset($affectedDceRow['uid']) || !$affectedDceRow['uid']) {
+                    continue;
+                }
+                $affectedDceNames .= '- ' . $affectedDceRow['title'] . ' (uid=' . $affectedDceRow['uid'] . ')' . PHP_EOL;
 
-            /** @var Dce $dce */
-            $dce = $this->dceRepository->findByUidIncludingHidden($affectedDceRow['uid']);
-            $allElementRows = array_merge($allElementRows, $elementRows = $this->dceRepository->findContentElementsBasedOnDce($dce, false));
-            foreach ($elementRows as $elementRow) {
-                $flexformData = FlexformService::get()->convertFlexFormContentToArray($elementRow['pi_flexform']);
-                $flexformData = $flexformData['settings'];
+                /** @var Dce $dce */
+                $dce = $this->dceRepository->findByUidIncludingHidden($affectedDceRow['uid']);
+                $allElementRows = array_merge($allElementRows, $elementRows = $this->dceRepository->findContentElementsBasedOnDce($dce, false));
+                if($allElementRows) {
+                    foreach ($elementRows as $elementRow) {
+                        $flexformData = FlexformService::get()->convertFlexFormContentToArray($elementRow['pi_flexform']);
+                        $flexformData = $flexformData['settings'];
 
-                foreach ($affectedDceRow['_affectedFields'] ?? [] as $affectedFieldRow) {
-                    $conf = new \DOMDocument();
-                    $conf->loadXML('<root>' . $affectedFieldRow['configuration'] . '</root>');
-                    $flexformConfig = FlexformService::xmlToArray($conf);
-                    $flexformConfig = $flexformConfig['root']['config'] ?? [];
+                        foreach ($affectedDceRow['_affectedFields'] ?? [] as $affectedFieldRow) {
+                            $conf = new \DOMDocument();
+                            $conf->loadXML('<root>' . $affectedFieldRow['configuration'] . '</root>');
+                            $flexformConfig = FlexformService::xmlToArray($conf);
+                            $flexformConfig = $flexformConfig['root']['config'] ?? [];
 
-                    $uploadFolder = $flexformConfig['uploadfolder'] ?? null;
+                            $uploadFolder = $flexformConfig['uploadfolder'] ?? null;
 
-                    if ($affectedFieldRow['parent_dce'] === 0) {
-                        // Resolve section field contents
-                        $images = '';
-                        foreach ($flexformData[$affectedFieldRow['_parent_section_field']['variable']] ?? [] as $key => $child) {
-                            $child = reset($child);
-                            $images .= $child[$affectedFieldRow['variable']];
-                            $images .= ',';
-                        }
-                    } else {
-                        $images = $flexformData[$affectedFieldRow['variable']] ?? '';
-                    }
-                    $images = GeneralUtility::trimExplode(',', $images, true);
+                            if ($affectedFieldRow['parent_dce'] === 0) {
+                                // Resolve section field contents
+                                $images = '';
+                                foreach ($flexformData[$affectedFieldRow['_parent_section_field']['variable']] ?? [] as $key => $child) {
+                                    $child = reset($child);
+                                    $images .= $child[$affectedFieldRow['variable']];
+                                    $images .= ',';
+                                }
+                            } else {
+                                $images = $flexformData[$affectedFieldRow['variable']] ?? '';
+                            }
+                            $images = GeneralUtility::trimExplode(',', $images, true);
 
-                    foreach ($images as $imageFileName) {
-                        $path = Environment::getPublicPath() . DIRECTORY_SEPARATOR . $uploadFolder . DIRECTORY_SEPARATOR . $imageFileName;
-                        if (file_exists($path)) {
-                            $imagesFound[] = $path;
-                        } else {
-                            $imagesMissing[] = $path;
-                            $imagesMissingText .= '- ' . substr($path, strlen(Environment::getPublicPath())) . PHP_EOL;
+                            foreach ($images as $imageFileName) {
+                                $path = Environment::getPublicPath() . DIRECTORY_SEPARATOR . $uploadFolder . DIRECTORY_SEPARATOR . $imageFileName;
+                                if (file_exists($path)) {
+                                    $imagesFound[] = $path;
+                                } else {
+                                    $imagesMissing[] = $path;
+                                    $imagesMissingText .= '- ' . substr($path, strlen(Environment::getPublicPath())) . PHP_EOL;
+                                }
+                            }
                         }
                     }
                 }
