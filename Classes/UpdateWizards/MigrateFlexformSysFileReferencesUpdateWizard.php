@@ -10,6 +10,8 @@ namespace T3\Dce\UpdateWizards;
  *  | (c) 2023-2024 Armin Vieweg <armin@v.ieweg.de>
  */
 use T3\Dce\Utility\DatabaseUtility;
+use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
 class MigrateFlexformSysFileReferencesUpdateWizard implements UpgradeWizardInterface
@@ -69,6 +71,11 @@ class MigrateFlexformSysFileReferencesUpdateWizard implements UpgradeWizardInter
     private function getAffectedSysFileReferenceRows(): ?array
     {
         $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('sys_file_reference');
+        $queryBuilder
+            ->getRestrictions()
+            ->removeAll()
+            ->add(GeneralUtility::makeInstance(DeletedRestriction::class));
+
         return $queryBuilder
             ->select('r.*')
             ->from('sys_file_reference', 'r')
