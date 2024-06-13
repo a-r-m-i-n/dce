@@ -140,7 +140,7 @@ class StandaloneViewFactory implements SingletonInterface
 
     protected function setAssignedVariables(StandaloneView $view): void
     {
-        if (ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend()) {
+        if (isset($GLOBALS['TYPO3_REQUEST']) && ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend()) {
             // TODO: $GLOBALS['TSFE'] is deprecated and will get removed in TYPO3 v13
             $view->assign('TSFE', $GLOBALS['TSFE']);
             $view->assign('page', $GLOBALS['TSFE']->page);
