@@ -1,8 +1,8 @@
 name: dce
 type: php
-docroot: ~
+docroot: ""
 no_project_mount: true
-php_version: "8.1"
+php_version: "8.2"
 composer_version: "2"
 webserver_type: apache-fpm
 router_http_port: "80"
@@ -11,8 +11,9 @@ xdebug_enabled: false
 additional_hostnames:
     - docs.dce
     - v12.dce
+    - v13.dce
 additional_fqdns: []
-provider: default
+database:
+    type: mariadb
+    version: "10.4"
 use_dns_when_possible: true
-extra_services:
-    - v12-data
