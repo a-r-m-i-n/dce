@@ -17,7 +17,6 @@ use TYPO3\CMS\Core\EventDispatcher\EventDispatcher;
 use TYPO3\CMS\Core\Page\JavaScriptModuleInstruction;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\PathUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
@@ -43,10 +42,7 @@ class DceCodeMirrorFieldRenderType extends AbstractFormElement
     public function render(): array
     {
         $resultArray = $this->initializeResultArray();
-
-        $resultArray['stylesheetFiles'][] = PathUtility::getPublicResourceWebPath('EXT:dce/Resources/Public/Css/CodeEditor.css');
         $resultArray['javaScriptModules'][] = JavaScriptModuleInstruction::create('@t3/dce/code-editor');
-
         $resultArray['html'] = $this->getCodeEditorFieldHtml($this->data);
 
         return $resultArray;
