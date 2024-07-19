@@ -38,7 +38,7 @@ class TtContentLabel
         ) {
             try {
                 $dceUid = $parameter['row']['uid'] ?? null;
-                if (!$dceUid) {
+                if (!$dceUid && is_array($_GET['edit']['tt_content'])) {
                     $dceUid = array_keys($_GET['edit']['tt_content'])[0];
                 }
 
