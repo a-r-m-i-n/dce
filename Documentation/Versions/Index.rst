@@ -8,6 +8,17 @@ Versions
 
 .. contents:: :local:
 
+3.1.4
+-----
+
+- [TASK] Move CodeEditor.css contents as inline styles
+- [BUGFIX] Fix TtContentLabel array handling in Workspace mode
+- [BUGFIX] Update sys_file_reference table for hidden element (**Thanks to Florian Rival**)
+- [BUGFIX] Fix "Edit DCE" appearing on any content element
+- [DEVOPS] Upgrade DDEV configuration
+- [BUGFIX] Add a check for existence of `$GLOBALS['TYPO3_REQUEST']` (**Thanks to Florian Rival**)
+- [BUGFIX] Fix bug in filewizard (**Thanks to Thomas Wittich**)
+
 3.1.3
 -----
 
