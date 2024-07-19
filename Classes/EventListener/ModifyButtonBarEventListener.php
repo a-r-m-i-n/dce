@@ -23,7 +23,7 @@ class ModifyButtonBarEventListener
     public function __invoke(ModifyButtonBarEvent $event): void
     {
         $contentUid = $this->getContentUid();
-        if ($contentUid) {
+        if ($contentUid && $this->getDceUid($contentUid)) {
             /** @var IconFactory $iconFactory */
             $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
 
