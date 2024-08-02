@@ -15,7 +15,7 @@ cd /var/www/html/$VERSION
 
 mysql -h db -u root -p"root" -e "CREATE DATABASE ${VERSION};"
 
-vendor/bin/typo3 setup -n --dbname=$VERSION --password=$TYPO3_DB_PASSWORD --create-site="https://${VERSION}.my-ext.ddev.site" --admin-user-password=$TYPO3_SETUP_ADMIN_PASSWORD
+vendor/bin/typo3 setup -n --dbname=$VERSION --password=$TYPO3_DB_PASSWORD --create-site="https://${VERSION}.dce.ddev.site" --admin-user-password=$TYPO3_SETUP_ADMIN_PASSWORD
 
 vendor/bin/typo3 configuration:set 'BE/debug' 1
 vendor/bin/typo3 configuration:set 'FE/debug' 1
