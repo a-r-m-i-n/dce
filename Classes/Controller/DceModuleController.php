@@ -29,7 +29,7 @@ class DceModuleController extends ActionController
     ) {
     }
 
-    public function initializeAction()
+    protected function initializeAction(): void
     {
         $this->moduleTemplate = $this->moduleTemplateFactory->create($this->request);
         $this->moduleTemplate->setTitle('DCE Backend Module');
