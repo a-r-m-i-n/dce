@@ -9,6 +9,7 @@ namespace T3\Dce\UserFunction;
  *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
 use Doctrine\DBAL\ArrayParameterType;
+use Doctrine\DBAL\Types\Type;
 use Psr\Container\ContainerInterface;
 use T3\Dce\Components\FlexformToTcaMapper\Mapper;
 use T3\Dce\Utility\DatabaseUtility;
@@ -146,7 +147,7 @@ class ItemsProcFunc
         ];
         foreach (array_keys($tcaColumns) as $fieldName) {
             if (!empty($dbColumns[$fieldName]['Type']) && !in_array($fieldName, $excludedColumns, true)) {
-                $columnInfo = '"' . trim($dbColumns[$fieldName]['Type']->getName(), ' \\') . '"';
+                $columnInfo = '"' . trim(Type::lookupName($dbColumns[$fieldName]['Type']), ' \\') . '"';
                 $parameters['items'][] = [
                     'label' => $fieldName . ' - ' . $columnInfo,
                     'value' => $fieldName,
