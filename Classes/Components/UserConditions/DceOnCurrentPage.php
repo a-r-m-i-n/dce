@@ -9,6 +9,7 @@ namespace T3\Dce\Components\UserConditions;
  *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
 use T3\Dce\Utility\DatabaseUtility;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Http\ApplicationType;
 
 /**
@@ -42,7 +43,7 @@ class DceOnCurrentPage
                 ->where(
                     $queryBuilder->expr()->eq(
                         'uid',
-                        $queryBuilder->createNamedParameter($dceIdentifier, \PDO::PARAM_INT)
+                        $queryBuilder->createNamedParameter($dceIdentifier, Connection::PARAM_INT)
                     )
                 )
                 ->executeQuery()
@@ -73,7 +74,7 @@ class DceOnCurrentPage
                 ->where(
                     $queryBuilder->expr()->eq(
                         'pid',
-                        $queryBuilder->createNamedParameter($currentPageUid, \PDO::PARAM_INT)
+                        $queryBuilder->createNamedParameter($currentPageUid, Connection::PARAM_INT)
                     ),
                     $queryBuilder->expr()->eq(
                         'CType',

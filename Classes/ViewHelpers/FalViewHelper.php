@@ -9,6 +9,7 @@ namespace T3\Dce\ViewHelpers;
  *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
 use T3\Dce\Utility\DatabaseUtility;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Resource\FileRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
@@ -75,15 +76,15 @@ class FalViewHelper extends AbstractViewHelper
             ->where(
                 $queryBuilder->expr()->eq(
                     'tablenames',
-                    $queryBuilder->createNamedParameter($this->arguments['tableName'], \PDO::PARAM_STR)
+                    $queryBuilder->createNamedParameter($this->arguments['tableName'], Connection::PARAM_STR)
                 ),
                 $queryBuilder->expr()->eq(
                     'fieldname',
-                    $queryBuilder->createNamedParameter($this->arguments['field'], \PDO::PARAM_STR)
+                    $queryBuilder->createNamedParameter($this->arguments['field'], Connection::PARAM_STR)
                 ),
                 $queryBuilder->expr()->eq(
                     'uid_foreign',
-                    $queryBuilder->createNamedParameter($contentObjectUid, \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($contentObjectUid, Connection::PARAM_INT)
                 )
             )
             ->orderBy('sorting_foreign', 'ASC');

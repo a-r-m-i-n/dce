@@ -9,6 +9,7 @@ namespace T3\Dce\Components\FlexformToTcaMapper;
  *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
 use T3\Dce\Utility\DatabaseUtility;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -54,19 +55,19 @@ class Mapper
                 ->where(
                     $queryBuilder->expr()->eq(
                         'map_to',
-                        $queryBuilder->createNamedParameter('*newcol', \PDO::PARAM_STR)
+                        $queryBuilder->createNamedParameter('*newcol', Connection::PARAM_STR)
                     ),
                     $queryBuilder->expr()->eq(
                         'type',
-                        $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+                        $queryBuilder->createNamedParameter(0, Connection::PARAM_INT)
                     ),
                     $queryBuilder->expr()->neq(
                         'new_tca_field_name',
-                        $queryBuilder->createNamedParameter('', \PDO::PARAM_STR)
+                        $queryBuilder->createNamedParameter('', Connection::PARAM_STR)
                     ),
                     $queryBuilder->expr()->neq(
                         'new_tca_field_type',
-                        $queryBuilder->createNamedParameter('', \PDO::PARAM_STR)
+                        $queryBuilder->createNamedParameter('', Connection::PARAM_STR)
                     )
                 )
                 ->executeQuery()
@@ -137,11 +138,11 @@ class Mapper
             ->where(
                 $queryBuilder->expr()->eq(
                     'parent_dce',
-                    $queryBuilder->createNamedParameter($dceUid, \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($dceUid, Connection::PARAM_INT)
                 ),
                 $queryBuilder->expr()->neq(
                     'map_to',
-                    $queryBuilder->createNamedParameter('', \PDO::PARAM_STR)
+                    $queryBuilder->createNamedParameter('', Connection::PARAM_STR)
                 )
             )
             ->executeQuery()

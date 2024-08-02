@@ -15,6 +15,7 @@ use T3\Dce\Components\FlexformToTcaMapper\Mapper as TcaMapper;
 use T3\Dce\Domain\Repository\DceRepository;
 use T3\Dce\Utility\DatabaseUtility;
 use T3\Dce\Utility\FlashMessage;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
@@ -230,7 +231,7 @@ class AfterSaveHook
                     ->where(
                         $queryBuilder->expr()->eq(
                             'CType',
-                            $queryBuilder->createNamedParameter($dceIdentifier, \PDO::PARAM_STR)
+                            $queryBuilder->createNamedParameter($dceIdentifier, Connection::PARAM_STR)
                         )
                     )
                     ->executeQuery();
@@ -305,7 +306,7 @@ class AfterSaveHook
             ->where(
                 $queryBuilder->expr()->eq(
                     'CType',
-                    $queryBuilder->createNamedParameter($dceIdentifier, \PDO::PARAM_STR)
+                    $queryBuilder->createNamedParameter($dceIdentifier, Connection::PARAM_STR)
                 )
             )
             ->executeQuery();

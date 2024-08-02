@@ -13,6 +13,7 @@ use T3\Dce\Components\TemplateRenderer\StandaloneViewFactory;
 use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Utility\DatabaseUtility;
 use T3\Dce\Utility\PageTS;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\Query\Restriction\EndTimeRestriction;
 use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
 use TYPO3\CMS\Core\Database\Query\Restriction\StartTimeRestriction;
@@ -101,7 +102,7 @@ class Container
                 ->where(
                     $queryBuilder->expr()->eq(
                         'uid',
-                        $queryBuilder->createNamedParameter($contentObject['l18n_parent'], \PDO::PARAM_INT)
+                        $queryBuilder->createNamedParameter($contentObject['l18n_parent'], Connection::PARAM_INT)
                     )
                 )
                 ->executeQuery()

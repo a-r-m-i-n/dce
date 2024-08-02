@@ -162,7 +162,7 @@ class MigrateDceFieldDatabaseRelationUpdateWizard implements UpgradeWizardInterf
                     ->where(
                         $queryBuilder->expr()->eq(
                             'uid',
-                            $queryBuilder->createNamedParameter($dceFieldRelation['uid_foreign'], \PDO::PARAM_INT)
+                            $queryBuilder->createNamedParameter($dceFieldRelation['uid_foreign'], Connection::PARAM_INT)
                         )
                     )
                     ->executeQuery()
@@ -199,7 +199,7 @@ class MigrateDceFieldDatabaseRelationUpdateWizard implements UpgradeWizardInterf
                             ->where(
                                 $queryBuilder->expr()->eq(
                                     'A.uid_local',
-                                    $queryBuilder->createNamedParameter($dceField['uid'], \PDO::PARAM_INT)
+                                    $queryBuilder->createNamedParameter($dceField['uid'], Connection::PARAM_INT)
                                 )
                             )
                             ->executeQuery()
@@ -315,11 +315,11 @@ class MigrateDceFieldDatabaseRelationUpdateWizard implements UpgradeWizardInterf
             ->where(
                 $queryBuilder->expr()->eq(
                     'parent_dce',
-                    $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter(0, Connection::PARAM_INT)
                 ),
                 $queryBuilder->expr()->eq(
                     'parent_field',
-                    $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter(0, Connection::PARAM_INT)
                 )
             )
             ->executeQuery()

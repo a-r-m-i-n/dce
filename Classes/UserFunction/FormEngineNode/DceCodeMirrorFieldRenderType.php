@@ -97,16 +97,16 @@ class DceCodeMirrorFieldRenderType extends AbstractFormElement
                 ->where(
                     $queryBuilder->expr()->eq(
                         'pid',
-                        $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+                        $queryBuilder->createNamedParameter(0, Connection::PARAM_INT)
                     ),
                     $queryBuilder->expr()->or(
                         $queryBuilder->expr()->eq(
                             'type',
-                            $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+                            $queryBuilder->createNamedParameter(0, Connection::PARAM_INT)
                         ),
                         $queryBuilder->expr()->eq(
                             'type',
-                            $queryBuilder->createNamedParameter(2, \PDO::PARAM_INT)
+                            $queryBuilder->createNamedParameter(2, Connection::PARAM_INT)
                         )
                     ),
                     $queryBuilder->expr()->in(
@@ -130,7 +130,7 @@ class DceCodeMirrorFieldRenderType extends AbstractFormElement
                             ->where(
                                 $queryBuilder->expr()->eq(
                                     'parent_field',
-                                    $queryBuilder->createNamedParameter($row['uid'], \PDO::PARAM_INT)
+                                    $queryBuilder->createNamedParameter($row['uid'], Connection::PARAM_INT)
                                 )
                             )
                             ->orderBy('sorting', 'ASC')

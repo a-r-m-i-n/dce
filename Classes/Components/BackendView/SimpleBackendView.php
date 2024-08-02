@@ -17,6 +17,7 @@ use T3\Dce\Utility\DceExpressionUtility;
 use T3\Dce\Utility\LanguageService;
 use T3\Dce\Utility\PageTS as PageTsUtility;
 use T3\Dce\Utility\Strings as StringUtility;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Resource\ProcessedFile;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -196,18 +197,18 @@ class SimpleBackendView
             ->where(
                 $queryBuilder->expr()->eq(
                     'tablenames',
-                    $queryBuilder->createNamedParameter('tt_content', \PDO::PARAM_STR)
+                    $queryBuilder->createNamedParameter('tt_content', Connection::PARAM_STR)
                 ),
                 $queryBuilder->expr()->eq(
                     'fieldname',
                     $queryBuilder->createNamedParameter(
                         stripslashes($fieldConfiguration['foreign_match_fields']['fieldname'] ?? 'settings.' . $field->getVariable()),
-                        \PDO::PARAM_STR
+                        Connection::PARAM_STR
                     )
                 ),
                 $queryBuilder->expr()->eq(
                     'uid_foreign',
-                    $queryBuilder->createNamedParameter($row['uid'], \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($row['uid'], Connection::PARAM_INT)
                 )
             )
             ->orderBy('sorting_foreign', 'ASC');

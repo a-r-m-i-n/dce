@@ -12,6 +12,7 @@ namespace T3\Dce\UpdateWizards;
 use T3\Dce\Utility\DatabaseUtility;
 use TYPO3\CMS\Core\Charset\CharsetConverter;
 use TYPO3\CMS\Core\Configuration\FlexForm\FlexFormTools;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
@@ -192,7 +193,7 @@ class MigrateFlexformSheetIdentifierUpdateWizard implements UpgradeWizardInterfa
             ->where(
                 $queryBuilder->expr()->eq(
                     'type',
-                    $queryBuilder->createNamedParameter(1, \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter(1, Connection::PARAM_INT)
                 ),
                 $queryBuilder->expr()->eq(
                     'variable',

@@ -147,7 +147,7 @@ class DceRepository extends Repository
             ->where(
                 $queryBuilder->expr()->eq(
                     'CType',
-                    $queryBuilder->createNamedParameter($dce->getIdentifier(), \PDO::PARAM_STR)
+                    $queryBuilder->createNamedParameter($dce->getIdentifier(), Connection::PARAM_STR)
                 )
             )
             ->executeQuery()
@@ -358,7 +358,7 @@ class DceRepository extends Repository
                 ->where(
                     $queryBuilder->expr()->eq(
                         'identifier',
-                        $queryBuilder->createNamedParameter(addslashes(substr($cType, 4)), \PDO::PARAM_STR)
+                        $queryBuilder->createNamedParameter(addslashes(substr($cType, 4)), Connection::PARAM_STR)
                     )
                 )
                 ->executeQuery()
@@ -567,7 +567,7 @@ class DceRepository extends Repository
                 ->where(
                     $queryBuilder->expr()->eq(
                         'uid',
-                        $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+                        $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)
                     )
                 )
                 ->executeQuery()
@@ -691,19 +691,19 @@ class DceRepository extends Repository
                 ->where(
                     $queryBuilder->expr()->eq(
                         'tc.uid',
-                        $queryBuilder->createNamedParameter($contentObjectArray['uid'], \PDO::PARAM_INT)
+                        $queryBuilder->createNamedParameter($contentObjectArray['uid'], Connection::PARAM_INT)
                     )
                 )
                 ->andWhere(
                     $queryBuilder->expr()->eq(
                         'sc_mm.tablenames',
-                        $queryBuilder->createNamedParameter('tt_content', \PDO::PARAM_STR)
+                        $queryBuilder->createNamedParameter('tt_content', Connection::PARAM_STR)
                     )
                 )
                 ->andWhere(
                     $queryBuilder->expr()->eq(
                         'sc_mm.fieldname',
-                        $queryBuilder->createNamedParameter('categories', \PDO::PARAM_STR)
+                        $queryBuilder->createNamedParameter('categories', Connection::PARAM_STR)
                     )
                 )
                 ->executeQuery();
@@ -755,7 +755,7 @@ class DceRepository extends Repository
             ->where(
                 $queryBuilder->expr()->eq(
                     'uid',
-                    $queryBuilder->createNamedParameter($contentElementUid, \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($contentElementUid, Connection::PARAM_INT)
                 )
             )
             ->executeQuery()
@@ -805,7 +805,7 @@ class DceRepository extends Repository
             ->where(
                 $queryBuilder->expr()->eq(
                     'uid',
-                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)
                 )
             )
             ->executeQuery()

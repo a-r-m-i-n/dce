@@ -14,6 +14,7 @@ use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Domain\Repository\DceRepository;
 use T3\Dce\Utility\DatabaseUtility;
 use T3\Dce\Utility\DceExpressionUtility;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\DataHandling\SlugHelper;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -90,25 +91,25 @@ class SlugGenerator
             ->where(
                 $queryBuilder->expr()->eq(
                     'tx_dce_slug',
-                    $queryBuilder->createNamedParameter($slug, \PDO::PARAM_STR)
+                    $queryBuilder->createNamedParameter($slug, Connection::PARAM_STR)
                 )
             )
             ->andWhere(
                 $queryBuilder->expr()->eq(
                     'pid',
-                    $queryBuilder->createNamedParameter($pid, \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($pid, Connection::PARAM_INT)
                 )
             )
             ->andWhere(
                 $queryBuilder->expr()->eq(
                     'sys_language_uid',
-                    $queryBuilder->createNamedParameter($contentElementRow['sys_language_uid'], \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($contentElementRow['sys_language_uid'], Connection::PARAM_INT)
                 )
             )
             ->andWhere(
                 $queryBuilder->expr()->neq(
                     'uid',
-                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)
                 )
             )
             ->executeQuery();

@@ -12,6 +12,7 @@ use T3\Dce\Components\DetailPage\PageTitleProvider;
 use T3\Dce\Components\TemplateRenderer\DceTemplateTypes;
 use T3\Dce\Components\TemplateRenderer\StandaloneViewFactory;
 use T3\Dce\Utility\DatabaseUtility;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
@@ -956,7 +957,7 @@ class Dce extends AbstractEntity
             ->where(
                 $queryBuilder->expr()->eq(
                     'CType',
-                    $queryBuilder->createNamedParameter($this->getIdentifier(), \PDO::PARAM_STR)
+                    $queryBuilder->createNamedParameter($this->getIdentifier(), Connection::PARAM_STR)
                 )
             );
         $rows = DatabaseUtility::getRowsFromQueryBuilder($queryBuilder, 'uid');

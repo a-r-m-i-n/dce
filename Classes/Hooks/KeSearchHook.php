@@ -10,6 +10,7 @@ namespace T3\Dce\Hooks;
  */
 use T3\Dce\Domain\Repository\DceRepository;
 use T3\Dce\Utility\DatabaseUtility;
+use TYPO3\CMS\Core\Database\Connection;
 
 /**
  * ke_search Hook.
@@ -36,11 +37,11 @@ class KeSearchHook
             ->where(
                 $queryBuilder->expr()->eq(
                     'parent_dce',
-                    $queryBuilder->createNamedParameter($dceUid, \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($dceUid, Connection::PARAM_INT)
                 ),
                 $queryBuilder->expr()->eq(
                     'map_to',
-                    $queryBuilder->createNamedParameter('tx_dce_index', \PDO::PARAM_STR)
+                    $queryBuilder->createNamedParameter('tx_dce_index', Connection::PARAM_STR)
                 )
             )
             ->executeQuery()
@@ -57,7 +58,7 @@ class KeSearchHook
             ->where(
                 $queryBuilder->expr()->eq(
                     'uid',
-                    $queryBuilder->createNamedParameter($row['uid'], \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($row['uid'], Connection::PARAM_INT)
                 )
             )
             ->executeQuery()

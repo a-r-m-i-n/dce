@@ -12,6 +12,7 @@ namespace T3\Dce\UpdateWizards;
 use T3\Dce\UserFunction\CustomFieldValidation\LowerCamelCaseValidator;
 use T3\Dce\UserFunction\CustomFieldValidation\NoLeadingNumberValidator;
 use T3\Dce\Utility\DatabaseUtility;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
@@ -91,7 +92,7 @@ class FixMalformedDceFieldVariableNamesUpdateWizard implements UpgradeWizardInte
                     ->where(
                         $queryBuilder->expr()->eq(
                             'uid',
-                            $queryBuilder->createNamedParameter($malformedDceField['parent_field'], \PDO::PARAM_INT)
+                            $queryBuilder->createNamedParameter($malformedDceField['parent_field'], Connection::PARAM_INT)
                         )
                     )
                     ->executeQuery()
@@ -240,7 +241,7 @@ class FixMalformedDceFieldVariableNamesUpdateWizard implements UpgradeWizardInte
             ->where(
                 $queryBuilder->expr()->eq(
                     'uid',
-                    $queryBuilder->createNamedParameter($dceUid, \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($dceUid, Connection::PARAM_INT)
                 )
             )
             ->executeQuery()

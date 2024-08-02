@@ -13,6 +13,7 @@ use Psr\Container\ContainerInterface;
 use T3\Dce\Components\FlexformToTcaMapper\Mapper;
 use T3\Dce\Utility\DatabaseUtility;
 use T3\Dce\Utility\LanguageService;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
@@ -57,7 +58,7 @@ class ItemsProcFunc
             ->where(
                 $queryBuilder->expr()->eq(
                     'parent_dce',
-                    $queryBuilder->createNamedParameter($parameters['row']['uid'], \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($parameters['row']['uid'], Connection::PARAM_INT)
                 ),
                 $queryBuilder->expr()->in(
                     'type',

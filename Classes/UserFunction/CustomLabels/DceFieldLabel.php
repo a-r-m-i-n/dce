@@ -11,6 +11,7 @@ namespace T3\Dce\UserFunction\CustomLabels;
 use T3\Dce\Domain\Model\DceField;
 use T3\Dce\Utility\DatabaseUtility;
 use T3\Dce\Utility\LanguageService;
+use TYPO3\CMS\Core\Database\Connection;
 
 /**
  * Extends TCA label of fields with variable key.
@@ -111,7 +112,7 @@ class DceFieldLabel
             ->where(
                 $queryBuilder->expr()->eq(
                     'uid',
-                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)
                 )
             )
             ->executeQuery()

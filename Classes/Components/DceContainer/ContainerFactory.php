@@ -11,6 +11,7 @@ namespace T3\Dce\Components\DceContainer;
 use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Domain\Repository\DceRepository;
 use T3\Dce\Utility\DatabaseUtility;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Database\Query\Restriction\EndTimeRestriction;
 use TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer;
@@ -100,11 +101,11 @@ class ContainerFactory
         $queryBuilder->where(
             $queryBuilder->expr()->eq(
                 'pid',
-                $queryBuilder->createNamedParameter($contentObject['pid'], \PDO::PARAM_INT)
+                $queryBuilder->createNamedParameter($contentObject['pid'], Connection::PARAM_INT)
             ),
             $queryBuilder->expr()->eq(
                 'colPos',
-                $queryBuilder->createNamedParameter($contentObject['colPos'], \PDO::PARAM_INT)
+                $queryBuilder->createNamedParameter($contentObject['colPos'], Connection::PARAM_INT)
             ),
             $queryBuilder->expr()->gt(
                 $sortColumn,
@@ -112,14 +113,14 @@ class ContainerFactory
             ),
             $queryBuilder->expr()->neq(
                 'uid',
-                $queryBuilder->createNamedParameter($contentObject['uid'], \PDO::PARAM_INT)
+                $queryBuilder->createNamedParameter($contentObject['uid'], Connection::PARAM_INT)
             )
         );
 
         if ($newsUid > 0) {
             $queryBuilder->andWhere($queryBuilder->expr()->eq(
                 'tx_news_related_news',
-                $queryBuilder->createNamedParameter($newsUid, \PDO::PARAM_INT)
+                $queryBuilder->createNamedParameter($newsUid, Connection::PARAM_INT)
             ));
         }
 
@@ -127,7 +128,7 @@ class ContainerFactory
             $queryBuilder->andWhere(
                 $queryBuilder->expr()->eq(
                     'sys_language_uid',
-                    $queryBuilder->createNamedParameter($contentObject['sys_language_uid'], \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($contentObject['sys_language_uid'], Connection::PARAM_INT)
                 )
             );
         }
@@ -139,11 +140,11 @@ class ContainerFactory
             $queryBuilder->andWhere(
                 $queryBuilder->expr()->eq(
                     'tx_gridelements_container',
-                    $queryBuilder->createNamedParameter($contentObject['tx_gridelements_container'], \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($contentObject['tx_gridelements_container'], Connection::PARAM_INT)
                 ),
                 $queryBuilder->expr()->eq(
                     'tx_gridelements_columns',
-                    $queryBuilder->createNamedParameter($contentObject['tx_gridelements_columns'], \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($contentObject['tx_gridelements_columns'], Connection::PARAM_INT)
                 )
             );
         }
@@ -152,7 +153,7 @@ class ContainerFactory
             $queryBuilder->andWhere(
                 $queryBuilder->expr()->eq(
                     'tx_container_parent',
-                    $queryBuilder->createNamedParameter($contentObject['tx_container_parent'], \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($contentObject['tx_container_parent'], Connection::PARAM_INT)
                 )
             );
         }
@@ -274,7 +275,7 @@ class ContainerFactory
                         ->where(
                             $queryBuilder->expr()->eq(
                                 'uid',
-                                $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+                                $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)
                             )
                         )
                         ->orderBy($GLOBALS['TCA'][$table]['ctrl']['sortby'], 'ASC')
