@@ -86,7 +86,6 @@
             <trans-unit id="tx_dce_domain_model_dce.showCategoryTab"><source>Enable categories tab</source></trans-unit>
             <trans-unit id="tx_dce_domain_model_dce.showMediaTab"><source>Enable media tab</source></trans-unit>
 
-            <trans-unit id="tx_dce_domain_model_dce.hideDefaultCeWrap"><source>Disables the "div.csc-default" wrapping</source></trans-unit>
             <trans-unit id="tx_dce_domain_model_dce.paletteFields"><source>DCE palette fields</source></trans-unit>
             <trans-unit id="tx_dce_domain_model_dce.flexformLabel"><source>Flexform label</source></trans-unit>
             <trans-unit id="tx_dce_domain_model_dce.flexformLabel.default"><source>Contents:</source></trans-unit>

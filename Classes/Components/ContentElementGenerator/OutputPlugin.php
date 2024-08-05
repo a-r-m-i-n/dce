@@ -113,19 +113,6 @@ class OutputPlugin implements OutputInterface
 
                     PHP;
 
-                if ($dce['hide_default_ce_wrap'] && ExtensionManagementUtility::isLoaded('css_styled_content')) {
-                    $sourceCode .= <<<PHP
-                        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
-                            'dce',
-                            'setup',
-                            "# Hide default wrapping for content elements for DCE with identifier $dceIdentifier}
-                             tt_content.stdWrap.innerWrap.cObject.default.stdWrap.if.value := addToList($dceIdentifier)",
-                            43
-                        );
-
-                        PHP;
-                }
-
                 if ($dce['enable_container'] && ExtensionManagementUtility::isLoaded('fluid_styled_content')) {
                     $sourceCode .= <<<PHP
                         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(

@@ -33,7 +33,7 @@ $showItems = <<<TEXT
     wizard_enable,wizard_category,wizard_description,wizard_icon,wizard_custom_icon,
 
 --div--;{$ll}tx_dce_domain_model_dce.miscellaneous,
-    --palette--;;misc,flexform_label,hide_default_ce_wrap,
+    --palette--;;misc,flexform_label,
     --palette--;{$ll}tx_dce_domain_model_dce.contentRelationsPalette;content_relations,
     palette_fields,prevent_header_copy_suffix,template_layout_root_path,template_partial_root_path
 TEXT;
@@ -748,17 +748,6 @@ if ($versionInformation->getMajorVersion() >= 13) {
     $dceTca['columns']['prevent_header_copy_suffix']['config'] = ['type' => 'passthrough'];
 }
 
-if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('css_styled_content')) {
-    //hide_default_ce_wrap
-    $dceTca['columns']['hide_default_ce_wrap'] = [
-        'exclude' => 0,
-        'label' => $ll . 'tx_dce_domain_model_dce.hideDefaultCeWrap',
-        'config' => [
-            'type' => 'check',
-            'default' => '0',
-        ]
-    ];
-}
 if (!\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('fluid_styled_content')) {
     $dceTca['palettes']['content_relations']['showitem'] = 'show_access_tab,show_category_tab';
     $dceTca['columns']['direct_output']['config']['readOnly'] = true;

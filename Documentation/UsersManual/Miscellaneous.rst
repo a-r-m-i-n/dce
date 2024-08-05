@@ -24,7 +24,7 @@ This option takes effect if the showAction of the DceController is cached or non
 Direct output
 ^^^^^^^^^^^^^
 
-With this option enabled you bypass ``css_styled_content`` or ``fluid_styled_content``.
+With this option enabled you bypass ``fluid_styled_content``.
 Instead of using lib.contentElement, the DCE controller action is used directly.
 This brings a significant performances boost and removes any wrappings defined by e.g. fluid_styled_content
 (<div id="c123" ...>).
@@ -39,13 +39,6 @@ Defines the text displayed in the content element:
 
 .. image:: Images/misc-flexform-label.png
     :alt: FlexForm label in the content element
-
-
-Disables the "div.csc-default" wrapping
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Only available, when ``EXT:css_styled_content`` is installed. This option disables the wrapping of the content element
-with the ``<div class="csc-default" />`` which can be sometimes necessary.
 
 
 Enable access tab in backend
