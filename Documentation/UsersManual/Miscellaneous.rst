@@ -86,6 +86,10 @@ The default value is this: ``sys_language_uid, l18n_parent, colPos, spaceBefore,
 Prevent header copy suffix
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+.. caution::
+   This option is disabled for TYPO3 v13 and higher.
+   Empty header field in copied tt_content element, stays empty in copy.
+
 If this checkbox is checked (enabled by default) a copied tt_content record, based on this DCE, will not append
 "Copy (1)" to record's header. It uses the header contents of the original content record.
 

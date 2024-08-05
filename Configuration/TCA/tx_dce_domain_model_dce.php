@@ -741,6 +741,13 @@ $dceTca = [
     ],
 ];
 
+/** @var \TYPO3\CMS\Core\Information\Typo3Version $versionInformation */
+$versionInformation = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Information\Typo3Version::class);
+if ($versionInformation->getMajorVersion() >= 13) {
+    // Disable "prevent_header_copy_suffix" for v13 and higher.
+    $dceTca['columns']['prevent_header_copy_suffix']['config'] = ['type' => 'passthrough'];
+}
+
 if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('css_styled_content')) {
     //hide_default_ce_wrap
     $dceTca['columns']['hide_default_ce_wrap'] = [

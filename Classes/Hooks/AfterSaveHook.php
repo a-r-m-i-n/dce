@@ -92,8 +92,9 @@ class AfterSaveHook
             $contentRow = $this->dataHandler->recordInfo('tt_content', $this->uid);
 
             // Prevent "Copy (1)" suffix when copying tt_content based on DCE
+            // TODO: Remove this when v12 support is dropped. "t3_origuid" is not existing in "tt_content" in v13 anymore.
             if ($dceUid = DceRepository::extractUidFromCTypeOrIdentifier($contentRow['CType'])) {
-                $origUid = $contentRow['t3_origuid'];
+                $origUid = $contentRow['t3_origuid'] ?? null;
                 if ($origUid) {
                     $dceRow = $this->dataHandler->recordInfo('tx_dce_domain_model_dce', $dceUid);
                     if ($dceRow['prevent_header_copy_suffix'] && 'new' === $status) {
