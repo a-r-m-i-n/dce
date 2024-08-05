@@ -30,7 +30,7 @@ $dceIcons = [
 
 /** @var InputDatabase $dceInputDatabase */
 $dceInputDatabase = GeneralUtility::makeInstance(InputDatabase::class);
-foreach ($dceInputDatabase->getDces() as $dce) {
+foreach ($dceInputDatabase->getDces(true) as $dce) {
     if ($dce['hasCustomWizardIcon'] && !empty($dce['wizard_custom_icon'])) {
         $wizardCustomIcon = $dce['wizard_custom_icon'];
 

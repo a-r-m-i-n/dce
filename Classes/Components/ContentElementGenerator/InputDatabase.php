@@ -9,6 +9,7 @@ namespace T3\Dce\Components\ContentElementGenerator;
  *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
 use T3\Dce\Utility\DatabaseUtility;
+use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -35,7 +36,7 @@ class InputDatabase implements InputInterface
      *
      * @return array with DCE -> containing tabs -> containing fields
      */
-    public function getDces(): array
+    public function getDces(bool $includeHidden = false): array
     {
         $tables = DatabaseUtility::adminGetTables();
         if (!\array_key_exists('tx_dce_domain_model_dce', $tables) ||
@@ -45,10 +46,13 @@ class InputDatabase implements InputInterface
         }
 
         $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dce');
+        if ($includeHidden) {
+            $queryBuilder->getRestrictions()->removeAll()->add(new DeletedRestriction());
+        }
         $dceModelRows = $queryBuilder
             ->select('*')
             ->from('tx_dce_domain_model_dce')
-            ->where('pid=0 AND deleted=0 AND hidden=0')
+            ->where('pid=0')
             ->orderBy('sorting', 'asc')
             ->executeQuery()
             ->fetchAllAssociative();
@@ -63,7 +67,7 @@ class InputDatabase implements InputInterface
                 'd',
                 'df.parent_dce = d.uid'
             )
-            ->where('df.pid=0 AND df.deleted=0 and df.hidden=0 AND d.hidden=0 and d.deleted=0')
+            ->where('df.pid=0')
             ->orderBy('d.sorting', 'ASC')
             ->addOrderBy('df.sorting', 'ASC')
             ->executeQuery()
