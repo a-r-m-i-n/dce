@@ -89,15 +89,15 @@ class AfterSaveHook
         $this->uid = $this->getUid($id, $table, $status, $pObj);
 
         if ('tt_content' === $table) {
-            $contentRow = $this->dataHandler->recordInfo('tt_content', $this->uid, '*');
+            $contentRow = $this->dataHandler->recordInfo('tt_content', $this->uid);
 
             // Prevent "Copy (1)" suffix when copying tt_content based on DCE
             if ($dceUid = DceRepository::extractUidFromCTypeOrIdentifier($contentRow['CType'])) {
                 $origUid = $contentRow['t3_origuid'];
                 if ($origUid) {
-                    $dceRow = $this->dataHandler->recordInfo('tx_dce_domain_model_dce', $dceUid, '*');
+                    $dceRow = $this->dataHandler->recordInfo('tx_dce_domain_model_dce', $dceUid);
                     if ($dceRow['prevent_header_copy_suffix'] && 'new' === $status) {
-                        $origRecord = $this->dataHandler->recordInfo('tt_content', $origUid, 'header');
+                        $origRecord = $this->dataHandler->recordInfo('tt_content', $origUid);
                         $this->dataHandler->updateDB('tt_content', $this->uid, ['header' => $origRecord['header']]);
                     }
                 }
@@ -106,7 +106,7 @@ class AfterSaveHook
             $dceUid = DceRepository::extractUidFromCTypeOrIdentifier($contentRow['CType']);
             // Write flexform values to TCA, when enabled
             if ($dceUid) {
-                $dceRow = $this->dataHandler->recordInfo('tx_dce_domain_model_dce', $dceUid, '*');
+                $dceRow = $this->dataHandler->recordInfo('tx_dce_domain_model_dce', $dceUid);
                 $dceIdentifier = !empty($dceRow['identifier']) ? 'dce_' . $dceRow['identifier']
                     : 'dce_dceuid' . $dceUid;
 
@@ -127,7 +127,7 @@ class AfterSaveHook
             }
             // Generate slug, when enabled
             if ($dceUid) {
-                $dceRow = $this->dataHandler->recordInfo('tx_dce_domain_model_dce', $dceUid, '*');
+                $dceRow = $this->dataHandler->recordInfo('tx_dce_domain_model_dce', $dceUid);
                 if (!empty($dceRow['detailpage_slug_expression'])) {
                     /** @var SlugGenerator $generator */
                     $generator = GeneralUtility::makeInstance(SlugGenerator::class);
@@ -170,7 +170,7 @@ class AfterSaveHook
         if ('tx_dce_domain_model_dce' === $table && 'update' === $status) {
             if (!isset($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceImportInProgress'])) {
                 if (array_key_exists('hidden', $fieldArray) && '1' === $fieldArray['hidden']) {
-                    $dceRow = $this->dataHandler->recordInfo('tx_dce_domain_model_dce', $this->uid, '*');
+                    $dceRow = $this->dataHandler->recordInfo('tx_dce_domain_model_dce', $this->uid);
                     $dceIdentifier = !empty($dceRow['identifier']) ? 'dce_' . $dceRow['identifier']
                                                                             : 'dce_dceuid' . $this->uid;
                     $this->hideContentElementsBasedOnDce($dceIdentifier);
@@ -194,7 +194,7 @@ class AfterSaveHook
         }
 
         if ('tx_dce_domain_model_dce' === $table && ('update' === $status || 'new' === $status)) {
-            $dceRow = $this->dataHandler->recordInfo('tx_dce_domain_model_dce', $this->uid, '*');
+            $dceRow = $this->dataHandler->recordInfo('tx_dce_domain_model_dce', $this->uid);
 
             // Adds or removes *containerflag from simple backend view, when container is en- or disabled
             if (array_key_exists('enable_container', $fieldArray)) {
