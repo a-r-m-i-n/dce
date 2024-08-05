@@ -7,7 +7,8 @@ namespace T3\Dce\Components\ContentElementGenerator;
  *  |
  *  | (c) 2012-2024 Armin Vieweg <armin@v.ieweg.de>
  */
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Information\Typo3Version;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class OutputPlugin.
@@ -41,10 +42,17 @@ class OutputPlugin implements OutputInterface
         if (!$this->cacheManager->has(self::CACHE_KEY)) {
             $sourceCode = '';
 
+            /** @var Typo3Version $versionInformation */
+            $versionInformation = GeneralUtility::makeInstance(Typo3Version::class);
+            $typicalPageContentGroupName = 'default';
+            if ($versionInformation->getMajorVersion() < 13) {
+                $typicalPageContentGroupName = 'common';
+            }
+
             $sourceCode .= <<<PHP
                 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
-                    'mod.wizards.newContentElement.wizardItems.dce.header = ' .
-                    'LLL:EXT:dce/Resources/Private/Language/locallang_db.xlf:tx_dce_domain_model_dce_long'
+                    'mod.wizards.newContentElement.wizardItems.dce.header = LLL:EXT:dce/Resources/Private/Language/locallang_db.xlf:tx_dce_domain_model_dce_long
+                     mod.wizards.newContentElement.wizardItems.dce.after = $typicalPageContentGroupName'
                 );
 
                 PHP;

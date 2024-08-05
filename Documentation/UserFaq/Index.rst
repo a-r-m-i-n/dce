@@ -257,3 +257,12 @@ If you want to rename this group just use this code in PageTS:
 ::
 
     mod.wizards.newContentElement.wizardItems.dce.header = Whatever you want
+
+You can also modify the position of the group, in PageTS. This is the default value:
+
+::
+
+    mod.wizards.newContentElement.wizardItems.dce.after = default
+
+.. note::
+   In TYPO3 v12 the group name is `common`. Since v13 it is `default`.
