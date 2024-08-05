@@ -7,6 +7,9 @@ body {
     border-color: #a02035 !important;
     color: #fff !important;
 }
+.btn-primary:hover {
+    background-color: #a42237 !important;
+}
 .btn-primary svg {
     fill: #fff;
 }
@@ -80,7 +83,6 @@ div.nav-group {
 .typeicon {
     float: left;
     position: relative;
-    padding-top: 5px;
     margin-left: 2px;
     margin-right: 12px;
 }
@@ -88,11 +90,6 @@ div.nav-group {
 .bg-logo {
     border-radius: 2px;
     line-height: 0;
-}
-
-.dceLabel {
-    padding-left: 42px;
-    padding-top: 4px;
 }
 
 .listEntry {

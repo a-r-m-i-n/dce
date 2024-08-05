@@ -46,6 +46,7 @@
             <trans-unit id="nofields"><source>No fields</source></trans-unit>
             <trans-unit id="back"><source>Back</source></trans-unit>
             <trans-unit id="noDcesFound"><source>No DCEs found!</source></trans-unit>
+            <trans-unit id="field"><source>field</source></trans-unit>
             <trans-unit id="fields"><source>fields</source></trans-unit>
             <trans-unit id="tca"><source>This DCE has fields which are mapped with TCA columns.</source></trans-unit>
             <trans-unit id="tcaplus"><source>This DCE has fields which are mapped with TCA columns. Furthermore this DCE adds new columns to TCA and database!</source></trans-unit>

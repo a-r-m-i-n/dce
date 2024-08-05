@@ -4,29 +4,31 @@
         <td class="listEntry">
             <a href="{f:render(partial:'Module/OpenDce', arguments:'{uid:\'{dce.uid}\'}') -> dce:format.tiny()}" class="overlayLink"></a>
 
-            <f:render partial="Module/ListItem/TypeIcon" arguments="{dce:dce}"/>
+            <div class="d-flex justify-content-start align-items-center">
+                <f:render partial="Module/ListItem/TypeIcon" arguments="{dce:dce}"/>
 
-            <div class="dceLabel">
-                <div>
-                    <f:if condition="{dce.title}">
-                        <f:then>
-                            <span><f:translate key="{dce.title}" default="{dce.title}"/></span>
-                        </f:then>
-                        <f:else>
-                            <span><em><f:translate key="noTitle"/></em></span>
-                        </f:else>
-                    </f:if>
-                </div>
-                <div class="small text-muted">
-                    <em>
-                        <f:if condition="{dce.wizardDescription}">
-                            <span title="{dce.wizardDescription}">
-                                <f:format.crop maxCharacters="80">
-                                    <f:translate key="{dce.wizardDescription}" default="{dce.wizardDescription}"/>
-                                </f:format.crop>
-                            </span>
+                <div class="dceLabel">
+                    <div>
+                        <f:if condition="{dce.title}">
+                            <f:then>
+                                <span><f:translate key="{dce.title}" default="{dce.title}"/></span>
+                            </f:then>
+                            <f:else>
+                                <span><em><f:translate key="noTitle"/></em></span>
+                            </f:else>
                         </f:if>
-                    </em>
+                    </div>
+                    <div class="small text-muted">
+                        <em>
+                            <f:if condition="{dce.wizardDescription}">
+                                <span title="{dce.wizardDescription}">
+                                    <f:format.crop maxCharacters="80">
+                                        <f:translate key="{dce.wizardDescription}" default="{dce.wizardDescription}"/>
+                                    </f:format.crop>
+                                </span>
+                            </f:if>
+                        </em>
+                    </div>
                 </div>
             </div>
         </td>
@@ -34,12 +36,12 @@
         <td class="status">
             <f:if condition="{dce.hidden} == 1">
                 <f:then>
-                    <span class="badge badge-danger text-uppercase">{f:translate(key:'{lll}disabled')}</span>
+                    <span class="badge badge-danger text-uppercase py-2">{f:translate(key:'{lll}disabled')}</span>
                 </f:then>
                 <f:else>
                     <f:if condition="{dce.fields -> f:count()} == 0">
-                        <f:then><span class="badge badge-warning text-uppercase">{f:translate(key:'{lll}nofields')}</span></f:then>
-                        <f:else><span class="badge badge-success text-uppercase">{f:translate(key:'{lll}enabled')}</span></f:else>
+                        <f:then><span class="badge badge-warning text-uppercase py-2">{f:translate(key:'{lll}nofields')}</span></f:then>
+                        <f:else><span class="badge badge-success text-uppercase py-2">{f:translate(key:'{lll}enabled')}</span></f:else>
                     </f:if>
                 </f:else>
             </f:if>
@@ -61,38 +63,56 @@
                 <span>{dce.relatedContentElementRows -> f:count()}</span> </a>
         </td>
         <td class="dceStats">
-            <f:if condition="{dce.enableContainer}">
-                <span class="badge badge-default badge-darker">
-                    <span class="text-uppercase">{f:translate(key:'{lll}dceContainerEnabled')}</span>
-                    <f:if condition="{dce.containerItemLimit}">({f:translate(key:'{lll}limitedToItems', arguments:'{0:\'{dce.containerItemLimit}\'}')})</f:if>
-                </span>
-            </f:if>
-            <f:if condition="{dce.enableDetailpage}">
-                <span class="badge badge-default badge-darker">
-                    <span class="text-uppercase">{f:translate(key:'{lll}dceDetailpageEnabled')}</span>
-                </span>
-            </f:if>
+            <div class="row g-1">
+                <f:if condition="{dce.enableContainer}">
+                    <div class="col">
+                        <span class="badge badge-default badge-darker w-100 py-2 rounded-5">
+                            <span class="text-uppercase">{f:translate(key:'{lll}dceContainerEnabled')}</span>
+                            <f:if condition="{dce.containerItemLimit}">({f:translate(key:'{lll}limitedToItems', arguments:'{0:\'{dce.containerItemLimit}\'}')})</f:if>
+                        </span>
+                    </div>
+                </f:if>
+                <f:if condition="{dce.enableDetailpage}">
+                    <div class="col">
+                        <span class="badge badge-default badge-darker w-100 py-2 rounded-5">
+                            <span class="text-uppercase">{f:translate(key:'{lll}dceDetailpageEnabled')}</span>
+                        </span>
+                    </div>
+                </f:if>
+            </div>
         </td>
         <td class="fieldStats">
-            <span class="badge badge-default badge-darker">{dce.fields -> f:count()} {f:translate(key:'{lll}fields')}</span>
-            <f:if condition="{dce.hasTcaMappings}">
-                <f:if condition="{dce.addsNewFieldsToTca}">
-                    <f:then><span title="{f:translate(key:'{lll}tcaplus')}" class="badge badge-danger">TCA+</span></f:then>
-                    <f:else><span title="{f:translate(key:'{lll}tca')}" class="badge badge-danger">TCA</span></f:else>
+            <div class="row g-1">
+                <div class="col">
+                    <span class="badge badge-default badge-darker w-100 py-2 rounded-5">
+                        <f:if condition="{dce.fields -> f:count()} === 1">
+                            <f:then>{dce.fields -> f:count()} {f:translate(key:'{lll}field')}</f:then>
+                            <f:else>{dce.fields -> f:count()} {f:translate(key:'{lll}fields')}</f:else>
+                        </f:if>
+                    </span>
+                </div>
+                <f:if condition="{dce.hasTcaMappings}">
+                    <div class="col">
+                        <f:if condition="{dce.addsNewFieldsToTca}">
+                            <f:then><span title="{f:translate(key:'{lll}tcaplus')}" class="badge badge-danger w-100 py-2 rounded-5">TCA+</span></f:then>
+                            <f:else><span title="{f:translate(key:'{lll}tca')}" class="badge badge-danger w-100 py-2 rounded-5">TCA</span></f:else>
+                        </f:if>
+                    </div>
                 </f:if>
-            </f:if>
+            </div>
         </td>
         <td>
-            <div class="pull-right">
-                <a href="{f:render(partial:'Module/OpenDce', arguments:'{uid:\'{dce.uid}\'}') -> dce:format.tiny()}" class="btn btn-primary btn-wide">
-                    <core:icon identifier="actions-open" size="small"/>
-                    {f:translate(key:'{lll}edit')} </a>
+            <div class="d-flex justify-content-end align-items-center">
                 <f:if condition="{dce.hasTcaMappings}">
-                    <f:link.action class="btn btn-default btn-large" action="updateTcaMappings" arguments="{dce:dce}">
+                    <f:link.action class="btn btn-default btn-large me-1 me-lg-2 text-nowrap" action="updateTcaMappings" arguments="{dce:dce}" title="{f:translate(key:'{lll}updateTcaMappings')}">
                         <core:icon identifier="actions-refresh"/>
-                        <f:translate key="{lll}updateTcaMappings"/>
+                        <span class="d-none d-lg-inline-block">{f:translate(key:'{lll}updateTcaMappings')}</span>
                     </f:link.action>
                 </f:if>
+                <a href="{f:render(partial:'Module/OpenDce', arguments:'{uid:\'{dce.uid}\'}') -> dce:format.tiny()}" class="btn btn-primary btn-wide" title="{f:translate(key:'{lll}edit')}">
+                    <core:icon identifier="actions-open" size="small"/>
+                    <span class="d-none d-lg-inline-block">{f:translate(key:'{lll}edit')}</span>
+                </a>
             </div>
         </td>
     </tr>
