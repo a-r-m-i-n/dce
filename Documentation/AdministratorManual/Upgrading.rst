@@ -11,6 +11,9 @@ New version 3.0 of DCE and TYPO3 v12 contain various changes, which requires som
 
 DCE provides some upgrade wizards in install tool of TYPO3, which pop up when necessary.
 
+.. note::
+   DCE 3.2 which introduced TYPO3 v13 support, does not require any manual adjustments or upgrades.
+
 
 Steps
 =====

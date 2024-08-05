@@ -8,6 +8,25 @@ Versions
 
 .. contents:: :local:
 
+3.2.0
+-----
+
+**First release with added TYPO3 v13 support**
+
+- [TASK] Improve labels and styling in DCE backend module
+- [TASK] Fix DCE group position in new content element wizard
+- [BUGFIX] Always enable Direct Output for DCEs with enabled container
+- [BUGFIX] Register DCE custom icons also when the DCE is disabled
+- [TASK] Remove "Disables the "div.csc-default" wrapping" option in DCE
+- [TASK] Remove "Prevent header copy suffix" option in DCE
+- [TASK] Remove third parameter in DataHandler's recordInfo method calls
+- [TASK] Make font weight in code editor bold
+- [TASK] Change the way to ask Doctrine for the type name of a column
+- [TASK] Replace all occurrences of PDO column types
+- [TASK] Fix declaration of DceModuleController's initializeAction
+- [TASK] Raise TYPO3 requirement to include v13
+- [DEVOPS] Fix site hostname in v13 install script
+
 3.1.4
 -----
 
@@ -71,6 +90,8 @@ Versions
 
 3.0.0
 -----
+
+**First release with TYPO3 v12 support**
 
 - Added TYPO3 12.4 LTS support
 - Dropped v10 and v11 support
