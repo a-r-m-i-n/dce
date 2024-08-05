@@ -31,6 +31,9 @@ This brings a significant performances boost and removes any wrappings defined b
 
 **This option is enabled by default, separately for each DCE.**
 
+.. note::
+   When DCE container feature is enabled the direct output for this DCE is **always** enabled.
+
 
 FlexForm label
 ^^^^^^^^^^^^^^

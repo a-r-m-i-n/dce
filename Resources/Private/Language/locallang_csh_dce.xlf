@@ -21,7 +21,7 @@
             ]]></source></trans-unit>
             <trans-unit id="detailpage_title_expression.description"><source>Same as slug expression, just for the page title of the detail page. The page title get not sanitized, like the slug.</source></trans-unit>
             <trans-unit id="detailpage_use_slug_as_title.description"><source>When you've defined a slug expression for page title and enable this option, the expression is applied as page title. You can prepend, append or overwrite the current page title.</source></trans-unit>
-            <trans-unit id="direct_output.description"><source>When enabled, it bypasses fluid_styled_content (lib.contentElement). This disables the "csc-default" wrap in html output and increases performance significantly.</source></trans-unit>
+            <trans-unit id="direct_output.description"><source>When enabled, it bypasses fluid_styled_content (lib.contentElement). This disables the "fsc-default" wrap in html output and increases performance significantly.</source></trans-unit>
             <trans-unit id="flexform_label.description"><source>Flexforms can have a separate title. The configured default LLL key points to "Contents:"</source></trans-unit>
         </body>
 	</file>

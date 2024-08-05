@@ -85,7 +85,7 @@ class OutputPlugin implements OutputInterface
                         PHP;
                 } else {
                     // When FSC is installed
-                    if ($dce['direct_output']) {
+                    if ($dce['direct_output'] || $dce['enable_container']) {
                         $sourceCode .= <<<PHP
                             \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
                                 'dce',
@@ -112,19 +112,6 @@ class OutputPlugin implements OutputInterface
                     );
 
                     PHP;
-
-                if ($dce['enable_container'] && ExtensionManagementUtility::isLoaded('fluid_styled_content')) {
-                    $sourceCode .= <<<PHP
-                        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
-                            'dce',
-                            'setup',
-                            "# Change fluid_styled_content template name for DCE with identifier $dceIdentifier
-                             tt_content.$dceIdentifier.templateName = DceContainerElement",
-                            43
-                        );
-
-                        PHP;
-                }
 
                 if ($dce['wizard_enable']) {
                     $iconIdentifierCode = $dce['hasCustomWizardIcon']
