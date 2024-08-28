@@ -8,6 +8,11 @@ Versions
 
 .. contents:: :local:
 
+3.2.1
+-----
+
+- [BUGFIX] Do not cause PHP warning in custom TtContentLabel user function
+
 3.2.0
 -----
 
