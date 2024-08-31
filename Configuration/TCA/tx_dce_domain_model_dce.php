@@ -55,7 +55,9 @@ $dceTca = [
         'enablecolumns' => [
             'disabled' => 'hidden',
         ],
-        'iconfile' => 'EXT:dce/Resources/Public/Icons/Extension.png',
+        'typeicon_classes' => [
+            'default' => 'dce-ext',
+        ],
         'copyAfterDuplFields' => 'fields',
     ],
     'types' => [
@@ -74,27 +76,21 @@ $dceTca = [
     'palettes' => [
         'general_header' => [
             'showitem' => 'title,identifier,hidden',
-            'canNotCollapse' => true
         ],
         'content_relations' => [
             'showitem' => 'show_access_tab,show_media_tab,show_category_tab',
-            'canNotCollapse' => true
         ],
         'misc' => [
             'showitem' => 'cache_dce,direct_output',
-            'canNotCollapse' => true
         ],
         'detailpage_slug' => [
             'showitem' => 'detailpage_slug_expression',
-            'canNotCollapse' => true
         ],
         'detailpage_title' => [
             'showitem' => 'detailpage_title_expression,detailpage_use_slug_as_title',
-            'canNotCollapse' => true
         ],
         'backend_view_header_settings' => [
             'showitem' => 'backend_view_header,backend_view_header_expression,backend_view_header_use_expression',
-            'canNotCollapse' => true
         ],
     ],
     'columns' => [
@@ -157,7 +153,7 @@ $dceTca = [
             'onChange' => 'reload',
             'config' => [
                 'type' => 'check',
-                'default' => true,
+                'default' => 1,
             ],
         ],
         'wizard_category' => [
