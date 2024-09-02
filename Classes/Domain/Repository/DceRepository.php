@@ -380,6 +380,21 @@ class DceRepository extends Repository
         if (0 === $uid) {
             return null;
         }
+        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dce');
+        $row = $queryBuilder
+            ->select('identifier')
+            ->from('tx_dce_domain_model_dce')
+            ->where(
+                $queryBuilder->expr()->eq(
+                    'uid',
+                    $queryBuilder->createNamedParameter($uid)
+                )
+            )
+            ->executeQuery()
+            ->fetchAssociative();
+        if (isset($row['identifier']) && $row['identifier'] !== '') {
+            return 'dce_' . $row['identifier'];
+        }
 
         return 'dce_dceuid' . $uid;
     }
