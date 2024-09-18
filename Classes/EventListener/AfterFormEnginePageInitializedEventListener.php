@@ -19,7 +19,7 @@ class AfterFormEnginePageInitializedEventListener
     {
         $editParams = $event->getRequest()->getQueryParams()['edit'] ?? null;
 
-        if (array_key_exists('tx_dce_domain_model_dce', $editParams)) {
+        if (is_array($editParams) && array_key_exists('tx_dce_domain_model_dce', $editParams)) {
             $this->pageRenderer->getJavaScriptRenderer()->addJavaScriptModuleInstruction(
                 JavaScriptModuleInstruction::create('@t3/dce/code-editor')
             );
