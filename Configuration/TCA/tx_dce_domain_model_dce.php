@@ -47,7 +47,6 @@ $dceTca = [
         'rootLevel' => 1,
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
-        'dividers2tabs' => true,
         'versioningWS' => true,
         'origUid' => 't3_origuid',
         'delete' => 'deleted',

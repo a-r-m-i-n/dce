@@ -68,12 +68,12 @@ class DceField extends AbstractEntity
     /**
      * @var \T3\Dce\Domain\Model\Dce
      */
-    protected $parentDce;
+    protected ?Dce $parentDce = null;
 
     /**
      * @var \T3\Dce\Domain\Model\DceField
      */
-    protected $parentField;
+    protected ?DceField $parentField = null;
 
     /**
      * @var string not persisted

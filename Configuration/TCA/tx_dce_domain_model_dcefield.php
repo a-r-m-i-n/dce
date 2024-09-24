@@ -24,7 +24,6 @@ $dceFieldTca = [
         'rootLevel' => true,
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
-        'dividers2tabs' => true,
         'versioningWS' => true,
         'origUid' => 't3_origuid',
         'delete' => 'deleted',
@@ -43,7 +42,7 @@ $dceFieldTca = [
     'types' => [
         '0' => [
             'showitem' => '--palette--;;general_header,configuration,
-                           --palette--;;tca_options,parent_dce,parent_field',
+                           --palette--;;tca_options',
             'columnsOverrides' => [
                 'configuration' => [
                     'config' => [
@@ -54,15 +53,15 @@ $dceFieldTca = [
             ],
         ],
         '1' => [
-            'showitem' => '--palette--;;general_header,parent_dce'
+            'showitem' => '--palette--;;general_header'
         ],
         '2' => [
-            'showitem' => '--palette--;;general_header,section_fields_tag,section_fields,parent_dce'
+            'showitem' => '--palette--;;general_header,section_fields_tag,section_fields'
         ],
     ],
     'palettes' => [
-        'general_header' => ['showitem' => 'type,title,variable,hidden', 'canNotCollapse' => true],
-        'tca_options' => ['showitem' => 'map_to,new_tca_field_name,new_tca_field_type', 'canNotCollapse' => true]
+        'general_header' => ['showitem' => 'type,title,variable,hidden'],
+        'tca_options' => ['showitem' => 'map_to,new_tca_field_name,new_tca_field_type']
     ],
     'columns' => [
         'hidden' => [
@@ -100,7 +99,7 @@ $dceFieldTca = [
                     ],
                 ],
             ],
-            'displayCond' => 'FIELD:parent_field:=:0'
+            'displayCond' => 'FIELD:parent_field:REQ:false'
         ],
         'title' => [
             'exclude' => 0,
@@ -152,7 +151,7 @@ $dceFieldTca = [
                 'minitems' => 0,
                 'maxitems' => 1
             ],
-            'displayCond' => 'FIELD:parent_field:=:0'
+            'displayCond' => 'FIELD:parent_field:REQ:false'
         ],
         'new_tca_field_name' => [
             'exclude' => 0,
@@ -164,7 +163,7 @@ $dceFieldTca = [
             ],
             'displayCond' => [
                 'AND' => [
-                    'FIELD:parent_field:=:0',
+                    'FIELD:parent_field:REQ:false',
                     'FIELD:map_to:=:*newcol'
                 ]
             ],
@@ -180,7 +179,7 @@ $dceFieldTca = [
             ],
             'displayCond' => [
                 'AND' => [
-                    'FIELD:parent_field:=:0',
+                    'FIELD:parent_field:REQ:false',
                     'FIELD:map_to:=:*newcol'
                 ]
             ],
@@ -234,14 +233,25 @@ $dceFieldTca = [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dcefield.parent_dce',
             'config' => [
-                'type' => 'passthrough',
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'foreign_table' => 'tx_dce_domain_model_dce',
+                'size' => 1,
+                'minitems' => 0,
+                'maxitems' => 1,
+                'default' => 0
             ],
         ],
         'parent_field' => [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dcefield.parent_field',
             'config' => [
-                'type' => 'passthrough',
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'foreign_table' => 'tx_dce_domain_model_dcefield',
+                'size' => 1,
+                'minitems' => 0,
+                'maxitems' => 1,
                 'default' => 0
             ],
         ],
