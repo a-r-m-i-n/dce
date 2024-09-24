@@ -8,6 +8,18 @@ Versions
 
 .. contents:: :local:
 
+3.2.2
+-----
+
+- [BUGFIX] Render label for custom DceCodeMirrorFieldRenderType
+- [TASK] Add additional classes in DceModule, to ensure styling of badges
+- [BUGFIX] Fix exceptions in DceFieldLabel
+- [BUGFIX] Fix missing templateFileName in DceModuleController
+- [BUGFIX] Fix dcefield TCA to reapply display conditions
+- [BUGFIX] Backend Problem with Powermail Forms (Thanks to Sebastian Fahrenkrog)
+- [TASK]Improve convertUidToCType for DCEs with identifier (Thanks to Luis Becker)
+- [TASK] Clean up TCA (Thanks to Nikita Hovratov)
+
 3.2.1
 -----
 
