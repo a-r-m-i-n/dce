@@ -28,8 +28,11 @@ class DceFieldLabel
      */
     public function getLabel(array &$parameter): void
     {
-        if (!isset($parameter['row']['variable']) || empty($parameter['row']['variable'])) {
-            $parameter['title'] = (isset($parameter['row']['title'])) ? LanguageService::sL($parameter['row']['title']) : '';
+        if (empty($parameter['row']['title'] ?? null)) {
+            return;
+        }
+        if (empty($parameter['row']['variable'] ?? null)) {
+            $parameter['title'] = LanguageService::sL($parameter['row']['title']);
 
             return;
         }
@@ -86,6 +89,10 @@ class DceFieldLabel
      */
     protected function isSectionField(array $parameter): bool
     {
+        if (!isset($parameter['row']['type'])) {
+            return false;
+        }
+
         return DceField::TYPE_SECTION === (int)$parameter['row']['type'][0];
     }
 
@@ -94,6 +101,10 @@ class DceFieldLabel
      */
     protected function isTab(array $parameter): bool
     {
+        if (!isset($parameter['row']['type'])) {
+            return false;
+        }
+
         return DceField::TYPE_TAB === (int)$parameter['row']['type'][0];
     }
 
