@@ -36,12 +36,12 @@
         <td class="status">
             <f:if condition="{dce.hidden} == 1">
                 <f:then>
-                    <span class="badge badge-danger text-uppercase py-2">{f:translate(key:'{lll}disabled')}</span>
+                    <span class="badge badge-danger text-uppercase text-center py-2">{f:translate(key:'{lll}disabled')}</span>
                 </f:then>
                 <f:else>
                     <f:if condition="{dce.fields -> f:count()} == 0">
-                        <f:then><span class="badge badge-warning text-uppercase py-2">{f:translate(key:'{lll}nofields')}</span></f:then>
-                        <f:else><span class="badge badge-success text-uppercase py-2">{f:translate(key:'{lll}enabled')}</span></f:else>
+                        <f:then><span class="badge badge-warning text-uppercase text-center py-2">{f:translate(key:'{lll}nofields')}</span></f:then>
+                        <f:else><span class="badge badge-success text-uppercase text-center py-2">{f:translate(key:'{lll}enabled')}</span></f:else>
                     </f:if>
                 </f:else>
             </f:if>
@@ -66,16 +66,18 @@
             <div class="row g-1">
                 <f:if condition="{dce.enableContainer}">
                     <div class="col">
-                        <span class="badge badge-default badge-darker w-100 py-2 rounded-5">
-                            <span class="text-uppercase">{f:translate(key:'{lll}dceContainerEnabled')}</span>
-                            <f:if condition="{dce.containerItemLimit}">({f:translate(key:'{lll}limitedToItems', arguments:'{0:\'{dce.containerItemLimit}\'}')})</f:if>
+                        <span class="badge badge-default badge-darker w-100 py-2 rounded-5 text-uppercase">
+                            <span class="w-100">
+                                {f:translate(key:'{lll}dceContainerEnabled')}
+                                <f:if condition="{dce.containerItemLimit}"> ({f:translate(key:'{lll}limitedToItems', arguments:'{0:\'{dce.containerItemLimit}\'}')})</f:if>
+                            </span>
                         </span>
                     </div>
                 </f:if>
                 <f:if condition="{dce.enableDetailpage}">
                     <div class="col">
-                        <span class="badge badge-default badge-darker w-100 py-2 rounded-5">
-                            <span class="text-uppercase">{f:translate(key:'{lll}dceDetailpageEnabled')}</span>
+                        <span class="badge badge-default badge-darker w-100 py-2 rounded-5 text-uppercase">
+                            <span class="w-100">{f:translate(key:'{lll}dceDetailpageEnabled')}</span>
                         </span>
                     </div>
                 </f:if>
@@ -85,18 +87,22 @@
             <div class="row g-1">
                 <div class="col">
                     <span class="badge badge-default badge-darker w-100 py-2 rounded-5">
-                        <f:if condition="{dce.fields -> f:count()} === 1">
-                            <f:then>{dce.fields -> f:count()} {f:translate(key:'{lll}field')}</f:then>
-                            <f:else>{dce.fields -> f:count()} {f:translate(key:'{lll}fields')}</f:else>
-                        </f:if>
+                        <span class="w-100">
+                            <f:if condition="{dce.fields -> f:count()} === 1">
+                                <f:then>{dce.fields -> f:count()} {f:translate(key:'{lll}field')}</f:then>
+                                <f:else>{dce.fields -> f:count()} {f:translate(key:'{lll}fields')}</f:else>
+                            </f:if>
+                        </span>
                     </span>
                 </div>
                 <f:if condition="{dce.hasTcaMappings}">
                     <div class="col">
-                        <f:if condition="{dce.addsNewFieldsToTca}">
-                            <f:then><span title="{f:translate(key:'{lll}tcaplus')}" class="badge badge-danger w-100 py-2 rounded-5">TCA+</span></f:then>
-                            <f:else><span title="{f:translate(key:'{lll}tca')}" class="badge badge-danger w-100 py-2 rounded-5">TCA</span></f:else>
-                        </f:if>
+                        <span class="badge badge-danger w-100 py-2 rounded-5">
+                            <f:if condition="{dce.addsNewFieldsToTca}">
+                                <f:then><span title="{f:translate(key:'{lll}tcaplus')}" class="w-100">TCA+</span></f:then>
+                                <f:else><span title="{f:translate(key:'{lll}tca')}" class="w-100">TCA</span></f:else>
+                            </f:if>
+                        </span>
                     </div>
                 </f:if>
             </div>
