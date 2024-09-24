@@ -43,7 +43,10 @@ class DceCodeMirrorFieldRenderType extends AbstractFormElement
     {
         $resultArray = $this->initializeResultArray();
         $resultArray['javaScriptModules'][] = JavaScriptModuleInstruction::create('@t3/dce/code-editor');
-        $resultArray['html'] = $this->getCodeEditorFieldHtml($this->data);
+
+        $renderedLabel = $this->renderLabel('dce-code-editor-' . $this->uniqueIdentifier);
+        $resultArray['labelHasBeenHandled'] = true;
+        $resultArray['html'] = $renderedLabel . $this->getCodeEditorFieldHtml($this->data);
 
         return $resultArray;
     }
