@@ -40,7 +40,7 @@ class DceModuleController extends ActionController
     {
         $this->moduleTemplate->assign('dces', $this->dceRepository->findAllAndStatics(true));
 
-        return $this->moduleTemplate->renderResponse();
+        return $this->moduleTemplate->renderResponse('DceModule/Index');
     }
 
     public function updateTcaMappingsAction(Dce $dce, bool $perform = false): ResponseInterface
@@ -58,7 +58,7 @@ class DceModuleController extends ActionController
             $this->moduleTemplate->assign('perform', true);
         }
 
-        return $this->moduleTemplate->renderResponse();
+        return $this->moduleTemplate->renderResponse('DceModule/UpdateTcaMappings');
     }
 
     /**
@@ -86,6 +86,6 @@ class DceModuleController extends ActionController
 
         $this->moduleTemplate->assign('donators', $donators);
 
-        return $this->moduleTemplate->renderResponse();
+        return $this->moduleTemplate->renderResponse('DceModule/HallOfFame');
     }
 }
