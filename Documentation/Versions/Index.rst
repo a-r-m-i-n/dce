@@ -8,6 +8,12 @@ Versions
 
 .. contents:: :local:
 
+3.2.3
+-----
+
+- [FEATURE] Add dark mode support
+- [BUGFIX] Avoid Fluid rendering issues with disabled Jit compiler (Thanks to Florian Rival)
+
 3.2.2
 -----
 
