@@ -1,23 +1,49 @@
 body {
     overflow: auto;
+    --dce-primary-color: #ed2448;
+    --dce-primary-hover-color: #a42237;
+    --dce-primary-border-color: #a02035;
+    --dce-primary-text-color: #fff;
+    --dce-badge-darker-background-color: #777;
+    --dce-badge-darker-color: #fff;
+    --dce-version-color: #D81D13;
+    --dce-donator-color: #222;
+    --dce-donator-link-color: #444;
+}
+
+@media (prefers-color-scheme: light) {
+    .show-dark {
+        display: none;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        --dce-primary-color: #8d0830;
+        --dce-primary-hover-color: #771727;
+        --dce-primary-border-color: #6c0625;
+        --dce-primary-text-color: #ccc;
+        --dce-badge-darker-background-color: #444;
+        --dce-badge-darker-color: #ccc;
+        --dce-version-color: #8c413d;
+        --dce-donator-color: #999;
+        --dce-donator-link-color: #bbb;
+    }
+    .show-light {
+        display: none;
+    }
 }
 
 .btn-primary {
-    background-color: #ed2448 !important;
-    border-color: #a02035 !important;
-    color: #fff !important;
+    background-color: var(--dce-primary-color) !important;
+    border-color: var(--dce-primary-border-color) !important;
+    color: var(--dce-primary-text-color) !important;
 }
 .btn-primary:hover {
     background-color: #a42237 !important;
 }
 .btn-primary svg {
     fill: #fff;
-}
-
-.btn-secondary {
-    background-color: #666 !important;
-    border-color: #444 !important;
-    color: #fff !important;
 }
 
 .btn-wide {
@@ -110,8 +136,8 @@ a.overlayLink {
 }
 
 .badge-darker {
-    background-color: #777 !important;
-    color: #fff;
+    background-color: var(--dce-badge-darker-background-color) !important;
+    color: var(--dce-badge-darker-color);
 }
 
 .form-inline {
@@ -120,7 +146,7 @@ a.overlayLink {
 
 .dceVersion {
     font-size: 12px;
-    color: #D81D13;
+    color: var(--dce-version-color);
 }
 
 h1.hallOfFame {
@@ -147,11 +173,11 @@ h1.hallOfFame {
 
 .well .donator .name {
     font-size: 1.3em;
-    color: #222;
+    color: var(--dce-donator-color);
 }
 
 .well .donator a {
-    color: #444;
+    color: var(--dce-donator-link-color);
 }
 
 .well > div.clear {
