@@ -8,6 +8,12 @@ Versions
 
 .. contents:: :local:
 
+3.2.4
+-----
+
+- [BUGFIX] Add check for admin privileges, before showing "Edit DCE" button in content element
+- [BUGFIX] Respect field type when checking for section fields
+
 3.2.3
 -----
 
