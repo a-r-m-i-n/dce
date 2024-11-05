@@ -10,6 +10,7 @@ use T3\Dce\Domain\Repository\DceRepository;
 use T3\Dce\Utility\BackendModuleLinkUtility;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
 use TYPO3\CMS\Backend\Template\Components\ModifyButtonBarEvent;
+use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
@@ -23,7 +24,7 @@ class ModifyButtonBarEventListener
     public function __invoke(ModifyButtonBarEvent $event): void
     {
         $contentUid = $this->getContentUid();
-        if ($contentUid && $this->getDceUid($contentUid)) {
+        if ($contentUid && $this->userIsAdmin() && $this->getDceUid($contentUid)) {
             /** @var IconFactory $iconFactory */
             $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
 
@@ -93,5 +94,16 @@ class ModifyButtonBarEventListener
         $cType = $contentRecord['CType'];
 
         return DceRepository::extractUidFromCTypeOrIdentifier($cType);
+    }
+
+    /**
+     * Checks if the current logged-in user is admin
+     */
+    private function userIsAdmin(): bool
+    {
+        /** @var BackendUserAuthentication $backendUser */
+        $backendUser = $GLOBALS['BE_USER'];
+
+        return $backendUser->isAdmin();
     }
 }
