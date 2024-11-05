@@ -891,7 +891,7 @@ class Dce extends AbstractEntity
             if ($field->isTab()) {
                 continue;
             }
-            if ($field->hasSectionFields()) {
+            if ($field->isSection() && $field->hasSectionFields()) {
                 /** @var DceField $sectionField */
                 foreach ($field->getSectionFields() as $sectionField) {
                     $sectionFieldValues = $sectionField->getValue();
