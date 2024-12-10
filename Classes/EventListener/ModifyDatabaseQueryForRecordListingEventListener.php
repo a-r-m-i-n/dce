@@ -20,7 +20,8 @@ class ModifyDatabaseQueryForRecordListingEventListener
                 $event->getQueryBuilder()->expr()->like(
                     'tx_dce_index',
                     $event->getQueryBuilder()->quote('%' . $event->getQueryBuilder()->escapeLikeWildcards($event->getDatabaseRecordList()->searchString) . '%')
-                )
+                ),
+                $event->getQueryBuilder()->expr()->in('pid', $queryBuilder->getParameters()['dcValue1'])
             );
             $queryBuilder->orWhere($expression);
             $event->setQueryBuilder($queryBuilder);
