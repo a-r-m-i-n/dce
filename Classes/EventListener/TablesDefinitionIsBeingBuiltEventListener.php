@@ -29,9 +29,9 @@ class TablesDefinitionIsBeingBuiltEventListener
     {
         $dbFields = DatabaseUtility::adminGetFields('tx_dce_domain_model_dcefield');
 
-        return \array_key_exists('map_to', $dbFields) &&
-               \array_key_exists('new_tca_field_name', $dbFields) &&
-               \array_key_exists('new_tca_field_type', $dbFields);
+        return \array_key_exists('map_to', $dbFields)
+               && \array_key_exists('new_tca_field_name', $dbFields)
+               && \array_key_exists('new_tca_field_type', $dbFields);
     }
 
     /**

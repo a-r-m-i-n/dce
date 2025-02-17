@@ -86,4 +86,3 @@ The example above adds these two new code snippets (one in a new group, one in a
 
 .. image:: Images/extended-configuration-templates.png
    :alt: Extended Configuration Template Code Snippets
-

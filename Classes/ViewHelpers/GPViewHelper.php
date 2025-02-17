@@ -38,6 +38,8 @@ class GPViewHelper extends AbstractViewHelper
             $subject = $renderChildrenClosure();
         }
 
+        trigger_error('Do not use GP viewhelper anymore. It will not work in TYPO3 v13 and get removed.', E_USER_DEPRECATED);
+
         return GeneralUtility::_GP($subject);
     }
 }

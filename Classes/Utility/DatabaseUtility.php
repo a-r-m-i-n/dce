@@ -8,7 +8,6 @@ namespace T3\Dce\Utility;
  *  | (c) 2012-2025 Armin Vieweg <armin@v.ieweg.de>
  *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
-use InvalidArgumentException;
 use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Domain\Repository\DceRepository;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
@@ -103,7 +102,7 @@ class DatabaseUtility
     public static function getDceObjectForContentElement(mixed $contentElement = null, bool $doNotCache = false): ?Dce
     {
         if (null === $contentElement || (is_string($contentElement) && str_starts_with($contentElement, 'NEW'))) {
-            throw new InvalidArgumentException('This is a new content element, can\'t create DCE instance from it.');
+            throw new \InvalidArgumentException('This is a new content element, can\'t create DCE instance from it.');
         }
         // Make this method more comfortable:
         // Retrieve content element record if only UID is given.

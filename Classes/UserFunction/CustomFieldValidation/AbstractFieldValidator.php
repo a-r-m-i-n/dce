@@ -20,10 +20,6 @@ abstract class AbstractFieldValidator
 {
     protected function addFlashMessage(string $message, string $title = '', ContextualFeedbackSeverity $severity = ContextualFeedbackSeverity::OK): void
     {
-        if (!\is_string($message)) {
-            throw new \InvalidArgumentException('The flash message must be string, ' . \gettype($message) . ' given.', 1243258395);
-        }
-
         /** @var FlashMessage $message */
         $message = GeneralUtility::makeInstance(
             FlashMessage::class,

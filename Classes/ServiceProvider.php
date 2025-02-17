@@ -1,6 +1,8 @@
-<?php declare(strict_types = 1);
-namespace T3\Dce;
+<?php
 
+declare(strict_types = 1);
+
+namespace T3\Dce;
 
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Package\AbstractServiceProvider;
@@ -20,7 +22,7 @@ class ServiceProvider extends AbstractServiceProvider
     public function getFactories(): array
     {
         return [
-            ConnectionPool::class => [ static::class, 'getConnectionPool' ],
+            ConnectionPool::class => [static::class, 'getConnectionPool'],
         ];
     }
 

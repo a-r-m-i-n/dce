@@ -51,9 +51,7 @@ class StandaloneViewFactory implements SingletonInterface
     /**
      * Creates new standalone view or returns cached one, if existing.
      *
-     * @param Dce $dce
      * @param int $templateType see class constants
-     * @return StandaloneView
      */
     public function getDceTemplateView(Dce $dce, int $templateType): StandaloneView
     {
@@ -87,8 +85,6 @@ class StandaloneViewFactory implements SingletonInterface
      * Applies the correct template (inline or file) to given StandaloneView instance.
      * The given templateType is respected.
      *
-     * @param StandaloneView $view
-     * @param Dce $dce
      * @param int $templateType see class constants
      */
     protected function applyDceTemplateTypeToView(StandaloneView $view, Dce $dce, int $templateType): void
@@ -150,7 +146,7 @@ class StandaloneViewFactory implements SingletonInterface
     }
 
     /**
-     * Returns the typoscript configuration for path : plugin.tx_dce.view
+     * Returns the typoscript configuration for path : plugin.tx_dce.view.
      */
     protected function getTyposcriptViewPaths(): array
     {
@@ -170,7 +166,7 @@ class StandaloneViewFactory implements SingletonInterface
     }
 
     /**
-     * Resolve file paths for entire array
+     * Resolve file paths for entire array.
      */
     protected function resolvePaths(array $paths): array
     {

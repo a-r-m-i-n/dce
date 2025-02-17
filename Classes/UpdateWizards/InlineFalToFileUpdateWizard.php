@@ -83,7 +83,7 @@ class InlineFalToFileUpdateWizard implements UpgradeWizardInterface
             $newConfig .= '</config>' . PHP_EOL;
 
             $newConfig = trim($newConfig);
-            $newConfig = preg_replace('/(.*?)(<config>.*<\/config>)(.*?)/is', '$1' . $newConfig . '$3', $affectedFieldRow['configuration']);;
+            $newConfig = preg_replace('/(.*?)(<config>.*<\/config>)(.*?)/is', '$1' . $newConfig . '$3', $affectedFieldRow['configuration']);
 
             $connection = DatabaseUtility::getConnectionPool()->getConnectionForTable('tx_dce_domain_model_dcefield');
             $connection->update(
@@ -96,9 +96,10 @@ class InlineFalToFileUpdateWizard implements UpgradeWizardInterface
         return true;
     }
 
-    private function getAffectedDceFieldRows(): ?array
+    private function getAffectedDceFieldRows(): array
     {
         $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dcefield');
+
         return $queryBuilder
             ->select('*')
             ->from('tx_dce_domain_model_dcefield')

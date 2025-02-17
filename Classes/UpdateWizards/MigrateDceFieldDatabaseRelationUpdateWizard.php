@@ -46,9 +46,9 @@ class MigrateDceFieldDatabaseRelationUpdateWizard implements UpgradeWizardInterf
     public function updateNecessary(): bool
     {
         $dceFieldTableFields = DatabaseUtility::adminGetFields('tx_dce_domain_model_dcefield');
-        if (!array_key_exists('parent_dce', $dceFieldTableFields) ||
-            !array_key_exists('parent_field', $dceFieldTableFields) ||
-            !array_key_exists('sorting', $dceFieldTableFields)
+        if (!array_key_exists('parent_dce', $dceFieldTableFields)
+            || !array_key_exists('parent_field', $dceFieldTableFields)
+            || !array_key_exists('sorting', $dceFieldTableFields)
         ) {
             $this->description = 'WARNING!' . PHP_EOL .
                 'The database table of DceFields has no "parent_dce" and/or "parent_field" and/or ' .
@@ -87,8 +87,6 @@ class MigrateDceFieldDatabaseRelationUpdateWizard implements UpgradeWizardInterf
 
     /**
      * @param string|array|mixed $customMessages Used in older TYPO3 versions
-     *
-     * @return bool
      */
     public function update($customMessages = null): ?bool
     {

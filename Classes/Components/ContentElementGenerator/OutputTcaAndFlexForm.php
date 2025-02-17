@@ -44,9 +44,9 @@ class OutputTcaAndFlexForm
             $sourceCode = '';
 
             $sourceCode .= <<<PHP
-                \$GLOBALS['TCA']['tt_content']['columns']['CType']['config']['itemGroups']['dce'] =
-                    'LLL:EXT:dce/Resources/Private/Language/locallang_db.xlf:tx_dce_domain_model_dce_long';
-            PHP;
+                    \$GLOBALS['TCA']['tt_content']['columns']['CType']['config']['itemGroups']['dce'] =
+                        'LLL:EXT:dce/Resources/Private/Language/locallang_db.xlf:tx_dce_domain_model_dce_long';
+                PHP;
 
             $fieldRowsWithNewColumns = Mapper::getDceFieldRowsWithNewTcaColumns();
             if (\count($fieldRowsWithNewColumns) > 0) {
@@ -59,20 +59,20 @@ class OutputTcaAndFlexForm
                 }
                 $newColumnsAsCode = var_export($newColumns, true);
                 $sourceCode .= <<<PHP
-                    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('tt_content', $newColumnsAsCode);
+                        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('tt_content', $newColumnsAsCode);
 
-                PHP;
+                    PHP;
             }
 
             $sourceCode .= <<<PHP
-            \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTcaSelectItemGroup(
-                'tt_content',
-                'CType',
-                'dce',
-                'LLL:EXT:dce/Resources/Private/Language/locallang_db.xlf:tx_dce_domain_model_dce.miscellaneous'
-            );
+                \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTcaSelectItemGroup(
+                    'tt_content',
+                    'CType',
+                    'dce',
+                    'LLL:EXT:dce/Resources/Private/Language/locallang_db.xlf:tx_dce_domain_model_dce.miscellaneous'
+                );
 
-            PHP;
+                PHP;
 
             foreach ($this->input->getDces() as $dce) {
                 $sourceCode .= $this->generateTcaForDces($dce) . PHP_EOL;
@@ -282,12 +282,10 @@ class OutputTcaAndFlexForm
                     $conf->loadXML('<root>' . $dceField['configuration'] . '</root>');
                     /** @var \DOMElement $firstChildNode */
                     $firstChildNode = $conf->childNodes[0];
-                    /** @var \DOMElement $childNode */
                     foreach ($firstChildNode->childNodes as $childNode) {
-                        if ($childNode instanceof \DOMElement && $childNode->tagName === 'config') {
-                            /** @var \DOMElement $childConfigNode */
+                        if ($childNode instanceof \DOMElement && 'config' === $childNode->tagName) {
                             foreach ($childNode->childNodes as $childConfigNode) {
-                                if ($childConfigNode instanceof \DOMElement && $childConfigNode->tagName === 'dce_skip_translation') {
+                                if ($childConfigNode instanceof \DOMElement && 'dce_skip_translation' === $childConfigNode->tagName) {
                                     $this->applyDisplayCondForSkipTranslation($firstChildNode, $conf);
                                 }
                             }
@@ -309,7 +307,7 @@ class OutputTcaAndFlexForm
 
     /**
      * Modifies displayCond when "dce_skip_translation" is enabled
-     * to hide a field in foreign language, when a l18n_parent is set
+     * to hide a field in foreign language, when a l18n_parent is set.
      */
     private function applyDisplayCondForSkipTranslation(\DOMElement $firstChildNode, \DOMDocument $domDocument): void
     {
@@ -335,7 +333,7 @@ class OutputTcaAndFlexForm
 
         // Apply existing displayCond (if given)
         $and = null;
-        if ($existingValue !== null) {
+        if (null !== $existingValue) {
             if (is_string($existingValue)) {
                 $value3 = $domDocument->createElement('value1', $existingValue);
             } else {

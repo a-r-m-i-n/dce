@@ -228,7 +228,7 @@ class SimpleBackendView
                 'width' => PageTsUtility::get('tx_dce.defaults.simpleBackendView.imageWidth', '50c'),
                 'height' => PageTsUtility::get('tx_dce.defaults.simpleBackendView.imageWidth', '50'),
             ]);
-            $imageTags[] = '<img src="' . $image->getPublicUrl(true) . '" class="dceFieldImage">';
+            $imageTags[] = '<img src="' . $image->getPublicUrl() . '" class="dceFieldImage">';
         }
 
         return implode('', $imageTags);

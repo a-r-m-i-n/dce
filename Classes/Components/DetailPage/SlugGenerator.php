@@ -9,7 +9,6 @@ namespace T3\Dce\Components\DetailPage;
  *  |
  *  | (c) 2020-2025 Armin Vieweg <armin@v.ieweg.de>
  */
-use Doctrine\DBAL\Driver\Statement;
 use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Domain\Repository\DceRepository;
 use T3\Dce\Utility\DatabaseUtility;
@@ -27,7 +26,7 @@ class SlugGenerator
         DceRepository $dceRepository
     ) {
         $this->dceRepository = $dceRepository;
-        $this->slugHelper = GeneralUtility::makeInstance(SlugHelper::class, 'tt_content', 'tx_dce_slug', []);;
+        $this->slugHelper = GeneralUtility::makeInstance(SlugHelper::class, 'tt_content', 'tx_dce_slug', []);
     }
 
     public static function getSlugFromDce(Dce $dce, ?string $expression = null): ?string
@@ -53,7 +52,7 @@ class SlugGenerator
         $sanitizedSlug = $this->replaceSlashesFromSlug($sanitizedSlug);
         $finalSlug = $this->checkForUniqueSlug($sanitizedSlug, $uid, $pid);
         if (empty($finalSlug)) {
-            throw new EmptySlugException('Unable to generate slug for DCE content element (tt_content) with uid ' . $uid . '. ' . 'Used expression: ' . $expression);
+            throw new EmptySlugException('Unable to generate slug for DCE content element (tt_content) with uid ' . $uid . '. Used expression: ' . $expression);
         }
 
         return new SlugValue($finalSlug, $finalSlug === $sanitizedSlug);
@@ -84,7 +83,6 @@ class SlugGenerator
             return $slug;
         }
 
-        /** @var Statement $statement */
         $statement = $queryBuilder
             ->select('uid')
             ->from('tt_content')
@@ -113,6 +111,7 @@ class SlugGenerator
                 )
             )
             ->executeQuery();
+
         if ($statement->rowCount() > 0) {
             $slug .= '-' . $uid;
         }

@@ -123,18 +123,18 @@ When you already dealt with multiple images, your template most likely looks lik
 
 .. code-block:: html
 
-	<f:for each="{field.images -> dce:explode()}" as="image">
-	    <f:image src="uploads/pics/{image}" />
-	</f:for>
+    <f:for each="{field.images -> dce:explode()}" as="image">
+        <f:image src="uploads/pics/{image}" />
+    </f:for>
 
 With the old configuration multiple images has been stored as comma separated string (e.g. ``image1.jpg,image2.jpg``).
 Now, ``field.images`` contains the collection of FileReference objects, which we can iterate through this way:
 
 .. code-block:: html
 
-	<f:for each="{field.images}" as="image">
-	    <f:image image="{image}" />
-	</f:for>
+    <f:for each="{field.images}" as="image">
+        <f:image image="{image}" />
+    </f:for>
 
 We just need to remove the usage of ``-> dce:explode()`` view helper and apply the same changes to the image view helper,
 as we did for a single image.

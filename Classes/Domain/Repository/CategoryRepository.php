@@ -1,7 +1,8 @@
 <?php
-declare(strict_types = 1);
-namespace T3\Dce\Domain\Repository;
 
+declare(strict_types = 1);
+
+namespace T3\Dce\Domain\Repository;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Domain\Model\Category;

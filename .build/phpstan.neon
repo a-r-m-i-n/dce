@@ -1,3 +1,11 @@
 includes:
 	- ../vendor/phpstan/phpstan-doctrine/extension.neon
 	- ../vendor/saschaegerer/phpstan-typo3/extension.neon
+
+parameters:
+	ignoreErrors:
+	    # Required for TYPO3 v12 support
+	    - '/flexArray2Xml\(\) invoked with 2 parameters, 1 required/'
+	    - '/Connection::lastInsertId\(\) invoked with 1 parameter, 0 required/'
+	    - '/undefined static method TYPO3\\CMS\\Core\\Utility\\GeneralUtility::_GP\(\)/'
+	    - '/function method_exists\(\).*?setRequest.*?will always evaluate to true/'

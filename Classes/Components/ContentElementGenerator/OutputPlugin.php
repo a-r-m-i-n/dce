@@ -76,8 +76,8 @@ class OutputPlugin implements OutputInterface
 
                     PHP;
                 // When FSC/CSC is not installed
-                if (!$GLOBALS['TYPO3_CONF_VARS']['FE']['contentRenderingTemplates'] ||
-                    empty($GLOBALS['TYPO3_CONF_VARS']['FE']['contentRenderingTemplates'])
+                if (!$GLOBALS['TYPO3_CONF_VARS']['FE']['contentRenderingTemplates']
+                    || empty($GLOBALS['TYPO3_CONF_VARS']['FE']['contentRenderingTemplates'])
                 ) {
                     $sourceCode .= <<<PHP
                             \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScriptSetup('

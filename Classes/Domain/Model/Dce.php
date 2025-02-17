@@ -33,7 +33,7 @@ class Dce extends AbstractEntity
     protected static $contentElementRowsCache = [];
 
     /**
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\T3\Dce\Domain\Model\DceField>
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<DceField>
      */
     protected $fields;
 
@@ -246,7 +246,7 @@ class Dce extends AbstractEntity
         return $this->containerIterator;
     }
 
-    public function setContainerIterator(array $containerIterator = null): self
+    public function setContainerIterator(?array $containerIterator = null): self
     {
         $this->containerIterator = $containerIterator;
 
@@ -341,7 +341,7 @@ class Dce extends AbstractEntity
     }
 
     /**
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\T3\Dce\Domain\Model\DceField>|null
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<DceField>|null
      */
     public function getFields(): ?\TYPO3\CMS\Extbase\Persistence\ObjectStorage
     {
@@ -356,7 +356,7 @@ class Dce extends AbstractEntity
     }
 
     /**
-     * @param \T3\Dce\Domain\Model\DceField $field The field to be added
+     * @param DceField $field The field to be added
      */
     public function addField(DceField $field): self
     {
@@ -366,7 +366,7 @@ class Dce extends AbstractEntity
     }
 
     /**
-     * @param \T3\Dce\Domain\Model\DceField $fieldToRemove The field to be removed
+     * @param DceField $fieldToRemove The field to be removed
      */
     public function removeField(DceField $fieldToRemove): self
     {
@@ -435,7 +435,7 @@ class Dce extends AbstractEntity
 
     public function getBackendViewBodytextArray(): array
     {
-        return GeneralUtility::trimExplode(',', $this->getBackendViewBodytext(), true) ?? [];
+        return GeneralUtility::trimExplode(',', $this->getBackendViewBodytext(), true);
     }
 
     public function setBackendViewBodytext(string $backendViewBodytext): self
@@ -867,7 +867,7 @@ class Dce extends AbstractEntity
         $fluidTemplate->assignMultiple($variables);
 
         $renderedTemplate = $fluidTemplate->render();
-        if ($renderedTemplate === null) {
+        if (null === $renderedTemplate) {
             return '';
         }
 

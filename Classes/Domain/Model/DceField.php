@@ -61,18 +61,12 @@ class DceField extends AbstractEntity
     protected $newTcaFieldType = '';
 
     /**
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\T3\Dce\Domain\Model\DceField>
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<DceField>
      */
     protected $sectionFields;
 
-    /**
-     * @var \T3\Dce\Domain\Model\Dce
-     */
     protected ?Dce $parentDce = null;
 
-    /**
-     * @var \T3\Dce\Domain\Model\DceField
-     */
     protected ?DceField $parentField = null;
 
     /**
@@ -189,17 +183,11 @@ class DceField extends AbstractEntity
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getValue()
     {
         return $this->value;
     }
 
-    /**
-     * @param mixed $value
-     */
     public function setValue($value): self
     {
         $this->value = $value;
@@ -220,7 +208,7 @@ class DceField extends AbstractEntity
     }
 
     /**
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\T3\Dce\Domain\Model\DceField>|null
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<DceField>|null
      */
     public function getSectionFields(): ?\TYPO3\CMS\Extbase\Persistence\ObjectStorage
     {
@@ -337,7 +325,7 @@ class DceField extends AbstractEntity
         $configuration = $this->getConfigurationAsArray();
         $configuration = $configuration['config'];
 
-        return ('inline' === $configuration['type'] && 'sys_file_reference' === $configuration['foreign_table']) ||
-            'file' === $configuration['type'];
+        return ('inline' === $configuration['type'] && 'sys_file_reference' === $configuration['foreign_table'])
+            || 'file' === $configuration['type'];
     }
 }

@@ -71,14 +71,14 @@ class ContainerFactory
                 static::$toSkip[$contentObject['uid']][] = $contentElement['uid'];
             }
 
-            if (!empty($contentElement['l18n_parent']) &&
-                !in_array($contentElement['l18n_parent'], static::$toSkip[$contentObject['uid']])
+            if (!empty($contentElement['l18n_parent'])
+                && !in_array($contentElement['l18n_parent'], static::$toSkip[$contentObject['uid']])
             ) {
                 static::$toSkip[$contentObject['uid']][] = $contentElement['l18n_parent'];
             }
 
-            if (!empty($contentElement['_LOCALIZED_UID']) &&
-                !in_array($contentElement['_LOCALIZED_UID'], static::$toSkip[$contentObject['uid']])
+            if (!empty($contentElement['_LOCALIZED_UID'])
+                && !in_array($contentElement['_LOCALIZED_UID'], static::$toSkip[$contentObject['uid']])
             ) {
                 static::$toSkip[$contentObject['uid']][] = $contentElement['_LOCALIZED_UID'];
             }
@@ -173,8 +173,8 @@ class ContainerFactory
         $contentElementsInContainer = [];
         foreach ($resolvedContentElements as $rawContentElement) {
             if ((
-                $contentObject['uid'] !== $rawContentElement['uid'] &&
-                 1 === $rawContentElement['tx_dce_new_container']
+                $contentObject['uid'] !== $rawContentElement['uid']
+                 && 1 === $rawContentElement['tx_dce_new_container']
             )
                 || $rawContentElement['CType'] !== $dce->getIdentifier()
             ) {

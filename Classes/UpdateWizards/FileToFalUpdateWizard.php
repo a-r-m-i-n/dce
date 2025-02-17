@@ -27,14 +27,14 @@ use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
 /**
  * Migrates old "type: group, internal_type: file" DCEs and content elements based on it.
- * Moving files to fileadmin/ and index by FAL
+ * Moving files to fileadmin/ and index by FAL.
  */
 #[UpgradeWizard('dceFileToFalUpdate')]
 class FileToFalUpdateWizard implements UpgradeWizardInterface, LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
-    private CONST FILEADMIN_STORAGE_UID = 1; // TODO: Hardcoded uid
+    private const FILEADMIN_STORAGE_UID = 1; // TODO: Hardcoded uid
 
     /**
      * @var string
@@ -95,9 +95,9 @@ class FileToFalUpdateWizard implements UpgradeWizardInterface, LoggerAwareInterf
         $allElementRows = [];
         $affectedDceNames = '';
         $imagesMissingText = '';
-        if($affectedDceRows) {
+        if ($affectedDceRows) {
             foreach ($affectedDceRows as $affectedDceRow) {
-                    if (!isset($affectedDceRow['uid']) || !$affectedDceRow['uid']) {
+                if (!isset($affectedDceRow['uid']) || !$affectedDceRow['uid']) {
                     continue;
                 }
                 $affectedDceNames .= '- ' . $affectedDceRow['title'] . ' (uid=' . $affectedDceRow['uid'] . ')' . PHP_EOL;
@@ -105,7 +105,7 @@ class FileToFalUpdateWizard implements UpgradeWizardInterface, LoggerAwareInterf
                 /** @var Dce $dce */
                 $dce = $this->dceRepository->findByUidIncludingHidden($affectedDceRow['uid']);
                 $allElementRows = array_merge($allElementRows, $elementRows = $this->dceRepository->findContentElementsBasedOnDce($dce, false));
-                if($allElementRows) {
+                if ($allElementRows) {
                     foreach ($elementRows as $elementRow) {
                         $flexformData = FlexformService::get()->convertFlexFormContentToArray($elementRow['pi_flexform']);
                         $flexformData = $flexformData['settings'];
@@ -118,7 +118,7 @@ class FileToFalUpdateWizard implements UpgradeWizardInterface, LoggerAwareInterf
 
                             $uploadFolder = $flexformConfig['uploadfolder'] ?? null;
 
-                            if ($affectedFieldRow['parent_dce'] === 0) {
+                            if (0 === $affectedFieldRow['parent_dce']) {
                                 // Resolve section field contents
                                 $images = '';
                                 foreach ($flexformData[$affectedFieldRow['_parent_section_field']['variable']] ?? [] as $key => $child) {
@@ -203,9 +203,10 @@ class FileToFalUpdateWizard implements UpgradeWizardInterface, LoggerAwareInterf
         return true;
     }
 
-    private function getAffectedDceFieldRows(): ?array
+    private function getAffectedDceFieldRows(): array
     {
         $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dcefield');
+
         return $queryBuilder
             ->select('*')
             ->from('tx_dce_domain_model_dcefield')
@@ -233,12 +234,13 @@ class FileToFalUpdateWizard implements UpgradeWizardInterface, LoggerAwareInterf
     {
         $affectedDceRows = [];
         foreach ($affectedFieldRows as $affectedFieldRow) {
+            $dceUid = 0;
             if (!array_key_exists($affectedFieldRow['parent_dce'], $affectedDceRows)) {
                 $dceUid = (int)$affectedFieldRow['parent_dce'];
 
                 // Handle section fields
                 $sectionFieldRow = null;
-                if ($dceUid === 0) {
+                if (0 === $dceUid) {
                     $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable(
                         'tx_dce_domain_model_dcefield'
                     );
@@ -257,7 +259,6 @@ class FileToFalUpdateWizard implements UpgradeWizardInterface, LoggerAwareInterf
                     $affectedFieldRow['_parent_section_field'] = $sectionFieldRow;
                     $dceUid = (int)$sectionFieldRow['parent_dce'];
                 }
-
 
                 $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable(
                     'tx_dce_domain_model_dcefield'
@@ -281,6 +282,7 @@ class FileToFalUpdateWizard implements UpgradeWizardInterface, LoggerAwareInterf
                 $affectedDceRows[$dceUid]['_affectedFields'][] = $affectedFieldRow;
             }
         }
+
         return $affectedDceRows;
     }
 
@@ -344,7 +346,7 @@ class FileToFalUpdateWizard implements UpgradeWizardInterface, LoggerAwareInterf
 
                     $uploadFolder = $flexformConfig['uploadfolder'] ?? null;
 
-                    if ($affectedFieldRow['parent_dce'] === 0) {
+                    if (0 === $affectedFieldRow['parent_dce']) {
                         // Resolve section field contents
                         $media = '';
                         foreach ($flexformData[$affectedFieldRow['_parent_section_field']['variable']] as $key => $child) {
@@ -399,7 +401,7 @@ class FileToFalUpdateWizard implements UpgradeWizardInterface, LoggerAwareInterf
         $defaultFalFieldConfiguration = file_get_contents(GeneralUtility::getFileAbsFileName('EXT:dce/Resources/Public/CodeSnippets/ConfigurationTemplates/12 FAL/File Abstraction Layer.xml'));
 
         foreach ($affectedFieldRows as $affectedFieldRow) {
-            if ($affectedFieldRow['parent_dce'] === 0) {
+            if (0 === $affectedFieldRow['parent_dce']) {
                 continue; // Skipping section fields
             }
 
@@ -444,23 +446,23 @@ class FileToFalUpdateWizard implements UpgradeWizardInterface, LoggerAwareInterf
     private function convertGroupSectionFields(?array $affectedFieldRows)
     {
         $defaultSysFileFieldConfiguration = <<<XML
-<config>
-	<type>group</type>
-	<internal_type>db</internal_type>
-	<appearance>
-		<elementBrowserType>file</elementBrowserType>
-		<elementBrowserAllowed>gif,jpg,jpeg,tif,tiff,bmp,pcx,tga,png,pdf,ai,svg</elementBrowserAllowed>
-	</appearance>
-	<allowed>sys_file</allowed>
-	<size>5</size>
-	<minitems>0</minitems>
-	<maxitems>0</maxitems>
-	<show_thumbs>1</show_thumbs>
+            <config>
+                <type>group</type>
+                <internal_type>db</internal_type>
+                <appearance>
+                    <elementBrowserType>file</elementBrowserType>
+                    <elementBrowserAllowed>gif,jpg,jpeg,tif,tiff,bmp,pcx,tga,png,pdf,ai,svg</elementBrowserAllowed>
+                </appearance>
+                <allowed>sys_file</allowed>
+                <size>5</size>
+                <minitems>0</minitems>
+                <maxitems>0</maxitems>
+                <show_thumbs>1</show_thumbs>
 
-	<dce_load_schema>1</dce_load_schema>
-	<dce_get_fal_objects>1</dce_get_fal_objects>
-</config>
-XML;
+                <dce_load_schema>1</dce_load_schema>
+                <dce_get_fal_objects>1</dce_get_fal_objects>
+            </config>
+            XML;
         foreach ($affectedFieldRows as $affectedFieldRow) {
             if ($affectedFieldRow['parent_dce'] > 0) {
                 continue; // Skipping non-section fields
@@ -520,7 +522,7 @@ XML;
                 $flexformSettings = $flexformData['settings'];
 
                 foreach ($affectedDceRow['_affectedFields'] ?? [] as $affectedFieldRow) {
-                    if ($affectedFieldRow['parent_dce'] === 0) {
+                    if (0 === $affectedFieldRow['parent_dce']) {
                         continue; // Skipping section fields
                     }
 
@@ -632,7 +634,7 @@ XML;
 
                         $node = $xpath->query(
                             "//field[@index='settings." . $affectedFieldRow['_parent_section_field']['variable'] . "']//field[@index='" . $sectionIndexKey . "']//field[@index='" . $affectedFieldRow['variable'] . "']/value"
-                            ."|//field[@index='settings." . $affectedFieldRow['_parent_section_field']['variable'] . "']//section[@index='" . $sectionIndexKey . "']//field[@index='" . $affectedFieldRow['variable'] . "']/value"
+                            . "|//field[@index='settings." . $affectedFieldRow['_parent_section_field']['variable'] . "']//section[@index='" . $sectionIndexKey . "']//field[@index='" . $affectedFieldRow['variable'] . "']/value"
                         );
                         $node->item(0)->nodeValue = implode(',', $fileUids);
                     }

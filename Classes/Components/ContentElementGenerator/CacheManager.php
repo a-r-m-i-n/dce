@@ -38,8 +38,8 @@ class CacheManager
             }
         }
 
-        if (isset($GLOBALS['TYPO3_CONF_VARS']['USER']['disable_dce_code_cache']) &&
-            $GLOBALS['TYPO3_CONF_VARS']['USER']['disable_dce_code_cache']
+        if (isset($GLOBALS['TYPO3_CONF_VARS']['USER']['disable_dce_code_cache'])
+            && $GLOBALS['TYPO3_CONF_VARS']['USER']['disable_dce_code_cache']
         ) {
             $this->enabled = false;
         }

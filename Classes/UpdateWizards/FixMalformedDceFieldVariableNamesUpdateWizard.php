@@ -154,8 +154,8 @@ class FixMalformedDceFieldVariableNamesUpdateWizard implements UpgradeWizardInte
      *
      * @return array DceField rows
      *
-     * @see \T3\Dce\UserFunction\CustomFieldValidation\NoLeadingNumberValidator
-     * @see \T3\Dce\UserFunction\CustomFieldValidation\LowerCamelCaseValidator
+     * @see NoLeadingNumberValidator
+     * @see LowerCamelCaseValidator
      */
     protected function getDceFieldsWithMalformedVariableNames(): array
     {

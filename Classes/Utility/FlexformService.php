@@ -24,7 +24,8 @@ class FlexformService
     }
 
     /**
-     * @param \DOMElement|\DOMDocument$root
+     * @param \DOMElement|\DOMDocument $root
+     *
      * @return array|string
      */
     public static function xmlToArray($root)
@@ -40,25 +41,28 @@ class FlexformService
 
         if ($root->hasChildNodes()) {
             $children = $root->childNodes;
-            if ($children->length === 1) {
+            if (1 === $children->length) {
                 $child = $children->item(0);
-                if ($child->nodeType === XML_TEXT_NODE) {
+                if (XML_TEXT_NODE === $child->nodeType) {
                     $result['_value'] = $child->nodeValue;
-                    return count($result) === 1
+
+                    return 1 === count($result)
                         ? $result['_value']
                         : $result;
                 }
             }
             $groups = [];
             foreach ($children as $child) {
-                if (!isset($result[$child->nodeName])) {
-                    $result[$child->nodeName] = self::xmlToArray($child);
-                } else {
-                    if (!isset($groups[$child->nodeName])) {
-                        $result[$child->nodeName] = [$result[$child->nodeName]];
-                        $groups[$child->nodeName] = 1;
+                if ($child instanceof \DOMDocument || $child instanceof \DOMElement) {
+                    if (!isset($result[$child->nodeName])) {
+                        $result[$child->nodeName] = self::xmlToArray($child);
+                    } else {
+                        if (!isset($groups[$child->nodeName])) {
+                            $result[$child->nodeName] = [$result[$child->nodeName]];
+                            $groups[$child->nodeName] = 1;
+                        }
+                        $result[$child->nodeName][] = self::xmlToArray($child);
                     }
-                    $result[$child->nodeName][] = self::xmlToArray($child);
                 }
             }
         }

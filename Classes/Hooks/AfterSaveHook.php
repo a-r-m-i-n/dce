@@ -30,7 +30,7 @@ class AfterSaveHook
     private const LLL = 'LLL:EXT:dce/Resources/Private/Language/locallang_mod.xlf:';
 
     /** @var DataHandler */
-    protected $dataHandler = null;
+    protected $dataHandler;
 
     /** @var int uid of current record */
     protected $uid = 0;
@@ -70,6 +70,7 @@ class AfterSaveHook
      * Hook action.
      *
      * @param string|int $id
+     *
      * @TODO This method should get entirely refactored
      */
     public function processDatamap_afterDatabaseOperations(
@@ -182,8 +183,8 @@ class AfterSaveHook
 
         // Show hint when dcefield has been mapped to tca column
         if ('tx_dce_domain_model_dcefield' === $table && 'update' === $status) {
-            if (array_key_exists('new_tca_field_name', $fieldArray) ||
-                array_key_exists('new_tca_field_type', $fieldArray)
+            if (array_key_exists('new_tca_field_name', $fieldArray)
+                || array_key_exists('new_tca_field_type', $fieldArray)
             ) {
                 FlashMessage::add(
                     'You did some changes (in DceField with uid ' . $this->uid . ') which affects the sql schema of ' .
@@ -363,10 +364,10 @@ class AfterSaveHook
         $uid = $id;
         if ('new' === $status) {
             if (!($pObj->substNEWwithIDs[$id] ?? null)) {
-                //postProcessFieldArray
+                // postProcessFieldArray
                 $uid = 0;
             } else {
-                //afterDatabaseOperations
+                // afterDatabaseOperations
                 $uid = $pObj->substNEWwithIDs[$id];
                 if (isset($pObj->autoVersionIdMap[$table][$uid])) {
                     $uid = $pObj->autoVersionIdMap[$table][$uid];

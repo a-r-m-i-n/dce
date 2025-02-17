@@ -42,11 +42,11 @@ class LinkAnalyserEventListener
 
                 if (!empty($fieldValue) && !is_numeric($fieldValue) && str_contains($fieldValue, '://')) {
                     // Check for typolink (string, without new lines or < > signs)
-                    if (\is_string($fieldValue) &&
-                        !str_contains($fieldValue, "\n") &&
-                        !str_contains($fieldValue, ' ') &&
-                        !str_contains($fieldValue, '<') &&
-                        !str_contains($fieldValue, '>')
+                    if (\is_string($fieldValue)
+                        && !str_contains($fieldValue, "\n")
+                        && !str_contains($fieldValue, ' ')
+                        && !str_contains($fieldValue, '<')
+                        && !str_contains($fieldValue, '>')
                     ) {
                         $fieldValue = '<a href="' . $fieldValue . '">Typolink</a>';
                     }

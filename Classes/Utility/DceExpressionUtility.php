@@ -18,7 +18,7 @@ class DceExpressionUtility implements SingletonInterface
 
     public function evaluate(string $expression, Dce $dce): ?string
     {
-        $this->expressionLangauge = $this->expressionLangauge ?? GeneralUtility::makeInstance(ExpressionLanguage::class);
+        $this->expressionLangauge ??= GeneralUtility::makeInstance(ExpressionLanguage::class);
 
         $result = $this->expressionLangauge->evaluate(
             $expression,

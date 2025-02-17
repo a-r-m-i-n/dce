@@ -28,8 +28,6 @@ class PageTS
      * @param string $path    separated with dots. e.g.: "tx_dce.defaults.example"
      * @param mixed  $default Optional. Value which should be returned if path is not existing or value empty
      * @param int    $id      Optional. Set id of page from which PageTS should get loaded
-     *
-     * @return mixed
      */
     public static function get(string $path, $default = null, int $id = 0)
     {

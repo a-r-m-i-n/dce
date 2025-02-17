@@ -28,9 +28,6 @@ class DceController extends ActionController
         $contentObject = $this->request->getAttribute('currentContentObject');
         if ($contentObject instanceof ContentObjectRenderer) {
             $contentObject = $contentObject->data;
-        } else {
-            // "currentContentObject" attribute not available in backend context
-            $contentObject = $this->configurationManager->getContentObject()->data;
         }
 
         $config = $this->configurationManager->getConfiguration(

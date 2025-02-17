@@ -39,8 +39,8 @@ class InputDatabase implements InputInterface
     public function getDces(bool $includeHidden = false): array
     {
         $tables = DatabaseUtility::adminGetTables();
-        if (!\array_key_exists('tx_dce_domain_model_dce', $tables) ||
-            !\array_key_exists('tx_dce_domain_model_dcefield', $tables)
+        if (!\array_key_exists('tx_dce_domain_model_dce', $tables)
+            || !\array_key_exists('tx_dce_domain_model_dcefield', $tables)
         ) {
             return [];
         }
@@ -92,8 +92,8 @@ class InputDatabase implements InputInterface
 
         $dces = $this->buildDcesArray($dceModelRows, $dceFieldRowsByParentDce, $dceFieldRowsByParentDceField);
 
-        if (ExtensionManagementUtility::isLoaded('gridelements') ||
-            ExtensionManagementUtility::isLoaded('container')
+        if (ExtensionManagementUtility::isLoaded('gridelements')
+            || ExtensionManagementUtility::isLoaded('container')
         ) {
             $dces = $this->ensureContainerColPosFieldCompatibility($dces);
         }

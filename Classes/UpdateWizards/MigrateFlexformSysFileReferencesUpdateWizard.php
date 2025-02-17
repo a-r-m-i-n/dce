@@ -70,7 +70,7 @@ class MigrateFlexformSysFileReferencesUpdateWizard implements UpgradeWizardInter
         return true;
     }
 
-    private function getAffectedSysFileReferenceRows(): ?array
+    private function getAffectedSysFileReferenceRows(): array
     {
         $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('sys_file_reference');
         $queryBuilder

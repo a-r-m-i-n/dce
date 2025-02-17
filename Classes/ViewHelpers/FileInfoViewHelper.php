@@ -26,7 +26,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class FileInfoViewHelper extends AbstractViewHelper
 {
-    protected static FileRepository $fileRepository;
+    protected static ?FileRepository $fileRepository = null;
 
     /**
      * @var array
@@ -53,7 +53,7 @@ class FileInfoViewHelper extends AbstractViewHelper
         $properties = array_merge($file->getMetaData()->get(), $file->getProperties());
 
         if (!array_key_exists($this->arguments['attribute'], $properties)) {
-            throw new \Exception('Given file in DCE\'s fileInfo view helper has no attribute named "' . $this->arguments['attribute'] . '". Most common, available attributes are: ' . 'title, description, alternative, width, height, name, extension, size and uid', 1429046106);
+            throw new \Exception('Given file in DCE\'s fileInfo view helper has no attribute named "' . $this->arguments['attribute'] . '". Most common, available attributes are: title, description, alternative, width, height, name, extension, size and uid', 1429046106);
         }
 
         return $properties[$this->arguments['attribute']];
@@ -65,9 +65,6 @@ class FileInfoViewHelper extends AbstractViewHelper
             return self::$files[$fileUid];
         }
         $file = $this->getFileRepository()->findByUid($fileUid);
-        if (!$file instanceof File) {
-            throw new \Exception('No file found with uid "' . $fileUid . '"!', 1429046285);
-        }
         self::$files[$fileUid] = $file;
 
         return $file;
@@ -75,10 +72,8 @@ class FileInfoViewHelper extends AbstractViewHelper
 
     /**
      * Get file repository and stores it in static property.
-     *
-     * @return FileRepository
      */
-    protected function getFileRepository()
+    protected function getFileRepository(): FileRepository
     {
         if (null !== self::$fileRepository) {
             return self::$fileRepository;

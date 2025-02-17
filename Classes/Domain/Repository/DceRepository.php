@@ -62,7 +62,10 @@ class DceRepository extends Repository
         $query->setQuerySettings($querySettings);
         $query->matching($query->equals('uid', $uid));
 
-        return $query->execute()->getFirst();
+        /** @var Dce|null $dce */
+        $dce = $query->execute()->getFirst();
+
+        return $dce;
     }
 
     /**
@@ -113,7 +116,7 @@ class DceRepository extends Repository
         }
         $this->disableRespectOfEnableFields();
 
-        /** @var Dce $dce */
+        /** @var Dce|null $dce */
         $dce = $this->findByUid($uid);
 
         if (!$dce instanceof Dce) {
@@ -206,7 +209,7 @@ class DceRepository extends Repository
     protected function processFillingFields(
         Dce $dce,
         array $contentObject,
-        array $fieldList = null
+        ?array $fieldList = null
     ): void {
         $fieldList = $fieldList ?: [];
         foreach ($fieldList as $fieldVariable => $fieldValue) {
@@ -332,6 +335,7 @@ class DceRepository extends Repository
      * @param string|array $cType or DCE identifier
      *
      * @return int|null uid or null
+     *
      * @static
      */
     public static function extractUidFromCTypeOrIdentifier($cType): ?int
@@ -392,7 +396,7 @@ class DceRepository extends Repository
             )
             ->executeQuery()
             ->fetchAssociative();
-        if (isset($row['identifier']) && $row['identifier'] !== '') {
+        if (isset($row['identifier']) && '' !== $row['identifier']) {
             return 'dce_' . $row['identifier'];
         }
 
@@ -406,11 +410,12 @@ class DceRepository extends Repository
     protected function hasRelatedObjects(array $fieldConfiguration): bool
     {
         return in_array($fieldConfiguration['type'], ['group', 'inline', 'select', 'file'])
-                && (('select' === $fieldConfiguration['type'] && !empty($fieldConfiguration['foreign_table']))
+                && (
+                    ('select' === $fieldConfiguration['type'] && !empty($fieldConfiguration['foreign_table']))
                     || ('inline' === $fieldConfiguration['type'] && !empty($fieldConfiguration['foreign_table']))
                     || ('group' === $fieldConfiguration['type'] && !empty($fieldConfiguration['allowed']))
                     || ('file' === $fieldConfiguration['type'])
-            );
+                );
     }
 
     /**
@@ -428,7 +433,7 @@ class DceRepository extends Repository
     ): array {
         $objects = [];
 
-        if ('group' === $dceFieldConfiguration['type'] ?? false) {
+        if ('group' === ($dceFieldConfiguration['type'] ?? false)) {
             $className = $dceFieldConfiguration['allowed'] ?? '';
             $tableNames = GeneralUtility::trimExplode(',', $className, true);
         } else {
@@ -451,8 +456,8 @@ class DceRepository extends Repository
         if (isset($dceFieldConfiguration['dce_get_fal_objects']) && $dceFieldConfiguration['dce_get_fal_objects'] && 'sys_file' === strtolower($className)) {
             $className = File::class;
         }
-        if (isset($dceFieldConfiguration['dce_get_fal_objects']) && $dceFieldConfiguration['dce_get_fal_objects'] &&
-            ('sys_file_reference' === strtolower($className) || $dceFieldConfiguration['type'] === 'file')
+        if (isset($dceFieldConfiguration['dce_get_fal_objects']) && $dceFieldConfiguration['dce_get_fal_objects']
+            && ('sys_file_reference' === strtolower($className) || 'file' === $dceFieldConfiguration['type'])
         ) {
             $contentObjectUid = (int)($contentObject['_LOCALIZED_UID'] ?? $contentObject['uid']);
             $fileReferences = [];
@@ -512,9 +517,9 @@ class DceRepository extends Repository
                         );
                         if ($fileReferenceData) {
                             if (
-                                (!isset($fileReferenceData['t3ver_label']) || 'DELETED!' !== $fileReferenceData['t3ver_label']) &&
-                                '1' !== $fileReferenceData['hidden'] &&
-                                '1' !== $fileReferenceData['deleted']
+                                (!isset($fileReferenceData['t3ver_label']) || 'DELETED!' !== $fileReferenceData['t3ver_label'])
+                                && '1' !== $fileReferenceData['hidden']
+                                && '1' !== $fileReferenceData['deleted']
                             ) {
                                 $fileReferences[] = $fileFactory->createFileReferenceObject($fileReferenceData);
                             }
@@ -738,12 +743,10 @@ class DceRepository extends Repository
      * Get DCE Instance.
      *
      * @param int $contentElementUid Uid of content element (tt_content)
-     * @param array|null $contentObject
-     * @return Dce
      */
     public function getDceInstance(int $contentElementUid, ?array $contentObject = null): Dce
     {
-        $contentObject = $contentObject ?? $this->getContentObject($contentElementUid);
+        $contentObject ??= $this->getContentObject($contentElementUid);
         $dceUid = $this->extractUidFromCTypeOrIdentifier($contentObject['CType']);
         $settings = $this->simulateContentElementSettings($contentObject['_LOCALIZED_UID'] ?? $contentObject['uid']);
         $settings = $this->completeFieldList($settings, $dceUid);

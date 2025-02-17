@@ -1,5 +1,7 @@
 <?php
-declare(strict_types=1);
+
+declare(strict_types = 1);
+
 namespace T3\Dce\Seo\XmlSitemap;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
@@ -21,7 +23,7 @@ use TYPO3\CMS\Seo\XmlSitemap\AbstractXmlSitemapDataProvider;
 
 /**
  * Class to generate a XML sitemap for DCE content elements, with detail pages
- * This class has been copied from TYPO3 CMS Core: \TYPO3\CMS\Seo\XmlSitemap\PagesXmlSitemapDataProvider
+ * This class has been copied from TYPO3 CMS Core: \TYPO3\CMS\Seo\XmlSitemap\PagesXmlSitemapDataProvider.
  */
 class DetailPagesXmlSitemapDataProvider extends AbstractXmlSitemapDataProvider
 {
@@ -30,8 +32,7 @@ class DetailPagesXmlSitemapDataProvider extends AbstractXmlSitemapDataProvider
      */
     protected $dceRepository;
 
-
-    public function __construct(ServerRequestInterface $request, string $key, array $config = [], ContentObjectRenderer $cObj = null)
+    public function __construct(ServerRequestInterface $request, string $key, array $config = [], ?ContentObjectRenderer $cObj = null)
     {
         parent::__construct($request, $key, $config, $cObj);
 
@@ -80,9 +81,6 @@ class DetailPagesXmlSitemapDataProvider extends AbstractXmlSitemapDataProvider
         }
     }
 
-    /**
-     * @return array
-     */
     protected function getPages(): array
     {
         if (!empty($this->config['rootPage'])) {
@@ -93,15 +91,10 @@ class DetailPagesXmlSitemapDataProvider extends AbstractXmlSitemapDataProvider
         }
 
         $excludePagesRecursive = GeneralUtility::intExplode(',', $this->config['excludePagesRecursive'] ?? '', true);
-        $excludePagesRecursiveWhereClause = '';
-        if ($excludePagesRecursive !== []) {
-            $excludePagesRecursiveWhereClause = sprintf('uid NOT IN (%s)', implode(',', $excludePagesRecursive));
-        }
-
-        $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
-        $treeList = $cObj->getTreeList(-$rootPageId, 99, 0, false, '', $excludePagesRecursiveWhereClause);
-        $treeListArray = GeneralUtility::intExplode(',', $treeList);
-
+        /** @var PageRepository $pageRepository */
+        $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
+        $treeListArray = $pageRepository->getDescendantPageIdsRecursive($rootPageId, 99, 0, $excludePagesRecursive);
+        array_unshift($treeListArray, $rootPageId);
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getQueryBuilderForTable('pages');
 
@@ -129,9 +122,6 @@ class DetailPagesXmlSitemapDataProvider extends AbstractXmlSitemapDataProvider
         return $pages;
     }
 
-    /**
-     * @return array
-     */
     protected function getDceContentElementsWithDetailPage(int $pageUid): array
     {
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
@@ -145,7 +135,6 @@ class DetailPagesXmlSitemapDataProvider extends AbstractXmlSitemapDataProvider
             ->addOrderBy('sorting', 'ASC')
             ->executeQuery()
             ->fetchAllAssociative();
-
 
         $dceRowsWithDetailPage = [];
 
@@ -162,18 +151,11 @@ class DetailPagesXmlSitemapDataProvider extends AbstractXmlSitemapDataProvider
         return $dceRowsWithDetailPage;
     }
 
-    /**
-     * @return LanguageAspect
-     */
     protected function getCurrentLanguageAspect(): LanguageAspect
     {
         return GeneralUtility::makeInstance(Context::class)->getAspect('language');
     }
 
-    /**
-     * @param array $data
-     * @return array
-     */
     protected function defineUrl(array $data): array
     {
         $typoLinkConfig = [

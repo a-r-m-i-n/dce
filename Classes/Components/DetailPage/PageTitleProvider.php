@@ -18,7 +18,7 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 class PageTitleProvider extends AbstractPageTitleProvider
 {
-    private static array $typoScriptSettings;
+    private static ?array $typoScriptSettings = null;
 
     public function __construct()
     {
