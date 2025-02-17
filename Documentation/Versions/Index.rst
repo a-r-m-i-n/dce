@@ -8,6 +8,11 @@ Versions
 
 .. contents:: :local:
 
+3.2.6
+-----
+
+- [BUGFIX] Fix list view search for DCE elements to respect selected depth (Thanks to Markus Gerdes)
+
 3.2.5
 -----
 
