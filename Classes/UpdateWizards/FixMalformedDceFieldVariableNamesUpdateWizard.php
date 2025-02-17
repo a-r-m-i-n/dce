@@ -164,7 +164,7 @@ class FixMalformedDceFieldVariableNamesUpdateWizard implements UpgradeWizardInte
             ->select('*')
             ->from('tx_dce_domain_model_dcefield')
             ->where(
-                $queryBuilder->expr()->eq(
+                $queryBuilder->expr()->neq(
                     'variable',
                     $queryBuilder->createNamedParameter('')
                 )
