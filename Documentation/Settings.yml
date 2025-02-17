@@ -8,7 +8,7 @@ conf.py:
   copyright: 2012-2025
   project: Dynamic Content Elements (DCE)
   version: 3.2
-  release: 3.2.4
+  release: 3.2.5
   latex_documents:
   - - Index
     - dce.tex

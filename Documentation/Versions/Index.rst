@@ -8,6 +8,20 @@ Versions
 
 .. contents:: :local:
 
+3.2.5
+-----
+
+- [TASK] Apply code-style fixes
+- [DEVOPS] Add code quality checks
+- [BUGFIX] Fix PageTitleProvider in v13
+- [BUGFIX] Fix missing global TypoScript in v13
+- [TASK] Update copyrights
+- [BUGFIX] Fix FalViewHelper for TYPO3 v13 (Thanks to Martin Kutschker)
+- [BUGFIX] Fix negated query in FixMalformedDceFieldVariableNamesUpdateWizard
+- [BUGFIX] Use UpgradeWizard annotation to register wizards
+- [DEVOPS] Set b13/container to version ^3.0
+- [DEVOPS] Enable deprecation log in DDEV environment
+
 3.2.4
 -----
 
