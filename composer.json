@@ -29,6 +29,18 @@
         "ext-dom": "*",
         "typo3/cms-core": "^12.4 || ^13"
     },
+    "require-dev": {
+        "armin/editorconfig-cli": "^2.0",
+        "friendsofphp/php-cs-fixer": "^3.69",
+        "phpstan/phpstan": "^2.1",
+        "phpstan/phpstan-doctrine": "^2.0",
+        "saschaegerer/phpstan-typo3": "^2.0",
+        "helmich/typo3-typoscript-lint": "^3.3",
+        "typo3/cms-backend": "^12.4 || ^13",
+        "typo3/cms-install": "^12.4 || ^13",
+        "typo3/cms-linkvalidator": "^12.4 || ^13",
+        "typo3/cms-seo": "^12.4 || ^13"
+    },
     "suggest": {
         "b13/container": "Brings clean container functionality to TYPO3 CMS, supported by DCE."
     },
@@ -49,6 +61,33 @@
                 "partOfFactoryDefault": true,
                 "partOfMinimalUsableSystem": true
             }
+        }
+    },
+    "scripts": {
+        "check": [
+            "@editorconfig-check",
+            "@phpcs",
+            "@phpstan",
+            "@typoscript-lint",
+            "@composer validate --strict --no-check-version --no-check-all --no-check-publish"
+        ],
+        "fix": [
+            "@editorconfig-fix",
+            "@phpcs:fix",
+            "@phpstan",
+            "@typoscript-lint"
+        ],
+        "editorconfig-check": "ec -g -u",
+        "editorconfig-fix": "ec -g --fix",
+        "phpcs": "PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix --config .build/php-cs-fixer.php --ansi --verbose --diff --dry-run -- Classes",
+        "phpcs:fix": "PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix --config .build/php-cs-fixer.php --ansi -- Classes",
+        "phpstan": "phpstan analyse -c .build/phpstan.neon -l 5 -- Classes",
+        "typoscript-lint": "typoscript-lint --fail-on-warnings -c .build/typoscript-lint.yaml -- Configuration"
+    },
+    "config": {
+        "allow-plugins": {
+            "typo3/cms-composer-installers": true,
+            "typo3/class-alias-loader": true
         }
     }
 }
