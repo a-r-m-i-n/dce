@@ -18,10 +18,14 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 class PageTitleProvider extends AbstractPageTitleProvider
 {
-    /**
-     * @var array|null
-     */
-    private static $typoScriptSettings;
+    private static array $typoScriptSettings;
+
+    public function __construct()
+    {
+        if (method_exists($this, 'setRequest')) {
+            $this->setRequest($GLOBALS['TYPO3_REQUEST']);
+        }
+    }
 
     public function generate(Dce $dce): void
     {
@@ -40,11 +44,14 @@ class PageTitleProvider extends AbstractPageTitleProvider
     {
         /** @var RecordPageTitleProvider $pageTitle */
         $pageTitle = GeneralUtility::makeInstance(RecordPageTitleProvider::class);
+        if (method_exists($pageTitle, 'setRequest')) {
+            $pageTitle->setRequest($this->request);
+        }
         $originalPageTitle = $pageTitle->getTitle();
 
         $dceTitle = $this->buildDceTitle($dce);
         $settings = $this->getTypoScriptSettings();
-        $dceTitleWithWrap = $this->wrapDceTitle($dceTitle, $settings['prependWrap']);
+        $dceTitleWithWrap = $this->wrapDceTitle($dceTitle, $settings['prependWrap'] ?? '');
 
         $this->title = $dceTitleWithWrap . $originalPageTitle;
     }
@@ -53,11 +60,14 @@ class PageTitleProvider extends AbstractPageTitleProvider
     {
         /** @var RecordPageTitleProvider $pageTitle */
         $pageTitle = GeneralUtility::makeInstance(RecordPageTitleProvider::class);
+        if (method_exists($pageTitle, 'setRequest')) {
+            $pageTitle->setRequest($this->request);
+        }
         $originalPageTitle = $pageTitle->getTitle();
 
         $dceTitle = $this->buildDceTitle($dce);
         $settings = $this->getTypoScriptSettings();
-        $dceTitleWithWrap = $this->wrapDceTitle($dceTitle, $settings['appendWrap']);
+        $dceTitleWithWrap = $this->wrapDceTitle($dceTitle, $settings['appendWrap'] ?? '');
 
         $this->title = $originalPageTitle . $dceTitleWithWrap;
     }
