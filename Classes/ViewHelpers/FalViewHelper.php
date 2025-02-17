@@ -10,7 +10,7 @@ namespace T3\Dce\ViewHelpers;
  */
 use T3\Dce\Utility\DatabaseUtility;
 use TYPO3\CMS\Core\Database\Connection;
-use TYPO3\CMS\Core\Resource\FileRepository;
+use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -90,11 +90,11 @@ class FalViewHelper extends AbstractViewHelper
             ->orderBy('sorting_foreign', 'ASC');
         $rows = DatabaseUtility::getRowsFromQueryBuilder($queryBuilder, 'uid');
 
-        /** @var FileRepository $fileRepository */
-        $fileRepository = GeneralUtility::makeInstance(FileRepository::class);
+        /** @var ResourceFactory $resourceFactory */
+        $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
         $result = [];
         foreach ($rows as $referenceUid) {
-            $result[] = $fileRepository->findFileReferenceByUid((int)$referenceUid['uid']);
+            $result[] = $resourceFactory->getFileReferenceObject((int)$referenceUid['uid']);
         }
 
         return $result;
