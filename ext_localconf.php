@@ -37,20 +37,6 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tce']['formevals']
 [\T3\Dce\UserFunction\CustomFieldValidation\NoLeadingNumberValidator::class] =
     'EXT:dce/Classes/UserFunction/CustomFieldValidation/NoLeadingNumberValidator.php';
 
-// Update Scripts
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceMigrateDceFieldDatabaseRelationUpdate'] =
-    \T3\Dce\UpdateWizards\MigrateDceFieldDatabaseRelationUpdateWizard::class;
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceMigrateFlexformSheetIdentifierUpdate'] =
-    \T3\Dce\UpdateWizards\MigrateFlexformSheetIdentifierUpdateWizard::class;
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceFixMalformedDceFieldVariableNamesUpdate'] =
-    \T3\Dce\UpdateWizards\FixMalformedDceFieldVariableNamesUpdateWizard::class;
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceFileToFalUpdate'] =
-    \T3\Dce\UpdateWizards\FileToFalUpdateWizard::class;
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceInlineFalToFileUpdateWizard'] =
-    \T3\Dce\UpdateWizards\InlineFalToFileUpdateWizard::class;
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceMigrateFlexformSysFileReferencesUpdateWizard'] =
-    \T3\Dce\UpdateWizards\MigrateFlexformSysFileReferencesUpdateWizard::class;
-
 // Logger for update scripts
 $GLOBALS['TYPO3_CONF_VARS']['LOG']['T3']['Dce']['UpdateWizards']['writerConfiguration'] = [
     \TYPO3\CMS\Core\Log\LogLevel::DEBUG => [

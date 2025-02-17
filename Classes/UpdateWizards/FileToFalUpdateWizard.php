@@ -22,12 +22,14 @@ use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Resource\ResourceStorage;
 use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Install\Attribute\UpgradeWizard;
 use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
 /**
  * Migrates old "type: group, internal_type: file" DCEs and content elements based on it.
  * Moving files to fileadmin/ and index by FAL
  */
+#[UpgradeWizard('dceFileToFalUpdate')]
 class FileToFalUpdateWizard implements UpgradeWizardInterface, LoggerAwareInterface
 {
     use LoggerAwareTrait;

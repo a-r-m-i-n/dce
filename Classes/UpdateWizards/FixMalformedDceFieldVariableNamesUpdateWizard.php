@@ -14,6 +14,7 @@ use T3\Dce\UserFunction\CustomFieldValidation\NoLeadingNumberValidator;
 use T3\Dce\Utility\DatabaseUtility;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Install\Attribute\UpgradeWizard;
 use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
 /**
@@ -26,6 +27,7 @@ use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
  * This update checks if such fields exist and correct them in tt_content's pi_flexform column and in DceFields.
  * It does not correct the fluid templates for you!
  */
+#[UpgradeWizard('dceFixMalformedDceFieldVariableNamesUpdate')]
 class FixMalformedDceFieldVariableNamesUpdateWizard implements UpgradeWizardInterface
 {
     /** @var string */

@@ -14,6 +14,7 @@ use TYPO3\CMS\Core\Charset\CharsetConverter;
 use TYPO3\CMS\Core\Configuration\FlexForm\FlexFormTools;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Install\Attribute\UpgradeWizard;
 use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
 /**
@@ -34,6 +35,7 @@ use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
  *
  * Please migrate the field database relations first, before executing this update!
  */
+#[UpgradeWizard('dceMigrateFlexformSheetIdentifierUpdate')]
 class MigrateFlexformSheetIdentifierUpdateWizard implements UpgradeWizardInterface
 {
     /** @var string */

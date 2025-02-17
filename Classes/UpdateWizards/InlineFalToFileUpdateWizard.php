@@ -11,8 +11,10 @@ namespace T3\Dce\UpdateWizards;
  */
 use T3\Dce\Utility\DatabaseUtility;
 use T3\Dce\Utility\FlexformService;
+use TYPO3\CMS\Install\Attribute\UpgradeWizard;
 use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
+#[UpgradeWizard('dceInlineFalToFileUpdateWizard')]
 class InlineFalToFileUpdateWizard implements UpgradeWizardInterface
 {
     /** @var string */

@@ -11,11 +11,13 @@ namespace T3\Dce\UpdateWizards;
  */
 use T3\Dce\Utility\DatabaseUtility;
 use TYPO3\CMS\Core\Database\Connection;
+use TYPO3\CMS\Install\Attribute\UpgradeWizard;
 use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
 /**
  * Migrate m:n-relation of dce fields to 1:n-relation.
  */
+#[UpgradeWizard('dceMigrateDceFieldDatabaseRelationUpdate')]
 class MigrateDceFieldDatabaseRelationUpdateWizard implements UpgradeWizardInterface
 {
     /** @var string */
