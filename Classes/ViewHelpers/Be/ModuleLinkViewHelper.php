@@ -5,7 +5,7 @@ namespace T3\Dce\ViewHelpers\Be;
 /*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2024 Armin Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2025 Armin Vieweg <armin@v.ieweg.de>
  */
 use T3\Dce\Utility\BackendModuleLinkUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;

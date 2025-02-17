@@ -5,7 +5,7 @@ namespace T3\Dce\ViewHelpers;
 /*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2020-2024 Armin Vieweg <armin@v.ieweg.de>
+ *  | (c) 2020-2025 Armin Vieweg <armin@v.ieweg.de>
  */
 use T3\Dce\Domain\Repository\DceRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;

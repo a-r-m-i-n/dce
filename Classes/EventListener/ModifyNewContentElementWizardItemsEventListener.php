@@ -5,7 +5,7 @@ namespace T3\Dce\EventListener;
 /*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2024 Armin Vieweg <armin@v.ieweg.de>
+ *  | (c) 2024-2025 Armin Vieweg <armin@v.ieweg.de>
  */
 use TYPO3\CMS\Backend\Controller\Event\ModifyNewContentElementWizardItemsEvent;
 use TYPO3\CMS\Core\Attribute\AsEventListener;

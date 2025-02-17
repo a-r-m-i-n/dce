@@ -3,7 +3,7 @@
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2024 Armin Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2025 Armin Vieweg <armin@v.ieweg.de>
  */
 
 use T3\Dce\UserFunction\CustomFieldValidation\LowerCamelCaseValidator;

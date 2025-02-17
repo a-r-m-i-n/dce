@@ -7,7 +7,7 @@ namespace T3\Dce\UpdateWizards;
 /*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2022-2024 Armin Vieweg <armin@v.ieweg.de>
+ *  | (c) 2022-2025 Armin Vieweg <armin@v.ieweg.de>
  */
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
