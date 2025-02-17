@@ -90,6 +90,29 @@ $generator->makePluginConfiguration();
     }
 }');
 
+// Register global TypoScript
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript('dce', 'setup', '
+plugin.tx_dce.persistence.storagePid = 0
+
+# Disable ce wrapping (for dce)
+tt_content.stdWrap.innerWrap.cObject.default.stdWrap.if {
+    value := addToList(dce_dceuid0)
+    isInList.field = CType
+    negate = 1
+}
+
+lib.contentElement.templateRootPaths.1 = EXT:dce/Resources/Private/Templates
+
+config.pageTitleProviders.dce {
+    provider = T3\Dce\Components\DetailPage\PageTitleProvider
+    before = record
+    after = altPageTitle
+
+    prependWrap = || - |
+    appendWrap = | - ||
+}
+');
+
 if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('linkvalidator')) {
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
         'mod.linkvalidator.searchFields.tt_content := addToList(pi_flexform)'
