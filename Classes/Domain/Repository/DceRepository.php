@@ -14,7 +14,7 @@ use T3\Dce\Utility\DatabaseUtility;
 use T3\Dce\Utility\FlexformService;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Context\Context;
-use TYPO3\CMS\Core\Context\Exception\AspectNotFoundException;
+use TYPO3\CMS\Core\Context\LanguageAspect;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
@@ -606,12 +606,18 @@ class DceRepository extends Repository
                     if ('pages' === $tableName) {
                         $row = $pageRepository->getPageOverlay($row);
                     } else {
-                        $row = $pageRepository->getRecordOverlay(
+                        /** @var Context $context */
+                        $context = GeneralUtility::makeInstance(Context::class);
+                        /** @var LanguageAspect $languageAspect */
+                        $languageAspect = $context->getAspect('language');
+                        $row = $pageRepository->getLanguageOverlay(
                             $tableName,
                             $row,
-                            $this->getSysLanguageUid(),
-                            isset($GLOBALS['TSFE']) ? $GLOBALS['TSFE']->tmpl->setup['config.']['sys_language_overlay'] : ''
+                            $languageAspect,
                         );
+                    }
+                    if (null === $row) {
+                        continue;
                     }
                 }
 
@@ -634,17 +640,6 @@ class DceRepository extends Repository
         }
 
         return $objects;
-    }
-
-    private function getSysLanguageUid(): ?int
-    {
-        $context = GeneralUtility::makeInstance(Context::class);
-        try {
-            return (int)$context->getPropertyFromAspect('language', 'id', 0);
-        } catch (AspectNotFoundException $e) {
-        }
-
-        return null;
     }
 
     /**
