@@ -9,7 +9,6 @@ namespace T3\Dce\Components\ContentElementGenerator;
  *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
 use T3\Dce\Utility\DatabaseUtility;
-use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -46,18 +45,17 @@ class InputDatabase implements InputInterface
         }
 
         $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dce');
-        if ($includeHidden) {
-            $queryBuilder->getRestrictions()->removeAll()->add(new DeletedRestriction());
-        }
+        $queryBuilder->getRestrictions()->removeAll();
         $dceModelRows = $queryBuilder
             ->select('*')
             ->from('tx_dce_domain_model_dce')
-            ->where('pid=0')
+            ->where('pid=0 AND deleted=0' . (!$includeHidden ? ' AND hidden=0' : ''))
             ->orderBy('sorting', 'asc')
             ->executeQuery()
             ->fetchAllAssociative();
 
         $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dcefield');
+        $queryBuilder->getRestrictions()->removeAll();
         $dceFieldRows = $queryBuilder
             ->select('df.*')
             ->from('tx_dce_domain_model_dcefield', 'df')
@@ -67,7 +65,7 @@ class InputDatabase implements InputInterface
                 'd',
                 'df.parent_dce = d.uid'
             )
-            ->where('df.pid=0')
+            ->where('df.pid=0 AND df.deleted=0 AND df.hidden=0')
             ->orderBy('d.sorting', 'ASC')
             ->addOrderBy('df.sorting', 'ASC')
             ->executeQuery()
@@ -76,10 +74,11 @@ class InputDatabase implements InputInterface
         $dceFieldRowsByParentDce = $this->getFieldRowsByParentFieldName($dceFieldRows);
 
         $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dcefield');
+        $queryBuilder->getRestrictions()->removeAll();
         $dceFieldRowsSortedByParentFields = $queryBuilder
             ->select('df.*')
             ->from('tx_dce_domain_model_dcefield', 'df')
-            ->where('parent_field > 0')
+            ->where('df.parent_field > 0 AND df.deleted=0 AND df.hidden=0')
             ->orderBy('df.parent_field', 'ASC')
             ->addOrderBy('df.sorting', 'ASC')
             ->executeQuery()
