@@ -8,6 +8,12 @@ Versions
 
 .. contents:: :local:
 
+3.2.7
+-----
+
+- [BUGFIX] Fix "dce_enable_autotranslation" functionality
+- [BUGFIX] Do not use RestrictionContainers in database queries in content element generator
+
 3.2.6
 -----
 
