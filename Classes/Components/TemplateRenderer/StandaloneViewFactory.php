@@ -10,6 +10,7 @@ namespace T3\Dce\Components\TemplateRenderer;
 use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Utility\TypoScript;
 use TYPO3\CMS\Core\Http\ApplicationType;
+use TYPO3\CMS\Core\Http\ServerRequest;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\Core\Rendering\RenderingContext;
@@ -136,12 +137,29 @@ class StandaloneViewFactory implements SingletonInterface
 
     protected function setAssignedVariables(StandaloneView $view): void
     {
-        if (isset($GLOBALS['TYPO3_REQUEST']) && ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend()) {
-            // TODO: $GLOBALS['TSFE'] is deprecated and will get removed in TYPO3 v13
-            $view->assign('TSFE', $GLOBALS['TSFE']);
-            $view->assign('page', $GLOBALS['TSFE']->page);
+        /** @var ServerRequest|null $request */
+        $request = $GLOBALS['TYPO3_REQUEST'] ?? null;
+        if (isset($request) && ApplicationType::fromRequest($request)->isFrontend()) {
+            // TODO TypoScriptFrontendController is deprecated and will vanish in v14
+            if ($frontendController = $request->getAttribute('frontend.controller')) {
+                $view->assign('TSFE', $frontendController);
+            }
 
-            $view->assign('tsSetup', $this->typoScriptUtility->getTypoScriptSetupArray());
+            if ($pageInformation = $request->getAttribute('frontend.page.information')) {
+                $view->assign('page', $pageInformation->getPageRecord());
+                $view->assign('pageInformation', $pageInformation);
+            } else {
+                // TODO Required for TYPO3 v12, which has no PageInformation yet
+                $view->assign('page', $GLOBALS['TSFE']->page);
+            }
+
+            if ($typoScriptSetupArray = $this->typoScriptUtility->getTypoScriptSetupArray()) {
+                $view->assign('tsSetup', $typoScriptSetupArray);
+            }
+
+            if ($site = $request->getAttribute('site')) {
+                $view->assign('site', $site);
+            }
         }
     }
 

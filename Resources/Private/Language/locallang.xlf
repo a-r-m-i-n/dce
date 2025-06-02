@@ -18,8 +18,12 @@
             <trans-unit id="contentObjectNode"><source>{contentObject}</source></trans-unit>
             <trans-unit id="tsfeObject"><source>TSFE object (TypoScriptFrontendController)</source></trans-unit>
             <trans-unit id="tsfeObjectNode"><source>{TSFE}</source></trans-unit>
-            <trans-unit id="pageObject"><source>Properties of current page</source></trans-unit>
+            <trans-unit id="pageObject"><source>Current page record</source></trans-unit>
             <trans-unit id="pageObjectNode"><source>{page}</source></trans-unit>
+            <trans-unit id="pageInformationObject"><source>PageInformation object (only available since TYPO3 v13)</source></trans-unit>
+            <trans-unit id="pageInformationObjectNode"><source>{pageInformation}</source></trans-unit>
+            <trans-unit id="siteObject"><source>The current site instance</source></trans-unit>
+            <trans-unit id="siteObjectNode"><source>{site}</source></trans-unit>
             <trans-unit id="tsSetupObject"><source>TypoScript setup of current page</source></trans-unit>
             <trans-unit id="tsSetupObjectNode"><source>{tsSetup}</source></trans-unit>
 
