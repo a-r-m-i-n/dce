@@ -8,6 +8,12 @@ Versions
 
 .. contents:: :local:
 
+3.3.0
+-----
+
+- [FEATURE] Add {site} to variables passed to DCE templates in frontend
+- [TASK] Fix ES6 configuration for DCE javascript
+
 3.2.7
 -----
 
