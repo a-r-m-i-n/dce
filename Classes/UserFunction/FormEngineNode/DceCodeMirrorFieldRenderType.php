@@ -14,6 +14,7 @@ use T3\Dce\Utility\DatabaseUtility;
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\EventDispatcher\EventDispatcher;
+use TYPO3\CMS\Core\Package\PackageManager;
 use TYPO3\CMS\Core\Page\JavaScriptModuleInstruction;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -27,7 +28,7 @@ class DceCodeMirrorFieldRenderType extends AbstractFormElement
 {
     private string $uniqueIdentifier;
 
-    public function __construct(private readonly EventDispatcher $eventDispatcher)
+    public function __construct(private readonly EventDispatcher $eventDispatcher, private PackageManager $packageManager)
     {
         $this->uniqueIdentifier = str_replace('.', '', uniqid('', true));
     }
@@ -162,6 +163,18 @@ class DceCodeMirrorFieldRenderType extends AbstractFormElement
 
             unset($templates[$key]);
             $templates['TYPE: ' . $keyNoNumber] = $files;
+        }
+
+        if ($this->packageManager->isPackageActive('vici')) {
+            $templates['TYPE: inline'] = [
+                'VICI table' => <<<XML
+<config>
+    <type>inline</type>
+    <foreign_table>tx_vici_custom_NAME</foreign_table>
+    <dce_load_schema>1</dce_load_schema>
+</config>
+XML,
+            ];
         }
 
         $event = new ModifyConfigurationTemplateCodeSnippetsEvent($templates);

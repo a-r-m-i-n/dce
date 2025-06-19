@@ -433,12 +433,19 @@ class DceRepository extends Repository
     ): array {
         $objects = [];
 
+        $repositoryName = null;
+
         if ('group' === ($dceFieldConfiguration['type'] ?? false)) {
             $className = $dceFieldConfiguration['allowed'] ?? '';
             $tableNames = GeneralUtility::trimExplode(',', $className, true);
         } else {
             $className = $dceFieldConfiguration['foreign_table'] ?? '';
             $tableNames = GeneralUtility::trimExplode(',', $className, true);
+        }
+        if (str_starts_with($className, 'tx_vici_custom_')) {
+            $name = GeneralUtility::underscoredToUpperCamelCase(substr($className, strlen('tx_vici_custom_')));
+            $className = 'T3\\Vici\\Custom\\Domain\\Model\\' . $name;
+            $repositoryName = 'T3\\Vici\\Repository\\ViciFrontendRepository';
         }
 
         $specialClass = null;
@@ -531,10 +538,12 @@ class DceRepository extends Repository
             return $fileReferences;
         }
 
-        if (!str_contains($className, '\\')) {
-            $repositoryName = str_replace('_Model_', '_Repository_', $className) . 'Repository';
-        } else {
-            $repositoryName = str_replace('\\Model\\', '\\Repository\\', $className) . 'Repository';
+        if (!$repositoryName) {
+            if (!str_contains($className, '\\')) {
+                $repositoryName = str_replace('_Model_', '_Repository_', $className) . 'Repository';
+            } else {
+                $repositoryName = str_replace('\\Model\\', '\\Repository\\', $className) . 'Repository';
+            }
         }
         if ('sys_file_collection' === strtolower($className)) {
             $specialClass = 'FileCollection';
@@ -546,6 +555,9 @@ class DceRepository extends Repository
             // Extbase object found
             /** @var Repository $repository */
             $repository = GeneralUtility::makeInstance($repositoryName);
+            if ($repositoryName === 'T3\\Vici\\Repository\\ViciFrontendRepository') {
+                $repository->setObjectType($className);
+            }
 
             foreach (GeneralUtility::trimExplode(',', $fieldValue, true) as $uid) {
                 $uid = (int)$uid;

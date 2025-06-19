@@ -42,6 +42,7 @@
         "typo3/cms-seo": "^12.4 || ^13"
     },
     "suggest": {
+        "t3/vici": "Allows you to create own table structures in TYPO3 and use them in DCEs.",
         "b13/container": "Brings clean container functionality to TYPO3 CMS, supported by DCE."
     },
     "autoload": {
