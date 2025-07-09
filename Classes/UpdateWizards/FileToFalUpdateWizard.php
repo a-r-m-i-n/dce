@@ -236,34 +236,32 @@ class FileToFalUpdateWizard implements UpgradeWizardInterface, LoggerAwareInterf
     {
         $affectedDceRows = [];
         foreach ($affectedFieldRows as $affectedFieldRow) {
-            $dceUid = 0;
-            if (!array_key_exists($affectedFieldRow['parent_dce'], $affectedDceRows)) {
-                $dceUid = (int)$affectedFieldRow['parent_dce'];
+            $dceUid = (int)$affectedFieldRow['parent_dce'];
 
-                // Handle section fields
-                $sectionFieldRow = null;
-                if (0 === $dceUid) {
-                    $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable(
-                        'tx_dce_domain_model_dcefield'
-                    );
-                    $sectionFieldRow = $queryBuilder
-                        ->select('*')
-                        ->from('tx_dce_domain_model_dcefield')
-                        ->where(
-                            $queryBuilder->expr()->eq(
-                                'uid',
-                                $queryBuilder->createNamedParameter($affectedFieldRow['parent_field'])
-                            )
-                        )
-                        ->executeQuery()
-                        ->fetchAssociative();
-
-                    $affectedFieldRow['_parent_section_field'] = $sectionFieldRow;
-                    $dceUid = (int)$sectionFieldRow['parent_dce'];
-                }
-
+            // Handle section fields
+            if (0 === $dceUid) {
                 $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable(
                     'tx_dce_domain_model_dcefield'
+                );
+                $sectionFieldRow = $queryBuilder
+                    ->select('*')
+                    ->from('tx_dce_domain_model_dcefield')
+                    ->where(
+                        $queryBuilder->expr()->eq(
+                            'uid',
+                            $queryBuilder->createNamedParameter($affectedFieldRow['parent_field'])
+                        )
+                    )
+                    ->executeQuery()
+                    ->fetchAssociative();
+
+                $affectedFieldRow['_parent_section_field'] = $sectionFieldRow;
+                $dceUid = (int)$sectionFieldRow['parent_dce'];
+            }
+
+            if (!array_key_exists($dceUid, $affectedDceRows)) {
+                $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable(
+                    'tx_dce_domain_model_dce'
                 );
                 $queryBuilder->getRestrictions()->removeAll()->add(new DeletedRestriction());
                 $dceRow = $queryBuilder
