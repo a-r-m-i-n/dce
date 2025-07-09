@@ -544,24 +544,24 @@ class FileToFalUpdateWizard implements UpgradeWizardInterface, LoggerAwareInterf
                             $file = $resourceFactory->getFileObjectByStorageAndIdentifier(self::FILEADMIN_STORAGE_UID, $newPath);
                         } catch (\InvalidArgumentException $e) {
                         }
-                        if (!isset($file)) {
-                            throw new \RuntimeException('Unable to get file from fileadmin storage with identifier "' . $newPath . '"');
+                        if (isset($file)) {
+                            $newSysFileReference = [
+                                'table_local' => 'sys_file',
+                                'uid_local' => $file->getUid(),
+                                'tablenames' => 'tt_content',
+                                'fieldname' => $affectedFieldRow['variable'],
+                                'uid_foreign' => $elementRow['uid'],
+                                'sys_language_uid' => $elementRow['sys_language_uid'],
+                                'sorting_foreign' => $i,
+                                'pid' => $elementRow['pid'],
+                            ];
+
+                            $sysFileReferenceConnection->insert('sys_file_reference', $newSysFileReference);
+                            $newSysFileReferenceUid = $sysFileReferenceConnection->lastInsertId('sys_file_reference');
+                            $this->logger->info('Added new sys_file_reference with uid ' . $newSysFileReferenceUid, ['values' => $newSysFileReference]);
+                        } else {
+                            $this->logger->error('Unable to get file from fileadmin storage with identifier "' . $newPath . '". Removing from flexform of content element (uid=' . $elementRow['uid'] . ').');
                         }
-
-                        $newSysFileReference = [
-                            'table_local' => 'sys_file',
-                            'uid_local' => $file->getUid(),
-                            'tablenames' => 'tt_content',
-                            'fieldname' => $affectedFieldRow['variable'],
-                            'uid_foreign' => $elementRow['uid'],
-                            'sys_language_uid' => $elementRow['sys_language_uid'],
-                            'sorting_foreign' => $i,
-                            'pid' => $elementRow['pid'],
-                        ];
-
-                        $sysFileReferenceConnection->insert('sys_file_reference', $newSysFileReference);
-                        $newSysFileReferenceUid = $sysFileReferenceConnection->lastInsertId('sys_file_reference');
-                        $this->logger->info('Added new sys_file_reference with uid ' . $newSysFileReferenceUid, ['values' => $newSysFileReference]);
                     }
 
                     // Replace image name(s) with amount of relations, in pi_flexform of DCE content element
@@ -578,6 +578,8 @@ class FileToFalUpdateWizard implements UpgradeWizardInterface, LoggerAwareInterf
                     $ttContentConnection->update('tt_content', [
                         'pi_flexform' => $updatedFlexform,
                     ], ['uid' => $elementRow['uid']]);
+
+                    $this->logger->info('Updated content element (uid=' . $elementRow['uid'] . ') flexform values.');
                 }
             }
         }
@@ -628,10 +630,11 @@ class FileToFalUpdateWizard implements UpgradeWizardInterface, LoggerAwareInterf
                                     $file = $resourceFactory->getFileObjectByStorageAndIdentifier(self::FILEADMIN_STORAGE_UID, $newPath);
                                 } catch (\InvalidArgumentException $e) {
                                 }
-                                if (!isset($file)) {
-                                    throw new \RuntimeException('Unable to get file from fileadmin storage with identifier "' . $newPath . '"');
+                                if (isset($file)) {
+                                    $fileUids[] = $file->getUid();
+                                } else {
+                                    $this->logger->error('Unable to get file from fileadmin storage with identifier "' . $newPath . '". Removing from flexform of content element (uid=' . $elementRow['uid'] . ').');
                                 }
-                                $fileUids[] = $file->getUid();
                                 unset($mediaFileName, $newPath);
                             }
 
@@ -649,7 +652,7 @@ class FileToFalUpdateWizard implements UpgradeWizardInterface, LoggerAwareInterf
                         'pi_flexform' => $updatedFlexform,
                     ], ['uid' => $elementRow['uid']]);
 
-                    $this->logger->info('Updated content element (uid=' . $elementRow['uid'] . ' flexform values.');
+                    $this->logger->info('Updated content element (uid=' . $elementRow['uid'] . ') flexform values.');
                 }
             }
         }
