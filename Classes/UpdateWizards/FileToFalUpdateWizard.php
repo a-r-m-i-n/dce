@@ -121,10 +121,12 @@ class FileToFalUpdateWizard implements UpgradeWizardInterface, LoggerAwareInterf
                             if (0 === $affectedFieldRow['parent_dce']) {
                                 // Resolve section field contents
                                 $images = '';
-                                foreach ($flexformData[$affectedFieldRow['_parent_section_field']['variable']] ?? [] as $key => $child) {
-                                    $child = reset($child);
-                                    $images .= $child[$affectedFieldRow['variable']];
-                                    $images .= ',';
+                                if (is_array($flexformData[$affectedFieldRow['_parent_section_field']['variable']] ?? '')) {
+                                    foreach ($flexformData[$affectedFieldRow['_parent_section_field']['variable']] as $key => $child) {
+                                        $child = reset($child);
+                                        $images .= $child[$affectedFieldRow['variable']];
+                                        $images .= ',';
+                                    }
                                 }
                             } else {
                                 $images = $flexformData[$affectedFieldRow['variable']] ?? '';
@@ -349,10 +351,12 @@ class FileToFalUpdateWizard implements UpgradeWizardInterface, LoggerAwareInterf
                     if (0 === $affectedFieldRow['parent_dce']) {
                         // Resolve section field contents
                         $media = '';
-                        foreach ($flexformData[$affectedFieldRow['_parent_section_field']['variable']] as $key => $child) {
-                            $child = reset($child);
-                            $media .= $child[$affectedFieldRow['variable']];
-                            $media .= ',';
+                        if (is_array($flexformData[$affectedFieldRow['_parent_section_field']['variable']] ?? '')) {
+                            foreach ($flexformData[$affectedFieldRow['_parent_section_field']['variable']] as $key => $child) {
+                                $child = reset($child);
+                                $media .= $child[$affectedFieldRow['variable']];
+                                $media .= ',';
+                            }
                         }
                     } else {
                         $media = $flexformData[$affectedFieldRow['variable']] ?? '';
@@ -612,31 +616,33 @@ class FileToFalUpdateWizard implements UpgradeWizardInterface, LoggerAwareInterf
                     $uploadFolder = $flexformConfig['uploadfolder'] ?? null;
 
                     // Resolve section field contents
-                    foreach ($flexformSettings[$affectedFieldRow['_parent_section_field']['variable']] as $sectionIndexKey => $child) {
-                        $child = reset($child);
-                        $media = $child[$affectedFieldRow['variable']];
-                        $media = GeneralUtility::trimExplode(',', $media, true);
+                    if (is_array($flexformSettings[$affectedFieldRow['_parent_section_field']['variable']] ?? '')) {
+                        foreach ($flexformSettings[$affectedFieldRow['_parent_section_field']['variable']] as $sectionIndexKey => $child) {
+                            $child = reset($child);
+                            $media = $child[$affectedFieldRow['variable']];
+                            $media = GeneralUtility::trimExplode(',', $media, true);
 
-                        // Get sys_file uid and replace filename with uid in section field flexform
-                        $fileUids = [];
-                        foreach ($media as $i => $mediaFileName) {
-                            $newPath = $uploadFolder . DIRECTORY_SEPARATOR . $mediaFileName;
-                            try {
-                                $file = $resourceFactory->getFileObjectByStorageAndIdentifier(self::FILEADMIN_STORAGE_UID, $newPath);
-                            } catch (\InvalidArgumentException $e) {
+                            // Get sys_file uid and replace filename with uid in section field flexform
+                            $fileUids = [];
+                            foreach ($media as $i => $mediaFileName) {
+                                $newPath = $uploadFolder . DIRECTORY_SEPARATOR . $mediaFileName;
+                                try {
+                                    $file = $resourceFactory->getFileObjectByStorageAndIdentifier(self::FILEADMIN_STORAGE_UID, $newPath);
+                                } catch (\InvalidArgumentException $e) {
+                                }
+                                if (!isset($file)) {
+                                    throw new \RuntimeException('Unable to get file from fileadmin storage with identifier "' . $newPath . '"');
+                                }
+                                $fileUids[] = $file->getUid();
+                                unset($mediaFileName, $newPath);
                             }
-                            if (!isset($file)) {
-                                throw new \RuntimeException('Unable to get file from fileadmin storage with identifier "' . $newPath . '"');
-                            }
-                            $fileUids[] = $file->getUid();
-                            unset($mediaFileName, $newPath);
+
+                            $node = $xpath->query(
+                                "//field[@index='settings." . $affectedFieldRow['_parent_section_field']['variable'] . "']//field[@index='" . $sectionIndexKey . "']//field[@index='" . $affectedFieldRow['variable'] . "']/value"
+                                . "|//field[@index='settings." . $affectedFieldRow['_parent_section_field']['variable'] . "']//section[@index='" . $sectionIndexKey . "']//field[@index='" . $affectedFieldRow['variable'] . "']/value"
+                            );
+                            $node->item(0)->nodeValue = implode(',', $fileUids);
                         }
-
-                        $node = $xpath->query(
-                            "//field[@index='settings." . $affectedFieldRow['_parent_section_field']['variable'] . "']//field[@index='" . $sectionIndexKey . "']//field[@index='" . $affectedFieldRow['variable'] . "']/value"
-                            . "|//field[@index='settings." . $affectedFieldRow['_parent_section_field']['variable'] . "']//section[@index='" . $sectionIndexKey . "']//field[@index='" . $affectedFieldRow['variable'] . "']/value"
-                        );
-                        $node->item(0)->nodeValue = implode(',', $fileUids);
                     }
 
                     $updatedFlexform = $elementFlexformContents->saveXML();
