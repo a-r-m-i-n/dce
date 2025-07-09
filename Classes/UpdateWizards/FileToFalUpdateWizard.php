@@ -51,6 +51,11 @@ class FileToFalUpdateWizard implements UpgradeWizardInterface, LoggerAwareInterf
      */
     private $fileStorageRepository;
 
+    /**
+     * @var string
+     */
+    private $fileadminBasePath;
+
     public function __construct(DceRepository $dceRepository, StorageRepository $fileStorageRepository)
     {
         $this->dceRepository = $dceRepository;
@@ -134,12 +139,13 @@ class FileToFalUpdateWizard implements UpgradeWizardInterface, LoggerAwareInterf
                             $images = GeneralUtility::trimExplode(',', $images, true);
 
                             foreach ($images as $imageFileName) {
-                                $path = Environment::getPublicPath() . DIRECTORY_SEPARATOR . $uploadFolder . DIRECTORY_SEPARATOR . $imageFileName;
+                                $path = $this->getPublicAbsPath($uploadFolder, $imageFileName);
+                                $relPath = $this->getPublicRelPath($uploadFolder, $imageFileName);
                                 if (file_exists($path)) {
                                     $imagesFound[] = $path;
                                 } else {
                                     $imagesMissing[] = $path;
-                                    $imagesMissingText .= '- ' . substr($path, strlen(Environment::getPublicPath())) . PHP_EOL;
+                                    $imagesMissingText .= '- ' . $relPath . PHP_EOL;
                                 }
                             }
                         }
@@ -289,7 +295,6 @@ class FileToFalUpdateWizard implements UpgradeWizardInterface, LoggerAwareInterf
     private function createNewFoldersInFileadmin(?array $affectedFieldRows): void
     {
         $this->logger->debug('Checking for new folders to create in fileadmin');
-        $fileadminBasePath = $this->getFileadminBasePath();
 
         $createdFolderPaths = [];
         $error = false;
@@ -299,8 +304,12 @@ class FileToFalUpdateWizard implements UpgradeWizardInterface, LoggerAwareInterf
             $flexformConfig = FlexformService::xmlToArray($conf);
             $flexformConfig = $flexformConfig['root']['config'] ?? [];
 
-            $uploadFolder = $flexformConfig['uploadfolder'] ?? null;
-            $newFolderPath = $fileadminBasePath . DIRECTORY_SEPARATOR . $uploadFolder;
+            if (empty($flexformConfig['uploadfolder'])) {
+                continue;
+            }
+
+            $uploadFolder = $flexformConfig['uploadfolder'];
+            $newFolderPath = $this->getFileadminAbsPath($uploadFolder);
 
             if (!in_array($newFolderPath, $createdFolderPaths, true)) {
                 if (!file_exists($newFolderPath)) {
@@ -322,7 +331,6 @@ class FileToFalUpdateWizard implements UpgradeWizardInterface, LoggerAwareInterf
 
     private function moveAndIndexMediaFiles(array $affectedDceRows)
     {
-        $fileadminBasePath = $this->getFileadminBasePath();
         $movedFiles = [];
         $this->logger->debug('Moving old media files');
 
@@ -362,19 +370,20 @@ class FileToFalUpdateWizard implements UpgradeWizardInterface, LoggerAwareInterf
                     $media = GeneralUtility::trimExplode(',', $media, true);
 
                     foreach ($media as $mediaFileName) {
-                        $oldPath = Environment::getPublicPath() . DIRECTORY_SEPARATOR . $uploadFolder . DIRECTORY_SEPARATOR . $mediaFileName;
+                        $oldPath = $this->getPublicAbsPath($uploadFolder, $mediaFileName);
                         if (in_array($oldPath, $movedFiles, true)) {
                             $this->logger->debug('Image "' . $oldPath . '" already moved. Skipping.');
                             continue;
                         }
                         if (file_exists($oldPath)) {
-                            $newPath = $fileadminBasePath . DIRECTORY_SEPARATOR . $uploadFolder . DIRECTORY_SEPARATOR . $mediaFileName;
+                            $newPath = $this->getFileadminAbsPath($uploadFolder, $mediaFileName);
+                            $newRelPath = $this->getFileadminRelPath($uploadFolder, $mediaFileName);
                             $status = rename($oldPath, $newPath);
                             if (!$status) {
                                 throw new \RuntimeException(sprintf('Unable to move media file from "%s" to "%s".', $oldPath, $newPath));
                             }
                             $this->logger->info('Moved media file successfully', ['from' => $oldPath, 'to' => $newPath]);
-                            $movedFiles[$newPath] = $oldPath;
+                            $movedFiles[$newRelPath] = $oldPath;
                         } else {
                             $this->logger->error('Old image path "' . $oldPath . '" not found!', ['tt_content_uid' => $elementRow['uid'], 'dce' => $dce->getTitle(), 'field' => $affectedFieldRow['variable']]);
                         }
@@ -390,9 +399,8 @@ class FileToFalUpdateWizard implements UpgradeWizardInterface, LoggerAwareInterf
         $currentEvaluatePermissionsValue = $storage->getEvaluatePermissions();
         $storage->setEvaluatePermissions(false);
         $indexer = GeneralUtility::makeInstance(Indexer::class, $storage);
-        foreach (array_keys($movedFiles) as $newPath) {
-            $movedFileIdentifier = substr($newPath, strlen($fileadminBasePath) + 1);
-            $indexer->createIndexEntry($movedFileIdentifier);
+        foreach (array_keys($movedFiles) as $newRelPath) {
+            $indexer->createIndexEntry($newRelPath);
         }
         $storage->setEvaluatePermissions($currentEvaluatePermissionsValue);
         $this->logger->debug('Indexing of new files in FAL successfully completed');
@@ -539,9 +547,9 @@ class FileToFalUpdateWizard implements UpgradeWizardInterface, LoggerAwareInterf
 
                     // Create new sys_file_reference for every media file found
                     foreach ($media as $i => $mediaFileName) {
-                        $newPath = $uploadFolder . DIRECTORY_SEPARATOR . $mediaFileName;
+                        $newRelPath = $this->getFileadminRelPath($uploadFolder, $mediaFileName);
                         try {
-                            $file = $resourceFactory->getFileObjectByStorageAndIdentifier(self::FILEADMIN_STORAGE_UID, $newPath);
+                            $file = $resourceFactory->getFileObjectByStorageAndIdentifier(self::FILEADMIN_STORAGE_UID, $newRelPath);
                         } catch (\InvalidArgumentException $e) {
                         }
                         if (isset($file)) {
@@ -560,7 +568,7 @@ class FileToFalUpdateWizard implements UpgradeWizardInterface, LoggerAwareInterf
                             $newSysFileReferenceUid = $sysFileReferenceConnection->lastInsertId('sys_file_reference');
                             $this->logger->info('Added new sys_file_reference with uid ' . $newSysFileReferenceUid, ['values' => $newSysFileReference]);
                         } else {
-                            $this->logger->error('Unable to get file from fileadmin storage with identifier "' . $newPath . '". Removing from flexform of content element (uid=' . $elementRow['uid'] . ').');
+                            $this->logger->error('Unable to get file from fileadmin storage with identifier "' . $newRelPath . '". Removing from flexform of content element (uid=' . $elementRow['uid'] . ').');
                         }
                     }
 
@@ -625,17 +633,17 @@ class FileToFalUpdateWizard implements UpgradeWizardInterface, LoggerAwareInterf
                             // Get sys_file uid and replace filename with uid in section field flexform
                             $fileUids = [];
                             foreach ($media as $i => $mediaFileName) {
-                                $newPath = $uploadFolder . DIRECTORY_SEPARATOR . $mediaFileName;
+                                $newRelPath = $this->getFileadminRelPath($uploadFolder, $mediaFileName);
                                 try {
-                                    $file = $resourceFactory->getFileObjectByStorageAndIdentifier(self::FILEADMIN_STORAGE_UID, $newPath);
+                                    $file = $resourceFactory->getFileObjectByStorageAndIdentifier(self::FILEADMIN_STORAGE_UID, $newRelPath);
                                 } catch (\InvalidArgumentException $e) {
                                 }
                                 if (isset($file)) {
                                     $fileUids[] = $file->getUid();
                                 } else {
-                                    $this->logger->error('Unable to get file from fileadmin storage with identifier "' . $newPath . '". Removing from flexform of content element (uid=' . $elementRow['uid'] . ').');
+                                    $this->logger->error('Unable to get file from fileadmin storage with identifier "' . $newRelPath . '". Removing from flexform of content element (uid=' . $elementRow['uid'] . ').');
                                 }
-                                unset($mediaFileName, $newPath);
+                                unset($mediaFileName, $newRelPath);
                             }
 
                             $node = $xpath->query(
@@ -658,12 +666,50 @@ class FileToFalUpdateWizard implements UpgradeWizardInterface, LoggerAwareInterf
         }
     }
 
+    private function getPublicAbsPath(...$folders): string
+    {
+        return Environment::getPublicPath() . DIRECTORY_SEPARATOR . $this->getPublicRelPath(...$folders);
+    }
+
+    private function getPublicRelPath(...$folders): string
+    {
+        return $this->getPath(...$folders);
+    }
+
+    private function getPath(...$folders): string
+    {
+        $folders = array_filter($folders, function ($folder) {
+            return !empty($folder);
+        });
+
+        $folders = array_map(function ($folder) {
+            return trim($folder, DIRECTORY_SEPARATOR);
+        }, $folders);
+
+        return implode(DIRECTORY_SEPARATOR, $folders);
+    }
+
+    private function getFileadminAbsPath(...$folders): string
+    {
+        return Environment::getPublicPath() . DIRECTORY_SEPARATOR . $this->getFileadminBasePath() . DIRECTORY_SEPARATOR . $this->getFileadminRelPath(...$folders);
+    }
+
     private function getFileadminBasePath(): string
     {
-        /** @var ResourceStorage $fileStorage */
-        $fileStorage = $this->fileStorageRepository->findByUid(self::FILEADMIN_STORAGE_UID);
-        $fileStorageConfiguration = $fileStorage->getStorageRecord()['configuration'];
+        if ($this->fileadminBasePath === null) {
+            /** @var ResourceStorage $resourceStorage */
+            $resourceStorage = $this->fileStorageRepository->findByUid(self::FILEADMIN_STORAGE_UID);
+            $this->fileadminBasePath = trim($resourceStorage->getConfiguration()['basePath'], DIRECTORY_SEPARATOR);
+        }
 
-        return Environment::getPublicPath() . DIRECTORY_SEPARATOR . $fileStorageConfiguration['basePath'];
+        return $this->fileadminBasePath;
+    }
+
+    private function getFileadminRelPath(...$folders): string
+    {
+        $basePath = $this->getFileadminBasePath();
+        $relPath = $this->getPath(...$folders);
+
+        return strpos($relPath, $basePath) === 0 ? substr($relPath, strlen($basePath) + 1) : $relPath;
     }
 }
