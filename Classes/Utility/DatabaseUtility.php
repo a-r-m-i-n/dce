@@ -132,7 +132,7 @@ class DatabaseUtility
         $dceRepository = GeneralUtility::makeInstance(DceRepository::class);
 
         // Convert flexform XML to array
-        $flexData = FlexformService::get()->convertFlexFormContentToArray($contentElement['pi_flexform']);
+        $flexData = FlexformService::get()->convertFlexFormContentToArray($contentElement['pi_flexform'] ?? '');
 
         // Retrieve DCE domain model object
         $dceUid = self::getDceUidByContentElementRow($contentElement);
