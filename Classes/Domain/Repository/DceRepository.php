@@ -321,7 +321,7 @@ class DceRepository extends Repository
      */
     protected function getDceFieldsByRecord(array $record): array
     {
-        $flexformData = FlexformService::get()->convertFlexFormContentToArray($record['pi_flexform'], 'lDEF', 'vDEF');
+        $flexformData = FlexformService::get()->convertFlexFormContentToArray($record['pi_flexform'] ?? '', 'lDEF', 'vDEF');
 
         return isset($flexformData['settings']) && is_array($flexformData['settings'])
             ? $flexformData['settings']
@@ -786,7 +786,7 @@ class DceRepository extends Repository
             ->executeQuery()
             ->fetchAssociative();
 
-        $flexData = FlexformService::get()->convertFlexFormContentToArray($row['pi_flexform'], 'lDEF', 'vDEF');
+        $flexData = FlexformService::get()->convertFlexFormContentToArray($row['pi_flexform'] ?? '', 'lDEF', 'vDEF');
 
         return $flexData['settings'] ?? [];
     }
