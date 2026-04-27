@@ -7,7 +7,6 @@ namespace T3\Dce\ViewHelpers\Format;
  *  |
  *  | (c) 2012-2026 Armin Vieweg <armin@v.ieweg.de>
  */
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -15,9 +14,8 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class StripslashesViewHelper extends AbstractViewHelper
 {
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
-        parent::initializeArguments();
         $this->registerArgument('subject', 'string', 'The subject');
         $this->registerArgument(
             'performTrim',
@@ -26,19 +24,13 @@ class StripslashesViewHelper extends AbstractViewHelper
         );
     }
 
-    /**
-     * @return string
-     */
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ) {
-        $subject = $arguments['subject'];
+    public function render(): string
+    {
+        $subject = $this->arguments['subject'];
         if (null === $subject) {
-            $subject = (string)$renderChildrenClosure();
+            $subject = (string)$this->renderChildren();
         }
-        if (true === $arguments['performTrim']) {
+        if (true === $this->arguments['performTrim']) {
             $subject = trim($subject);
         }
 

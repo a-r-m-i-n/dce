@@ -10,18 +10,19 @@ namespace T3\Dce\ViewHelpers;
  */
 use T3\Dce\Utility\DatabaseUtility;
 use TYPO3\CMS\Core\Database\Connection;
+use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Receives FAL FileReference objects.
+ * Do not use FAL ViewHelper for DCE images anymore! Just use it when you need to access e.g. tt_address FAL images.
  */
 class FalViewHelper extends AbstractViewHelper
 {
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
-        parent::initializeArguments();
         $this->registerArgument('field', 'string', 'Name of field in DCE', true);
         $this->registerArgument(
             'contentObject',
@@ -53,12 +54,9 @@ class FalViewHelper extends AbstractViewHelper
     }
 
     /**
-     * Gets FileReference objects (FAL)
-     * Do not use FAL Viewhelper for DCE images anymore. Just use it when you need to access e.g. tt_address FAL images.
-     *
-     * @return array|string String or array with found media
+     * @return FileReference[]
      */
-    public function render()
+    public function render(): array
     {
         $contentObjectUid = (int)$this->arguments['contentObject']['uid'];
         if (isset($this->arguments['localizedUid']) && ($this->arguments['contentObject']['_LOCALIZED_UID'] ?? null)) {

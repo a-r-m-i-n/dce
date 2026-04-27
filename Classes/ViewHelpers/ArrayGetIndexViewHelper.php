@@ -7,7 +7,6 @@ namespace T3\Dce\ViewHelpers;
  *  |
  *  | (c) 2012-2026 Armin Vieweg <armin@v.ieweg.de>
  */
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -15,26 +14,19 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class ArrayGetIndexViewHelper extends AbstractViewHelper
 {
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
-        parent::initializeArguments();
         $this->registerArgument('subject', 'array', 'The subject');
         $this->registerArgument('index', 'integer', 'The numeric index of item you want to return', false, 0);
     }
 
-    /**
-     * @return string
-     */
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ) {
-        $subject = $arguments['subject'];
+    public function render()
+    {
+        $subject = $this->arguments['subject'];
         if (null === $subject) {
-            $subject = $renderChildrenClosure();
+            $subject = $this->renderChildren();
         }
 
-        return array_values($subject)[$arguments['index']];
+        return array_values($subject)[$this->arguments['index']];
     }
 }

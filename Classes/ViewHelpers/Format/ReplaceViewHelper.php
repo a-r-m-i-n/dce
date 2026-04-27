@@ -7,7 +7,6 @@ namespace T3\Dce\ViewHelpers\Format;
  *  |
  *  | (c) 2012-2026 Armin Vieweg <armin@v.ieweg.de>
  */
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -15,27 +14,20 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class ReplaceViewHelper extends AbstractViewHelper
 {
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
-        parent::initializeArguments();
         $this->registerArgument('subject', 'string', 'The subject');
         $this->registerArgument('search', 'string', 'String to search for');
         $this->registerArgument('replace', 'string', 'String to replace with');
     }
 
-    /**
-     * @return string
-     */
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ) {
-        $subject = $arguments['subject'];
+    public function render(): string
+    {
+        $subject = $this->arguments['subject'];
         if (null === $subject) {
-            $subject = (string)$renderChildrenClosure();
+            $subject = (string)$this->renderChildren();
         }
 
-        return str_replace($arguments['search'], $arguments['replace'], $subject);
+        return str_replace($this->arguments['search'], $this->arguments['replace'], $subject);
     }
 }

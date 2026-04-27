@@ -9,7 +9,6 @@ namespace T3\Dce\ViewHelpers\Be\Version;
  */
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -17,18 +16,14 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class DceViewHelper extends AbstractViewHelper
 {
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
-        parent::initializeArguments();
         $this->registerArgument('returnInt', 'boolean', 'Returns the version number as integer if true', false, false);
     }
 
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ): string {
-        if ($arguments['returnInt']) {
+    public function render(): string
+    {
+        if ($this->arguments['returnInt']) {
             return (string)VersionNumberUtility::convertVersionNumberToInteger(
                 ExtensionManagementUtility::getExtensionVersion('dce')
             );

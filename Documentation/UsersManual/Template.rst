@@ -148,24 +148,6 @@ Example:
     {array -> dce:arrayGetIndex(index:'{iteration.index}')}
 
 
-dce:GP
-~~~~~~
-
-**Deprecated: Will not work in TYPO3 v13 anymore**
-
-Gets ``$_GET`` or ``$_POST`` variables from current request.
-
-Example:
-
-::
-
-    {dce:GP(subject:'myCoolGetParameter')}
-
-
-.. caution::
-   Never use this view helper for direct output!! This would provoke XSS (Cross-site scripting).
-
-
 dce:explode
 ~~~~~~~~~~~
 
@@ -236,6 +218,8 @@ Example:
 
 dce:format.cdata
 ~~~~~~~~~~~~~~~~
+
+**Deprecated: Will not work in TYPO3 v15 anymore - use native Fluid support for CDATA**
 
 Wraps given *subject* with CDATA. Good for fluid templates which render XML.
 

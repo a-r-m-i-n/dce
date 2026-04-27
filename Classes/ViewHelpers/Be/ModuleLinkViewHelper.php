@@ -9,7 +9,6 @@ namespace T3\Dce\ViewHelpers\Be;
  */
 use T3\Dce\Utility\BackendModuleLinkUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -17,25 +16,16 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class ModuleLinkViewHelper extends AbstractViewHelper
 {
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
-        parent::initializeArguments();
         $this->registerArgument('module', 'string', 'Name of module');
         $this->registerArgument('parameter', 'string', 'Query string');
     }
 
-    /**
-     * Resolve user name from backend user id.
-     *
-     * @return string Created module link
-     */
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ) {
-        $parameters = GeneralUtility::explodeUrl2Array($arguments['parameter']);
+    public function render(): string
+    {
+        $parameters = GeneralUtility::explodeUrl2Array($this->arguments['parameter']);
 
-        return BackendModuleLinkUtility::getModuleUrl($arguments['module'], $parameters);
+        return BackendModuleLinkUtility::getModuleUrl($this->arguments['module'], $parameters);
     }
 }
