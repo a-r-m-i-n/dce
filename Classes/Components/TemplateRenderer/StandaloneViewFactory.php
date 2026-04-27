@@ -5,16 +5,22 @@ namespace T3\Dce\Components\TemplateRenderer;
 /*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2025 Armin Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2026 Armin Vieweg <armin@v.ieweg.de>
  */
 use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Utility\TypoScript;
+use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Http\ServerRequest;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Fluid\Core\Rendering\RenderingContext;
+use TYPO3\CMS\Fluid\Core\Rendering\RenderingContextFactory;
 use TYPO3\CMS\Fluid\View\StandaloneView;
+use TYPO3Fluid\Fluid\Core\Parser\TemplateProcessor\EscapingModifierTemplateProcessor;
+use TYPO3Fluid\Fluid\Core\Parser\TemplateProcessor\NamespaceDetectionTemplateProcessor;
+use TYPO3Fluid\Fluid\Core\Parser\TemplateProcessor\PassthroughSourceModifierTemplateProcessor;
+use TYPO3Fluid\Fluid\Core\Parser\TemplateProcessor\RemoveCommentsTemplateProcessor;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 
 class StandaloneViewFactory implements SingletonInterface
 {
@@ -30,23 +36,63 @@ class StandaloneViewFactory implements SingletonInterface
      */
     public function makeNewDceView(): StandaloneView
     {
-        /** @var StandaloneView $fluidTemplate */
-        $fluidTemplate = GeneralUtility::makeInstance(StandaloneView::class);
+        $viewPaths = $this->getTyposcriptViewPaths();
+        $resolvedViewPaths = [
+            'layoutRootPaths' => $this->resolvePaths($viewPaths['layoutRootPaths']),
+            'templateRootPaths' => $this->resolvePaths($viewPaths['templateRootPaths']),
+            'partialRootPaths' => $this->resolvePaths($viewPaths['partialRootPaths']),
+        ];
 
-        $renderingContext = $fluidTemplate->getRenderingContext();
-        if (isset($GLOBALS['TYPO3_REQUEST'])
-            && $renderingContext instanceof RenderingContext
-            && null === $renderingContext->getRequest()
-        ) {
-            $renderingContext->setRequest($GLOBALS['TYPO3_REQUEST']);
+        $request = $GLOBALS['TYPO3_REQUEST'] ?? null;
+        if (!$request instanceof ServerRequestInterface) {
+            $request = null;
         }
 
-        $viewPaths = $this->getTyposcriptViewPaths();
-        $fluidTemplate->setLayoutRootPaths($this->resolvePaths($viewPaths['layoutRootPaths']));
-        $fluidTemplate->setTemplateRootPaths($this->resolvePaths($viewPaths['templateRootPaths']));
-        $fluidTemplate->setPartialRootPaths($this->resolvePaths($viewPaths['partialRootPaths']));
+        $renderingContextFactory = GeneralUtility::makeInstance(RenderingContextFactory::class);
+        $renderingContext = $renderingContextFactory->create($resolvedViewPaths, $request);
+        $this->ensureTemplateProcessors($renderingContext);
+
+        /** @var StandaloneView $fluidTemplate */
+        $fluidTemplate = GeneralUtility::makeInstance(StandaloneView::class, $renderingContext);
+        $fluidTemplate->setLayoutRootPaths($resolvedViewPaths['layoutRootPaths']);
+        $fluidTemplate->setTemplateRootPaths($resolvedViewPaths['templateRootPaths']);
+        $fluidTemplate->setPartialRootPaths($resolvedViewPaths['partialRootPaths']);
 
         return $fluidTemplate;
+    }
+
+    /**
+     * Ensures Fluid pre-processors are registered even if the rendering context was created early.
+     */
+    protected function ensureTemplateProcessors(RenderingContextInterface $renderingContext): void
+    {
+        $processors = $renderingContext->getTemplateProcessors();
+        if ([] === $processors) {
+            $configuredProcessors = $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['preProcessors'] ?? [];
+            if ([] !== $configuredProcessors) {
+                foreach ($configuredProcessors as $className) {
+                    $processors[] = GeneralUtility::makeInstance($className);
+                }
+            } else {
+                $processors = [
+                    GeneralUtility::makeInstance(EscapingModifierTemplateProcessor::class),
+                    GeneralUtility::makeInstance(PassthroughSourceModifierTemplateProcessor::class),
+                    GeneralUtility::makeInstance(NamespaceDetectionTemplateProcessor::class),
+                    GeneralUtility::makeInstance(RemoveCommentsTemplateProcessor::class),
+                ];
+            }
+            $renderingContext->setTemplateProcessors($processors);
+            return;
+        }
+
+        foreach ($processors as $processor) {
+            if ($processor instanceof NamespaceDetectionTemplateProcessor) {
+                return;
+            }
+        }
+
+        $processors[] = GeneralUtility::makeInstance(NamespaceDetectionTemplateProcessor::class);
+        $renderingContext->setTemplateProcessors($processors);
     }
 
     /**

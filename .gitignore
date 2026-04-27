@@ -1,5 +1,6 @@
 /.idea/
-/vendor/
+/vendor
+/public
 /composer.lock
 /gource*
 /*.txt
