@@ -65,31 +65,6 @@ $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['extbase']['extensions']['Dce']['modules'
 $generator = new \T3\Dce\Components\ContentElementGenerator\Generator();
 $generator->makePluginConfiguration();
 
-// Register PageTS defaults
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('tx_dce.defaults {
-    simpleBackendView {
-        titleCropLength = 10
-        titleCropAppendix = ...
-
-        imageWidth = 50c
-        imageHeight = 50c
-
-        containerGroupColors {
-            10 = #0079BF
-            11 = #D29034
-            12 = #519839
-            13 = #B04632
-            14 = #838C91
-            15 = #CD5A91
-            16 = #4BBF6B
-            17 = #89609E
-            18 = #00AECC
-            19 = #ED2448
-            20 = #FF8700
-        }
-    }
-}');
-
 // Register global TypoScript
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript('dce', 'setup', '
 plugin.tx_dce.persistence.storagePid = 0
@@ -112,12 +87,6 @@ config.pageTitleProviders.dce {
     appendWrap = | - ||
 }
 ');
-
-if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('linkvalidator')) {
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
-        'mod.linkvalidator.searchFields.tt_content := addToList(pi_flexform)'
-    );
-}
 
 // Global namespace for Fluid templates
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['dce'] = ['T3\\Dce\\ViewHelpers'];
