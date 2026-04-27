@@ -8,36 +8,28 @@ namespace T3\Dce\ViewHelpers;
  *  | (c) 2012-2026 Armin Vieweg <armin@v.ieweg.de>
  */
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
- * Explode viewhelper which uses the trimExplode method of \TYPO3\CMS\Core\Utility\GeneralUtility.
+ * Explode ViewHelper which uses the trimExplode method of \TYPO3\CMS\Core\Utility\GeneralUtility.
  */
 class ExplodeViewHelper extends AbstractViewHelper
 {
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
-        parent::initializeArguments();
         $this->registerArgument('subject', 'string', 'The subject');
         $this->registerArgument('delimiter', 'string', '', false, ',');
         $this->registerArgument('removeEmpty', 'boolean', '', false, true);
     }
 
-    /**
-     * @return array
-     */
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ) {
-        $subject = $arguments['subject'];
+    public function render(): array
+    {
+        $subject = $this->arguments['subject'];
         if (null === $subject) {
-            $subject = $renderChildrenClosure();
+            $subject = $this->renderChildren();
         }
 
-        $delimiter = $arguments['delimiter'];
+        $delimiter = $this->arguments['delimiter'];
         switch ($delimiter) {
             case '\n':
                 $delimiter = "\n";
@@ -57,7 +49,7 @@ class ExplodeViewHelper extends AbstractViewHelper
         return GeneralUtility::trimExplode(
             $delimiter,
             $subject,
-            $arguments['removeEmpty']
+            $this->arguments['removeEmpty']
         );
     }
 }

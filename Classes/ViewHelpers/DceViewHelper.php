@@ -9,7 +9,6 @@ namespace T3\Dce\ViewHelpers;
  */
 use T3\Dce\Domain\Repository\DceRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -32,12 +31,9 @@ class DceViewHelper extends AbstractViewHelper
 
     protected $escapeOutput = false;
 
-    /**
-     * @var DceRepository|null
-     */
-    private static $dceRepository;
+    private static ?DceRepository $dceRepository;
 
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
         $this->registerArgument(
@@ -48,12 +44,9 @@ class DceViewHelper extends AbstractViewHelper
         );
     }
 
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ) {
-        $contentElementUid = $arguments['uid'];
+    public function render(): mixed
+    {
+        $contentElementUid = $this->arguments['uid'];
 
         if (!self::$dceRepository) {
             self::$dceRepository = GeneralUtility::makeInstance(DceRepository::class);
@@ -61,12 +54,12 @@ class DceViewHelper extends AbstractViewHelper
 
         $dce = self::$dceRepository->getDceInstance($contentElementUid);
 
-        $templateVariableContainer = $renderingContext->getVariableProvider();
+        $templateVariableContainer = $this->templateVariableContainer;
         $templateVariableContainer->add('dce', $dce);
         $templateVariableContainer->add('fields', $fields = $dce->getGet());
         $templateVariableContainer->add('field', $fields);
         $templateVariableContainer->add('contentObject', $dce->getContentObject());
 
-        return $renderChildrenClosure();
+        return $this->renderChildren();
     }
 }

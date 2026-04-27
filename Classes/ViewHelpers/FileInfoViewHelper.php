@@ -13,7 +13,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
- * FileInfo viewhelper.
+ * FileInfo ViewHelper.
  *
  * Usage example for sections:
  *
@@ -29,25 +29,20 @@ class FileInfoViewHelper extends AbstractViewHelper
     protected static ?FileRepository $fileRepository = null;
 
     /**
-     * @var array
+     * @var File[]
      */
-    protected static $files = [];
+    protected static array $files = [];
 
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
-        parent::initializeArguments();
         $this->registerArgument('fileUid', 'integer', 'Uid of file to get attributes of', true);
         $this->registerArgument('attribute', 'string', 'Name of attribute to return', true);
     }
 
     /**
-     * Returns file info
-     * Merges metadata of with properties of file. Properties have got higher
-     * priority.
-     *
-     * @return string
+     * Merges metadata of with properties of file. Properties have got higher priority.
      */
-    public function render()
+    public function render(): string
     {
         $file = $this->getFile($this->arguments['fileUid']);
         $properties = array_merge($file->getMetaData()->get(), $file->getProperties());
@@ -56,7 +51,7 @@ class FileInfoViewHelper extends AbstractViewHelper
             throw new \Exception('Given file in DCE\'s fileInfo view helper has no attribute named "' . $this->arguments['attribute'] . '". Most common, available attributes are: title, description, alternative, width, height, name, extension, size and uid', 1429046106);
         }
 
-        return $properties[$this->arguments['attribute']];
+        return (string)$properties[$this->arguments['attribute']];
     }
 
     protected function getFile(int $fileUid): File

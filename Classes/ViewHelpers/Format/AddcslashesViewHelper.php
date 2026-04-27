@@ -7,34 +7,26 @@ namespace T3\Dce\ViewHelpers\Format;
  *  |
  *  | (c) 2012-2026 Armin Vieweg <armin@v.ieweg.de>
  */
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
- * Escapes charlist in given subject.
+ * Escapes char list in given subject.
  */
 class AddcslashesViewHelper extends AbstractViewHelper
 {
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
-        parent::initializeArguments();
         $this->registerArgument('subject', 'string', 'The subject');
         $this->registerArgument('charlist', 'string', 'A list of characters to be escaped', false, "'");
     }
 
-    /**
-     * @return string
-     */
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ) {
-        $subject = $arguments['subject'];
+    public function render()
+    {
+        $subject = $this->arguments['subject'];
         if (null === $subject) {
-            $subject = (string)$renderChildrenClosure();
+            $subject = (string)$this->renderChildren();
         }
 
-        return addcslashes($subject, $arguments['charlist']);
+        return addcslashes($subject, $this->arguments['charlist']);
     }
 }

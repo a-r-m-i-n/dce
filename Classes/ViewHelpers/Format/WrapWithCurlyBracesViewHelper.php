@@ -7,7 +7,6 @@ namespace T3\Dce\ViewHelpers\Format;
  *  |
  *  | (c) 2012-2026 Armin Vieweg <armin@v.ieweg.de>
  */
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -18,27 +17,20 @@ class WrapWithCurlyBracesViewHelper extends AbstractViewHelper
     protected $escapeChildren = false;
     protected $escapeOutput = false;
 
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
-        parent::initializeArguments();
         $this->registerArgument('subject', 'string', 'The subject');
         $this->registerArgument('prepend', 'string', 'Prepend this after open curly brace', false, '');
         $this->registerArgument('append', 'string', 'Append this before closing curly brace', false, '');
     }
 
-    /**
-     * @return string
-     */
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ) {
-        $subject = $arguments['subject'];
+    public function render(): string
+    {
+        $subject = $this->arguments['subject'];
         if (null === $subject) {
-            $subject = $renderChildrenClosure();
+            $subject = $this->renderChildren();
         }
 
-        return '{' . $arguments['prepend'] . $subject . $arguments['append'] . '}';
+        return '{' . $this->arguments['prepend'] . $subject . $this->arguments['append'] . '}';
     }
 }
