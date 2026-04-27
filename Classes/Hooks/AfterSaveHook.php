@@ -15,6 +15,7 @@ use T3\Dce\Components\FlexformToTcaMapper\Mapper as TcaMapper;
 use T3\Dce\Domain\Repository\DceRepository;
 use T3\Dce\Utility\DatabaseUtility;
 use T3\Dce\Utility\FlashMessage;
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
@@ -64,6 +65,19 @@ class AfterSaveHook
         return $fieldSettings['variable'];
     }
 
+    private function updateDB(string $table, int $uid, array $fieldArray): void
+    {
+        $data = [
+            $table => [
+                $uid => $fieldArray,
+            ],
+        ];
+
+        $dataHandler = GeneralUtility::makeInstance(DataHandler::class);
+        $dataHandler->start($data, []);
+        $dataHandler->process_datamap();
+    }
+
     // phpcs:disable
 
     /**
@@ -90,17 +104,17 @@ class AfterSaveHook
         $this->uid = $this->getUid($id, $table, $status, $pObj);
 
         if ('tt_content' === $table) {
-            $contentRow = $this->dataHandler->recordInfo('tt_content', $this->uid);
+            $contentRow = BackendUtility::getRecord('tt_content', $this->uid);
 
             // Prevent "Copy (1)" suffix when copying tt_content based on DCE
             // TODO: Remove this when v12 support is dropped. "t3_origuid" is not existing in "tt_content" in v13 anymore.
             if ($dceUid = DceRepository::extractUidFromCTypeOrIdentifier($contentRow['CType'])) {
                 $origUid = $contentRow['t3_origuid'] ?? null;
                 if ($origUid) {
-                    $dceRow = $this->dataHandler->recordInfo('tx_dce_domain_model_dce', $dceUid);
+                    $dceRow = BackendUtility::getRecord('tx_dce_domain_model_dce', $dceUid);
                     if ($dceRow['prevent_header_copy_suffix'] && 'new' === $status) {
-                        $origRecord = $this->dataHandler->recordInfo('tt_content', $origUid);
-                        $this->dataHandler->updateDB('tt_content', $this->uid, ['header' => $origRecord['header']]);
+                        $origRecord = BackendUtility::getRecord('tt_content', $origUid);
+                        $this->updateDB('tt_content', $this->uid, ['header' => $origRecord['header']]);
                     }
                 }
             }
@@ -108,7 +122,7 @@ class AfterSaveHook
             $dceUid = DceRepository::extractUidFromCTypeOrIdentifier($contentRow['CType']);
             // Write flexform values to TCA, when enabled
             if ($dceUid) {
-                $dceRow = $this->dataHandler->recordInfo('tx_dce_domain_model_dce', $dceUid);
+                $dceRow = BackendUtility::getRecord('tx_dce_domain_model_dce', $dceUid);
                 $dceIdentifier = !empty($dceRow['identifier']) ? 'dce_' . $dceRow['identifier']
                     : 'dce_dceuid' . $dceUid;
 
@@ -124,12 +138,12 @@ class AfterSaveHook
             } else {
                 // When a (formerly) DCE content element gets a different CType
                 if (0 !== (int)$contentRow['tx_dce_dce']) {
-                    $this->dataHandler->updateDB('tt_content', $this->uid, ['tx_dce_dce' => 0]);
+                    $this->updateDB('tt_content', $this->uid, ['tx_dce_dce' => 0]);
                 }
             }
             // Generate slug, when enabled
             if ($dceUid) {
-                $dceRow = $this->dataHandler->recordInfo('tx_dce_domain_model_dce', $dceUid);
+                $dceRow = BackendUtility::getRecord('tx_dce_domain_model_dce', $dceUid);
                 if (!empty($dceRow['detailpage_slug_expression'])) {
                     /** @var SlugGenerator $generator */
                     $generator = GeneralUtility::makeInstance(SlugGenerator::class);
@@ -143,7 +157,7 @@ class AfterSaveHook
                             ContextualFeedbackSeverity::ERROR
                         );
                     } catch (EmptySlugException $e) {
-                        $this->dataHandler->updateDB('tt_content', $this->uid, [
+                        $this->updateDB('tt_content', $this->uid, [
                             'tx_dce_slug' => $this->uid,
                         ]);
                         FlashMessage::add(
@@ -160,7 +174,7 @@ class AfterSaveHook
                                 ContextualFeedbackSeverity::NOTICE
                             );
                         }
-                        $this->dataHandler->updateDB('tt_content', $this->uid, [
+                        $this->updateDB('tt_content', $this->uid, [
                             'tx_dce_slug' => $slug,
                         ]);
                     }
@@ -172,7 +186,7 @@ class AfterSaveHook
         if ('tx_dce_domain_model_dce' === $table && 'update' === $status) {
             if (!isset($GLOBALS['TYPO3_CONF_VARS']['USER']['dce']['dceImportInProgress'])) {
                 if (array_key_exists('hidden', $fieldArray) && '1' === $fieldArray['hidden']) {
-                    $dceRow = $this->dataHandler->recordInfo('tx_dce_domain_model_dce', $this->uid);
+                    $dceRow = BackendUtility::getRecord('tx_dce_domain_model_dce', $this->uid);
                     $dceIdentifier = !empty($dceRow['identifier']) ? 'dce_' . $dceRow['identifier']
                                                                             : 'dce_dceuid' . $this->uid;
                     $this->hideContentElementsBasedOnDce($dceIdentifier);
@@ -196,7 +210,7 @@ class AfterSaveHook
         }
 
         if ('tx_dce_domain_model_dce' === $table && ('update' === $status || 'new' === $status)) {
-            $dceRow = $this->dataHandler->recordInfo('tx_dce_domain_model_dce', $this->uid);
+            $dceRow = BackendUtility::getRecord('tx_dce_domain_model_dce', $this->uid);
 
             // Adds or removes *containerflag from simple backend view, when container is en- or disabled
             if (array_key_exists('enable_container', $fieldArray)) {
@@ -258,7 +272,7 @@ class AfterSaveHook
 
                                 return;
                             } catch (EmptySlugException $e) {
-                                $this->dataHandler->updateDB('tt_content', $contentRow['uid'], [
+                                $this->updateDB('tt_content', $contentRow['uid'], [
                                     'tx_dce_slug' => $contentRow['uid'],
                                 ]);
                                 FlashMessage::add(
@@ -268,12 +282,12 @@ class AfterSaveHook
                                 );
                             }
                             if ($slug) {
-                                $this->dataHandler->updateDB('tt_content', $contentRow['uid'], [
+                                $this->updateDB('tt_content', $contentRow['uid'], [
                                     'tx_dce_slug' => $slug,
                                 ]);
                             }
                         } else {
-                            $this->dataHandler->updateDB('tt_content', $contentRow['uid'], ['tx_dce_slug' => '']);
+                            $this->updateDB('tt_content', $contentRow['uid'], ['tx_dce_slug' => '']);
                         }
                     }
 
@@ -287,7 +301,7 @@ class AfterSaveHook
         }
 
         if ('tx_dce_domain_model_dce' === $table && 'new' === $status && isset($fieldArray['t3_origuid']) && !empty($fieldArray['t3_origuid'])) {
-            $this->dataHandler->updateDB('tx_dce_domain_model_dce', $this->uid, ['title' => $fieldArray['title'] . ' copy']);
+            $this->updateDB('tx_dce_domain_model_dce', $this->uid, ['title' => $fieldArray['title'] . ' copy']);
         }
     }
 
@@ -314,7 +328,7 @@ class AfterSaveHook
             ->executeQuery();
 
         while ($row = $statement->fetchAssociative()) {
-            $this->dataHandler->updateDB('tt_content', $row['uid'], ['hidden' => 1]);
+            $this->updateDB('tt_content', $row['uid'], ['hidden' => 1]);
             ++$updatedContentElementsCount;
         }
 
@@ -385,7 +399,7 @@ class AfterSaveHook
     {
         $dceUid = DceRepository::extractUidFromCTypeOrIdentifier($dceIdentifier);
         if ($dceUid && $dceUid !== (int)$contentRow['tx_dce_dce']) {
-            $this->dataHandler->updateDB('tt_content', $this->uid, ['tx_dce_dce' => $dceUid]);
+            $this->updateDB('tt_content', $this->uid, ['tx_dce_dce' => $dceUid]);
         }
     }
 }
