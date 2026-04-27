@@ -1,10 +1,11 @@
-/.idea/
-/vendor
+/.idea
 /public
+/var
+/vendor
 /composer.lock
 /gource*
 /*.txt
-/Documentation-GENERATED-temp/
+/Documentation-GENERATED-temp
 cachegrind.out.*
 *.zip
 *.log

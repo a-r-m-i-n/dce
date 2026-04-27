@@ -7,8 +7,6 @@ namespace T3\Dce\Components\ContentElementGenerator;
  *  |
  *  | (c) 2012-2026 Armin Vieweg <armin@v.ieweg.de>
  */
-use TYPO3\CMS\Core\Information\Typo3Version;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class OutputPlugin.
@@ -42,20 +40,6 @@ class OutputPlugin implements OutputInterface
         if (!$this->cacheManager->has(self::CACHE_KEY)) {
             $sourceCode = '';
 
-            /** @var Typo3Version $versionInformation */
-            $versionInformation = GeneralUtility::makeInstance(Typo3Version::class);
-            $typicalPageContentGroupName = 'default';
-            if ($versionInformation->getMajorVersion() < 13) {
-                $typicalPageContentGroupName = 'common';
-            }
-
-            $sourceCode .= <<<PHP
-                \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
-                    'mod.wizards.newContentElement.wizardItems.dce.header = LLL:EXT:dce/Resources/Private/Language/locallang_db.xlf:tx_dce_domain_model_dce_long
-                     mod.wizards.newContentElement.wizardItems.dce.after = $typicalPageContentGroupName'
-                );
-
-                PHP;
             foreach ($this->input->getDces() as $dce) {
                 if ($dce['hidden']) {
                     continue;
@@ -120,35 +104,6 @@ class OutputPlugin implements OutputInterface
                     );
 
                     PHP;
-
-                if ($dce['wizard_enable']) {
-                    $iconIdentifierCode = $dce['hasCustomWizardIcon']
-                        ? 'ext-dce-' . $dceIdentifier . '-customwizardicon'
-                        : $dce['wizard_icon'];
-
-                    $wizardCategory = $dce['wizard_category'] ?? '';
-                    $flexformLabel = $dce['flexform_label'] ?? '';
-                    $title = addcslashes($dce['title'] ?? '', "'\"");
-                    $description = addcslashes($dce['wizard_description'] ?? '', "'\"");
-
-                    $sourceCode .= <<<PHP
-                        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
-                            "
-                            mod.wizards.newContentElement.wizardItems.$wizardCategory.elements.$dceIdentifier {
-                                iconIdentifier = $iconIdentifierCode
-                                title = $title
-                                description = $description
-                                tt_content_defValues {
-                                    CType = $dceIdentifier
-                                }
-                            }
-                            mod.wizards.newContentElement.wizardItems.$wizardCategory.show := addToList($dceIdentifier)
-                            TCEFORM.tt_content.pi_flexform.types.$dceIdentifier.label = $flexformLabel
-                            "
-                        );
-
-                        PHP;
-                }
             }
             $this->cacheManager->set(self::CACHE_KEY, $sourceCode);
         }
