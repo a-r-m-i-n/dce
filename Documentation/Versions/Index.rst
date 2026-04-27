@@ -8,6 +8,15 @@ Versions
 
 .. contents:: :local:
 
+3.3.1
+-----
+
+- [TASK] Update copyrights
+- [BUGFIX] Force type to XML (Thanks to Georg Ringer)
+- [BUGFIX] Fix exception when pi_flexform is null in database (Thanks to Stefan Hilhorst)
+- [FEATURE] Add support for EXT:vici tables
+
+
 3.3.0
 -----
 
