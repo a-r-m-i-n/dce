@@ -13,10 +13,10 @@ use T3\Dce\Domain\Repository\DceRepository;
 use T3\Dce\Utility\BackendModuleLinkUtility;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
 use TYPO3\CMS\Backend\Template\Components\ModifyButtonBarEvent;
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
-use TYPO3\CMS\Core\DataHandling\DataHandler;
-use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
+use TYPO3\CMS\Core\Imaging\IconSize;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
@@ -31,8 +31,9 @@ class ModifyButtonBarEventListener
             /** @var IconFactory $iconFactory */
             $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
 
+            // TODO: Solve deprecation
             $button = $event->getButtonBar()->makeLinkButton();
-            $button->setIcon($iconFactory->getIcon('dce-ext', Icon::SIZE_SMALL));
+            $button->setIcon($iconFactory->getIcon('dce-ext', IconSize::SMALL));
             $button->setTitle(LocalizationUtility::translate('editDceOfThisContentElement', 'dce'));
             $button->setShowLabelText(false);
             $button->setHref('#');
@@ -92,9 +93,7 @@ class ModifyButtonBarEventListener
      */
     private function getDceUid(int $contentUid): ?int
     {
-        /** @var DataHandler $tceMain */
-        $tceMain = GeneralUtility::makeInstance(DataHandler::class);
-        $contentRecord = $tceMain->recordInfo('tt_content', $contentUid);
+        $contentRecord = BackendUtility::getRecord('tt_content', $contentUid);
         $cType = $contentRecord['CType'];
 
         return DceRepository::extractUidFromCTypeOrIdentifier($cType);
