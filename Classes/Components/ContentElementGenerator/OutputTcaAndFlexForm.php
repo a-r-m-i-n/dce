@@ -83,6 +83,17 @@ class OutputTcaAndFlexForm
         $this->cacheManager->requireOnce(self::CACHE_KEY);
     }
 
+    public function loadFromCache(): bool
+    {
+        if (!$this->cacheManager->has(self::CACHE_KEY)) {
+            return false;
+        }
+
+        $this->cacheManager->requireOnce(self::CACHE_KEY);
+
+        return true;
+    }
+
     /**
      * Generates TCA for single DCE.
      *
@@ -119,8 +130,7 @@ class OutputTcaAndFlexForm
 
         $flexformString = $this->renderFlexformXml($dce);
         $sourceCode .= <<<PHP
-            \$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['$dceIdentifier'] = 'pi_flexform';
-            \$GLOBALS['TCA']['tt_content']['columns']['pi_flexform']['config']['ds']['*,$dceIdentifier'] = <<<XML
+            \$GLOBALS['TCA']['tt_content']['types']['$dceIdentifier']['columnsOverrides']['pi_flexform']['config']['ds'] = <<<XML
             $flexformString
             XML;
 

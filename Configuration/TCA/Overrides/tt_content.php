@@ -46,4 +46,4 @@ if (!isset($GLOBALS['TCA']['tt_content']['ctrl']['label_userFunc'])) {
 
 // TCA generation
 $generator = new \T3\Dce\Components\ContentElementGenerator\Generator();
-$generator->makeTca();
+$generator->loadTcaFromCache();

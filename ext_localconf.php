@@ -63,7 +63,7 @@ $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['extbase']['extensions']['Dce']['modules'
 
 // Register DCEs
 $generator = new \T3\Dce\Components\ContentElementGenerator\Generator();
-$generator->makePluginConfiguration();
+$generator->loadPluginConfigurationFromCache();
 
 // Register global TypoScript
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript('dce', 'setup', '
