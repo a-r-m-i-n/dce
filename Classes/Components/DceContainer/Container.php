@@ -9,7 +9,7 @@ namespace T3\Dce\Components\DceContainer;
  *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
 use T3\Dce\Components\TemplateRenderer\DceTemplateTypes;
-use T3\Dce\Components\TemplateRenderer\StandaloneViewFactory;
+use T3\Dce\Components\TemplateRenderer\ViewFactory;
 use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Utility\DatabaseUtility;
 use T3\Dce\Utility\PageTS;
@@ -18,27 +18,21 @@ use TYPO3\CMS\Core\Database\Query\Restriction\EndTimeRestriction;
 use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
 use TYPO3\CMS\Core\Database\Query\Restriction\StartTimeRestriction;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Fluid\View\StandaloneView;
+use TYPO3\CMS\Core\View\ViewInterface;
 
 /**
  * The DCE Container.
  */
 class Container
 {
-    /**
-     * @var StandaloneView
-     */
-    protected $view;
+    protected ViewInterface $view;
 
-    /**
-     * @var Dce
-     */
-    protected $firstDce;
+    protected Dce $firstDce;
 
     /**
      * @var Dce[]
      */
-    protected $dces = [];
+    protected array $dces = [];
 
     /**
      * Container constructor.
@@ -47,7 +41,7 @@ class Container
     {
         $this->firstDce = $firstDceInContainer;
 
-        $viewFactory = GeneralUtility::makeInstance(StandaloneViewFactory::class);
+        $viewFactory = GeneralUtility::makeInstance(ViewFactory::class);
         $this->view = $viewFactory->getDceTemplateView($firstDceInContainer, DceTemplateTypes::CONTAINER);
     }
 

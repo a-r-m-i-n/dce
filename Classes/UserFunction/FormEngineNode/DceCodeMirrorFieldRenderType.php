@@ -8,7 +8,7 @@ namespace T3\Dce\UserFunction\FormEngineNode;
  *  | (c) 2012-2026 Armin Vieweg <armin@v.ieweg.de>
  *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
-use T3\Dce\Components\TemplateRenderer\StandaloneViewFactory;
+use T3\Dce\Components\TemplateRenderer\ViewFactory;
 use T3\Dce\Event\ModifyConfigurationTemplateCodeSnippetsEvent;
 use T3\Dce\Utility\DatabaseUtility;
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
@@ -18,7 +18,7 @@ use TYPO3\CMS\Core\Package\PackageManager;
 use TYPO3\CMS\Core\Page\JavaScriptModuleInstruction;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Fluid\View\StandaloneView;
+use TYPO3\CMS\Fluid\View\FluidViewAdapter;
 
 /**
  * Note: Currently (since DCE 3.0) the CodeMirror editor is not included in DCE extension anymore
@@ -55,13 +55,15 @@ class DceCodeMirrorFieldRenderType extends AbstractFormElement
      */
     public function getCodeEditorFieldHtml(array $data): string
     {
-        /** @var StandaloneViewFactory $viewFactory */
-        $viewFactory = GeneralUtility::makeInstance(StandaloneViewFactory::class);
-        /** @var StandaloneView $fluidTemplate */
+        /** @var ViewFactory $viewFactory */
+        $viewFactory = GeneralUtility::makeInstance(ViewFactory::class);
+        /** @var FluidViewAdapter $fluidTemplate */
         $fluidTemplate = $viewFactory->makeNewDceView();
-        $fluidTemplate->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
-            'EXT:dce/Resources/Private/Templates/DceUserFields/Codemirror.html'
-        ));
+        $fluidTemplate->getRenderingContext()->getTemplatePaths()->setTemplatePathAndFilename(
+            GeneralUtility::getFileAbsFileName(
+                'EXT:dce/Resources/Private/Templates/DceUserFields/Codemirror.html'
+            )
+        );
 
         $fluidTemplate->assign('name', $data['parameterArray']['itemFormElName']);
         $fluidTemplate->assign('value', $data['parameterArray']['itemFormElValue']);
@@ -168,12 +170,12 @@ class DceCodeMirrorFieldRenderType extends AbstractFormElement
         if ($this->packageManager->isPackageActive('vici')) {
             $templates['TYPE: inline'] = [
                 'VICI table' => <<<XML
-<config>
-    <type>inline</type>
-    <foreign_table>tx_vici_custom_NAME</foreign_table>
-    <dce_load_schema>1</dce_load_schema>
-</config>
-XML,
+                    <config>
+                        <type>inline</type>
+                        <foreign_table>tx_vici_custom_NAME</foreign_table>
+                        <dce_load_schema>1</dce_load_schema>
+                    </config>
+                    XML,
             ];
         }
 

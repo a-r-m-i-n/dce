@@ -10,7 +10,7 @@ namespace T3\Dce\Domain\Model;
  */
 use T3\Dce\Components\DetailPage\PageTitleProvider;
 use T3\Dce\Components\TemplateRenderer\DceTemplateTypes;
-use T3\Dce\Components\TemplateRenderer\StandaloneViewFactory;
+use T3\Dce\Components\TemplateRenderer\ViewFactory;
 use T3\Dce\Utility\DatabaseUtility;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -854,7 +854,7 @@ class Dce extends AbstractEntity
      */
     protected function renderFluidTemplate(int $templateType = DceTemplateTypes::DEFAULT): string
     {
-        $viewFactory = GeneralUtility::makeInstance(StandaloneViewFactory::class);
+        $viewFactory = GeneralUtility::makeInstance(ViewFactory::class);
         $fluidTemplate = $viewFactory->getDceTemplateView($this, $templateType);
 
         $fields = $this->getFieldsAsArray();
