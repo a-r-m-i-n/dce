@@ -24,7 +24,7 @@ class DcePreviewRenderer extends StandardContentPreviewRenderer
 
         try {
             /** @var Dce $dce */
-            $dce = DatabaseUtility::getDceObjectForContentElement($row['uid']);
+            $dce = DatabaseUtility::getDceObjectForContentElement($row->get('uid'));
         } catch (\Exception $exception) {
             $headerContent = '<strong class="text-danger">' . $exception->getMessage() . '</strong>';
 
@@ -59,7 +59,7 @@ class DcePreviewRenderer extends StandardContentPreviewRenderer
 
         try {
             /** @var Dce $dce */
-            $dce = DatabaseUtility::getDceObjectForContentElement($row['uid']);
+            $dce = DatabaseUtility::getDceObjectForContentElement($row->get('uid'));
         } catch (\Exception $exception) {
             return '';
         }
@@ -73,7 +73,7 @@ class DcePreviewRenderer extends StandardContentPreviewRenderer
             );
 
             $headerContent = $this->linkEditContent(
-                $simpleBackendView->getBodytextContent($dce, $row),
+                $simpleBackendView->getBodytextContent($dce, $row->getRawRecord()->toArray()),
                 $row
             );
         } else {

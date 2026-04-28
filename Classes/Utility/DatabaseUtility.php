@@ -13,6 +13,7 @@ use T3\Dce\Domain\Repository\DceRepository;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\Domain\RecordInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class DatabaseUtility
@@ -83,13 +84,15 @@ class DatabaseUtility
     /**
      * Gets dce uid by content element uid.
      *
-     * @param array $row of tt_content record
+     * @param array<string, mixed>|RecordInterface $row of tt_content record
      *
      * @return int uid of DCE used for this content element
      */
-    public static function getDceUidByContentElementRow(array $row): int
+    public static function getDceUidByContentElementRow(array|RecordInterface $row): int
     {
-        return DceRepository::extractUidFromCTypeOrIdentifier($row['CType']) ?? 0;
+        $cType = $row instanceof RecordInterface ? $row->get('CType') : $row['CType'];
+
+        return DceRepository::extractUidFromCTypeOrIdentifier($cType) ?? 0;
     }
 
     /**
