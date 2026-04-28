@@ -555,7 +555,7 @@ class DceRepository extends Repository
             // Extbase object found
             /** @var Repository $repository */
             $repository = GeneralUtility::makeInstance($repositoryName);
-            if ($repositoryName === 'T3\\Vici\\Repository\\ViciFrontendRepository') {
+            if ('T3\\Vici\\Repository\\ViciFrontendRepository' === $repositoryName) {
                 $repository->setObjectType($className);
             }
 

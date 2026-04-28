@@ -25,7 +25,7 @@ class DceTemplateTypes
     /**
      * @var array Database field names of columns for different types of templates
      */
-    public static $templateFields = [
+    public static array $templateFields = [
         self::DEFAULT => [
             'type' => 'template_type',
             'inline' => 'template_content',
