@@ -28,22 +28,25 @@ $dceIcons = [
     ],
 ];
 
-/** @var InputDatabase $dceInputDatabase */
-$dceInputDatabase = GeneralUtility::makeInstance(InputDatabase::class);
-foreach ($dceInputDatabase->getDces(true) as $dce) {
-    if ($dce['hasCustomWizardIcon'] && !empty($dce['wizard_custom_icon'])) {
-        $wizardCustomIcon = $dce['wizard_custom_icon'];
+try {
+    /** @var InputDatabase $dceInputDatabase */
+    $dceInputDatabase = GeneralUtility::makeInstance(InputDatabase::class);
+    foreach ($dceInputDatabase->getDces(true) as $dce) {
+        if ($dce['hasCustomWizardIcon'] && !empty($dce['wizard_custom_icon'])) {
+            $wizardCustomIcon = $dce['wizard_custom_icon'];
 
-        $iconProvider = BitmapIconProvider::class;
-        if (str_ends_with($wizardCustomIcon, '.svg')) {
-            $iconProvider = SvgIconProvider::class;
+            $iconProvider = BitmapIconProvider::class;
+            if (str_ends_with($wizardCustomIcon, '.svg')) {
+                $iconProvider = SvgIconProvider::class;
+            }
+
+            $dceIcons['ext-dce-' . $dce['identifier'] . '-customwizardicon'] = [
+                'provider' => $iconProvider,
+                'source' => $wizardCustomIcon,
+            ];
         }
-
-        $dceIcons['ext-dce-' . $dce['identifier'] . '-customwizardicon'] = [
-            'provider' => $iconProvider,
-            'source' => $wizardCustomIcon,
-        ];
     }
+} catch (\Throwable) {
 }
 
 return $dceIcons;

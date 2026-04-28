@@ -8,6 +8,7 @@ namespace T3\Dce\Hooks;
  *  | (c) 2019-2026 Armin Vieweg <armin@v.ieweg.de>
  */
 use T3\Dce\Components\ContentElementGenerator\CacheManager;
+use T3\Dce\Components\ContentElementGenerator\Generator;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 
 /**
@@ -21,6 +22,9 @@ class ClearCacheHook
     {
         if (isset($parameters['cacheCmd']) && 'all' === $parameters['cacheCmd']) {
             CacheManager::makeInstance()->flush();
+            $generator = new Generator();
+            $generator->makePluginConfiguration();
+            $generator->makeTca();
         }
     }
 }

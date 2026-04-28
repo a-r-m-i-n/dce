@@ -57,17 +57,21 @@ class Generator
 
     public function makeTca(): void
     {
-        try {
-            $this->outputTcaAndFlexForm->generate();
-        } catch (\Exception $e) {
-        }
+        $this->outputTcaAndFlexForm->generate();
+    }
+
+    public function loadTcaFromCache(): bool
+    {
+        return $this->outputTcaAndFlexForm->loadFromCache();
     }
 
     public function makePluginConfiguration(): void
     {
-        try {
-            $this->outputPlugin->generate();
-        } catch (\Exception $e) {
-        }
+        $this->outputPlugin->generate();
+    }
+
+    public function loadPluginConfigurationFromCache(): bool
+    {
+        return $this->outputPlugin->loadFromCache();
     }
 }

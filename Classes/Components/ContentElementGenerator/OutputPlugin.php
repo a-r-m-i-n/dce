@@ -109,4 +109,15 @@ class OutputPlugin implements OutputInterface
         }
         $this->cacheManager->requireOnce(self::CACHE_KEY);
     }
+
+    public function loadFromCache(): bool
+    {
+        if (!$this->cacheManager->has(self::CACHE_KEY)) {
+            return false;
+        }
+
+        $this->cacheManager->requireOnce(self::CACHE_KEY);
+
+        return true;
+    }
 }
