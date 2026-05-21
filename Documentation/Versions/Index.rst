@@ -8,6 +8,11 @@ Versions
 
 .. contents:: :local:
 
+3.3.2
+-----
+
+- [BUGFIX] Revert accidentally added changes
+
 3.3.1
 -----
 
