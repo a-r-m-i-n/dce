@@ -55,13 +55,7 @@
     },
     "extra": {
         "typo3/cms": {
-            "extension-key": "dce",
-            "Package": {
-                "serviceProvider": "T3\\Dce\\ServiceProvider",
-                "protected": false,
-                "partOfFactoryDefault": true,
-                "partOfMinimalUsableSystem": true
-            }
+            "extension-key": "dce"
         }
     },
     "scripts": {
