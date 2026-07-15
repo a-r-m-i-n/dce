@@ -31,7 +31,6 @@ class ModifyButtonBarEventListener
             /** @var IconFactory $iconFactory */
             $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
 
-            // TODO: Solve deprecation
             $button = $event->getButtonBar()->makeLinkButton();
             $button->setIcon($iconFactory->getIcon('dce-ext', IconSize::SMALL));
             $button->setTitle(LocalizationUtility::translate('editDceOfThisContentElement', 'dce'));
@@ -46,6 +45,7 @@ class ModifyButtonBarEventListener
             /** @var PageRenderer $pageRenderer */
             $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
             $pageRenderer->loadJavaScriptModule('@t3/dce/dce-edit-button');
+            $pageRenderer->loadJavaScriptModule('@t3/dce/flexform-section-collapse');
         }
     }
 
@@ -93,10 +93,12 @@ class ModifyButtonBarEventListener
      */
     private function getDceUid(int $contentUid): ?int
     {
-        $contentRecord = BackendUtility::getRecord('tt_content', $contentUid);
-        $cType = $contentRecord['CType'];
+        $contentRecord = BackendUtility::getRecord('tt_content', $contentUid, 'CType');
+        if (!is_array($contentRecord) || !isset($contentRecord['CType'])) {
+            return null;
+        }
 
-        return DceRepository::extractUidFromCTypeOrIdentifier($cType);
+        return DceRepository::extractUidFromCTypeOrIdentifier((string)$contentRecord['CType']);
     }
 
     /**
