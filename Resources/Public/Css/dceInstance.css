@@ -60,3 +60,25 @@ img.dceFieldImage {
     bottom: 0;
     padding: 0 !important;
 }
+
+/* TYPO3 14 backend optimizations */
+.t3-page-ce .t3-page-ce-body-inner img,
+.t3-page-ce-body img {
+    max-height: 50px !important;
+    width: auto !important;
+    background-color: #eaeaea !important;
+}
+
+table.dceSimpleBackendView td.dceFieldValue ul {
+    padding-left: 1em;
+}
+
+.t3-page-ce-element typo3-backend-contextual-record-edit-trigger {
+    width: 100% !important;
+}
+
+table.dceSimpleBackendView td.dceFieldValue img {
+    max-width: 100%;
+    height: auto;
+}
+

@@ -125,18 +125,11 @@ class SimpleBackendView
     }
 
     /**
-     * Returns label of given field and crops it.
-     *
-     * @return string Cropped field label
+     * Returns the complete localized field label.
      */
     protected function getFieldLabel(DceField $field): string
     {
-        return StringUtility::crop(
-            'utf-8',
-            LanguageService::sL($field->getTitle()),
-            PageTsUtility::get('tx_dce.defaults.simpleBackendView.titleCropLength', 10),
-            PageTsUtility::get('tx_dce.defaults.simpleBackendView.titleCropAppendix', '...')
-        );
+        return LanguageService::sL($field->getTitle());
     }
 
     /**
