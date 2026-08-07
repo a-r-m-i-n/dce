@@ -7,54 +7,43 @@
 Upgrading DCE
 -------------
 
-New version 3.0 of DCE and TYPO3 v12 contain various changes, which requires some manual adjustments.
+Current DCE releases do not contain upgrade wizards. No DCE data migration is required when upgrading from TYPO3 v13
+to v14.
 
-DCE provides some upgrade wizards in install tool of TYPO3, which pop up when necessary.
-
-.. note::
-   DCE 3.2 which introduced TYPO3 v13 support, does not require any manual adjustments or upgrades.
-
-
-Steps
-=====
-
-Just change your requirements section to
-
-::
-
-    "t3/dce": "^3.0"
-
-and perform ``composer update``.
-
-Then go to TYPO3 Install Tool and check (and perform) the **upgrade wizards** and **database compare**!
-
-Also, make sure you've deleted the DCE cache files (located in `var/cache/code/cache_dce`).
-
-
-Templates in fileadmin
+Upgrade from TYPO3 v13
 ======================
 
-If you still use DCE templates located in fileadmin, loaded via FAL, you need to make manual adjustments.
+Update TYPO3 and DCE with Composer, run the TYPO3 database schema update and flush all caches. Afterwards, verify the
+DCE backend module, existing DCE content elements and the frontend output.
 
-The only way to load DCE template files, is using the `EXT:` syntax. For example:
+Upgrade from TYPO3 v12
+======================
 
-::
+Prepare the installation before updating the TYPO3 core:
 
-    EXT:my_provider_extension/Resources/Private/Templates/Dce/MyDce.html
+#. Update DCE to version 3.3.2 while the installation still runs TYPO3 v12.
+#. Add required database columns, but keep obsolete DCE MM tables until the DCE upgrade wizards have finished.
+#. Run all DCE and TYPO3 upgrade wizards offered by the Install Tool.
+#. Complete the database schema update and flush all caches.
+#. Verify that no DCE upgrade wizard is pending and that existing DCE content elements work correctly.
+#. Upgrade TYPO3 one major version at a time, first to v13 and then to v14, using a matching DCE version at each step.
 
+.. warning::
 
-Good to know
-============
+   Installing DCE 3.3.2 alone is not sufficient. All upgrade wizards offered by that version must be completed before
+   installing a current DCE release. The current release can no longer migrate legacy DCE data structures.
 
-f:format.html without config
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Older installations
+===================
 
-When you use ``f:format.html`` view helper in your templates (frontend or backend) you will get
-the error
+Do not update a very old TYPO3 installation and DCE to their current versions in a single Composer operation. Create a
+database and file backup, upgrade TYPO3 one major version at a time and use a matching DCE version at each step. Once the
+installation runs TYPO3 v12, install DCE 3.3.2 and follow the steps above.
 
-::
+DCE 3.3.2 contains the migrations for legacy field relations, FlexForm sheet identifiers, malformed variable names, old
+file fields and file references. Do not remove obsolete DCE MM tables before these migrations have finished. Some file
+field migrations also require manual changes to the affected Fluid templates.
 
-    Invoked ContentObjectRenderer::parseFunc without any configuration
-
-According to the `deprecation changelog <https://docs.typo3.org/c/typo3/cms-core/main/en-us/Changelog/12.0/Breaking-96520-EnforceNon-emptyConfigurationInCObjparseFunc.html>`_,
-you can simply change ``f:format.html`` to ``f:format.raw``.
+If TYPO3 or DCE has already been upgraded without running these migrations, restore the pre-upgrade backup or use a
+temporary TYPO3 v12 installation with DCE 3.3.2 and the old database. Current DCE releases can no longer migrate these
+legacy data structures.

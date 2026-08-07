@@ -22,8 +22,6 @@ services:
         public: true
     T3\Dce\UserFunction\FormEngineNode\DceCodeMirrorFieldRenderType:
         public: true
-    T3\Dce\UpdateWizards\FileToFalUpdateWizard:
-        public: true
     T3\Dce\UserFunction\ItemsProcFunc:
         public: true
     T3\Dce\Hooks\ClearCacheHook:

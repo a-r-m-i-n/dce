@@ -237,7 +237,7 @@ Thanks to **Stephan Bauer** for testing and supporting.
 - [BUGFIX] Provide LiveSearch XClass for older TYPO3 version (9&10)
 - :ref:`[FEATURE] Add XML sitemap data provider for DCEs with detailpage enabled <additional-informations-faking-detail-pages-tips-xml>`
 - [BUGFIX] Fix migration of section fields in File2FAL Update wizard
-- :ref:`[FEATURE] File to FAL update wizard <administrator-upgrade-wizards-file2fal>`
+- [FEATURE] File to FAL update wizard
 - [BUGFIX] Fix link analyser for DCEs
 - [BUGFIX] Do not treat texts with spaces as link (in LinkAnalyserSlot)
 - [BUGFIX] Fix undefined array keys in DceRepository (for PHP 8)

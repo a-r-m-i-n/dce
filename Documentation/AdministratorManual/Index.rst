@@ -14,5 +14,4 @@ Administrator manual
         TyposcriptConfiguration
         EditDceButton
         Upgrading
-        UpgradeWizards
         ExtendingConfigurationCodeSnippets

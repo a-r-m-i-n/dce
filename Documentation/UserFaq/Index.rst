@@ -214,14 +214,6 @@ How to access variables of other DCE elements?
 In frontend, you can access directly the TypoScript setup from current page, using ``{tsSetup.lib.xyz.value}``.
 
 
-How to migrate old image fields to new FAL fields?
---------------------------------------------------
-
-Since DCE 2.9 there is a `File to FAL update wizard <administrator-upgrade-wizards-file2fal>`_ existing. It moves all
-referenced media files from ``/uploads`` to ``/fileadmin/uploads``, indexes moved files to FAL and replace the filenames
-in FlexForm data with *sys_file* or *sys_file_reference* uids.
-
-
 How to link to the detail page?
 -------------------------------
 

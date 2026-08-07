@@ -37,15 +37,6 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tce']['formevals']
 [\T3\Dce\UserFunction\CustomFieldValidation\NoLeadingNumberValidator::class] =
     'EXT:dce/Classes/UserFunction/CustomFieldValidation/NoLeadingNumberValidator.php';
 
-// Logger for update scripts
-$GLOBALS['TYPO3_CONF_VARS']['LOG']['T3']['Dce']['UpdateWizards']['writerConfiguration'] = [
-    \TYPO3\CMS\Core\Log\LogLevel::DEBUG => [
-        \TYPO3\CMS\Core\Log\Writer\FileWriter::class => [
-            'logFile' => \TYPO3\CMS\Core\Core\Environment::getVarPath() . '/log/dce_update_wizards.log'
-        ],
-    ],
-];
-
 // Register Plugin to get Dce instance
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
     'dce',
