@@ -31,6 +31,8 @@ class AfterSaveHook
 {
     private const LLL = 'LLL:EXT:dce/Resources/Private/Language/locallang_mod.xlf:';
 
+    private static bool $internalUpdateInProgress = false;
+
     /** @var DataHandler */
     protected $dataHandler;
 
@@ -76,7 +78,12 @@ class AfterSaveHook
 
         $dataHandler = GeneralUtility::makeInstance(DataHandler::class);
         $dataHandler->start($data, []);
-        $dataHandler->process_datamap();
+        self::$internalUpdateInProgress = true;
+        try {
+            $dataHandler->process_datamap();
+        } finally {
+            self::$internalUpdateInProgress = false;
+        }
     }
 
     // phpcs:disable
@@ -95,6 +102,10 @@ class AfterSaveHook
         array $fieldArray,
         DataHandler $pObj
     ): void {
+        if (self::$internalUpdateInProgress) {
+            return;
+        }
+
         $this->dataHandler = $pObj;
         $this->fieldArray = [];
         foreach ($fieldArray as $key => $value) {
