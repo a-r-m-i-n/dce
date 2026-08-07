@@ -16,6 +16,9 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clea
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass']['dce'] =
     \T3\Dce\Hooks\AfterSaveHook::class;
 
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['checkFlexFormValue']['dce'] =
+    \T3\Dce\Hooks\FlexFormValueHook::class;
+
 // ImportExport Hooks
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/impexp/class.tx_impexp.php']['before_setRelation']['dce'] =
     \T3\Dce\Hooks\ImportExportHook::class . '->beforeSetRelation';
