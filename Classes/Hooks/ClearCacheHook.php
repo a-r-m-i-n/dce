@@ -8,6 +8,7 @@ namespace T3\Dce\Hooks;
  *  | (c) 2019-2026 Armin Vieweg <armin@v.ieweg.de>
  */
 use T3\Dce\Components\ContentElementGenerator\Generator;
+use T3\Dce\Components\CustomIconProvider;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 
 /**
@@ -17,8 +18,18 @@ use TYPO3\CMS\Core\DataHandling\DataHandler;
  */
 class ClearCacheHook
 {
+    public function __construct(private readonly CustomIconProvider $customIconProvider)
+    {
+    }
+
     public function flushDceCache(array $parameters, DataHandler $dataHandler): void
     {
+        if ('tx_dce_domain_model_dce' === ($parameters['table'] ?? null)
+            || 'all' === ($parameters['cacheCmd'] ?? null)
+        ) {
+            $this->customIconProvider->flushCache();
+        }
+
         if (isset($parameters['cacheCmd']) && 'all' === $parameters['cacheCmd']) {
             (new Generator())->rebuild();
         }

@@ -26,6 +26,8 @@ services:
         public: true
     T3\Dce\UserFunction\ItemsProcFunc:
         public: true
+    T3\Dce\Hooks\ClearCacheHook:
+        public: true
 
     # Event Listeners
     T3\Dce\EventListener\ModifyButtonBarEventListener:
