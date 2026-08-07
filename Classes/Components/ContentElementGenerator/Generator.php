@@ -70,6 +70,13 @@ class Generator
         $this->outputPlugin->generate();
     }
 
+    public function rebuild(): void
+    {
+        $this->cacheManager->flush();
+        $this->makePluginConfiguration();
+        $this->makeTca();
+    }
+
     public function loadPluginConfigurationFromCache(): bool
     {
         return $this->outputPlugin->loadFromCache();

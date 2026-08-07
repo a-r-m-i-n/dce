@@ -25,4 +25,8 @@ Cache Manager during bootstrapping (limbo mode) in TYPO3 10 anymore. Therefore D
 
 The shipped cache manager uses the same paths as TYPO3 uses for its code cache.
 
-When clearing TYPO3's system caches, the DCE code cache also gets cleared.
+When clearing TYPO3's system caches in the backend or with the ``cache:flush`` CLI command, the DCE code cache is
+rebuilt automatically.
+
+When warming an empty cache from the command line, run ``cache:flush --group system`` before
+``cache:warmup --group system`` so the DCE code cache exists before TYPO3 builds its system caches.
