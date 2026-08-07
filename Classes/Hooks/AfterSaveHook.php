@@ -9,7 +9,6 @@ namespace T3\Dce\Hooks;
  *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
 use Symfony\Component\ExpressionLanguage\SyntaxError;
-use T3\Dce\Components\ContentElementGenerator\Generator;
 use T3\Dce\Components\DetailPage\EmptySlugException;
 use T3\Dce\Components\DetailPage\SlugGenerator;
 use T3\Dce\Components\FlexformToTcaMapper\Mapper as TcaMapper;
@@ -314,12 +313,6 @@ class AfterSaveHook
 
         if ('tx_dce_domain_model_dce' === $table && 'new' === $status && isset($fieldArray['t3_origuid']) && !empty($fieldArray['t3_origuid'])) {
             $this->updateDB('tx_dce_domain_model_dce', $this->uid, ['title' => $fieldArray['title'] . ' copy']);
-        }
-
-        if (\in_array($table, ['tx_dce_domain_model_dce', 'tx_dce_domain_model_dcefield'], true)) {
-            $generator = new Generator();
-            $generator->makePluginConfiguration();
-            $generator->makeTca();
         }
     }
 
