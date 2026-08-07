@@ -8,7 +8,6 @@ namespace T3\Dce\Hooks;
  *  | (c) 2012-2026 Armin Vieweg <armin@v.ieweg.de>
  */
 use T3\Dce\Domain\Repository\DceRepository;
-use TYPO3\CMS\Core\DataHandling\DataHandler;
 
 /**
  * Import/Export Hook.
@@ -16,27 +15,21 @@ use TYPO3\CMS\Core\DataHandling\DataHandler;
 class ImportExportHook
 {
     /**
-     * Update tt_content dce record on import. Also sets global for import in
-     * progress indicator used in AfterSaveHook.
+     * Updates the CType of imported DCE content elements after relation remapping.
      */
     public function beforeSetRelation(array $params): void
     {
-        /** @var array $data */
-        $data = $params['data'];
+        $relationPrefix = 'tx_dce_domain_model_dce_';
+        foreach (array_keys($params['data']['tt_content'] ?? []) as $ttContentUid) {
+            $relation = $params['data']['tt_content'][$ttContentUid]['tx_dce_dce'] ?? null;
+            if (!is_string($relation) || !str_starts_with($relation, $relationPrefix)) {
+                continue;
+            }
 
-        /** @var DataHandler $tceMain */
-        $tceMain = $params['tce'];
-        $tceMain->start([], []);
-
-        if (array_key_exists('tt_content', $data)) {
-            foreach ($data['tt_content'] as $ttContentUid => $ttContentUpdatedFields) {
-                if (array_key_exists('tx_dce_dce', $ttContentUpdatedFields)) {
-                    $dceUid = (int)substr($ttContentUpdatedFields['tx_dce_dce'], \strlen('tx_dce_domain_model_dce_'));
-                    $tceMain->updateDB('tt_content', $ttContentUid, [
-                        'CType' => DceRepository::convertUidToCtype($dceUid),
-                        'tx_dce_dce' => $dceUid,
-                    ]);
-                }
+            $dceUid = (int)substr($relation, \strlen($relationPrefix));
+            $cType = DceRepository::convertUidToCtype($dceUid);
+            if (null !== $cType) {
+                $params['data']['tt_content'][$ttContentUid]['CType'] = $cType;
             }
         }
     }
