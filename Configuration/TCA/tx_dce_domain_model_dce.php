@@ -170,22 +170,22 @@ $dceTca = [
                     ],
                     [
                         'group' => 'typo3',
-                        'label' => 'LLL:EXT:backend/Resources/Private/Language/locallang_db_new_content_el.xlf:common',
+                        'label' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:group.default',
                         'value' => 'common',
                     ],
                     [
                         'group' => 'typo3',
-                        'label' => 'LLL:EXT:backend/Resources/Private/Language/locallang_db_new_content_el.xlf:special',
+                        'label' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:group.special',
                         'value' => 'special',
                     ],
                     [
                         'group' => 'typo3',
-                        'label' => 'LLL:EXT:backend/Resources/Private/Language/locallang_db_new_content_el.xlf:forms',
+                        'label' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:group.forms',
                         'value' => 'forms',
                     ],
                     [
                         'group' => 'typo3',
-                        'label' => 'LLL:EXT:backend/Resources/Private/Language/locallang_db_new_content_el.xlf:plugins',
+                        'label' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:group.plugins',
                         'value' => 'plugins',
                     ],
                 ],
