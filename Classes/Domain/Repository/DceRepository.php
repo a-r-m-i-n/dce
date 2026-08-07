@@ -218,10 +218,13 @@ class DceRepository extends Repository
                 if (is_array($fieldValue)) {
                     $i = 0;
                     foreach ($fieldValue as $sectionFieldValues) {
+                        if (!is_array($sectionFieldValues)) {
+                            continue;
+                        }
                         $sectionFieldValues = current($sectionFieldValues);
 
                         // Check if $sectionFieldValues is empty - if so, go to next
-                        if (!empty($sectionFieldValues)) {
+                        if (is_array($sectionFieldValues) && !empty($sectionFieldValues)) {
                             foreach ($sectionFieldValues as $sectionFieldVariable => $sectionFieldValue) {
                                 $sectionField = $dceField->getSectionFieldByVariable($sectionFieldVariable);
                                 if ($sectionField instanceof DceField) {
