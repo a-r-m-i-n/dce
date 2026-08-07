@@ -23,11 +23,6 @@ class CacheManager
      */
     private $cachePath;
 
-    /**
-     * @var bool When enabled is false, cache is still written and removed, but does never return values from cache
-     */
-    private $enabled = true;
-
     public function __construct(string $cacheName = self::CACHE_NAME)
     {
         $this->cachePath = Environment::getVarPath() . $this->getCachePath($cacheName);
@@ -36,12 +31,6 @@ class CacheManager
             if (!file_exists($this->cachePath) || !is_dir($this->cachePath)) {
                 throw new \RuntimeException('Unable to create cache directory "' . $this->cachePath . '"!', 1615032065);
             }
-        }
-
-        if (isset($GLOBALS['TYPO3_CONF_VARS']['USER']['disable_dce_code_cache'])
-            && $GLOBALS['TYPO3_CONF_VARS']['USER']['disable_dce_code_cache']
-        ) {
-            $this->enabled = false;
         }
     }
 
@@ -67,10 +56,6 @@ class CacheManager
 
     public function has(string $key): bool
     {
-        if (!$this->enabled) {
-            return false;
-        }
-
         return file_exists($this->buildCacheFilePathByKey($key));
     }
 

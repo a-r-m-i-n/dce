@@ -10,29 +10,11 @@ Code Caching
 DCE generates PHP code and XML for new content elements during TYPO3's bootstrapping. To decrease database queries
 during this process, DCE 2.2 introduced an own small CacheManager.
 
-By default the code cache for DCEs is enabled.
+The code cache for DCEs is always enabled.
 
 .. caution::
    Any changes made to a DCE or a DCE field, require to clear TYPO3's system cache. Otherwise changes are not visible
    in backend or frontend.
-
-
-Flags
-~~~~~
-
-disable_dce_code_cache
-^^^^^^^^^^^^^^^^^^^^^^
-
-You can disable the DCE code cache entirely, using the following configuration in ``ext_localconf.php``:
-
-.. code-block:: php
-
-    <?php
-    $GLOBALS['TYPO3_CONF_VARS']['USER']['disable_dce_code_cache'] = true;
-
-This will tell DCE to always invalidate and recreate cache files. **Use this for development purposes only!**
-
-When you disable TYPO3's system cache, you also need to disable DCE code cache, to get fully uncached results.
 
 
 Why DCE ships its own Cache Manager?
