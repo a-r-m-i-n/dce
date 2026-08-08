@@ -49,6 +49,16 @@ final readonly class CustomIconProvider
      */
     private function fetchIcons(): ?array
     {
+        $connectionName = $GLOBALS['TYPO3_CONF_VARS']['DB']['TableMapping'][self::TABLE_NAME]
+            ?? ConnectionPool::DEFAULT_CONNECTION_NAME;
+        $connectionConfiguration = $GLOBALS['TYPO3_CONF_VARS']['DB']['Connections'][$connectionName] ?? [];
+        if (empty($connectionConfiguration['driver'])
+            && empty($connectionConfiguration['driverClass'])
+            && empty($connectionConfiguration['url'])
+        ) {
+            return null;
+        }
+
         $connection = $this->connectionPool->getConnectionForTable(self::TABLE_NAME);
         if (!$connection->createSchemaManager()->tablesExist([self::TABLE_NAME])) {
             return null;
