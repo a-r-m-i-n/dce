@@ -9,8 +9,6 @@ namespace T3\Dce\Components\ContentElementGenerator;
  *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
 use T3\Dce\Utility\DatabaseUtility;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class InputDatabase.
@@ -89,15 +87,7 @@ class InputDatabase implements InputInterface
             'parent_field'
         );
 
-        $dces = $this->buildDcesArray($dceModelRows, $dceFieldRowsByParentDce, $dceFieldRowsByParentDceField);
-
-        if (ExtensionManagementUtility::isLoaded('gridelements')
-            || ExtensionManagementUtility::isLoaded('container')
-        ) {
-            $dces = $this->ensureContainerColPosFieldCompatibility($dces);
-        }
-
-        return $dces;
+        return $this->buildDcesArray($dceModelRows, $dceFieldRowsByParentDce, $dceFieldRowsByParentDceField);
     }
 
     protected function getFieldRowsByParentFieldName(
@@ -171,23 +161,6 @@ class InputDatabase implements InputInterface
             $row['tabs'] = $tabs;
             $row['hasCustomWizardIcon'] = 'custom' === $row['wizard_icon'];
             $dces[] = $row;
-        }
-
-        return $dces;
-    }
-
-    /**
-     * Iterates through given DCE rows and add field "colPos" to DCE palettes
-     * if not already set.
-     */
-    protected function ensureContainerColPosFieldCompatibility(array $dces): array
-    {
-        foreach ($dces as $key => $dceRow) {
-            $paletteFields = GeneralUtility::trimExplode(',', $dceRow['palette_fields'], true);
-            if (!in_array('colPos', $paletteFields, true)) {
-                $paletteFields[] = 'colPos';
-            }
-            $dces[$key]['palette_fields'] = implode(', ', $paletteFields);
         }
 
         return $dces;

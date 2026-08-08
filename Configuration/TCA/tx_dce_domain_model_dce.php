@@ -703,7 +703,6 @@ $dceTca = [
                 'itemsProcFunc' => T3\Dce\UserFunction\ItemsProcFunc::class .
                                     '->getAvailableTtContentColumnsForPaletteFields',
                 'size' => 10,
-                'default' => 'sys_language_uid,l18n_parent,colPos,spaceBefore,spaceAfter,section_frame,hidden',
                 'minitems' => 0,
                 'maxitems' => 999
             ],

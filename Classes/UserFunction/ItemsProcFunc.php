@@ -158,11 +158,11 @@ class ItemsProcFunc
 
     public function getAvailableTtContentColumnsForPaletteFields(array &$parameters): void
     {
+        $ttContentTca = $GLOBALS['TCA']['tt_content'];
+        $ctrl = $ttContentTca['ctrl'];
         $excludedColumns = [
             'uid',
             'pid',
-            'CType',
-            'editlock',
             'pi_flexform',
             'tx_impexp_origuid',
             't3ver_label',
@@ -173,6 +173,13 @@ class ItemsProcFunc
             'media',
             'tx_dce_new_container',
             'tx_dce_slug',
+            'colPos',
+            $ctrl['type'] ?? '',
+            $ctrl['languageField'] ?? '',
+            $ctrl['transOrigPointerField'] ?? '',
+            $ctrl['editlock'] ?? '',
+            $ctrl['descriptionColumn'] ?? '',
+            ...array_values($ctrl['enablecolumns'] ?? []),
         ];
         // Do not offer fields used for TCA mapping. They are by default configured as passthrough.
         $mappedColumns = array_keys(Mapper::getDceFieldMappings());
@@ -180,7 +187,7 @@ class ItemsProcFunc
             $excludedColumns = array_merge($excludedColumns, $mappedColumns);
         }
 
-        $tcaColumns = $GLOBALS['TCA']['tt_content']['columns'];
+        $tcaColumns = $ttContentTca['columns'];
         $dbColumns = DatabaseUtility::adminGetFields('tt_content');
 
         $parameters['items'][] = ['--linebreak--', '--linebreak--'];
