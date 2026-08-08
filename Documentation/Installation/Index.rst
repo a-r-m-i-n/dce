@@ -18,7 +18,7 @@ Requirements
 ~~~~~~~~~~~~
 
 * TYPO3 14.3 or newer within the TYPO3 14 release line
-* PHP 8.4
+* PHP 8.2
 * PHP extensions DOM and JSON
 
 With composer

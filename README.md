@@ -15,7 +15,7 @@ Based on Extbase, Fluid and over 15 years of experience.
 
 ## Installation
 
-DCE requires TYPO3 14.3 or newer within the TYPO3 14 release line, PHP 8.4,
+DCE requires TYPO3 14.3 or newer within the TYPO3 14 release line, PHP 8.2,
 and the PHP extensions DOM and JSON.
 
 You can install DCE in TYPO3 CMS using the [TER](https://extensions.typo3.org/extension/dce/)
@@ -52,7 +52,7 @@ DCE ships a [DDEV configuration](https://github.com/a-r-m-i-n/ddev-for-typo3-ext
 
 - 14.3
 
-It uses Apache2 with php-fpm (8.4) enabled.
+It uses Apache2 with php-fpm (8.2) enabled.
 
 ### Requirements
 
