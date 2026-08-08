@@ -1,5 +1,3 @@
-.. include:: ../Includes.txt
-
 .. _users-manual-general:
 
 
@@ -21,11 +19,11 @@ You can point to LLL: references here and translate the title for different lang
 Identifier
 ^^^^^^^^^^
 
-The identifier is used as CType for new content elements based on this DCE. All identifiers of DCE are prefixed
-with "dce\_". For example: "dce_example". When the identifier of a DCE remains empty, the old syntax based on ``uid`` is
-used automatically. The identifier must be written in lowercase, undercores are allowed.
+The identifier is used to generate the CType for content elements based on this DCE. Enter the identifier without the
+``dce_`` prefix. For example, the identifier ``what_ever`` generates the CType ``dce_what_ever``. When the identifier
+remains empty, DCE generates ``dce_dceuid<uid>``. The identifier must be lowercase; underscores are allowed.
 
-Example: ``dce_dceuid1`` or ``dce_what_ever``
+Examples for values entered in the identifier field: ``teaser`` or ``what_ever``.
 
 Inactive
 ^^^^^^^^
@@ -41,14 +39,15 @@ Fields
    :alt: A new DCE field
 
 In the fields section, you can add a number of different fields that this DCE should contain.
-You have to add at least one field.
+A DCE can be saved without fields, but no usable CType or TCA registration is generated until it contains at least one
+active field.
 
 A field has three types available:
 
 - **Element**
   This is a field in your new content element, like a text field, a checkbox, an image or a
   whole rich text editor (RTE). The composition for this field is done in the configuration.
-  All TCA field types are supported.
+  You can use field types and options supported by TYPO3 FlexForm data structures.
 - **Tab**
   This creates a new tab register. All fields that are defined below this tab are shown in BE on a new tab page.
   You may also rename the first "General" tab by creating a tab as the first item.
@@ -57,7 +56,8 @@ A field has three types available:
   Check if DCE Container can help you or use EXT:container for your purposes.
 
 Common to all types is the *title* field, where you define a speaking label for the editor.
-You can use ``LLL:`` reference here. For the type *Tab* there are no more options to define.
+You can use an ``LLL:`` reference here. A *Tab* also has a required variable, which is used as its FlexForm sheet
+identifier, and can be marked as inactive.
 
 .. caution::
    When you add/update tabs and/or rearrange fields, the FlexForm structure changes!
@@ -85,13 +85,13 @@ If you select one entry the corresponding FlexForm XML code is inserted in the c
 .. image:: Images/configuration-simple-input-field.png
    :alt: Pasted configuration for "Simple input field"
 
-For fields which use the TCA types **group**, **select** or **inline**, there are additional configuration attributes
+For fields which use the TCA types **group**, **select**, **inline** or **file**, there are additional configuration attributes
 provided by DCE available.
 
 dce_load_schema
 ~~~~~~~~~~~~~~~
 
-::
+.. code-block:: xml
 
     <dce_load_schema>1</dce_load_schema>
 
@@ -105,16 +105,17 @@ then taken over to the Fluid template (as an array).
 If the table is not part of an Extbase extension, the corresponding record is loaded from the database and handed
 over as an associated array.
 
-.. caution::
-   This function works only with one table, if you configure more tables it does not work.
+.. note::
+   Automatic Extbase model and repository resolution is intended for one table. Group fields containing records from
+   multiple tables can be resolved by the associative-array fallback when their stored values contain the table name.
 
 Using the table tt_content and adding content elements which are based on another DCE, automatically the
 corresponding DCE will be loaded and filled. In the template of the second DCE the template of the inserted DCE can be
 called and rendered:
 
-::
+.. code-block:: html
 
-    <f:for each="{field.otherDces}" as="othersDce">
+    <f:for each="{field.otherDces}" as="otherDce">
         {otherDce.render -> f:format.raw()}
     </f:for>
 
@@ -123,15 +124,15 @@ If you use the ``f:format.html`` view helper the curly braces get escaped and va
 
 It is also possible to access directly the value of single fields:
 
-::
+.. code-block:: html
 
-    {otherDce.fieldname}
+    {otherDce.get.fieldName}
 
 
 dce_load_entity_class
 ~~~~~~~~~~~~~~~~~~~~~
 
-::
+.. code-block:: xml
 
     <dce_load_entity_class>VendorName\Extension\Domain\Model\YourModel</dce_load_entity_class>
 
@@ -140,34 +141,36 @@ Uses this class (and its repository) instead of guessing the model class name fr
 dce_get_fal_objects
 ~~~~~~~~~~~~~~~~~~~
 
-::
+.. code-block:: xml
 
     <dce_get_fal_objects>1</dce_get_fal_objects>
 
-If you have defined a FAL field and this attribute is activated, the value is directly replaced with a
-``TYPO3\CMS\Core\Resource\File`` object from the repository.
+This option is evaluated while schema loading is active, so both ``dce_load_schema`` and ``dce_get_fal_objects`` are
+required. A field with ``type=file`` or a relation to ``sys_file_reference`` returns an array of
+``TYPO3\CMS\Core\Resource\FileReference`` objects. A relation to ``sys_file`` returns an array of
+``TYPO3\CMS\Core\Resource\File`` objects.
 
 dce_ignore_enablefields
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-::
+.. code-block:: xml
 
     <dce_ignore_enablefields>1</dce_ignore_enablefields>
 
-Setting this attribute ignores the enable fields of the requested table. All enable fields like deleted, hidden,
-starttime, endtime get ignored then. This can be used for outputting hidden records.
+For records loaded through DCE's associative-array database fallback, this option removes restrictions for fields such
+as deleted, hidden, starttime and endtime. It does not change the query settings of an Extbase repository.
 
 dce_enable_autotranslation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-::
+.. code-block:: xml
 
     <dce_enable_autotranslation>1</dce_enable_autotranslation>
 
 If you load a page via group field, then always this page is loaded, regardless of the language that is just used.
 Using this attribute shows the translated page if it exists.
 
-That also works with other records, not only with records of the pages table, then ``getRecordOverlay()`` will be used.
+For pages, DCE uses TYPO3's ``getPageOverlay()`` handling. For other records, it uses ``getLanguageOverlay()``.
 
 
 .. _users-manual-general-skip-translation:
@@ -175,7 +178,7 @@ That also works with other records, not only with records of the pages table, th
 dce_skip_translation
 ~~~~~~~~~~~~~~~~~~~~
 
-::
+.. code-block:: xml
 
     <dce_skip_translation>1</dce_skip_translation>
 

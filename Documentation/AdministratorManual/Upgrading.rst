@@ -1,6 +1,3 @@
-.. include:: ../Includes.txt
-
-
 .. _administrator-upgrading:
 
 
@@ -14,12 +11,16 @@ Upgrade from TYPO3 v13
 ======================
 
 Update TYPO3 and DCE with Composer. Existing DCE records using the former default wizard group ``common`` must be
-changed to the TYPO3 v14 group ``default``::
+changed to the TYPO3 v14 group ``default``:
+
+.. code-block:: sql
 
     UPDATE tx_dce_domain_model_dce SET wizard_category = 'default' WHERE wizard_category = 'common';
 
 The ``dce:format.cdata`` ViewHelper has been removed. Replace usages in stored and file-based templates with Fluid's
-native CDATA syntax::
+native CDATA syntax:
+
+.. code-block:: html
 
     <![CDATA[
         {{{field.xml}}}

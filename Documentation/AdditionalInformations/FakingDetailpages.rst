@@ -1,6 +1,3 @@
-.. include:: ../Includes.txt
-
-
 .. _additional-informations-faking-detail-pages:
 
 
@@ -26,7 +23,7 @@ Features
 * Fallback if slugs are not unique (in this case, the uid of content element is appended to slug)
 * Modify current page title on detail page
 
-  * based on own title slug expression
+  * based on its own detail-page title expression
   * you can replace, prepend or append the DCE detail page title
 
 
@@ -67,8 +64,9 @@ On tab "Detail page" in every DCE you find three new options:
 How it works
 ~~~~~~~~~~~~
 
-DCE adds a new column ``tx_dce_slug`` to tt_content table. Only content elements based on DCEs with detail page enabled
-and slug expression set, use this new field.
+DCE adds a new column ``tx_dce_slug`` to the ``tt_content`` table. A non-empty slug expression controls whether DCE
+generates and stores a slug. The "Enable detail page" option separately controls whether a request can trigger the detail
+template; disabling it alone does not clear an existing slug.
 
 An after-save-hook updates the slug every time:
 
@@ -112,32 +110,32 @@ Fluid Styled Content
             data = GP:detailDceUid
             intval = 1
         }
-    [end]
+    [END]
 
-This small snippet checks if the GET param "detailDceUid" is set. If it is set, it tells the select function in
-CSS Styled content, to display just this one content element, by passing the GET parameter value to the query.
+This small snippet checks whether the GET parameter "detailDceUid" is set. If it is set, it tells the select function in
+Fluid Styled Content to display only this content element by passing the GET parameter value to the query.
 
 Of course, we need to avoid SQL injection, by casting the value to an integer by using (stdWrap.)intval.
 
-This example removes all content element from normal column. If you want to remove all elements but the selected one in
-another col, you just need to write eg. "styles.content.getLeft" or ".getRight" or ".getBorder".
+This example removes all other content elements from the normal column rendered by ``styles.content.get``. For other
+content areas, adapt the project's own ``CONTENT``, content-area or equivalent rendering configuration.
 
 **Caution:** This snippet will probably not work, because mostly TYPO3 Integrators uses this
 to assign the contents to the template:
 
-::
+.. code-block:: typoscript
 
     page.10 < styles.content.get
 
 The lower than sign (``<``) copies the given value. But with our snippet above we override the original one.
 The copy will not be affected. The easiest way would be to use a reference instead:
 
-::
+.. code-block:: typoscript
 
     page.10 =< styles.content.get
 
 
-Then you are able to change something in CSS Styled Content typoscript, which also affects the output.
+Then changes to the referenced Fluid Styled Content TypoScript object also affect the copied output.
 
 
 Bootstrap Package
@@ -158,7 +156,7 @@ the f:cObject view helper from within the templates, so we modify this lib:
                 equals = 0
              }
         }
-    [end]
+    [END]
 
 
 .. _additional-informations-faking-detail-pages-tips-xml:

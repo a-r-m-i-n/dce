@@ -1,5 +1,3 @@
-.. include:: ../Includes.txt
-
 .. _administrator-manual-extending-configuration-code-snippets:
 
 
@@ -76,7 +74,9 @@ Like any other event listener, you can register it in the ``Configuration/Servic
                     method: 'modify'
 
 .. important::
-   You need to flush caches from the install tool, in order to apply your changes to the service container.
+   Flush the TYPO3 and PHP caches through :guilabel:`System > Maintenance > Flush TYPO3 and PHP Cache`, or run
+   ``vendor/bin/typo3 cache:flush``, so the dependency injection container is rebuilt. The regular top-bar cache action
+   is not sufficient for PHP or service-container changes.
 
 
 Screenshot

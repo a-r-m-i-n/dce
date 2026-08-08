@@ -1,5 +1,3 @@
-.. include:: ../Includes.txt
-
 .. _users-manual-backendtemplate:
 
 
@@ -43,7 +41,7 @@ output more than one field in content element's header.
 .. image:: Images/backend-view-simple-expression.png
    :alt: Enabled Symfony expression for simple backend view header field
 
-This header expression will - for example - generate the following header: **Teaser: My second teaser**
+This header expression will - for example - generate the following header: "Teaser: My second teaser"
 
 .. note::
    On this page, you see how Symfony expressions in DCE work: :ref:`additional-informations-dce-expression-utility`
@@ -52,17 +50,14 @@ This header expression will - for example - generate the following header: **Tea
 PageTS configuration
 ~~~~~~~~~~~~~~~~~~~~
 
-You can make some adjustments here, using PageTS:
+You can adjust image processing and container colors using PageTS. Currently, ``imageWidth`` is used for both requested
+image dimensions:
 
 .. code-block:: typoscript
 
     tx_dce.defaults {
         simpleBackendView {
-            titleCropLength = 10
-            titleCropAppendix = ...
-
             imageWidth = 50c
-            imageHeight = 50c
 
             containerGroupColors {
                 10 = #0079BF

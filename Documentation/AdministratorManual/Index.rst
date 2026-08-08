@@ -1,6 +1,3 @@
-.. include:: ../Includes.txt
-
-
 .. _admin-manual:
 
 Administrator manual
@@ -10,8 +7,7 @@ Administrator manual
 .. toctree::
         :maxdepth: 1
 
-        Installation
         TyposcriptConfiguration
         EditDceButton
-        Upgrading
         ExtendingConfigurationCodeSnippets
+        Upgrading

@@ -1,5 +1,3 @@
-.. include:: ../Includes.txt
-
 .. _users-manual-miscellaneous:
 
 
@@ -15,10 +13,8 @@ This tab contains all settings which are difficult to put in a category.
 Cache DCE frontend plugin
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This option activates or deactivates the caching of the DCE in the frontend. Every DCE that should be available in the
-the frontend must be initialized in the localconf.php with calling the method ``ExtensionUtility::configurePlugin()``.
-
-This option takes effect if the showAction of the DceController is cached or non-cached.
+DCE generates the frontend plugin registration automatically when its code cache is rebuilt. This option controls
+whether ``DceController::showAction`` is registered as cacheable or non-cacheable for this DCE.
 
 
 Direct output
@@ -26,8 +22,8 @@ Direct output
 
 With this option enabled you bypass ``fluid_styled_content``.
 Instead of using lib.contentElement, the DCE controller action is used directly.
-This brings a significant performances boost and removes any wrappings defined by e.g. fluid_styled_content
-(<div id="c123" ...>).
+This reduces rendering overhead and removes wrappings defined by Fluid Styled Content, for example
+``<div id="c123" ...>``.
 
 **This option is enabled by default, separately for each DCE.**
 
@@ -50,7 +46,7 @@ Enable media tab in backend
 This option is only available when ``EXT:fluid_styled_content`` is installed. If this option is activated a tab with
 media (FAL) field is shown in the backend.
 
-You can access ``{contentObject.assets}` or ``{contentObject.media}`` variable in Fluid template.
+You can access the ``{contentObject.assets}`` or ``{contentObject.media}`` variable in a Fluid template.
 It contains an array of ``\TYPO3\CMS\Core\Resource\FileReference``.
 
 

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<guides xmlns="https://www.phpdoc.org/guides"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="https://www.phpdoc.org/guides ../vendor/phpdocumentor/guides-cli/resources/schema/guides.xsd"
+        links-are-relative="true"
+        default-code-language="php">
+    <extension class="\T3Docs\Typo3DocsTheme\DependencyInjection\Typo3DocsThemeExtension"
+               project-home="https://extensions.typo3.org/extension/dce/"
+               project-repository="https://github.com/a-r-m-i-n/dce"
+               project-issues="https://github.com/a-r-m-i-n/dce/issues"
+               edit-on-github="a-r-m-i-n/dce"
+               edit-on-github-branch="v14"
+               typo3-core-preferred="14.3"
+               interlink-shortcode="t3/dce"
+    />
+    <project title="Dynamic Content Elements (DCE)"
+             version="4.0"
+             release="4.0.0"
+             copyright="since 2012 by Armin Vieweg &amp; contributors"
+    />
+</guides>

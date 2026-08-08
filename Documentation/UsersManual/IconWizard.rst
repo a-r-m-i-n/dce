@@ -1,5 +1,3 @@
-.. include:: ../Includes.txt
-
 .. _users-manual-iconwizard:
 
 
@@ -21,11 +19,11 @@ icons. You can also choose "custom", which displays a new field to select the cu
 The icon also applies to CType icon.
 
 
-Custom icon (24x24 pixel)
-^^^^^^^^^^^^^^^^^^^^^^^^^
+Custom icon
+^^^^^^^^^^^
 
-If none of the included icons fits your imagination you can also upload an icon in the format SVG, PNG or GIF
-with 24x24 pixel.
+If none of the included icons fits your needs, enter a valid icon resource path, preferably
+``EXT:your_extension/Resources/Public/Icons/YourIcon.svg``. DCE does not upload the file or enforce specific dimensions.
 
 
 Show DCE in content element Wizard

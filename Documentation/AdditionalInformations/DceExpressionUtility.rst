@@ -1,6 +1,3 @@
-.. include:: ../Includes.txt
-
-
 .. _additional-informations-dce-expression-utility:
 
 
@@ -10,6 +7,7 @@ DCE Expression Utility
 In DCE you have several places where you can use Symfony Expressions, to define the output.
 
 * Slug generation for DCE detail pages (see :ref:`users-manual-detailpage-slug-expression`)
+* Page title generation for DCE detail pages (see :ref:`users-manual-detailpage-title-expression`)
 * :ref:`users-manual-backendtemplate_header_expression`
 
 
@@ -27,7 +25,7 @@ Then the value of this field is used.
 
 To concatenate multiple fields you can use the tilde sign (``~``) like this:
 
-::
+.. code-block:: text
 
     firstName ~ ' ' ~ lastName
 
@@ -37,7 +35,7 @@ single or double quotes.
 
 The whole DCE object (``dce``) and the row of tt_content item (``contentObject``) are also available:
 
-::
+.. code-block:: text
 
     dce.getTitle() ~ ' ' ~ contentObject['uid']
 
@@ -45,6 +43,10 @@ The whole DCE object (``dce``) and the row of tt_content item (``contentObject``
 .. caution::
    Objects (like ``dce``) and Arrays (like ``contentObject``) got a different syntax to access sub-properties,
    as you can see in previous expression example.
+
+.. note::
+   Expressions should return a non-empty, truthy string. Results such as ``0``, ``"0"``, ``false`` and an empty string
+   are currently converted to ``null``.
 
 
 Helpful Links

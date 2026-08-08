@@ -1,6 +1,3 @@
-.. include:: ../Includes.txt
-
-
 .. _versions:
 
 Versions
@@ -119,7 +116,7 @@ Versions
 - [BUGFIX] Update sys_file_reference table for hidden element (**Thanks to Florian Rival**)
 - [BUGFIX] Fix "Edit DCE" appearing on any content element
 - [DEVOPS] Upgrade DDEV configuration
-- [BUGFIX] Add a check for existence of `$GLOBALS['TYPO3_REQUEST']` (**Thanks to Florian Rival**)
+- [BUGFIX] Add a check for existence of ``$GLOBALS['TYPO3_REQUEST']`` (**Thanks to Florian Rival**)
 - [BUGFIX] Fix bug in filewizard (**Thanks to Thomas Wittich**)
 
 3.1.3
@@ -127,8 +124,8 @@ Versions
 
 - [TASK] Update copyrights
 - [TASK] Add "softref" configuration to RTE field code snippet
-- [BUGFIX] Fix usage of `$parameters['row']['enable_container']` in ItemsProcFunc
-- [BUGFIX] Fix usage of `$GLOBALS['TYPO3_REQUEST']`
+- [BUGFIX] Fix usage of ``$parameters['row']['enable_container']`` in ItemsProcFunc
+- [BUGFIX] Fix usage of ``$GLOBALS['TYPO3_REQUEST']``
 - [BUGFIX] Fix icon color of btn-primary in backend module
 - [DOCS] Fix syntax for reference (**Thanks to Sybille Peters**)
 - [BUGFIX] Fix TtContentLabel userfunction in case of incomplete data (**Thanks to Sybille Peters**)
@@ -153,7 +150,7 @@ Versions
 - :ref:`[FEATURE] Add ModifyConfigurationTemplateCodeSnippetsEvent <administrator-manual-extending-configuration-code-snippets>`
 - [BUGFIX] Removed unused $isIn parameter in custom field validators
 - [TASK] Refactor DCE's TypoScript utility
-- [TASK] Add migration for type file `allowed` config (**Thanks to Nikita Hovratov**)
+- [TASK] Add migration for type file ``allowed`` config (**Thanks to Nikita Hovratov**)
 - [BUGFIX] Do not pass null value to linkEditContent method, in DcePreviewRenderer
 
 

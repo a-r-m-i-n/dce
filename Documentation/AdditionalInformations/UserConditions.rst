@@ -1,6 +1,3 @@
-.. include:: ../Includes.txt
-
-
 .. _additional-informations-user-conditions:
 
 
@@ -18,9 +15,19 @@ Usage in TypoScript:
 
 .. code-block:: typoscript
 
-    [dceOnCurrentPage("42")]
     [dceOnCurrentPage("teaser")]
+        page.10 = TEXT
+        page.10.value = The current page contains a teaser DCE.
+    [END]
 
+You can use either the identifier or the uid of a DCE. The equivalent uid-based condition is:
 
-The 42 is a sample for the ``uid`` of a DCE.
-If you have defined an identifier, you can also use it in user condition parameter.
+.. code-block:: typoscript
+
+    [dceOnCurrentPage("42")]
+        page.10 = TEXT
+        page.10.value = The current page contains DCE 42.
+    [END]
+
+The condition respects the standard record restrictions and follows the page configured as content source through
+``content_from_pid``.

@@ -1,5 +1,3 @@
-.. include:: ../Includes.txt
-
 .. _users-manual-dcecontainer:
 
 
@@ -144,10 +142,10 @@ container.
 Start new container
 ~~~~~~~~~~~~~~~~~~~
 
-In content elements you also got a new option when DCE container is enabled:
+In content elements you also got the "Start new container" option when DCE container is enabled:
 
 .. image:: Images/dce-container-start-new.png
    :alt: "Start new container" option in content elements
 
 When this checkbox is enabled, a new container is created, like in the screenshot above. With this, you can interrupt
-containers manually.
+and start containers manually.

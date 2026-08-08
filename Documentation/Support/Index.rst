@@ -1,5 +1,3 @@
-.. include:: ../Includes.txt
-
 .. _support:
 
 
@@ -35,6 +33,6 @@ If you like the dce extension, feel free to `donate`_ some funds to support furt
 Contribute
 ----------
 If you are a developer and you want to submit improvements as code, you can fork https://github.com/a-r-m-i-n/dce
-and make a pull request to DCE's master branch.
+and make a pull request to DCE's ``v14`` branch.
 
 Thanks!

@@ -1,6 +1,3 @@
-.. include:: ../Includes.txt
-
-
 .. _additional-informations-dce-viewhelper:
 
 

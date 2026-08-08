@@ -1,5 +1,3 @@
-.. include:: ../Includes.txt
-
 .. _users-manual-template:
 
 
@@ -29,38 +27,35 @@ stored in the file system.
 
 The **EXT:** syntax is supported and encouraged to use, to point to template files provided by a template extension.
 
-.. caution::
-   The ``t3://file=uid=1`` syntax is still supported, but will be removed in next major version of DCE.
-   Template files should not be stored using FAL, which requires additional database queries, just to the path of the
-   template file.
+The configured value must resolve to a file-system path. FAL link syntax such as ``t3://file=uid=1`` is not supported.
 
 
 Inline
 ++++++
 
-The default template type **Inline** let you directly edit the content of the Fluid template inside the code mirror editor
-of the "Template content (fluid)" entry field.
+The default template type **Inline** lets you edit the Fluid template directly in DCE's code textarea in the
+"Template content (fluid)" field.
 
 .. image:: Images/template-inline.png
-   :alt: Inline code mirror editor to edit Fluid template files right in place
+   :alt: Inline code textarea to edit Fluid templates in place
 
 
 No namespace declaration
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-Since DCE 2.0 you do not need to provide the namespace declaration in each template. "dce:" is registered globally as
-available namespace in Fluid templates.
+The ``dce`` namespace is registered globally and does not need to be declared in each Fluid template.
 
-So this is deprecated:
+Do not retain the former ``ArminVieweg\Dce\ViewHelpers`` namespace declaration. If an explicit declaration is required,
+use the current namespace:
 
-::
+.. code-block:: html
 
-    {namespace dce=ArminVieweg\Dce\ViewHelpers}
+    {namespace dce=T3\Dce\ViewHelpers}
     <div class="dce">
         Your template goes here...
-    </dce>
+    </div>
 
-Just skip the namespace line. But it is not problematic when this line is still left in the template.
+Usually, the namespace line should simply be omitted.
 
 
 Dynamic Templating
@@ -86,7 +81,7 @@ Available variables
 This group shows all previously defined variables. You have to save the DCE before newly created fields appear in the
  dropdown field. All custom variables are available with:
 
-::
+.. code-block:: html
 
     {field.nameOfVariable}
 
@@ -94,7 +89,7 @@ This group shows all previously defined variables. You have to save the DCE befo
 Available base variables
 ++++++++++++++++++++++++
 
-Besides the custom created variables, they are also some variables existing which are available in all DCEs:
+Besides the custom variables, the following base variables are available when rendering an individual DCE:
 
 + ``{dce}`` - The DCE object. To access field values use: ``{dce.get.fieldName}``
 + ``{contentObject}`` and ``{data}`` - The content object row, this DCE instance is based on. It contains all tt_content properties.
@@ -103,12 +98,15 @@ Besides the custom created variables, they are also some variables existing whic
 + ``{site}`` - The current site instance (only available in frontend)
 + ``{tsSetup}`` - TypoScript setup of the current page (only available in frontend)
 
+Container templates are different: they receive ``{dces}``, an array of DCE instances, and do not receive ``{dce}``.
+
 
 Famous view helper
 ++++++++++++++++++
 
 This group lists often used view helpers provided by Fluid itself.
-Detailed information about the Fluid view helper you will find in the official `TYPO3 documentation <http://docs.typo3.org/flow/TYPO3FlowDocumentation/stable/TheDefinitiveGuide/PartV/FluidViewHelperReference.html>`_
+Detailed information about Fluid ViewHelpers is available in the official
+`TYPO3 Fluid ViewHelper Reference <https://docs.typo3.org/other/typo3/view-helper-reference/main/en-us/>`_.
 
 * f:count
 * f:debug
@@ -142,7 +140,7 @@ Index default is ``0``.
 
 Example:
 
-::
+.. code-block:: html
 
     {array -> dce:arrayGetIndex(index:'{iteration.index}')}
 
@@ -155,7 +153,7 @@ Available options are: *delimiter* (default: ``,``) and *removeEmpty* (``1``).
 
 Example:
 
-::
+.. code-block:: html
 
     {string -> dce:explode(delimiter:'\n')}
 
@@ -168,7 +166,7 @@ the option field must contain the variable name of the field which contains the 
 
 Example:
 
-::
+.. code-block:: html
 
     <f:for each="{dce:fal(field:'thisVariableName', contentObject:contentObject)}" as="fileReference">
         <f:image src="{fileReference.uid}" alt="" treatIdAsReference="1" />
@@ -176,19 +174,20 @@ Example:
 
 .. note::
    You do not need to use the FAL view helper anymore, to access your images.
-   With ``<dce_load_schema>1</dce_load_schema>`` in your FAL field configuration, the FAL references get
-   resolved automatically.
+   With both ``<dce_load_schema>1</dce_load_schema>`` and
+   ``<dce_get_fal_objects>1</dce_get_fal_objects>`` in your FAL field configuration, the FAL references are resolved
+   automatically and can be passed to ``<f:image image="{fileReference}" />``.
 
 
-dce:fileInfoViewHelper
-~~~~~~~~~~~~~~~~~~~~~~
+dce:fileInfo
+~~~~~~~~~~~~
 
 Useful to fetch informations about a single ``sys_file`` record, you need to deal with when using section fields.
 Most common attributes are: title, description, alternative, width, height, name, extension, size and uid.
 
 Example (when working with sections):
 
-::
+.. code-block:: html
 
     <f:for each="{field.section}" as="entry">
         <f:for each="{entry.images -> dce:explode()}" as="imageUid">
@@ -202,15 +201,15 @@ dce:format.addcslashes
 ~~~~~~~~~~~~~~~~~~~~~~
 
 Add slashes to a given string using the PHP function "addcslashes".
-Available option is: *charlist* (default: ``','``).
+Available option is: *charlist* (default: ``'``).
 
 Example:
 
-::
+.. code-block:: html
 
     <dce:format.addcslashes>{field.myVariable}</dce:format.addcslashes>
 
-::
+.. code-block:: html
 
     {field.myVariable -> dce:format.addcslashes()}
 
@@ -218,11 +217,11 @@ Example:
 dce:format.replace
 ~~~~~~~~~~~~~~~~~~
 
-Performs `str_replace` on given *subject*.
+Performs ``str_replace`` on given *subject*.
 
 Example:
 
-::
+.. code-block:: html
 
     {field.text -> dce:format.replace(search: 'foo', replace: 'bar')}
 
@@ -230,11 +229,11 @@ Example:
 dce:format.stripslashes
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Strips slashes from given *subject*. The option *performTrim*  (default: ``1``) does also perform a trim when enabled.
+Strips slashes from given *subject*. The option *performTrim* (default: ``0``) also performs a trim when enabled.
 
 Example:
 
-::
+.. code-block:: html
 
     {field.text -> dce:format.stripslashes(performTrim: 0)}
 
@@ -242,11 +241,11 @@ Example:
 dce:format.strtolower
 ~~~~~~~~~~~~~~~~~~~~~
 
-Performs `strtolower` on given *subject* and converts string to lower case.
+Performs ``strtolower`` on given *subject* and converts string to lower case.
 
 Example:
 
-::
+.. code-block:: html
 
     {field.text -> dce:format.strtolower()}
 
@@ -258,7 +257,7 @@ Removes tabs and line breaks.
 
 Example:
 
-::
+.. code-block:: html
 
     <dce:format.tiny>
         Removes tabs and
@@ -273,7 +272,7 @@ Convert a string's first character to uppercase.
 
 Example:
 
-::
+.. code-block:: html
 
     {variable -> dce:format.ucfirst()}
 
@@ -286,7 +285,7 @@ which add strings before or after the given variable, but inside of curly braces
 
 Example:
 
-::
+.. code-block:: html
 
     <dce:format.wrapWithCurlyBraces prepend="" append="">{field.myVariable}</dce:format.wrapWithCurlyBraces>
 
@@ -296,7 +295,7 @@ dce:isArray
 
 Checks if given value is an array. Example:
 
-::
+.. code-block:: html
 
     {variable -> dce:isArray()}
 
@@ -304,11 +303,11 @@ Checks if given value is an array. Example:
 dce:thisUrl
 ~~~~~~~~~~~
 
-Returns url of current page. Available options are: *showHost* (Default: ``1``), *showRequestedUri* (Default: ``1``)
-and *urlencode* *showRequestedUri* (Default: ``0``).
+Returns the URL of the current page. Available options are: *showHost* (default: ``0``), *showRequestedUri*
+(default: ``1``) and *urlencode* (default: ``0``).
 
 Example:
 
-::
+.. code-block:: html
 
     {dce:thisUrl(showHost:1, showRequestedUri:1, urlencode:0)}

@@ -1,6 +1,3 @@
-.. include:: ../Includes.txt
-
-
 .. _administrator-manual-edit-dce-button:
 
 
@@ -14,7 +11,4 @@ DCE, right inside the content element itself:
    :alt: Edit DCE button for administrators
 
 
-When you click on it, a popup appears which allows making changes for the current DCE:
-
-.. image:: Images/edit-dce-popup.png
-   :alt: Edit DCE popup
+When you click on it, a popup appears which allows making changes for the current DCE.
