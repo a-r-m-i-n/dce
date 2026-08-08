@@ -20,7 +20,7 @@ class AddcslashesViewHelper extends AbstractViewHelper
         $this->registerArgument('charlist', 'string', 'A list of characters to be escaped', false, "'");
     }
 
-    public function render()
+    public function render(): string
     {
         $subject = $this->arguments['subject'];
         if (null === $subject) {

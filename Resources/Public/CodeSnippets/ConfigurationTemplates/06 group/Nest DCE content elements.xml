@@ -4,7 +4,5 @@
     <size>5</size>
     <minitems>0</minitems>
     <maxitems>999</maxitems>
-    <show_thumbs>1</show_thumbs>
-
     <dce_load_schema>1</dce_load_schema>
 </config>

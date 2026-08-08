@@ -37,23 +37,15 @@ class TtContentLabel
             && $this->isDceContentElement($parameter['row'])
         ) {
             try {
-                $dceUid = $parameter['row']['uid'] ?? null;
-                if (!$dceUid && is_array($_GET['edit']['tt_content'])) {
-                    $dceUid = array_keys($_GET['edit']['tt_content'])[0];
-                }
-
-                if (0 === $dceUid || ($_GET['edit']['tt_content'][$dceUid] ?? '') === 'new') {
+                $contentUid = $parameter['row']['uid'] ?? null;
+                if (!is_numeric($contentUid) || (int)$contentUid <= 0) {
                     $parameter['title'] = 'New DCE';
 
                     return;
                 }
 
-                if (null === $dceUid || $dceUid < 0) {
-                    return;
-                }
-
                 /** @var Dce $dce */
-                $dce = DatabaseUtility::getDceObjectForContentElement($dceUid, true);
+                $dce = DatabaseUtility::getDceObjectForContentElement((int)$contentUid, true);
             } catch (\Exception $exception) {
                 $parameter['title'] = 'ERROR: ' . $exception->getMessage();
 

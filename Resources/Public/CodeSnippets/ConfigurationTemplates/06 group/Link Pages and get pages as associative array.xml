@@ -4,8 +4,6 @@
     <size>5</size>
     <minitems>0</minitems>
     <maxitems>999</maxitems>
-    <show_thumbs>1</show_thumbs>
-
     <!-- This enables the access on properties/attributes of given table/object example: {field.yourvariable.title} -->
     <dce_load_schema>1</dce_load_schema>
     <!-- If enabled, will automatically translate pages or records if translation exists. -->

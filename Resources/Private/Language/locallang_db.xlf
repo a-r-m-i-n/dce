@@ -89,7 +89,6 @@
             <trans-unit id="tx_dce_domain_model_dce.paletteFields"><source>DCE palette fields</source></trans-unit>
             <trans-unit id="tx_dce_domain_model_dce.flexformLabel"><source>Flexform label</source></trans-unit>
             <trans-unit id="tx_dce_domain_model_dce.flexformLabel.default"><source>Contents:</source></trans-unit>
-            <trans-unit id="tx_dce_domain_model_dce.preventHeaderCopySuffix"><source>Prevent header copy suffix</source></trans-unit>
             <trans-unit id="tx_dce_domain_model_dce.directOutput"><source>Direct output</source></trans-unit>
 
             <trans-unit id="tx_dce_domain_model_dce.useSimpleBackendView"><source>Use simple backend view</source></trans-unit>

@@ -1,8 +1,3 @@
 includes:
 	- ../vendor/phpstan/phpstan-doctrine/extension.neon
 	- ../vendor/saschaegerer/phpstan-typo3/extension.neon
-
-parameters:
-	ignoreErrors:
-	    - '/undefined static method TYPO3\\CMS\\Core\\Utility\\GeneralUtility::_GP\(\)/'
-	    - '/function method_exists\(\).*?setRequest.*?will always evaluate to true/'

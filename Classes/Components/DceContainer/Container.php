@@ -42,7 +42,11 @@ class Container
         $this->firstDce = $firstDceInContainer;
 
         $viewFactory = GeneralUtility::makeInstance(ViewFactory::class);
-        $this->view = $viewFactory->getDceTemplateView($firstDceInContainer, DceTemplateTypes::CONTAINER);
+        $this->view = $viewFactory->getDceTemplateView(
+            $firstDceInContainer,
+            DceTemplateTypes::CONTAINER,
+            $firstDceInContainer->getRequest()
+        );
     }
 
     /**
@@ -106,7 +110,11 @@ class Container
             }
         }
 
-        $colors = array_values(PageTS::get('tx_dce.defaults.simpleBackendView.containerGroupColors'));
+        $colors = array_values(PageTS::get(
+            'tx_dce.defaults.simpleBackendView.containerGroupColors',
+            null,
+            (int)$contentObject['pid']
+        ));
 
         return (string)$colors[$contentObject['uid'] % \count($colors)];
     }

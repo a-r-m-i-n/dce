@@ -10,18 +10,10 @@ namespace T3\Dce\EventListener;
  */
 use T3\Dce\Components\FlexformToTcaMapper\Mapper;
 use T3\Dce\Utility\DatabaseUtility;
+use TYPO3\CMS\Core\Database\Event\AlterTableDefinitionStatementsEvent;
 
 class TablesDefinitionIsBeingBuiltEventListener
 {
-    public function extendTtContentTable(array $sqlStrings): array
-    {
-        if ($this->checkRequiredFieldsExisting()) {
-            $sqlStrings[] = Mapper::getSql();
-        }
-
-        return [$sqlStrings];
-    }
-
     /**
      * Checks if required fields are already in database.
      */
@@ -34,19 +26,10 @@ class TablesDefinitionIsBeingBuiltEventListener
                && \array_key_exists('new_tca_field_type', $dbFields);
     }
 
-    /**
-     * Used in TYPO3 10 (Event Dispatcher).
-     *
-     * @param \TYPO3\CMS\Core\Database\Event\AlterTableDefinitionStatementsEvent $event
-     */
-    public function addSchema($event): void
+    public function addSchema(AlterTableDefinitionStatementsEvent $event): void
     {
-        $sqlData = $this->extendTtContentTable([]);
-        foreach ($sqlData as $sql) {
-            if (is_array($sql)) {
-                $sql = reset($sql);
-            }
-            $event->addSqlData($sql);
+        if ($this->checkRequiredFieldsExisting()) {
+            $event->addSqlData(Mapper::getSql());
         }
     }
 }

@@ -165,7 +165,7 @@ dce_enable_autotranslation
     <dce_enable_autotranslation>1</dce_enable_autotranslation>
 
 If you load a page via group field, then always this page is loaded, regardless of the language that is just used.
-Using this attribute shows the translated page if it exists (``$GLOBALS['TSFE']->sys_page->getPageOverlay()``).
+Using this attribute shows the translated page if it exists.
 
 That also works with other records, not only with records of the pages table, then ``getRecordOverlay()`` will be used.
 

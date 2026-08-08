@@ -42,6 +42,7 @@ class DceController extends ActionController
             $fieldList,
             $contentObject
         );
+        $dce->setRequest($this->request);
 
         if ($dce->getEnableContainer()) {
             if (ContainerFactory::checkContentElementForBeingRendered($dce->getContentObject())) {

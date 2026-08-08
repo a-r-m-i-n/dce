@@ -61,8 +61,6 @@ the parent. To enable the parent DCE to store children you need to add a new fie
         <size>5</size>
         <minitems>0</minitems>
         <maxitems>999</maxitems>
-        <show_thumbs>1</show_thumbs>
-
         <dce_load_schema>1</dce_load_schema>
     </config>
 
@@ -126,7 +124,6 @@ Example field configuration:
         <size>5</size>
         <minitems>0</minitems>
         <maxitems>999</maxitems>
-        <show_thumbs>1</show_thumbs>
         <dce_load_schema>1</dce_load_schema>
     </config>
 
@@ -255,6 +252,3 @@ You can also modify the position of the group, in PageTS. This is the default va
 ::
 
     mod.wizards.newContentElement.wizardItems.dce.after = default
-
-.. note::
-   In TYPO3 v12 the group name is `common`. Since v13 it is `default`.

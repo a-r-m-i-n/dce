@@ -8,6 +8,16 @@ Versions
 
 .. contents:: :local:
 
+4.0.0
+-----
+
+**First release requiring TYPO3 v14.3**
+
+- [TASK] Remove TYPO3 v13 compatibility layers and development environment
+- [TASK] Remove deprecated DCE APIs and obsolete configuration options
+- [TASK] Add future-compatible extension metadata to composer.json
+- [TASK] Migrate deprecated TYPO3 APIs in preparation for TYPO3 v15
+
 3.3.2
 -----
 

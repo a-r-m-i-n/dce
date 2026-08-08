@@ -23,15 +23,14 @@ class PageTS
     protected static $pageTsContent = [];
 
     /**
-     * Returns value of given path in pageTS of current page.
+     * Returns value of given path in Page TSconfig.
      *
      * @param string $path    separated with dots. e.g.: "tx_dce.defaults.example"
      * @param mixed  $default Optional. Value which should be returned if path is not existing or value empty
-     * @param int    $id      Optional. Set id of page from which PageTS should get loaded
+     * @param int    $id      ID of the page from which Page TSconfig should be loaded
      */
     public static function get(string $path, $default = null, int $id = 0)
     {
-        $id = $id > 0 ? $id : (int)($_GET['id'] ?? 0);
         if (!isset(static::$pageTsContent[$id])) {
             /** @var TypoScriptService $typoScriptService */
             $typoScriptService = GeneralUtility::makeInstance(TypoScriptService::class);

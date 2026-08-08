@@ -7,6 +7,7 @@ namespace T3\Dce\ViewHelpers;
  *  |
  *  | (c) 2020-2026 Armin Vieweg <armin@v.ieweg.de>
  */
+use Psr\Http\Message\ServerRequestInterface;
 use T3\Dce\Domain\Repository\DceRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
@@ -31,7 +32,7 @@ class DceViewHelper extends AbstractViewHelper
 
     protected $escapeOutput = false;
 
-    private static ?DceRepository $dceRepository;
+    private static ?DceRepository $dceRepository = null;
 
     public function initializeArguments(): void
     {
@@ -53,6 +54,11 @@ class DceViewHelper extends AbstractViewHelper
         }
 
         $dce = self::$dceRepository->getDceInstance($contentElementUid);
+        if ($this->renderingContext->hasAttribute(ServerRequestInterface::class)) {
+            /** @var ServerRequestInterface $request */
+            $request = $this->renderingContext->getAttribute(ServerRequestInterface::class);
+            $dce->setRequest($request);
+        }
 
         $templateVariableContainer = $this->templateVariableContainer;
         $templateVariableContainer->add('dce', $dce);

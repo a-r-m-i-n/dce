@@ -34,31 +34,16 @@ readonly class ModifyLoadedPageTsConfigEventListener
         $pageTsConfig = '';
 
         foreach ($this->input->getDces() as $dce) {
-            if ($dce['wizard_enable']) {
-                $dceIdentifier = $dce['identifier'];
+            if ($dce['hidden'] || $dce['deleted']) {
+                continue;
+            }
 
-                $iconIdentifierCode = $dce['hasCustomWizardIcon']
-                    ? 'ext-dce-' . $dceIdentifier . '-customwizardicon'
-                    : $dce['wizard_icon'];
+            $dceIdentifier = $dce['identifier'];
+            $flexformLabel = $dce['flexform_label'] ?? '';
+            $pageTsConfig .= "TCEFORM.tt_content.pi_flexform.types.$dceIdentifier.label = $flexformLabel\n";
 
-                $wizardCategory = $dce['wizard_category'] ?? '';
-                $flexformLabel = $dce['flexform_label'] ?? '';
-                $title = addcslashes($dce['title'] ?? '', "'\"");
-                $description = addcslashes($dce['wizard_description'] ?? '', "'\"");
-
-                $pageTsConfig .= <<<tsconfig
-                    mod.wizards.newContentElement.wizardItems.$wizardCategory.elements.$dceIdentifier {
-                        iconIdentifier = $iconIdentifierCode
-                        title = $title
-                        description = $description
-                        tt_content_defValues {
-                            CType = $dceIdentifier
-                        }
-                    }
-                    mod.wizards.newContentElement.wizardItems.$wizardCategory.show := addToList($dceIdentifier)
-                    TCEFORM.tt_content.pi_flexform.types.$dceIdentifier.label = $flexformLabel
-
-                    tsconfig;
+            if (!$dce['wizard_enable']) {
+                $pageTsConfig .= "mod.wizards.newContentElement.wizardItems.removeItems := addToList($dceIdentifier)\n";
             }
         }
 

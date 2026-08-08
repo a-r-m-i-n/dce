@@ -7,24 +7,14 @@ namespace T3\Dce\Utility;
  *  |
  *  | (c) 2012-2026 Armin Vieweg <armin@v.ieweg.de>
  */
-use TYPO3\CMS\Core\Core\Bootstrap;
+use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * LanguageService utility.
  */
 class LanguageService
 {
-    /**
-     * Initializes LanguageObject if necessary.
-     */
-    protected static function initialize(): void
-    {
-        Bootstrap::initializeBackendUser();
-        if (method_exists(Bootstrap::class, 'initializeLanguageObject')) {
-            Bootstrap::initializeLanguageObject();
-        }
-    }
-
     /**
      * splitLabel function.
      *
@@ -33,17 +23,17 @@ class LanguageService
      * Refer to 'Inside TYPO3' for more details
      *
      * @param string|null $input Label key/reference
-     * @param bool        $hsc   If set, the return value is htmlspecialchar'ed
      */
-    public static function sL(?string $input, bool $hsc = false): string
+    public static function sL(?string $input): string
     {
         if (!$input) {
             return '';
         }
         if (!$GLOBALS['LANG']) {
-            static::initialize();
+            $languageServiceFactory = GeneralUtility::makeInstance(LanguageServiceFactory::class);
+            $GLOBALS['LANG'] = $languageServiceFactory->createFromUserPreferences($GLOBALS['BE_USER'] ?? null);
         }
 
-        return $GLOBALS['LANG']->sL($input, $hsc);
+        return $GLOBALS['LANG']->sL($input);
     }
 }

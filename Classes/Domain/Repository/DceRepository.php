@@ -11,8 +11,8 @@ namespace T3\Dce\Domain\Repository;
 use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Domain\Model\DceField;
 use T3\Dce\Utility\DatabaseUtility;
-use T3\Dce\Utility\FlexformService;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Configuration\FlexForm\FlexFormTools;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Context\LanguageAspect;
 use TYPO3\CMS\Core\Database\Connection;
@@ -324,7 +324,8 @@ class DceRepository extends Repository
      */
     protected function getDceFieldsByRecord(array $record): array
     {
-        $flexformData = FlexformService::get()->convertFlexFormContentToArray($record['pi_flexform'] ?? '', 'lDEF', 'vDEF');
+        $flexFormTools = GeneralUtility::makeInstance(FlexFormTools::class);
+        $flexformData = $flexFormTools->convertFlexFormContentToArray($record['pi_flexform'] ?? '');
 
         return isset($flexformData['settings']) && is_array($flexformData['settings'])
             ? $flexformData['settings']
@@ -556,9 +557,8 @@ class DceRepository extends Repository
 
         if (class_exists($className) && class_exists($repositoryName)) {
             // Extbase object found
-            /** @var Repository $repository */
             $repository = GeneralUtility::makeInstance($repositoryName);
-            if ('T3\\Vici\\Repository\\ViciFrontendRepository' === $repositoryName) {
+            if (method_exists($repository, 'setObjectType')) {
                 $repository->setObjectType($className);
             }
 
@@ -786,7 +786,8 @@ class DceRepository extends Repository
             ->executeQuery()
             ->fetchAssociative();
 
-        $flexData = FlexformService::get()->convertFlexFormContentToArray($row['pi_flexform'] ?? '', 'lDEF', 'vDEF');
+        $flexFormTools = GeneralUtility::makeInstance(FlexFormTools::class);
+        $flexData = $flexFormTools->convertFlexFormContentToArray($row['pi_flexform'] ?? '');
 
         return $flexData['settings'] ?? [];
     }

@@ -20,7 +20,7 @@ class ArrayGetIndexViewHelper extends AbstractViewHelper
         $this->registerArgument('index', 'integer', 'The numeric index of item you want to return', false, 0);
     }
 
-    public function render()
+    public function render(): mixed
     {
         $subject = $this->arguments['subject'];
         if (null === $subject) {

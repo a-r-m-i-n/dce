@@ -12,6 +12,7 @@ namespace T3\Dce\EventListener;
 use T3\Dce\Domain\Repository\DceRepository;
 use T3\Dce\Utility\BackendModuleLinkUtility;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
+use TYPO3\CMS\Backend\Template\Components\ComponentFactory;
 use TYPO3\CMS\Backend\Template\Components\ModifyButtonBarEvent;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
@@ -24,14 +25,18 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 class ModifyButtonBarEventListener
 {
+    public function __construct(private readonly ComponentFactory $componentFactory)
+    {
+    }
+
     public function __invoke(ModifyButtonBarEvent $event): void
     {
-        $contentUid = $this->getContentUid();
+        $contentUid = $this->getContentUid($event->getRequest()->getQueryParams());
         if ($contentUid && $this->userIsAdmin() && $this->getDceUid($contentUid)) {
             /** @var IconFactory $iconFactory */
             $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
 
-            $button = $event->getButtonBar()->makeLinkButton();
+            $button = $this->componentFactory->createLinkButton();
             $button->setIcon($iconFactory->getIcon('dce-ext', IconSize::SMALL));
             $button->setTitle(LocalizationUtility::translate('editDceOfThisContentElement', 'dce'));
             $button->setShowLabelText(false);
@@ -68,9 +73,9 @@ class ModifyButtonBarEventListener
     /**
      * Returns the uid of the currently edited content element in backend.
      */
-    private function getContentUid(): ?int
+    private function getContentUid(array $queryParameters): ?int
     {
-        $editGetParameters = $_GET['edit']['tt_content'] ?? null;
+        $editGetParameters = $queryParameters['edit']['tt_content'] ?? null;
         if (!is_array($editGetParameters) || empty($editGetParameters)) {
             return null;
         }

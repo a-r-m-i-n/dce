@@ -111,6 +111,8 @@ class OutputTcaAndFlexForm
 
         $dceTitle = addcslashes($dce['title'], "'");
         $dceIcon = $dce['hasCustomWizardIcon'] ? 'ext-dce-' . $dceIdentifier . '-customwizardicon' : $dce['wizard_icon'];
+        $wizardCategory = addcslashes($dce['wizard_category'], "'");
+        $wizardDescription = addcslashes($dce['wizard_description'], "'");
 
         $sourceCode .= <<<PHP
             \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTcaSelectItem(
@@ -120,7 +122,8 @@ class OutputTcaAndFlexForm
                     'label' => '$dceTitle',
                     'value' => '$dceIdentifier',
                     'icon' => '$dceIcon',
-                    'group' => 'dce'
+                    'group' => '$wizardCategory',
+                    'description' => '$wizardDescription'
                 ]
             );
 
@@ -139,7 +142,7 @@ class OutputTcaAndFlexForm
         $showAccessTabCode = $dce['show_access_tab']
             ? '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,
               --palette--;;hidden,
-              --palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access;access,'
+              --palette--;;access,'
             : '';
         $showMediaTabCode = $dce['show_media_tab']
             ? '--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,assets,' : '';

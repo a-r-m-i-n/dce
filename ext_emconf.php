@@ -6,19 +6,18 @@
  *  | (c) 2012-2026 Armin Vieweg <armin@v.ieweg.de>
  */
 
-// phpcs:disable
 $EM_CONF[$_EXTKEY] = [
     'title' => 'Dynamic Content Elements (DCE)',
     'description' => 'Best flexform based content elements since 2012. With TCA mapping feature, simple backend view and much more features which makes it super easy to create own content element types.',
     'category' => 'Backend',
-    'version' => '3.3.2',
+    'version' => '4.0.0-dev',
     'state' => 'stable',
     'author' => 'Armin Vieweg',
     'author_email' => 'armin@v.ieweg.de',
     'author_company' => '',
     'constraints' => [
         'depends' => [
-            'typo3' => '12.4.0-13.9.99',
+            'typo3' => '14.3.0-14.3.99',
         ],
         'conflicts' => [],
         'suggests' => [],
@@ -27,5 +26,3 @@ $EM_CONF[$_EXTKEY] = [
         'psr-4' => ['T3\\Dce\\' => 'Classes'],
     ],
 ];
-// @codingStandardsIgnoreEnd
-// phpcs:enable

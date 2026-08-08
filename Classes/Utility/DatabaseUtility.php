@@ -11,6 +11,7 @@ namespace T3\Dce\Utility;
 use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Domain\Repository\DceRepository;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Configuration\FlexForm\FlexFormTools;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Domain\RecordInterface;
@@ -135,7 +136,8 @@ class DatabaseUtility
         $dceRepository = GeneralUtility::makeInstance(DceRepository::class);
 
         // Convert flexform XML to array
-        $flexData = FlexformService::get()->convertFlexFormContentToArray((string)$contentElement['pi_flexform'] ?? '');
+        $flexFormTools = GeneralUtility::makeInstance(FlexFormTools::class);
+        $flexData = $flexFormTools->convertFlexFormContentToArray((string)($contentElement['pi_flexform'] ?? ''));
 
         // Retrieve DCE domain model object
         $dceUid = self::getDceUidByContentElementRow($contentElement);

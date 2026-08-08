@@ -7,6 +7,7 @@ namespace T3\Dce\Utility;
  *  |
  *  | (c) 2012-2026 Armin Vieweg <armin@v.ieweg.de>
  */
+use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\TypoScript\FrontendTypoScript;
 use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 
@@ -16,14 +17,14 @@ class TypoScript
     {
     }
 
-    public function getTypoScriptSetupArray(): ?array
+    public function getTypoScriptSetupArray(?ServerRequestInterface $request): ?array
     {
-        if (!isset($GLOBALS['TYPO3_REQUEST'])) {
+        if (null === $request) {
             return null;
         }
 
         /** @var FrontendTypoScript|null $frontendTypoScript */
-        $frontendTypoScript = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript');
+        $frontendTypoScript = $request->getAttribute('frontend.typoscript');
         if (!$frontendTypoScript) {
             return null;
         }

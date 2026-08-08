@@ -19,7 +19,7 @@ You can install DCE in TYPO3 CMS using the [TER](https://extensions.typo3.org/ex
 or use composer to fetch DCE from [packagist](https://packagist.org/packages/t3/dce):
 
 ```
-composer req t3/dce:"^3.3"
+composer req t3/dce:"^4.0"
 ```
 
 
@@ -40,12 +40,11 @@ In case you can't provide code but want to support DCE anyway, here is my [PayPa
 
 ## DDEV Environment
 
-DCE ships a [DDEV configuration](https://github.com/a-r-m-i-n/ddev-for-typo3-extensions), which allows you to test DCE in any TYPO3 version:
+DCE ships a [DDEV configuration](https://github.com/a-r-m-i-n/ddev-for-typo3-extensions) for the supported TYPO3 version:
 
-- 12.4
-- 13.x
+- 14.3
 
-It uses Apache2 with php-fpm (8.2) enabled.
+It uses Apache2 with php-fpm (8.4) enabled.
 
 ### Requirements
 
@@ -61,8 +60,7 @@ It uses Apache2 with php-fpm (8.2) enabled.
     ```
 2. Next execute the following commands
     ```
-    ddev install-v12
-    ddev install-v13
+    ddev install-v14
     ```
 3. On https://dce.ddev.site/ you get a brief overview of the environment
 

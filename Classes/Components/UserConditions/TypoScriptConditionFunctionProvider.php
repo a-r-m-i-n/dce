@@ -13,7 +13,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Provides the expression function "dceOnCurrentPage"
- * which points to "DceOnCurrentPage" condition used in TYPO3 8.7.
+ * which points to the "DceOnCurrentPage" condition.
  */
 class TypoScriptConditionFunctionProvider implements ExpressionFunctionProviderInterface
 {

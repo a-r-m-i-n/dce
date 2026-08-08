@@ -8,6 +8,7 @@ namespace T3\Dce\Components\DceContainer;
  *  | (c) 2012-2026 Armin Vieweg <armin@v.ieweg.de>
  *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
+use Psr\Http\Message\ServerRequestInterface;
 use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Domain\Repository\DceRepository;
 use T3\Dce\Utility\DatabaseUtility;
@@ -51,7 +52,7 @@ class ContainerFactory
         /** @var Container $container */
         $container = GeneralUtility::makeInstance(Container::class, $dce);
 
-        $newsParameters = $_GET['tx_news_pi1'] ?? [];
+        $newsParameters = $dce->getRequest()?->getQueryParams()['tx_news_pi1'] ?? [];
         if (!empty($newsParameters['news'])) {
             // Content elements on news detail page
             $contentElements = static::getContentElementsInContainer($dce, $includeHidden, (int)$newsParameters['news']);
@@ -64,6 +65,7 @@ class ContainerFactory
 
         foreach ($contentElements as $index => $contentElement) {
             $dceInstance = $this->dceRepository->getDceInstance((int)$contentElement['uid'], $contentElement);
+            $dceInstance->setRequest($dce->getRequest());
             $dceInstance->setContainerIterator(static::createContainerIteratorArray($index, $total));
             $container->addDce($dceInstance);
 
@@ -93,7 +95,8 @@ class ContainerFactory
      */
     protected static function getContentElementsInContainer(Dce $dce, bool $includeHidden = false, int $newsUid = 0): array
     {
-        $queryBuilder = self::createQueryBuilder($includeHidden);
+        $request = $dce->getRequest();
+        $queryBuilder = self::createQueryBuilder($includeHidden, $request);
 
         $contentObject = $dce->getContentObject();
         $sortColumn = $GLOBALS['TCA']['tt_content']['ctrl']['sortby'];
@@ -124,7 +127,7 @@ class ContainerFactory
             ));
         }
 
-        if (isset($GLOBALS['TYPO3_REQUEST']) && ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend()) {
+        if (null !== $request && ApplicationType::fromRequest($request)->isFrontend()) {
             $queryBuilder->andWhere(
                 $queryBuilder->expr()->eq(
                     'sys_language_uid',
@@ -313,10 +316,12 @@ class ContainerFactory
         ];
     }
 
-    private static function createQueryBuilder(bool $includeHidden = false): QueryBuilder
-    {
+    private static function createQueryBuilder(
+        bool $includeHidden = false,
+        ?ServerRequestInterface $request = null
+    ): QueryBuilder {
         $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tt_content');
-        if (isset($GLOBALS['TYPO3_REQUEST']) && ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend()) {
+        if (null !== $request && ApplicationType::fromRequest($request)->isFrontend()) {
             $queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
         }
         if ($includeHidden) {

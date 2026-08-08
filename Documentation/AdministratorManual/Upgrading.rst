@@ -7,14 +7,26 @@
 Upgrading DCE
 -------------
 
-Current DCE releases do not contain upgrade wizards. No DCE data migration is required when upgrading from TYPO3 v13
-to v14.
+DCE 4.0 does not contain upgrade wizards. The manual changes described below are required when upgrading existing
+installations.
 
 Upgrade from TYPO3 v13
 ======================
 
-Update TYPO3 and DCE with Composer, run the TYPO3 database schema update and flush all caches. Afterwards, verify the
-DCE backend module, existing DCE content elements and the frontend output.
+Update TYPO3 and DCE with Composer. Existing DCE records using the former default wizard group ``common`` must be
+changed to the TYPO3 v14 group ``default``::
+
+    UPDATE tx_dce_domain_model_dce SET wizard_category = 'default' WHERE wizard_category = 'common';
+
+The ``dce:format.cdata`` ViewHelper has been removed. Replace usages in stored and file-based templates with Fluid's
+native CDATA syntax::
+
+    <![CDATA[
+        {{{field.xml}}}
+    ]]>
+
+Then run the TYPO3 database schema update, flush all caches and verify the DCE backend module, existing DCE content
+elements and frontend output.
 
 Upgrade from TYPO3 v12
 ======================

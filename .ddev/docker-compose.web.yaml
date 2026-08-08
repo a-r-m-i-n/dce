@@ -19,10 +19,7 @@ services:
               source: ../
               target: /var/www/dce
               consistency: cached
-            - v13-data:/var/www/html/v13
             - v14-data:/var/www/html/v14
 volumes:
-    v13-data:
-        name: "${DDEV_SITENAME}-v13-data"
     v14-data:
         name: "${DDEV_SITENAME}-v14-data"

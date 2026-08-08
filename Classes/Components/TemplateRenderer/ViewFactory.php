@@ -11,18 +11,12 @@ use Psr\Http\Message\ServerRequestInterface;
 use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Utility\TypoScript;
 use TYPO3\CMS\Core\Http\ApplicationType;
-use TYPO3\CMS\Core\Http\ServerRequest;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\View\ViewFactoryData;
 use TYPO3\CMS\Core\View\ViewFactoryInterface;
 use TYPO3\CMS\Core\View\ViewInterface;
 use TYPO3\CMS\Fluid\View\FluidViewAdapter;
-use TYPO3Fluid\Fluid\Core\Parser\TemplateProcessor\EscapingModifierTemplateProcessor;
-use TYPO3Fluid\Fluid\Core\Parser\TemplateProcessor\NamespaceDetectionTemplateProcessor;
-use TYPO3Fluid\Fluid\Core\Parser\TemplateProcessor\PassthroughSourceModifierTemplateProcessor;
-use TYPO3Fluid\Fluid\Core\Parser\TemplateProcessor\RemoveCommentsTemplateProcessor;
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 
 class ViewFactory implements SingletonInterface
 {
@@ -40,14 +34,7 @@ class ViewFactory implements SingletonInterface
      */
     public function makeNewDceView(?ServerRequestInterface $request = null): ViewInterface|FluidViewAdapter
     {
-        if (!$request) {
-            $request = $GLOBALS['TYPO3_REQUEST'] ?? null;
-            if (!$request instanceof ServerRequestInterface) {
-                $request = null;
-            }
-        }
-
-        $viewPaths = $this->getTyposcriptViewPaths();
+        $viewPaths = $this->getTyposcriptViewPaths($request);
         $viewFactoryData = new ViewFactoryData(
             templateRootPaths: $this->resolvePaths($viewPaths['templateRootPaths']),
             partialRootPaths: $this->resolvePaths($viewPaths['partialRootPaths']),
@@ -56,61 +43,6 @@ class ViewFactory implements SingletonInterface
         );
 
         return $this->viewFactory->create($viewFactoryData);
-
-        // TODO Cleanup
-        //        $resolvedViewPaths = [
-        //            'layoutRootPaths' => $this->resolvePaths($viewPaths['layoutRootPaths']),
-        //            'templateRootPaths' => $this->resolvePaths($viewPaths['templateRootPaths']),
-        //            'partialRootPaths' => $this->resolvePaths($viewPaths['partialRootPaths']),
-        //        ];
-        //        $request = $GLOBALS['TYPO3_REQUEST'] ?? null;
-        //        if (!$request instanceof ServerRequestInterface) {
-        //            $request = null;
-        //        }
-        //        $renderingContextFactory = GeneralUtility::makeInstance(RenderingContextFactory::class);
-        //        $renderingContext = $renderingContextFactory->create($resolvedViewPaths, $request);
-        //        $this->ensureTemplateProcessors($renderingContext);
-        //        /** @var StandaloneView $fluidTemplate */
-        //        $fluidTemplate = GeneralUtility::makeInstance(StandaloneView::class, $renderingContext);
-        //        $fluidTemplate->setLayoutRootPaths($resolvedViewPaths['layoutRootPaths']);
-        //        $fluidTemplate->setTemplateRootPaths($resolvedViewPaths['templateRootPaths']);
-        //        $fluidTemplate->setPartialRootPaths($resolvedViewPaths['partialRootPaths']);
-        //        return $fluidTemplate;
-    }
-
-    /**
-     * Ensures Fluid pre-processors are registered even if the rendering context was created early.
-     */
-    protected function ensureTemplateProcessors(RenderingContextInterface $renderingContext): void
-    {
-        $processors = $renderingContext->getTemplateProcessors();
-        if ([] === $processors) {
-            $configuredProcessors = $GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['preProcessors'] ?? [];
-            if ([] !== $configuredProcessors) {
-                foreach ($configuredProcessors as $className) {
-                    $processors[] = GeneralUtility::makeInstance($className);
-                }
-            } else {
-                $processors = [
-                    GeneralUtility::makeInstance(EscapingModifierTemplateProcessor::class),
-                    GeneralUtility::makeInstance(PassthroughSourceModifierTemplateProcessor::class),
-                    GeneralUtility::makeInstance(NamespaceDetectionTemplateProcessor::class),
-                    GeneralUtility::makeInstance(RemoveCommentsTemplateProcessor::class),
-                ];
-            }
-            $renderingContext->setTemplateProcessors($processors);
-
-            return;
-        }
-
-        foreach ($processors as $processor) {
-            if ($processor instanceof NamespaceDetectionTemplateProcessor) {
-                return;
-            }
-        }
-
-        $processors[] = GeneralUtility::makeInstance(NamespaceDetectionTemplateProcessor::class);
-        $renderingContext->setTemplateProcessors($processors);
     }
 
     /**
@@ -140,7 +72,7 @@ class ViewFactory implements SingletonInterface
         $this->setLayoutRootPaths($view, $dce);
         $this->setPartialRootPaths($view, $dce);
 
-        $this->setAssignedVariables($view);
+        $this->setAssignedVariables($view, $request);
         if (DceTemplateTypes::CONTAINER !== $templateType) {
             $view->assign('dce', $dce);
         }
@@ -203,21 +135,14 @@ class ViewFactory implements SingletonInterface
         $view->getRenderingContext()->getTemplatePaths()->setPartialRootPaths($partialRootPaths);
     }
 
-    protected function setAssignedVariables(FluidViewAdapter $view): void
+    protected function setAssignedVariables(FluidViewAdapter $view, ?ServerRequestInterface $request): void
     {
-        /** @var ServerRequest|null $request */
-        $request = $GLOBALS['TYPO3_REQUEST'] ?? null;
-        if (isset($request) && ApplicationType::fromRequest($request)->isFrontend()) {
-            // TODO TypoScriptFrontendController is deprecated and will vanish in v14
-            if ($frontendController = $request->getAttribute('frontend.controller')) {
-                $view->assign('TSFE', $frontendController);
-            }
-
+        if (null !== $request && ApplicationType::fromRequest($request)->isFrontend()) {
             $pageInformation = $request->getAttribute('frontend.page.information');
             $view->assign('page', $pageInformation->getPageRecord());
             $view->assign('pageInformation', $pageInformation);
 
-            if ($typoScriptSetupArray = $this->typoScriptUtility->getTypoScriptSetupArray()) {
+            if ($typoScriptSetupArray = $this->typoScriptUtility->getTypoScriptSetupArray($request)) {
                 $view->assign('tsSetup', $typoScriptSetupArray);
             }
 
@@ -230,16 +155,16 @@ class ViewFactory implements SingletonInterface
     /**
      * Returns the typoscript configuration for path : plugin.tx_dce.view.
      */
-    protected function getTyposcriptViewPaths(): array
+    protected function getTyposcriptViewPaths(?ServerRequestInterface $request): array
     {
-        // default views settings because TSFE is null when creating a new dce
+        // Default paths are also needed when creating a DCE outside a frontend request.
         $viewsPaths = [
             'layoutRootPaths' => [0 => 'EXT:dce/Resources/Private/Layouts/'],
             'templateRootPaths' => [0 => 'EXT:dce/Resources/Private/Templates/'],
             'partialRootPaths' => [0 => 'EXT:dce/Resources/Private/Partials/'],
         ];
 
-        $typoScriptSetup = $this->typoScriptUtility->getTypoScriptSetupArray();
+        $typoScriptSetup = $this->typoScriptUtility->getTypoScriptSetupArray($request);
         if ($typoScriptSetup && isset($typoScriptSetup['plugin']['tx_dce']['view'])) {
             $viewsPaths = $typoScriptSetup['plugin']['tx_dce']['view'];
         }

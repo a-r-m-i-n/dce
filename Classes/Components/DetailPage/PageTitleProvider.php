@@ -9,6 +9,7 @@ namespace T3\Dce\Components\DetailPage;
  *  |
  *  | (c) 2020-2026 Armin Vieweg <armin@v.ieweg.de>
  */
+use Psr\Http\Message\ServerRequestInterface;
 use T3\Dce\Domain\Model\Dce;
 use TYPO3\CMS\Core\PageTitle\AbstractPageTitleProvider;
 use TYPO3\CMS\Core\PageTitle\RecordPageTitleProvider;
@@ -20,15 +21,9 @@ class PageTitleProvider extends AbstractPageTitleProvider
 {
     private static ?array $typoScriptSettings = null;
 
-    public function __construct()
+    public function generate(Dce $dce, ServerRequestInterface $request): void
     {
-        if (method_exists($this, 'setRequest')) {
-            $this->setRequest($GLOBALS['TYPO3_REQUEST']);
-        }
-    }
-
-    public function generate(Dce $dce): void
-    {
+        $this->setRequest($request);
         $method = $dce->getDetailpageUseSlugAsTitle() . 'Title';
         if (method_exists($this, $method)) {
             $this->$method($dce);
@@ -44,9 +39,7 @@ class PageTitleProvider extends AbstractPageTitleProvider
     {
         /** @var RecordPageTitleProvider $pageTitle */
         $pageTitle = GeneralUtility::makeInstance(RecordPageTitleProvider::class);
-        if (method_exists($pageTitle, 'setRequest')) {
-            $pageTitle->setRequest($this->request);
-        }
+        $pageTitle->setRequest($this->request);
         $originalPageTitle = $pageTitle->getTitle();
 
         $dceTitle = $this->buildDceTitle($dce);
@@ -60,9 +53,7 @@ class PageTitleProvider extends AbstractPageTitleProvider
     {
         /** @var RecordPageTitleProvider $pageTitle */
         $pageTitle = GeneralUtility::makeInstance(RecordPageTitleProvider::class);
-        if (method_exists($pageTitle, 'setRequest')) {
-            $pageTitle->setRequest($this->request);
-        }
+        $pageTitle->setRequest($this->request);
         $originalPageTitle = $pageTitle->getTitle();
 
         $dceTitle = $this->buildDceTitle($dce);
@@ -100,6 +91,7 @@ class PageTitleProvider extends AbstractPageTitleProvider
     {
         /** @var ContentObjectRenderer $cObj */
         $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
+        $cObj->setRequest($this->request);
 
         return $cObj->stdWrap($dceTitle, ['noTrimWrap' => $noTrimWrapSetting]);
     }

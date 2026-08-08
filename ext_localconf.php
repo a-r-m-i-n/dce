@@ -6,8 +6,6 @@
  *  | (c) 2012-2026 Armin Vieweg <armin@v.ieweg.de>
  */
 
-$extensionPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dce');
-
 // Clear cache hook
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc']['dce'] =
     \T3\Dce\Hooks\ClearCacheHook::class . '->flushDceCache';
@@ -40,21 +38,6 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tce']['formevals']
 [\T3\Dce\UserFunction\CustomFieldValidation\NoLeadingNumberValidator::class] =
     'EXT:dce/Classes/UserFunction/CustomFieldValidation/NoLeadingNumberValidator.php';
 
-// Register Plugin to get Dce instance
-\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-    'dce',
-    'Dce',
-    [
-        \T3\Dce\Controller\DceController::class => 'renderDce'
-    ],
-    [
-        \T3\Dce\Controller\DceController::class => ''
-    ]
-);
-
-$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['extbase']['extensions']['Dce']['modules']
-    = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['extbase']['extensions']['Dce']['plugins'];
-
 // Register DCEs
 $generator = new \T3\Dce\Components\ContentElementGenerator\Generator();
 $generator->loadPluginConfigurationFromCache();
@@ -81,18 +64,6 @@ config.pageTitleProviders.dce {
     appendWrap = | - ||
 }
 ');
-
-// Global namespace for Fluid templates
-$GLOBALS['TYPO3_CONF_VARS']['SYS']['fluid']['namespaces']['dce'] = ['T3\\Dce\\ViewHelpers'];
-
-// UserFunc TypoScript Condition (for expression language)
-$providerName = 'TYPO3\CMS\Core\ExpressionLanguage\TypoScriptConditionProvider';
-$sectionName = 'additionalExpressionLanguageProvider';
-if (!isset($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS'][$providerName][$sectionName])) {
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS'][$providerName][$sectionName] = [];
-}
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS'][$providerName][$sectionName][] =
-    \T3\Dce\Components\UserConditions\TypoScriptConditionFunctionProvider::class;
 
 // Code Mirror Node for FormEngine
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1551536118] = [

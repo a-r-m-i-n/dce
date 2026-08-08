@@ -8,6 +8,7 @@ namespace T3\Dce\Domain\Model;
  *  | (c) 2012-2026 Armin Vieweg <armin@v.ieweg.de>
  *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
+use Psr\Http\Message\ServerRequestInterface;
 use T3\Dce\Components\DetailPage\PageTitleProvider;
 use T3\Dce\Components\TemplateRenderer\DceTemplateTypes;
 use T3\Dce\Components\TemplateRenderer\ViewFactory;
@@ -220,6 +221,11 @@ class Dce extends AbstractEntity
      * @var array not persisted
      */
     protected $contentObject = [];
+
+    /**
+     * @var ServerRequestInterface|null not persisted
+     */
+    protected ?ServerRequestInterface $request = null;
 
     /**
      * Constructor.
@@ -764,6 +770,18 @@ class Dce extends AbstractEntity
         return $this;
     }
 
+    public function getRequest(): ?ServerRequestInterface
+    {
+        return $this->request;
+    }
+
+    public function setRequest(?ServerRequestInterface $request): self
+    {
+        $this->request = $request;
+
+        return $this;
+    }
+
     /**
      * Renders the default DCE output
      * or the detail page output, if enabled and configured GET param is given.
@@ -794,7 +812,7 @@ class Dce extends AbstractEntity
     public function isDetailPageTriggered(): bool
     {
         if ($this->getEnableDetailpage()) {
-            $detailUid = (int)($_GET[$this->getDetailpageIdentifier()] ?? 0);
+            $detailUid = (int)($this->request?->getQueryParams()[$this->getDetailpageIdentifier()] ?? 0);
 
             return $detailUid && (int)$this->getContentObject()['uid'] === $detailUid;
         }
@@ -812,7 +830,9 @@ class Dce extends AbstractEntity
         if ($this->getDetailpageUseSlugAsTitle() && !empty($this->getDetailpageTitleExpression())) {
             /** @var PageTitleProvider $dceDetailPageTitleProvider */
             $dceDetailPageTitleProvider = GeneralUtility::makeInstance(PageTitleProvider::class);
-            $dceDetailPageTitleProvider->generate($this);
+            if (null !== $this->request) {
+                $dceDetailPageTitleProvider->generate($this, $this->request);
+            }
         }
 
         return $this->renderFluidTemplate(DceTemplateTypes::DETAILPAGE);
@@ -855,7 +875,7 @@ class Dce extends AbstractEntity
     protected function renderFluidTemplate(int $templateType = DceTemplateTypes::DEFAULT): string
     {
         $viewFactory = GeneralUtility::makeInstance(ViewFactory::class);
-        $fluidTemplate = $viewFactory->getDceTemplateView($this, $templateType);
+        $fluidTemplate = $viewFactory->getDceTemplateView($this, $templateType, $this->request);
 
         $fields = $this->getFieldsAsArray();
         $variables = [
@@ -866,12 +886,7 @@ class Dce extends AbstractEntity
         ];
         $fluidTemplate->assignMultiple($variables);
 
-        $renderedTemplate = $fluidTemplate->render();
-        if (null === $renderedTemplate) {
-            return '';
-        }
-
-        return trim($renderedTemplate);
+        return trim($fluidTemplate->render());
     }
 
     /**

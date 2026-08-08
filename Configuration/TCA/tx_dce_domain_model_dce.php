@@ -35,7 +35,7 @@ $showItems = <<<TEXT
 --div--;{$ll}tx_dce_domain_model_dce.miscellaneous,
     --palette--;;misc,flexform_label,
     --palette--;{$ll}tx_dce_domain_model_dce.contentRelationsPalette;content_relations,
-    palette_fields,prevent_header_copy_suffix,template_layout_root_path,template_partial_root_path
+    palette_fields,template_layout_root_path,template_partial_root_path
 TEXT;
 
 $dceTca = [
@@ -171,7 +171,7 @@ $dceTca = [
                     [
                         'group' => 'typo3',
                         'label' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:group.default',
-                        'value' => 'common',
+                        'value' => 'default',
                     ],
                     [
                         'group' => 'typo3',
@@ -716,14 +716,6 @@ $dceTca = [
                 'maxitems' => 999
             ],
         ],
-        'prevent_header_copy_suffix' => [
-            'exclude' => 0,
-            'label' => $ll . 'tx_dce_domain_model_dce.preventHeaderCopySuffix',
-            'config' => [
-                'type' => 'check',
-                'default' => 1
-            ],
-        ],
         'direct_output' => [
             'exclude' => 0,
             'label' => $ll . 'tx_dce_domain_model_dce.directOutput',
@@ -735,13 +727,6 @@ $dceTca = [
         ],
     ],
 ];
-
-/** @var \TYPO3\CMS\Core\Information\Typo3Version $versionInformation */
-$versionInformation = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Information\Typo3Version::class);
-if ($versionInformation->getMajorVersion() >= 13) {
-    // Disable "prevent_header_copy_suffix" for v13 and higher.
-    $dceTca['columns']['prevent_header_copy_suffix']['config'] = ['type' => 'passthrough'];
-}
 
 if (!\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('fluid_styled_content')) {
     $dceTca['palettes']['content_relations']['showitem'] = 'show_access_tab,show_category_tab';

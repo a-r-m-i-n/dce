@@ -1,4 +1,4 @@
-import FormEngineValidation from"@typo3/backend/form-engine-validation.js";
+import FormEngine from '@typo3/backend/form-engine.js';
 
 const initDceCodeEditor = function (textarea) {
     const availableTemplates = textarea.closest('#dceConfigurationWizard').querySelector('.availableTemplates');
@@ -8,7 +8,7 @@ const initDceCodeEditor = function (textarea) {
                 textarea.value = this.value;
                 textarea.focus();
                 this.value = '';
-                FormEngineValidation.markFieldAsChanged(textarea);
+                FormEngine.markFieldAsChanged(textarea);
                 adjustTextareaHeight(textarea);
             }
         });
@@ -34,7 +34,7 @@ const initDceCodeEditor = function (textarea) {
     textarea.style.boxSizing = 'border-box';
 
     textarea.addEventListener('change', function(event) {
-        FormEngineValidation.markFieldAsChanged(event.target);
+        FormEngine.markFieldAsChanged(event.target);
     });
     textarea.addEventListener('keyup', function() {
         adjustTextareaHeight(textarea);
@@ -52,7 +52,7 @@ const insertCode = function(textarea, code) {
     textarea.value = text.substring(0, start) + code + text.substring(end);
     textarea.selectionStart = textarea.selectionEnd = start + code.length;
 
-    FormEngineValidation.markFieldAsChanged(textarea);
+    FormEngine.markFieldAsChanged(textarea);
     adjustTextareaHeight(textarea);
 }
 
@@ -96,7 +96,7 @@ const indentCodeHandler = function(textarea) {
             textarea.value = beforeCursor + '\n' + indentation + afterCursor;
             textarea.selectionStart = textarea.selectionEnd = start + indentation.length + 1;
         }
-        FormEngineValidation.markFieldAsChanged(textarea);
+        FormEngine.markFieldAsChanged(textarea);
     });
 };
 

@@ -58,7 +58,7 @@ class DceCodeMirrorFieldRenderType extends AbstractFormElement
         /** @var ViewFactory $viewFactory */
         $viewFactory = GeneralUtility::makeInstance(ViewFactory::class);
         /** @var FluidViewAdapter $fluidTemplate */
-        $fluidTemplate = $viewFactory->makeNewDceView();
+        $fluidTemplate = $viewFactory->makeNewDceView($data['request'] ?? null);
         $fluidTemplate->getRenderingContext()->getTemplatePaths()->setTemplatePathAndFilename(
             GeneralUtility::getFileAbsFileName(
                 'EXT:dce/Resources/Private/Templates/DceUserFields/Codemirror.html'
