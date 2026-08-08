@@ -1,0 +1,9 @@
+dce-code-editor-snippet-wizard select:has(option[value="0"]:checked),
+dce-code-editor-snippet-wizard option[value="0"] {
+    color: #999;
+}
+
+dce-code-editor-snippet-wizard optgroup,
+dce-code-editor-snippet-wizard option:not([value="0"]) {
+    color: var(--typo3-input-color, #212529);
+}

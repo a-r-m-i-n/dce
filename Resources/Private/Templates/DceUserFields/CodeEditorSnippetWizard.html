@@ -1,0 +1,10 @@
+<dce-code-editor-snippet-wizard>
+    <f:if condition="{showTemplates}">
+        <f:then>
+            <f:render partial="ConfigurationEditor/AvailableTemplates" arguments="{uniqueIdentifier:uniqueIdentifier, availableTemplates:availableTemplates}"/>
+        </f:then>
+        <f:else>
+            <f:render partial="ConfigurationEditor/AvailableVariables" arguments="{showFields:showFields,uniqueIdentifier:uniqueIdentifier, availableFields:availableFields, famousViewHelpers:famousViewHelpers, dceViewHelpers:dceViewHelpers}"/>
+        </f:else>
+    </f:if>
+</dce-code-editor-snippet-wizard>

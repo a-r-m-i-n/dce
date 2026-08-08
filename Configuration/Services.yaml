@@ -20,7 +20,7 @@ services:
         public: true
     T3\Dce\UserFunction\CustomLabels\DceFieldLabel:
         public: true
-    T3\Dce\UserFunction\FormEngineNode\DceCodeMirrorFieldRenderType:
+    T3\Dce\UserFunction\FormEngineNode\DceCodeEditorSnippetWizard:
         public: true
     T3\Dce\UserFunction\ItemsProcFunc:
         public: true

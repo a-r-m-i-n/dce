@@ -6,6 +6,8 @@
             <trans-unit id="generaltab"><source>General</source></trans-unit>
 
             <trans-unit id="availableVariables"><source>Available variables</source></trans-unit>
+            <trans-unit id="insertConfigurationPreset"><source>Insert configuration preset...</source></trans-unit>
+            <trans-unit id="insertSnippet"><source>Insert snippet...</source></trans-unit>
             <trans-unit id="useForViewhelper"><source>use f:for viewhelper</source></trans-unit>
             <trans-unit id="availableBaseVariables"><source>Available base variables</source></trans-unit>
             <trans-unit id="famousViewHelper"><source>Famous viewhelper</source></trans-unit>

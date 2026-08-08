@@ -1,5 +1,5 @@
-<select class="availableVariables form-select mb-1" id="variables_{uniqueIdentifier}">
-    <option></option>
+<select class="availableVariables form-select form-select-sm mb-1" id="variables_{uniqueIdentifier}" data-dce-code-editor-snippet="insert">
+    <option disabled selected value="0">{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang.xlf:insertSnippet')}</option>
     <f:if condition="{showFields}">
         <optgroup label="{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang.xlf:availableVariables')}" class="c-divider">
             <f:for each="{availableFields}" as="field">

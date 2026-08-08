@@ -62,14 +62,6 @@ $dceTca = [
     'types' => [
         1 => [
             'showitem' => $showItems,
-            'columnsOverrides' => [
-                'template_content' => [
-                    'config' => [
-                        'fixedFont' => true,
-                        'enableTabulator' => true
-                    ]
-                ],
-            ],
         ]
     ],
     'palettes' => [
@@ -254,11 +246,16 @@ $dceTca = [
             'displayCond' => 'FIELD:template_type:!IN:file',
             'config' => [
                 'type' => 'text',
-                'renderType' => 'dceCodeMirrorField',
-                'size' => '30',
-                'parameters' => [
-                    'mode' => 'htmlmixed',
-                    'showTemplates' => false,
+                'renderType' => 'codeEditor',
+                'format' => 'html',
+                'rows' => 1,
+                'fieldWizard' => [
+                    'dceCodeEditorSnippetWizard' => [
+                        'renderType' => 'dceCodeEditorSnippetWizard',
+                        'options' => [
+                            'snippetType' => 'fluid',
+                        ],
+                    ],
                 ],
                 'default' => '<div class="dce">
     Your template goes here...
@@ -414,11 +411,16 @@ $dceTca = [
             ],
             'config' => [
                 'type' => 'text',
-                'renderType' => 'dceCodeMirrorField',
-                'size' => '30',
-                'parameters' => [
-                    'mode' => 'htmlmixed',
-                    'showTemplates' => false,
+                'renderType' => 'codeEditor',
+                'format' => 'html',
+                'rows' => 1,
+                'fieldWizard' => [
+                    'dceCodeEditorSnippetWizard' => [
+                        'renderType' => 'dceCodeEditorSnippetWizard',
+                        'options' => [
+                            'snippetType' => 'fluid',
+                        ],
+                    ],
                 ],
                 'default' => '<f:layout name="BackendTemplate" />
 
@@ -568,11 +570,16 @@ $dceTca = [
             ],
             'config' => [
                 'type' => 'text',
-                'renderType' => 'dceCodeMirrorField',
-                'size' => '30',
-                'parameters' => [
-                    'mode' => 'htmlmixed',
-                    'showTemplates' => false,
+                'renderType' => 'codeEditor',
+                'format' => 'html',
+                'rows' => 1,
+                'fieldWizard' => [
+                    'dceCodeEditorSnippetWizard' => [
+                        'renderType' => 'dceCodeEditorSnippetWizard',
+                        'options' => [
+                            'snippetType' => 'fluid',
+                        ],
+                    ],
                 ],
                 'default' => '<div class="dce dce-detailpage">
     Your detailpage template goes here...
@@ -660,11 +667,17 @@ $dceTca = [
             ],
             'config' => [
                 'type' => 'text',
-                'renderType' => 'dceCodeMirrorField',
-                'size' => '30',
-                'parameters' => [
-                    'mode' => 'htmlmixed',
-                    'doNotShowFields' => true,
+                'renderType' => 'codeEditor',
+                'format' => 'html',
+                'rows' => 1,
+                'fieldWizard' => [
+                    'dceCodeEditorSnippetWizard' => [
+                        'renderType' => 'dceCodeEditorSnippetWizard',
+                        'options' => [
+                            'snippetType' => 'fluid',
+                            'showFields' => false,
+                        ],
+                    ],
                 ],
                 'default' => '<f:layout name="DefaultContainer" />
 

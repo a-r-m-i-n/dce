@@ -65,9 +65,9 @@ config.pageTitleProviders.dce {
 }
 ');
 
-// Code Mirror Node for FormEngine
+// DCE code editor snippets for FormEngine
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1551536118] = [
-    'nodeName' => 'dceCodeMirrorField',
-    'priority' => '70',
-    'class' => \T3\Dce\UserFunction\FormEngineNode\DceCodeMirrorFieldRenderType::class,
+    'nodeName' => 'dceCodeEditorSnippetWizard',
+    'priority' => 70,
+    'class' => \T3\Dce\UserFunction\FormEngineNode\DceCodeEditorSnippetWizard::class,
 ];

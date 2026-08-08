@@ -1,5 +1,5 @@
-<select class="availableTemplates form-select mb-1" id="templates_{uniqueIdentifier}">
-    <option></option>
+<select class="availableTemplates form-select form-select-sm mb-1" id="templates_{uniqueIdentifier}" data-dce-code-editor-snippet="replace">
+    <option disabled selected value="0">{f:translate(key:'LLL:EXT:dce/Resources/Private/Language/locallang.xlf:insertConfigurationPreset')}</option>
     <f:for each="{availableTemplates}" key="group" as="templates">
         <optgroup label="{group}" class="c-divider">
             <f:for each="{templates}" as="templateValue" key="templateName">

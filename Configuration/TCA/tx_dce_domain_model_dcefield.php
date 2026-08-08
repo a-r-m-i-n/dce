@@ -43,14 +43,6 @@ $dceFieldTca = [
         '0' => [
             'showitem' => '--palette--;;general_header,configuration,
                            --palette--;;tca_options',
-            'columnsOverrides' => [
-                'configuration' => [
-                    'config' => [
-                        'fixedFont' => true,
-                        'enableTabulator' => true
-                    ]
-                ],
-            ],
         ],
         '1' => [
             'showitem' => '--palette--;;general_header'
@@ -127,15 +119,21 @@ $dceFieldTca = [
             'label' => $ll . 'tx_dce_domain_model_dcefield.configuration',
             'config' => [
                 'type' => 'text',
-                'renderType' => 'dceCodeMirrorField',
-                'size' => '30',
-                'parameters' => [
-                    'mode' => 'xml',
-                    'showTemplates' => true,
+                'renderType' => 'codeEditor',
+                'format' => 'xml',
+                'rows' => 1,
+                'fieldWizard' => [
+                    'dceCodeEditorSnippetWizard' => [
+                        'renderType' => 'dceCodeEditorSnippetWizard',
+                        'options' => [
+                            'snippetType' => 'configuration',
+                        ],
+                    ],
                 ],
                 'default' => '<config>
     <type>input</type>
-</config>'
+</config>
+'
             ],
         ],
         'map_to' => [

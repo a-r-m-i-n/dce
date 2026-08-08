@@ -11,7 +11,7 @@ namespace T3\Dce\UserFunction\FormEngineNode;
 use T3\Dce\Components\TemplateRenderer\ViewFactory;
 use T3\Dce\Event\ModifyConfigurationTemplateCodeSnippetsEvent;
 use T3\Dce\Utility\DatabaseUtility;
-use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
+use TYPO3\CMS\Backend\Form\AbstractNode;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\EventDispatcher\EventDispatcher;
 use TYPO3\CMS\Core\Package\PackageManager;
@@ -20,64 +20,53 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\View\FluidViewAdapter;
 
-/**
- * Note: Currently (since DCE 3.0) the CodeMirror editor is not included in DCE extension anymore
- *       It is planned to reimplement CodeMirror integration (ES6) in future DCE versions (based on EXT:t3editor).
- */
-class DceCodeMirrorFieldRenderType extends AbstractFormElement
+class DceCodeEditorSnippetWizard extends AbstractNode
 {
-    private string $uniqueIdentifier;
-
     public function __construct(private readonly EventDispatcher $eventDispatcher, private PackageManager $packageManager)
     {
-        $this->uniqueIdentifier = str_replace('.', '', uniqid('', true));
-    }
-
-    public function setData(array $data): void
-    {
-        $this->data = $data;
     }
 
     public function render(): array
     {
         $resultArray = $this->initializeResultArray();
-        $resultArray['javaScriptModules'][] = JavaScriptModuleInstruction::create('@t3/dce/code-editor');
+        $options = $this->data['renderData']['fieldWizardOptions'] ?? [];
+        $snippetType = $options['snippetType'] ?? '';
+        if (!in_array($snippetType, ['configuration', 'fluid'], true)) {
+            return $resultArray;
+        }
 
-        $renderedLabel = $this->renderLabel('dce-code-editor-' . $this->uniqueIdentifier);
-        $resultArray['labelHasBeenHandled'] = true;
-        $resultArray['html'] = $renderedLabel . $this->getCodeEditorFieldHtml($this->data);
+        $resultArray['javaScriptModules'][] = JavaScriptModuleInstruction::create(
+            '@t3/dce/code-editor-snippet-wizard'
+        );
+        $resultArray['stylesheetFiles'][] = 'EXT:dce/Resources/Public/Css/DceCodeEditorSnippetWizard.css';
+        $resultArray['html'] = $this->getSnippetWizardHtml($snippetType, (bool)($options['showFields'] ?? true));
 
         return $resultArray;
     }
 
-    /**
-     * Uses a Fluid template to render the HTML code required for the Codemirror field and helpful dropdown.
-     */
-    public function getCodeEditorFieldHtml(array $data): string
+    private function getSnippetWizardHtml(string $snippetType, bool $showFields): string
     {
         /** @var ViewFactory $viewFactory */
         $viewFactory = GeneralUtility::makeInstance(ViewFactory::class);
         /** @var FluidViewAdapter $fluidTemplate */
-        $fluidTemplate = $viewFactory->makeNewDceView($data['request'] ?? null);
+        $fluidTemplate = $viewFactory->makeNewDceView($this->data['request'] ?? null);
         $fluidTemplate->getRenderingContext()->getTemplatePaths()->setTemplatePathAndFilename(
             GeneralUtility::getFileAbsFileName(
-                'EXT:dce/Resources/Private/Templates/DceUserFields/Codemirror.html'
+                'EXT:dce/Resources/Private/Templates/DceUserFields/CodeEditorSnippetWizard.html'
             )
         );
 
-        $fluidTemplate->assign('name', $data['parameterArray']['itemFormElName']);
-        $fluidTemplate->assign('value', $data['parameterArray']['itemFormElValue']);
-        $fluidTemplate->assign('uniqueIdentifier', $this->uniqueIdentifier);
-        $fluidTemplate->assign('parameters', $data['parameterArray']['fieldConf']['config']['parameters']);
+        $fluidTemplate->assign(
+            'uniqueIdentifier',
+            md5((string)($this->data['parameterArray']['itemFormElName'] ?? ''))
+        );
+        $fluidTemplate->assign('showTemplates', 'configuration' === $snippetType);
 
-        if ('htmlmixed' === $data['parameterArray']['fieldConf']['config']['parameters']['mode']) {
-            if (!isset($data['parameterArray']['fieldConf']['config']['parameters']['doNotShowFields'])) {
+        if ('fluid' === $snippetType) {
+            if ($showFields) {
                 $fluidTemplate->assign('availableFields', $this->getAvailableFields());
             }
-            $fluidTemplate->assign(
-                'showFields',
-                !isset($data['parameterArray']['fieldConf']['config']['parameters']['doNotShowFields'])
-            );
+            $fluidTemplate->assign('showFields', $showFields);
             $fluidTemplate->assign('famousViewHelpers', $this->getFamousViewHelpers());
             $fluidTemplate->assign('dceViewHelpers', $this->getDceViewHelpers());
         } else {
