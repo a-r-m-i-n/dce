@@ -9,7 +9,6 @@ namespace T3\Dce\Components\ContentElementGenerator;
  */
 use T3\Dce\Components\FlexformToTcaMapper\Mapper;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class OutputTcaAndFlexForm.
@@ -139,11 +138,6 @@ class OutputTcaAndFlexForm
 
             PHP;
 
-        $showAccessTabCode = $dce['show_access_tab']
-            ? '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,
-              --palette--;;hidden,
-              --palette--;;access,'
-            : '';
         $showMediaTabCode = $dce['show_media_tab']
             ? '--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.media,assets,' : '';
         $showCategoryTabCode = $dce['show_category_tab']
@@ -153,7 +147,7 @@ class OutputTcaAndFlexForm
         $showItem = <<<TEXT
             --palette--;;{$paletteIdentifier}_head,
             --palette--;;$paletteIdentifier,
-            pi_flexform,$showAccessTabCode$showMediaTabCode$showCategoryTabCode
+            pi_flexform,$showMediaTabCode$showCategoryTabCode
             --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.extended
             TEXT;
 
@@ -170,12 +164,6 @@ class OutputTcaAndFlexForm
 
         if ($dce['palette_fields']) {
             $paletteFields = $dce['palette_fields'];
-            // remove access-fields from dce_palette, if Access Tab should be shown
-            if (!empty($showAccessTabCode)) {
-                $fieldsToRemove = ['hidden', 'starttime', 'endtime', 'fe_group'];
-                $paletteFields = GeneralUtility::trimExplode(',', $paletteFields, true);
-                $paletteFields = implode(',', array_diff($paletteFields, $fieldsToRemove));
-            }
             $paletteFields = str_replace(
                 ['--linebreak1--', '--linebreak2--', '--linebreak3--'],
                 '--linebreak--',

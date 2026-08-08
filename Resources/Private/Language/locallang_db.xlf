@@ -82,7 +82,6 @@
             <trans-unit id="tx_dce_domain_model_dce.cacheDce"><source>Cache DCE frontend plugin</source></trans-unit>
 
             <trans-unit id="tx_dce_domain_model_dce.contentRelationsPalette"><source>Content element relations:</source></trans-unit>
-            <trans-unit id="tx_dce_domain_model_dce.showAccessTab"><source>Enable access tab</source></trans-unit>
             <trans-unit id="tx_dce_domain_model_dce.showCategoryTab"><source>Enable categories tab</source></trans-unit>
             <trans-unit id="tx_dce_domain_model_dce.showMediaTab"><source>Enable media tab</source></trans-unit>
 

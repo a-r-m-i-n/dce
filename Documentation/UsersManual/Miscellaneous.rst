@@ -44,14 +44,6 @@ Defines the text displayed in the content element:
     :alt: FlexForm label in the content element
 
 
-Enable access tab in backend
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-If this option is activated a tab with the access rights is shown in the backend. Here you can define detailed,
-when the DCE is to be shown and who is allowed to see the DCE. When this checkbox is enabled, the enabled fields
-disappear from palette fields automatically, if set.
-
-
 Enable media tab in backend
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

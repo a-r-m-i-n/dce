@@ -77,7 +77,7 @@ $dceTca = [
             'showitem' => 'title,identifier,hidden',
         ],
         'content_relations' => [
-            'showitem' => 'show_access_tab,show_media_tab,show_category_tab',
+            'showitem' => 'show_media_tab,show_category_tab',
         ],
         'misc' => [
             'showitem' => 'cache_dce,direct_output',
@@ -286,14 +286,6 @@ $dceTca = [
             'config' => [
                 'type' => 'check',
                 'default' => '1',
-            ],
-        ],
-        'show_access_tab' => [
-            'exclude' => 0,
-            'label' => $ll . 'tx_dce_domain_model_dce.showAccessTab',
-            'config' => [
-                'type' => 'check',
-                'default' => '0',
             ],
         ],
         'show_category_tab' => [
@@ -729,7 +721,7 @@ $dceTca = [
 ];
 
 if (!\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('fluid_styled_content')) {
-    $dceTca['palettes']['content_relations']['showitem'] = 'show_access_tab,show_category_tab';
+    $dceTca['palettes']['content_relations']['showitem'] = 'show_category_tab';
     $dceTca['columns']['direct_output']['config']['readOnly'] = true;
 }
 
