@@ -9,42 +9,47 @@ namespace T3\Dce\Components\TemplateRenderer;
  */
 
 /**
- * This static class contains all template types a DCE can have.
+ * Contains all template types a DCE can have.
  */
-class DceTemplateTypes
+enum DceTemplateTypes: int
 {
     // Identifier for: "default DCE templates"
-    public const DEFAULT = 0;
+    case DEFAULT = 0;
     // Identifier for: "detail page templates"
-    public const DETAILPAGE = 3;
+    case DETAILPAGE = 3;
     // Identifier for: "dce container templates"
-    public const CONTAINER = 4;
+    case CONTAINER = 4;
     // Identifier for: "backend template"
-    public const BACKEND_TEMPLATE = 5;
+    case BACKEND_TEMPLATE = 5;
 
     /**
-     * @var array Database field names of columns for different types of templates
+     * Returns the database field names for this template type.
+     *
+     * @return array{type: string, inline: string, file: string}
      */
-    public static array $templateFields = [
-        self::DEFAULT => [
-            'type' => 'template_type',
-            'inline' => 'template_content',
-            'file' => 'template_file',
-        ],
-        self::DETAILPAGE => [
-            'type' => 'detailpage_template_type',
-            'inline' => 'detailpage_template',
-            'file' => 'detailpage_template_file',
-        ],
-        self::CONTAINER => [
-            'type' => 'container_template_type',
-            'inline' => 'container_template',
-            'file' => 'container_template_file',
-        ],
-        self::BACKEND_TEMPLATE => [
-            'type' => 'backend_template_type',
-            'inline' => 'backend_template_content',
-            'file' => 'backend_template_file',
-        ],
-    ];
+    public function getTemplateFields(): array
+    {
+        return match ($this) {
+            self::DEFAULT => [
+                'type' => 'template_type',
+                'inline' => 'template_content',
+                'file' => 'template_file',
+            ],
+            self::DETAILPAGE => [
+                'type' => 'detailpage_template_type',
+                'inline' => 'detailpage_template',
+                'file' => 'detailpage_template_file',
+            ],
+            self::CONTAINER => [
+                'type' => 'container_template_type',
+                'inline' => 'container_template',
+                'file' => 'container_template_file',
+            ],
+            self::BACKEND_TEMPLATE => [
+                'type' => 'backend_template_type',
+                'inline' => 'backend_template_content',
+                'file' => 'backend_template_file',
+            ],
+        };
+    }
 }

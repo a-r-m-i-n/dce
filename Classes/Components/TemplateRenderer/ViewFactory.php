@@ -47,10 +47,8 @@ class ViewFactory implements SingletonInterface
 
     /**
      * Creates new standalone view or returns cached one, if existing.
-     *
-     * @param int $templateType see class constants
      */
-    public function getDceTemplateView(Dce $dce, int $templateType, ?ServerRequestInterface $request = null): ViewInterface|FluidViewAdapter
+    public function getDceTemplateView(Dce $dce, DceTemplateTypes $templateType, ?ServerRequestInterface $request = null): ViewInterface|FluidViewAdapter
     {
         $cacheKey = $dce->getUid();
         if ($dce->getEnableContainer()) {
@@ -59,8 +57,8 @@ class ViewFactory implements SingletonInterface
                 $cacheKey .= '-' . $containerIterator['index'];
             }
         }
-        if (isset(self::$fluidTemplateCache[$cacheKey][$templateType])) {
-            return self::$fluidTemplateCache[$cacheKey][$templateType];
+        if (isset(self::$fluidTemplateCache[$cacheKey][$templateType->value])) {
+            return self::$fluidTemplateCache[$cacheKey][$templateType->value];
         }
 
         $view = $this->makeNewDceView($request);
@@ -77,7 +75,7 @@ class ViewFactory implements SingletonInterface
             $view->assign('dce', $dce);
         }
 
-        self::$fluidTemplateCache[$cacheKey][$templateType] = $view;
+        self::$fluidTemplateCache[$cacheKey][$templateType->value] = $view;
 
         return $view;
     }
@@ -85,12 +83,10 @@ class ViewFactory implements SingletonInterface
     /**
      * Applies the correct template (inline or file) to given StandaloneView instance.
      * The given templateType is respected.
-     *
-     * @param int $templateType see class constants
      */
-    protected function applyDceTemplateTypeToView(FluidViewAdapter $view, Dce $dce, int $templateType): void
+    protected function applyDceTemplateTypeToView(FluidViewAdapter $view, Dce $dce, DceTemplateTypes $templateType): void
     {
-        $templateFields = DceTemplateTypes::$templateFields[$templateType];
+        $templateFields = $templateType->getTemplateFields();
         $typeGetter = 'get' . ucfirst(GeneralUtility::underscoredToLowerCamelCase($templateFields['type']));
 
         if ('inline' === $dce->$typeGetter()) {

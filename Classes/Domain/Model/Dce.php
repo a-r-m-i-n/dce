@@ -888,7 +888,7 @@ class Dce extends AbstractEntity
      *
      * @return string Rendered and trimmed template
      */
-    protected function renderFluidTemplate(int $templateType = DceTemplateTypes::DEFAULT): string
+    protected function renderFluidTemplate(DceTemplateTypes $templateType = DceTemplateTypes::DEFAULT): string
     {
         $viewFactory = GeneralUtility::makeInstance(ViewFactory::class);
         $fluidTemplate = $viewFactory->getDceTemplateView($this, $templateType, $this->request);
