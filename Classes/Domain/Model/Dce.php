@@ -14,6 +14,7 @@ use T3\Dce\Components\TemplateRenderer\DceTemplateTypes;
 use T3\Dce\Components\TemplateRenderer\ViewFactory;
 use T3\Dce\Utility\DatabaseUtility;
 use TYPO3\CMS\Core\Database\Connection;
+use TYPO3\CMS\Core\Domain\RecordInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
@@ -221,6 +222,11 @@ class Dce extends AbstractEntity
      * @var array not persisted
      */
     protected $contentObject = [];
+
+    /**
+     * @var RecordInterface
+     */
+    protected $contentElementRecord;
 
     /**
      * @var ServerRequestInterface|null not persisted
@@ -770,6 +776,16 @@ class Dce extends AbstractEntity
         return $this;
     }
 
+    public function getContentElementRecord(): RecordInterface
+    {
+        return $this->contentElementRecord;
+    }
+
+    public function setContentElementRecord(RecordInterface $contentElementRecord): void
+    {
+        $this->contentElementRecord = $contentElementRecord;
+    }
+
     public function getRequest(): ?ServerRequestInterface
     {
         return $this->request;
@@ -880,6 +896,7 @@ class Dce extends AbstractEntity
         $fields = $this->getFieldsAsArray();
         $variables = [
             'contentObject' => $this->getContentObject(),
+            'contentElementRecord' => $this->getContentElementRecord(),
             'data' => $this->getContentObject(),
             'fields' => $fields,
             'field' => $fields,

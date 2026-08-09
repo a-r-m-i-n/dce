@@ -16,8 +16,10 @@
             <trans-unit id="dceObjectNode"><source>{dce}</source></trans-unit>
             <trans-unit id="dcesObject"><source>Array of DCE objects</source></trans-unit>
             <trans-unit id="dcesObjectNode"><source>{dces}</source></trans-unit>
-            <trans-unit id="contentObject"><source>Content Object (of DCE instance with resolved relations)</source></trans-unit>
+            <trans-unit id="contentObject"><source>Content Object Data (of DCE instance with resolved relations)</source></trans-unit>
             <trans-unit id="contentObjectNode"><source>{contentObject}</source></trans-unit>
+            <trans-unit id="contentElementRecord"><source>Content element record</source></trans-unit>
+            <trans-unit id="contentElementRecordNode"><source>{contentElementRecord}</source></trans-unit>
             <trans-unit id="pageObject"><source>Current page record</source></trans-unit>
             <trans-unit id="pageObjectNode"><source>{page}</source></trans-unit>
             <trans-unit id="pageInformationObject"><source>PageInformation object</source></trans-unit>

@@ -22,6 +22,7 @@ use TYPO3\CMS\Core\Database\Query\Restriction\EndTimeRestriction;
 use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
 use TYPO3\CMS\Core\Database\Query\Restriction\StartTimeRestriction;
 use TYPO3\CMS\Core\Database\RelationHandler;
+use TYPO3\CMS\Core\Domain\RecordFactory;
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Resource\Collection\AbstractFileCollection;
@@ -51,6 +52,11 @@ class DceRepository extends Repository
      * @var Typo3QuerySettings|null
      */
     private static $defaultQuerySettingsInstance;
+
+    public function __construct(private readonly RecordFactory $recordFactory)
+    {
+        parent::__construct();
+    }
 
     public function findByUidIncludingHidden(int $uid): ?Dce
     {
@@ -124,6 +130,8 @@ class DceRepository extends Repository
         }
         $dce = clone $dce;
         $this->cloneFields($dce);
+        $contentElementRecord = $this->recordFactory->createFromDatabaseRow('tt_content', $contentObject);
+        $dce->setContentElementRecord($contentElementRecord);
         $this->processFillingFields($dce, $contentObject, $fieldList);
         $dce->setContentObject($this->resolveContentObjectRelations($contentObject));
         static::$dceInstanceCache[$contentObject['uid']] = $dce;

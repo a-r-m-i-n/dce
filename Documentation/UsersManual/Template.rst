@@ -92,13 +92,20 @@ Available base variables
 Besides the custom variables, the following base variables are available when rendering an individual DCE:
 
 + ``{dce}`` - The DCE object. To access field values use: ``{dce.get.fieldName}``
-+ ``{contentObject}`` and ``{data}`` - The content object row, this DCE instance is based on. It contains all tt_content properties.
++ ``{contentObject}`` and ``{data}`` - The content object row, this DCE instance is based on. It contains all tt_content properties as array.
++ ``{contentElementRecord}`` - The content element as a :php:`TYPO3\\CMS\\Core\\Domain\\RecordInterface` object.
 + ``{page}`` - The current page record (only available in frontend)
 + ``{pageInformation}`` - The PageInformation object (only available in frontend)
 + ``{site}`` - The current site instance (only available in frontend)
 + ``{tsSetup}`` - TypoScript setup of the current page (only available in frontend)
 
 Container templates are different: they receive ``{dces}``, an array of DCE instances, and do not receive ``{dce}``.
+
+The ``{contentElementRecord}`` variable can be passed to TYPO3's ``f:render.text`` ViewHelper to render a field:
+
+.. code-block:: html
+
+    <f:render.text record="{contentElementRecord}" field="header" />
 
 
 Famous view helper
