@@ -44,8 +44,12 @@ class ContainerFactory
         $this->dceRepository = $dceRepository;
     }
 
-    public function makeContainer(Dce $dce, bool $includeHidden = false): Container
+    public function makeContainer(Dce $dce, bool $includeHidden = false, bool $singleItem = false): Container
     {
+        if ($singleItem) {
+            return $this->makeSingleItemContainer($dce);
+        }
+
         $contentObject = $dce->getContentObject();
         static::$toSkip[$contentObject['uid']][] = $contentObject['uid'];
 
@@ -86,6 +90,17 @@ class ContainerFactory
             }
         }
         self::$cachedContainers[] = $contentObject['uid'];
+
+        return $container;
+    }
+
+    private function makeSingleItemContainer(Dce $dce): Container
+    {
+        $dce->setContainerIterator(static::createContainerIteratorArray(0, 1));
+
+        /** @var Container $container */
+        $container = GeneralUtility::makeInstance(Container::class, $dce);
+        $container->addDce($dce);
 
         return $container;
     }

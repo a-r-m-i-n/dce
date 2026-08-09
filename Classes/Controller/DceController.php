@@ -11,6 +11,8 @@ namespace T3\Dce\Controller;
 use Psr\Http\Message\ResponseInterface;
 use T3\Dce\Components\DceContainer\ContainerFactory;
 use T3\Dce\Domain\Repository\DceRepository;
+use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
@@ -53,7 +55,11 @@ class DceController extends ActionController
 
                 return $response;
             }
-            $container = $this->containerFactory->makeContainer($dce);
+            $container = $this->containerFactory->makeContainer(
+                $dce,
+                false,
+                $this->isVisualEditorEditMode()
+            );
 
             $response = $this->responseFactory->createResponse();
             $response->getBody()->write($container->render());
@@ -65,5 +71,12 @@ class DceController extends ActionController
         $response->getBody()->write($dce->render());
 
         return $response;
+    }
+
+    private function isVisualEditorEditMode(): bool
+    {
+        return ExtensionManagementUtility::isLoaded('visual_editor')
+            && isset($this->request->getQueryParams()['editMode'])
+            && ($GLOBALS['BE_USER'] ?? null) instanceof BackendUserAuthentication;
     }
 }

@@ -93,6 +93,10 @@ template. So this partial is basically this:
         </f:for>
     </div>
 
+When the page is rendered in the TYPO3 Visual Editor, each content element is rendered in a separate instance of the
+container template. In this context, ``{dces}`` therefore contains only the current content element. This allows the
+Visual Editor to recognize and edit each content element separately. Regular frontend rendering is not affected.
+
 
 Container iterator
 ~~~~~~~~~~~~~~~~~~
@@ -108,6 +112,8 @@ you know from ``f:for`` loop:
 - ``{dce.containerIterator.isOdd}``
 - ``{dce.containerIterator.isFirst}``
 - ``{dce.containerIterator.isLast}``
+
+In the Visual Editor, every separately rendered container item has an index of ``0`` and a total of ``1``.
 
 
 Container in backend
