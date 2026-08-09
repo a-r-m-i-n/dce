@@ -20,6 +20,9 @@ services:
               target: /var/www/dce
               consistency: cached
             - v14-data:/var/www/html/v14
+            - v14-classic-data:/var/www/html/v14-classic
 volumes:
     v14-data:
         name: "${DDEV_SITENAME}-v14-data"
+    v14-classic-data:
+        name: "${DDEV_SITENAME}-v14-classic-data"

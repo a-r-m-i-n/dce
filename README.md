@@ -48,9 +48,12 @@ In case you can't provide code but want to support DCE anyway, here is my [PayPa
 
 ## DDEV Environment
 
-DCE ships a [DDEV configuration](https://github.com/a-r-m-i-n/ddev-for-typo3-extensions) for the supported TYPO3 version:
+DCE ships a [DDEV configuration](https://github.com/a-r-m-i-n/ddev-for-typo3-extensions) with two TYPO3 14.3 installations:
 
-- 14.3
+| Mode | Install command | URL |
+| --- | --- | --- |
+| Composer | `ddev install-v14` | https://v14.dce.ddev.site/ |
+| Classic (without Composer) | `ddev install-v14-classic` | https://v14-classic.dce.ddev.site/ |
 
 It uses Apache2 with php-fpm (8.2) enabled.
 
@@ -66,10 +69,12 @@ It uses Apache2 with php-fpm (8.2) enabled.
     ```
     ddev start
     ```
-2. Next execute the following commands
+2. Install both TYPO3 variants using
     ```
-    ddev install-v14
+    ddev install-all
     ```
+   Alternatively, run one of the installation commands listed above to set up
+   only the required variant.
 3. On https://dce.ddev.site/ you get a brief overview of the environment
 
 

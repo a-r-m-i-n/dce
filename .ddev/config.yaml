@@ -11,5 +11,6 @@ xdebug_enabled: false
 additional_hostnames:
     - docs.dce
     - v14.dce
+    - v14-classic.dce
 additional_fqdns: []
 use_dns_when_possible: true
