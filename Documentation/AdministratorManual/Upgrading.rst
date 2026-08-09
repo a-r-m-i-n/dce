@@ -39,7 +39,9 @@ Prepare the installation before updating the TYPO3 core:
 #. Run all DCE and TYPO3 upgrade wizards offered by the Install Tool.
 #. Complete the database schema update and flush all caches.
 #. Verify that no DCE upgrade wizard is pending and that existing DCE content elements work correctly.
-#. Upgrade TYPO3 one major version at a time, first to v13 and then to v14, using a matching DCE version at each step.
+#. Upgrade directly to TYPO3 v14.3 and DCE 4.0, and apply the manual changes described in the section above. From DCE's
+   perspective, an intermediate upgrade to TYPO3 v13 is not required if all upgrade wizards provided by DCE 3.3.2 have
+   been completed while the installation was still running TYPO3 v12.
 
 .. warning::
 
