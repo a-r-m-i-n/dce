@@ -99,7 +99,8 @@ function.
 Template type
 ^^^^^^^^^^^^^
 
-Like the *normal* template you can choose between the inline template code and using a template file.
+Like the *normal* template you can choose between the inline template code and using a template file. The
+:ref:`supported template file paths <users-manual-template-file-paths>` apply here as well.
 
 Detail page template (Fluid)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^

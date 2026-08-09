@@ -3,7 +3,7 @@
 	<file source-language="en" datatype="plaintext" original="messages" product-name="dce">
 		<header/>
 		<body>
-            <trans-unit id="template_file.description"><source>Here you need to set the path to a template file. Template path must start with "EXT:".</source></trans-unit>
+            <trans-unit id="template_file.description"><source>Path to Fluid template file. "EXT:" (recommended), "PKG:" and relative paths are supported.</source></trans-unit>
             <trans-unit id="backend_view_header_expression.description"><source><![CDATA[Here you can define a symfony expression, to define the DCE fields you want to use as header. All field variables are available.
                 You can concatenate multiple fields, like this: firstName ~ ' ' ~ lastName
 

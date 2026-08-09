@@ -64,7 +64,8 @@ Other containers are not affected.
 Template type
 =============
 
-Like the default frontend template of DCE, you can outsource the code of the container to file.
+Like the default frontend template of DCE, you can outsource the code of the container to a file. See
+:ref:`supported template file paths <users-manual-template-file-paths>` for the available path types.
 
 
 DCE Container template

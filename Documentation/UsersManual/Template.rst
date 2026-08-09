@@ -25,9 +25,20 @@ stored in the file system.
 .. image:: Images/template-file.png
    :alt: Fluid template outsourced to file
 
-The **EXT:** syntax is supported and encouraged to use, to point to template files provided by a template extension.
+.. _users-manual-template-file-paths:
 
-The configured value must resolve to a file-system path. FAL link syntax such as ``t3://file=uid=1`` is not supported.
+The template file can be referenced using one of the following path types:
+
+- ``EXT:`` references a file inside a TYPO3 extension and is the recommended syntax. For example:
+  ``EXT:my_template/Resources/Private/Templates/Example.html``.
+- ``PKG:`` references a file inside a Composer package. Separate the package name and the path within the package with
+  a colon. For example: ``PKG:vendor/my-template:Resources/Private/Templates/Example.html``.
+- A relative path is resolved from TYPO3's public web root. The template file is therefore publicly accessible. For
+  example: ``fileadmin/templates/Example.html``.
+
+The configured value must resolve to a file-system path. FAL link syntax such as ``t3://file=uid=1`` is **not** supported.
+
+If the configured path is invalid or the file does not exist, DCE treats the template as empty and produces no output.
 
 
 Inline

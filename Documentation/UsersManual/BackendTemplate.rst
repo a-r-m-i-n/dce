@@ -71,8 +71,9 @@ image dimensions:
 Manual Backend Fluid Template
 =============================
 
-When you disable the Simple Backend View, you can enter (or reference to a file) a template using the "BackendTemplate"
-Fluid layout, which has two sections: **header** and **bodytext**
+When you disable the Simple Backend View, you can enter a template (or reference a file using one of the
+:ref:`supported template file paths <users-manual-template-file-paths>`) based on the "BackendTemplate" Fluid layout,
+which has two sections: **header** and **bodytext**
 
 .. code-block:: html
 

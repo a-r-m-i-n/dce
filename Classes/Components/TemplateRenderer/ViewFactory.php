@@ -98,13 +98,6 @@ class ViewFactory implements SingletonInterface
             $view->getRenderingContext()->getTemplatePaths()->setTemplateSource($dce->$inlineTemplateGetter() . ' ');
         } else {
             $fileTemplateGetter = 'get' . ucfirst(GeneralUtility::underscoredToLowerCamelCase($templateFields['file']));
-            $templateName = $dce->$fileTemplateGetter();
-
-            // try to render using typoscript files paths
-            //  TODO          $view->setTemplate($templateName);
-
-            // if the file does not exists, try using fullpath
-            //  TODO          if (!$view->hasTemplate()) {
             $filePath = GeneralUtility::getFileAbsFileName($dce->$fileTemplateGetter());
 
             if (!file_exists($filePath)) {
@@ -113,7 +106,6 @@ class ViewFactory implements SingletonInterface
                 $templateContent = file_get_contents($filePath);
                 $view->getRenderingContext()->getTemplatePaths()->setTemplateSource($templateContent . ' ');
             }
-            //            }
         }
     }
 
