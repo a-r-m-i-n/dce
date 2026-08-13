@@ -9,7 +9,7 @@
                project-repository="https://github.com/a-r-m-i-n/dce"
                project-issues="https://github.com/a-r-m-i-n/dce/issues"
                edit-on-github="a-r-m-i-n/dce"
-               edit-on-github-branch="v14"
+               edit-on-github-branch="master"
                typo3-core-preferred="14.3"
                interlink-shortcode="t3/dce"
     />

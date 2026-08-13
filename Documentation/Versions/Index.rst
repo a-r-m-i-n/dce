@@ -8,12 +8,22 @@ Versions
 4.0.0
 -----
 
-**First release requiring TYPO3 v14.3**
+**First release with added TYPO3 v14 support**
 
-- [TASK] Remove TYPO3 v13 compatibility layers and development environment
-- [TASK] Remove deprecated DCE APIs and obsolete configuration options
-- [TASK] Add future-compatible extension metadata to composer.json
-- [TASK] Migrate deprecated TYPO3 APIs in preparation for TYPO3 v15
+- [FEATURE][!!!] Add TYPO3 v14.3 support and drop support for TYPO3 v13 and v12
+- [FEATURE] Revive syntax highlighting by integrating the TYPO3 code editor
+- [FEATURE] Add ``{contentElementRecord}`` as available variable in Fluid templates
+- [TASK] Render DCE containers separately in the Visual Editor
+- [TASK] Migrate rendering, records, ViewHelpers, PageTSconfig and DataHandler usage to current TYPO3 APIs
+- [TASK] Remove legacy upgrade wizards, deprecated DCE APIs and obsolete configuration options
+- [TASK] Improve and update the documentation and screenshots
+- [BUGFIX] Prevent recursive DataHandler updates
+- [BUGFIX] Rebuild the DCE cache on CLI cache flush
+- [BUGFIX] Fix DCE relation imports and handling of empty FlexForm sections
+- [BUGFIX] Register custom DCE icons after TYPO3 has booted
+- [TASK] Fix Install Tool DI container compatibility (Thanks to Thomas Ainhauser)
+- [BUGFIX] Fix FlexForm and FAL collapse handling (Thanks to Thomas Ainhauser)
+- [BUGFIX] Improve backend preview and field labels (Thanks to Thomas Ainhauser)
 
 3.3.2
 -----

@@ -55,7 +55,7 @@
     "extra": {
         "typo3/cms": {
             "extension-key": "dce",
-            "version": "4.0.0-dev",
+            "version": "4.0.0",
             "Package": {
                 "providesPackages": {}
             }
