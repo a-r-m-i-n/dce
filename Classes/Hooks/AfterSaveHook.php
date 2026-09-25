@@ -116,6 +116,10 @@ class AfterSaveHook
 
         if ('tt_content' === $table) {
             $contentRow = BackendUtility::getRecord('tt_content', $this->uid);
+            // getRecord() skips deleted rows — avoid null offset access on CType.
+            if (!\is_array($contentRow)) {
+                return;
+            }
 
             $dceUid = DceRepository::extractUidFromCTypeOrIdentifier($contentRow['CType']);
             // Write flexform values to TCA, when enabled
