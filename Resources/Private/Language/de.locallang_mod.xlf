@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" product-name="dce">
+		<header/>
+		<body>
+			<trans-unit id="mlang_tabs_tab">
+				<target>DCE</target>
+			</trans-unit>
+			<trans-unit id="mlang_labels_tablabel">
+				<target>DCE - Dynamische Inhaltselemente</target>
+			</trans-unit>
+			<trans-unit id="mlang_labels_tabdescr">
+				<target>Modul für schnelleren Zugriff auf DCE-Elemente.</target>
+			</trans-unit>
+			<trans-unit id="createNewDce">
+				<target>Neues DCE erstellen</target>
+			</trans-unit>
+			<trans-unit id="previewOverHeadline">
+				<target>DCE-Vorschau</target>
+			</trans-unit>
+			<trans-unit id="previewOverText">
+				<target>Der Vorschau-Datensatz in tt_content wurde entfernt.</target>
+			</trans-unit>
+			<trans-unit id="previewSaveFirst">
+				<target>Bitte erst das DCE speichern. Nach einem initialem Speichern ist die Vorschau verfügbar. Um die Vorschau zu aktualisieren, nicht vergessen nach Änderungen an den DCE-Feldern zu speichern.</target>
+			</trans-unit>
+			<trans-unit id="goToListView">
+				<target>Die Listenansicht aufrufen</target>
+			</trans-unit>
+			<trans-unit id="clearCaches">
+				<target>Caches leeren</target>
+			</trans-unit>
+			<trans-unit id="clearCachesFlashMessage">
+				<target>Caches erfolgreich geleert.</target>
+			</trans-unit>
+			<trans-unit id="hallOfFame">
+				<target>Ruhmeshalle</target>
+			</trans-unit>
+			<trans-unit id="hallOfFameIntroText">
+				<target>Vielen Dank an alle, die die weitere Entwicklung von DCE unterstützt haben!</target>
+			</trans-unit>
+			<trans-unit id="trophyAlt">
+				<target>Trophäe</target>
+			</trans-unit>
+			<trans-unit id="trophyTitle">
+				<target>Diese Trophäe für DCE-Unterstützung geht an %s</target>
+			</trans-unit>
+			<trans-unit id="donate">
+				<target>Spenden</target>
+			</trans-unit>
+			<trans-unit id="donateText">
+				<target>Wenn Ihnen die DCE-Extension gefällt, können Sie die weitere Entwicklung der Extension mit einer Spende unterstützen.</target>
+			</trans-unit>
+			<trans-unit id="help">
+				<target>Hilfe</target>
+			</trans-unit>
+			<trans-unit id="help.manual">
+				<target>Handbuch</target>
+			</trans-unit>
+			<trans-unit id="help.issues">
+				<target>Ticket-System</target>
+			</trans-unit>
+			<trans-unit id="help.facebook">
+				<target>DCE-Facebook-Seite</target>
+			</trans-unit>
+			<trans-unit id="help.github">
+				<target>DCE auf GitHub</target>
+			</trans-unit>
+			<trans-unit id="help.authorWebsite">
+				<target>Internetseite des Autors</target>
+			</trans-unit>
+			<trans-unit id="caution">
+				<target>Achtung!</target>
+			</trans-unit>
+			<trans-unit id="hideContentElementsBasedOnDce">
+				<target>%s auf diesem DCE basierende Inhaltselemente wurden ebenfalls deaktiviert, um Fehler im Frontend zu vermeiden. Diese Inhaltselemente werden nicht automatisch wieder aktiviert!</target>
+			</trans-unit>
+			<trans-unit id="slugNotUnique">
+				<target>Die für die Slug-Generierung verantwortlichen Felder in diesem Inhaltselement haben einen nicht eindeutigen Slug erzeugt. Dem Slug wurde ein Suffix angehängt: %s</target>
+			</trans-unit>
+			<trans-unit id="slugsUpdated">
+				<target>Da Sie den Slug-Ausdruck für Detailseiten geändert haben, wurden die Slugs aller vorhandenen Inhaltselemente (%d) aktualisiert.</target>
+			</trans-unit>
+			<trans-unit id="slugsUpdateFailed">
+				<target>Beim Aktualisieren der Slugs vorhandener Inhaltselemente ist folgender Syntaxfehler im Slug-Ausdruck aufgetreten: %s</target>
+			</trans-unit>
+			<trans-unit id="slugUpdateFailed">
+				<target>Für dieses Inhaltselement konnte kein Slug erstellt werden. Folgender Syntaxfehler ist im Slug-Ausdruck aufgetreten: %s</target>
+			</trans-unit>
+			<trans-unit id="unableToGenerateSlug">
+				<target>Für dieses Inhaltselement konnte kein Slug generiert werden. Sind alle für die Slug-Generierung verwendeten Felder ausgefüllt? Als Fallback wurde die UID als Slug verwendet.</target>
+			</trans-unit>
+			<trans-unit id="emptySlugGenerated">
+				<target>Das Inhaltselement mit der UID %d (auf Seite %d) hat einen leeren Slug erzeugt! Die UID wurde als Fallback verwendet.</target>
+			</trans-unit>
+			<trans-unit id="ok">
+				<target>OK</target>
+			</trans-unit>
+			<trans-unit id="edit">
+				<target>Bearbeiten</target>
+			</trans-unit>
+			<trans-unit id="info">
+				<target>Info</target>
+			</trans-unit>
+			<trans-unit id="error">
+				<target>Fehler</target>
+			</trans-unit>
+			<trans-unit id="enabled">
+				<target>Aktiviert</target>
+			</trans-unit>
+			<trans-unit id="disabled">
+				<target>Deaktiviert</target>
+			</trans-unit>
+			<trans-unit id="nofields">
+				<target>Keine Felder</target>
+			</trans-unit>
+			<trans-unit id="back">
+				<target>Zurück</target>
+			</trans-unit>
+			<trans-unit id="noDcesFound">
+				<target>Keine DCEs gefunden!</target>
+			</trans-unit>
+			<trans-unit id="field">
+				<target>Feld</target>
+			</trans-unit>
+			<trans-unit id="fields">
+				<target>Felder</target>
+			</trans-unit>
+			<trans-unit id="tca">
+				<target>Dieses DCE hat Felder, die auf TCA-Spalten abgebildet sind.</target>
+			</trans-unit>
+			<trans-unit id="tcaplus">
+				<target>Dieses DCE hat Felder, die auf TCA-Spalten abgebildet sind. Darüber hinaus fügt dieses DCE der TCA und der Datenbank neue Spalten hinzu!</target>
+			</trans-unit>
+			<trans-unit id="relatedContentElements">
+				<target>%s vorhandene Inhaltselemente basierend auf diesem DCE.</target>
+			</trans-unit>
+			<trans-unit id="usage">
+				<target>Verwendung (Inhaltselemente)</target>
+			</trans-unit>
+			<trans-unit id="fieldStats">
+				<target>Feld-Infos</target>
+			</trans-unit>
+			<trans-unit id="dceStats">
+				<target>DCE-Infos</target>
+			</trans-unit>
+			<trans-unit id="dceContainerEnabled">
+				<target>Container</target>
+			</trans-unit>
+			<trans-unit id="dceDetailpageEnabled">
+				<target>Detailseite</target>
+			</trans-unit>
+			<trans-unit id="limitedToItems">
+				<target>begrenzt auf %s Elemente</target>
+			</trans-unit>
+			<trans-unit id="actions">
+				<target>Aktionen</target>
+			</trans-unit>
+			<trans-unit id="updateTcaMappings">
+				<target>TCA-Zuordnungen aktualisieren</target>
+			</trans-unit>
+			<trans-unit id="updateTcaMappingsMessage">
+				<target>Sie haben %s auf diesem DCE basierende Inhaltselemente. Möchten Sie alle TCA-Zuordnungen aktualisieren?</target>
+			</trans-unit>
+			<trans-unit id="updateTcaMappingsDone">
+				<target>Die TCA-Zuordnungen wurden erfolgreich aktualisiert.</target>
+			</trans-unit>
+			<trans-unit id="updateOk">
+				<target>Okay, fortfahren!</target>
+			</trans-unit>
+			<trans-unit id="updateAbort">
+				<target>Abbrechen</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

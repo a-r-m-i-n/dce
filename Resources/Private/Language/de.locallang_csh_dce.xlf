@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" product-name="dce">
+		<header/>
+		<body>
+			<trans-unit id="template_file.description">
+				<target>Pfad zur Fluid-Vorlagendatei. "EXT:" (empfohlen), "PKG:" und relative Pfade werden unterstützt.</target>
+			</trans-unit>
+			<trans-unit id="backend_view_header_expression.description">
+				<target>Hier können Sie einen Symfony-Ausdruck definieren, um die DCE-Felder festzulegen, die als Kopfzeile verwendet werden sollen. Alle Feldvariablen sind verfügbar. Sie können mehrere Felder verketten, zum Beispiel: firstName ~ ' ' ~ lastName. Mit contentObject['uid'] greifen Sie auf den tt_content-Datensatz zu, um zum Beispiel die UID zu ermitteln. Auch die DCE-Instanz selbst ist verfügbar, zum Beispiel: dce.getTitle().</target>
+			</trans-unit>
+			<trans-unit id="detailpage_identifier.description">
+				<target>Dies ist der GET-Parameter, der geprüft wird. Das angegebene Inhaltselement rendert die Detailvorlage, wenn dieser Request-Parameter vorhanden ist.</target>
+			</trans-unit>
+			<trans-unit id="detailpage_slug_expression.description">
+				<target>Hier können Sie einen Symfony-Ausdruck definieren, um die DCE-Felder festzulegen, die als Slug verwendet werden sollen. Alle Feldvariablen sind verfügbar. Sie können mehrere Felder verketten, zum Beispiel: firstName ~ '-' ~ lastName. Mit contentObject['uid'] greifen Sie auf den tt_content-Datensatz zu, um zum Beispiel die UID zu ermitteln. Auch die DCE-Instanz selbst ist verfügbar, zum Beispiel: dce.getTitle(). Beachten Sie: Slugs müssen auf derselben Seite eindeutig sein! Außerdem ist eine zusätzliche Routing-Enhancer-Konfiguration erforderlich.</target>
+			</trans-unit>
+			<trans-unit id="detailpage_title_expression.description">
+				<target>Wird wie der Slug-Ausdruck ausgewertet, aber für den Titel der Detailseite verwendet. Anders als der Slug wird der Seitentitel nicht bereinigt.</target>
+			</trans-unit>
+			<trans-unit id="detailpage_use_slug_as_title.description">
+				<target>Wenn Sie einen Seitentitel-Ausdruck definiert und diese Option aktiviert haben, wird der Ausdruck als Seitentitel verwendet. Sie können den aktuellen Seitentitel überschreiben oder den Ausdruck davor beziehungsweise dahinter einfügen.</target>
+			</trans-unit>
+			<trans-unit id="direct_output.description">
+				<target>Wenn aktiviert, wird fluid_styled_content (lib.contentElement) umgangen. Dadurch entfallen die von lib.contentElement hinzugefügten Wrapper und der Rendering-Aufwand wird reduziert.</target>
+			</trans-unit>
+			<trans-unit id="flexform_label.description">
+				<target>FlexForms können einen eigenen Titel haben. Der konfigurierte Standard-LLL-Schlüssel verweist auf "Inhalte:".</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

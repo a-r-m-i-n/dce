@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" product-name="dce">
+		<header/>
+		<body>
+			<trans-unit id="wizardIcon.default">
+				<target>Standard TYPO3-Icons</target>
+			</trans-unit>
+			<trans-unit id="wizardIcon.custom">
+				<target>Eigenes Icon</target>
+			</trans-unit>
+			<trans-unit id="wizardIcon.customIcon">
+				<target>Benutze eigenes Icon in Feld darunter</target>
+			</trans-unit>
+			<trans-unit id="wizardIcon.core">
+				<target>TYPO3-Core-Icons</target>
+			</trans-unit>
+			<trans-unit id="wizardIcon.extensions">
+				<target>TYPO3-Extension-Icons</target>
+			</trans-unit>
+			<trans-unit id="wizardIcon.content-header">
+				<target>Kopfzeile</target>
+			</trans-unit>
+			<trans-unit id="wizardIcon.content-textpic">
+				<target>Text mit Bild</target>
+			</trans-unit>
+			<trans-unit id="wizardIcon.content-bullets">
+				<target>Aufzählung</target>
+			</trans-unit>
+			<trans-unit id="wizardIcon.content-table">
+				<target>Tabelle</target>
+			</trans-unit>
+			<trans-unit id="wizardIcon.content-special-uploads">
+				<target>Datei-Uploads</target>
+			</trans-unit>
+			<trans-unit id="wizardIcon.content-special-menu">
+				<target>Menü</target>
+			</trans-unit>
+			<trans-unit id="wizardIcon.content-special-html">
+				<target>HTML</target>
+			</trans-unit>
+			<trans-unit id="wizardIcon.content-special-div">
+				<target>Trennlinie</target>
+			</trans-unit>
+			<trans-unit id="wizardIcon.content-special-shortcut">
+				<target>Datensatz-Alias</target>
+			</trans-unit>
+			<trans-unit id="wizardIcon.content-elements-login">
+				<target>Anmeldung</target>
+			</trans-unit>
+			<trans-unit id="wizardIcon.content-elements-mailform">
+				<target>Mailformular</target>
+			</trans-unit>
+			<trans-unit id="wizardIcon.content-plugin">
+				<target>Plugin</target>
+			</trans-unit>
+			<trans-unit id="typo3_default_categories">
+				<target>Standard TYPO3-Kategorien</target>
+			</trans-unit>
+			<trans-unit id="common_textImage2_title">
+				<target>Text &amp; Bild 2</target>
+			</trans-unit>
+			<trans-unit id="special_sitemap2_title">
+				<target>Sitemap 2</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce">
+				<target>DCE</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce_long">
+				<target>Dynamische Inhaltselemente</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.hidden">
+				<target>Inaktiv</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.title">
+				<target>Titel</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.identifier">
+				<target>Identifier</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.category">
+				<target>Kategorie</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.fields">
+				<target>Felder</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.wizard">
+				<target>Assistent</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.wizardIcon">
+				<target>Assistenten-Icon</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.wizardCustomIcon">
+				<target>Benutzerdefiniertes Assistenten-Icon (24x24 Pixel)</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.wizardEnable">
+				<target>DCE im Assistenten zum Anlegen neuer Inhaltselemente anzeigen</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.wizardCategory">
+				<target>Assistentenkategorie</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.wizardDescription">
+				<target>Assistentenbeschreibung</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.template">
+				<target>Vorlage</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.templateType">
+				<target>Vorlagentyp</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.templateType.file">
+				<target>Datei</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.templateType.inline">
+				<target>Inline</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.templateContent">
+				<target>Vorlageninhalt (Fluid)</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.templateFile">
+				<target>Vorlagendatei (Fluid)</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.layoutRootPath">
+				<target>Fluid Layout, Root-Verzeichnis</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.partialRootPath">
+				<target>Fluid Partial, Root-Verzeichnis</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.backendTemplate">
+				<target>Backend-Vorlage</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.backendTemplateType">
+				<target>Backend-Vorlagentyp</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.backendTemplateType.file">
+				<target>Datei</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.backendTemplateType.inline">
+				<target>Inline</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.backendTemplateContent">
+				<target>Backend-Vorlageninhalt (Fluid)</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.backendTemplateFile">
+				<target>Backend-Vorlagendatei (Fluid)</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.detailpage">
+				<target>Detailseite</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.enableDetailpage">
+				<target>Detailseite aktivieren</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.detailpageIdentifier">
+				<target>Detailseiten-Identifikator (GET-Parameter)</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.detailpageSlugExpression">
+				<target>Slug-Ausdruck</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.detailpageTitleExpression">
+				<target>Seitentitel-Ausdruck</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.useSlugAsTitle">
+				<target>Seitentitel-Ausdruck als Seitentitel verwenden</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.useSlugAsTitle.no">
+				<target>Nein, Titel unverändert lassen</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.useSlugAsTitle.overwrite">
+				<target>Ja, aktuellen Seitentitel überschreiben</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.useSlugAsTitle.prepend">
+				<target>Ja, Ausgabe des Seitentitel-Ausdrucks dem aktuellen Seitentitel voranstellen</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.useSlugAsTitle.append">
+				<target>Ja, Ausgabe des Seitentitel-Ausdrucks an den aktuellen Seitentitel anhängen</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.detailpageTemplate">
+				<target>Detailseiten-Vorlage (Fluid)</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.detailpageTemplateFile">
+				<target>Detailseiten-Vorlagendatei (Fluid)</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.detailpageSlugPalette">
+				<target>URL der Detailseite</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.detailpageTitlePalette">
+				<target>Titel der Detailseite</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.container">
+				<target>DCE-Container</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.enableContainer">
+				<target>DCE-Container aktivieren</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.containerItemLimit">
+				<target>Maximale Anzahl Elemente im Container</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.containerDetailAutohide">
+				<target>Andere Container-Elemente ausblenden, wenn die Detailseite aufgerufen wird</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.containerTemplate">
+				<target>DCE-Container-Vorlage (Fluid)</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.containerTemplateFile">
+				<target>DCE-Container-Vorlagendatei (Fluid)</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.miscellaneous">
+				<target>Sonstiges</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.cacheDce">
+				<target>Cache für DCE Frontend Plugin aktivieren</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.contentRelationsPalette">
+				<target>Beziehungen zu Inhaltselementen:</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.showCategoryTab">
+				<target>"Kategorien"-Reiter im Backend aktivieren</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.showMediaTab">
+				<target>Medien-Tab aktivieren</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.paletteFields">
+				<target>DCE-Palettenfelder</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.flexformLabel">
+				<target>FlexForm-Titel</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.flexformLabel.default">
+				<target>Inhalte:</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.directOutput">
+				<target>Direkte Ausgabe</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.useSimpleBackendView">
+				<target>Einfache Backend-Ansicht verwenden</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.backendViewHeader">
+				<target>Kopfzeilen-Feld (welcher Feldwert als Kopfzeile verwendet werden soll)</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.backendViewHeaderExpression">
+				<target>Kopfzeilen-Ausdruck</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.backendViewHeaderUseExpression">
+				<target>Ausdruck für das Kopfzeilen-Feld verwenden</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dce.backendViewBodytext">
+				<target>Bodytext-Felder (welche Feldtitel und -werte im Bodytext aufgelistet werden sollen)</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dcefield">
+				<target>DCE-Feld</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dcefield.hidden">
+				<target>Inaktiv</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dcefield.type">
+				<target>Typ</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dcefield.type.element">
+				<target>Element</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dcefield.type.tab">
+				<target>Reiter</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dcefield.type.section">
+				<target>Abschnitt</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dcefield.title">
+				<target>Titel</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dcefield.variable">
+				<target>Variable (eindeutiger Schlüssel, wird im Fluid-Template verwendet)</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dcefield.configuration">
+				<target>Konfiguration</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dcefield.mapTo">
+				<target>Feldwert einer TCA-Spalte zuordnen</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dcefield.newTcaFieldName">
+				<target>Name des neuen TCA-Feldes</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dcefield.newTcaFieldType">
+				<target>Typ des neuen TCA-Feldes</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dcefield.newTcaFieldType.auto">
+				<target>Automatisch</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dcefield.section_fields">
+				<target>Abschnittsfelder</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dcefield.section_fields_tag">
+				<target>Abschnittsfelder-Bezeichnung (Einzahl)</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dcefield.parent_dce">
+				<target>Übergeordnetes DCE</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_domain_model_dcefield.parent_field">
+				<target>Übergeordnetes Feld</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_formeval_headline">
+				<target>Eingabe '%s' ungültig</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_formeval_noLeadingNumber">
+				<target>Der Wert darf nicht mit Zahlen beginnen. Eingabe wurde von '%s' nach '%s' geändert.</target>
+			</trans-unit>
+			<trans-unit id="tx_dce_formeval_lowerCamelCase">
+				<target>Der Wert muss nach lowerCamelCase formatiert sein. Eingabe wurde von '%s' nach '%s' geändert.</target>
+			</trans-unit>
+			<trans-unit id="tt_content.tx_dce_dce">
+				<target>DCE</target>
+			</trans-unit>
+			<trans-unit id="tt_content.tx_dce_new_container">
+				<target>Neuen DCE-Container beginnen</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
