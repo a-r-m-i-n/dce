@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" product-name="dce">
+		<header/>
+		<body>
+			<trans-unit id="generaltab">
+				<target>Allgemein</target>
+			</trans-unit>
+			<trans-unit id="availableVariables">
+				<target>Verfügbare Variablen</target>
+			</trans-unit>
+			<trans-unit id="insertConfigurationPreset">
+				<target>Konfigurationsvorlage einfügen...</target>
+			</trans-unit>
+			<trans-unit id="insertSnippet">
+				<target>Snippet einfügen...</target>
+			</trans-unit>
+			<trans-unit id="useForViewhelper">
+				<target>ViewHelper f:for verwenden</target>
+			</trans-unit>
+			<trans-unit id="availableBaseVariables">
+				<target>Verfügbare Basis-Variablen</target>
+			</trans-unit>
+			<trans-unit id="famousViewHelper">
+				<target>Meist verwendete ViewHelper</target>
+			</trans-unit>
+			<trans-unit id="dceViewHelper">
+				<target>DCE-ViewHelper</target>
+			</trans-unit>
+			<trans-unit id="dceObject">
+				<target>DCE-Objekt</target>
+			</trans-unit>
+			<trans-unit id="dceObjectNode">
+				<target>{dce}</target>
+			</trans-unit>
+			<trans-unit id="dcesObject">
+				<target>Sammlung von DCE-Objekten</target>
+			</trans-unit>
+			<trans-unit id="dcesObjectNode">
+				<target>{dce}</target>
+			</trans-unit>
+			<trans-unit id="contentObject">
+				<target>Inhaltselement (DCE-Instanz)</target>
+			</trans-unit>
+			<trans-unit id="contentObjectNode">
+				<target>{contentObject}</target>
+			</trans-unit>
+			<trans-unit id="contentElementRecord">
+				<target>Datensatz des Inhaltselements</target>
+			</trans-unit>
+			<trans-unit id="contentElementRecordNode">
+				<target>{contentElementRecord}</target>
+			</trans-unit>
+			<trans-unit id="pageObject">
+				<target>Eigenschaften der aktuellen Seite</target>
+			</trans-unit>
+			<trans-unit id="pageObjectNode">
+				<target>{page}</target>
+			</trans-unit>
+			<trans-unit id="pageInformationObject">
+				<target>PageInformation-Objekt</target>
+			</trans-unit>
+			<trans-unit id="pageInformationObjectNode">
+				<target>{pageInformation}</target>
+			</trans-unit>
+			<trans-unit id="siteObject">
+				<target>Die aktuelle Site-Instanz</target>
+			</trans-unit>
+			<trans-unit id="siteObjectNode">
+				<target>{site}</target>
+			</trans-unit>
+			<trans-unit id="tsSetupObject">
+				<target>TypoScript-Setup der aktuellen Seite</target>
+			</trans-unit>
+			<trans-unit id="tsSetupObjectNode">
+				<target>{tsSetup}</target>
+			</trans-unit>
+			<trans-unit id="dcePopupButtonTitle">
+				<target>Öffnet die Einstellungen des DCE, auf welchem diese DCE-Instanz basiert, in einem Popup.</target>
+			</trans-unit>
+			<trans-unit id="contentElementCreatedByFrontendHeader">
+				<target>*Erstellt oder geändert durch das Frontend*</target>
+			</trans-unit>
+			<trans-unit id="contentElementCreatedByFrontendBodytext">
+				<target>&lt;!-- Bitte ändern! --&gt;Wenn ein Inhaltselement, das auf DCE basiert, im Kontext des Frontend erstellt wurde, ist es nicht möglich diese Vorschautexte auszugeben, da im Frontend die Extbase Ressourcen nicht immer vorhanden sind. &lt;em&gt;(eID: %s)&lt;/em&gt;</target>
+			</trans-unit>
+			<trans-unit id="dceFields">
+				<target>DCE-Felder</target>
+			</trans-unit>
+			<trans-unit id="noTitle">
+				<target>Kein Titel</target>
+			</trans-unit>
+			<trans-unit id="section">
+				<target>Abschnitt</target>
+			</trans-unit>
+			<trans-unit id="dceTitle">
+				<target>*DCE-Titel*</target>
+			</trans-unit>
+			<trans-unit id="empty">
+				<target>*Leer*</target>
+			</trans-unit>
+			<trans-unit id="containerflag">
+				<target>*Container-Farbe*</target>
+			</trans-unit>
+			<trans-unit id="entry">
+				<target>Eintrag</target>
+			</trans-unit>
+			<trans-unit id="entries">
+				<target>Einträge</target>
+			</trans-unit>
+			<trans-unit id="editDceOfThisContentElement">
+				<target>DCE bearbeiten (auf dem dieses Inhaltselement basiert)</target>
+			</trans-unit>
+			<trans-unit id="chooseOption">
+				<target>Eine Option wählen</target>
+			</trans-unit>
+			<trans-unit id="noMapping">
+				<target>Feld nicht zuordnen</target>
+			</trans-unit>
+			<trans-unit id="mapToIndexColumn">
+				<target>Auf Index-Spalte abbilden (tx_dce_index, mediumtext)</target>
+			</trans-unit>
+			<trans-unit id="newcol">
+				<target>Neue Spalte erstellen (in tt_content)</target>
+			</trans-unit>
+			<trans-unit id="chooseExistingField">
+				<target>Oder ein bestehendes Feld wählen</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
