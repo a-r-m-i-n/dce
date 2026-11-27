@@ -32,26 +32,34 @@ class ModifyButtonBarEventListener
     public function __invoke(ModifyButtonBarEvent $event): void
     {
         $contentUid = $this->getContentUid($event->getRequest()->getQueryParams());
-        if ($contentUid && $this->userIsAdmin() && $this->getDceUid($contentUid)) {
-            /** @var IconFactory $iconFactory */
-            $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
-
-            $button = $this->componentFactory->createLinkButton();
-            $button->setIcon($iconFactory->getIcon('dce-ext', IconSize::SMALL));
-            $button->setTitle(LocalizationUtility::translate('editDceOfThisContentElement', 'dce'));
-            $button->setShowLabelText(false);
-            $button->setHref('#');
-            $button->setDataAttributes(['dce-edit-url' => $this->getDceEditLink($contentUid)]);
-
-            $buttons = $event->getButtons();
-            $buttons[ButtonBar::BUTTON_POSITION_LEFT][] = [$button];
-            $event->setButtons($buttons);
-
-            /** @var PageRenderer $pageRenderer */
-            $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-            $pageRenderer->loadJavaScriptModule('@t3/dce/dce-edit-button');
-            $pageRenderer->loadJavaScriptModule('@t3/dce/flexform-section-collapse');
+        if (!$contentUid || !$this->getDceUid($contentUid)) {
+            return;
         }
+
+        /** @var PageRenderer $pageRenderer */
+        $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+        // Section collapse is required for all backend users editing DCE content elements.
+        $pageRenderer->loadJavaScriptModule('@t3/dce/flexform-section-collapse');
+
+        if (!$this->userIsAdmin()) {
+            return;
+        }
+
+        /** @var IconFactory $iconFactory */
+        $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
+
+        $button = $this->componentFactory->createLinkButton();
+        $button->setIcon($iconFactory->getIcon('dce-ext', IconSize::SMALL));
+        $button->setTitle(LocalizationUtility::translate('editDceOfThisContentElement', 'dce'));
+        $button->setShowLabelText(false);
+        $button->setHref('#');
+        $button->setDataAttributes(['dce-edit-url' => $this->getDceEditLink($contentUid)]);
+
+        $buttons = $event->getButtons();
+        $buttons[ButtonBar::BUTTON_POSITION_LEFT][] = [$button];
+        $event->setButtons($buttons);
+
+        $pageRenderer->loadJavaScriptModule('@t3/dce/dce-edit-button');
     }
 
     private function getDceEditLink(int $contentItemUid): string
